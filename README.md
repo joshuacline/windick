@@ -3,6 +3,7 @@
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · A native command shell Windows image deployment tool.
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize
+![Alt text](/png/0-0.png "Help Section")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · To get started: Place $haZZam.cmd in any folder without spaces in the name. Mount a Windows ISO, or insert a windows disc to get started.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -15,24 +16,32 @@
 - After the boot-media is applied to a drive, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
 - By default VHDX's named between 0-9.VHDX located in the home folder are bootable.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
+![Alt text](/png/5-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
+![Alt text](/png/5-1.png "Disk Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · File Managment (via CMD's) with basic support for:
 -      open · duplicate · copy · rename · move · delete · take ownership+grant perm · symbolic link creation
+![Alt text](/png/4-1.png "File Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
 -      WIM · VHDX 
+![Alt text](/png/2-1.png "Image Processing")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Image Managment (via DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+![Alt text](/png/1-1.png "Image Managment")
 - Express Image Forensics of:
 -      VHDX · WIM · LIVE
 - Create lists to · Enable · Disable · Add · Delete
--     Features · Components · Services · Tasks · Updates           
+-     Features · Components · Services · Tasks · Updates
+![Alt text](/png/1-5.png "Image Managment")
+![Alt text](/png/1-6.png "Image Managment")
 - Create lists to Install:
 -      MSU · CAB · $PK
+![Alt text](/png/1-2.png "Image Managment")
 - Apply these batch lists to :
 -      WIM · VHDX · LIVE
 - A List-of-Lists to combine multiple batch actions
@@ -53,6 +62,8 @@
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
+![Alt text](/png/3-1.png "Package Creator")
+![Alt text](/png/3-2.png "Package Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·    $haZZam command-line parameters 
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -82,6 +93,7 @@
 -     The specified boot-media must be in the main program folder or the operation will fail.
 -     $haZZam.cmd -bootmaker -create -disk 0 -src BOOT.WIM
 -     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV
+![Alt text](/png/0-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha!
 - No dependencies, Just $haZZam.cmd.
