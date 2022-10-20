@@ -36,7 +36,7 @@
 - Express Image Forensics of:
 -      VHDX · WIM · LIVE
 - Create lists to · Enable · Disable · Add · Delete
--     Features · Components · Services · Tasks · Updates
+-     AppX · Features · Components · Services · Tasks · Updates
 ![Alt text](/png/1-5.png "Image Managment")
 ![Alt text](/png/1-6.png "Image Managment")
 - Create lists to Install:
