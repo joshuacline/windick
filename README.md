@@ -13,8 +13,9 @@
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
-- After the boot-media is applied to a drive, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
-- By default VHDX's named between 0-9.VHDX located in the home folder are bootable.
+- In Name-Mode, 1 VHDX boot slot is generated in the BCDSTORE and uses the name of the VHDX as the BCD description.
+- In Slot-Mode, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
+- In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
 ![Alt text](/png/5-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
