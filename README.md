@@ -17,7 +17,7 @@
 - In Slot-Mode, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
-![Alt text](/png/5-2.png "Boot Creator")
+![Alt text](/png/5-3.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
