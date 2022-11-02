@@ -682,7 +682,7 @@ EXIT /B
 SET HEADER_TGT=%CACHE_FOLDER%\%MAST_NAME%&&CALL:HEADER_PARSE
 IF NOT DEFINED RUNFLAG ECHO The List-Base header is malformed&&PAUSE&&EXIT /B
 IF "%BASE_TYPE%"=="APPX" CLS&&CALL:PAD_LINE&&ECHO                    Which type of list?&&CALL:PAD_LINE&&ECHO {1}Delete AppX Package&&SET PROMPT_SET=BAT_SELECT&&CALL:PROMPT_SET
-IF "%BASE_TYPE%"=="SERVICES" CLS&&CALL:PAD_LINE&&ECHO                    Which type of list?&&CALL:PAD_LINE&&ECHO {1}Service-Start Auto&&ECHO {2}Service-Start Manual&&ECHO {3}Disable Service&&ECHO {4}Delete Service&&ECHO {5}Start Service&&ECHO {6}Stop Service&&SET PROMPT_SET=BAT_SELECT&&CALL:PROMPT_SET
+IF "%BASE_TYPE%"=="SERVICES" CLS&&CALL:PAD_LINE&&ECHO                    Which type of list?&&CALL:PAD_LINE&&ECHO {1}Service-Start Auto&&ECHO {2}Service-Start Manual&&ECHO {3}Disable Service&&ECHO {4}Delete Service&&ECHO {5}Start Service(LIVE-TEST)&&ECHO {6}Stop Service(LIVE-TEST)&&SET PROMPT_SET=BAT_SELECT&&CALL:PROMPT_SET
 IF "%BASE_TYPE%"=="TASKS" CLS&&CALL:PAD_LINE&&ECHO                    Which type of list?&&CALL:PAD_LINE&&ECHO {1}Delete Task&&SET PROMPT_SET=BAT_SELECT&&CALL:PROMPT_SET
 IF "%BASE_TYPE%"=="FEATURES" CLS&&CALL:PAD_LINE&&ECHO                    Which type of list?&&CALL:PAD_LINE&&ECHO {1}Enable %BASE_TYPE%&&ECHO {2}Disable %BASE_TYPE%&&SET PROMPT_SET=BAT_SELECT&&CALL:PROMPT_SET
 IF "%BASE_TYPE%"=="PACKAGES" CLS&&CALL:PAD_LINE&&ECHO                    Which type of list?&&CALL:PAD_LINE&&ECHO {1}Delete %BASE_TYPE%&&SET PROMPT_SET=BAT_SELECT&&CALL:PROMPT_SET
@@ -2101,8 +2101,9 @@ EXIT /B
 CLS&&CALL:PAD_LINE&&ECHO.                      Example-Pack [%EXAMPLE_MODE%-MODE]&&CALL:PAD_LINE
 ECHO                                {TASKS}&&CALL:PAD_LINE
 IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T1} End Task                                            (INSTANT)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T2} List Accounts                                       (INSTANT)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T3} Shutdown/Restart                                    (INSTANT)
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T2} Start/Stop Service                                  (INSTANT)
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T3} List Accounts                                       (INSTANT)
+::IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T4} Shutdown/Restart                                    (INSTANT)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                             {MISC CONFIG}&&CALL:PAD_LINE
 ECHO  {M1} Create Local User-Account                           (SCRIPTED)
 ECHO  {M2} Create Local Admin-Account                          (SCRIPTED)
@@ -2150,7 +2151,7 @@ CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
 :PACKEX_PROC
 CALL:MOUNT_INT
-SET PASS=&&FOR %%a in (T1 T2 M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 X1 X2 X3 X4 S1 S2 S3 S4 S5 S6 S7 S8 S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 V1 N1 N2 P1 P2 DB1 DB2 DB3) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
+SET PASS=&&FOR %%a in (T1 T2 T3 M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 X1 X2 X3 X4 S1 S2 S3 S4 S5 S6 S7 S8 S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 V1 N1 N2 P1 P2 DB1 DB2 DB3) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
 IF NOT "%PASS%"=="1" EXIT /B
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECTX"
@@ -2158,8 +2159,9 @@ IF DEFINED MAKER_FOLDER RD /S /Q "%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
 CALL:PACK_VARS
 IF "%EXAMPLE%"=="T1" CALL:PACKEX_TASKMGR_APP
-IF "%EXAMPLE%"=="T2" CALL:PACKEX_QUERY_USERS
-IF "%EXAMPLE%"=="T3" CALL:PACKEX_SHUTDOWN
+IF "%EXAMPLE%"=="T2" CALL:PACKEX_SVCMGR_APP
+IF "%EXAMPLE%"=="T3" CALL:PACKEX_QUERY_USERS
+IF "%EXAMPLE%"=="T4" CALL:PACKEX_SHUTDOWN
 IF "%EXAMPLE%"=="M1" CALL:PACKEX_NEWUSER
 IF "%EXAMPLE%"=="M2" CALL:PACKEX_NEWADMIN
 IF "%EXAMPLE%"=="M3" CALL:PACKEX_ANSWER_FILE
@@ -2211,20 +2213,45 @@ IF EXIST "%PROG_SOURCE%\ScratchPack" ATTRIB -R -S -H "%PROG_SOURCE%\ScratchPack"
 IF EXIST "%PROG_SOURCE%\ScratchPack" RD /S /Q "\\?\%PROG_SOURCE%\ScratchPack">NUL 2>&1
 SET EXAMPLE=
 EXIT /B
+:PACKEX_SVCMGR_APP
+CLS&&ECHO.&&CALL:PAD_LINE&&ECHO                          *The Service Reaper*&&CALL:PAD_LINE
+IF EXIST SVC.TXT DEL SVC.TXT>NUL
+SET SVC_MODE=&&REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services" /f Type /c /e /s>>"SVC.TXT"
+SET SVC_CNT=&&FOR /F "TOKENS=1-9 DELIMS=\ " %%a in (SVC.TXT) DO (
+IF "%%a"=="HKEY_LOCAL_MACHINE" IF NOT "%%e"=="" CALL SET SVC_NAME=%%e%%f%%g%%h%%i
+IF "%%a"=="Type" IF "%%c"=="0x10" CALL:SVC_QUERY
+IF "%%a"=="Type" IF "%%c"=="0x20" CALL:SVC_QUERY)
+IF EXIST SVC.TXT DEL SVC.TXT>NUL
+CALL:PAD_LINE&&ECHO                     {1}Start Service {2}Stop Service&&CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu&&CALL:MENU_SELECT
+IF NOT "%SELECT%"=="1" IF NOT "%SELECT%"=="2"  EXIT /B
+IF "%SELECT%"=="1" SET SVC_MODE=START
+IF "%SELECT%"=="2" SET SVC_MODE=STOP
+CALL:PAD_LINE&&ECHO                   *%SVC_MODE% WHICH SVC{#}?*&&CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu&&CALL:MENU_SELECT
+
+IF NOT DEFINED SELECT EXIT /B
+IF "%SVC_MODE%"=="START" CALL SC START %%SVC_CNT_%SELECT%%%
+IF "%SVC_MODE%"=="STOP" CALL SC STOP %%SVC_CNT_%SELECT%%%
+SET SVC_MODE=&&PAUSE&&PAUSE
+GOTO:PACKEX_SVCMGR_APP
+:SVC_QUERY
+CALL SET /A SVC_CNT+=1
+FOR /F "TOKENS=1-9 DELIMS= " %%1 in ('SC QUERY %SVC_NAME%') DO (IF "%%1"=="STATE" CALL SET SVC_STATE=%%4)
+CALL ECHO {%SVC_CNT%}	[%SVC_NAME%]	[State][%SVC_STATE%]&&CALL SET SVC_CNT_%SVC_CNT%=%SVC_NAME%
+EXIT /B
 :PACKEX_TASKMGR_APP
 CLS&&ECHO.
-CALL:PAD_LINE&&ECHO                         *The Task Reaper*&&CALL:PAD_LINE
+CALL:PAD_LINE&&ECHO                           *The Task Reaper*&&CALL:PAD_LINE
 TASKLIST /FO LIST>TSK.TXT
 SET TSK_CNT=&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in (TSK.TXT) DO (
 IF "%%a"=="Image" CALL SET TSK_NAME=%%c%%d%%e%%f%%g
 IF "%%a"=="PID" CALL SET TSK_PID=%%b
 IF "%%a"=="Mem" CALL SET TSK_MEM=%%c&&CALL:TASK_QUERY)
 IF EXIST TSK.TXT DEL TSK.TXT>NUL
-CALL:PAD_LINE&&ECHO                         *END WHICH TASK{#}?*&&CALL:PAD_LINE&&CALL:MENU_SELECT
+CALL:PAD_LINE&&ECHO                           *END WHICH TASK{#}?*&&CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
 CALL TASKKILL /F /IM %%TSK_CNT_%SELECT%%%
-PAUSE
-EXIT /B
+PAUSE&&PAUSE
+GOTO:PACKEX_TASKMGR_APP
 :TASK_QUERY
 CALL SET /A TSK_CNT+=1
 CALL ECHO {%TSK_CNT%}	[%TSK_NAME%]	[PID][%TSK_PID%]	[MEM][%TSK_MEM%] KB&&CALL SET TSK_CNT_%TSK_CNT%=%TSK_NAME%
