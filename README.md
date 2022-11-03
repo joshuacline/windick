@@ -5,7 +5,7 @@
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 ![Alt text](/png/0-0.png "Help Section")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-· To get started: Place $haZZam.cmd in any folder without spaces in the name. Mount a Windows ISO, or insert a windows disc to get started.
+· To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Boot Creator (via Diskpart+DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -72,6 +72,15 @@
 ·         (Image Management List Installer)
 -      $haZZam.cmd -listmgr -install -list xyz.lst                         (Live-Install Package-List)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+·         (Image Processing)
+- WIM/VHDX Source Images must be placed in their respective folders or the operation will fail.
+-     $haZZam.cmd -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {XYZ.VHDX} -size {MB}
+-     $haZZam.cmd -imageproc -wim  {ABC.WIM} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
+-     $haZZam.cmd -imageproc -vhdx {XYZ.VHDX} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
+·        Examples:
+-     $haZZam.cmd -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
+-     $haZZam.cmd -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
+-     $haZZam.cmd -imageproc -vhdx XYZ.VHDX -index 1 -wim ABC.WIM -xlvl fast
 ·         (Disk Manager)
 - You can address disks by static disk-UID or by DISK #,  since both are parsed together internally.
 -     $haZZam.cmd -diskmgr -list                                           (Condensed list of Disks)
@@ -99,7 +108,7 @@
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha!
 - No dependencies, Just $haZZam.cmd.
 - Recommended to use windows ISO's build 22000+. Always use official sources, unless you're trying to analyze malware. (vhdx-boot w/host-partition-lock is a great way to do this...)
-- Currently $haZZam is made of 100% batch, no embedded scripts of any kind. That mean no embedded:
+- Currently $haZZam is made of 100% batch, no embedded scripts of any kind. That means no embedded:
 -      · powershell · visualbasic · java · any type of encoding or obfuscation. 
 - This program should always be in its raw and readable form, a .CMD file.  Which can be easily viewed and edited in notepad.
 - The possibility exists for malacious entities to modify this program into something truly nightmarish.
