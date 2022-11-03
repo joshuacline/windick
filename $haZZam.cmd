@@ -884,24 +884,24 @@ IF NOT DEFINED LIVE_APPLY IF "%FILE_HEADER%"=="FEATURES-ENABLE" CALL:MOUNT_MIX
 IF NOT DEFINED LIVE_APPLY IF "%FILE_HEADER%"=="PACKAGES-DELETE" CALL:MOUNT_EXT
 IF NOT DEFINED LIVE_APPLY IF "%FILE_HEADER%"=="APPX-DELETE" CALL:MOUNT_MIX
 COPY /Y "%HEADER_TGT%" "%TEMP%\%FILE_HEADER%.TXT">NUL 2>&1
-IF "%FILE_HEADER%"=="RUN-ONCE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Copying Package [%%1] for RunOnce Prep...&&CALL:PAD_LINE&&COPY /Y "%PACK_FOLDER%\%%1" "%APPLYDIR_MASTER%\$">NUL)
-IF "%FILE_HEADER%"=="SETUP-COMPLETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Copying Package [%%1] for SetupComplete Prep...&&CALL:PAD_LINE&&COPY /Y "%PACK_FOLDER%\%%1" "%APPLYDIR_MASTER%\$">NUL)
-IF "%FILE_HEADER%"=="SERVICES-START" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (SC START "%%1")
-IF "%FILE_HEADER%"=="SERVICES-STOP" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (SC STOP "%%1")
-IF "%FILE_HEADER%"=="SERVICES-AUTO" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Changing Start to Auto for Service [%%1] ...&&CALL:PAD_LINE&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "Start" /T REG_DWORD /D "2" /F)
-IF "%FILE_HEADER%"=="SERVICES-MANUAL" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Changing Start to Manual for Service [%%1] ...&&CALL:PAD_LINE&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "Start" /T REG_DWORD /D "3" /F)
-IF "%FILE_HEADER%"=="SERVICES-DISABLE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Disabling Service [%%1] ...&&CALL:PAD_LINE&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "Start" /T REG_DWORD /D "4" /F)
-IF "%FILE_HEADER%"=="SERVICES-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Deleting Service [%%1] ...&&CALL:PAD_LINE&&REG DELETE "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /F&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "ImagePath" /T REG_EXPAND_SZ /D "NUL" /F>NUL 2>&1)
+IF "%FILE_HEADER%"=="RUN-ONCE" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Copying Package [%%1] for RunOnce Prep...&&CALL:PAD_LINE&&IF NOT "%%1"=="" IF EXIST "%PACK_FOLDER%\%%1" COPY /Y "%PACK_FOLDER%\%%1" "%APPLYDIR_MASTER%\$">NUL)
+IF "%FILE_HEADER%"=="SETUP-COMPLETE" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Copying Package [%%1] for SetupComplete Prep...&&CALL:PAD_LINE&&IF NOT "%%1"=="" IF EXIST "%PACK_FOLDER%\%%1" COPY /Y "%PACK_FOLDER%\%%1" "%APPLYDIR_MASTER%\$">NUL)
+IF "%FILE_HEADER%"=="SERVICES-START" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (SC START "%%1")
+IF "%FILE_HEADER%"=="SERVICES-STOP" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (SC STOP "%%1")
+IF "%FILE_HEADER%"=="SERVICES-AUTO" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Changing Start to Auto for Service [%%1] ...&&CALL:PAD_LINE&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "Start" /T REG_DWORD /D "2" /F)
+IF "%FILE_HEADER%"=="SERVICES-MANUAL" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Changing Start to Manual for Service [%%1] ...&&CALL:PAD_LINE&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "Start" /T REG_DWORD /D "3" /F)
+IF "%FILE_HEADER%"=="SERVICES-DISABLE" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Disabling Service [%%1] ...&&CALL:PAD_LINE&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "Start" /T REG_DWORD /D "4" /F)
+IF "%FILE_HEADER%"=="SERVICES-DELETE" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Deleting Service [%%1] ...&&CALL:PAD_LINE&&REG DELETE "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /F&&REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%%1" /V "ImagePath" /T REG_EXPAND_SZ /D "NUL" /F>NUL 2>&1)
 IF "%FILE_HEADER%"=="TASKS-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (FOR /F "TOKENS=1-9 DELIMS={}" %%a in ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%%1" /F Id /c /e /s') DO (IF "%%a"=="    Id    REG_SZ    " REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%%b}" /F>NUL 2>&1))
-IF "%FILE_HEADER%"=="TASKS-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Deleting Task [%%1] ...&&CALL:PAD_LINE&&REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%%1" /F)
-IF "%FILE_HEADER%"=="FEATURES-DISABLE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Disabling Feature [%%1] ...&&CALL:PAD_LINE&&DISM /%APPLY_TARGET% /DISABLE-FEATURE /FEATURENAME:"%%1" /REMOVE)
-IF "%FILE_HEADER%"=="FEATURES-ENABLE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (DISM /%APPLY_TARGET% /ENABLE-FEATURE /PACKAGENAME:"%%1" /ALL)
-IF "%FILE_HEADER%"=="PACKAGES-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Removing Component [%%1] ...&&CALL:PAD_LINE
+IF "%FILE_HEADER%"=="TASKS-DELETE" CALL:TEXTCOLOR&&FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Deleting Task [%%1] ...&&CALL:PAD_LINE&&REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%%1" /F)
+IF "%FILE_HEADER%"=="FEATURES-DISABLE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:TEXTCOLOR&&CALL:PAD_LINE&&ECHO *Disabling Feature [%%1] ...&&CALL:PAD_LINE&&DISM /%APPLY_TARGET% /DISABLE-FEATURE /FEATURENAME:"%%1" /REMOVE)
+IF "%FILE_HEADER%"=="FEATURES-ENABLE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:TEXTCOLOR&&DISM /%APPLY_TARGET% /ENABLE-FEATURE /PACKAGENAME:"%%1" /ALL)
+IF "%FILE_HEADER%"=="PACKAGES-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:TEXTCOLOR&&CALL:PAD_LINE&&ECHO *Removing Component [%%1] ...&&CALL:PAD_LINE
 REG ADD "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages\%%1" /V "Visibility" /T REG_DWORD /D "1" /F>NUL 2>&1
 REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages\%%1\Owners" /F>NUL 2>&1
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_MIX
 DISM /%APPLY_TARGET% /REMOVE-PACKAGE /PACKAGENAME:"%%1")
-IF "%FILE_HEADER%"=="APPX-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:PAD_LINE&&ECHO *Removing AppX Package [%%1] ...&&CALL:PAD_LINE&&DISM /%APPLY_TARGET% /REMOVE-Provisionedappxpackage /PACKAGENAME:"%%1")
+IF "%FILE_HEADER%"=="APPX-DELETE" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL:TEXTCOLOR&&CALL:PAD_LINE&&ECHO *Removing AppX Package [%%1] ...&&CALL:PAD_LINE&&DISM /%APPLY_TARGET% /REMOVE-Provisionedappxpackage /PACKAGENAME:"%%1")
 IF DEFINED LIVE_APPLY IF "%FILE_HEADER%"=="PACKAGES-INSTALL" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL SET CAME_FROM=PACKMGR&&CALL SET "IMAGEFILE_PACK=%PACK_FOLDER%\%%1"&&CALL:PACK_INSTALL)
 IF NOT DEFINED LIVE_APPLY IF "%FILE_HEADER%"=="PACKAGES-INSTALL" FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%1 in (%TEMP%\%FILE_HEADER%.TXT) DO (CALL SET CAME_FROM=$ETUP&&CALL SET "IMAGEFILE_PACK=%PACK_FOLDER%\%%1"&&CALL:PACK_INSTALL)
 IF EXIST "%PROG_SOURCE%\ScratchPack" DISM /cleanup-MountPoints>NUL 2>&1
@@ -934,6 +934,7 @@ CALL:PAD_LINE&&ECHO                      Run-Once Preparation Finish&&CALL:PAD_L
 EXIT /B
 :PACK_INSTALL
 CALL:PAD_LINE&&ECHO.                         Package-Manager Start&&CALL:PAD_LINE
+IF NOT EXIST "%IMAGEFILE_PACK%" CALL:PAD_LINE&&ECHO %IMAGEFILE_PACK% IS MISSING&&CALL:PAD_LINE&&GOTO:PACK_INSTALL_FINISH
 SET "SCRATCHDIR_PACK=%PROG_SOURCE%\ScratchPack"
 IF EXIST "%SCRATCHDIR_PACK%" DISM /cleanup-MountPoints>NUL 2>&1
 IF EXIST "%SCRATCHDIR_PACK%" RD /S /Q "%SCRATCHDIR_PACK%">NUL 2>&1
@@ -961,10 +962,9 @@ IF "%PackExt%"==".MSU" IF NOT DEFINED LIVE_APPLY CALL:HIVES_DETACH&&DISM /IMAGE:
 IF "%PackType%"=="SCRIPTED" CD /D "%SCRATCHDIR_PACK%"&&CMD /C "%SCRATCHDIR_PACK%\PACKAGE.CMD"
 IF "%PackType%"=="SCRIPTED" CD /D "%~DP0"
 IF "%PackType%"=="DRIVER" FOR /F "tokens=*" %%a in ('DIR/S/B "%SCRATCHDIR_PACK%\*.INF"') DO (
-SET /A TEXTCOLOR+=1&&CALL:TEXTCOLOR&&CALL:TITLECARD
-CALL:PAD_LINE&&ECHO  Installing...{NAME{- %PackName% -} {TYPE{- %PackType% -} {DESC{- %PackDesc% -}&&CALL:PAD_LINE
-IF NOT DEFINED LIVE_APPLY DISM /IMAGE:"%APPLYDIR_MASTER%" /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned
-IF DEFINED LIVE_APPLY pnputil.exe /add-driver "%%a" /install)
+CALL:TEXTCOLOR&&CALL:TITLECARD&&CALL:PAD_LINE&&ECHO  Installing...{NAME{ %PackName% } {TYPE{ %PackType% } {DESC{ %PackDesc% }&&CALL:PAD_LINE
+IF NOT DEFINED LIVE_APPLY DISM /IMAGE:"%APPLYDIR_MASTER%" /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned&&ECHO.
+IF DEFINED LIVE_APPLY pnputil.exe /add-driver "%%a" /install&&ECHO.)
 :PACK_INSTALL_FINISH
 CALL:MOUNT_INT>NUL 2>&1
 IF EXIST "%SCRATCHDIR_PACK%" DISM /cleanup-MountPoints>NUL 2>&1
@@ -988,7 +988,7 @@ IF NOT DEFINED RUN_MOD SET RUN_MOD=EQU
 SET PACK_PASS=&&IF DEFINED PACK_PERM FOR %%a in (REG_SZ REG_DWORD REG_BINARY REG_EXPAND_SZ REG_MULTI_SZ REG_NONE) DO (IF "%COL1%" %RUN_MOD% "    %REG_VAL%    %%a    %REG_DAT%" SET PACK_PASS=1)
 EXIT /B
 :TEXTCOLOR
-COLOR %TEXTCOLOR%&&IF "%TEXTCOLOR%" GEQ "50" SET TEXTCOLOR=1
+SET /A TEXTCOLOR+=1&&COLOR %TEXTCOLOR%&&IF "%TEXTCOLOR%" GEQ "50" SET TEXTCOLOR=1
 EXIT /B
 :IMAGEMGR_DISM_MENU
 SET LIVE_APPLY=&&SET DISM_OPER=
@@ -2103,88 +2103,81 @@ EXIT /B
 :PACKEX_MENU_DISPLAY
 CLS&&CALL:PAD_LINE&&ECHO.                      Example-Pack [%EXAMPLE_MODE%-MODE]&&CALL:PAD_LINE
 ECHO                                {TASKS}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T1} End Task                                            (INSTANT)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T2} Start/Stop Service                                  (INSTANT)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T3} List Accounts                                       (INSTANT)
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A1} End Task                                              (INSTANT)
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A2} Start/Stop Service                                    (INSTANT)
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A3} List Accounts                                         (INSTANT)
+ECHO  {M1} Create Local User-Account                               (MIXED)
+ECHO  {M2} Create Local Admin-Account                              (MIXED)
 ::IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T4} Shutdown/Restart                                    (INSTANT)
-IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                             {MISC CONFIG}&&CALL:PAD_LINE
-ECHO  {M1} Create Local User-Account                           (SCRIPTED)
-ECHO  {M2} Create Local Admin-Account                          (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {M3} Unattended Answer-File                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {M4} Run Program Every Boot                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {M5} Tasks-Enable                                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {M6} Tasks-Disable                                       (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {M7} Tasks-Delete                                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {M8} Pagefile Disable                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {X1} Background Apps Disable                             (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {X2} Wakelocks General Disable                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {X3} Wakelocks Network Disable                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S1} WinLogon Verbose                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S2} Setup+ Disable Hello                                (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S3} Setup+ Quicker Preparing...                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S4} RunOnce/Async+ Delay Desktop                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S5} VB-Script Execution Disable                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S6} LSA Strict Rules                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S7} Import Firewall Rules.XML                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S8} Store Disable                                       (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S9} OneDrive Disable                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S10} Cloud Content Disable                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S11} UAC Prompt Always                                  (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S12} NotificationCenter Disable                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S13} Disable Net Discovery                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S14} Bluetooth Advertising                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S15} Virt.Based Security Disable                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S16} Virt.Based Security Enable                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S17} Disable Explorer URL Access                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S18} Local Accounts Only                                (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S19} Taskmgr Prefs                                      (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S20} DCOM Disable (BREAKS STUFF)                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S21} DCOM Enable                                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {N1} Prioritize Ethernet                                 (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {N2} Prioritize WiFi                                     (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                          {Any-Time Examples}&&CALL:PAD_LINE
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S01} WinLogon Verbose                                    (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S02} Setup+ Disable Hello                                (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S03} Setup+ Quicker Preparing...                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S04} RunOnce/Async+ Delay Desktop                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S05} VB-Script Execution Disable                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S06} LSA Strict Rules                                    (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S07} Local Accounts Only                                 (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S08} Store Disable                                       (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S09} OneDrive Disable                                    (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S10} Cloud Content Disable                               (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S11} UAC Prompt Always                                   (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S12} NotificationCenter Disable                          (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S13} Disable Net Discovery                               (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S14} Bluetooth Advertising                               (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S15} Virt.Based Security Disable                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S16} Virt.Based Security Enable                          (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S17} Disable Explorer URL Access                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S18} Background Apps Disable                             (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S19} DCOM Disable (BREAKS STUFF)                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S20} DCOM Enable                                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S22} Wakelocks General Disable                           (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S23} Wakelocks Network Disable                           (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S24} Prioritize Ethernet                                 (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S25} Prioritize WiFi                                     (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S30} Unattended Answer-File                              (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S31} Run Program Every Boot                              (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO         {Time-Mandatory Examples -Live-SetupComplete-RunOnce}&&CALL:PAD_LINE
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T01} Pagefile Disable                                    (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T02} Import Firewall Rules.XML                           (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T03} Taskmgr Prefs                                       (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T04} Boot Timeout                                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T10} Tasks-Enable                                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T11} Tasks-Disable                                       (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T12} Tasks-Delete                                        (SCRIPTED)
 ::IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {V1} System/App Dark ColorMode                           (SCRIPTED)
-CALL:PAD_LINE&&ECHO                               {DEBUGGING}&&CALL:PAD_LINE
-ECHO  {DB1} DEBUG PAUSE                                        (SCRIPTED)
-ECHO  {DB2} DEBUG ECHO-ON                                      (SCRIPTED)
-ECHO  {DB3} DEBUG ECHO-OFF                                     (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                               {DEBUGGING}&&CALL:PAD_LINE
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB1} DEBUG PAUSE                                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB2} DEBUG ECHO-ON                                       (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB3} DEBUG ECHO-OFF                                      (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                                 {MISC}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P1} Pack-Permit Demo
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P2} MSI Installer Example                               (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P01} Pack-Permit Demo
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P02} MSI Installer Example                                (SCRIPTED)
 CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
 :PACKEX_PROC
 CALL:MOUNT_INT
-SET PASS=&&FOR %%a in (T1 T2 T3 M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 X1 X2 X3 X4 S1 S2 S3 S4 S5 S6 S7 S8 S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 V1 N1 N2 P1 P2 DB1 DB2 DB3) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
+SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S24 S25 S30 S31 T01 T02 T03 T04 T10 T11 T12 P01 P02 DB1 DB2 DB3) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
 IF NOT "%PASS%"=="1" EXIT /B
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECTX"
 IF DEFINED MAKER_FOLDER RD /S /Q "%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
 CALL:PACK_VARS
-IF "%EXAMPLE%"=="T1" CALL:PACKEX_TASKMGR_APP
-IF "%EXAMPLE%"=="T2" CALL:PACKEX_SVCMGR_APP
-IF "%EXAMPLE%"=="T3" CALL:PACKEX_QUERY_USERS
-IF "%EXAMPLE%"=="T4" CALL:PACKEX_SHUTDOWN
+IF "%EXAMPLE%"=="A1" CALL:PACKEX_TASKMGR_APP
+IF "%EXAMPLE%"=="A2" CALL:PACKEX_SVCMGR_APP
+IF "%EXAMPLE%"=="A3" CALL:PACKEX_QUERY_USERS
+IF "%EXAMPLE%"=="A4" CALL:PACKEX_SHUTDOWN
 IF "%EXAMPLE%"=="M1" CALL:PACKEX_NEWUSER
 IF "%EXAMPLE%"=="M2" CALL:PACKEX_NEWADMIN
-IF "%EXAMPLE%"=="M3" CALL:PACKEX_ANSWER_FILE
-IF "%EXAMPLE%"=="M4" CALL:PACKEX_STARTUP_USER
-IF "%EXAMPLE%"=="M5" CALL:PACKEX_TASK_ENABLE
-IF "%EXAMPLE%"=="M6" CALL:PACKEX_TASK_DISABLE
-IF "%EXAMPLE%"=="M7" CALL:PACKEX_TASK_DELETE
-IF "%EXAMPLE%"=="M8" CALL:PACKEX_PAGEFILE
-IF "%EXAMPLE%"=="X1" CALL:PACKEX_BACKGROUND_APPS
-IF "%EXAMPLE%"=="X2" CALL:PACKEX_WAKELOCKS
-IF "%EXAMPLE%"=="X3" CALL:PACKEX_WAKELOCKS_NET
-IF "%EXAMPLE%"=="S1" CALL:PACKEX_WINLOGON_VERBOSE
-IF "%EXAMPLE%"=="S2" CALL:PACKEX_DISABLE_HELLO
-IF "%EXAMPLE%"=="S3" CALL:PACKEX_SHORTEN_PREPARING
-IF "%EXAMPLE%"=="S4" CALL:PACKEX_DELAY_DESKTOP
-IF "%EXAMPLE%"=="S5" CALL:PACKEX_SCRIPTHOST
-IF "%EXAMPLE%"=="S6" CALL:PACKEX_LSA_STRICT
-IF "%EXAMPLE%"=="S7" CALL:PACKEX_FIREWALL_IMPORT
-IF "%EXAMPLE%"=="S8" CALL:PACKEX_STORE
-IF "%EXAMPLE%"=="S9" CALL:PACKEX_ONEDRIVE
+IF "%EXAMPLE%"=="S01" CALL:PACKEX_WINLOGON_VERBOSE
+IF "%EXAMPLE%"=="S02" CALL:PACKEX_DISABLE_HELLO
+IF "%EXAMPLE%"=="S03" CALL:PACKEX_SHORTEN_PREPARING
+IF "%EXAMPLE%"=="S04" CALL:PACKEX_DELAY_DESKTOP
+IF "%EXAMPLE%"=="S05" CALL:PACKEX_SCRIPTHOST
+IF "%EXAMPLE%"=="S06" CALL:PACKEX_LSA_STRICT
+IF "%EXAMPLE%"=="S07" CALL:PACKEX_LOCAL_ACCOUNT
+IF "%EXAMPLE%"=="S08" CALL:PACKEX_STORE
+IF "%EXAMPLE%"=="S09" CALL:PACKEX_ONEDRIVE
 IF "%EXAMPLE%"=="S10" CALL:PACKEX_CLOUD_CONTENT
 IF "%EXAMPLE%"=="S11" CALL:PACKEX_UAC
 IF "%EXAMPLE%"=="S12" CALL:PACKEX_NOTIFICATION_CENTER
@@ -2193,17 +2186,27 @@ IF "%EXAMPLE%"=="S14" CALL:PACKEX_BT_VISIBILITY
 IF "%EXAMPLE%"=="S15" CALL:PACKEX_VBS_DISABLE
 IF "%EXAMPLE%"=="S16" CALL:PACKEX_VBS_ENABLE
 IF "%EXAMPLE%"=="S17" CALL:EXPLORER_URL_ACCESS
-IF "%EXAMPLE%"=="S18" CALL:PACKEX_LOCAL_ACCOUNT
-IF "%EXAMPLE%"=="S19" CALL:PACKEX_TASKMGR_PREF
-IF "%EXAMPLE%"=="S20" CALL:PACKEX_DCOM_DISABLE
-IF "%EXAMPLE%"=="S21" CALL:PACKEX_DCOM_ENABLE
+IF "%EXAMPLE%"=="S18" CALL:PACKEX_BACKGROUND_APPS
+IF "%EXAMPLE%"=="S19" CALL:PACKEX_DCOM_DISABLE
+IF "%EXAMPLE%"=="S20" CALL:PACKEX_DCOM_ENABLE
+IF "%EXAMPLE%"=="S22" CALL:PACKEX_WAKELOCKS
+IF "%EXAMPLE%"=="S23" CALL:PACKEX_WAKELOCKS_NET
+IF "%EXAMPLE%"=="S24" CALL:PACKEX_PRIORITIZE_ETHERNET
+IF "%EXAMPLE%"=="S25" CALL:PACKEX_PRIORITIZE_WIFI
+IF "%EXAMPLE%"=="S30" CALL:PACKEX_ANSWER_FILE
+IF "%EXAMPLE%"=="S31" CALL:PACKEX_STARTUP_USER
+IF "%EXAMPLE%"=="T01" CALL:PACKEX_PAGEFILE
+IF "%EXAMPLE%"=="T02" CALL:PACKEX_FIREWALL_IMPORT
+IF "%EXAMPLE%"=="T03" CALL:PACKEX_TASKMGR_PREF
+IF "%EXAMPLE%"=="T04" CALL:PACKEX_BOOT_TIMEOUT
+IF "%EXAMPLE%"=="T10" CALL:PACKEX_TASK_ENABLE
+IF "%EXAMPLE%"=="T11" CALL:PACKEX_TASK_DISABLE
+IF "%EXAMPLE%"=="T12" CALL:PACKEX_TASK_DELETE
+IF "%EXAMPLE%"=="P01" CALL:PACKEX_PACK_PERMIT_EXAMPLE
+IF "%EXAMPLE%"=="P02" CALL:PACKEX_MSI_EXAMPLE
 IF "%EXAMPLE%"=="DB1" CALL:PACKEX_PAUSE
 IF "%EXAMPLE%"=="DB2" CALL:PACKEX_ECHO_ON
 IF "%EXAMPLE%"=="DB3" CALL:PACKEX_ECHO_OFF
-IF "%EXAMPLE%"=="N1" CALL:PACKEX_PRIORITIZE_ETHERNET
-IF "%EXAMPLE%"=="N2" CALL:PACKEX_PRIORITIZE_WIFI
-IF "%EXAMPLE%"=="P1" CALL:PACKEX_PACK_PERMIT_EXAMPLE
-IF "%EXAMPLE%"=="P2" CALL:PACKEX_MSI_EXAMPLE
 IF "%PackType%"=="SCRIPTED" CALL:PACK_END
 CALL:PACK_MANIFEST>NUL 2>&1
 IF "%EXAMPLE_MODE%"=="INSTANT" CALL:MAKER_CREATE>NUL 2>&1
@@ -2305,6 +2308,14 @@ ECHO;Net User %NEWUSER1% /passwordchg:No>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;Net Accounts /maxpwage:unlimited>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;Net localgroup Administrators %NEWUSER1% /add>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;WMIC USERACCOUNT WHERE Name='%NEWUSER1%' SET PasswordExpires=FALSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+EXIT /B
+:PACKEX_BOOT_TIMEOUT
+SET PackType=SCRIPTED&&SET PackName=BOOT_TIMEOUT&&SET PackDesc=Change Boot Timeout
+ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE, SETUPCOMPLETE, OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO   - ENTER BOOT TIMEOUT IN SECONDS -
+SET PROMPT_SET=BOOT_TIMEOUT&&CALL:PROMPT_SET_ANY
+IF NOT DEFINED BOOT_TIMEOUT EXIT /B
+ECHO;BCDEDIT /TIMEOUT %BOOT_TIMEOUT%
 EXIT /B
 :PACKEX_STARTUP_USER
 SET PackType=SCRIPTED&&SET PackName=UserLogon_Run&&SET PackDesc=Run a Program or batch at User Login
