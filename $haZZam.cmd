@@ -2143,7 +2143,7 @@ IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T04} Boot Timeout                          
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T10} Tasks-Enable/Disable/Delete                         (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                                 {MISC}&&CALL:PAD_LINE
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P01} Pack-Permit Demo
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P02} MSI Installer Example                                (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P02} MSI Installer Example                               (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB1} DEBUG PAUSE/ECHO-ON/ECHO-OFF                        (SCRIPTED)
 CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
@@ -2528,7 +2528,7 @@ ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_COLOR_MODE_TOGGLE
 SET PackType=SCRIPTED&&SET PACK_CFG_1=11&&SET PACK_CFG_2=00
-ECHO {1}LIGHT&&ECHO {2}DARK&&CALL:MENU_SELECT
+ECHO {1}Light {2}Dark&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=Color_Light&&SET PackDesc=Use Light Mode
 IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=Color_Dark&&SET PackDesc=Use Dark Mode
 CALL:PACK_CONFIG
