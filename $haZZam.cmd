@@ -1911,7 +1911,7 @@ IF NOT DEFINED PROG_OPER ECHO  [Desc]: %PackDesc%&&CALL:PAD_LINE
 IF NOT DEFINED PROG_OPER IF "%PACK_COND%"=="ENABLED" ECHO   PERMIT IF: [%REG_KEY% %REG_VAL%] [%RUN_MOD%] [%REG_DAT%]&&CALL:PAD_LINE
 IF NOT DEFINED PROG_OPER SET "LIST_DIR=%MAKER_FOLDER%\*.*"&&SET LIST_FMT=PLAIN&&ECHO   PACKAGE CONTENTS:&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF "%PROG_OPER%"=="MAKER_RESTORE" SET "LIST_DIR=%PACK_FOLDER%\*.$PK"&&SET LIST_FMT=NUMERAL&&ECHO   AVAILABLE $PK'S:&&CALL:FILE_LIST&&CALL:PAD_LINE
-IF NOT DEFINED PROG_OPER IF NOT DEFINED PackType ECHO  {X}PROJECT[%MAKER_SLOT%] {R}estore {N}ew Template {E}xport-Drivers {*}Examples&&CALL:PAD_LINE
+IF NOT DEFINED PROG_OPER IF NOT "%PackType%"=="NULL" IF NOT "%PackType%"=="DRIVER" IF NOT "%PackType%"=="SCRIPTED" IF NOT "%PackType%"=="STORAGE" ECHO  {X}PROJECT[%MAKER_SLOT%] {R}estore {N}ew Template {E}xport-Drivers {*}Examples&&CALL:PAD_LINE
 IF NOT DEFINED PROG_OPER IF "%PackType%"=="NULL" ECHO  {X}PROJECT[%MAKER_SLOT%] {R}estore {N}ew Template {E}xport-Drivers {*}Examples&&CALL:PAD_LINE
 IF NOT DEFINED PROG_OPER IF "%PackType%"=="DRIVER" ECHO  {X}PROJECT[%MAKER_SLOT%]   {V}iew/Edit  {Z}Compression  {I}nspect-System&&CALL:PAD_LINE
 IF NOT DEFINED PROG_OPER IF "%PackType%"=="DRIVER" ECHO      {C}reate  {R}estore  {N}ew Template  {E}xport-Drivers {P}ermit&&CALL:PAD_LINE
@@ -2120,20 +2120,19 @@ IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S07} Local Accounts Only                   
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S08} Store Disable                                       (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S09} OneDrive Disable                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S10} Cloud Content Disable                               (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S11} UAC Prompt Always                                   (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S11} UAC Prompt Always/Never                             (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S12} NotificationCenter Disable                          (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S13} Disable Net Discovery                               (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S14} Bluetooth Advertising                               (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S15} Virt.Based Security Disable                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S16} Virt.Based Security Enable                          (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S17} Disable Explorer URL Access                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S18} Background Apps Disable                             (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S19} DCOM Disable (BREAKS STUFF)                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S20} DCOM Enable                                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S22} Wakelocks General Disable                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S23} Wakelocks Network Disable                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S24} Prioritize Ethernet                                 (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S25} Prioritize WiFi                                     (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S13} Net Discovery Enable/Disable                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S14} Bluetooth Advertising Enable/Disable                (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S15} Virtualization Based Security Enable/Disable        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S16} Disable Explorer URL Access                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S17} Background Apps Disable                             (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S18} DCOM Enable/Disable (Breaks Stuff)                  (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S19} Prioritize Ethernet                                 (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S20} Prioritize WiFi                                     (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S21} Wakelocks General Disable                           (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S22} Wakelocks Network Disable                           (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S23} Dark/Light Theme                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S30} Unattended Answer-File                              (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S31} Run Program Every Boot                              (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO         {Time-Mandatory Examples -Live-SetupComplete-RunOnce}&&CALL:PAD_LINE
@@ -2141,22 +2140,16 @@ IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T01} Pagefile Disable                      
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T02} Import Firewall Rules.XML                           (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T03} Taskmgr Prefs                                       (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T04} Boot Timeout                                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T10} Tasks-Enable                                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T11} Tasks-Disable                                       (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T12} Tasks-Delete                                        (SCRIPTED)
-::IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {V1} System/App Dark ColorMode                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                               {DEBUGGING}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB1} DEBUG PAUSE                                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB2} DEBUG ECHO-ON                                       (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB3} DEBUG ECHO-OFF                                      (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T10} Tasks-Enable/Disable/Delete                         (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                                 {MISC}&&CALL:PAD_LINE
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P01} Pack-Permit Demo
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P02} MSI Installer Example                                (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB1} DEBUG PAUSE/ECHO-ON/ECHO-OFF                        (SCRIPTED)
 CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
 :PACKEX_PROC
 CALL:MOUNT_INT
-SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S24 S25 S30 S31 T01 T02 T03 T04 T10 T11 T12 P01 P02 DB1 DB2 DB3) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
+SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S30 S31 T01 T02 T03 T04 T10 P01 P02 DBG) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
 IF NOT "%PASS%"=="1" EXIT /B
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECTX"
@@ -2183,30 +2176,25 @@ IF "%EXAMPLE%"=="S11" CALL:PACKEX_UAC
 IF "%EXAMPLE%"=="S12" CALL:PACKEX_NOTIFICATION_CENTER
 IF "%EXAMPLE%"=="S13" CALL:PACKEX_LLT_DISCOVERY_RSPNDR
 IF "%EXAMPLE%"=="S14" CALL:PACKEX_BT_VISIBILITY
-IF "%EXAMPLE%"=="S15" CALL:PACKEX_VBS_DISABLE
-IF "%EXAMPLE%"=="S16" CALL:PACKEX_VBS_ENABLE
-IF "%EXAMPLE%"=="S17" CALL:EXPLORER_URL_ACCESS
-IF "%EXAMPLE%"=="S18" CALL:PACKEX_BACKGROUND_APPS
-IF "%EXAMPLE%"=="S19" CALL:PACKEX_DCOM_DISABLE
-IF "%EXAMPLE%"=="S20" CALL:PACKEX_DCOM_ENABLE
-IF "%EXAMPLE%"=="S22" CALL:PACKEX_WAKELOCKS
-IF "%EXAMPLE%"=="S23" CALL:PACKEX_WAKELOCKS_NET
-IF "%EXAMPLE%"=="S24" CALL:PACKEX_PRIORITIZE_ETHERNET
-IF "%EXAMPLE%"=="S25" CALL:PACKEX_PRIORITIZE_WIFI
+IF "%EXAMPLE%"=="S15" CALL:PACKEX_VBS
+IF "%EXAMPLE%"=="S16" CALL:EXPLORER_URL_ACCESS
+IF "%EXAMPLE%"=="S17" CALL:PACKEX_BACKGROUND_APPS
+IF "%EXAMPLE%"=="S18" CALL:PACKEX_DCOM
+IF "%EXAMPLE%"=="S19" CALL:PACKEX_PRIORITIZE_ETHERNET
+IF "%EXAMPLE%"=="S20" CALL:PACKEX_PRIORITIZE_WIFI
+IF "%EXAMPLE%"=="S21" CALL:PACKEX_WAKELOCKS
+IF "%EXAMPLE%"=="S22" CALL:PACKEX_WAKELOCKS_NET
+IF "%EXAMPLE%"=="S23" CALL:PACKEX_COLOR_MODE_TOGGLE
 IF "%EXAMPLE%"=="S30" CALL:PACKEX_ANSWER_FILE
 IF "%EXAMPLE%"=="S31" CALL:PACKEX_STARTUP_USER
 IF "%EXAMPLE%"=="T01" CALL:PACKEX_PAGEFILE
 IF "%EXAMPLE%"=="T02" CALL:PACKEX_FIREWALL_IMPORT
 IF "%EXAMPLE%"=="T03" CALL:PACKEX_TASKMGR_PREF
 IF "%EXAMPLE%"=="T04" CALL:PACKEX_BOOT_TIMEOUT
-IF "%EXAMPLE%"=="T10" CALL:PACKEX_TASK_ENABLE
-IF "%EXAMPLE%"=="T11" CALL:PACKEX_TASK_DISABLE
-IF "%EXAMPLE%"=="T12" CALL:PACKEX_TASK_DELETE
+IF "%EXAMPLE%"=="T10" CALL:PACKEX_TASKS
 IF "%EXAMPLE%"=="P01" CALL:PACKEX_PACK_PERMIT_EXAMPLE
 IF "%EXAMPLE%"=="P02" CALL:PACKEX_MSI_EXAMPLE
-IF "%EXAMPLE%"=="DB1" CALL:PACKEX_PAUSE
-IF "%EXAMPLE%"=="DB2" CALL:PACKEX_ECHO_ON
-IF "%EXAMPLE%"=="DB3" CALL:PACKEX_ECHO_OFF
+IF "%EXAMPLE%"=="DBG" CALL:PACKEX_DEBUG
 IF "%PackType%"=="SCRIPTED" CALL:PACK_END
 CALL:PACK_MANIFEST>NUL 2>&1
 IF "%EXAMPLE_MODE%"=="INSTANT" CALL:MAKER_CREATE>NUL 2>&1
@@ -2322,26 +2310,19 @@ SET PackType=SCRIPTED&&SET PackName=UserLogon_Run&&SET PackDesc=Run a Program or
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Run" /v "RunUser" /t REG_EXPAND_SZ /d "%%PROGRAMDATA%%\USERLOGON.CMD" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;ECHO;EXPLORER.EXE C:\WINDOWS\SYSTEM32\NOTEPAD.EXE^>"%%PROGRAMDATA%%\USERLOGON.CMD">>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
-:PACKEX_TASK_ENABLE
-SET PackType=SCRIPTED&&SET PackName=TASK_ENABLE&&SET PackDesc=Pack Version,add to a SETUPCOMPLETE.LST/RUNONCE.LST
-ECHO;::TASKS ENABLE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+:PACKEX_TASKS
+ECHO    - Tasks Pack Version -&&ECHO {1}Enable {2}Disable {3}Delete&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PackType=SCRIPTED&&SET PackName=TASK_ENABLE&&SET PackDesc=Add to a SETUPCOMPLETE.LST/RUNONCE.LST
+IF "%SELECT%"=="2" SET PackType=SCRIPTED&&SET PackName=TASK_DISABLE&&SET PackDesc=Add to a SETUPCOMPLETE.LST/RUNONCE.LST
+IF "%SELECT%"=="3" SET PackType=SCRIPTED&&SET PackName=TASK_DELETE&&SET PackDesc=Add to A SETUPCOMPLETE.LST/RUNONCE.LST
+IF "%SELECT%"=="1" ECHO;::TASKS ENABLE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="2" ECHO;::TASKS DISABLE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="3" ECHO;::TASKS DELETE>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;::CREATE AND PLACE TASKS.LST IN PROJECT FOLDER, THEN CREATE PACK>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;::ADD TO A SETUPCOMPLETE.LST/RUNONCE.LST,FIXES ACCESS DENIED ISSUE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%%%1 in (TASKS.LST) DO (SCHTASKS /CHANGE /TN "\%%%%1" /ENABLE /F) >>"%MAKER_FOLDER%\PACKAGE.CMD"
-EXIT /B
-:PACKEX_TASK_DISABLE
-SET PackType=SCRIPTED&&SET PackName=TASK_DISABLE&&SET PackDesc=Pack Version,add to a SETUPCOMPLETE.LST/RUNONCE.LST
-ECHO;::TASKS DISABLE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::CREATE AND PLACE TASKS.LST IN PROJECT FOLDER, THEN CREATE PACK>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::ADD TO A SETUPCOMPLETE.LST/RUNONCE.LST,FIXES ACCESS DENIED ISSUE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%%%1 in (TASKS.LST) DO (SCHTASKS /CHANGE /TN "\%%%%1" /DISABLE /F) >>"%MAKER_FOLDER%\PACKAGE.CMD"
-EXIT /B
-:PACKEX_TASK_DELETE
-SET PackType=SCRIPTED&&SET PackName=TASK_DELETE&&SET PackDesc=Pack Version,ADD TO A SETUPCOMPLETE.LST/RUNONCE.LST
-ECHO;::TASKS DELETE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::CREATE AND PLACE TASKS.LST IN PROJECT FOLDER, THEN CREATE PACK>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::ADD TO A SETUPCOMPLETE.LST/RUNONCE.LST,FIXES ACCESS DENIED ISSUE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%%%1 in (TASKS.LST) DO (SCHTASKS /DELETE /TN "\%%%%1" /F) >>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="1" ECHO;FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%%%1 in (TASKS.LST) DO (SCHTASKS /CHANGE /TN "\%%%%1" /ENABLE /F) >>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="2" ECHO;FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%%%1 in (TASKS.LST) DO (SCHTASKS /CHANGE /TN "\%%%%1" /DISABLE /F) >>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="3" ECHO;FOR /F "TOKENS=1 SKIP=1 DELIMS={}" %%%%1 in (TASKS.LST) DO (SCHTASKS /DELETE /TN "\%%%%1" /F) >>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_PAGEFILE
 SET PackType=SCRIPTED&&SET PackName=Pagefile&&SET PackDesc=Disable Pagefile
@@ -2417,59 +2398,71 @@ ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v 
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_UAC
-SET PackType=SCRIPTED&&SET PackName=UAC_Prompt&&SET PackDesc=Enable UAC Always Prompt
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "4" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET PackType=SCRIPTED&&SET PACK_CFG_1=111&&SET PACK_CFG_2=000
+ECHO     - UAC Prompt -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=UAC_Prompt_Always_On&&SET PackDesc=UAC Always Prompt
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=UAC_Prompt_Always_Off&&SET PackDesc=UAC Never Prompt
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_NOTIFICATION_CENTER
-SET PackType=SCRIPTED&&SET PackName=NCenter_Disable&&SET PackDesc=Disable Notification Center
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET PackType=SCRIPTED&&SET PACK_CFG_1=0&&SET PACK_CFG_2=1
+ECHO   - Notification Center -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=Notification_Center_Enable&&SET PackDesc=Enable Notification Center
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=Notification_Center_Diable&&SET PackDesc=Disable Notification Center
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_BT_VISIBILITY
-SET PackType=SCRIPTED&&SET PackName=BT_Visibility_Off&&SET PackDesc=Disable Bluetooth Advertising
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET PackType=SCRIPTED&&SET PACK_CFG_1=1111&&SET PACK_CFG_2=0000
+ECHO   - Bluetooth Advertising -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=BT_Visibility_On&&SET PackDesc=Enable Bluetooth Advertising
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=BT_Visibility_Off&&SET PackDesc=Disable Bluetooth Advertising
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_LLT_DISCOVERY_RSPNDR
-SET PackType=SCRIPTED&&SET PackName=LLT_Disable&&SET PackDesc=Disable Link-Layer-Topology Discovery
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET PackType=SCRIPTED&&SET PACK_CFG_1=1110&&SET PACK_CFG_2=0001
+ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=VBS_Enable&&SET PackDesc=Enable Link-Layer-Topology Discovery Responder Driver
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=VBS_Disable&&SET PackDesc=Disable Link-Layer-Topology Discovery Responder Driver
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
-:PACKEX_VBS_ENABLE
-SET PackType=SCRIPTED&&SET PackName=VBS_Enable&&SET PackDesc=Enable Virtualization Based Security
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 1 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d 1 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d 1 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+:PACKEX_VBS
+SET PackType=SCRIPTED&&SET PACK_CFG_1=110101&&SET PACK_CFG_2=000002
+ECHO  - Virtualization Based Security -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=VBS_Enable&&SET PackDesc=Enable Virtualization Based Security
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=VBS_Disable&&SET PackDesc=Disable Virtualization Based Security
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "%PACK_ENT_5%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "%PACK_ENT_6%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
-:PACKEX_VBS_DISABLE
-SET PackType=SCRIPTED&&SET PackName=VBS_Disable&&SET PackDesc=Disable Virtualization Based Security
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "2" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-EXIT /B
-:PACKEX_DCOM_DISABLE
-SET PackType=SCRIPTED&&SET PackName=DCOM_Disable&&SET PackDesc=Disable DCOM
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "N" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-EXIT /B
-:PACKEX_DCOM_ENABLE
-SET PackType=SCRIPTED&&SET PackName=DCOM_Disable&&SET PackDesc=Disable DCOM
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "Y" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+:PACKEX_DCOM
+SET PackType=SCRIPTED&&SET PACK_CFG_1=Y&&SET PACK_CFG_2=N&&ECHO         - DCOM -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=DCOM_Enable&&SET PackDesc=Enable DCOM
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=DCOM_Disable&&SET PackDesc=Disable DCOM
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_WINLOGON_VERBOSE
-SET PackType=SCRIPTED&&SET PackName=Winlogon_Verbose&&SET PackDesc=High verbosity logon/logoff
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET PackType=SCRIPTED&&SET PACK_CFG_1=1&&SET PACK_CFG_2=0&&ECHO          - WinLogon Full Verbosity -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=WinLogonVerbose_Enable&&SET PackDesc=WinLogonVerbose Enable
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=WinLogonVerbose_Disable&&SET PackDesc=WinLogonVerbose Disable
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_DISABLE_HELLO
 SET PackType=SCRIPTED&&SET PackName=Hello_Disable&&SET PackDesc=Disable creepy sentient logon hello -view notes
@@ -2516,17 +2509,16 @@ ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE, SETUPCOMPLETE, OR RUNONCE>>"%MAKE
 ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=5 >>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
-:PACKEX_PAUSE
-SET PackType=SCRIPTED&&SET PackName=Pause&&SET PackDesc=Place in PackageList, PAUSES EXECUTION
-ECHO;PAUSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-EXIT /B
-:PACKEX_ECHO_OFF
-SET PackType=SCRIPTED&&SET PackName=Echo_off&&SET PackDesc=Place in PackageList, Turns ECHO OFF
-ECHO;@ECHO OFF>>"%MAKER_FOLDER%\PACKAGE.CMD"
-EXIT /B
-:PACKEX_ECHO_ON
-SET PackType=SCRIPTED&&SET PackName=Echo_on&&SET PackDesc=Place in PackageList, Turns ECHO ON
-ECHO;@ECHO ON>>"%MAKER_FOLDER%\PACKAGE.CMD"
+:PACKEX_DEBUG
+ECHO  - Virtualization Based Security -&&ECHO {1}Pause&&ECHO {2}Echo On {3}Echo Off&&CALL:MENU_SELECT
+CALL:EXIT_FLAGGER
+IF "%EXIT_FLAGGER%"=="1" EXIT /B
+IF "%SELECT%"=="1" SET PackType=SCRIPTED&&SET PackName=Pause&&SET PackDesc=Place in PackageList, PAUSES EXECUTION
+IF "%SELECT%"=="1" ECHO;PAUSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="2" SET PackType=SCRIPTED&&SET PackName=Echo_on&&SET PackDesc=Place in PackageList, Turns ECHO ON
+IF "%SELECT%"=="2" ECHO;@ECHO ON>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="3" SET PackType=SCRIPTED&&SET PackName=Echo_off&&SET PackDesc=Place in PackageList, Turns ECHO OFF
+IF "%SELECT%"=="3" ECHO;@ECHO OFF>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_TASKMGR_PREF
 SET PackType=SCRIPTED&&SET PackName=TASKMGR_PREFS&&SET PackDesc=TASKMGR_PREFS
@@ -2535,10 +2527,10 @@ Reg.exe EXPORT "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\TaskManage
 ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_COLOR_MODE_TOGGLE
-SET PackType=SCRIPTED SET PACK_CFG_A=11&&SET PACK_CFG_B=00
-ECHO {A}LIGHT&&ECHO {B}DARK&&CALL:MENU_SELECT
-IF "%SELECT%"=="A" SET PACK_CONFIG=%PACK_CFG_A%&&SET PackName=Color_Light&&SET PackDesc=Use Light Mode
-IF "%SELECT%"=="B" SET PACK_CONFIG=%PACK_CFG_B%&&SET PackName=Color_Dark&&SET PackDesc=Use Dark Mode
+SET PackType=SCRIPTED&&SET PACK_CFG_1=11&&SET PACK_CFG_2=00
+ECHO {1}LIGHT&&ECHO {2}DARK&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET PACK_CONFIG=%PACK_CFG_1%&&SET PackName=Color_Light&&SET PackDesc=Use Light Mode
+IF "%SELECT%"=="2" SET PACK_CONFIG=%PACK_CFG_2%&&SET PackName=Color_Dark&&SET PackDesc=Use Dark Mode
 CALL:PACK_CONFIG
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SYSTEMUsesLightTheme" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
