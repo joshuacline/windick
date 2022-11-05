@@ -59,6 +59,7 @@
 - A few of the built-in package examples to get you started:
 -      · Strict LSA Rules · UAC Always · Store/OneDrive/Cloud/Wakelocks/Pagefile Disable ·
 -      · User/Admin Account Creation · Import/Export Firewall Rules · Unattend.XML · General MSI/Setup.exe examples
+![Alt text](/png/3-3.png "Package Creator")
 · Package installation timing granularity for different use cases:
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
