@@ -2107,11 +2107,12 @@ IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A3} List Accounts                         
 ECHO  {M1} Create Local User-Account                               (MIXED)
 ECHO  {M2} Create Local Admin-Account                              (MIXED)
 ::IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {T4} Shutdown/Restart                                    (INSTANT)
-IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                          {Any-Time Examples}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S01} WinLogon Verbose                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S02} Setup+ Disable Hello                                (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S03} Setup+ Quicker Preparing...                         (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S04} RunOnce/Async+ Delay Desktop                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                      {Setup+ $PK List-ImageApply}&&CALL:PAD_LINE
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S01} Setup+ Disable Hello                                (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S02} Setup+ Quicker Preparing...                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S03} Setup+ RunOnce/Async Delay Desktop                  (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                          {Any-Time Any-List}&&CALL:PAD_LINE
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S04} WinLogon Verbose                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S05} VB-Script Execution Disable                         (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S06} LSA Strict Rules                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S07} Local Accounts Only                                 (SCRIPTED)
@@ -2133,12 +2134,12 @@ IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S22} Wakelocks Network Disable             
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S23} Dark/Light Theme                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S30} Unattended Answer-File                              (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S31} Run Program Every Boot                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO         {Time-Mandatory Examples -Live-SetupComplete-RunOnce}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T01} Pagefile Disable                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T02} Import Firewall Rules.XML                           (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T03} Taskmgr Prefs                                       (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T04} Boot Timeout                                        (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {T10} Tasks-Enable/Disable/Delete                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                   {SetupComplete-RunOnce-LiveApply}&&CALL:PAD_LINE
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L01} Pagefile Disable                                    (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L02} Import Firewall Rules.XML                           (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L03} Taskmgr Prefs                                       (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L04} Boot Timeout                                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L10} Tasks-Enable/Disable/Delete                         (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                                 {MISC}&&CALL:PAD_LINE
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P01} Pack-Permit Demo
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P02} MSI Installer Example                               (SCRIPTED)
@@ -2147,7 +2148,7 @@ CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
 :PACKEX_PROC
 CALL:MOUNT_INT
-SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S30 S31 T01 T02 T03 T04 T10 P01 P02 DBG) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
+SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S30 S31 L01 L02 L03 L04 L10 P01 P02 DBG) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
 IF NOT "%PASS%"=="1" EXIT /B
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECTX"
@@ -2160,10 +2161,10 @@ IF "%EXAMPLE%"=="A3" CALL:PACKEX_QUERY_USERS
 IF "%EXAMPLE%"=="A4" CALL:PACKEX_SHUTDOWN
 IF "%EXAMPLE%"=="M1" CALL:PACKEX_NEWUSER
 IF "%EXAMPLE%"=="M2" CALL:PACKEX_NEWADMIN
-IF "%EXAMPLE%"=="S01" CALL:PACKEX_WINLOGON_VERBOSE
-IF "%EXAMPLE%"=="S02" CALL:PACKEX_DISABLE_HELLO
-IF "%EXAMPLE%"=="S03" CALL:PACKEX_SHORTEN_PREPARING
-IF "%EXAMPLE%"=="S04" CALL:PACKEX_DELAY_DESKTOP
+IF "%EXAMPLE%"=="S01" CALL:PACKEX_DISABLE_HELLO
+IF "%EXAMPLE%"=="S02" CALL:PACKEX_SHORTEN_PREPARING
+IF "%EXAMPLE%"=="S03" CALL:PACKEX_DELAY_DESKTOP
+IF "%EXAMPLE%"=="S04" CALL:PACKEX_WINLOGON_VERBOSE
 IF "%EXAMPLE%"=="S05" CALL:PACKEX_SCRIPTHOST
 IF "%EXAMPLE%"=="S06" CALL:PACKEX_LSA_STRICT
 IF "%EXAMPLE%"=="S07" CALL:PACKEX_LOCAL_ACCOUNT
@@ -2185,11 +2186,11 @@ IF "%EXAMPLE%"=="S22" CALL:PACKEX_WAKELOCKS_NET
 IF "%EXAMPLE%"=="S23" CALL:PACKEX_COLOR_MODE_TOGGLE
 IF "%EXAMPLE%"=="S30" CALL:PACKEX_ANSWER_FILE
 IF "%EXAMPLE%"=="S31" CALL:PACKEX_STARTUP_USER
-IF "%EXAMPLE%"=="T01" CALL:PACKEX_PAGEFILE
-IF "%EXAMPLE%"=="T02" CALL:PACKEX_FIREWALL_IMPORT
-IF "%EXAMPLE%"=="T03" CALL:PACKEX_TASKMGR_PREF
-IF "%EXAMPLE%"=="T04" CALL:PACKEX_BOOT_TIMEOUT
-IF "%EXAMPLE%"=="T10" CALL:PACKEX_TASKS
+IF "%EXAMPLE%"=="L01" CALL:PACKEX_PAGEFILE
+IF "%EXAMPLE%"=="L02" CALL:PACKEX_FIREWALL_IMPORT
+IF "%EXAMPLE%"=="L03" CALL:PACKEX_TASKMGR_PREF
+IF "%EXAMPLE%"=="L04" CALL:PACKEX_BOOT_TIMEOUT
+IF "%EXAMPLE%"=="L10" CALL:PACKEX_TASKS
 IF "%EXAMPLE%"=="P01" CALL:PACKEX_PACK_PERMIT_EXAMPLE
 IF "%EXAMPLE%"=="P02" CALL:PACKEX_MSI_EXAMPLE
 IF "%EXAMPLE%"=="DBG" CALL:PACKEX_DEBUG
