@@ -2111,9 +2111,9 @@ IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                      {Setup+ $
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S01} Setup+ Disable Hello                                (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S02} Setup+ Quicker Preparing...                         (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S03} Setup+ RunOnce/Async Delay Desktop                  (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S04} Setup+ Unattended Answer-File                       (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                          {Any-Time Any-List}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S04} WinLogon Verbose                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S05} VB-Script Execution Disable                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S05} WinLogon Verbose                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S06} LSA Strict Rules                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S07} Local Accounts Only                                 (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S08} Store Disable                                       (SCRIPTED)
@@ -2132,8 +2132,8 @@ IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S20} Prioritize WiFi                       
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S21} Wakelocks General Disable                           (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S22} Wakelocks Network Disable                           (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S23} Dark/Light Theme                                    (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S30} Unattended Answer-File                              (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S31} Run Program Every Boot                              (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S24} VB-Script Execution Disable                         (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {S30} Run Program Every Boot                              (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                   {SetupComplete-RunOnce-LiveApply}&&CALL:PAD_LINE
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L01} Pagefile Disable                                    (SCRIPTED)
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L02} Import Firewall Rules.XML                           (SCRIPTED)
@@ -2148,7 +2148,7 @@ CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
 :PACKEX_PROC
 CALL:MOUNT_INT
-SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S30 S31 L01 L02 L03 L04 L10 P01 P02 DBG) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
+SET PASS=&&FOR %%a in (A1 A2 A3 M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S23 S24 S30 S31 L01 L02 L03 L04 L10 P01 P02 DBG) DO (IF "%%a"=="%EXAMPLE%" SET PASS=1)
 IF NOT "%PASS%"=="1" EXIT /B
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECTX"
@@ -2164,8 +2164,8 @@ IF "%EXAMPLE%"=="M2" CALL:PACKEX_NEWADMIN
 IF "%EXAMPLE%"=="S01" CALL:PACKEX_DISABLE_HELLO
 IF "%EXAMPLE%"=="S02" CALL:PACKEX_SHORTEN_PREPARING
 IF "%EXAMPLE%"=="S03" CALL:PACKEX_DELAY_DESKTOP
-IF "%EXAMPLE%"=="S04" CALL:PACKEX_WINLOGON_VERBOSE
-IF "%EXAMPLE%"=="S05" CALL:PACKEX_SCRIPTHOST
+IF "%EXAMPLE%"=="S04" CALL:PACKEX_ANSWER_FILE
+IF "%EXAMPLE%"=="S05" CALL:PACKEX_WINLOGON_VERBOSE
 IF "%EXAMPLE%"=="S06" CALL:PACKEX_LSA_STRICT
 IF "%EXAMPLE%"=="S07" CALL:PACKEX_LOCAL_ACCOUNT
 IF "%EXAMPLE%"=="S08" CALL:PACKEX_STORE
@@ -2184,8 +2184,8 @@ IF "%EXAMPLE%"=="S20" CALL:PACKEX_PRIORITIZE_WIFI
 IF "%EXAMPLE%"=="S21" CALL:PACKEX_WAKELOCKS
 IF "%EXAMPLE%"=="S22" CALL:PACKEX_WAKELOCKS_NET
 IF "%EXAMPLE%"=="S23" CALL:PACKEX_COLOR_MODE_TOGGLE
-IF "%EXAMPLE%"=="S30" CALL:PACKEX_ANSWER_FILE
-IF "%EXAMPLE%"=="S31" CALL:PACKEX_STARTUP_USER
+IF "%EXAMPLE%"=="S24" CALL:PACKEX_SCRIPTHOST
+IF "%EXAMPLE%"=="S30" CALL:PACKEX_STARTUP_USER
 IF "%EXAMPLE%"=="L01" CALL:PACKEX_PAGEFILE
 IF "%EXAMPLE%"=="L02" CALL:PACKEX_FIREWALL_IMPORT
 IF "%EXAMPLE%"=="L03" CALL:PACKEX_TASKMGR_PREF
