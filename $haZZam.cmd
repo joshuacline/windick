@@ -2143,7 +2143,7 @@ IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {L10} Tasks-Enable/Disable/Delete           
 IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                                 {MISC}&&CALL:PAD_LINE
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P01} Pack-Permit Demo
 IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {P02} MSI Installer Example                               (SCRIPTED)
-IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DB1} DEBUG PAUSE/ECHO-ON/ECHO-OFF                        (SCRIPTED)
+IF "%EXAMPLE_MODE%"=="CREATE" ECHO  {DBG} DEBUG PAUSE/ECHO-ON/ECHO-OFF                        (SCRIPTED)
 CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu
 EXIT /B
 :PACKEX_PROC
