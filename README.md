@@ -1,14 +1,14 @@
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 #   $-h-@-Z-Z-@-m! 
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · A native command shell Windows image deployment tool.
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 ![Alt text](/png/0-0.png "Help Section")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Boot Creator (via Diskpart+DISM)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
@@ -19,21 +19,21 @@
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
 ![Alt text](/png/5-3.png "Boot Creator")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
 ![Alt text](/png/5-1.png "Disk Managment")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · File Managment (via CMD's) with basic support for:
 -      open · duplicate · copy · rename · move · delete · take ownership+grant perm · symbolic link creation
 ![Alt text](/png/4-1.png "File Managment")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
 -      WIM · VHDX 
 ![Alt text](/png/2-1.png "Image Processing")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Image Managment (via DISM)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ![Alt text](/png/1-1.png "Image Managment")
 - Express Image Forensics of:
 -      VHDX · WIM · LIVE
@@ -49,9 +49,9 @@
 - ![Alt text](/png/1-8.png "List-of-Lists")
 - A List-of-Lists to combine multiple batch actions
 - ![Alt text](/png/1-7.png "List-of-Lists")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Package Creator (via DISM) 
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
 - The package manifest determines how the package is treated. It contains the type of package, and optional install conditions.
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
@@ -69,13 +69,13 @@
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·    $haZZam command-line parameters 
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 -     $haZZam.cmd -help                                                    (This Menu)
 ·         (Image Management List Installer)
 -      $haZZam.cmd -listmgr -install -list xyz.lst                         (Live-Install Package-List)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·         (Image Processing)
 - WIM/VHDX Source Images must be placed in their respective folders or the operation will fail.
 -     $haZZam.cmd -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {XYZ.VHDX} -size {MB}
@@ -102,13 +102,13 @@
 -     $haZZam.cmd -diskmgr -create -disk 0 -size 25600
 -     $haZZam.cmd -diskmgr -mount -disk 0 -part 1 -letter e
 -     $haZZam.cmd -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·         (Boot Environment Creator)
 -     The specified boot-media must be in the main program folder or the operation will fail.
 -     $haZZam.cmd -bootmaker -create -disk 0 -src BOOT.WIM
 -     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV
 ![Alt text](/png/0-2.png "Boot Creator")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha!
 - All imaging operations occur inside of a Virtual Hard Disk Image,  leaving no garbage folders/files behind.
 - No dependencies, Just $haZZam.cmd and a Windows installation source.
@@ -118,4 +118,4 @@
 - This program should always be in its raw and readable form, a .CMD file.  Which can be easily viewed and edited in notepad.
 - The possibility exists for malacious entities to modify this program into something truly nightmarish.
 - So don't be dumb. Download only from github.com/joshuacline. Or be part of a botnet or worse, that's on you.
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
