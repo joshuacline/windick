@@ -45,7 +45,9 @@
 ![Alt text](/png/1-2.png "Image Managment")
 - Apply these batch lists to :
 -      WIM · VHDX · LIVE
+- ![Alt text](/png/1-8.png "List-of-Lists")
 - A List-of-Lists to combine multiple batch actions
+- ![Alt text](/png/1-7.png "List-of-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Package Creator (via DISM) 
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
