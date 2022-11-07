@@ -109,7 +109,8 @@
 ![Alt text](/png/0-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha!
-- No dependencies, Just $haZZam.cmd.
+- All imaging operations occur inside of a Virtual Hard Disk Image,  leaving no garbage folders/files behind.
+- No dependencies, Just $haZZam.cmd and a Windows installation source.
 - Recommended to use windows ISO's build 22000+. Always use official sources, unless you're trying to analyze malware. (vhdx-boot w/host-partition-lock is a great way to do this...)
 - Currently $haZZam is made of 100% batch, no embedded scripts of any kind. That means no embedded:
 -      · powershell · visualbasic · java · any type of encoding or obfuscation. 
