@@ -56,8 +56,10 @@
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
 - Driver Packages · export/import with a button.
 - Storage - Not the best compression ratio, but the option is there.
+![Alt text](/png/3-2.png "Package Creator")
 - Create optional $PK package installation conditions. (basic approval/denial)
 - For now, the condition system is registry query based only. There is a demo example included.
+![Alt text](/png/3-1.png "Package Creator")
 - A few of the built-in package examples to get you started:
 -      · Strict LSA Rules · UAC Always · Store/OneDrive/Cloud/Wakelocks/Pagefile Disable ·
 -      · User/Admin Account Creation · Import/Export Firewall Rules · Unattend.XML · General MSI/Setup.exe examples
@@ -66,8 +68,6 @@
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
-![Alt text](/png/3-1.png "Package Creator")
-![Alt text](/png/3-2.png "Package Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·    $haZZam command-line parameters 
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
