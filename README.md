@@ -18,6 +18,7 @@
 - In Slot-Mode, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
+- Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 ![Alt text](/png/5-3.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · Disk Managment (via DiskPart) with basic support for:
@@ -78,13 +79,13 @@
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·         (Image Processing)
 - WIM/VHDX Source Images must be placed in their respective folders or the operation will fail.
--     $haZZam.cmd -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {XYZ.VHDX} -size {MB}
+-     $haZZam.cmd -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {123.VHDX} -size {MB}
 -     $haZZam.cmd -imageproc -wim  {ABC.WIM} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
--     $haZZam.cmd -imageproc -vhdx {XYZ.VHDX} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
+-     $haZZam.cmd -imageproc -vhdx {123.VHDX} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
 ·        Examples:
 -     $haZZam.cmd -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
 -     $haZZam.cmd -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
--     $haZZam.cmd -imageproc -vhdx XYZ.VHDX -index 1 -wim ABC.WIM -xlvl fast
+-     $haZZam.cmd -imageproc -vhdx 123.VHDX -index 1 -wim ABC.WIM -xlvl fast
 ·         (Disk Manager)
 - You can address disks by static disk-UID or by DISK #,  since both are parsed together internally.
 -     $haZZam.cmd -diskmgr -list                                           (Condensed list of Disks)
@@ -104,9 +105,9 @@
 -     $haZZam.cmd -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ·         (Boot Environment Creator)
--     The specified boot-media must be in the main program folder or the operation will fail.
--     $haZZam.cmd -bootmaker -create -disk 0 -src BOOT.WIM
--     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV
+-     The specified boot-media and VHDX must be in the main program folder or the operation will fail.
+-     $haZZam.cmd -bootmaker -create -disk 0 -src BOOT.WIM -vhdx 123.VHDX
+-     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV -vhdx 123.VHDX
 ![Alt text](/png/0-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha!
