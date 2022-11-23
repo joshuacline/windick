@@ -12,12 +12,11 @@ From boot to deploy, the one and only complete Windows image container-based dep
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
 ![Alt text](/png/0-0.png "Help Section")
+To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
+Boot Creator (via Diskpart+DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· Boot Creator (via Diskpart+DISM)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
+Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
@@ -30,19 +29,19 @@ The recovery environment you never knew you needed!
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 ![Alt text](/png/5-3.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· Disk Managment (via DiskPart) with basic support for:
+Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
 ![Alt text](/png/5-1.png "Disk Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· File Managment (via CMD's) with basic support for:
+File Managment (via CMD's) with basic support for:
 -      open · duplicate · copy · rename · move · delete · take ownership+grant perm · symbolic link creation
 ![Alt text](/png/4-1.png "File Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
+Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
 -      WIM · VHDX 
 ![Alt text](/png/2-1.png "Image Processing")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· Image Managment (via DISM)
+Image Managment (via DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ![Alt text](/png/1-1.png "Image Managment")
 - Express Image Forensics of:
@@ -60,7 +59,7 @@ The recovery environment you never knew you needed!
 - A List-of-Lists to combine multiple batch actions
 - ![Alt text](/png/1-7.png "List-of-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· Package Creator (via DISM) 
+Package Creator (via DISM) 
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
 - The package manifest determines how the package is treated. It contains the type of package, and optional install conditions.
@@ -80,7 +79,7 @@ The recovery environment you never knew you needed!
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-·    $haZZam command-line parameters 
+$haZZam command-line parameters 
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 -     $haZZam.cmd -help                                                    (This Menu)
 ·         (Image Management List Installer)
