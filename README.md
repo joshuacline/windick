@@ -1,8 +1,16 @@
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-#   $-h-@-Z-Z-@-m! 
+#   $-h-@-Z-Z-@-m!
+A native command shell Windows image deployment tool.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-· A native command shell Windows image deployment tool.
-- Administrate · Develop · Build · Dismantle · Backup · Test · Customize
+# Administrate · Develop · Build · Dismantle · Backup · Test · Customize
+From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
+- Windows-To-Go(USB) Windows-To-Stay(SSD)
+- Create lists to · Enable · Disable · Add · Delete · / · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
+- Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery, or even Live in Windows
+- Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
+- No dependencies or external applications, just $haZZam.cmd and Windows installation source
+- Customize Windows images with an endless number of packs/lists. Import/Export Drivers
+- Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
 ![Alt text](/png/0-0.png "Help Section")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 · To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
@@ -13,7 +21,8 @@
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
-- ![Alt text](/png/RamDisk.png "WinPE Ramdisk Mode")
+![Alt text](/png/RamDisk.png "WinPE Ramdisk Mode")
+The recovery environment you never knew you needed!
 - In Name-Mode, 1 VHDX boot slot is generated in the BCDSTORE and uses the name of the VHDX as the BCD description.
 - In Slot-Mode, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
@@ -113,7 +122,7 @@
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha!
 - All imaging operations occur inside of a Virtual Hard Disk Image,  leaving no garbage folders/files behind.
 - No dependencies, Just $haZZam.cmd and a Windows installation source.
-- Recommended to use windows ISO's build 22000+. Always use official sources, unless you're trying to analyze malware. (vhdx-boot w/host-partition-lock is a great way to do this...)
+- Recommended to use builds 22000+. Always use official sources, unless you're trying to analyze malware. (vhdx-boot w/host-partition-lock is a great way to do this...)
 - Currently $haZZam is made of 100% batch, no embedded scripts of any kind. That means no embedded:
 -      · powershell · visualbasic · java · any type of encoding or obfuscation. 
 - This program should always be in its raw and readable form, a .CMD file.  Which can be easily viewed and edited in notepad.
