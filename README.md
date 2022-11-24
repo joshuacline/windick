@@ -10,6 +10,7 @@ From boot to deploy, the one and only complete Windows image container-based dep
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery, or even Live in Windows
+- 10 Native VHDX-Boot slots are enabled in Slot-Mode for redundancy
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
@@ -26,8 +27,8 @@ Provided with a Windows installation source, $haZZam can create a simple yet rob
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
 ![Alt text](/png/RamDisk.png "WinPE Ramdisk Mode")
 The recovery environment you never knew you needed!
-- In Name-Mode, 1 VHDX boot slot is generated in the BCDSTORE and uses the name of the VHDX as the BCD description.
-- In Slot-Mode, 10 VHDX boot slots are generated in the BCDSTORE and are available for use.
+- In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE and uses the name of the VHDX as the BCD description.
+- In Slot-Mode, 10 VHDX-Boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
