@@ -4,13 +4,17 @@ A native command shell Windows image deployment tool.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
-- Windows-To-Go(USB) Windows-To-Stay(SSD)
-- Create lists to · Enable · Disable · Add · Delete · / · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
+- Windows-To-Go (USB) / Windows-To-Stay (SSD)
+- Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
+- List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live ·
+- Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
+-      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery, or even Live in Windows
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
+- Clean-room developed. Evolution & culmination of my personal deployment scripts, 7+ years in the making
 ![Alt text](/png/0-0.png "Help Section")
 To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -28,6 +32,9 @@ The recovery environment you never knew you needed!
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 ![Alt text](/png/5-3.png "Boot Creator")
+Boot Creator
+![Alt text](/png/21H2.png "Native VHDX Boot")
+Native VHDX-Boot W11 22H2
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
@@ -55,9 +62,9 @@ Image Managment (via DISM)
 ![Alt text](/png/1-2.png "Image Managment")
 - Apply these batch lists to :
 -      WIM · VHDX · LIVE
-- ![Alt text](/png/1-8.png "List-of-Lists")
+![Alt text](/png/1-8.png "List-of-Lists")
 - A List-of-Lists to combine multiple batch actions
-- ![Alt text](/png/1-7.png "List-of-Lists")
+![Alt text](/png/1-7.png "List-of-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Package Creator (via DISM) 
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
