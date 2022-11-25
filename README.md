@@ -4,13 +4,17 @@ A native command shell Windows image deployment tool.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
+- 
+- NEW FEATURE: Toggle between Recovery / VHDX-Boot priority from within recovery or live in Windows
+- NEW FEATURE: Autopilot scripted framework recovery-failover. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
+- 
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live ·
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
-- Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery, or even Live in Windows
-- 10 Native VHDX-Boot slots are enabled in Slot-Mode for redundancy
+- Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
+- 10 Native VHDX-Boot slots are enabled in Slot-Mode for redundancy.
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
@@ -39,6 +43,7 @@ Native VHDX-Boot W11 22H2
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
+- Toggle between Recovery & VHDX-Boot
 ![Alt text](/png/5-1.png "Disk Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 File Managment (via CMD's) with basic support for:
