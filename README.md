@@ -6,7 +6,7 @@ A native command shell Windows image deployment tool.
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
 - 
 - NEW FEATURE: Toggle between Recovery / VHDX-Boot priority from within recovery or live in Windows
-- NEW FEATURE: Autopilot scripted framework recovery-failover. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
+- NEW FEATURE: Autopilot scripted recovery-failover / boot-shuffler. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
 - 
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
