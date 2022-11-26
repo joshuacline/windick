@@ -2,10 +2,10 @@
 #   $-h-@-Z-Z-@-m!
 A native command shell Windows image deployment tool.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+Feedback: www.reddit.com/r/ShaZZam/
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
-- 
 - Autopilot: Automatically reboot to a customizable scripted recovery environment triggered by host OS events
 ![Alt text](/png/AutoPilot.png "AutoPilot")
 - NEW FEATURE: Autopilot scripted recovery-failover / boot-shuffler. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
