@@ -5,7 +5,7 @@ A native command shell Windows image deployment tool.
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
-The recovery environment you never knew you needed!
+The recovery environment you never knew you needed
 - Feedback: www.reddit.com/r/ShaZZam/
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
