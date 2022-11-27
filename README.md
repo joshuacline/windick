@@ -5,7 +5,9 @@ A native command shell Windows image deployment tool.
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
-The recovery environment you never knew you needed
+- The recovery environment you never knew you needed
+- Easily create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
+- Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: www.reddit.com/r/ShaZZam/
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
@@ -32,7 +34,6 @@ Provided with a Windows installation source, $haZZam can create a simple yet rob
 - In Slot-Mode, 10 VHDX-Boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
 - If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
-- Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 ![Alt text](/png/5-3.png "Boot Creator")
 Boot Creator
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
