@@ -5,6 +5,7 @@ A native command shell Windows image deployment tool.
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
+The recovery environment you never knew you needed!
 - Feedback: www.reddit.com/r/ShaZZam/
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
@@ -27,8 +28,6 @@ Provided with a Windows installation source, $haZZam can create a simple yet rob
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
-![Alt text](/png/RamDisk.png "WinPE Ramdisk Mode")
-The recovery environment you never knew you needed!
 - In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE and uses the name of the VHDX as the BCD description.
 - In Slot-Mode, 10 VHDX-Boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
@@ -36,8 +35,6 @@ The recovery environment you never knew you needed!
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 ![Alt text](/png/5-3.png "Boot Creator")
 Boot Creator
-![Alt text](/png/21H2.png "Native VHDX Boot")
-Native VHDX-Boot W11 22H2
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot: Automatically reboot to a customizable scripted recovery environment triggered by host OS events
 - NEW FEATURE: Autopilot scripted recovery-failover / boot-shuffler. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
