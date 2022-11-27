@@ -12,10 +12,10 @@ The recovery environment you never knew you needed!
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live ·
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
+- No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
 - 10 Native VHDX-Boot slots are enabled in Slot-Mode for redundancy.
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
-- No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
 - Clean-room developed. Evolution & culmination of my personal deployment scripts, 7+ years in the making
