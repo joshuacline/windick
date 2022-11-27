@@ -134,9 +134,8 @@ $haZZam command-line parameters
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha
 - All imaging operations occur inside of a Virtual Hard Disk Image,  leaving no garbage folders/files behind.
-- No dependencies, Just $haZZam.cmd and a Windows installation source.
 - Recommended to use builds 22000+. Always use official sources, unless you're trying to analyze malware. (vhdx-boot w/host-partition-lock is a great way to do this...)
-- Currently $haZZam is made of 100% batch, no embedded scripts of any kind. That means no embedded:
+- $haZZam is made of 100% batch, no embedded scripts of any kind. That means no embedded:
 -      · powershell · visualbasic · java · any type of encoding or obfuscation. 
 - This program should always be in its raw and readable form, a .CMD file.  Which can be easily viewed and edited in notepad.
 - Only download from github.com/joshuacline
