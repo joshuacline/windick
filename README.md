@@ -2,15 +2,11 @@
 #   $-h-@-Z-Z-@-m!
 A native command shell Windows image deployment tool.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Feedback: www.reddit.com/r/ShaZZam/
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
+![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
+- Feedback: www.reddit.com/r/ShaZZam/
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
-- Autopilot: Automatically reboot to a customizable scripted recovery environment triggered by host OS events
-![Alt text](/png/AutoPilot.png "AutoPilot")
-- NEW FEATURE: Autopilot scripted recovery-failover / boot-shuffler. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
-- NEW FEATURE: Toggle between Recovery / VHDX-Boot priority from within recovery or live in Windows
-- 
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live ·
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
@@ -42,6 +38,11 @@ The recovery environment you never knew you needed!
 Boot Creator
 ![Alt text](/png/21H2.png "Native VHDX Boot")
 Native VHDX-Boot W11 22H2
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+Autopilot: Automatically reboot to a customizable scripted recovery environment triggered by host OS events
+- NEW FEATURE: Autopilot scripted recovery-failover / boot-shuffler. AutoPilot.cmd must be in the main program folder or the operation will fail. Allows for condition based offline VHDX-backup/restore/swap/testing. The only condition to trigger this when enabled, is a reboot.
+- NEW FEATURE: Toggle between Recovery / VHDX-Boot priority from within recovery or live in Windows
+![Alt text](/png/AutoPilot.png "AutoPilot")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
