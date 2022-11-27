@@ -36,7 +36,9 @@ Provided with a Windows installation source, $haZZam can create a simple yet rob
 ![Alt text](/png/5-3.png "Boot Creator")
 Boot Creator
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Autopilot: Automatically reboot to a customizable scripted recovery environment triggered by host OS events
+Autopilot (via AutoPilot.cmd)
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+Automatically reboot to a customizable scripted recovery environment triggered by host OS events
 - AutoPilot.cmd must be in the main program folder or the operation will fail. 
 - Allows for condition based offline VHDX-backup/restore/swap/testing. 
 - Currently the only condition used to trigger this, when enabled, is a reboot/restart.
