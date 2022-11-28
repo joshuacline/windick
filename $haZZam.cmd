@@ -1465,7 +1465,7 @@ SET "EFI_TYPE=ALT"
 (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=Q noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"%TEMP%\DISK_PART"&&DISKPART /s "%TEMP%\DISK_PART"
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"%TEMP%\DISK_PART"&&DISKPART /s "%TEMP%\DISK_PART"
 IF EXIST "Q:\" IF EXIST "S:\" EXIT /B
-IF "%PART_CNT%"=="5" ECHO The operation may fail do to the drive being in use or incompatible...Continue to try?&&ECHO  {Z}Continue {Enter}Abort&&CALL SET "PROMPT_SET=PART_QUIT"&&CALL:PROMPT_SET
+IF "%PART_CNT%"=="5" ECHO The operation might fail because the drive is currently in use or incompatible...Continue to try?&&ECHO  {Z}Continue {Enter}Abort&&CALL SET "PROMPT_SET=PART_QUIT"&&CALL:PROMPT_SET
 IF "%PART_CNT%"=="25" ECHO  {Z}Continue {Enter}Abort&&CALL SET "PROMPT_SET=PART_QUIT"&&CALL:PROMPT_SET
 IF "%PART_CNT%"=="50" SET "PART_QUIT=1"
 IF DEFINED PART_QUIT EXIT /B
