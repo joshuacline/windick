@@ -15,7 +15,7 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
-- 10 Native VHDX-Boot slots are enabled in Slot-Mode for redundancy.
+- Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy.
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
@@ -29,10 +29,10 @@ Provided with a Windows installation source, $haZZam can create a simple yet rob
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
-- In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE and uses the name of the VHDX as the BCD description.
-- In Slot-Mode, 10 VHDX-Boot slots are generated in the BCDSTORE and are available for use.
-- In Slot-Mode, any VHDX's named between 0-9.VHDX located in the home folder are bootable and can be swapped if not currently active.
-- If you need redundancy I suggest starting with slot 5 first, giving you room to move in either direction.
+- In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE which uses the name of the VHDX for the boot-description.
+- In Slot-Mode, the user-specified number of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
+- In Slot-Mode, any VHDX's between the user-specified range of 0-9.VHDX located in the home folder are bootable and can be swapped when inactive.
+- If you need redundancy I suggest picking a middle slot, giving you room to move in either direction.
 ![Alt text](/png/5-3.png "Boot Creator")
 Boot Creator
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
