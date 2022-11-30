@@ -16,6 +16,7 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Mount deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
+- Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image.
 - Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy.
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
