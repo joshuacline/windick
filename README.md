@@ -6,11 +6,11 @@ A native command shell Windows image deployment tool.
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
 Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never knew you needed
-- Requirements for deploy-mode disk: UEFI bios + any SSD or USB
-- Requirements for VHDX-boot disk: UEFI bios + any SSD or premium USB
 - Easily create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: www.reddit.com/r/ShaZZam/
+- Requirements for deploy-mode disk: UEFI bios + any SSD or USB
+- Requirements for VHDX-boot disk: UEFI bios + any SSD or premium USB
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live ·
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
