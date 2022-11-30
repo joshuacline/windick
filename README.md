@@ -1,6 +1,5 @@
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-#   $-h-@-Z-Z-@-m!
-A native command shell Windows image deployment tool.
+$-h-@-Z-Z-@-m! A native command shell Windows image deployment tool
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 # Administrate · Develop · Build · Dismantle · Backup · Test · Customize
 From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
@@ -8,7 +7,7 @@ From boot to deploy, the one and only complete Windows image container-based dep
 Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never knew you needed
 - Easily create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
-- Feedback: www.reddit.com/r/ShaZZam/
+- Feedback: https://www.reddit.com/r/ShaZZam/
 - Requirements for deploy-mode disk: UEFI bios + any SSD or USB
 - Requirements for VHDX-boot disk: UEFI bios + any SSD or premium USB
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
@@ -16,12 +15,12 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
-- Mount, deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
+- Mount deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
 - Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy.
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
-- Clean-room developed. Evolution & culmination of my personal deployment scripts, 7+ years in the making
+- Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 ![Alt text](/png/0-0.png "Help Section")
 To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
