@@ -20,7 +20,7 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 - Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Practical Boot: Create a folder named "$" at the base of any seperate connected NTFS formatted drive. Place bootable VHDX images in folder
-- Secure-er Boot: Create a bootable USB disk used as a "boot-key" to be left in the PC during use, with all other connected drives being non-bootable. Place bootable images on seperate drive/s
+- Secure-er Boot: Create a bootable USB disk used as a "boot-key" to be left in the PC during boot, with all other connected drives being non-bootable. Place bootable images on seperate drive/s
 - Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot-list
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
