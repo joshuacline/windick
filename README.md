@@ -10,23 +10,28 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 - Feedback: https://www.reddit.com/r/ShaZZam/
 - Requirements for deploy-mode disk: UEFI bios + any SSD or USB
 - Requirements for VHDX-boot disk: UEFI bios + any SSD or premium USB
-- Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny ·
-- List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live ·
-- Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete ·
+- Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny
+- List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live
+- Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
+- All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind.
 - Mount deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
-- Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image.
-- Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy.
+- Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
+- Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
-- Practical Boot: Create a folder named "$" at the base of any seperate connected NTFS formatted drive.
-- Secure-er Boot: Create a bootable USB disk used as a "boot-key" to be left in the PC during use, with any other connected drives being non-bootable.
-- Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot-list.
+- Practical Boot: Create a folder named "$" at the base of any seperate connected NTFS formatted drive
+- Secure-er Boot: Create a bootable USB disk used as a "boot-key" to be left in the PC during use, with any other connected drives being non-bootable
+- Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot-list
+- Recommended to use Windows builds 22000+
+- Made of 100% batch. No embedded scripts of any kind. No:
+-      · powershell · visualbasic · java · any type of encoding or obfuscation
+- This program should always be in its readable form, a .CMD file
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 ![Alt text](/png/0-0.png "Help Section")
-To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
+To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -139,11 +144,5 @@ $haZZam command-line parameters
 -     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV -vhdx 123.VHDX
 ![Alt text](/png/0-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-- Customize with classic ascii themes straight from the 1970's, RGB or even the cha-cha
-- All imaging operations occur inside of a Virtual Hard Disk Image,  leaving no garbage folders/files behind.
-- Recommended to use builds 22000+. Always use official sources, unless you're trying to analyze malware. (vhdx-boot w/host-partition-lock is a great way to do this...)
-- $haZZam is made of 100% batch, no embedded scripts of any kind. That means no embedded:
--      · powershell · visualbasic · java · any type of encoding or obfuscation. 
-- This program should always be in its raw and readable form, a .CMD file.  Which can be easily viewed and edited in notepad.
 - Only download from github.com/joshuacline
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
