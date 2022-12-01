@@ -21,6 +21,9 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Customize Windows images with an endless number of packs/lists. Import/Export Drivers
 - Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
+- Practical Boot: Create a folder named "$" on any seperate connected NTFS formatted drive.
+- Secure-er Boot: Create a bootable USB disk used as a "boot-key" to be left in the PC during use, with any other connected drives being non-bootable.
+- Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot list.
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 ![Alt text](/png/0-0.png "Help Section")
 To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd.
