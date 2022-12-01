@@ -28,7 +28,6 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 - Recommended to use Windows builds 22000+
 - Made of 100% batch. No embedded scripts of any kind. No:
 -      · powershell · visualbasic · java · any type of encoding or obfuscation
-- This program should always be in its readable form, a .CMD file
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 ![Alt text](/png/0-0.png "Help Section")
 To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
