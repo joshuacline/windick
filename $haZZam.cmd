@@ -1427,6 +1427,7 @@ REM PART_CREATE_PART_CREATE_PART_CREATE_PART_CREATE_PART_CREATE_PART_CREATE
 CALL:PART_UNMOUNT
 CALL:DISKMGR_ERASE
 SET /A PART_CNT+=1
+IF "%PART_CNT%" NEQ "3" SET "DEPLOY_MODE="
 (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition EFI size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=Q noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"%TEMP%\DISK_PART"&&DISKPART /s "%TEMP%\DISK_PART"
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"%TEMP%\DISK_PART"&&DISKPART /s "%TEMP%\DISK_PART"
 IF EXIST "Q:\" IF EXIST "S:\" EXIT /B
