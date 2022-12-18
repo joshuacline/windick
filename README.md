@@ -6,7 +6,7 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: https://www.reddit.com/r/ShaZZam/
-- Requirements for deploy-mode disk: UEFI bios + any SSD or USB
+- Requirements for deploy-mode (Setup) disk: UEFI bios + any SSD or USB
 - Requirements for VHDX-boot disk: UEFI bios + any SSD or premium USB
 - Package Creator (.$PK) · Driver · Scripted · Storage · Approve/Deny
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live
