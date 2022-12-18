@@ -13,19 +13,19 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
-- Mount deploy and administrate virtual hard disk images (VHDX) and WIM's from within recovery or live in Windows
+- Mount deploy and administrate virtual hard disk images (VHDX) & WIM's from within recovery or live
 - Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
 - Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Easy Boot: Stock configuration. VHDX images are stored on partition 2 of the boot-drive
 - Spanning Boot: Create a folder named "$" at the base of any other connected NTFS formatted drive. Place bootable VHDX images in folder
-- Secure-er Boot: Create a bootable USB disk used as a "boot-key" to be left in the PC during boot, with all other connected drives being non-bootable. Place bootable VHDX images on seperate drive/s
+- Secure-er  Boot: Create a bootable USB disk used as a "boot-key" left in the PC during boot, all other connected drives being non-bootable. Place bootable VHDX images on seperate drive/s
 - Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot-list
-- Express image forensics of WIM/VHDX/LIVE - Inspect your images with a single button. Generate a list of registry startup items, services, tasks, appX, features and components
-- Customize Windows images with an endless number of packs/lists. Import/Export Drivers
+- Express image forensics of WIM/VHDX/LIVE - Generate a list of registry startup items, services, tasks, appX, features and components
+- Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
 - Made of 100% batch. No embedded scripts of any kind. No:
--      · powershell · visualbasic · java · any type of encoding or obfuscation
+-      · powershell · visualbasic · java · encoding or obfuscation
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 - To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 ![Alt text](/png/0-0.png "Help Section")
