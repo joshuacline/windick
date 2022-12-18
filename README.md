@@ -31,8 +31,7 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 ![Alt text](/png/0-0.png "Help Section")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
+- Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
@@ -44,17 +43,16 @@ Provided with a Windows installation source, $haZZam can create a simple yet rob
 Boot Creator
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot (via AutoPilot.cmd)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Automatically reboot to a customizable scripted recovery environment triggered by host OS events
+- Automatically reboot to a customizable scripted recovery environment triggered by host OS events
 - AutoPilot.cmd must be in the main program folder or the operation will fail. 
 - Allows for condition based offline VHDX-backup/restore/swap/testing. 
-- Currently the only condition used to trigger this, when enabled, is a reboot/restart.
+- Currently the condition used to trigger this when enabled is a reboot/restart.
 ![Alt text](/png/AutoPilot.png "AutoPilot")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
-![Alt text](/png/5-1.png "Disk Managment")
 - Toggle between Recovery & VHDX-Boot
+![Alt text](/png/5-1.png "Disk Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 File Managment (via CMD's) with basic support for:
 -      open · duplicate · copy · rename · move · delete · take ownership+grant perm · symbolic link creation
@@ -65,7 +63,6 @@ Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for 
 ![Alt text](/png/2-1.png "Image Processing")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Image Managment (via DISM)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 ![Alt text](/png/1-1.png "Image Managment")
 - Express Image Forensics of:
 -      VHDX · WIM · LIVE
@@ -83,7 +80,6 @@ Image Managment (via DISM)
 ![Alt text](/png/1-7.png "List-of-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Package Creator (via DISM) 
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
 - The package manifest determines how the package is treated. It contains the type of package, and optional install conditions.
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
@@ -103,7 +99,6 @@ Package Creator (via DISM)
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 $haZZam command-line parameters 
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 -     $haZZam.cmd -help                                                    (This Menu)
 ·         (Image Management List Installer)
 -      $haZZam.cmd -listmgr -install -list xyz.lst                         (Live-Install Package-List)
@@ -142,4 +137,3 @@ $haZZam command-line parameters
 ![Alt text](/png/0-2.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Only download from github.com/joshuacline
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
