@@ -1,11 +1,9 @@
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-$-h-@-Z-Z-@-m! A native command shell Windows image deployment tool
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-# Administrate · Develop · Build · Dismantle · Backup · Test · Customize
-From boot to deploy, the one and only complete Windows image container-based deployment recovery solution.
+$haZZam! A native command shell Windows image deployment tool
+- Administrate · Develop · Build · Dismantle · Backup · Test · Customize
+- From boot to deploy, the one and only complete Windows image container-based recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
-Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never knew you needed
-- Easily create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
+Windows-To-Go (USB) / Windows-To-Stay (SSD)
+- Create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: https://www.reddit.com/r/ShaZZam/
 - Requirements for deploy-mode disk: UEFI bios + any SSD or USB
@@ -29,8 +27,8 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD) - The recovery environment you never
 - Made of 100% batch. No embedded scripts of any kind. No:
 -      · powershell · visualbasic · java · any type of encoding or obfuscation
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
+- To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 ![Alt text](/png/0-0.png "Help Section")
-To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
