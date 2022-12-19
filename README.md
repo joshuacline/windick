@@ -35,8 +35,8 @@ Boot Creator (via Diskpart+DISM)
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
-- In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE which uses the name of the VHDX for the boot-description.
-- In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
+- In Name-Mode, 1 VHDX-Boot slot is generated in the BCD store which uses the name of the VHDX for the boot-description.
+- In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCD store and are available for use.
 - In Slot-Mode, any VHDX's between the user-specified range (max 0-9.VHDX) located in the home folder are bootable and can be swapped when inactive.
 - If you need redundancy I suggest picking a middle slot, giving you room to move in either direction.
 ![Alt text](/png/5-3.png "Boot Creator")
