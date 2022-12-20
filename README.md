@@ -12,6 +12,13 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
+
+- Two-way (read/write) parse system. Chuck lists like nobody's business.
+- Here's a set of Appx/Components/Features/Services/Tasks list-base excerpts generated from a 22H2 image viewed in notepad.exe:
+![Alt text](/png/MLB_MST.png "List-Base Extract")
+- New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
+- Here's the contents of a .MLB viewed in 7zip:
+![Alt text](/png/7zMLB.png "List-Base Extract")
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Mount deploy and administrate virtual hard disk images (VHDX) & WIM's from within recovery or live
 - Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
