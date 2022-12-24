@@ -3,7 +3,7 @@ $haZZam! A native command shell Windows image deployment tool
 - From boot to deploy, the one and only complete Windows image container-based recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
 Windows-To-Go (USB) / Windows-To-Stay (SSD)
-- Create a Windows 11 22H2 Native VHDX-Boot USB in 5 minutes
+- Create a secure-boot compatible W11 22H2 VHDX-Boot USB in 5 minutes 
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: https://www.reddit.com/r/ShaZZam/
 - Requirements for deploy-mode (Setup) disk: UEFI bios + any SSD or USB
@@ -21,7 +21,7 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Spanning Boot: Create a folder named "$" at the base of any other connected NTFS formatted drive. Place bootable VHDX images in folder
 - Secure-er  Boot: Create a bootable USB disk used as a "boot-key" left in the PC during boot, all other connected drives being non-bootable. Place bootable VHDX images on seperate drive/s
 - Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot-list
-- Express image forensics of WIM/VHDX/LIVE - Generate a list of registry startup items, services, tasks, appX, features and components
+- Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
 - Made of 100% batch. No embedded scripts of any kind. No:
@@ -40,22 +40,23 @@ List Parser
 - ![Alt text](/png/Sandwich.png "Sandwich-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
+
 - Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
-- In Name-Mode, 1 VHDX-Boot slot is generated in the BCD store which uses the name of the VHDX for the boot-description.
-- In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCD store and are available for use.
-- In Slot-Mode, any VHDX's between the user-specified range (max 0-9.VHDX) located in the home folder are bootable and can be swapped when inactive.
-- If you need redundancy I suggest picking a middle slot, giving you room to move in either direction.
+- In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE which uses the name of the VHDX for the boot-description.
+- In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
+- In Slot-Mode, any VHDX's between the specified range (max 0-9.VHDX) located in the home folder are bootable and can be swapped when inactive.
+- If you need redundancy pick a middle slot, giving you room to move in either direction.
 ![Alt text](/png/5-3.png "Boot Creator")
-Boot Creator
+- Boot Creator
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot (via AutoPilot.cmd)
 - Automatically reboot to a customizable scripted recovery environment triggered by host OS events
 - AutoPilot.cmd must be in the main program folder or the operation will fail. 
-- Allows for condition based offline VHDX-backup/restore/swap/testing. 
-- Currently the condition used to trigger this when enabled is a reboot/restart.
+- Allows for condition/timed VHDX-backup/restore/swap/testing.
+- Currently the only condition used to trigger this, when enabled, is a reboot/restart.
 ![Alt text](/png/AutoPilot.png "AutoPilot")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Disk Managment (via DiskPart) with basic support for:
