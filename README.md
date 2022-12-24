@@ -32,11 +32,12 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 List Parser
 - Two-way (read/write) parse system. Chuck lists like nobody's business.
-- Here's a set of Appx/Components/Features/Services/Tasks list-base excerpts generated from a 22H2 image viewed in notepad.exe:
+- Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
 - ![Alt text](/png/MLB_MST.png "List-Base Extract")
 - New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
-- Here's the contents of a .MLB viewed in 7zip:
-- ![Alt text](/png/7zMLB.png "MLB Archive")
+- New in 1.1.0.7: Sandwich list (combined+vertically stacked)
+- Comment + layer-change trigger
+- ![Alt text](/png/Sandwich.png "Sandwich-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
 - Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
