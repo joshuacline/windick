@@ -723,10 +723,11 @@ EXIT /B
 ECHO.>>"%CACHE_FOLDER%\%NEW_NAME%.LST" 
 EXIT /B
 :IMAGEMGR_LIST_MAIN
-CLS&&CALL:PAD_LINE&&ECHO                         $haZZam^^! List Creator&&CALL:PAD_LINE&&SET "CORRUPT_FLAG="&&SET "LIST_FMT=NUMERAL"&&SET "LIST_INSERTA= [ * ]\[List-of-Lists]"&&SET "LIST_INSERTB= [ + ]\[Sandwich-List]"&&SET "LIST_INSERTC= [ I ]\[ImageApply[$PK]"&&SET "LIST_INSERTD= [ C ]\[ImageApply[CAB]"&&SET "LIST_DIR=%CACHE_FOLDER%\*.MLB"&&SET "LIST_INSERTE= [ M ]\[ImageApply[MSU]"&&SET "LIST_INSERTF= [ S ]\[SetupComplete[$PK]"&&SET "LIST_INSERTG= [ R ]\[RunOnce[$PK]"&&SET "LIST_PAD1=1"&&SET "LIST_INSERTJ= [ # ]\[Create List-Base[MLB]"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a {#} To Start a New List&&CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu&&CALL:MENU_SELECT
-IF "%SELECT%"=="#" SET "LIST_CREATE=LIST-BASE"&&CALL:LIST_BASE_CREATE
+CLS&&CALL:PAD_LINE&&SET "CORRUPT_FLAG="&&ECHO                         $haZZam^^! List Creator&&CALL:PAD_LINE&&ECHO  [ C ]\[ImageApply[CAB]&&ECHO  [ M ]\[ImageApply[MSU]&&ECHO  [ I ]\[ImageApply[$PK]&&ECHO  [ S ]\[SetupComplete[$PK]&&ECHO  [ R ]\[RunOnce[$PK]&&CALL:PAD_LINE&&ECHO  [ - ]\[List-of-Lists]&&ECHO  [ + ]\[Sandwich-List]&&CALL:PAD_LINE&&SET "LIST_INSERTA= [ * ]\[Create List-Base[MLB]"
+SET "LIST_FMT=NUMERAL"&&SET "LIST_DIR=%CACHE_FOLDER%\*.MLB"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a {#} To Start a New List&&CALL:PAD_LINE&&ECHO                Press (Enter) to Return to Previous Menu&&CALL:MENU_SELECT
+IF "%SELECT%"=="*" SET "LIST_CREATE=LIST-BASE"&&CALL:LIST_BASE_CREATE
+IF "%SELECT%"=="-" SET "LIST_CREATE=LOL"&&CALL:LIST_LOL_CREATE
 IF "%SELECT%"=="+" SET "LIST_CREATE=SANDWICH"&&CALL:LIST_LOL_CREATE
-IF "%SELECT%"=="*" SET "LIST_CREATE=LOL"&&CALL:LIST_LOL_CREATE
 IF "%SELECT%"=="C" SET "LIST_CREATE=IMAGE-APPLY"&&SET "PACK_TYPE=CAB"&&CALL:LIST_PACK_CREATE
 IF "%SELECT%"=="M" SET "LIST_CREATE=IMAGE-APPLY"&&SET "PACK_TYPE=MSU"&&CALL:LIST_PACK_CREATE
 IF "%SELECT%"=="I" SET "LIST_CREATE=IMAGE-APPLY"&&SET "PACK_TYPE=$PK"&&CALL:LIST_PACK_CREATE
