@@ -20,8 +20,6 @@ $haZZam! A native command shell Windows image deployment tool
 - Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
-- Made of 100% batch. No embedded scripts of any kind. No:
--      · powershell · visualbasic · java · encoding or obfuscation
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 - To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 ![Alt text](/png/HelpMenu1.png "HelpMenu")
@@ -42,10 +40,9 @@ Boot Creator (via Diskpart+DISM)
 ![Alt text](/png/BootCreator1.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot (via AutoPilot.cmd)
-- Automatically reboot to a customizable scripted recovery environment triggered by host OS events
+- Automatically reboot to a customizable scripted recovery environment
 - AutoPilot.cmd must be in the main program folder or the operation will fail. 
 - Allows for condition/timed VHDX-backup/restore/swap/testing.
-- Currently the only condition used to trigger this, when enabled, is a reboot/restart.
 ![Alt text](/png/AutoPilot.png "AutoPilot")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Disk Managment (via DiskPart) with basic support for:
@@ -62,23 +59,19 @@ Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for 
 ![Alt text](/png/ImageProc1.png "Image Processing")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Image Managment (via DISM)
+- Two-way (read/write) parse system. Chuck lists like nobody's business.
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
 ![Alt text](/png/ImageMgr1.png "Image Managment")
 - Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
 ![Alt text](/png/ListApply1.png "Apply-Lists")
-- Combine multiple actions with a list-of-lists or stacked-lists
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-List Builder
-- Two-way (read/write) parse system. Chuck lists like nobody's business.
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
 ![Alt text](/png/MLB_MST.png "List-Base Extract")
 - New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
-- New in 1.1.0.7: Sandwich list (combined+vertically stacked)
-- Comment + layer-change trigger
+- Combine multiple actions with a list-of-lists or stacked-lists
 ![Alt text](/png/Sandwich.png "Sandwich-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-- Package Creator (via DISM) 
+Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
 - The package manifest determines how the package is treated. It contains the type of package, and optional install conditions.
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
