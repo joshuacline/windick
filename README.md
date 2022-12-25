@@ -24,7 +24,7 @@ $haZZam! A native command shell Windows image deployment tool
 -      · powershell · visualbasic · java · encoding or obfuscation
 - Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
 - To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
-![Alt text](/png/0-0.png "Help Section")
+![Alt text](/png/HelpMenu1.png "HelpMenu")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
 - Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
@@ -66,7 +66,7 @@ Image Managment (via DISM)
 -     AppX · Features · Components · Services · Tasks · Updates
 ![Alt text](/png/ImageMgr1.png "Image Managment")
 - Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
-![Alt text](/png/1-8.png "Apply-Lists")
+![Alt text](/png/ListApply1.png "Apply-Lists")
 - Combine multiple actions with a list-of-lists or stacked-lists
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 List Builder
@@ -84,10 +84,10 @@ List Builder
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
 - Driver Packages · export/import with a button.
 - Storage - Not the best compression ratio, but the option is there.
-![Alt text](/png/3-2.png "Package Creator")
+![Alt text](/png/PackDriver1.png "Package Creator")
 - Create optional $PK package installation conditions. (basic approval/denial)
 - For now, the condition system is registry query based only. There is a demo example included.
-![Alt text](/png/3-1.png "Package Creator")
+![Alt text](/png/PackScripted1.png "Package Creator")
 - A few of the built-in package examples to get you started:
 -      · Strict LSA Rules · UAC Always · Store/OneDrive/Cloud/Wakelocks/Pagefile Disable ·
 -      · User/Admin Account Creation · Import/Export Firewall Rules · Unattend.XML · General MSI/Setup.exe examples
@@ -132,6 +132,6 @@ $haZZam command-line parameters
 -     The specified boot-media and VHDX must be in the main program folder or the operation will fail.
 -     $haZZam.cmd -bootmaker -create -disk 0 -src BOOT.WIM -vhdx 123.VHDX
 -     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV -vhdx 123.VHDX
-![Alt text](/png/0-2.png "Boot Creator")
+![Alt text](/png/Command1.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Only download from github.com/joshuacline
