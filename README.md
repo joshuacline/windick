@@ -60,11 +60,11 @@ Autopilot (via AutoPilot.cmd)
 Disk Managment (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
 - Toggle between Recovery & VHDX-Boot
-![Alt text](/png/5-1.png "Disk Managment")
+![Alt text](/png/DiskMgr1.png "Disk Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 File Managment (via CMD's) with basic support for:
 -      open · duplicate · copy · rename · move · delete · take ownership+grant perm · symbolic link creation
-![Alt text](/png/4-1.png "File Managment")
+![Alt text](/png/FileMgr1.png "File Managment")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
 -      WIM · VHDX 
