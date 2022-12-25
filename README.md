@@ -81,7 +81,7 @@ Image Managment (via DISM)
 - Apply these lists to : WIM · VHDX · LIVE
 ![Alt text](/png/1-8.png "List-of-Lists")
 - Combine multiple actions with a list-of-lists or stacked-lists
-![Alt text](/png/1-7.png "List-of-Lists")
+![Alt text](/png/ImageMgr3.png "List-of-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
