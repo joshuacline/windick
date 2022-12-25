@@ -2,7 +2,7 @@ $haZZam! A native command shell Windows image deployment tool
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize · Automate
 - From boot to deploy, the one and only complete Windows image container-based recovery solution.
 ![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
-Windows-To-Go (USB) / Windows-To-Stay (SSD)
+- Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Create a secure-boot compatible W11 22H2 VHDX-Boot USB in 5 minutes 
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: https://www.reddit.com/r/ShaZZam/
@@ -17,10 +17,6 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
 - Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
-- Easy Boot: Stock configuration. VHDX images are stored on partition 2 of the boot-drive
-- Spanning Boot: Create a folder named "$" at the base of any other connected NTFS formatted drive. Place bootable VHDX images in folder
-- Secure-er  Boot: Create a bootable USB disk used as a "boot-key" left in the PC during boot, all other connected drives being non-bootable. Place bootable VHDX images on seperate drive/s
-- Virtual hard disk images named between 0-9.VHDX will be detected across drives during boot and added to the boot-list
 - Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
@@ -30,27 +26,29 @@ Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 ![Alt text](/png/0-0.png "Help Section")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-List Parser
+List Builder
 - Two-way (read/write) parse system. Chuck lists like nobody's business.
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
-- ![Alt text](/png/MLB_MST.png "List-Base Extract")
+![Alt text](/png/MLB_MST.png "List-Base Extract")
 - New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
 - New in 1.1.0.7: Sandwich list (combined+vertically stacked)
 - Comment + layer-change trigger
-- ![Alt text](/png/Sandwich.png "Sandwich-list")
+![Alt text](/png/Sandwich.png "Sandwich-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
-
 - Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
+- Easy Boot: Stock configuration. VHDX images are stored on partition 2 of the boot-drive
+- Spanning Boot: Create a folder named "$" at the base of any other connected NTFS formatted drive. Place bootable VHDX images in folder
+- Secure-key Boot: Create a bootable USB disk used as a "boot-key" left in the PC during boot, all other connected drives being non-bootable. Place bootable VHDX images on a seperate drive
+- Virtual hard disk images (slot/0-9.vhdx , name/pre-specified) are detected across NTFS drives during boot and added to the boot-list
 - In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE which uses the name of the VHDX for the boot-description.
 - In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's between the specified range (max 0-9.VHDX) located in the home folder are bootable and can be swapped when inactive.
-- If you need redundancy pick a middle slot, giving you room to move in either direction.
-![Alt text](/png/5-3.png "Boot Creator")
-- Boot Creator
+- Pick a middle slot, giving you room to move in either direction.
+![Alt text](/png/BootCreator1.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot (via AutoPilot.cmd)
 - Automatically reboot to a customizable scripted recovery environment triggered by host OS events
@@ -73,23 +71,19 @@ Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for 
 ![Alt text](/png/2-1.png "Image Processing")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Image Managment (via DISM)
-![Alt text](/png/1-1.png "Image Managment")
-- Express Image Forensics of:
--      VHDX · WIM · LIVE
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
+![Alt text](/png/ImageMgr1.png "Image Managment")
+![Alt text](/png/ImageMgr2.png "Image Managment")
 ![Alt text](/png/1-5.png "Image Managment")
 ![Alt text](/png/1-6.png "Image Managment")
-- Create lists to Install:
--      MSU · CAB · $PK
-![Alt text](/png/1-2.png "Image Managment")
-- Apply these batch lists to :
--      WIM · VHDX · LIVE
+- Create lists to Install: MSU · CAB · $PK
+- Apply these lists to : WIM · VHDX · LIVE
 ![Alt text](/png/1-8.png "List-of-Lists")
-- A List-of-Lists to combine multiple batch actions
+- Combine multiple actions with a list-of-lists or stacked-lists
 ![Alt text](/png/1-7.png "List-of-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Package Creator (via DISM) 
+- Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
 - The package manifest determines how the package is treated. It contains the type of package, and optional install conditions.
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
