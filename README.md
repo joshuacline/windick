@@ -26,15 +26,6 @@ $haZZam! A native command shell Windows image deployment tool
 - To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 ![Alt text](/png/0-0.png "Help Section")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-List Builder
-- Two-way (read/write) parse system. Chuck lists like nobody's business.
-- Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
-![Alt text](/png/MLB_MST.png "List-Base Extract")
-- New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
-- New in 1.1.0.7: Sandwich list (combined+vertically stacked)
-- Comment + layer-change trigger
-![Alt text](/png/Sandwich.png "Sandwich-list")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
 - Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
@@ -74,14 +65,18 @@ Image Managment (via DISM)
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
 ![Alt text](/png/ImageMgr1.png "Image Managment")
-![Alt text](/png/ImageMgr2.png "Image Managment")
-![Alt text](/png/1-5.png "Image Managment")
-![Alt text](/png/1-6.png "Image Managment")
-- Create lists to Install: MSU · CAB · $PK
-- Apply these lists to : WIM · VHDX · LIVE
-![Alt text](/png/1-8.png "List-of-Lists")
+- Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
+![Alt text](/png/1-8.png "Apply-Lists")
 - Combine multiple actions with a list-of-lists or stacked-lists
-![Alt text](/png/ImageMgr3.png "List-of-Lists")
+#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+List Builder
+- Two-way (read/write) parse system. Chuck lists like nobody's business.
+- Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
+![Alt text](/png/MLB_MST.png "List-Base Extract")
+- New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
+- New in 1.1.0.7: Sandwich list (combined+vertically stacked)
+- Comment + layer-change trigger
+![Alt text](/png/Sandwich.png "Sandwich-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 - Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
@@ -96,7 +91,6 @@ Image Managment (via DISM)
 - A few of the built-in package examples to get you started:
 -      · Strict LSA Rules · UAC Always · Store/OneDrive/Cloud/Wakelocks/Pagefile Disable ·
 -      · User/Admin Account Creation · Import/Export Firewall Rules · Unattend.XML · General MSI/Setup.exe examples
-![Alt text](/png/3-3.png "Package Creator")
 - Package installation timing granularity for different use cases:
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
