@@ -20,7 +20,8 @@ $haZZam! A native command shell Windows image deployment tool
 - Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
-- Clean-room developed. Evolution of my personal deployment scripts, 7+ years in the making
+- Clean-room developed. Evolution of my personal deployment scripts.
+- Oddly robust. Large blocks of code formatted within each condensed line. Unique, flexible modular design.
 - To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
 ![Alt text](/png/HelpMenu1.png "HelpMenu")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
