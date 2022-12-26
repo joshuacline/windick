@@ -37,7 +37,7 @@ Boot Creator (via Diskpart+DISM)
 - In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's between the specified range (max 0-9.VHDX) located in the home folder are bootable and can be swapped when inactive.
 - Pick a middle slot, giving you room to move in either direction.
-![Alt text](/png/BootCreator1.png "Boot Creator")
+![Alt text](/png/BootCreatorMain1.png "Boot Creator")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot (via AutoPilot.cmd)
 - Automatically reboot to a customizable scripted recovery environment
@@ -56,13 +56,13 @@ File Managment (via CMD's) with basic support for:
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
 -      WIM · VHDX 
-![Alt text](/png/ImageProc1.png "Image Processing")
+![Alt text](/png/ImageProcMain1.png "Image Processing")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Image Managment (via DISM)
 - Two-way (read/write) parse system. Chuck lists like nobody's business.
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
-![Alt text](/png/ImageMgr1.png "Image Managment")
+![Alt text](/png/ImageMgrMain1.png "Image Managment")
 - Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
 ![Alt text](/png/ListApply1.png "Apply-Lists")
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
