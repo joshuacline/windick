@@ -16,7 +16,6 @@ $haZZam! A native command shell Windows image deployment tool
 - Mount deploy and administrate virtual hard disk images (VHDX) & WIM's from within recovery or live
 - Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
-- Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
 - Clean-room developed. Evolution of my personal deployment scripts
