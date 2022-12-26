@@ -1,7 +1,7 @@
 $haZZam! A native command shell Windows image deployment tool
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize · Automate
 - From boot to deploy, the one and only complete Windows image container-based recovery solution.
-![Alt text](/png/Triple.png "W11 VHDX-Boot Menu")
+![Alt text](/png/Triple2.png "W11 VHDX-Boot Menu")
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Create a secure-boot compatible W11 22H2 VHDX-Boot USB in 5 minutes 
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
@@ -15,7 +15,6 @@ $haZZam! A native command shell Windows image deployment tool
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Mount deploy and administrate virtual hard disk images (VHDX) & WIM's from within recovery or live
 - Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
-- Up to 10 Native VHDX-Boot slots are available in Slot-Mode for redundancy
 - Simplified 2 partition system. EFI / Data only. No MSR, no WinRE, no B.S. - Windows is contained in a single VHDX file
 - Generate a list of registry startup items, services, tasks, appX, features and components
 - Customize Windows images with packs/lists. Import/Export Drivers
