@@ -420,7 +420,7 @@ IF "%SELECT%"=="   " SET "EXIT_FLAGGER=1"
 IF NOT DEFINED SELECT SET "EXIT_FLAGGER=1"
 EXIT /B
 :PAUSED
-SET /P "PAUSED= Press (Enter) to continue..."
+SET /P PAUSED=.                      Press (Enter) to continue...
 EXIT /B
 :TITLECARD
 IF "%PROG_MODE%"=="PORTABLE" CALL:TITLECARD_NML
@@ -765,7 +765,7 @@ CLS&&CALL:PAD_LINE&&ECHO                         $haZZam^^! File Picker&&CALL:PA
 ECHO   AVAILABLE VHDX'S:&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                 Enter # To Use As Source For List-Base&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 CALL:EXIT_FLAGGER
 IF "%EXIT_FLAGGER%"=="1" EXIT /B
-CALL:PAD_LINE&&ECHO                          Name of the list-base?&&CALL:PAD_LINE&&ECHO.&&SET "PROMPT_SET=NEW_NAME"&&CALL:PROMPT_SET_ANY
+CALL:PAD_LINE&&ECHO                         Name of the list-base?&&CALL:PAD_LINE&&ECHO.&&SET "PROMPT_SET=NEW_NAME"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED NEW_NAME EXIT /B
 IF "%SELECT%"=="@" SET "LIVE_APPLY=1"&&GOTO:LIVE_APPLY_BASE_SKIP
 IF NOT EXIST "%IMAGE_FOLDER%\%SELECT%" CALL:FILE_LIST >NUL
@@ -784,26 +784,26 @@ ECHO.FEATURES-MASTER>"%MLB%\Features.MST"
 ECHO.PACKAGES-MASTER>"%MLB%\Components.MST"
 ECHO.SERVICES-MASTER>"%MLB%\Services.MST"
 ECHO.TASKS-MASTER>"%MLB%\Tasks.MST"
-ECHO   Getting appx listing...&&CALL:IF_LIVE2
+ECHO   Getting appx listing..&&CALL:IF_LIVE2
 SET "BASETMP=AppX"&&DISM /%APPLY_TARGET% /GET-Provisionedappxpackages>"$TMP.TXT"
 FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($TMP.TXT) DO (IF "%%a"=="PackageName" CALL SET "BASECAP=%%b%%c%%d%%e%%f%%g%%h%%i"&&CALL:BASECAP)
-ECHO   [DONE]&&ECHO   Getting feature listing...
+ECHO   [DONE]&&ECHO   Getting feature listing..
 SET "BASETMP=Features"&&DISM /%APPLY_TARGET% /GET-FEATURES>"$TMP.TXT"
 FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($TMP.TXT) DO (IF "%%a %%b"=="Feature Name" CALL SET "BASECAP=%%c%%d%%e%%f%%g%%h%%i"&&CALL:BASECAP)
-ECHO   [DONE]&&ECHO   Getting component listing...&&CALL:IF_LIVE1
+ECHO   [DONE]&&ECHO   Getting component listing....&&CALL:IF_LIVE1
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages" /f Visibility /c /e /s>"$TMP2.TXT"
 FOR /F "TOKENS=1-9 DELIMS= " %%a in ($TMP2.TXT) DO (IF "%%b"=="Based" REG ADD "%%a %%b %%c" /V "Visibility" /T REG_DWORD /D "1" /F>NUL 2>&1)
 CALL:IF_LIVE2
 SET "BASETMP=Components"&&DISM /%APPLY_TARGET% /GET-PACKAGES>"$TMP.TXT"
 FOR /F "TOKENS=1-9 DELIMS= " %%a in ($TMP2.TXT) DO (IF "%%b"=="Based" REG ADD "%%a %%b %%c" /V "Visibility" /T REG_DWORD /D "2" /F>NUL 2>&1)
 FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($TMP.TXT) DO (IF "%%a %%b"=="Package Identity" CALL SET "BASECAP=%%c%%d%%e%%f%%g%%h%%i"&&CALL:BASECAP)
-ECHO   [DONE]&&ECHO   Getting service listing...&&CALL:IF_LIVE1
+ECHO   [DONE]&&ECHO   Getting service listing..&&CALL:IF_LIVE1
 SET "BASETMP=Services"&&REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services" /f Type /c /e /s>"$TMP.TXT"
 FOR /F "TOKENS=1-9 DELIMS=\ " %%a in ($TMP.TXT) DO (IF "%%a"=="HKEY_LOCAL_MACHINE" IF NOT "%%e"=="" CALL SET "BASECAP=%%e%%f%%g%%h%%i"
 IF "%%a"=="Type" IF "%%c"=="0x10" CALL:BASECAP
 IF "%%a"=="Type" IF "%%c"=="0x20" CALL:BASECAP
 IF "%%a"=="Type" IF "%%c"=="0x60" CALL:BASECAP)
-ECHO   [DONE]&&ECHO   Getting task listing...
+ECHO   [DONE]&&ECHO   Getting task listing..
 SET "BASETMP=Tasks"&&REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks" /f Path /c /e /s>"$TMP.TXT"
 FOR /F "TOKENS=1* DELIMS=\" %%a in ($TMP.TXT) DO (IF "%%a"=="    Path    REG_SZ    " CALL SET "BASECAP=%%b"&&CALL:BASECAP)
 DISM /CAPTURE-IMAGE /CAPTUREDIR:"%MLB%" /IMAGEFILE:"%CACHE_FOLDER%\%NEW_NAME%.MLB" /COMPRESS:FAST /NAME:"%NEW_NAME%" /CheckIntegrity /Verify>NUL 2>&1
@@ -814,7 +814,7 @@ CALL:MOUNT_INT&&CALL:VDISK_DETACH&&CALL:TITLECARD
 IF NOT DEFINED LIVE_APPLY CALL:SCRATCHDIR_DELETE
 DEL /F $TMP* >NUL 2>&1
 IF DEFINED ERR_MSG ECHO %ERR_MSG%
-CALL:PAD_LINE&&ECHO                       End of List-Base Creation&&CALL:PAD_LINE&&CALL:TITLECARD
+CALL:PAD_LINE&&ECHO                         End of List-Base Creation&&CALL:PAD_LINE&&CALL:TITLECARD
 DEL /F "$TMP.TXT">NUL 2>&1
 CALL:PAUSED
 EXIT /B
