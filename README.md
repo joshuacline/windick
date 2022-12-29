@@ -90,6 +90,7 @@ Package Creator (via DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 $haZZam command-line parameters 
 -     $haZZam.cmd -help                                                    (This Menu)
+-     $haZZam.cmd -arg                                                     (1st arg=arguement test. Last arg=exec+test)
 ·         (Image Management List Installer)
 -      $haZZam.cmd -listmgr -install -list xyz.lst                         (Live-Install Package-List)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
