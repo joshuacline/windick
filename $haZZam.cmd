@@ -182,6 +182,7 @@ EXIT /B
 SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                $HAZZAM COMMAND-LINE PARAMETERS:&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO        NOTE: YOU CAN ADDRESS DISKS BY DISK-ID OR DISK #.&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -help                                                 (This Menu)
+ECHO    -arg                                                  (1st arg=arguement test. Last arg=exec+test)
 ECHO    -listmgr -install -list {NAME.LST}                    (Live-Install Package-List)
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO     The specified boot-media and VHDX must be in the main program folder or the operation will fail.
