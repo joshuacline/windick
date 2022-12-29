@@ -1,6 +1,6 @@
 ::$haZZam! A native Windows image deployment tool.
 ::Build, administrate and backup your Windows in a native WinPE recovery environment. (C) Joshua Cline - All rights reserved
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&SET $VER_CUR=1107
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&SET $VER_CUR=1108
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT %ERRORLEVEL% EQU 0 ECHO Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
 ::FOR %%a in (1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%a=%%%%a")
