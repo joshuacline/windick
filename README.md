@@ -67,9 +67,9 @@ Image Managment (via DISM)
 ![Alt text](/png/MLB_MST1.png "List-Base Extract")
 - New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
 - Combine multiple actions with a list-of-lists or stacked-lists
-![Alt text](/png/Sandwich1.png "Sandwich-list")
-- Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
-![Alt text](/png/ListApply1.png "Apply-Lists")
+- ![Alt text](/png/Sandwich1.png "Sandwich-list")
+- Applying a list with menu-option {G}:
+- ![Alt text](/png/List_RUN1.png "Apply-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
