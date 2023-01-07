@@ -63,13 +63,13 @@ Image Managment (via DISM)
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
 ![Alt text](/png/ImageMgrMain1.png "Image Managment")
-- Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
-![Alt text](/png/ListApply1.png "Apply-Lists")
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
 ![Alt text](/png/MLB_MST1.png "List-Base Extract")
 - New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
 - Combine multiple actions with a list-of-lists or stacked-lists
 ![Alt text](/png/Sandwich1.png "Sandwich-list")
+- Create lists to Install: MSU · CAB · $PK - Apply these lists to : WIM · VHDX · LIVE
+![Alt text](/png/ListApply1.png "Apply-Lists")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
