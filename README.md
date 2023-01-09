@@ -12,7 +12,8 @@ $haZZam! A native command shell Windows image deployment tool
 - List-Base Extract System (.MST) - Generate list-base from · WIM · VHDX · Live
 - Advanced List Sorting System (.LST) - Create lists to · Enable · Disable · Add · Delete
 -      · AppX · Drivers · Features · Components · Packages · Services · Tasks · Updates
-![Alt text](/png/Debloat1.png "W11 22000")
+- ![Alt text](/png/ListRun1.png "Applying lists to an image")
+- ![Alt text](/png/Debloat1.png "W11 22000")
 - No dependencies or external applications, just $haZZam.cmd and Windows installation source
 - Mount deploy and administrate virtual hard disk images (VHDX) & WIM's from within recovery or live
 - Modify your Windows images as VHDX for instant results. Convert back to WIM when ready to finalize image
