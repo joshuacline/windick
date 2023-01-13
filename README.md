@@ -21,12 +21,11 @@ $haZZam! A native command shell Windows image deployment tool
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
 - Clean-room developed. Evolution of my personal deployment scripts
-- Remarkably robust. Large blocks of code formatted within each condensed line. Unique flexible modular design
-- To get started: Place $haZZam.cmd in a folder. Mount a Windows ISO, or insert a windows disc, then open $haZZam.cmd
+- Large blocks of code formatted within each condensed line. Unique flexible modular design
 ![Alt text](/png/HelpMenu1.png "HelpMenu")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
-- Provided with a Windows installation source, $haZZam can create a simple yet robust bootable WinPE recovery/testing environment.
+- Provided with a Windows installation source, you can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
