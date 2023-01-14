@@ -21,7 +21,6 @@ $haZZam! A native command shell Windows image deployment tool
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
 - Clean-room developed. Evolution of my personal deployment scripts
-- Large blocks of code formatted within each condensed line. Unique flexible modular design
 ![Alt text](/png/HelpMenu1.png "HelpMenu")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Boot Creator (via Diskpart+DISM)
@@ -82,6 +81,7 @@ Package Creator (via DISM)
 - A few of the built-in package examples to get you started:
 -      · Strict LSA Rules · UAC Always · Store/OneDrive/Cloud/Wakelocks/Pagefile Disable ·
 -      · User/Admin Account Creation · Import/Export Firewall Rules · Unattend.XML · General MSI/Setup.exe examples
+- ![Alt text](/png/Example1.png "Package Example")
 - Package installation timing granularity for different use cases:
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
