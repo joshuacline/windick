@@ -1,6 +1,6 @@
 ::$haZZam! A native Windows image deployment tool. (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET $VER_CUR=1113&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET $VER_CUR=1114&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT %ERRORLEVEL% EQU 0 ECHO Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
 SET "ARGUE=%*"&&SET "DELIMS= "&&CALL:ARGUE&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF DEFINED A%%a CALL SET "ARG%%a=%%A%%a%%")
 FOR /F "tokens=*" %%a in ('ECHO %CD%') DO (SET "PROG_FOLDER=%%a")
@@ -546,7 +546,7 @@ IF "%BOOT_TARGET%"=="VHDX" SET "BOOT_PRIORITY=VHDX"&&BCDEDIT.EXE /displayorder %
 SET "BOOT_TARGET="
 EXIT /B
 :MACRO_RUN
-SET MACRO_RUN=&&CALL:EXIT_FLAGGER
+SET "MACRO_RUN="&&CALL:EXIT_FLAGGER
 IF "%EXIT_FLAGGER%"=="1" EXIT /B
 IF "%SELECT%"=="%HOTKEY_1%" SET "MACRO_RUN=%MACRO_1%"
 IF "%SELECT%"=="%HOTKEY_2%" SET "MACRO_RUN=%MACRO_2%"
@@ -557,6 +557,7 @@ IF "%SELECT%"=="%HOTKEY_6%" SET "MACRO_RUN=%MACRO_6%"
 IF "%SELECT%"=="%HOTKEY_7%" SET "MACRO_RUN=%MACRO_7%"
 IF "%SELECT%"=="%HOTKEY_8%" SET "MACRO_RUN=%MACRO_8%"
 IF "%SELECT%"=="%HOTKEY_9%" SET "MACRO_RUN=%MACRO_9%"
+IF NOT DEFINED MACRO_RUN EXIT /B
 ECHO;@ECHO OFF >OUTER.BAT
 ECHO;SET CRASHED=>>OUTER.BAT
 ECHO;CMD /C INNER.BAT >>OUTER.BAT
@@ -609,7 +610,7 @@ IF "%PROG_OPER%"=="ISOMOUNT" IF NOT DEFINED SELECT SET "PROG_OPER="&&GOTO:IMAGEM
 IF "%PROG_OPER%"=="ISOMOUNT" IF NOT EXIST "%IMAGE_FOLDER%\%SELECT%" GOTO:IMAGEMGR_START
 IF "%PROG_OPER%"=="ISOUNMOUNT" CALL:PAD_LINE&&ECHO                    Remove which ISO Drive Letter?&&CALL:PAD_LINE&&CALL SET "PROMPT_SET=ISO_LETTER"&&CALL:PROMPT_SET
 IF "%PROG_OPER%"=="ISOUNMOUNT" IF NOT DEFINED ISO_LETTER SET "PROG_OPER="&&GOTO:IMAGEMGR_START
-IF "%PROG_OPER%"=="ISOUNMOUNT" (ECHO.select VOLUME %ISO_LETTER%&&ECHO.Remove letter=%ISO_LETTER% noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&SET "PROG_OPER="&&ECHO Drive letter %ISO_LETTER% removed&&CALL:PAUSED&&GOTO:IMAGEMGR_START&&ECHO 
+IF "%PROG_OPER%"=="ISOUNMOUNT" (ECHO.select VOLUME %ISO_LETTER%&&ECHO.Remove letter=%ISO_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&SET "PROG_OPER="&&ECHO Drive letter %ISO_LETTER% removed&&CALL:PAUSED&&GOTO:IMAGEMGR_START&&ECHO 
 IF "%PROG_OPER%"=="ISOMOUNT" "%IMAGE_FOLDER%\%SELECT%"&&CALL:IMAGE_EXIST
 IF "%PROG_OPER%"=="VHDXMOUNT" IF NOT DEFINED SELECT SET "PROG_OPER="&&GOTO:IMAGEMGR_START
 IF "%PROG_OPER%"=="VHDXMOUNT" IF NOT EXIST "%IMAGE_FOLDER%\%SELECT%" GOTO:IMAGEMGR_START
@@ -622,7 +623,7 @@ IF "%PROG_OPER%"=="NEW" SET "PROMPT_SET=VHDX_SIZE"&&ECHO.&&ECHO VHDX size?&&CALL
 IF "%PROG_OPER%"=="NEW" IF DEFINED NEW_VDISK SET "VDISK=%IMAGE_FOLDER%\%NEW_VDISK%.VHDX"&&SET VHDX_LABEL=%NEW_VDISK%
 IF "%PROG_OPER%"=="NEW" IF DEFINED NEW_VDISK IF DEFINED VHDX_SIZE CALL:PAD_LINE&&ECHO  CREATING [%VDISK%]&&CALL:PAD_LINE&&CALL:VDISK_CREATE
 IF "%PROG_OPER%"=="NEW" IF DEFINED NEW_VDISK IF DEFINED VHDX_SIZE CALL:VDISK_DETACH&&ECHO 
-IF EXIST "DPQUERY" DEL /F "DPQUERY">NUL 2>&1
+IF EXIST "$DSK" DEL /F "$DSK">NUL 2>&1
 IF DEFINED PROG_OPER SET "PROG_OPER="
 GOTO:IMAGEMGR_START
 :LIST_LOL_CREATE
@@ -1574,7 +1575,7 @@ IF "%PROG_OPER%"=="DISKMGR_MOUNT" IF NOT EXIST "%DISK_LETTER%:\" CALL:PAD_LINE&&
 IF "%PROG_OPER%"=="DISKMGR_MOUNT" IF "%DISK_NUMBER%" GEQ "0" IF NOT EXIST "%DISK_LETTER%:\" CALL:PAD_LINE&&ECHO                          Which Partition {#}?&&CALL:PAD_LINE&&CALL SET "PROMPT_SET=PART_NUMBER"&&CALL:PROMPT_SET&&CALL:PAD_LINE&&ECHO  MOUNTING [%DISK_LETTER%:\]&&CALL:PAD_LINE&&CALL:DISKMGR_MOUNT&&SET "PROG_OPER="
 IF "%PROG_OPER%"=="DISKMGR_ERASE" ECHO                            Which Disk {#}?&&CALL:PAD_LINE&&CALL SET "PROMPT_SET=DISK_NUMBER"&&CALL:PROMPT_SET&&ECHO Starting %PROG_OPER%...&&CALL:DISKMGR_ERASE
 IF "%PROG_OPER%"=="DISKMGR_ERASE" IF NOT DEFINED DISK_NUMBER SET "PROG_OPER="
-IF EXIST "DPQUERY" DEL /Q /F "DPQUERY">NUL 2>&1
+IF EXIST "$DSK" DEL /Q /F "$DSK">NUL 2>&1
 IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
 IF DEFINED DISK_MSG ECHO %DISK_MSG%&&ECHO.
 IF DEFINED PROG_OPER SET "PROG_OPER="&&CALL:PAD_LINE&&ECHO	                      End of Disk-Part Operation&&CALL:PAD_LINE&&CALL:PAUSED
@@ -1586,14 +1587,14 @@ IF EXIST "U:\" CALL:EFI_UNMOUNT
 IF EXIST "S:\" CALL:REASSIGN_LETTER
 CALL:DISKMGR_ERASE&&SET /A PART_CNT+=1
 IF "%PART_CNT%" NEQ "3" SET "DEPLOY_MODE="
-(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition EFI size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=U noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"
+(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition EFI size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=U noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"
 IF EXIST "U:\" IF EXIST "S:\" EXIT /B
 CALL:DISKMGR_ERASE
 IF "%PART_CNT%" EQU "3" SET "DEPLOY_MODE=1"&&SET "BOOT_MSG=Drive incompatible, reverted to deploy-only drive."
-(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=U noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"
-IF "%PART_CNT%" LEQ "2" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b override&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"
+(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=U noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"
+IF "%PART_CNT%" LEQ "2" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"
 IF EXIST "U:\" IF EXIST "S:\" EXIT /B
 IF "%PART_CNT%" EQU "4" ECHO The drive is currently in use or incompatible. Continue to try?&&ECHO  {Z}Continue {Enter}Abort&&CALL SET "PROMPT_SET=ARBIT123"&&CALL:PROMPT_SET
 IF NOT "%ARBIT123%"=="Z" SET "PART_ERR=1"
@@ -1603,52 +1604,52 @@ GOTO:PART_CREATE
 :DISKMGR_ERASE
 IF NOT DEFINED DISK_NUMBER EXIT /B
 FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) DO (IF "%DISK_NUMBER%"=="%%a" CALL SET "GET_DISK_ID=%%DISKID_%%a%%")
-(ECHO.select disk %DISK_NUMBER%&&ECHO.clean&&ECHO.convert gpt&&ECHO.select partition 1&&ECHO.delete partition override&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=T noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-IF EXIST "T:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.clean&&ECHO.convert gpt&&ECHO.select partition 1&&ECHO.delete partition override&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL
+(ECHO.select disk %DISK_NUMBER%&&ECHO.clean&&ECHO.convert gpt&&ECHO.select partition 1&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=T noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+IF EXIST "T:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.clean&&ECHO.convert gpt&&ECHO.select partition 1&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL
 CALL:DISKMGR_CHANGEID>NUL 2>&1
 IF NOT EXIST "T:\" SET "DISK_MSG=All partitions on Disk %DISK_NUMBER% have been erased."
 IF EXIST "T:\" SET "DISK_MSG=Disk %DISK_NUMBER% is currently in use - unplug disk - reboot into Windows - replug and try again."
-IF EXIST "T:\" (ECHO.select VOLUME T&&ECHO.Remove letter=T noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
+IF EXIST "T:\" (ECHO.select VOLUME T&&ECHO.Remove letter=T noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 EXIT /B
 :DISKMGR_INSPECT
 IF NOT DEFINED DISK_NUMBER EXIT /B
-(ECHO.select disk %DISK_NUMBER%&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+(ECHO.select disk %DISK_NUMBER%&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_MOUNT
 IF NOT DEFINED DISK_NUMBER EXIT /B
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.Assign letter=%DISK_LETTER% noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-IF NOT EXIST "%DISK_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
-IF NOT EXIST "%DISK_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.Assign letter=%DISK_LETTER% noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.Assign letter=%DISK_LETTER% noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+IF NOT EXIST "%DISK_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT EXIST "%DISK_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.Assign letter=%DISK_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF EXIST "%DISK_LETTER%:\" SET "DISK_MSG=Partition %PART_NUMBER% on Disk %DISK_NUMBER% has been assigned letter %DISK_LETTER%."
 IF NOT EXIST "%DISK_LETTER%:\" SET "DISK_MSG=ERROR: Partition %PART_NUMBER% on Disk %DISK_NUMBER% was not assigned letter %DISK_LETTER%."
 ECHO 
 EXIT /B
 :DISKMGR_UNMOUNT
-(ECHO.select VOLUME %DISK_LETTER%&&ECHO.Remove letter=%DISK_LETTER% noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+(ECHO.select VOLUME %DISK_LETTER%&&ECHO.Remove letter=%DISK_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_CREATE
 IF NOT DEFINED DISK_NUMBER EXIT /B
-IF NOT DEFINED PART_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
-IF DEFINED PART_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=%PART_SIZE%&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+IF NOT DEFINED PART_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
+IF DEFINED PART_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=%PART_SIZE%&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_DELETE
 IF NOT DEFINED DISK_NUMBER EXIT /B
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.delete partition override&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_CHANGEID
 IF NOT DEFINED DISK_NUMBER EXIT /B
 SET "UID_CNT="&&FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %GET_DISK_ID%^| FIND /V ""') do (CALL SET /A UID_CNT+=1)
 IF NOT "%UID_CNT%"=="36" SET "GET_DISK_ID=00000000-0000-0000-0000-000000000000"
-(ECHO.select disk %DISK_NUMBER%&&ECHO.uniqueid disk id=%GET_DISK_ID%&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+(ECHO.select disk %DISK_NUMBER%&&ECHO.uniqueid disk id=%GET_DISK_ID%&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_FORMAT
 IF NOT DEFINED DISK_NUMBER EXIT /B
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.format quick fs=ntfs override&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.format quick fs=ntfs override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_LOCK
 IF NOT DEFINED DISK_NUMBER EXIT /B
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.gpt attributes=0x4000000000000001&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition %PART_NUMBER%&&ECHO.gpt attributes=0x4000000000000001&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 REM DISK_MENU_DISK_MENU_DISK_MENU_DISK_MENU_DISK_MENU_DISK_MENU_DISK_MENU
 :DISK_MENU
@@ -1675,12 +1676,12 @@ EXIT /B
 REM DISK_QUERY_DISK_QUERY_DISK_QUERY_DISK_QUERY_DISK_QUERY_DISK_QUERY
 :DISK_QUERY
 REM DISK_QUERY_DISK_QUERY_DISK_QUERY_DISK_QUERY_DISK_QUERY_DISK_QUERY
-(ECHO.LIST DISK&&ECHO.Exit)>DPQUERY1&&DISKPART /s DPQUERY1>DPQUERY2
-FOR /F "tokens=2,4 skip=8 delims= " %%a in (DPQUERY2) DO ((ECHO.SELECT DISK %%a&&ECHO.DETAIL DISK&&ECHO.Exit)>DPQUERY3&&DISKPART /s DPQUERY3>DPQUERY4
-IF NOT "%%a"=="DiskPart..." FOR /F "tokens=1-5 skip=7 delims={}: " %%1 in (DPQUERY4) DO (IF "%%1"=="Type" IF "%%2"=="File" SET VSKIP%%a=%%a))
-FOR /F "tokens=2,4 skip=8 delims= " %%a in (DPQUERY2) DO (SET DISK%%a=&&SET DISKVENDOR_%%a=
-IF NOT DEFINED VSKIP%%a (ECHO.SELECT DISK %%a&&ECHO.DETAIL DISK&&ECHO.LIST PARTITION&&ECHO.Exit)>DPQUERY3&&DISKPART /s DPQUERY3>DPQUERY4&&SET PAD_SIZE=4&&CALL:PAD_LINE
-IF NOT DEFINED VSKIP%%a IF NOT "%%a"=="DiskPart..." FOR /F "tokens=1-9 skip=7 delims={}: " %%1 in (DPQUERY4) DO (
+(ECHO.LIST DISK&&ECHO.Exit)>$DSK1&&DISKPART /s $DSK1>$DSK2
+FOR /F "tokens=2,4 skip=8 delims= " %%a in ($DSK2) DO ((ECHO.SELECT DISK %%a&&ECHO.DETAIL DISK&&ECHO.Exit)>$DSK3&&DISKPART /s $DSK3>$DSK4
+IF NOT "%%a"=="DiskPart..." FOR /F "tokens=1-5 skip=7 delims={}: " %%1 in ($DSK4) DO (IF "%%1"=="Type" IF "%%2"=="File" SET VSKIP%%a=%%a))
+FOR /F "tokens=2,4 skip=8 delims= " %%a in ($DSK2) DO (SET DISK%%a=&&SET DISKVENDOR_%%a=
+IF NOT DEFINED VSKIP%%a (ECHO.SELECT DISK %%a&&ECHO.DETAIL DISK&&ECHO.LIST PARTITION&&ECHO.Exit)>$DSK3&&DISKPART /s $DSK3>$DSK4&&SET PAD_SIZE=4&&CALL:PAD_LINE
+IF NOT DEFINED VSKIP%%a IF NOT "%%a"=="DiskPart..." FOR /F "tokens=1-9 skip=7 delims={}: " %%1 in ($DSK4) DO (
 IF NOT DEFINED DISK%%a SET DISK%%a=%%a&&ECHO  DISK ^{%%a^}
 IF NOT DEFINED DISKVENDOR_%%a SET DISKVENDOR_%%a=%%1 %%2 %%3&&ECHO VENDOR = %%1 %%2 %%3
 IF "%%1"=="Type" SET "DISKTYPE_%%a=%%2"&&ECHO  Type  = %%2
@@ -1689,20 +1690,20 @@ IF "%%1 %%2 %%3"=="Pagefile Disk Yes" ECHO *Active Pagefile*
 IF "%%1"=="Partition" IF NOT "%%2"=="###" ECHO  {%%1 %%2}&&ECHO  Size  = %%4 %%5
 IF "%%3"=="S" SET "CURRENT_HOME=%%2"))
 SET PAD_SIZE=4&&CALL:PAD_LINE
-DEL /Q /F "DPQUERY*">NUL 2>&1
+DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :EFI_MOUNT
 IF NOT DEFINED DISK_TARGET ECHO DISK ID ERROR&&EXIT /B
-(ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=U noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-DEL /Q /F "DPQUERY">NUL 2>&1
+(ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=U noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+DEL /Q /F "$DSK">NUL 2>&1
 IF NOT EXIST "U:\EFI" ECHO EFI EMPTY OR NOT MOUNTED
 EXIT /B
 :EFI_UNMOUNT
-(ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x4000000000000001&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
-DEL /Q /F "DPQUERY">NUL 2>&1
+(ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x4000000000000001&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+DEL /Q /F "$DSK">NUL 2>&1
 EXIT /B
 :HOME_AUTO
 SET "HOME_MOUNT="&&CLS&&ECHO Querying disks...
@@ -1711,10 +1712,10 @@ IF EXIST "%PROG_FOLDER%\DISK_TARGET" SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TAR
 IF EXIST "S:\" CALL:REASSIGN_LETTER
 IF EXIST "%PROG_FOLDER%\DISK_TARGET" SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"
 CALL:DISK_QUERY>NUL 2>&1
-IF NOT EXIST "S:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.Assign letter=S noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-IF NOT EXIST "S:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
-IF NOT EXIST "S:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.Assign letter=S noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-DEL /Q /F "DPQUERY">NUL 2>&1
+IF NOT EXIST "S:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.Assign letter=S noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+IF NOT EXIST "S:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT EXIST "S:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.Assign letter=S noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+DEL /Q /F "$DSK">NUL 2>&1
 IF EXIST "S:\" IF NOT EXIST "S:\$" MD "S:\$">NUL 2>&1
 IF EXIST "S:\$" IF NOT EXIST "S:\$\$haZZam.cmd" IF EXIST "X:\$\$haZZam.cmd" COPY "X:\$\$haZZam.cmd" "S:\$">NUL 2>&1
 IF NOT EXIST "S:\$" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOME_AUTO
@@ -1729,9 +1730,9 @@ EXIT /B
 :REASSIGN_LETTER
 CALL:DISK_QUERY>NUL 2>&1
 FOR %%G in (Q P O N M L K J I H G F E D) DO (IF NOT EXIST "%%G:\" SET "NXT_LETTER=%%G")
-(ECHO.select VOLUME S&&ECHO.Remove letter=S noerr&&ECHO.Exit)>"DPQUERY"&&Diskpart /s "DPQUERY">NUL 2>&1
-(ECHO.select VOLUME %CURRENT_HOME%&&ECHO.assign letter=%NXT_LETTER% noerr&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
-DEL /Q /F "DPQUERY">NUL 2>&1
+(ECHO.select VOLUME S&&ECHO.Remove letter=S noerr&&ECHO.Exit)>"$DSK"&&Diskpart /s "$DSK">NUL 2>&1
+(ECHO.select VOLUME %CURRENT_HOME%&&ECHO.assign letter=%NXT_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+DEL /Q /F "$DSK">NUL 2>&1
 EXIT /B
 REM VDISK_CREATE_VDISK_CREATE_VDISK_CREATE_VDISK_CREATE_VDISK_CREATE
 :VDISK_CREATE
@@ -1743,42 +1744,42 @@ IF DEFINED NEW_VDISK SET "VHDX_LABEL=%NEW_VDISK%"
 IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25600"
 IF NOT DEFINED VHDX_LABEL SET "VHDX_LABEL=VHDX%VHDX_SLOT%"
 DEL /Q /F "%VDISK%">NUL 2>&1
-(ECHO.create vdisk file="%VDISK%" maximum=%VHDX_SIZE% type=expandable&&ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk&&ECHO.create partition primary&&ECHO.select partition 1&&ECHO.format fs=ntfs quick label="%VHDX_LABEL%"&&ECHO.Assign letter=%VDISK_LETTER% noerr&&ECHO.Exit)>"DPQUERY"
-DISKPART /s "DPQUERY">NUL 2>&1
-SET "VDISK_LETTER_OVER="&&DEL "DPQUERY">NUL 2>&1
+(ECHO.create vdisk file="%VDISK%" maximum=%VHDX_SIZE% type=expandable&&ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk&&ECHO.create partition primary&&ECHO.select partition 1&&ECHO.format fs=ntfs quick label="%VHDX_LABEL%"&&ECHO.Assign letter=%VDISK_LETTER% noerr&&ECHO.Exit)>"$DSK"
+DISKPART /s "$DSK">NUL 2>&1
+SET "VDISK_LETTER_OVER="&&DEL "$DSK">NUL 2>&1
 EXIT /B
 :VDISK_ATTACH
 IF NOT DEFINED VDISK_LETTER_OVER SET "VDISK_LETTER=V"
 SET "VDISK_LETTER_BAK=%VDISK_LETTER%"&&CALL:VDISK_DETACH>NUL 2>&1
 SET "VDISK_LETTER=%VDISK_LETTER_BAK%"
-(ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk&&ECHO.select partition 1&&ECHO.Assign letter=%VDISK_LETTER% noerr&&ECHO.Exit)>"DPQUERY"
-DISKPART /s "DPQUERY">NUL 2>&1
-SET "VDISK_LETTER_OVER="&&DEL "DPQUERY">NUL 2>&1
+(ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk&&ECHO.select partition 1&&ECHO.Assign letter=%VDISK_LETTER% noerr&&ECHO.Exit)>"$DSK"
+DISKPART /s "$DSK">NUL 2>&1
+SET "VDISK_LETTER_OVER="&&DEL "$DSK">NUL 2>&1
 EXIT /B
 :VDISK_DETACH
 IF NOT DEFINED VDISK_LETTER SET "VDISK_LETTER=V"
-(ECHO.Select vdisk file="%VDISK%"&&ECHO.Detach vdisk&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY">NUL 2>&1
+(ECHO.Select vdisk file="%VDISK%"&&ECHO.Detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF EXIST "%VDISK_LETTER%:\" CALL:VDISK_BRUTE
-DEL "DPQUERY">NUL 2>&1
+DEL "$DSK">NUL 2>&1
 EXIT /B
-::(ECHO.select VOLUME=%VDISK_LETTER%&&ECHO.remove all dismount noerr&&ECHO.Exit)>"DPQUERY"
+::(ECHO.select VOLUME=%VDISK_LETTER%&&ECHO.remove all dismount noerr&&ECHO.Exit)>"$DSK"
 :VDISK_BRUTE
-(ECHO.List Volume&&ECHO.Exit)>DPQUERY1&&DISKPART /s DPQUERY1>DPQUERY2
-SET "DISK_TMP="&&FOR /F "tokens=1-9 delims= " %%a IN (DPQUERY2) DO (IF "%%c"=="V" CALL SET "DISK_TMP=%%b")
-(ECHO.Select Volume %DISK_TMP%&&ECHO.Detail Volume&&ECHO.Exit)>DPQUERY1&&DISKPART /s DPQUERY1>DPQUERY2
-SET "DISK_TMP="&&FOR /F "tokens=1-9 delims= " %%a IN (DPQUERY2) DO (
+(ECHO.List Volume&&ECHO.Exit)>$DSK1&&DISKPART /s $DSK1>$DSK2
+SET "DISK_TMP="&&FOR /F "tokens=1-9 delims= " %%a IN ($DSK2) DO (IF "%%c"=="V" CALL SET "DISK_TMP=%%b")
+(ECHO.Select Volume %DISK_TMP%&&ECHO.Detail Volume&&ECHO.Exit)>$DSK1&&DISKPART /s $DSK1>$DSK2
+SET "DISK_TMP="&&FOR /F "tokens=1-9 delims= " %%a IN ($DSK2) DO (
 IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISK_TMP=%%b"
 IF "%%a"=="*" IF "%%b"=="Disk" SET "DISK_TMP=%%c")
-(ECHO.List Vdisk&&ECHO.Exit)>DPQUERY1&&DISKPART /s DPQUERY1>DPQUERY2
-SET "VDISK_TMP="&&FOR /F "tokens=1-9* delims= " %%a IN (DPQUERY2) DO (IF "%%a"=="VDisk" IF "%%d"=="%DISK_TMP%" IF EXIST "%%i" SET "VDISK_TMP=%%i")
+(ECHO.List Vdisk&&ECHO.Exit)>$DSK1&&DISKPART /s $DSK1>$DSK2
+SET "VDISK_TMP="&&FOR /F "tokens=1-9* delims= " %%a IN ($DSK2) DO (IF "%%a"=="VDisk" IF "%%d"=="%DISK_TMP%" IF EXIST "%%i" SET "VDISK_TMP=%%i")
 CALL:PAD_LINE&&CALL ECHO  Detaching [%VDISK_TMP%]&&CALL:PAD_LINE
-(ECHO.Select vdisk file="%VDISK_TMP%"&&ECHO.Detach vdisk&&ECHO.Exit)>DPQUERY1&&DISKPART /s DPQUERY1 >NUL 2>&1
-DEL /F "DPQUERY*">NUL 2>&1
+(ECHO.Select vdisk file="%VDISK_TMP%"&&ECHO.Detach vdisk&&ECHO.Exit)>$DSK1&&DISKPART /s $DSK1 >NUL 2>&1
+DEL /F "$DSK*">NUL 2>&1
 EXIT /B
 :VDISK_COMPACT
 IF NOT DEFINED VDISK EXIT /B
-(ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk readonly&&ECHO.compact vdisk&&ECHO.detach vdisk&&ECHO.Exit)>"DPQUERY"&&DISKPART /s "DPQUERY"&&ECHO 
-DEL "DPQUERY">NUL 2>&1
+(ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk readonly&&ECHO.compact vdisk&&ECHO.detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
+DEL "$DSK">NUL 2>&1
 EXIT /B
 REM FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_
 :FILEMGR_START
@@ -1993,7 +1994,7 @@ ECHO.&&ECHO Unmounting EFI...&&CALL:TITLECARD&&CALL:VDISK_DETACH>NUL 2>&1
 CALL:EFI_UNMOUNT>NUL 2>&1
 IF EXIST "%TEMP%\$WIM.TMP" DEL /Q /F "\\?\%TEMP%\$WIM.TMP">NUL 2>&1
 IF EXIST "%TEMP%\$haZZam" RD /S /Q "\\?\%TEMP%\$haZZam">NUL 2>&1
-IF EXIST "DPQUERY" DEL /Q /F "DPQUERY">NUL 2>&1
+IF EXIST "$DSK" DEL /Q /F "$DSK">NUL 2>&1
 IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
 IF EXIST "%SCRATCHDIR_BOOT%" DISM /cleanup-MountPoints>NUL 2>&1
 IF EXIST "%SCRATCHDIR_BOOT%" RD /S /Q "\\?\%SCRATCHDIR_BOOT%">NUL 2>&1
@@ -2121,10 +2122,10 @@ IF "%SELECT%"=="*" SET "PROG_OPER=MAKER_EXAMPLE"
 IF "%SELECT%"=="I" SET "PROG_OPER=MAKER_INSPECT"
 IF "%SELECT%"=="N" SET "PROG_OPER=MAKER_TEMPLATE"
 IF "%SELECT%"=="R" SET "PROG_OPER=MAKER_RESTORE"&&GOTO:MAKER_START
-IF "%SELECT%"=="X" SET "MAKER_FOLDER=%PROG_SOURCE%\Project%MAKER_SLOT%"
 IF "%SELECT%"=="E" IF "%PackType%"=="NULL" SET "PROG_OPER=MAKER_EXPORT"
 IF "%SELECT%"=="E" IF "%PackType%"=="DRIVER" SET "PROG_OPER=MAKER_EXPORT"
 IF "%SELECT%"=="X" SET /A MAKER_SLOT+=1&&IF "%MAKER_SLOT%" GEQ "5" SET "MAKER_SLOT=1"
+IF "%SELECT%"=="X" SET "MAKER_FOLDER=%PROG_SOURCE%\Project%MAKER_SLOT%"
 IF "%SELECT%"=="V" SET "EDIT_SETUP=1"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_README=1"&&SET "EDIT_CUSTOM="&&CALL:MAKER_EDITOR
 IF "%PROG_OPER%"=="MAKER_RESTORE" IF NOT DEFINED SELECT SET "PROG_OPER="&&GOTO:MAKER_START
 IF "%PROG_OPER%"=="MAKER_RESTORE" IF NOT EXIST "%PACK_FOLDER%\%SELECT%" GOTO:MAKER_START
@@ -2398,13 +2399,13 @@ SET EXAMPLE=
 EXIT /B
 :PACKEX_SVCMGR_APP
 CLS&&ECHO.&&CALL:PAD_LINE&&ECHO                           The Service Reaper&&CALL:PAD_LINE
-IF EXIST SVC.TXT DEL SVC.TXT>NUL
-SET SVC_MODE=&&REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services" /f Type /c /e /s>>"SVC.TXT"
-SET SVC_CNT=&&FOR /F "TOKENS=1-9 DELIMS=\ " %%a in (SVC.TXT) DO (
+IF EXIST $SVC DEL $SVC>NUL
+SET SVC_MODE=&&REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services" /f Type /c /e /s>>"$SVC"
+SET SVC_CNT=&&FOR /F "TOKENS=1-9 DELIMS=\ " %%a in ($SVC) DO (
 IF "%%a"=="HKEY_LOCAL_MACHINE" IF NOT "%%e"=="" CALL SET SVC_NAME=%%e%%f%%g%%h%%i
 IF "%%a"=="Type" IF "%%c"=="0x10" CALL:SVC_QUERY
 IF "%%a"=="Type" IF "%%c"=="0x20" CALL:SVC_QUERY)
-IF EXIST SVC.TXT DEL SVC.TXT>NUL
+IF EXIST $SVC DEL $SVC>NUL
 CALL:PAD_LINE&&ECHO                     {1}Start Service {2}Stop Service&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT "%SELECT%"=="1" IF NOT "%SELECT%"=="2"  EXIT /B
 IF "%SELECT%"=="1" SET "SVC_MODE=START"
@@ -2424,12 +2425,12 @@ EXIT /B
 :PACKEX_TASKMGR_APP
 CLS&&ECHO.
 CALL:PAD_LINE&&ECHO                            The Task Reaper&&CALL:PAD_LINE
-TASKLIST /FO LIST>TSK.TXT
-SET TSK_CNT=&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in (TSK.TXT) DO (
+TASKLIST /FO LIST>$TSK
+SET TSK_CNT=&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($TSK) DO (
 IF "%%a"=="Image" CALL SET TSK_NAME=%%c%%d%%e%%f%%g
 IF "%%a"=="PID" CALL SET TSK_PID=%%b
 IF "%%a"=="Mem" CALL SET TSK_MEM=%%c&&CALL:TASK_QUERY)
-IF EXIST TSK.TXT DEL TSK.TXT>NUL
+IF EXIST $TSK DEL $TSK>NUL
 CALL:PAD_LINE&&ECHO                            END WHICH TASK{#}?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 CALL:EXIT_FLAGGER
 IF "%EXIT_FLAGGER%"=="1" EXIT /B
@@ -2457,7 +2458,7 @@ DEL /Q /F USER.TXT>NUL
 ECHO                    END OF USER ACCOUNT ENUMERATION&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :FOR_SIGHT
-@ECHO OFF&&CLS&&CALL:PAD_LINE&&ECHO  FOR~SIGHT - WANNA ARGUE?&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:PAD_LINE&&ECHO  FOR~SIGHT&&CALL:PAD_LINE
 IF NOT DEFINED FOR_SAV SET "FOR_SAV=FRESH"&&SET "CLM_TGT=1"&&SET "CMD_MODE=INT"&&SET "GET_ROW=1"
 IF EXIST EXT.CMD SET /P CUR_CMD=<EXT.CMD
 IF NOT DEFINED CUR_CMD SET "CUR_CMD=VER"
