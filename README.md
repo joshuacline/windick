@@ -30,7 +30,6 @@ Boot Creator (via Diskpart+DISM)
 - All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
 - Easy Boot: Stock configuration. VHDX images are stored on partition 2 of the boot-drive
 - Spanning Boot: Create a folder named "$" at the base of any other connected NTFS formatted drive. Place bootable VHDX images in folder
-- Secure-key Boot: Create a bootable USB disk used as a "boot-key" left in the PC during boot, all other connected drives being non-bootable. Place bootable VHDX images on a seperate drive
 - Virtual hard disk images (slot/0-9.vhdx , name/pre-specified) are detected across NTFS drives during boot and added to the boot-list
 - In Name-Mode, 1 VHDX-Boot slot is generated in the BCDSTORE which uses the name of the VHDX for the boot-description.
 - In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
@@ -40,7 +39,6 @@ Boot Creator (via Diskpart+DISM)
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Autopilot (via AutoPilot.cmd)
 - Automatically reboot to a customizable scripted recovery environment
-- AutoPilot.cmd must be in the main program folder or the operation will fail. 
 - Allows for condition/timed VHDX-backup/restore/swap/testing.
 ![Alt text](/png/AutoPilot.png "AutoPilot")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -62,9 +60,9 @@ Image Managment (via DISM)
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
 ![Alt text](/png/ImageMgrMain1.png "Image Managment")
-- Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image viewed in notepad.exe:
+- Generate list-base from a Windows image or live with menu option {*}.
+- Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image in notepad:
 ![Alt text](/png/MLB_MST1.png "List-Base Extract")
-- New in 1.1.0.6: List parity between .MST & .LST. Alternatively to create a new .LST, you can copy/paste items directly from the .MST.
 - Combine multiple actions with a list-of-lists or stacked-lists
 - ![Alt text](/png/Sandwich1.png "Sandwich-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -88,42 +86,35 @@ Package Creator (via DISM)
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 $haZZam command-line parameters 
--     $haZZam.cmd -help                                                    (This Menu)
--     $haZZam.cmd -arg                                                     (1st arg=arguement test. Last arg=exec+test)
-·         (Image Management List Installer)
--      $haZZam.cmd -listmgr -install -list xyz.lst                         (Live-Install Package-List)
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-·         (Image Processing)
-- WIM/VHDX Source Images must be placed in their respective folders or the operation will fail.
--     $haZZam.cmd -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {123.VHDX} -size {MB}
--     $haZZam.cmd -imageproc -wim  {ABC.WIM} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
--     $haZZam.cmd -imageproc -vhdx {123.VHDX} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
-·        Examples:
--     $haZZam.cmd -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
--     $haZZam.cmd -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
--     $haZZam.cmd -imageproc -vhdx 123.VHDX -index 1 -wim ABC.WIM -xlvl fast
-·         (Disk Manager)
+-        -help                                                    (This Menu)
+-        -arg                                                     (1st arg=arguement test. Last arg=exec+test)
+-        -listmgr -install -list xyz.lst                          (Live Install Package-List)
+- (Image Processing)
+-        -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {123.VHDX} -size {MB}
+-        -imageproc -wim  {ABC.WIM} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
+-        -imageproc -vhdx {123.VHDX} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
+- Examples:
+-        -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
+-        -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
+-        -imageproc -vhdx 123.VHDX -index 1 -wim ABC.WIM -xlvl fast
+- (Disk Manager)
 - You can address disks by static disk-UID or by DISK #,  since both are parsed together internally.
--     $haZZam.cmd -diskmgr -list                                           (Condensed list of Disks)
--     $haZZam.cmd -diskmgr -getdisk -disk {#} /or/ -diskid {ID}            (Query Disk # / Disk ID)
--     $haZZam.cmd -diskmgr -inspect -disk {#} /or/ -diskid {ID}            (Full DiskPart Inquiry on Specified Disk)
--     $haZZam.cmd -diskmgr -erase -disk {#} /or/ -diskid {ID}              (Delete All Partitions on Specified Disk)
--     $haZZam.cmd -diskmgr -changeid -disk {#} /or/ -diskid {ID} {NEW ID}  (Change Disk ID of Specified Disk)
--     $haZZam.cmd -diskmgr -create -disk {#} /or/ -diskid {ID} -size {MB}  (Create NTFS Partition on Specified Disk)
--     $haZZam.cmd -diskmgr -format -disk {#} /or/ -diskid {ID} -part {#}   (Format Partition w/NTFS on Specified Disk)
--     $haZZam.cmd -diskmgr -delete -disk {#} /or/ -diskid {ID} -part {#}   (Delete Partition on Specified Disk)
--     $haZZam.cmd -diskmgr -lock -disk {#} /or/ -diskid {ID} -part {#}     (Mark Partition GUID as "Do Not Mount")
--     $haZZam.cmd -diskmgr -unmount -letter {LTR}                          (Remove Drive Letter)
--     $haZZam.cmd -diskmgr -mount -disk {#} /or/ -diskid {ID} -part {#} -letter {LTR}    (Assign Drive Letter + unlock)
-·        Examples:
--     $haZZam.cmd -diskmgr -create -disk 0 -size 25600
--     $haZZam.cmd -diskmgr -mount -disk 0 -part 1 -letter e
--     $haZZam.cmd -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-·         (Boot Environment Creator)
--     The specified boot-media and VHDX must be in the main program folder or the operation will fail.
--     $haZZam.cmd -bootmaker -create -disk 0 -src BOOT.WIM -vhdx 123.VHDX
--     $haZZam.cmd -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV -vhdx 123.VHDX
+-        -diskmgr -list                                           (Condensed list of Disks)
+-        -diskmgr -getdisk -disk {#} /or/ -diskid {ID}            (Query Disk # / Disk ID)
+-        -diskmgr -inspect -disk {#} /or/ -diskid {ID}            (Full DiskPart Inquiry on Specified Disk)
+-        -diskmgr -erase -disk {#} /or/ -diskid {ID}              (Delete All Partitions on Specified Disk)
+-        -diskmgr -changeid -disk {#} /or/ -diskid {ID} {NEW ID}  (Change Disk ID of Specified Disk)
+-        -diskmgr -create -disk {#} /or/ -diskid {ID} -size {MB}  (Create NTFS Partition on Specified Disk)
+-        -diskmgr -format -disk {#} /or/ -diskid {ID} -part {#}   (Format Partition w/NTFS on Specified Disk)
+-        -diskmgr -delete -disk {#} /or/ -diskid {ID} -part {#}   (Delete Partition on Specified Disk)
+-        -diskmgr -lock -disk {#} /or/ -diskid {ID} -part {#}     (Mark Partition GUID as "Do Not Mount")
+-        -diskmgr -unmount -letter {LTR}                          (Remove Drive Letter)
+-        -diskmgr -mount -disk {#} /or/ -diskid {ID} -part {#} -letter {LTR}    (Assign Drive Letter + unlock)
+- Examples:
+-        -diskmgr -create -disk 0 -size 25600
+-        -diskmgr -mount -disk 0 -part 1 -letter e
+-        -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
+- (Boot Environment Creator)
+-        -bootmaker -create -disk 0 -src BOOT.WIM -vhdx 123.VHDX
+-        -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV -vhdx 123.VHDX
 ![Alt text](/png/Command1.png "Boot Creator")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-- Only download from github.com/joshuacline
