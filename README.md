@@ -59,7 +59,7 @@ Image Managment (via DISM)
 - Two-way (read/write) parse system. Chuck lists like nobody's business.
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
-![Alt text](/png/ImageMgrMain1.png "Image Managment")
+![Alt text](/png/ImageMgrMain.png "Image Managment")
 - Generate list-base from a Windows image or live with menu option {*}.
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image in notepad:
 ![Alt text](/png/MLB_MST1.png "List-Base Extract")
