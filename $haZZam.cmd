@@ -546,7 +546,7 @@ EXIT /B
 ECHO;:::::::::::::::::::::::::::START:OF:AUTO-PILOT:::::::::::::::::::::::::::
 ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ECHO;::    VHDX BACKUP EXAMPLE                        HOME-FOLDER = S:\$    ::
-ECHO;::                 SCRIPT MUST BE OPEN-ENDED (NO EXIT)                 ::
+ECHO;::                 SCRIPT MUST BE OPEN-ENDED -NO EXIT-                 ::
 ECHO;::AUTO-PILOT MUST BE ENABLED WITHIN THE HOST OS FOR REBOOT-TO-RECOVERY ::
 ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ECHO.ECHO - AUTOPILOT - EXAMPLE - YOUR SCRIPT - GOES HERE -
