@@ -3,7 +3,7 @@ $haZZam! A native command shell Windows image deployment tool
 - From boot to deploy, the one and only complete Windows image container-based recovery solution.
 ![Alt text](/png/TripleB1.png "W11 VHDX-Boot Menu")
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
-- Create a secure-boot compatible W11 22H2 VHDX-Boot USB in 5 minutes 
+- Create a secure-boot compatible W11 22H2 VHDX-Boot USB
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
 - Feedback: https://www.reddit.com/r/ShaZZam/
 - Requirements for deploy-mode (Setup) disk: UEFI bios + any SSD or USB
@@ -63,8 +63,8 @@ Image Managment (via DISM)
 - Generate list-base from a Windows image or live with menu option {*}.
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image in notepad:
 ![Alt text](/png/MLB_MST1.png "List-Base Extract")
-- Combine multiple actions with a list-of-lists or stacked-lists
-- ![Alt text](/png/Sandwich1.png "Sandwich-list")
+- Combine multiple actions with a list
+- ![Alt text](/png/UnifiedList1.png "Unified-list")
 #     ■■■■■■■■■■■■■■■■■■■■■■■■■■
 Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
