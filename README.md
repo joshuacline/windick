@@ -1,7 +1,7 @@
 $haZZam! A native command shell Windows image deployment tool
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize · Automate
 - From boot to deploy, the one and only complete Windows image container-based recovery solution.
-![Alt text](/png/TripleB1.png "W11 VHDX-Boot Menu")
+- ![Alt text](/png/TripleB1.png "W11 VHDX-Boot Menu")
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Create a secure-boot compatible W11 22H2 VHDX-Boot USB
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
@@ -21,8 +21,8 @@ $haZZam! A native command shell Windows image deployment tool
 - Customize Windows images with packs/lists. Import/Export Drivers
 - All imaging operations occur inside of a virtual hard disk image, leaving no garbage folders or files behind
 - Clean-room developed. Evolution of my personal deployment scripts
-![Alt text](/png/HelpMenu1.png "HelpMenu")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+- ![Alt text](/png/MainMenuInfo.png "MenuInfo")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
 Boot Creator (via Diskpart+DISM)
 - Provided with a Windows installation source, you can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
@@ -35,64 +35,65 @@ Boot Creator (via Diskpart+DISM)
 - In Slot-Mode, the user-specified # of VHDX-Boot slots are generated in the BCDSTORE and are available for use.
 - In Slot-Mode, any VHDX's between the specified range (max 0-9.VHDX) located in the home folder are bootable and can be swapped when inactive.
 - Pick a middle slot, giving you room to move in either direction.
-![Alt text](/png/BootCreatorMain1.png "Boot Creator")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+- ![Alt text](/png/BootCreator.png "Boot Creator")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
 Autopilot (via AutoPilot.cmd)
 - Automatically reboot to a customizable scripted recovery environment
 - Allows for condition/timed VHDX-backup/restore/swap/testing.
-![Alt text](/png/AutoPilot.png "AutoPilot")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Disk Managment (via DiskPart) with basic support for:
+- ![Alt text](/png/AutoPilot.png "AutoPilot")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
+Disk Management (via DiskPart) with basic support for:
 -      inspect · format · mount · create · delete · wipe · change UID · lock partition · USB unplug
 - Toggle between Recovery & VHDX-Boot
-![Alt text](/png/DiskMgr1.png "Disk Managment")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-File Managment (via CMD's) with basic support for:
+- ![Alt text](/png/DiskManagement.png "Disk Managment")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
+File Management (via CMD's) with basic support for:
 -      open · duplicate · copy · rename · move · delete · take ownership+grant perm · symbolic link creation
-![Alt text](/png/FileMgr1.png "File Managment")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+- ![Alt text](/png/FileManagement.png "File Managment")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
 Image Processing (via DISM)  · Backup · Restore · Convert · Isolate  · for archive or active use, with support for:
 -      WIM · VHDX 
-![Alt text](/png/ImageProcMain1.png "Image Processing")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-Image Managment (via DISM)
+- ![Alt text](/png/ImageProcessing.png "Image Processing")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
+Image Management (via DISM)
 - Two-way (read/write) parse system. Chuck lists like nobody's business.
+- ![Alt text](/png/ImageManagement.png "Image Management")
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
-![Alt text](/png/ImageMgrMain.png "Image Managment")
+- ![Alt text](/png/ListCreator.png "List Creator")
 - Generate list-base from a Windows image or live with menu option {*}.
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image in notepad:
-![Alt text](/png/MLB_MST1.png "List-Base Extract")
+- ![Alt text](/png/MLB_MST1.png "List-Base Extract")
 - Combine multiple actions with a list
 - ![Alt text](/png/UnifiedList1.png "Unified-list")
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
 Package Creator (via DISM) 
 - Create $PK packages · All $PK packages are WIM based, with an additional compartment for the package manifest.
 - The package manifest determines how the package is treated. It contains the type of package, and optional install conditions.
 - Scripted Packages · integration of REG/MSI/EXE/XYZ
 - Driver Packages · export/import with a button.
 - Storage - Not the best compression ratio, but the option is there.
-![Alt text](/png/PackDriver1.png "Package Creator")
+- ![Alt text](/png/PackageCreatorDriver.png "Driver Package")
 - Create optional $PK package installation conditions. (basic approval/denial)
 - For now, the condition system is registry query based only. There is a demo example included.
-![Alt text](/png/PackScripted1.png "Package Creator")
+- ![Alt text](/png/PackageCreatorScripted.png "Scripted Package")
 - A few of the built-in package examples to get you started:
 -      · Strict LSA Rules · UAC Always · Store/OneDrive/Cloud/Wakelocks/Pagefile Disable ·
 -      · User/Admin Account Creation · Import/Export Firewall Rules · Unattend.XML · General MSI/Setup.exe examples
-- ![Alt text](/png/Example1.png "Package Example")
+- ![Alt text](/png/PackageCreatorExamples.png "Package Example")
 - Package installation timing granularity for different use cases:
 - ImageApply        ·  Setup Phase 0  ·  Apply directly to image, no user accounts exist, changes are applied to DefaultUser instead.
 - SetupComplete     ·  Setup Phase 1  ·  1st boot, machine credentials, installations not requiring an active user.
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
-#     ■■■■■■■■■■■■■■■■■■■■■■■■■■
-$haZZam command-line parameters 
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
+Command-line parameters 
 -        -help                                                    (This Menu)
 -        -arg                                                     (1st arg=arguement test. Last arg=exec+test)
 -        -listmgr -install -list xyz.lst                          (Live Install Package-List)
 - (Image Processing)
--        -imageproc -wim {ABC.WIM} -index {INDEX} -vhdx {123.VHDX} -size {MB}
--        -imageproc -wim  {ABC.WIM} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
--        -imageproc -vhdx {123.VHDX} -index {INDEX} -wim {ABC.WIM} -xlvl {FAST/MAX}
+-        -imageproc -wim {ABC.WIM} -index {index} -vhdx {123.VHDX} -size {MB}
+-        -imageproc -wim  {ABC.WIM} -index {index} -wim {ABC.WIM} -xlvl {fast/max}
+-        -imageproc -vhdx {123.VHDX} -index {index} -wim {ABC.WIM} -xlvl {fast/max}
 - Examples:
 -        -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
 -        -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
@@ -115,6 +116,11 @@ $haZZam command-line parameters
 -        -diskmgr -mount -disk 0 -part 1 -letter e
 -        -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
 - (Boot Environment Creator)
--        -bootmaker -create -disk 0 -src BOOT.WIM -vhdx 123.VHDX
--        -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BOOT-MEDIA.SAV -vhdx 123.VHDX
-![Alt text](/png/Command1.png "Boot Creator")
+-        -bootmaker -create -disk 0 -src Boot.WIM -vhdx 123.VHDX
+-        -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.SAV -vhdx 123.VHDX
+- Boot creator cmdline
+- ![Alt text](/png/Cmdline.png "Boot Creator")
+#     □□□□□□□□□□□□□□□□□□□□□□□□□□
+- Code shot
+- ![Alt text](/png/CodeShot.png "Code Shot")
+
