@@ -163,13 +163,13 @@ SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                $HAZZAM COMMAND-LINE PARAM
 SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO        NOTE: YOU CAN ADDRESS DISKS BY DISK-ID OR DISK #.&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -help                                                    (This Menu)
 ECHO    -arg                                                     (1st arg=arguement test. Last arg=exec+test)
-ECHO    -imagemgr -install -list {NAME.LST}                      (Live-Install Package-List)
+ECHO    -imagemgr -install -list {name.LST}                      (Live-Install Package-List)
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO     The specified boot-media and VHDX must be in the main program folder or the operation will fail.
-ECHO    -bootmaker -create -disk {#} / -diskid {ID} -src {BOOT.WIM}   (Erase + Create Boot-Media on Specified Disk)
+ECHO    -bootmaker -create -disk {#} / -diskid {ID} -src {boot.wim}   (Erase + Create Boot-Media on Specified Disk)
 ECHO  Examples:
-ECHO    -bootmaker -create -disk 0 -src BOOT123.WIM -vhdx 123.VHDX
-ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.sav -vhdx 123.VHDX
+ECHO    -bootmaker -create -disk 0 -src boot.wim -vhdx z.vhdx
+ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.sav -vhdx z.vhdx
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -diskmgr -list                                           (Condensed list of Disks)
 ECHO    -diskmgr -getdisk -disk {#} /or/ -diskid {ID}            (Query Disk # / Disk ID)
@@ -181,21 +181,21 @@ ECHO    -diskmgr -format -disk {#} /or/ -diskid {ID} -part {#}   (Format Partiti
 ECHO    -diskmgr -delete -disk {#} /or/ -diskid {ID} -part {#}   (Delete Partition on Specified Disk)
 ECHO    -diskmgr -lock -disk {#} /or/ -diskid {ID} -part {#}     (Mark Partition GUID as "Do Not Mount")
 ECHO    -diskmgr -unmount -letter {LTR}                          (Remove Drive Letter)
-ECHO    -diskmgr -mount -disk {#} /or/ -diskid {ID} -part {#} -letter {LTR} (Assign Drive Letter + unlock)
+ECHO    -diskmgr -mount -disk {#} /or/ -diskid {ID} -part {#} -letter {ltr} (Assign Drive Letter + unlock)
 ECHO  Examples:
 ECHO    -diskmgr -create -disk 0 -size 25600
 ECHO    -diskmgr -mount -disk 0 -part 1 -letter e
 ECHO    -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO     WIM/VHDX Source Images must be placed in their respective folders (unified/isolated) or the operation will fail.
-ECHO    -imageproc -wim {ABC.WIM} -index {index#} -vhdx {123.VHDX} -size {MB}
-ECHO    -imageproc -wim  {ABC.WIM} -index {index#} -wim {ABC.WIM} -xlvl {fast/max}
-ECHO    -imageproc -vhdx {XYZ.VHDX} -index {index#} -wim {ABC.WIM} -xlvl {fast/max}
+ECHO    -imageproc -wim {x.wim} -index {index#} -vhdx {z.vhdx} -size {MB}
+ECHO    -imageproc -wim  {x.wim} -index {index#} -wim {x.wim} -xlvl {fast/max}
+ECHO    -imageproc -vhdx {z.vhdx} -index {index#} -wim {x.wim} -xlvl {fast/max}
 ECHO  Examples:
-ECHO    -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
-ECHO    -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
-ECHO    -imageproc -vhdx XYZ.VHDX -index 1 -wim ABC.WIM -xlvl fast
-SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                                            END OF CMD HELP&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
+ECHO    -imageproc -wim x.wim -index 1 -vhdx z.vhdx -size 25600
+ECHO    -imageproc -wim x.wim -index 1 -wim x.wim -xlvl fast
+ECHO    -imageproc -vhdx z.vhdx -index 1 -wim x.wim -xlvl fast
+SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                                            end of cmd help&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 EXIT /B
 :TITLECARD
 SET "RND_SET=TITLE"&&CALL:RANDOM
@@ -681,7 +681,10 @@ SET "VDISK=%$PICK%"&&CALL:PAD_LINE&&ECHO  Attaching [%$PICK%]&&CALL:PAD_LINE&&CA
 IF NOT EXIST "V:\" ECHO  Error mounting [%$PICK%]&&CALL:PAD_LINE&&CALL:VDISK_DETACH
 EXIT /B
 :IMAGEMGR_LIST_MAIN
-CLS&&SET "ERROR="&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.&&ECHO  [ C ]\[Package-ImageApply[CAB]&&ECHO  [ M ]\[Package-ImageApply[MSU]&&ECHO  [ I ]\[Package-ImageApply[$PK]&&ECHO  [ S ]\[Package-SetupComplete[$PK]&&ECHO  [ R ]\[Package-RunOnce[$PK]&&ECHO  [ D ]\[DISM-List]&&ECHO.&&CALL:PAD_LINE&&ECHO  [ + ]\[Combine-Lists]&&ECHO  [ - ]\[Difference-List]&&ECHO  [ * ]\[Create Base-List]&&CALL:PAD_LINE&&ECHO   AVAILABLE BASE-LIST'S:&&SET "NLIST=MST"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a {#} To Start a New List&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
+CLS&&SET "ERROR="&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.
+ECHO  [ C ]\[Package-ImageApply[CAB]&&ECHO  [ M ]\[Package-ImageApply[MSU]&&ECHO  [ I ]\[Package-ImageApply[$PK]&&ECHO  [ S ]\[Package-SetupComplete[$PK]&&ECHO  [ R ]\[Package-RunOnce[$PK]&&ECHO  [ D ]\[DISM-List]&&ECHO.&&CALL:PAD_LINE
+ECHO  [ + ]\[Combine-Lists]&&ECHO  [ - ]\[Difference-List]&&ECHO  [ * ]\[Create Base-List]&&CALL:PAD_LINE&&ECHO   AVAILABLE BASE-LIST'S:
+SET "NLIST=MST"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a {#} To Start a New List&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
 SET "LIST_CREATE="&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
 IF "%SELECT%"=="*" SET "LIST_CREATE=BASE-LIST"&&CALL:LIST_BASE_CREATE
 IF "%SELECT%"=="+" SET "LIST_CREATE=SANDWICH"&&CALL:LIST_COMBINATOR
@@ -702,7 +705,8 @@ IF "%$HEAD%"=="BASE-LIST" CALL:LIST_UNIFIED_CREATE
 :LIST_END
 EXIT /B
 :LIST_UNIFIED_CREATE
-CLS&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&CALL:PAD_LINE&&ECHO                              Type of List?&&CALL:PAD_LINE&&ECHO  {1}AppX&&ECHO  {2}Component&&ECHO  {3}Feature&&ECHO  {4}Service&&ECHO  {5}Task&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+CLS&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&CALL:PAD_LINE&&ECHO                              Type of List?&&CALL:PAD_LINE
+ECHO  {1}AppX&&ECHO  {2}Component&&ECHO  {3}Feature&&ECHO  {4}Service&&ECHO  {5}Task&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
 IF "%SELECTX%"=="1" SET "LIST_ITEM=APPX"&&CLS&&CALL:PAD_LINE&&ECHO                             Type of Action?&&CALL:PAD_LINE&&ECHO  {1}Delete&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
 IF "%SELECTX%"=="2" SET "LIST_ITEM=COMPONENT"&&CLS&&CALL:PAD_LINE&&ECHO                             Type of Action?&&CALL:PAD_LINE&&ECHO  {1}Delete&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
 IF "%SELECTX%"=="3" SET "LIST_ITEM=FEATURE"&&CLS&&CALL:PAD_LINE&&ECHO                             Type of Action?&&CALL:PAD_LINE&&ECHO  {1}Disable&&ECHO  {2}Enable&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
@@ -739,7 +743,8 @@ CLS&&CALL:PAD_LINE&&ECHO                The Following Items Were Added/Combined:
 ECHO.&&CALL:PAD_LINE&&ECHO                           End of List Creation&&CALL:PAD_LINE&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_DISM_CREATE
-CLS&&SET "DISM_OPER="&&CALL:PAD_LINE&&ECHO                        DISM Image Maintainence&&CALL:PAD_LINE&&ECHO  {1}RestoreHealth&&ECHO  {2}Cleanup&&ECHO  {3}ResetBase&&ECHO  {4}SPSuperseded&&ECHO  {5}CheckHealth&&ECHO  {6}AnalyzeComponentStore&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
+CLS&&SET "DISM_OPER="&&CALL:PAD_LINE&&ECHO                        DISM Image Maintainence&&CALL:PAD_LINE
+ECHO  {1}RestoreHealth&&ECHO  {2}Cleanup&&ECHO  {3}ResetBase&&ECHO  {4}SPSuperseded&&ECHO  {5}CheckHealth&&ECHO  {6}AnalyzeComponentStore&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
 IF "%DISM_MENU%"=="1" SET "DISM_OPER=RESTOREHEALTH"
 IF "%DISM_MENU%"=="2" SET "DISM_OPER=CLEANUP"
 IF "%DISM_MENU%"=="3" SET "DISM_OPER=RESETBASE"
@@ -1316,7 +1321,8 @@ EXIT /B
 REM IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_
 :IMAGEPROC_START
 REM IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_CHK&&CALL:TITLE_GNC&&CALL:PAD_LINE&&ECHO                            Image Processing&&CALL:PAD_LINE&&IF NOT DEFINED WIM_XLVL SET "WIM_XLVL=FAST"
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_CHK&&CALL:TITLE_GNC&&IF NOT DEFINED WIM_XLVL SET "WIM_XLVL=FAST"
+CALL:PAD_LINE&&ECHO                            Image Processing&&CALL:PAD_LINE
 IF NOT DEFINED SOURCE_SLOT_IMAGE SET "SOURCE_SLOT_IMAGE=WIM"&&SET "TARGET_SLOT_IMAGE=VHDX"
 IF "%SOURCE_SLOT_IMAGE%"=="WIM" IF "%TARGET_SLOT_IMAGE%"=="VHDX" ECHO   WIM {X} VHDX - Restore Windows-Image to VHDX&&CALL:PAD_LINE
 IF "%SOURCE_SLOT_IMAGE%"=="WIM" IF "%TARGET_SLOT_IMAGE%"=="WIM" ECHO   WIM {X} WIM - Isolate Index&&CALL:PAD_LINE
@@ -1325,20 +1331,26 @@ IF "%SOURCE_SLOT_IMAGE%"=="VHDX" ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CAL
 IF "%SOURCE_SLOT_IMAGE%"=="WIM" ECHO   AVAILABLE WIM'S:&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. {S}OURCE-WIM]  [%WIM_SOURCE_IMAGE%] {I}ndex[%WIM_INDEX_IMAGE%] [Edition[%WIM_DESC_IMAGE%]&&CALL:PAD_LINE
 IF "%TARGET_SLOT_IMAGE%"=="VHDX" ECHO   EXISTING VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. {T}ARGET-VHDX] [%VHDX_TARGET_IMAGE%]      {G}o^^!  {V}Size[%VHDX_SIZE_IMAGE%MB] {Z}[%COMPACT%]
 IF "%TARGET_SLOT_IMAGE%"=="WIM" ECHO   EXISTING WIM'S:&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. {T}ARGET-WIM]  [%WIM_TARGET_IMAGE%]      {G}o^^!     {Z}[X-LVL[%WIM_XLVL%]
-CALL:PAD_LINE&&CALL:TITLECARD&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="X" CALL:IMAGEPROC_SLOT
+IF "%SELECT%"=="V" CALL:IMAGEPROC_VSIZE
 IF "%SELECT%"=="I" CALL:WIM_INDEX_IMAGE
 IF "%SELECT%"=="T" CALL:IMAGEPROC_PROMPT
-IF "%SELECT%"=="G" SET "CAME_FROM=IMAGE"&&CALL:IMAGEPROC&&CALL:PAUSED
-IF "%SELECT%"=="Z" IF "%TARGET_SLOT_IMAGE%"=="WIM" CALL:WIM_XLVL
-IF "%SELECT%"=="Z" IF "%TARGET_SLOT_IMAGE%"=="VHDX" IF "%COMPACT%"=="COMPACT-OS" SET "COMPACT=DISABLED"&&SET "SELECT="
-IF "%SELECT%"=="Z" IF "%TARGET_SLOT_IMAGE%"=="VHDX" IF "%COMPACT%"=="DISABLED" SET "COMPACT=COMPACT-OS"&&SET "SELECT="
-IF "%SELECT%"=="V" SET "PROMPT_SET=VHDX_SIZE_IMAGE"&&CALL:PAD_LINE&&ECHO                               VHDX size?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
-IF "%SELECT%"=="V" SET "SELECT=%VHDX_SIZE_IMAGE%"&&SET "FLAG123=1"&&SET "CHECK=NUM"&&CALL:CHECK
-IF "%FLAG123%"=="1" SET "FLAG123="&&IF DEFINED ERROR SET "VHDX_SIZE_IMAGE=25600"
+IF "%SELECT%"=="Z" CALL:IMAGEPROC_XLVL
 IF "%SELECT%"=="S" CALL:IMAGEPROC_PICK
+IF "%SELECT%"=="G" SET "CAME_FROM=IMAGE"&&CALL:IMAGEPROC&&CALL:PAUSED
 GOTO:IMAGEPROC_START
+:IMAGEPROC_XLVL
+IF "%TARGET_SLOT_IMAGE%"=="WIM" CALL:WIM_XLVL
+IF "%TARGET_SLOT_IMAGE%"=="VHDX" IF "%COMPACT%"=="COMPACT-OS" SET "COMPACT=DISABLED"&&EXIT /B
+IF "%TARGET_SLOT_IMAGE%"=="VHDX" IF "%COMPACT%"=="DISABLED" SET "COMPACT=COMPACT-OS"&&EXIT /B
+EXIT /B
+:IMAGEPROC_VSIZE
+SET "PROMPT_SET=VHDX_SIZE_IMAGE"&&CALL:PAD_LINE&&ECHO                               VHDX size?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
+SET "SELECT=%VHDX_SIZE_IMAGE%"&&SET "CHECK=NUM"&&CALL:CHECK
+IF DEFINED ERROR SET "VHDX_SIZE_IMAGE=25600"
+EXIT /B
 :IMAGEPROC_PROMPT
 IF "%TARGET_SLOT_IMAGE%"=="WIM" CALL:PAD_LINE&&ECHO                              Name of WIM?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=WIM_TARGET_IMAGE"&&CALL:PROMPT_SET_ANY
 IF "%TARGET_SLOT_IMAGE%"=="WIM" IF DEFINED WIM_TARGET_IMAGE CALL SET "WIM_TARGET_IMAGE=%WIM_TARGET_IMAGE%.WIM"
@@ -1427,18 +1439,18 @@ EXIT /B
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
 :DISKMGR_START
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
-@ECHO OFF&&CLS&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENU_FLAG="&&SET "ERROR="&&CALL:COLOR_CHK&&CALL:TITLE_GNC&&CALL:PAD_LINE&&CALL:CLEAN
-ECHO                             Disk Management&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE&&IF NOT DEFINED BOOT_PRIORITY SET "BOOT_PRIORITY=NULL"
+@ECHO OFF&&CLS&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENU_FLAG="&&SET "ERROR="&&CALL:COLOR_CHK&&CALL:TITLE_GNC&&CALL:CLEAN&&IF NOT DEFINED BOOT_PRIORITY SET "BOOT_PRIORITY=NULL"
+CALL:PAD_LINE&&ECHO                             Disk Management&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE
 IF NOT "%BOOT_IMAGE%"=="NONE" ECHO  [DISK] {B}oot^^! {I}nspect {E}rase {#}ChangeUID {U}SB {*}NextBoot[%BOOT_PRIORITY%]&&CALL:PAD_LINE
 IF "%BOOT_IMAGE%"=="NONE" ECHO  [DISK]  {I}nspect  {E}rase  {#}Change UID  {U}SB {*}NextBoot[%BOOT_PRIORITY%]&&CALL:PAD_LINE
 ECHO  [PARTITION]  {C}reate  {D}elete  {F}ormat  {M}ount/Unmount  {L}ock&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="*" CALL:BOOT_PRIORITY
-IF "%SELECT%"=="M" CALL:DISKMGR_MOUNT_PROMPT
 IF "%SELECT%"=="B" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START
 IF "%SELECT%"=="$" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START
 IF "%SELECT%"=="U" RunDll32.exe shell32.dll,Control_RunDLL hotplug.dll
+IF "%SELECT%"=="M" CALL:LETTER_GET&&CALL:DISKMGR_MOUNT_PROMPT&&SET "SELECT="
 IF "%SELECT%"=="I" CALL:DISK_MENU&&CALL:DISKMGR_INSPECT&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="E" SET "MENU_FLAG=1"&&CALL:DISKMGR_ERASE&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="C" SET "MENU_FLAG=1"&&CALL:DISK_MENU&&CALL:DISKMGR_CREATE&&CALL:DISK_PART_END&&SET "SELECT="
@@ -1505,7 +1517,6 @@ IF NOT DEFINED DISK_NUMBER EXIT /B
 (ECHO.select disk %DISK_NUMBER%&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
 EXIT /B
 :DISKMGR_MOUNT_PROMPT
-CALL:LETTER_GET
 IF NOT DEFINED DISK_LETTER EXIT /B
 IF EXIST "%DISK_LETTER%:\" CALL:PAD_LINE&&ECHO  UNMOUNTING [%DISK_LETTER%:\]&&CALL:PAD_LINE&&CALL:DISKMGR_UNMOUNT&&EXIT /B
 IF NOT EXIST "%DISK_LETTER%:\" CALL:DISK_MENU
@@ -1673,7 +1684,6 @@ CALL:PAD_LINE&&CALL ECHO  Detaching [%VDISK_TMP%]&&CALL:PAD_LINE
 DEL /F "$DSK*">NUL 2>&1
 EXIT /B
 :VDISK_COMPACT
-SET "PICK=VHDX"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_LINE
 (ECHO.Select vdisk file="%$PICK%"&&ECHO.Attach vdisk readonly&&ECHO.compact vdisk&&ECHO.detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&DEL "$DSK">NUL 2>&1
@@ -1682,10 +1692,10 @@ EXIT /B
 REM FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_
 :FILEMGR_START
 REM FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_
-@ECHO OFF&&CLS&&CALL:COLOR_CHK&&CALL:TITLE_GNC&&CALL:PAD_LINE&&ECHO                             File Management&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:COLOR_CHK&&CALL:TITLE_GNC&&CALL:PAD_LINE
 IF NOT DEFINED FMGR_SOURCE SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET=%PROG_TARGET%"
 IF NOT EXIST "%FMGR_SOURCE%\*" SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET=%PROG_TARGET%"
-ECHO  SRC {X} TGT - [SOURCE[%FMGR_SOURCE%] [TARGET[%FMGR_TARGET%]&&CALL:PAD_LINE
+ECHO                             File Management&&CALL:PAD_LINE&&ECHO  SRC {X} TGT - [SOURCE[%FMGR_SOURCE%] [TARGET[%FMGR_TARGET%]&&CALL:PAD_LINE
 IF "%FMGR_DUAL%"=="ENABLED" ECHO   CURRENTLY IN [TARGET[%FMGR_TARGET%]:&&SET "BLIST=FMGT"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO   CURRENTLY IN [SOURCE[%FMGR_SOURCE%]:&&SET "MENU_INSERTA= [SRC]\[..]"&&SET "BLIST=FMGS"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO  {E}xplore {N}ew {O}pen {C}opy {M}ove {R}en {D}el {V}iew {#}Own {*}Sym&&CALL:PAD_LINE
@@ -1784,12 +1794,10 @@ EXIT /B
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP
 :$ETUP_START
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP
-CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_CHK&&CALL:CLEAN&&SET "MENU_FLAG="
-IF "%BOOT_IMAGE%"=="NONE" GOTO:DISKMGR_START
-IF NOT DEFINED BCD_SYSTEM SET "BCD_SYSTEM=NAME"
+CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_CHK&&CALL:CLEAN&&SET "MENU_FLAG="&&SET "CAME_FROM="
+SET "BTMP=%WINDIR%\System32\config\ELAM"&&IF NOT DEFINED BCD_SYSTEM SET "BCD_SYSTEM=NAME"
 IF NOT DEFINED VHDX_SLOT_$ETUP SET "VHDX_SLOT_$ETUP=1"&&SET "BCDSLOT_CNT=2"
-SET "CAME_FROM="&&SET "BTMP=%WINDIR%\System32\config\ELAM"&&CALL:PAD_LINE&&ECHO                              Boot-Creator&&CALL:PAD_LINE
-ECHO    ~ { Erase Target-Disk ^& Create Image-Deploy Boot-Environment } ~&&CALL:PAD_LINE
+CALL:PAD_LINE&&ECHO                              Boot-Creator&&CALL:PAD_LINE&&ECHO    ~ { Erase Target-Disk ^& Create Image-Deploy Boot-Environment } ~&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" IF "%PROG_MODE%"=="RAMDISK" ECHO                     ~ {R}ebuild as [%BCD_SYSTEM%-MODE] } ~&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="ISOLATED" ECHO   BOOT-FOLDER:&&SET "BLIST=BOOT"&&CALL:FILE_LIST&&CALL:PAD_LINE
@@ -2491,26 +2499,23 @@ ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v 
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_UAC
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=111"&&SET "PACK_CFG_2=000"
-ECHO     - UAC Prompt -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET PackName=UAC_Prompt_Always_On&&SET PackDesc=UAC Always Prompt
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET PackName=UAC_Prompt_Always_Off&&SET PackDesc=UAC Never Prompt
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=111"&&SET "PACK_CFG_2=000"&&ECHO     - UAC Prompt -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=UAC_Prompt_Always_On"&&SET "PackDesc=UAC Always Prompt"
+IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=UAC_Prompt_Always_Off"&&SET "PackDesc=UAC Never Prompt"
 CALL:PACK_CONFIG
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_NOTIFICATION_CENTER
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=0"&&SET "PACK_CFG_2=1"
-ECHO   - Notification Center -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=0"&&SET "PACK_CFG_2=1"&&ECHO   - Notification Center -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Notification_Center_Enable"&&SET "PackDesc=Enable Notification Center"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Notification_Center_Diable"&&SET "PackDesc=Disable Notification Center"
 CALL:PACK_CONFIG
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_BT_VISIBILITY
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1111"&&SET "PACK_CFG_2=0000"
-ECHO   - Bluetooth Advertising -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1111"&&SET "PACK_CFG_2=0000"&&ECHO   - Bluetooth Advertising -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=BT_Visibility_On"&&SET "PackDesc=Enable Bluetooth Advertising"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=BT_Visibility_Off"&&SET "PackDesc=Disable Bluetooth Advertising"
 CALL:PACK_CONFIG
@@ -2520,8 +2525,7 @@ ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTE
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_LLT_DISCOVERY_RSPNDR
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1110"&&SET "PACK_CFG_2=0001"
-ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1110"&&SET "PACK_CFG_2=0001"&&ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=LLT_Enable"&&SET "PackDesc=Enable Link-Layer-Topology Discovery Responder Driver"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=LLT_Disable"&&SET "PackDesc=Disable Link-Layer-Topology Discovery Responder Driver"
 CALL:PACK_CONFIG
@@ -2531,8 +2535,7 @@ ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRs
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACKEX_VBS
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=110101"&&SET "PACK_CFG_2=000002"
-ECHO  - Virtualization Based Security -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=110101"&&SET "PACK_CFG_2=000002"&&ECHO  - Virtualization Based Security -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=VBS_Enable"&&SET "PackDesc=Enable Virtualization Based Security"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=VBS_Disable"&&SET "PackDesc=Disable Virtualization Based Security"
 CALL:PACK_CONFIG
