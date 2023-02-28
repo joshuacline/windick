@@ -86,9 +86,9 @@ Package Creator (via DISM)
 - RunOnce·Async     ·  Setup Phase 2  ·  1st user logon, user credentials, installations requiring an active user.
 #     □□□□□□□□□□□□□□□□□□□□□□□□□□
 Command-line parameters 
--        -help                                                    (This Menu)
+-        -help                                                    (This menu)
 -        -arg                                                     (1st arg=arguement test. Last arg=exec+test)
--        -listmgr -install -list xyz.lst                          (Install Package-List)
+-        -imagemgr -install -list name.LST                          (Install package list)
 - (Image Processing)
 -        -imageproc -wim {x.wim} -index {index} -vhdx {z.vhdx} -size {MB}
 -        -imageproc -wim  {x.wim} -index {index} -wim {x.wim} -xlvl {fast/max}
@@ -98,18 +98,18 @@ Command-line parameters
 -        -imageproc -wim x.wim -index 1 -wim x.wim -xlvl fast
 -        -imageproc -vhdx z.vhdx -index 1 -wim x.wim -xlvl fast
 - (Disk Manager)
-- You can address disks by static disk-uid or by disk #,  since both are parsed together internally.
--        -diskmgr -list                                           (Condensed list of Disks)
--        -diskmgr -getdisk -disk {#} /or/ -diskid {id}            (Query Disk # / Disk ID)
--        -diskmgr -inspect -disk {#} /or/ -diskid {id}            (DiskPart Inquiry on Specified Disk)
--        -diskmgr -erase -disk {#} /or/ -diskid {id}              (Delete All Partitions on Specified Disk)
--        -diskmgr -changeid -disk {#} /or/ -diskid {id} {new id}  (Change Disk ID of Specified Disk)
--        -diskmgr -create -disk {#} /or/ -diskid {id} -size {MB}  (Create NTFS Partition on Specified Disk)
--        -diskmgr -format -disk {#} /or/ -diskid {id} -part {#}   (Format Partition w/NTFS on Specified Disk)
--        -diskmgr -delete -disk {#} /or/ -diskid {id} -part {#}   (Delete Partition on Specified Disk)
--        -diskmgr -lock -disk {#} /or/ -diskid {id} -part {#}     (Mark Partition GUID as "Do Not Mount")
--        -diskmgr -unmount -letter {ltr}                          (Remove Drive Letter)
--        -diskmgr -mount -disk {#} /or/ -diskid {id} -part {#} -letter {ltr}    (Assign Drive Letter + unlock)
+- You can address disks by static disk-uid or by disk #, since both are parsed together internally.
+-        -diskmgr -list                                           (Condensed list of disks)
+-        -diskmgr -getdisk -disk {#} /or/ -diskid {id}            (Query disk # / disk id)
+-        -diskmgr -inspect -disk {#} /or/ -diskid {id}            (DiskPart inquiry on specified disk)
+-        -diskmgr -erase -disk {#} /or/ -diskid {id}              (Delete All partitions on specified disk)
+-        -diskmgr -changeid -disk {#} /or/ -diskid {id} {new id}  (Change disk id of specified disk)
+-        -diskmgr -create -disk {#} /or/ -diskid {id} -size {MB}  (Create NTFS partition on specified disk)
+-        -diskmgr -format -disk {#} /or/ -diskid {id} -part {#}   (Format partition w/NTFS on specified disk)
+-        -diskmgr -delete -disk {#} /or/ -diskid {id} -part {#}   (Delete partition on specified disk)
+-        -diskmgr -lock -disk {#} /or/ -diskid {id} -part {#}     (Mark partition GUID as "Do Not Mount")
+-        -diskmgr -unmount -letter {ltr}                          (Remove drive letter)
+-        -diskmgr -mount -disk {#} /or/ -diskid {id} -part {#} -letter {ltr}    (Assign drive letter + unlock)
 - Examples:
 -        -diskmgr -create -disk 0 -size 25600
 -        -diskmgr -mount -disk 0 -part 1 -letter e
