@@ -160,34 +160,34 @@ IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-ISO" IF DEFINED AR
 EXIT /B
 :COMMAND_HELP
 SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                $HAZZAM COMMAND-LINE PARAMETERS:&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
-SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO        NOTE: YOU CAN ADDRESS DISKS BY DISK-ID OR DISK #.&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
+SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO        NOTE: You can address disks by disk-id or disk #.&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -help                                                    (This Menu)
 ECHO    -arg                                                     (1st arg=arguement test. Last arg=exec+test)
-ECHO    -imagemgr -install -list {name.LST}                      (Live-Install Package-List)
+ECHO    -imagemgr -install -list {name.LST}                      (Install Package-List)
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
-ECHO     The specified boot-media and VHDX must be in the main program folder or the operation will fail.
-ECHO    -bootmaker -create -disk {#} / -diskid {ID} -src {boot.wim}   (Erase + Create Boot-Media on Specified Disk)
+ECHO     The specified boot-media and vhdx must be in their respective folders or the operation will fail.
+ECHO    -bootmaker -create -disk {#} / -diskid {id} -src {boot.wim}   (Erase + Create Boot-Media on Specified Disk)
 ECHO  Examples:
 ECHO    -bootmaker -create -disk 0 -src boot.wim -vhdx z.vhdx
 ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.sav -vhdx z.vhdx
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
-ECHO    -diskmgr -list                                           (Condensed list of Disks)
-ECHO    -diskmgr -getdisk -disk {#} /or/ -diskid {ID}            (Query Disk # / Disk ID)
-ECHO    -diskmgr -inspect -disk {#} /or/ -diskid {ID}            (Full DiskPart Inquiry on Specified Disk)
-ECHO    -diskmgr -erase -disk {#} /or/ -diskid {ID}              (Delete All Partitions on Specified Disk)
-ECHO    -diskmgr -changeid -disk {#} /or/ -diskid {ID} {NEW ID}  (Change Disk ID of Specified Disk)
-ECHO    -diskmgr -create -disk {#} /or/ -diskid {ID} -size {MB}  (Create NTFS Partition on Specified Disk)
-ECHO    -diskmgr -format -disk {#} /or/ -diskid {ID} -part {#}   (Format Partition w/NTFS on Specified Disk)
-ECHO    -diskmgr -delete -disk {#} /or/ -diskid {ID} -part {#}   (Delete Partition on Specified Disk)
-ECHO    -diskmgr -lock -disk {#} /or/ -diskid {ID} -part {#}     (Mark Partition GUID as "Do Not Mount")
-ECHO    -diskmgr -unmount -letter {LTR}                          (Remove Drive Letter)
-ECHO    -diskmgr -mount -disk {#} /or/ -diskid {ID} -part {#} -letter {ltr} (Assign Drive Letter + unlock)
+ECHO    -diskmgr -list                                           (Condensed list of disks)
+ECHO    -diskmgr -getdisk -disk {#} /or/ -diskid {id}            (Query disk # / disk id)
+ECHO    -diskmgr -inspect -disk {#} /or/ -diskid {id}            (DiskPart inquiry on specified disk)
+ECHO    -diskmgr -erase -disk {#} /or/ -diskid {id}              (Delete All partitions on specified disk)
+ECHO    -diskmgr -changeid -disk {#} /or/ -diskid {id} {new id}  (Change disk id of specified disk)
+ECHO    -diskmgr -create -disk {#} /or/ -diskid {id} -size {MB}  (Create NTFS partition on specified disk)
+ECHO    -diskmgr -format -disk {#} /or/ -diskid {id} -part {#}   (Format partition w/NTFS on specified disk)
+ECHO    -diskmgr -delete -disk {#} /or/ -diskid {id} -part {#}   (Delete partition on specified disk)
+ECHO    -diskmgr -lock -disk {#} /or/ -diskid {id} -part {#}     (Mark partition GUID as "Do Not Mount")
+ECHO    -diskmgr -unmount -letter {ltr}                          (Remove drive letter)
+ECHO    -diskmgr -mount -disk {#} /or/ -diskid {id} -part {#} -letter {ltr} (Assign drive letter + unlock)
 ECHO  Examples:
 ECHO    -diskmgr -create -disk 0 -size 25600
 ECHO    -diskmgr -mount -disk 0 -part 1 -letter e
 ECHO    -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
-ECHO     WIM/VHDX Source Images must be placed in their respective folders (unified/isolated) or the operation will fail.
+ECHO     Source images must be placed in their respective folders or the operation will fail.
 ECHO    -imageproc -wim {x.wim} -index {index#} -vhdx {z.vhdx} -size {MB}
 ECHO    -imageproc -wim  {x.wim} -index {index#} -wim {x.wim} -xlvl {fast/max}
 ECHO    -imageproc -vhdx {z.vhdx} -index {index#} -wim {x.wim} -xlvl {fast/max}
