@@ -27,7 +27,6 @@ Boot Creator (via Diskpart+DISM)
 - Provided with a Windows installation source, you can create a simple yet robust bootable WinPE recovery/testing environment.
 - The basic environment is absent of explorer shell, start-menu, or other luxuries.
 - However since $haZZam uses live off the land commands, you can survive this outback without 3rd-party apps.
-- All is not lost, there are some handy macros located on the main menu and some basic functionalities to help get by.
 - Easy Boot: Stock configuration. VHDX images are stored on partition 2 of the boot-drive
 - Spanning Boot: Create a folder named "$" at the base of any other connected NTFS formatted drive. Place bootable VHDX images in folder
 - Virtual hard disk images (slot/0-9.vhdx , name/pre-specified) are detected across NTFS drives during boot and added to the boot-list
@@ -61,7 +60,7 @@ Image Management (via DISM)
 - Create lists to · Enable · Disable · Add · Delete
 -     AppX · Features · Components · Services · Tasks · Updates
 - ![Alt text](/png/ListCreator.png "List Creator")
-- Generate list-base from a Windows image or live with menu option {*}.
+- Generate base-list from a Windows source or live with menu option {*}.
 - Appx/Components/Features/Services/Tasks list-base generated from a 22H2 image in notepad:
 - ![Alt text](/png/MLB_MST1.png "List-Base Extract")
 - Combine multiple actions with a list
@@ -89,35 +88,35 @@ Package Creator (via DISM)
 Command-line parameters 
 -        -help                                                    (This Menu)
 -        -arg                                                     (1st arg=arguement test. Last arg=exec+test)
--        -listmgr -install -list xyz.lst                          (Live Install Package-List)
+-        -listmgr -install -list xyz.lst                          (Install Package-List)
 - (Image Processing)
--        -imageproc -wim {ABC.WIM} -index {index} -vhdx {123.VHDX} -size {MB}
--        -imageproc -wim  {ABC.WIM} -index {index} -wim {ABC.WIM} -xlvl {fast/max}
--        -imageproc -vhdx {123.VHDX} -index {index} -wim {ABC.WIM} -xlvl {fast/max}
+-        -imageproc -wim {x.wim} -index {index} -vhdx {z.vhdx} -size {MB}
+-        -imageproc -wim  {x.wim} -index {index} -wim {x.wim} -xlvl {fast/max}
+-        -imageproc -vhdx {z.vhdx} -index {index} -wim {x.wim} -xlvl {fast/max}
 - Examples:
--        -imageproc -wim ABC.WIM -index 1 -vhdx 123.VHDX -size 25600
--        -imageproc -wim ABC.WIM -index 1 -wim ABC.WIM -xlvl fast
--        -imageproc -vhdx 123.VHDX -index 1 -wim ABC.WIM -xlvl fast
+-        -imageproc -wim x.wim -index 1 -vhdx z.vhdx -size 25600
+-        -imageproc -wim x.wim -index 1 -wim x.wim -xlvl fast
+-        -imageproc -vhdx z.vhdx -index 1 -wim x.wim -xlvl fast
 - (Disk Manager)
-- You can address disks by static disk-UID or by DISK #,  since both are parsed together internally.
+- You can address disks by static disk-uid or by disk #,  since both are parsed together internally.
 -        -diskmgr -list                                           (Condensed list of Disks)
--        -diskmgr -getdisk -disk {#} /or/ -diskid {ID}            (Query Disk # / Disk ID)
--        -diskmgr -inspect -disk {#} /or/ -diskid {ID}            (Full DiskPart Inquiry on Specified Disk)
--        -diskmgr -erase -disk {#} /or/ -diskid {ID}              (Delete All Partitions on Specified Disk)
--        -diskmgr -changeid -disk {#} /or/ -diskid {ID} {NEW ID}  (Change Disk ID of Specified Disk)
--        -diskmgr -create -disk {#} /or/ -diskid {ID} -size {MB}  (Create NTFS Partition on Specified Disk)
--        -diskmgr -format -disk {#} /or/ -diskid {ID} -part {#}   (Format Partition w/NTFS on Specified Disk)
--        -diskmgr -delete -disk {#} /or/ -diskid {ID} -part {#}   (Delete Partition on Specified Disk)
--        -diskmgr -lock -disk {#} /or/ -diskid {ID} -part {#}     (Mark Partition GUID as "Do Not Mount")
--        -diskmgr -unmount -letter {LTR}                          (Remove Drive Letter)
--        -diskmgr -mount -disk {#} /or/ -diskid {ID} -part {#} -letter {LTR}    (Assign Drive Letter + unlock)
+-        -diskmgr -getdisk -disk {#} /or/ -diskid {id}            (Query Disk # / Disk ID)
+-        -diskmgr -inspect -disk {#} /or/ -diskid {id}            (DiskPart Inquiry on Specified Disk)
+-        -diskmgr -erase -disk {#} /or/ -diskid {id}              (Delete All Partitions on Specified Disk)
+-        -diskmgr -changeid -disk {#} /or/ -diskid {id} {new id}  (Change Disk ID of Specified Disk)
+-        -diskmgr -create -disk {#} /or/ -diskid {id} -size {MB}  (Create NTFS Partition on Specified Disk)
+-        -diskmgr -format -disk {#} /or/ -diskid {id} -part {#}   (Format Partition w/NTFS on Specified Disk)
+-        -diskmgr -delete -disk {#} /or/ -diskid {id} -part {#}   (Delete Partition on Specified Disk)
+-        -diskmgr -lock -disk {#} /or/ -diskid {id} -part {#}     (Mark Partition GUID as "Do Not Mount")
+-        -diskmgr -unmount -letter {ltr}                          (Remove Drive Letter)
+-        -diskmgr -mount -disk {#} /or/ -diskid {id} -part {#} -letter {ltr}    (Assign Drive Letter + unlock)
 - Examples:
 -        -diskmgr -create -disk 0 -size 25600
 -        -diskmgr -mount -disk 0 -part 1 -letter e
 -        -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
 - (Boot Environment Creator)
--        -bootmaker -create -disk 0 -src Boot.WIM -vhdx 123.VHDX
--        -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.SAV -vhdx 123.VHDX
+-        -bootmaker -create -disk 0 -src boot.wim -vhdx z.vhdx
+-        -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.sav -vhdx z.vhdx
 - Boot creator cmdline
 - ![Alt text](/png/Cmdline.png "Boot Creator")
 #     □□□□□□□□□□□□□□□□□□□□□□□□□□
