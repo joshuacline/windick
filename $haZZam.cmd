@@ -210,7 +210,7 @@ IF "%TITLE%"=="0" TITLE  Boot-media can be imported in Image Management.
 IF "%TITLE%"=="" GOTO:TITLECARD
 EXIT /B
 :PROG_MAIN_HELP
-CLS&&COLOR 0B&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE
+CLS&&COLOR 0B&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.
 ECHO   {1}Image Management     [Perform image related tasks]            
 ECHO   {2}Image Processor      [Convert/isolate WIM/VHDX images]        
 ECHO   {3}Package Creator      [Create driver/scripted $PK packages]    
@@ -218,7 +218,7 @@ ECHO   {4}File Management      [Simple file manager, file-picker]
 ECHO   {5}Disk Management      [Basic disk partitioning]                
 ECHO    *{B}oot^^!               [Create bootable-deployment environment]
 ECHO   {6}Tasks                [Admin tasks via instant pack]        
-ECHO   {.}Settings             [Settings backup, etc]                  
+ECHO   {.}Settings             [Settings backup, etc]&&ECHO.              
 ECHO       *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :DISCLAIMER
