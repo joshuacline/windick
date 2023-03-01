@@ -492,15 +492,15 @@ REM $ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS
 :$ETTINGS_START
 REM $ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS_$ETTINGS 
 CLS&&CALL:SETS_HANDLER&&CALL:COLOR_CHK&&CALL:PAD_LINE
-ECHO                         Settings Configuration&&CALL:PAD_LINE&&ECHO.
-ECHO  {P}adding Style   [%PAD_TYPE%]
-IF NOT DEFINED COLOR_SLOT ECHO  {T}ext Color      [SHUFFLE]
-IF DEFINED COLOR_SLOT ECHO  {T}ext Color      [%COLOR_SLOT%]
-ECHO  {S}afe Exclude    [%SAFE_EXCLUDE%]&&ECHO  {F}older Layout   [%FOLDER_MODE%]&&ECHO  {B}rute TSK/SVC   [%BRUTE_FORCE%]
-IF "%SHORTCUTS%"=="DISABLED" ECHO  {M}enu Shortcuts  [%SHORTCUTS%]&&ECHO.&&CALL:PAD_LINE
+ECHO                         Settings Configuration&&CALL:PAD_LINE&&ECHO.&&ECHO  {P}adding Style     [%PAD_TYPE%]
+IF NOT DEFINED COLOR_SLOT ECHO  {T}ext Color        [SHUFFLE]
+IF DEFINED COLOR_SLOT ECHO  {T}ext Color        [%COLOR_SLOT%]
+ECHO  {S}afe Exclude      [%SAFE_EXCLUDE%]&&ECHO  {B}rute TSK/SVC     [%BRUTE_FORCE%]&&ECHO  {F}older Layout     [%FOLDER_MODE%]
+IF "%AUTOPILOT%"=="DISABLED" ECHO  {E}nable AutoPilot  [%AUTOPILOT%]
+IF "%SHORTCUTS%"=="DISABLED" ECHO  {M}enu Shortcuts    [%SHORTCUTS%]&&ECHO.&&CALL:PAD_LINE
 IF "%SHORTCUTS%"=="ENABLED" ECHO.&&CALL:PAD_LINE&&CALL ECHO  {M}enu Shortcuts[%SHORTCUTS%] {X}Slot[%SHORT_SLOT%] {A}ssign [%%SHORT_%SHORT_SLOT%%%] {H}otKey [%%HOTKEY_%SHORT_SLOT%%%]&&CALL:PAD_LINE
 ECHO  [Settings]  {C}reate {R}estore  {#}Clear Settings {@}Clear Shortcuts&&CALL:PAD_LINE
-ECHO  [AutoPilot-%AUTOPILOT%]   {E}nable   {D}isable   {V}iew AutoPilot.cmd&&CALL:PAD_LINE
+IF "%AUTOPILOT%"=="ENABLED" ECHO  [AutoPilot-%AUTOPILOT%]   {E}nable   {D}isable   {V}iew AutoPilot.cmd&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="#" CALL:SETS_CREATE&&SET "SELECT="
