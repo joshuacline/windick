@@ -22,11 +22,11 @@ SET "MOUNT="&&IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="X:\$" CALL:HOME_A
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_CHK&&CALL:CLEAN&&CALL:PAD_LINE
 IF NOT "%PROG_MODE%"=="RAMDISK" ECHO                          $haZZam^^! Image-Deploy&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" ECHO                 $haZZam^^! Image-Deploy Boot-Environment&&CALL:PAD_LINE
-ECHO  {1} Image Management&&ECHO  {2} Image Processor&&ECHO  {3} Package Creator&&ECHO  {4} File Management&&ECHO  {5} Disk Management&&ECHO  {6} Tasks&&ECHO  {.} Settings&&CALL:PAD_LINE
+ECHO.&&ECHO  {1} Image Management&&ECHO  {2} Image Processor&&ECHO  {3} Package Creator&&ECHO  {4} File Management&&ECHO  {5} Disk Management&&ECHO  {6} Tasks&&ECHO  {.} Settings&&ECHO.&&CALL:PAD_LINE
 IF EXIST "%PROG_SOURCE%\DISK_TARGET" IF "%PROG_SOURCE%"=="%PROG_FOLDER%" ECHO  [Disk[Error {@@} Attempt Home-ReAssign [ID[%DISK_TARGET%]&&CALL:PAD_LINE
 IF DEFINED DISK_TARGET IF "%HOME_MOUNT%"=="YES" IF "%PROG_SOURCE%"=="S:\$" ECHO  [Disk[%DISK_NUMBER%] [ID[%DISK_TARGET%]&&CALL:PAD_LINE
 IF "%SHORTCUTS%"=="ENABLED" ECHO  {Q}uit {%HOTKEY_1%} {%HOTKEY_2%} {%HOTKEY_3%} {%HOTKEY_4%} {%HOTKEY_5%}&&CALL:PAD_LINE
-IF NOT "%SHORTCUTS%"=="ENABLED" ECHO  {Q}uit {?}Info                                       [%PROG_MODE% MODE]&&CALL:PAD_LINE
+IF NOT "%SHORTCUTS%"=="ENABLED" ECHO  {Q}uit {?}                                           [%PROG_MODE% MODE]&&CALL:PAD_LINE
 IF NOT "%PROG_MODE%"=="RAMDISK" IF "%PAD_TYPE%"=="8" CALL:PAD_LINE>NUL
 CALL:MENU_SELECT
 IF "%SELECT%"=="1" GOTO:IMAGEMGR_START
@@ -210,16 +210,16 @@ IF "%TITLE%"=="0" TITLE  Boot-media can be imported in Image Management.
 IF "%TITLE%"=="" GOTO:TITLECARD
 EXIT /B
 :PROG_MAIN_HELP
-CLS&&COLOR 0B&&CALL:PAD_LINE&&ECHO                           ~ Main Menu Help ~&&CALL:PAD_LINE
+CLS&&COLOR 0B&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE
 ECHO   {1}Image Management     [Perform image related tasks]            
 ECHO   {2}Image Processor      [Convert/isolate WIM/VHDX images]        
 ECHO   {3}Package Creator      [Create driver/scripted $PK packages]    
 ECHO   {4}File Management      [Simple file manager, file-picker]       
 ECHO   {5}Disk Management      [Basic disk partitioning]                
 ECHO    *{B}oot^^!               [Create bootable-deployment environment]
-ECHO   {6}Tasks                [Admin tasks, instant-packs, etc]        
-ECHO   {.}Settings             [Settings-backup, misc]                  
-ECHO      *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
+ECHO   {6}Tasks                [Admin tasks via instant pack]        
+ECHO   {.}Settings             [Settings backup, etc]                  
+ECHO       *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :DISCLAIMER
 CLS&&COLOR 0C&&CALL:PAD_LINE&&ECHO 
@@ -2150,13 +2150,13 @@ EXIT /B
 :PACKEX_MENU_START
 @ECHO OFF&&CLS&&CALL:COLOR_CHK&&CALL:TITLE_GNC
 CALL:PAD_LINE&&ECHO                                {TASKS}&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A1} End Task                                              (INSTANT)
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO.&&ECHO  {A1} End Task                                              (INSTANT)
 IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A2} Start/Stop Service                                    (INSTANT)
 IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {A3} List Accounts                                         (INSTANT)
 IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  {FS} FOR-Sight                                             (INSTANT)
 ECHO  {M1} Create Local User-Account
 ECHO  {M2} Create Local Admin-Account
-IF "%EXAMPLE_MODE%"=="INSTANT" GOTO:PACKEX_JUMP
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO.&&GOTO:PACKEX_JUMP
 CALL:PAD_LINE&&ECHO                         {New Package Template}&&CALL:PAD_LINE
 ECHO  {N01} New Driver Package                                  (DRIVER)
 ECHO  {N02} New Scripted Package                                (SCRIPTED)
