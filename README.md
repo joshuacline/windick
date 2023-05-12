@@ -1,7 +1,7 @@
 $haZZam! A native command shell Windows image deployment tool
 - Administrate · Develop · Build · Dismantle · Backup · Test · Customize · Automate
 - From boot to deploy, the one and only complete Windows image container-based recovery solution.
-- ![Alt text](/png/TripleB1.png "W11 VHDX-Boot Menu")
+- ![Alt text](/png/TripleA1.png "W11 VHDX-Boot Menu")
 - Windows-To-Go (USB) / Windows-To-Stay (SSD)
 - Create a secure-boot compatible W11 22H2 VHDX-Boot USB
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
