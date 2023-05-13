@@ -14,4 +14,3 @@ $haZZam! A native command shell Windows image deployment tool
 ![Alt text](/png/09.png "09")
 ![Alt text](/png/10.png "10")
 ![Alt text](/png/11.png "11")
-#     □□□□□□□□□□□□□□□□□□□□□□□□□□
