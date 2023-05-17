@@ -522,10 +522,10 @@ ECHO  (%##%1%#$%)Padding Style    [%#@%%PAD_TYPE%%#$%]&&ECHO  (%##%2%#$%)Color T
 ECHO  (%##%4%#$%)Color Button     [%#@%%COLOR_BTN%%#$%]&&ECHO  (%##%5%#$%)Color Size       [%#@%%COLOR_SIZ%%#$%]&&ECHO  (%##%6%#$%)Color Layout     [%#@%%COLOR_LAY%%#$%]
 ECHO  (%##%7%#$%)Color Sequence   [%#@%%COLOR_SEQ%%#$%](%##%-%#$%)&&ECHO  (%##%S%#$%)afe Exclude      [%#@%%SAFE_EXCLUDE%%#$%]
 ECHO  (%##%B%#$%)rute TSK/SVC     [%#@%%BRUTE_FORCE%%#$%]&&ECHO  (%##%F%#$%)older Layout     [%#@%%FOLDER_MODE%%#$%]
+IF "%SHORTCUTS%"=="DISABLED" ECHO  (%##%M%#$%)enu Shortcuts    [%#@%%SHORTCUTS%%#$%]
 IF "%AUTOBOOT%"=="DISABLED" ECHO  (%##%$%#$%)AutoBoot         [%#@%%AUTOBOOT%%#$%]
-IF "%SHORTCUTS%"=="DISABLED" ECHO  (%##%M%#$%)enu Shortcuts    [%#@%%SHORTCUTS%%#$%]&&ECHO.&&CALL:PAD_LINE
-IF "%SHORTCUTS%"=="ENABLED" ECHO.&&CALL:PAD_LINE&&CALL ECHO  [%#@%Shortcut%#$%] (%##%M%#$%)Disable (%##%X%#$%)Slot[%#@%%SHORT_SLOT%%#$%] (%##%A%#$%)ssign [%#@%%%SHORT_%SHORT_SLOT%%%%#$%] (%##%H%#$%)otKey [%#@%%%HOTKEY_%SHORT_SLOT%%%%#$%]&&CALL:PAD_LINE
-ECHO  [%#@%Settings%#$%]  (%##%C%#$%)reate (%##%R%#$%)estore (%##%#%#$%)Clear Settings (%##%@%#$%)Clear Shortcuts&&CALL:PAD_LINE
+ECHO.&&CALL:PAD_LINE&&ECHO  [%#@%Settings%#$%]  (%##%C%#$%)reate (%##%R%#$%)estore (%##%#%#$%)Clear Settings (%##%@%#$%)Clear Shortcuts&&CALL:PAD_LINE
+IF "%SHORTCUTS%"=="ENABLED" CALL ECHO  [%#@%Shortcut%#$%] (%##%M%#$%)Disable (%##%X%#$%)Slot[%#@%%SHORT_SLOT%%#$%] (%##%A%#$%)ssign [%#@%%%SHORT_%SHORT_SLOT%%%%#$%] (%##%H%#$%)otKey [%#@%%%HOTKEY_%SHORT_SLOT%%%%#$%]&&CALL:PAD_LINE
 IF "%AUTOBOOT%"=="ENABLED" ECHO  [%#@%AutoBoot%#$%] (%##%$%#$%)Delete AutoBoot.cmd (%##%V%#$%)iew (%##%*I%#$%)nstall SVC(%##%*R%#$%)emove SVC&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
