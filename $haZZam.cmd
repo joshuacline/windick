@@ -192,6 +192,8 @@ ECHO    -arg                                                     (1st arg=arguem
 ECHO    -imagemgr -install -list (name.LST)                      (Install Package-List)
 ECHO    -bootnext -vhdx                                          (Schedule next boot to vhdx)
 ECHO    -bootnext -recovery                                      (Schedule next boot to recovery)
+ECHO    -autoboot -install                                       (Install reboot to recovery service)
+ECHO    -autoboot -remove                                        (Remove reboot to recovery service)
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO     The specified boot-media and vhdx must be in their respective folders or the operation will fail.
 ECHO    -bootmaker -create -disk (#) / -diskid (id) -src (boot.wim)   (Erase + Create Boot-Media on Specified Disk)
@@ -522,9 +524,9 @@ ECHO  (%##%7%#$%)Color Sequence   [%#@%%COLOR_SEQ%%#$%](%##%-%#$%)&&ECHO  (%##%S
 ECHO  (%##%B%#$%)rute TSK/SVC     [%#@%%BRUTE_FORCE%%#$%]&&ECHO  (%##%F%#$%)older Layout     [%#@%%FOLDER_MODE%%#$%]
 IF "%AUTOBOOT%"=="DISABLED" ECHO  (%##%$%#$%)AutoBoot         [%#@%%AUTOBOOT%%#$%]
 IF "%SHORTCUTS%"=="DISABLED" ECHO  (%##%M%#$%)enu Shortcuts    [%#@%%SHORTCUTS%%#$%]&&ECHO.&&CALL:PAD_LINE
-IF "%SHORTCUTS%"=="ENABLED" ECHO.&&CALL:PAD_LINE&&CALL ECHO  (%##%M%#$%)enu Shortcuts[%#@%%SHORTCUTS%%#$%] (%##%X%#$%)Slot[%#@%%SHORT_SLOT%%#$%] (%##%A%#$%)ssign [%#@%%%SHORT_%SHORT_SLOT%%%%#$%] (%##%H%#$%)otKey [%#@%%%HOTKEY_%SHORT_SLOT%%%%#$%]&&CALL:PAD_LINE
-ECHO  [%#@%Settings%#$%]  (%##%C%#$%)reate (%##%R%#$%)estore  (%##%#%#$%)Clear Settings (%##%@%#$%)Clear Shortcuts&&CALL:PAD_LINE
-IF "%AUTOBOOT%"=="ENABLED" ECHO  [%#@%AutoBoot] (%##%$%#$%)Delete AutoBoot.cmd (%##%V%#$%)iew (%##%*I%#$%)nstall SVC(%##%*R%#$%)emove SVC&&CALL:PAD_LINE
+IF "%SHORTCUTS%"=="ENABLED" ECHO.&&CALL:PAD_LINE&&CALL ECHO  [%#@%Shortcut%#$%] (%##%M%#$%)Disable (%##%X%#$%)Slot[%#@%%SHORT_SLOT%%#$%] (%##%A%#$%)ssign [%#@%%%SHORT_%SHORT_SLOT%%%%#$%] (%##%H%#$%)otKey [%#@%%%HOTKEY_%SHORT_SLOT%%%%#$%]&&CALL:PAD_LINE
+ECHO  [%#@%Settings%#$%]  (%##%C%#$%)reate (%##%R%#$%)estore (%##%#%#$%)Clear Settings (%##%@%#$%)Clear Shortcuts&&CALL:PAD_LINE
+IF "%AUTOBOOT%"=="ENABLED" ECHO  [%#@%AutoBoot%#$%] (%##%$%#$%)Delete AutoBoot.cmd (%##%V%#$%)iew (%##%*I%#$%)nstall SVC(%##%*R%#$%)emove SVC&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="-" SET "COLOR_SEQ="&&SET "SELECT="
@@ -552,15 +554,17 @@ IF "%SELECT%"=="4" SET /A "COLOR_BTN+=1"&&IF "%COLOR_BTN%"=="9" SET "COLOR_BTN=0
 IF "%SELECT%"=="X" SET /A "SHORT_SLOT+=1"&&IF "%SHORT_SLOT%"=="5" SET "SHORT_SLOT=1"&&SET "SELECT="
 IF "%SELECT%"=="*R" SET "BOOTSVC=REMOVE"&&CALL:AUTOBOOT_TOGGLE&&CALL:PAD_LINE&&ECHO AutoBoot service is removed&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%SELECT%"=="*I" SET "BOOTSVC=INSTALL"&&CALL:AUTOBOOT_TOGGLE&&CALL:PAD_LINE&&ECHO AutoBoot service is installed&&CALL:PAD_LINE&&CALL:PAUSED
-IF "%SELECT%"=="$" IF EXIST "%PROG_SOURCE%\AutoBoot.cmd" MOVE /Y "%PROG_SOURCE%\AutoBoot.cmd" "%PROG_SOURCE%\AutoBoot.TXT">NUL&&SET "SELECT="
+IF "%SELECT%"=="$" IF EXIST "%PROG_SOURCE%\AutoBoot.cmd" MOVE /Y "%PROG_SOURCE%\AutoBoot.cmd" "%PROG_SOURCE%\AutoBoot.txt">NUL&&SET "SELECT="
 IF "%SELECT%"=="@" SET "SHORTCUTS=DISABLED"&&FOR %%a in (1 2 3 4 5 6 7 8 9) DO (SET "HOTKEY_%%a="&&SET "SHORT_%%a=")
 IF "%SELECT%"=="A" IF "%SHORTCUTS%"=="ENABLED" SET "PROMPT_SET=SHORT_%SHORT_SLOT%"&&CALL:PAD_LINE&&ECHO                              Type Command&&CALL:PAD_LINE&&CALL:PROMPT_SET
 IF "%SELECT%"=="H" IF "%SHORTCUTS%"=="ENABLED" CALL:PAD_LINE&&ECHO                          Type 2+ Digit Hotkey&&CALL:PAD_LINE&&SET "PROMPT_SET=HOTKEY_%SHORT_SLOT%"&&CALL:PROMPT_SET
 IF "%SELECT%"=="7" CALL:PAD_LINE&&ECHO                         Type 10 Digit Sequence&&CALL:PAD_LINE&&SET "PROMPT_SET=COLOR_XXX"&&CALL:PROMPT_SET
 IF "%SELECT%"=="7" SET "XNTX="&&FOR /F "DELIMS=" %%G IN ('CMD.EXE /D /U /C ECHO %COLOR_XXX%^| FIND /V ""') do (CALL SET /A XNTX+=1)
 IF "%SELECT%"=="7" IF "%XNTX%"=="10" SET "COLOR_SEQ=%COLOR_XXX%"
-IF "%SELECT%"=="$" CALL:PAD_LINE&&ECHO      This will generate AutoBoot.cmd. This is an advanced feature.&&ECHO          You will need to delete AutoBoot.cmd to disable it.
-IF "%SELECT%"=="$" ECHO                  Are your sure? Press (X) to confirm.&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF "%SELECT%"=="$" IF NOT EXIST "%PROG_SOURCE%\AutoBoot.txt" CALL:PAD_LINE&&ECHO      This will generate AutoBoot.cmd. This is an advanced feature.&&SET "AUTOMSG=                 Are your sure? Press (X) to confirm."
+IF "%SELECT%"=="$" IF EXIST "%PROG_SOURCE%\AutoBoot.txt" CALL:PAD_LINE&&ECHO              AutoBoot.txt found. Restore or generate new?&&SET "AUTOMSG=                      Restore (%#@%R%#$%/%#@%X%#$%) Generate New."
+IF "%SELECT%"=="$" ECHO.%AUTOMSG%&&SET "AUTOMSG="&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF "%SELECT%"=="$" IF "%CONFIRM%"=="R" MOVE /Y "%PROG_SOURCE%\AutoBoot.txt" "%PROG_SOURCE%\AutoBoot.cmd">NUL&&SET "SELECT="
 IF "%SELECT%"=="$" IF "%CONFIRM%"=="X" CALL:AUTOBOOT_EXAMPLE
 GOTO:$ETTINGS_START
 :AUTOBOOT_VIEW
@@ -611,7 +615,7 @@ ECHO.::===========================END OF AUTOBOOT=============================
 START NOTEPAD.EXE "%PROG_SOURCE%\AutoBoot.cmd"
 EXIT /B
 :AUTOBOOT_COUNT
-IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.TXT">NUL&EXIT /B
+IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL&EXIT /B
 ECHO;@ECHO OFF>X:\COUNT.CMD
 ECHO;FOR %%%%a in (20 19 18 17 16 15 14 13 13 12 11 10 9 8 7 6 5 4 3 2 1 0) DO (CLS^&^&ECHO AutoBoot starts in %%%%a seconds...^&^&PING -n 2 127.0.0.1^>NUL)>>X:\COUNT.CMD
 ECHO;CD /D S:\$>>X:\COUNT.CMD
@@ -623,7 +627,7 @@ ECHO;EXIT^&^&EXIT>>X:\COUNT.CMD
 CALL:PAD_LINE&&ECHO               To cancel AutoBoot, close countdown window.&&ECHO   Press (N) to return to recovery. Press (Y) to goto command prompt. &&CALL:PAD_LINE
 ECHO AUTOBOOT>S:\$\ERR.TXT
 START /WAIT X:\COUNT.CMD
-IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.TXT">NUL
+IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL
 EXIT /B
 :SHORT_RUN
 SET "SHORT_RUN="&&CALL:CHECK
@@ -1844,7 +1848,7 @@ REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETU
 :$ETUP_START
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP 
 CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_LAY&&CALL:CLEAN&&SET "BTMP=%WINDIR%\System32\config\ELAM"&&SET "MENU_FLAG="&&SET "CAME_FROM="&&CALL:PAD_LINE
-ECHO                              Boot-Creator&&CALL:PAD_LINE&&ECHO          ~ Erase target disk ^& create native VHDX-Boot disk ~&&CALL:PAD_LINE
+ECHO                              Boot Creator&&CALL:PAD_LINE&&ECHO          ~ Erase target disk ^& create native VHDX-Boot disk ~&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" IF "%PROG_MODE%"=="RAMDISK" ECHO                     ~ (%##%R%#$%)ebuild as [%#@%%BCD_SYSTEM%-MODE%#$%] ~&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="ISOLATED" ECHO   BOOT FOLDER:&&SET "BLIST=BOOT"&&CALL:FILE_LIST&&CALL:PAD_LINE
@@ -2032,7 +2036,7 @@ REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
 :MAKER_START
 REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:SCRATCH_PACK_DELETE&&CALL:PAD_LINE
-ECHO                          $PK Package Creator&&CALL:PAD_LINE
+ECHO                             Package Creator&&CALL:PAD_LINE
 FOR %%a in (PackName PackType PackTag PackDesc REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF EXIST "%MAKER_FOLDER%\PACKAGE.$HZ" COPY /Y "%MAKER_FOLDER%\PACKAGE.$HZ" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 IF NOT "%REG_KEY%"=="NULL" IF NOT "%REG_VAL%"=="NULL" IF NOT "%RUN_MOD%"=="NULL" IF NOT "%REG_DAT%"=="NULL" SET "PACK_COND=ENABLED"
