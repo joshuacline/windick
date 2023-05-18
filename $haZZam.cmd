@@ -175,7 +175,7 @@ IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
 GOTO:CLEAN_EXIT
 :COMMAND_ERROR
 SET "TEST="&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (CALL SET "TEST=%%ARG%%a%%"&&CALL:ARG_VIEW)
-ECHO.&&IF DEFINED ARG1 IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" CALL:PAD_LINE&&ECHO                          TYPE $HAZZAM.CMD -HELP&&CALL:PAD_LINE&&SET "EXIT_FLAG=1"
+ECHO.&&IF DEFINED ARG1 IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" ECHO Type $haZZam.cmd -help for more options.&&SET "EXIT_FLAG=1"
 IF "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG2%"=="-RECOVERY" IF NOT "%ARG2%"=="-VHDX" ECHO Valid options are -recovery and -vhdx&&SET "EXIT_FLAG=1"
 IF "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG2%"=="-INSTALL" IF NOT "%ARG2%"=="-REMOVE" ECHO Valid options are -install and -remove&&SET "EXIT_FLAG=1"
 IF "%ARG1%"=="-BOOTMAKER" IF "%ARG2%"=="-CREATE" IF DEFINED ARG6 IF NOT EXIST "%PROG_SOURCE%\%ARG6%" ECHO BOOT-MEDIA %PROG_SOURCE%\%ARG6% is missing&&SET "EXIT_FLAG=1"
@@ -186,7 +186,7 @@ IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-INSTALL" IF "%ARG3%"=="-PACK" IF DEFINED
 IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-ISO" IF DEFINED ARG4 IF NOT EXIST "%IMAGE_FOLDER%\%ARG4%" ECHO PACKAGE %IMAGE_FOLDER%\%ARG4% is missing&&SET "EXIT_FLAG=1"
 EXIT /B
 :COMMAND_HELP
-SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                $haZZam Command Line Parameters:&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
+SET "PAD_SIZE=10"&&ECHO $haZZam Command Line Parameters:&&ECHO.
 ECHO    -help                                                    (This menu)
 ECHO    -arg                                                     (1st arg=arg-test. Last arg=exec+test)
 ECHO    -imagemgr -install -list (name.lst)                      (Install package list)
@@ -194,13 +194,11 @@ ECHO    -nextboot -vhdx                                          (Schedule next 
 ECHO    -nextboot -recovery                                      (Schedule next boot to recovery)
 ECHO    -autoboot -install                                       (Install reboot to recovery service)
 ECHO    -autoboot -remove                                        (Remove reboot to recovery service)
-SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -bootmaker -create -disk (#) / -diskid (id) -src (boot.wim)   (Erase + Create Boot-Media on specified disk)
 ECHO  Examples:
 ECHO    -bootmaker -create -disk 0 -src boot.wim -vhdx z.vhdx
 ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.sav -vhdx z.vhdx
 ECHO     The specified boot-media and vhdx must be in their respective folders or the operation will fail.
-SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -diskmgr -list                                           (Condensed list of disks)
 ECHO    -diskmgr -getdisk -disk (#) /or/ -diskid (id)            (Query disk # / disk id)
 ECHO    -diskmgr -inspect -disk (#) /or/ -diskid (id)            (DiskPart inquiry on specified disk)
@@ -216,7 +214,6 @@ ECHO  Examples:
 ECHO    -diskmgr -create -disk 0 -size 25600
 ECHO    -diskmgr -mount -disk 0 -part 1 -letter e
 ECHO    -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
-SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -imageproc -wim (x.wim) -index (index#) -vhdx (z.vhdx) -size (MB)
 ECHO    -imageproc -wim  (x.wim) -index (index#) -wim (x.wim) -xlvl (fast/max)
 ECHO    -imageproc -vhdx (z.vhdx) -index (index#) -wim (x.wim) -xlvl (fast/max)
@@ -225,7 +222,6 @@ ECHO    -imageproc -wim x.wim -index 1 -vhdx z.vhdx -size 25600
 ECHO    -imageproc -wim x.wim -index 1 -wim x.wim -xlvl fast
 ECHO    -imageproc -vhdx z.vhdx -index 1 -wim x.wim -xlvl fast
 ECHO     Specified images must be placed in their respective folders or the operation will fail.
-SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                                            end of cmd help&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 EXIT /B
 :TITLECARD
 SET "RND_SET=TITLE"&&CALL:RANDOM
@@ -416,7 +412,8 @@ IF EXIST "%PROG_SOURCE%\*.$BK" MOVE /Y "%PROG_SOURCE%\*.$BK" "%PROG_SOURCE%\CACH
 EXIT /B
 :FILE_PICK
 IF NOT DEFINED PICK GOTO:PICK_ERROR
-CLS&&CALL:PAD_LINE&&ECHO                              File Picker&&CALL:PAD_LINE&&ECHO   AVAILABLE %PICK%'S:&&IF "%PICK%"=="LST" SET "NOECHO1=1"&&ECHO.&&ECHO  [ %##%0%#$% ]\[%##%Create New List%#$%]
+CLS&&CALL:PAD_LINE&&ECHO                              File Picker&&CALL:PAD_LINE
+ECHO   AVAILABLE %PICK%'S:&&IF "%PICK%"=="LST" SET "NOECHO1=1"&&ECHO.&&ECHO  [ %##%0%#$% ]\[%##%Create New List%#$%]
 SET "NLIST=%PICK%"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                              Select a (%##%#%#$%)&&CALL:PAD_LINE&&CALL:PAD_PREV
 FOR %%a in (ERROR SELECT LIST_NAME $MAKE $PICK $ELECT $ELECT$) DO (SET "%%a=")
 SET /P "SELECT=$>>"&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "SELECT=%%SELECT:%%G=%%G%%")
@@ -690,7 +687,8 @@ IF NOT EXIST "V:\" ECHO  Error mounting [%$PICK%]&&CALL:PAD_LINE&&CALL:VDISK_DET
 EXIT /B
 :IMAGEMGR_LIST_MAIN
 CLS&&SET "ERROR="&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.
-ECHO  [ %##%C%#$% ]\[%#@%Package-ImageApply%#$%[CAB]&&ECHO  [ %##%M%#$% ]\[%#@%Package-ImageApply%#$%[MSU]&&ECHO  [ %##%I%#$% ]\[%#@%Package-ImageApply%#$%[$PK]&&ECHO  [ %##%S%#$% ]\[%#@%Package-SetupComplete%#$%[$PK]&&ECHO  [ %##%R%#$% ]\[%#@%Package-RunOnce%#$%[$PK]&&ECHO  [ %##%D%#$% ]\[%#@%DISM-List%#$%]&&ECHO.&&CALL:PAD_LINE
+ECHO  [ %##%C%#$% ]\[%#@%Package-ImageApply%#$%[CAB]&&ECHO  [ %##%M%#$% ]\[%#@%Package-ImageApply%#$%[MSU]&&ECHO  [ %##%I%#$% ]\[%#@%Package-ImageApply%#$%[$PK]
+ECHO  [ %##%S%#$% ]\[%#@%Package-SetupComplete%#$%[$PK]&&ECHO  [ %##%R%#$% ]\[%#@%Package-RunOnce%#$%[$PK]&&ECHO  [ %##%D%#$% ]\[%#@%DISM-List%#$%]&&ECHO.&&CALL:PAD_LINE
 ECHO  [ %##%+%#$% ]\[%#@%Combine Exec-List%#$%]&&ECHO  [ %##%-%#$% ]\[%#@%Difference Base-List%#$%]&&ECHO  [ %##%*%#$% ]\[%#@%Create Base-List%#$%]&&CALL:PAD_LINE&&ECHO   AVAILABLE BASE-LIST'S:
 SET "NLIST=MST"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a (%##%#%#$%) To Start a New List&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
 SET "LIST_CREATE="&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
@@ -710,7 +708,6 @@ IF NOT "%SELECT%" GEQ "1" EXIT /B
 SET /P $HEAD=<"%CACHE_FOLDER%\%$ELECT$%"
 IF NOT "%$HEAD%"=="BASE-LIST" CALL:PAD_LINE&&ECHO                       Bad file-header, check file&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%$HEAD%"=="BASE-LIST" CALL:LIST_UNIFIED_CREATE
-:LIST_END
 EXIT /B
 :LIST_UNIFIED_CREATE
 CLS&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&CALL:PAD_LINE&&ECHO                              Type of List?&&CALL:PAD_LINE
@@ -752,7 +749,8 @@ CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_DISM_CREATE
 CLS&&SET "DISM_OPER="&&CALL:PAD_LINE&&ECHO                        DISM Image Maintainence&&CALL:PAD_LINE
-ECHO.&&ECHO  (%##%1%#$%)RestoreHealth&&ECHO  (%##%2%#$%)Cleanup&&ECHO  (%##%3%#$%)ResetBase&&ECHO  (%##%4%#$%)SPSuperseded&&ECHO  (%##%5%#$%)CheckHealth&&ECHO  (%##%6%#$%)AnalyzeComponentStore&&ECHO.&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
+ECHO.&&ECHO  (%##%1%#$%)RestoreHealth&&ECHO  (%##%2%#$%)Cleanup&&ECHO  (%##%3%#$%)ResetBase&&ECHO  (%##%4%#$%)SPSuperseded
+ECHO  (%##%5%#$%)CheckHealth&&ECHO  (%##%6%#$%)AnalyzeComponentStore&&ECHO.&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
 IF "%DISM_MENU%"=="1" SET "DISM_OPER=RESTOREHEALTH"
 IF "%DISM_MENU%"=="2" SET "DISM_OPER=CLEANUP"
 IF "%DISM_MENU%"=="3" SET "DISM_OPER=RESETBASE"
@@ -1216,7 +1214,8 @@ SET "PACK_PASS="&&IF DEFINED PACK_PERM FOR %%a in (REG_SZ REG_DWORD REG_BINARY R
 EXIT /B
 :IMAGEMGR_DISM_MENU
 CLS&&SET "ERR_MSG="&&CALL:PAD_LINE&&ECHO                        DISM Image Maintainence&&CALL:PAD_LINE
-ECHO.&&ECHO  (%##%1%#$%)RestoreHealth&&ECHO  (%##%2%#$%)Cleanup&&ECHO  (%##%3%#$%)ResetBase&&ECHO  (%##%4%#$%)SPSuperseded&&ECHO  (%##%5%#$%)CheckHealth&&ECHO  (%##%6%#$%)AnalyzeComponentStore&&ECHO.&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
+ECHO.&&ECHO  (%##%1%#$%)RestoreHealth&&ECHO  (%##%2%#$%)Cleanup&&ECHO  (%##%3%#$%)ResetBase&&ECHO  (%##%4%#$%)SPSuperseded
+ECHO  (%##%5%#$%)CheckHealth&&ECHO  (%##%6%#$%)AnalyzeComponentStore&&ECHO.&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
 SET "DISM_OPER="&&IF "%DISM_MENU%"=="1" SET "DISM_OPER=RESTOREHEALTH"
 IF "%DISM_MENU%"=="2" SET "DISM_OPER=CLEANUP"
 IF "%DISM_MENU%"=="3" SET "DISM_OPER=RESETBASE"
@@ -2171,14 +2170,15 @@ EXIT /B
 SET "PACK_ENT_%PACK_ENT%=%PACK_CFG%"
 EXIT /B
 :PACKEX_MENU_START
-@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:PAD_LINE&&ECHO                                (TASKS)&&CALL:PAD_LINE
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO.&&ECHO  (%##%A1%#$%) End Task                                              (%#@%INSTANT%#$%)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  (%##%A2%#$%) Start/Stop Service                                    (%#@%INSTANT%#$%)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  (%##%A3%#$%) List Accounts                                         (%#@%INSTANT%#$%)
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO  (%##%FS%#$%) FOR-Sight                                             (%#@%INSTANT%#$%)
+@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:PAD_LINE&&ECHO                                (TASKS)&&CALL:PAD_LINE&&IF NOT "%EXAMPLE_MODE%"=="INSTANT" GOTO:PACKEX_JUMP1
+ECHO.&&ECHO  (%##%A1%#$%) End Task                                              (%#@%INSTANT%#$%)
+ECHO  (%##%A2%#$%) Start/Stop Service                                    (%#@%INSTANT%#$%)
+ECHO  (%##%A3%#$%) List Accounts                                         (%#@%INSTANT%#$%)
+ECHO  (%##%FS%#$%) FOR-Sight                                             (%#@%INSTANT%#$%)
+:PACKEX_JUMP1
 ECHO  (%##%M1%#$%) Create Local User-Account
 ECHO  (%##%M2%#$%) Create Local Admin-Account
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO.&&GOTO:PACKEX_JUMP
+IF "%EXAMPLE_MODE%"=="INSTANT" ECHO.&&GOTO:PACKEX_JUMP2
 CALL:PAD_LINE&&ECHO                         (New Package Template)&&CALL:PAD_LINE
 ECHO  (%##%N01%#$%) New Driver Package                                  (%#@%DRIVER%#$%)
 ECHO  (%##%N02%#$%) New Scripted Package                                (%#@%SCRIPTED%#$%)
@@ -2226,7 +2226,7 @@ ECHO  (%##%P02%#$%) MSI Installer Example                               (%#@%SCR
 ECHO  (%##%DBG%#$%) DEBUG PAUSE/ECHO-ON/ECHO-OFF                        (%#@%SCRIPTED%#$%)
 ECHO  (%##%DISM%#$%) DISM Special                                       (%#@%SCRIPTED%#$%)
 ECHO  (%##%AB%#$%) AutoBoot Service install                            (%#@%SCRIPTED%#$%)
-:PACKEX_JUMP
+:PACKEX_JUMP2
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
 SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (N01 N02 N03 AB A1 A2 A3 FS M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S24 S25 S26 S30 S40 L01 L02 L03 L04 L05 P01 P02 DBG DISM) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
