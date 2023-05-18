@@ -7,8 +7,7 @@ FOR /F "TOKENS=*" %%a in ('ECHO %CD%') DO (SET "PROG_FOLDER=%%a")
 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PROG_FOLDER=%%PROG_FOLDER:%%G=%%G%%")
 FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %PROG_FOLDER%^| FIND /V ""') do (IF "%%G"==" " ECHO Remove the space from the folder's name, then launch again&&PAUSE&&GOTO:CLEAN_EXIT)
 IF DEFINED ARG1 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (FOR %%1 in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF DEFINED ARG%%1 CALL SET "ARG%%1=%%ARG%%1:%%G=%%G%%"))
-CALL:MOUNT_INT
-IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
+CALL:MOUNT_INT&&IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
 FOR /F "TOKENS=1 DELIMS=: " %%a IN ('DISM') DO (IF "%%a"=="Examples" SET "LANG_PASS=1")
 IF NOT DEFINED LANG_PASS ECHO Non-english host language/locale. -Untested- proceed with extreme caution.&&PAUSE
 IF NOT "%PROG_FOLDER%"=="X:\$" SET "PROG_MODE=PORTABLE"&&COLOR 0A&&CALL:TITLECARD&&GOTO:PROG_MAIN
@@ -29,7 +28,6 @@ IF DEFINED HOME_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" ECHO  [%#@%Disk%#$%[%
 IF DEFINED HOME_TARGET IF "%HOME_MOUNT%"=="YES" IF "%PROG_SOURCE%"=="S:\$" ECHO  [Disk[%#@%%HOME_NUMBER%%#$%] [ID[%#@%%HOME_TARGET%%#$%]&&CALL:PAD_LINE
 IF "%SHORTCUTS%"=="ENABLED" ECHO  (%##%Q%#$%)uit (%##%%HOTKEY_1%%#$%) (%##%%HOTKEY_2%%#$%) (%##%%HOTKEY_3%%#$%) (%##%%HOTKEY_4%%#$%) (%##%%HOTKEY_5%%#$%)&&CALL:PAD_LINE
 IF NOT "%SHORTCUTS%"=="ENABLED" ECHO  (%##%Q%#$%)uit (%##%?%#$%)                                           [%#@%%PROG_MODE% MODE%#$%]&&CALL:PAD_LINE
-IF NOT "%PROG_MODE%"=="RAMDISK" IF "%PAD_TYPE%"=="8" CALL:PAD_LINE>NUL
 CALL:MENU_SELECT
 IF "%SELECT%"=="1" GOTO:IMAGEMGR_START
 IF "%SELECT%"=="2" GOTO:IMAGEPROC_START
@@ -148,8 +146,8 @@ IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4
 IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_NUMBER%"
 IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
 IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_NUMBER%"
-IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-REMOVE"  SET "BOOTSVC=REMOVE"&&CALL:AUTOBOOT_TOGGLE&&ECHO AutoBoot service is removed
-IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-INSTALL"  SET "BOOTSVC=INSTALL"&&CALL:AUTOBOOT_TOGGLE&&ECHO AutoBoot service is installed
+IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-REMOVE" SET "BOOTSVC=REMOVE"&&CALL:AUTOBOOT_TOGGLE&ECHO AutoBoot service is removed
+IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-INSTALL" SET "BOOTSVC=INSTALL"&&CALL:AUTOBOOT_TOGGLE&ECHO AutoBoot service is installed
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-VHDX" IF DEFINED ARG7 IF "%ARG8%"=="-SIZE" IF DEFINED ARG9 SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"&&SET "WIM_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "VHDX_TARGET=%ARG7%"&&SET "VHDX_SIZE=%ARG9%"&&CALL:IMAGEPROC
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-WIM" IF DEFINED ARG7 IF "%ARG8%"=="-XLVL" IF DEFINED ARG9 SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=WIM"&&SET "WIM_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "WIM_TARGET=%ARG7%"&&SET "WIM_XLVL=%ARG9%"&&CALL:IMAGEPROC
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-VHDX" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-WIM" IF DEFINED ARG7 IF "%ARG8%"=="-XLVL" IF DEFINED ARG9 SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"&&SET "VHDX_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "WIM_TARGET=%ARG7%"&&SET "WIM_XLVL=%ARG9%"&&CALL:IMAGEPROC
@@ -178,6 +176,8 @@ GOTO:CLEAN_EXIT
 :COMMAND_ERROR
 SET "TEST="&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (CALL SET "TEST=%%ARG%%a%%"&&CALL:ARG_VIEW)
 ECHO.&&IF DEFINED ARG1 IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" CALL:PAD_LINE&&ECHO                          TYPE $HAZZAM.CMD -HELP&&CALL:PAD_LINE&&SET "EXIT_FLAG=1"
+IF "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG2%"=="-RECOVERY" IF NOT "%ARG2%"=="-VHDX" ECHO Valid options are -recovery and -vhdx&&SET "EXIT_FLAG=1"
+IF "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG2%"=="-INSTALL" IF NOT "%ARG2%"=="-REMOVE" ECHO Valid options are -install and -remove&&SET "EXIT_FLAG=1"
 IF "%ARG1%"=="-BOOTMAKER" IF "%ARG2%"=="-CREATE" IF DEFINED ARG6 IF NOT EXIST "%PROG_SOURCE%\%ARG6%" ECHO BOOT-MEDIA %PROG_SOURCE%\%ARG6% is missing&&SET "EXIT_FLAG=1"
 IF "%ARG1%"=="-BOOTMAKER" IF "%ARG2%"=="-CREATE" IF DEFINED ARG8 IF NOT EXIST "%IMAGE_FOLDER%\%ARG8%" ECHO VHDX %IMAGE_FOLDER%\%ARG8% is missing&&SET "EXIT_FLAG=1"
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF NOT EXIST "%IMAGE_FOLDER%\%ARG3%" ECHO WIM %IMAGE_FOLDER%\%ARG3% is missing&&SET "EXIT_FLAG=1"
@@ -186,25 +186,25 @@ IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-INSTALL" IF "%ARG3%"=="-PACK" IF DEFINED
 IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-ISO" IF DEFINED ARG4 IF NOT EXIST "%IMAGE_FOLDER%\%ARG4%" ECHO PACKAGE %IMAGE_FOLDER%\%ARG4% is missing&&SET "EXIT_FLAG=1"
 EXIT /B
 :COMMAND_HELP
-SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                $HAZZAM COMMAND-LINE PARAMETERS:&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
-ECHO    -help                                                    (This Menu)
-ECHO    -arg                                                     (1st arg=arguement test. Last arg=exec+test)
-ECHO    -imagemgr -install -list (name.LST)                      (Install Package-List)
-ECHO    -bootnext -vhdx                                          (Schedule next boot to vhdx)
-ECHO    -bootnext -recovery                                      (Schedule next boot to recovery)
+SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                $haZZam Command Line Parameters:&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
+ECHO    -help                                                    (This menu)
+ECHO    -arg                                                     (1st arg=arg-test. Last arg=exec+test)
+ECHO    -imagemgr -install -list (name.lst)                      (Install package list)
+ECHO    -nextboot -vhdx                                          (Schedule next boot to vhdx)
+ECHO    -nextboot -recovery                                      (Schedule next boot to recovery)
 ECHO    -autoboot -install                                       (Install reboot to recovery service)
 ECHO    -autoboot -remove                                        (Remove reboot to recovery service)
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
-ECHO     The specified boot-media and vhdx must be in their respective folders or the operation will fail.
-ECHO    -bootmaker -create -disk (#) / -diskid (id) -src (boot.wim)   (Erase + Create Boot-Media on Specified Disk)
+ECHO    -bootmaker -create -disk (#) / -diskid (id) -src (boot.wim)   (Erase + Create Boot-Media on specified disk)
 ECHO  Examples:
 ECHO    -bootmaker -create -disk 0 -src boot.wim -vhdx z.vhdx
 ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src BootMedia.sav -vhdx z.vhdx
+ECHO     The specified boot-media and vhdx must be in their respective folders or the operation will fail.
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
 ECHO    -diskmgr -list                                           (Condensed list of disks)
 ECHO    -diskmgr -getdisk -disk (#) /or/ -diskid (id)            (Query disk # / disk id)
 ECHO    -diskmgr -inspect -disk (#) /or/ -diskid (id)            (DiskPart inquiry on specified disk)
-ECHO    -diskmgr -erase -disk (#) /or/ -diskid (id)              (Delete All partitions on specified disk)
+ECHO    -diskmgr -erase -disk (#) /or/ -diskid (id)              (Delete ALL partitions on specified disk)
 ECHO    -diskmgr -changeid -disk (#) /or/ -diskid (id) (new id)  (Change disk id of specified disk)
 ECHO    -diskmgr -create -disk (#) /or/ -diskid (id) -size (MB)  (Create NTFS partition on specified disk)
 ECHO    -diskmgr -format -disk (#) /or/ -diskid (id) -part (#)   (Format partition w/NTFS on specified disk)
@@ -217,7 +217,6 @@ ECHO    -diskmgr -create -disk 0 -size 25600
 ECHO    -diskmgr -mount -disk 0 -part 1 -letter e
 ECHO    -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
 SET "PAD_SIZE=10"&&CALL:PAD_LINE
-ECHO     Source images must be placed in their respective folders or the operation will fail.
 ECHO    -imageproc -wim (x.wim) -index (index#) -vhdx (z.vhdx) -size (MB)
 ECHO    -imageproc -wim  (x.wim) -index (index#) -wim (x.wim) -xlvl (fast/max)
 ECHO    -imageproc -vhdx (z.vhdx) -index (index#) -wim (x.wim) -xlvl (fast/max)
@@ -225,47 +224,47 @@ ECHO  Examples:
 ECHO    -imageproc -wim x.wim -index 1 -vhdx z.vhdx -size 25600
 ECHO    -imageproc -wim x.wim -index 1 -wim x.wim -xlvl fast
 ECHO    -imageproc -vhdx z.vhdx -index 1 -wim x.wim -xlvl fast
+ECHO     Specified images must be placed in their respective folders or the operation will fail.
 SET "PAD_SIZE=10"&&CALL:PAD_LINE&&ECHO                                            end of cmd help&&SET "PAD_SIZE=10"&&CALL:PAD_LINE
 EXIT /B
 :TITLECARD
 SET "RND_SET=TITLE"&&CALL:RANDOM
-IF "%TITLE%"=="1" TITLE  $haZZam^^! A native Windows image deployment tool.
-IF "%TITLE%"=="2" TITLE  Export/import all current drivers, combine into a driver-pack.
-IF "%TITLE%"=="3" TITLE  Boot-media can be imported in Image Management using "-".
-IF "%TITLE%"=="4" TITLE  Build, administrate and backup your Windows in a native WinPE recovery environment.
-IF "%TITLE%"=="5" TITLE  In Slot-Mode VHDX's named between 0.VHDX and 9.VHDX are detected at boot.
-IF "%TITLE%"=="6" TITLE  Export/import all current drivers, combine into a driver-pack.
-IF "%TITLE%"=="7" TITLE  Build, administrate and backup your Windows in a native WinPE recovery environment.
-IF "%TITLE%"=="8" TITLE  Generate a Base List (Appx/Comp/Feat/Serv/Task) in image management.
-IF "%TITLE%"=="9" TITLE  DISM can thrash disks pretty hard, some USB drives can freeze up.
-IF "%TITLE%"=="0" TITLE  Boot-media can be imported in Image Management.
+IF "%TITLE%"=="1" TITLE  When finished, backup by converting to WIM.
+IF "%TITLE%"=="2" TITLE  Boot-media can be imported in Image Management using "-".
+IF "%TITLE%"=="3" TITLE  Rebuild the BCD store in boot-creator while in recovery mode.
+IF "%TITLE%"=="4" TITLE  Export/import all current drivers, combine into a driver-pack.
+IF "%TITLE%"=="5" TITLE  DISM can thrash disks pretty hard, some USB drives can freeze up.
+IF "%TITLE%"=="6" TITLE  Generate a base-list (Appx/Comp/Feat/Serv/Task) in image management.
+IF "%TITLE%"=="7" TITLE  Difference base-lists to compare editions or to match the configuration.
+IF "%TITLE%"=="8" TITLE  In Slot-Mode VHDX's named between 0.VHDX and 9.VHDX are detected at boot.
+IF "%TITLE%"=="9" TITLE  SetupComplete/RunOnce lists apply to Current-Environment, but are simply delayed.
+IF "%TITLE%"=="0" TITLE  Build, administrate and backup your Windows in a native WinPE recovery environment.
 IF "%TITLE%"=="" GOTO:TITLECARD
 EXIT /B
 :PROG_MAIN_HELP
 CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.
-ECHO   (%##%1%#$%)Image Management     [%#@%Perform image related tasks%#$%]            
-ECHO   (%##%2%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX image%#$%s]        
-ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted $PK packages%#$%]    
-ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]       
-ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]                
-ECHO    *(%##%B%#$%)oot^^!               [%#@%Create bootable-deployment environment%#$%]
-ECHO   (%##%6%#$%)Tasks                [%#@%Admin tasks via instant pack%#$%]        
-ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]&&ECHO.              
-ECHO       *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
+ECHO   (%##%1%#$%)Image Management     [%#@%Perform image related tasks%#$%]
+ECHO   (%##%2%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX image%#$%s]
+ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]
+ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]
+ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]
+ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]
+ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]
+ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]
+ECHO.&&ECHO       *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :DISCLAIMER
 CLS&&CALL:PAD_LINE&&ECHO %XLR2%
 ECHO    -------------------------- %#$%DISCLAIMER%XLR2% --------------------------
 ECHO     IT'S RECOMMENDED TO BACKUP YOUR DATA BEFORE MAKING ANY CHANGES
 ECHO    ----------------------------------------------------------------
-ECHO      By using this tool: You accept legal liability for any loss 
-ECHO     that occurs resulting from or relating to the use of this tool
+ECHO       By using this tool: You assume full liability for any loss 
+ECHO     that occurs resulting from or relating to the use of this tool.
 ECHO.&&CALL:PAD_LINE&&ECHO                           Do You Agree? (%##%Y%#$%/%##%N%#$%)
-CALL:PAD_LINE&&CALL:MENU_SELECT&&CALL:PAD_LINE
-IF "%SELECT%"=="Y" SET "DISCLAIMER=ACCEPTED"
-ECHO      The [ %##%@%#$% ]\[%##%Current-Environment%#$%] option ^& disk management area
-ECHO          are the 'caution zones' and can be avoided if unsure. 
-CALL:COLOR_LAY&&CALL:PAD_LINE&&CALL:PAUSED
+CALL:PAD_LINE&&SET "PROMPT_SET=ACCEPTX"&&CALL:PROMPT_SET
+IF "%ACCEPTX%"=="Y" SET "DISCLAIMER=ACCEPTED"
+CALL:PAD_LINE&&ECHO      The [ %##%@%#$% ]\[%##%Current-Environment%#$%] option ^& disk management area
+ECHO          are the 'caution zones' and can be avoided if unsure.&&CALL:COLOR_LAY&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PROMPT_SET_UPPER
 SET "PROMPT_VAR="&&SET /P "PROMPT_VAR=$>>"&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PROMPT_VAR=%%PROMPT_VAR:%%G=%%G%%")
@@ -291,11 +290,6 @@ EXIT /B
 :MENU_SELECT_ANY
 SET "SELECT="&&SET /P "SELECT=$>>"
 EXIT /B
-:VAR_SET
-IF NOT DEFINED VAR_SET SET "VAR_SET=NULL"
-FOR %%1 in (%VAR_SET%) DO (SET "%%1=")
-SET "VAR_SET="
-EXIT /B
 :CHAR_CHK
 FOR %%a in (CHAR_STR CHAR_CHK) DO (IF NOT DEFINED %%a EXIT /B)
 SET "CHAR_FLG="&&FOR /F "DELIMS=" %%$ in ('CMD.EXE /D /U /C ECHO %CHAR_STR%^| FIND /V ""') do (IF "%%$"=="%CHAR_CHK%" SET "CHAR_FLG=1")
@@ -304,7 +298,7 @@ EXIT /B
 ECHO                Press (%##%Enter%#$%) to return to previous menu
 EXIT /B
 :PAUSED
-SET /P PAUSED=.                      Press (%##%Enter%#$%) to continue...
+SET /P "PAUSED=.                      Press (%##%Enter%#$%) to continue..."
 EXIT /B
 :TITLE_GNC
 TITLE $haZZam^^! A native Windows image deployment tool. v%$VER_CUR%
@@ -313,19 +307,13 @@ EXIT /B
 CALL:PAD_LINE&&ECHO                                $haZZam^^!&&CALL:PAD_LINE
 EXIT /B
 :RANDOM
-SET RND1=%RANDOM%%RANDOM%&&SET "RND1=!RND1:~5,5!"&&SET "RND1=!RND1:~1,1!"
+SET "RND1=%RANDOM%%RANDOM%"&&SET "RND1=!RND1:~5,5!"&&SET "RND1=!RND1:~1,1!"
 IF "%RND1%"=="%RND_LST%" GOTO:RANDOM
 IF "%RND1%"=="" GOTO:RANDOM
-SET RND_LST=%RND1%&&CALL SET "%RND_SET%=%RND1%"&&SET "RND_SET="&&SET "RND1="
+SET "RND_LST=%RND1%"&&CALL SET "%RND_SET%=%RND1%"&&SET "RND_SET="&&SET "RND1="
 EXIT /B
 :CLEAN
-IF EXIST "$HZ*" DEL /F "$HZ*">NUL
-IF EXIST "$REG*" DEL /F "$REG*">NUL
-IF EXIST "$TMP*" DEL /F "$TMP*">NUL
-IF EXIST "$LST*" DEL /F "$LST*">NUL
-IF EXIST "$DSK*" DEL /F "$DSK*">NUL
-IF EXIST "$DRVR*" DEL /F "$DRVR*">NUL
-IF EXIST "$DISM*" DEL /F "$DISM*">NUL
+FOR %%G in (HZ REG TMP LST DSK PAK DRVR DISM) DO (IF EXIST "$%%G*" DEL /F "$%%G*">NUL)
 IF EXIST "%PROG_SOURCE%\PROJECT_TMP" DEL /F "%PROG_SOURCE%\PROJECT_TMP">NUL
 EXIT /B
 :CHECK
@@ -342,7 +330,7 @@ IF DEFINED XNTX CALL SET "#%XNTX%=%%XLR%XLRX%%%"
 EXIT /B
 :COLOR_LAY
 IF "%COLOR_LAY%"=="RANDOM" SET "COLOR_SEQ="&&EXIT /B
-IF NOT "%COLOR_LAY%"=="STATIC" SET #0=%#1%&&SET #1=%#2%&&SET #2=%#3%&&SET #3=%#4%&&SET #4=%#5%&&SET #5=%#6%&&SET #6=%#7%&&SET #7=%#8%&&SET #8=%#9%&&SET #9=%#0%
+IF NOT "%COLOR_LAY%"=="STATIC" SET "#0=%#1%"&&SET "#1=%#2%"&&SET "#2=%#3%"&&SET "#3=%#4%"&&SET "#4=%#5%"&&SET "#5=%#6%"&&SET "#6=%#7%"&&SET "#7=%#8%"&&SET "#8=%#9%"&&SET "#9=%#0%"
 EXIT /B
 :SETS_CREATE
 (ECHO.$haZZam Configuration File&&ECHO.PAD_TYPE=&&ECHO.COLOR_TXT=&&ECHO.COLOR_BTN=&&ECHO.COLOR_SIZ=&&ECHO.COLOR_LAY=&&ECHO.COLOR_SEQ=1234567889&&ECHO.ACTIVE_BAY=&&ECHO.BOOT_BAYS=&&ECHO.VHDX_$ETUP=&&ECHO.SOURCE_TYPE=&&ECHO.WIM_SOURCE=&&ECHO.VHDX_SOURCE=&&ECHO.TARGET_TYPE=&&ECHO.WIM_TARGET=&&ECHO.VHDX_TARGET=&&ECHO.WIM_XLVL=&&ECHO.VHDX_XLVL=&&ECHO.VHDX_SIZE=&&ECHO.WIM_INDEX=&&ECHO.PACK_XLVL=&&ECHO.APPLY_COPY=&&ECHO.BRUTE_FORCE=&&ECHO.SAFE_EXCLUDE=&&ECHO.SVC_SKIP=&&ECHO.COMP_SKIP=&&ECHO.SHORTCUTS=&&ECHO.HOTKEY_1=CMD&&ECHO.SHORT_1=START CMD.EXE&&ECHO.HOTKEY_2=NOTE&&ECHO.SHORT_2=START NOTEPAD.EXE&&ECHO.HOTKEY_3=REG&&ECHO.SHORT_3=START REGEDIT.EXE&&ECHO.HOTKEY_4=&&ECHO.SHORT_4=&&ECHO.HOTKEY_5=&&ECHO.SHORT_5=&&ECHO.DISCLAIMER=&&ECHO.$VER_SET=%$VER_CUR%&&ECHO.$ETTINGS=LOADED)>"%PROG_SOURCE%\$ETTINGS.PRO"&&CALL:SETS_LOAD>NUL 2>&1
@@ -391,12 +379,11 @@ IF EXIST "%TEMP%\$WIM.TMP" DEL /Q /F "\\?\%TEMP%\$WIM.TMP">NUL 2>&1
 IF "%PROG_MODE%"=="RAMDISK" SET "BOOT_IMAGE=U:\$.WIM"
 EXIT /B
 :OBJ_CLEAR
-CALL SET OBJ_CHKX=%%%OBJ_CHK%%%
+CALL SET "OBJ_CHKX=%%%OBJ_CHK%%%"
 IF NOT EXIST "%OBJ_FLD%\%OBJ_CHKX%" CALL SET "%OBJ_CHK%=SELECT"
 EXIT /B
 :FOLDER_MODE
-CALL:PAD_LINE
-ECHO.       The folder structure will be regenerated. If a file is 
+CALL:PAD_LINE&&ECHO.       The folder structure will be regenerated. If a file is 
 ECHO.     open/mounted and cannot be moved it's possible to lose data.&&CALL:PAD_LINE
 ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT "%SELECT%"=="X" EXIT /B
@@ -857,10 +844,8 @@ SET "LIST_ITEM=COMPONENT"&&SET "LIST_EXEC=INSTALLED"&&FOR /F "TOKENS=8* DELIMS=\
 CALL:MOUNT_INT
 CALL:VDISK_DETACH&&CALL:TITLECARD
 :LIST_BASE_CLEANUP
-IF NOT DEFINED LIVE_APPLY CALL:SCRATCH_DELETE
 IF DEFINED ERR_MSG CALL:PAD_LINE&&ECHO %ERR_MSG%
-CALL:PAD_LINE&&ECHO                        End of Base-List Creation&&CALL:PAD_LINE&&CALL:CLEAN&&CALL:TITLECARD
-CALL:PAUSED
+CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                        End of Base-List Creation&&CALL:PAD_LINE&&CALL:CLEAN&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :BASECAP
 IF "%BASEPRELST%"=="%BASEPRE%" IF "%LIST_ITEM%"=="COMPONENT" EXIT /B
@@ -927,9 +912,8 @@ CALL:UNIFIED_LIST_RUN
 CALL:MOUNT_INT
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
 :THE_ACTION_CLEANUP
-IF NOT DEFINED LIVE_APPLY CALL:SCRATCH_DELETE
 IF DEFINED ERR_MSG CALL:PAD_LINE&&ECHO %ERR_MSG%
-CALL:PAD_LINE&&ECHO                       Imaging operations complete&&CALL:PAD_LINE&&CALL:TITLECARD&&CALL:PAUSED
+CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                       Imaging operations complete&&CALL:PAD_LINE&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :UNIFIED_LIST_RUN
 IF NOT DEFINED $LST1 EXIT /B
@@ -1164,7 +1148,7 @@ CALL:PAD_LINE&&ECHO                           RunOnce Preparation&&CALL:PAD_LINE
 EXIT /B
 :PACK_INSTALL
 CALL:PAD_LINE&&ECHO.                         Package Manager Start&&CALL:PAD_LINE
-IF "%CAME_FROM%"=="COMMAND" IF NOT EXIST "%IMAGE_PACK%" ECHO IMAGE-APPLY/RUN-ONCE/SETUP-COMPLETE LISTS ONLY
+IF "%CAME_FROM%"=="COMMAND" IF NOT EXIST "%IMAGE_PACK%" ECHO ImageApply/RunOnce/SetupComplete lists only
 IF NOT EXIST "%IMAGE_PACK%" CALL:PAD_LINE&&ECHO [%##%%IMAGE_PACK%%#$%] is missing&&CALL:PAD_LINE&&GOTO:PACK_INSTALL_FINISH
 SET "SCRATCH_PACK=%PROG_SOURCE%\ScratchPack"
 SET "PACK_BAD=The operation did NOT complete successfully"
@@ -1253,9 +1237,8 @@ CALL:IF_LIVE2
 CALL:IMAGEMGR_DISM_OPER
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
 :DISM_OPER_CLEANUP
-IF NOT DEFINED LIVE_APPLY CALL:SCRATCH_DELETE
 IF DEFINED ERR_MSG CALL:PAD_LINE&&ECHO %ERR_MSG%&&CALL:PAD_LINE
-ECHO                         End of DISM-Operations&&CALL:PAD_LINE&&CALL:TITLECARD&&CALL:COLOR_LAY&&CALL:PAUSED
+CALL:SCRATCH_DELETE&&ECHO                         End of DISM-Operations&&CALL:PAD_LINE&&CALL:TITLECARD&&CALL:COLOR_LAY&&CALL:PAUSED
 EXIT /B
 :IMAGEMGR_DISM_OPER
 CALL:PAD_LINE&&IF "%DISM_OPER%"=="RESTOREHEALTH" ECHO                      Executing DISM Restorehealth...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /Restorehealth
@@ -1307,9 +1290,8 @@ ECHO  Inspection Complete [%REPORT_IMAGE%] %DATE% %TIME% >>"%PROG_SOURCE%\%REPOR
 CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 START NOTEPAD.EXE "%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 :INSPECT_CLEANUP
-IF NOT DEFINED LIVE_APPLY CALL:SCRATCH_DELETE
 IF DEFINED ERR_MSG CALL:PAD_LINE&&ECHO %ERR_MSG%
-CALL:PAD_LINE&&ECHO                           Inspection Complete&&CALL:PAD_LINE&&CALL:PAUSED
+CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                           Inspection Complete&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PAD_WRITE
 IF NOT DEFINED CHCP_TMP FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_TMP=%%a"
@@ -1464,9 +1446,8 @@ IF "%TARGET_TYPE%"=="WIM" DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%CAPTUREDIR_
 CALL:VDISK_DETACH>NUL 2>&1
 :IMAGEPROC_CLEANUP
 IF "%CAME_FROM%"=="IMAGE" SET "CAME_FROM="&&ECHO 
-CALL:SCRATCH_DELETE
 IF DEFINED ERR_MSG ECHO  %ERR_MSG%&&ECHO.
-CALL:PAD_LINE&&ECHO                        Image-Processing Complete&&CALL:PAD_LINE
+CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                        Image-Processing Complete&&CALL:PAD_LINE
 EXIT /B
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
 :DISKMGR_START
@@ -1475,8 +1456,7 @@ REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
 CALL:PAD_LINE&&ECHO                             Disk Management&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE
 IF NOT "%BOOT_IMAGE%"=="NONE" ECHO  [%#@%DISK%#$%] (%##%B%#$%)oot (%##%I%#$%)nspect (%##%E%#$%)rase (%##%#%#$%)ChangeUID (%##%U%#$%)SB (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
 IF "%BOOT_IMAGE%"=="NONE" ECHO  [%#@%DISK%#$%]  (%##%I%#$%)nspect  (%##%E%#$%)rase  (%##%#%#$%)Change UID  (%##%U%#$%)SB (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
-ECHO  [%#@%PART%#$%]   (%##%C%#$%)reate   (%##%D%#$%)elete   (%##%F%#$%)ormat   (%##%M%#$%)ount/Unmount   (%##%L%#$%)ock&&CALL:PAD_LINE
-CALL:PAD_PREV&&CALL:MENU_SELECT
+ECHO  [%#@%PART%#$%]   (%##%C%#$%)reate   (%##%D%#$%)elete   (%##%F%#$%)ormat   (%##%M%#$%)ount/Unmount   (%##%L%#$%)ock&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="*" CALL:NEXT_BOOT
 IF "%SELECT%"=="B" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START
@@ -1522,7 +1502,7 @@ CALL:DISKMGR_ERASE
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.assign letter=U noerr&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF EXIST "U:\" IF EXIST "S:\" EXIT /B
-SET "PART_ERR=1"&&ECHO The drive is currently in use or incompatible. Continue to try?&&ECHO  (%##%X%#$%)Continue (%##%Enter%#$%)Abort&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+SET "PART_ERR=1"&&ECHO             The drive is currently in use, or incompatible.&&ECHO     Disks with poor performance also raise this error. Try again?&&ECHO                        (%##%X%#$%)Continue (%##%Enter%#$%)Abort&&CALL:PAD_LINE&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF "%CONFIRM%"=="X" GOTO:PART_CREATE
 EXIT /B
 :DISKMGR_ERASE
@@ -2035,8 +2015,7 @@ EXIT /B
 REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
 :MAKER_START
 REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:SCRATCH_PACK_DELETE&&CALL:PAD_LINE
-ECHO                             Package Creator&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:SCRATCH_PACK_DELETE&&CALL:PAD_LINE&&ECHO                             Package Creator&&CALL:PAD_LINE
 FOR %%a in (PackName PackType PackTag PackDesc REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF EXIST "%MAKER_FOLDER%\PACKAGE.$HZ" COPY /Y "%MAKER_FOLDER%\PACKAGE.$HZ" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 IF NOT "%REG_KEY%"=="NULL" IF NOT "%REG_VAL%"=="NULL" IF NOT "%RUN_MOD%"=="NULL" IF NOT "%REG_DAT%"=="NULL" SET "PACK_COND=ENABLED"
@@ -2060,9 +2039,9 @@ CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="P" CALL:PACK_COND
 IF "%SELECT%"=="Z" CALL:PACK_XLVL
-IF "%SELECT%"=="C" IF NOT "%PackType%"=="NULL" CALL:MAKER_CREATE&&SET "SELECT="
 IF "%SELECT%"=="N" SET "EXAMPLE_MODE=CREATE"&&CALL:PACKEX_MENU_START&&SET "SELECT="
 IF "%SELECT%"=="R" SET "PICK=$PK"&&CALL:FILE_PICK&&CALL:MAKER_RESTORE&&SET "SELECT="
+IF "%SELECT%"=="C" IF NOT "%PackType%"=="NULL" SET "EXAMPLE_MODE=CREATE"&&CALL:MAKER_CREATE&&SET "SELECT="
 IF "%SELECT%"=="E" IF NOT "%PackType%"=="SCRIPTED" IF NOT "%PackType%"=="STORAGE" CALL:MAKER_EXPORT&&SET "SELECT="
 IF "%SELECT%"=="I" IF NOT "%PackType%"=="SCRIPTED" IF NOT "%PackType%"=="STORAGE" CALL:MAKER_INSPECT&&SET "SELECT="
 IF "%SELECT%"=="V" SET "EDIT_SETUP=1"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_README=1"&&SET "EDIT_CUSTOM="&&CALL:MAKER_EDITOR
@@ -2110,8 +2089,7 @@ MOVE /Y "%MAKER_FOLDER%\PACKAGE.$HZ" "%PROG_SOURCE%\ScratchPack">NUL 2>&1
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%MAKER_FOLDER%" /IMAGEFILE:"%PACK_FOLDER%\%PackName%.$PK" /COMPRESS:%PACK_XLVL% /NAME:"%PackName%" /CheckIntegrity /Verify
 DISM /ENGLISH /APPEND-IMAGE /IMAGEFILE:"%PACK_FOLDER%\%PackName%.$PK" /CAPTUREDIR:"%PROG_SOURCE%\ScratchPack" /NAME:"%PackName%" /Description:$haZZam^^! /CheckIntegrity /Verify>NUL 2>&1
 MOVE /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" "%MAKER_FOLDER%">NUL 2>&1
-CALL:SCRATCH_PACK_DELETE
-ECHO.&&CALL:PAD_LINE&&ECHO.                           Package Create End&&CALL:PAD_LINE
+CALL:SCRATCH_PACK_DELETE&&ECHO.&&CALL:PAD_LINE&&ECHO.                           Package Create End&&CALL:PAD_LINE
 IF NOT "%EXAMPLE_MODE%"=="INSTANT" CALL:PAUSED
 EXIT /B
 :PACK_XLVL
