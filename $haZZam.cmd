@@ -186,7 +186,7 @@ IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-INSTALL" IF "%ARG3%"=="-PACK" IF DEFINED
 IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-ISO" IF DEFINED ARG4 IF NOT EXIST "%IMAGE_FOLDER%\%ARG4%" ECHO PACKAGE %IMAGE_FOLDER%\%ARG4% is missing&&SET "EXIT_FLAG=1"
 EXIT /B
 :COMMAND_HELP
-SET "PAD_SIZE=10"&&ECHO $haZZam Command Line Parameters:&&ECHO.
+ECHO $haZZam Command Line Parameters:&&ECHO.
 ECHO    -help                                                    (This menu)
 ECHO    -arg                                                     (1st arg=arg-test. Last arg=exec+test)
 ECHO    -imagemgr -install -list (name.lst)                      (Install package list)
@@ -1061,20 +1061,16 @@ REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Serv
 SET "X0Z="&&SET "SUB_XNT="&&SET "COMP_FLAG="&&FOR /F "TOKENS=1* DELIMS=:~" %%1 IN ($REG2) DO (IF NOT "%%1"=="" CALL SET /A "SUB_XNT+=1"&&CALL SET "X1=%%1"&&CALL SET "X2=%%2"&&CALL:COMPBBQ)
 IF EXIST "$REG2" DEL /F "$REG2">NUL
 EXIT /B
+:COMP_AVOID
+IF "%BASE_MEAT%~%X2%"=="%COMPX%" SET "COMP_AVD=1"
+EXIT /B
 :COMPBBQ
 IF "%X1%"=="%ENDQ%" EXIT /B
 IF "%FNL_XNT%" GTR "9" EXIT /B
 IF "%SUB_XNT%" GTR "9" EXIT /B
 IF "%X0Z%"=="%BASE_MEAT%~%X2%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z1%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z2%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z3%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z4%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z5%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z6%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z7%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z8%" EXIT /B
-IF "%BASE_MEAT%~%X2%"=="%COMP_Z9%" EXIT /B
+SET "COMP_AVD="&&FOR %%a in (1 2 3 4 5 6 7 8 9) DO (CALL SET "COMPX=%%COMP_Z%%a%%"&&CALL:COMP_AVOID)
+IF DEFINED COMP_AVD EXIT /B
 SET "COMP_ABT=X"&&SET "COMP_ABT1="&&IF "%SAFE_EXCLUDE%"=="ENABLED" FOR /F "TOKENS=1-9 DELIMS=-" %%1 IN ("%BASE_MEAT%") DO (IF "%%4"=="FEATURES" SET "COMP_ABT1=1")
 SET "COMP_ABT2="&&IF "%SAFE_EXCLUDE%"=="ENABLED" FOR /F "TOKENS=1-9 DELIMS=-" %%1 IN ("%BASE_MEAT%") DO (IF "%%5"=="REQUIRED" SET "COMP_ABT2=1")
 SET "COMP_Z%FNL_XNT%=%BASE_MEAT%~%X2%"&&SET "COMP_ABT3="&&FOR %%1 in (%COMP_SKIP%) DO (IF "%BASE_MEAT%"=="%%1" SET "COMP_ABT3=1")
@@ -1306,8 +1302,6 @@ ECHO Searching: [%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon]>>
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon" /f Userinit /c /e /s>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
 CALL:MOUNT_INT
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
-IF EXIST "$VC" DEL /F "$VC">NUL 2>&1
-IF EXIST "$TSK" DEL /F "$TSK">NUL 2>&1
 CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 ECHO  Inspection Complete [%REPORT_IMAGE%] %DATE% %TIME% >>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
@@ -1676,7 +1670,7 @@ FOR %%G in (Q P O N M L K J I H G F E D) DO (IF NOT EXIST "%%G:\" SET "NXT_LETTE
 DEL /Q /F "$DSK">NUL 2>&1
 EXIT /B
 :BOOT_QUERY
-SET "BOOT_OK="SET "GUID_TMP="&&SET "GUID_CUR="&&FOR /F "TOKENS=1-5 DELIMS= " %%a in ('BCDEDIT.EXE /V') do (
+SET "BOOT_OK="&&SET "GUID_TMP="&&SET "GUID_CUR="&&FOR /F "TOKENS=1-5 DELIMS= " %%a in ('BCDEDIT.EXE /V') do (
 IF "%%a"=="displayorder" SET "GUID_CUR=%%b"
 IF "%%a"=="identifier" SET "GUID_TMP=%%b"
 IF "%%a"=="description" IF "%%b"=="$haZZam!" SET "BOOT_OK=1"&&GOTO:BOOT_QUERYX)
