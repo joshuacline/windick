@@ -2141,31 +2141,31 @@ FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) 
 (ECHO ----------[Package Manifest]---------=&&ECHO.PackName=%PackName%&&ECHO.PackType=%PackType%&&ECHO.PackDesc=%PackDesc%&&ECHO.PackTag=%PackTag%&&ECHO.REG_KEY=%REG_KEY%&&ECHO.REG_VAL=%REG_VAL%&&ECHO.RUN_MOD=%RUN_MOD%&&ECHO.REG_DAT=%REG_DAT%&&ECHO.Created=%date% %time%&&ECHO ------------[END OF FILE]------------=)>"%MAKER_FOLDER%\PACKAGE.$HZ"
 EXIT /B
 :PACK_VARS
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::THE REGISTRY/FILES ARE NORMAL DURING SETUPCOMPLETE,RUNONCE, ^&IMAGEMGR::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::         DURING THE IMAGE-APPLY THEY ARE EXTERNALLY MOUNTED          ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::  IMAGE-APPLY=OFFLINE, SETUP-COMPLETE=PRE-LOGON, RUN-ONCE=1ST LOGON  ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:: THESE VARIABLES ARE BUILT-IN AND CAN HELP KEEP A SCRIPT CONSISTANT  ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::      THROUGHOUT THE ENTIRE PROCESS AND FOR LIVE-PACKAGE APPLY       ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::       FOLDER USER:        (%%USRTAR%%)       = ($:\Users\Default)     ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::       FOLDER WINDOWS:     (%%WINTAR%%)       = ($:\Windows)           ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::       FOLDER BASE:        (%%DRVTAR%%)       = ($:)                   ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::       REG-HIVE USER:     (%%HIVE_USER%%)     = (HKCU)                 ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::       REG-HIVE SOFTWARE: (%%HIVE_SOFTWARE%%) = (HKLM\SOFTWARE)        ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::       REG-HIVE SYSTEM:   (%%HIVE_SYSTEM%%)   = (HKLM\SYSTEM)          ::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::START:OF:PACK:::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO.>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::================================================>>"%NEW_PACK%"
+ECHO;::File and registry locations are normal during>>"%NEW_PACK%"
+ECHO;::SetupComplete, RunOnce, and Current-Environment.>>"%NEW_PACK%"
+ECHO;::During ImageApply they are externally mounted.>>"%NEW_PACK%"
+ECHO;::================================================>>"%NEW_PACK%"
+ECHO;::These variables are built in and can help>>"%NEW_PACK%"
+ECHO;::keep a script consistant throughout the entire>>"%NEW_PACK%"
+ECHO;::process, whether applying to a vhdx or live>>"%NEW_PACK%"
+ECHO;::================================================>>"%NEW_PACK%"
+ECHO;::Windows folder :   (%%WINTAR%%)>>"%NEW_PACK%"
+ECHO;::Drive root :       (%%DRVTAR%%)>>"%NEW_PACK%"
+ECHO;::User or defuser :  (%%USRTAR%%)>>"%NEW_PACK%"
+ECHO;::HKLM\SOFTWARE :    (%%HIVE_SOFTWARE%%)>>"%NEW_PACK%"
+ECHO;::HKLM\SYSTEM :      (%%HIVE_SYSTEM%%)>>"%NEW_PACK%"
+ECHO;::HKCU\ or defuser : (%%HIVE_USER%%)>>"%NEW_PACK%"
+ECHO;::================================================>>"%NEW_PACK%"
+ECHO;::==================START OF PACK=================>>"%NEW_PACK%"
+ECHO;::================================================>>"%NEW_PACK%"
+ECHO.>>"%NEW_PACK%"
 EXIT /B
 :PACK_END
-ECHO.>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::::::::::::::::::::::::::::::::END:OF:PACK::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO.>>"%NEW_PACK%"
+ECHO;::================================================>>"%NEW_PACK%"
+ECHO;::===================END OF PACK==================>>"%NEW_PACK%"
+ECHO;::================================================>>"%NEW_PACK%"
 EXIT /B
 :PACK_CONFIG
 SET "PACK_ENT="&&FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %PACK_CONFIG%^| FIND /V ""') do (CALL SET /A "PACK_ENT+=1"&&SET "PACK_CFG=%%G"&&CALL:PACK_CONFIG_XNT)
@@ -2241,7 +2241,7 @@ IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                   Project[%#@%
 IF "%EXAMPLE_MODE%"=="CREATE" IF NOT "%CONFIRM%"=="X" EXIT /B
 IF EXIST "%MAKER_FOLDER%" RD /S /Q "\\?\%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
-CALL:SCRATCH_PACK_DELETE&&CALL:MOUNT_INT
+SET "NEW_PACK=%MAKER_FOLDER%\PACKAGE.CMD"&&CALL:SCRATCH_PACK_DELETE&&CALL:MOUNT_INT
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 CALL:PACK_VARS
 IF "%EXAMPLE%"=="N01" CALL:PACKEX_NEW_DRIVER
@@ -2298,8 +2298,8 @@ IF "%EXAMPLE_MODE%"=="INSTANT" SET "IMAGE_PACK=%PACK_FOLDER%\%PackName%.$PK"&&CA
 IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\Project%MAKER_SLOT%"&&DEL /Q /F "%PACK_FOLDER%\%PackNameX%.$PK">NUL 2>&1
 IF "%EXAMPLE_MODE%"=="INSTANT" RD /S /Q "%PROG_SOURCE%\PROJECT_TMP">NUL 2>&1
 IF "%EXAMPLE_MODE%"=="CREATE" IF DEFINED EXAMPLE CALL:MAKER_EDITOR
-IF "%PackType%"=="STORAGE" DEL /F "%MAKER_FOLDER%\PACKAGE.CMD">NUL 2>&1
-IF "%PackType%"=="DRIVER" DEL /F "%MAKER_FOLDER%\PACKAGE.CMD">NUL 2>&1
+IF "%PackType%"=="STORAGE" DEL /F "%NEW_PACK%">NUL 2>&1
+IF "%PackType%"=="DRIVER" DEL /F "%NEW_PACK%">NUL 2>&1
 SET "EXAMPLE_MODE="&&SET "SELECT="&&CALL:SCRATCH_PACK_DELETE
 EXIT /B
 :SCRATCH_PACK_DELETE
@@ -2408,260 +2408,257 @@ EXIT /B
 SET "PackType=STORAGE"&&CALL:PAD_LINE&&ECHO                        - New Storage Pack Name -&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED PackName SET PackName=Storage_%RANDOM%
 EXIT /B
+:LIVE_WARN
+ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%NEW_PACK%"
+EXIT /B
 :PACKEX_NEWUSER
 SET "PackType=SCRIPTED"&&SET "PackName=Add_User"&&SET "PackDesc=Creates Local User-Account"&&ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER1"&&CALL:PROMPT_SET_ANY
 SET "CHAR_STR=%NEWUSER1%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
 IF DEFINED CHAR_FLG SET "NEWUSER1="
 IF NOT DEFINED NEWUSER1 SET "NEWUSER1=UserName"
-ECHO;Net User %NEWUSER1% /add>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net User %NEWUSER1% /passwordreq:No>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net User %NEWUSER1% /passwordchg:No>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net Accounts /maxpwage:unlimited>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER1%" SET PasswordExpires=FALSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Net User %NEWUSER1% /add>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER1% /passwordreq:No>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER1% /passwordchg:No>>"%NEW_PACK%"
+ECHO;Net Accounts /maxpwage:unlimited>>"%NEW_PACK%"
+ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER1%" SET PasswordExpires=FALSE>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_NEWADMIN
-SET "PackType=SCRIPTED"&&SET "PackName=Add_Admin"&&SET "PackDesc=Creates Local Admin-Account"&&ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER1"&&CALL:PROMPT_SET_ANY
+SET "PackType=SCRIPTED"&&SET "PackName=Add_Admin"&&SET "PackDesc=Creates Local Admin-Account"
+ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER1"&&CALL:PROMPT_SET_ANY
 SET "CHAR_STR=%NEWUSER1%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
 IF DEFINED CHAR_FLG SET "NEWUSER1="
 IF NOT DEFINED NEWUSER1 SET "NEWUSER1=UserName"
-ECHO;Net User %NEWUSER1% /add>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net User %NEWUSER1% /passwordreq:No>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net User %NEWUSER1% /passwordchg:No>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net Accounts /maxpwage:unlimited>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Net localgroup Administrators %NEWUSER1% /add>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER1%" SET PasswordExpires=FALSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Net User %NEWUSER1% /add>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER1% /passwordreq:No>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER1% /passwordchg:No>>"%NEW_PACK%"
+ECHO;Net Accounts /maxpwage:unlimited>>"%NEW_PACK%"
+ECHO;Net localgroup Administrators %NEWUSER1% /add>>"%NEW_PACK%"
+ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER1%" SET PasswordExpires=FALSE>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_BOOT_TIMEOUT
-SET "PackType=SCRIPTED"&&SET "PackName=Boot_Timeout"&&SET "PackDesc=Change Boot Timeout"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=Boot_Timeout"&&SET "PackDesc=Change Boot Timeout"&&CALL:LIVE_WARN
 ECHO   - ENTER BOOT TIMEOUT IN SECONDS -
 SET "PROMPT_SET=BOOT_TIMEOUT"&&CALL:PROMPT_SET
 IF NOT DEFINED BOOT_TIMEOUT EXIT /B
-ECHO;BCDEDIT /TIMEOUT %BOOT_TIMEOUT% >>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;BCDEDIT /TIMEOUT %BOOT_TIMEOUT% >>"%NEW_PACK%"
 EXIT /B
 :PACKEX_STARTUP_USER
 SET "PackType=SCRIPTED"&&SET "PackName=UserLogon_Run"&&SET "PackDesc=Run a Program or batch at User Login"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Run" /v "RunUser" /t REG_EXPAND_SZ /d "%%PROGRAMDATA%%\USERLOGON.CMD" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;ECHO;EXPLORER.EXE C:\WINDOWS\SYSTEM32\NOTEPAD.EXE^>"%%PROGRAMDATA%%\USERLOGON.CMD">>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Run" /v "RunUser" /t REG_EXPAND_SZ /d "%%PROGRAMDATA%%\USERLOGON.CMD" /f>>"%NEW_PACK%"
+ECHO;ECHO;EXPLORER.EXE C:\WINDOWS\SYSTEM32\NOTEPAD.EXE^>"%%PROGRAMDATA%%\USERLOGON.CMD">>"%NEW_PACK%"
 EXIT /B
 :PACKEX_AUTOBOOT
-SET "PackType=SCRIPTED"&&SET "PackName=AUTOBOOT_ENABLE"&&SET "PackDesc=Commands to enable AutoBoot and boot into recovery"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::NEEDS AutoBoot.cmd IN PACKAGE FOLDER>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -autoboot -install>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -nextboot -recovery>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=AUTOBOOT_ENABLE"&&SET "PackDesc=Commands to enable AutoBoot and boot into recovery"&&CALL:LIVE_WARN
+ECHO;::NEEDS AutoBoot.cmd IN PACKAGE FOLDER>>"%NEW_PACK%"
+ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%NEW_PACK%"
+ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -autoboot -install>>"%NEW_PACK%"
+ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -nextboot -recovery>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_PCNAME
-SET "PackType=SCRIPTED"&&SET "PackName=PC_Name"&&SET "PackDesc=Renames the PC"&&ECHO       - Computer Name? -&&ECHO     - ENTER NAME -&&ECHO   - 0-9 A-Z - NO SPACES -&&SET "PROMPT_SET=PC_NAME"&&CALL:PROMPT_SET_ANY
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=PC_Name"&&SET "PackDesc=Renames the PC"&&CALL:LIVE_WARN
+ECHO       - Computer Name? -&&ECHO     - ENTER NAME -&&ECHO   - 0-9 A-Z - NO SPACES -&&SET "PROMPT_SET=PC_NAME"&&CALL:PROMPT_SET_ANY
 SET "CHAR_STR=%PC_NAME%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
 IF DEFINED CHAR_FLG SET "PC_NAME="
 IF NOT DEFINED PC_NAME SET "PC_NAME=Computer"
-ECHO;WMIC COMPUTERSYSTEM WHERE Name="Present Name" CALL RENAME Name="%PC_NAME%">>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;WMIC COMPUTERSYSTEM WHERE Name="Present Name" CALL RENAME Name="%PC_NAME%">>"%NEW_PACK%"
 EXIT /B
 :PACKEX_PAGEFILE
-SET "PackType=SCRIPTED"&&SET "PackName=Pagefile_Disable"&&SET "PackDesc=Disable Pagefile"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "DisablePagingExecutive" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_MULTI_SZ /d "" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ExistingPageFiles" /t REG_MULTI_SZ /d "" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;powercfg.exe -h off>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic computersystem where name="%%computername%%" set AutomaticManagedPagefile=False>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="C:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="D:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="E:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="F:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="G:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="H:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;wmic pagefileset where name="N:\\pagefile.sys" delete>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=Pagefile_Disable"&&SET "PackDesc=Disable Pagefile"&&CALL:LIVE_WARN
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "DisablePagingExecutive" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_MULTI_SZ /d "" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ExistingPageFiles" /t REG_MULTI_SZ /d "" /f>>"%NEW_PACK%"
+ECHO;powercfg.exe -h off>>"%NEW_PACK%"
+ECHO;wmic computersystem where name="%%computername%%" set AutomaticManagedPagefile=False>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="C:\\pagefile.sys" delete>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="D:\\pagefile.sys" delete>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="E:\\pagefile.sys" delete>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="F:\\pagefile.sys" delete>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="G:\\pagefile.sys" delete>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="H:\\pagefile.sys" delete>>"%NEW_PACK%"
+ECHO;wmic pagefileset where name="N:\\pagefile.sys" delete>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_FIREWALL_IMPORT
-SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "PackDesc=Import Windows Firewall.XML"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "PackDesc=Import Windows Firewall.XML"&&CALL:LIVE_WARN
 NETSH advfirewall EXPORT "%MAKER_FOLDER%\FirewallPolicy.wfw"
-ECHO;NETSH advfirewall IMPORT "FirewallPolicy.wfw">>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;NETSH advfirewall IMPORT "FirewallPolicy.wfw">>"%NEW_PACK%"
 EXIT /B
 :PACKEX_BACKGROUND_APPS
 SET "PackType=SCRIPTED"&&SET "PackName=BackgroundApps_Disable"&&SET "PackDesc=Disable Background Applications"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_WAKELOCKS_NET
 SET "PackType=SCRIPTED"&&SET "PackName=Wake_Net_Disable"&&SET "PackDesc=Disable Network Adapter Wakelocks"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_WAKELOCKS
 SET "PackType=SCRIPTED"&&SET "PackName=Wake_Disable"&&SET "PackDesc=Disable Wakelocks"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_LSA_STRICT
 SET "PackType=SCRIPTED"&&SET "PackName=LSA_Strict"&&SET "PackDesc=Strict Ruleset For LSA"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LsaPid" /t REG_DWORD /d "632" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "ProductType" /t REG_DWORD /d "125" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RunAsPPL" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "SubmitControl" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "disabledomaincreds" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "everyoneincludesanonymous" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "NoLmHash" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymoussam" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d "O:BAG:BAD:(A;;RC;;;BA)" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LsaPid" /t REG_DWORD /d "632" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "ProductType" /t REG_DWORD /d "125" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RunAsPPL" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "SubmitControl" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "disabledomaincreds" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "everyoneincludesanonymous" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "NoLmHash" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymoussam" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d "O:BAG:BAD:(A;;RC;;;BA)" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_STORE
 SET "PackType=SCRIPTED"&&SET "PackName=Store_Disable"&&SET "PackDesc=Disable Store"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_ONEDRIVE
 SET "PackType=SCRIPTED"&&SET "PackName=OneDrive_Disable"&&SET "PackDesc=Disable OneDrive"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v "SYSTEM.IsPinnedToNameSpaceTree" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe delete "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /v "ImagePath" /t REG_EXPAND_SZ /d "NUL" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v "SYSTEM.IsPinnedToNameSpaceTree" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe delete "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /v "ImagePath" /t REG_EXPAND_SZ /d "NUL" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_CLOUD_CONTENT
 SET "PackType=SCRIPTED"&&SET "PackName=Cloud_Disable"&&SET "PackDesc=Disable Cloud-Content"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /ve /t REG_SZ /d "" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /ve /t REG_SZ /d "" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_UAC
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=111"&&SET "PACK_CFG_2=000"&&ECHO     - UAC Prompt -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=UAC_Prompt_Always_On"&&SET "PackDesc=UAC Always Prompt"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=UAC_Prompt_Always_Off"&&SET "PackDesc=UAC Never Prompt"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_NOTIFICATION_CENTER
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=0"&&SET "PACK_CFG_2=1"&&ECHO   - Notification Center -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Notification_Center_Enable"&&SET "PackDesc=Enable Notification Center"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Notification_Center_Diable"&&SET "PackDesc=Disable Notification Center"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_BT_VISIBILITY
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1111"&&SET "PACK_CFG_2=0000"&&ECHO   - Bluetooth Advertising -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=BT_Visibility_On"&&SET "PackDesc=Enable Bluetooth Advertising"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=BT_Visibility_Off"&&SET "PackDesc=Disable Bluetooth Advertising"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_LLT_DISCOVERY_RSPNDR
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1110"&&SET "PACK_CFG_2=0001"&&ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=LLT_Enable"&&SET "PackDesc=Enable Link-Layer-Topology Discovery Responder Driver"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=LLT_Disable"&&SET "PackDesc=Disable Link-Layer-Topology Discovery Responder Driver"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_VBS
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=110101"&&SET "PACK_CFG_2=000002"&&ECHO  - Virtualization Based Security -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=VBS_Enable"&&SET "PackDesc=Enable Virtualization Based Security"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=VBS_Disable"&&SET "PackDesc=Disable Virtualization Based Security"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "%PACK_ENT_5%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "%PACK_ENT_6%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "%PACK_ENT_5%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "%PACK_ENT_6%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_DCOM
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=Y"&&SET "PACK_CFG_2=N"&&ECHO         - DCOM -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=DCOM_Enable"&&SET "PackDesc=Enable DCOM"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=DCOM_Disable"&&SET "PackDesc=Disable DCOM"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_WINLOGON_VERBOSE
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1"&&SET "PACK_CFG_2=0"&&ECHO          - WinLogon Full Verbosity -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=WinLogonVerbose_Enable"&&SET "PackDesc=WinLogonVerbose Enable"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=WinLogonVerbose_Disable"&&SET "PackDesc=WinLogonVerbose Disable"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_DISABLE_HELLO
 SET "PackType=SCRIPTED"&&SET "PackName=Hello_Disable"&&SET "PackDesc=Disable hello"
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
+ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_SHORTEN_PREPARING
 SET "PackType=SCRIPTED"&&SET "PackName=Quicker_Preparing"&&SET "PackDesc=Shortens time of Preparing..."
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d 0 /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
+ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d 0 /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_DELAY_DESKTOP
 SET "PackType=SCRIPTED"&&SET "PackName=Desktop_Delay_1stBoot"&&SET "PackDesc=Delay explorer until RunOnce"
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
+ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_SCRIPTHOST
 SET "PackType=SCRIPTED"&&SET "PackName=VBS_Exec_Disable"&&SET "PackDesc=Disable visual basic script execution"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows Script Host\Settings" /v "Enabled" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Classes\PROTOCOLS\Handler\vbscript" /v "DISABLED_CLSID" /t REG_SZ /d "{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows Script Host\Settings" /v "Enabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Classes\PROTOCOLS\Handler\vbscript" /v "DISABLED_CLSID" /t REG_SZ /d "{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}" /f>>"%NEW_PACK%"
 EXIT /B
 :EXPLORER_URL_ACCESS
 SET "PackType=SCRIPTED"&&SET "PackName=ExplorerRestrictNet"&&SET "PackDesc=No internet For explorer.exe/driver updates"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_LOCAL_ACCOUNT
 SET "PackType=SCRIPTED"&&SET "PackName=Online_Accounts_Disabled"&&SET "PackDesc=Only allow local accounts to login"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_PRIORITIZE_ETHERNET
-SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_Ethernet"&&SET "PackDesc=Prioritize Ethernet Traffic"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=5 >>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=10 >>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_Ethernet"&&SET "PackDesc=Prioritize Ethernet Traffic"&&CALL:LIVE_WARN
+ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=5 >>"%NEW_PACK%"
+ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=10 >>"%NEW_PACK%"
 EXIT /B
 :PACKEX_PRIORITIZE_WIFI
-SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_WiFi"&&SET "PackDesc=Prioritize Wi-Fi Traffic"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=5 >>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_WiFi"&&SET "PackDesc=Prioritize Wi-Fi Traffic"&&CALL:LIVE_WARN
+ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >>"%NEW_PACK%"
+ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=5 >>"%NEW_PACK%"
 EXIT /B
 :PACKEX_DEBUG
 ECHO  - DEBUG -&&ECHO {1}Pause&&ECHO {2}Echo On {3}Echo Off&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PackType=SCRIPTED"&&SET "PackName=Pause"&&SET "PackDesc=Place in PackageList, PAUSES EXECUTION"
-IF "%SELECT%"=="1" ECHO;PAUSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="1" ECHO;PAUSE>>"%NEW_PACK%"
 IF "%SELECT%"=="2" SET "PackType=SCRIPTED"&&SET "PackName=Echo_on"&&SET "PackDesc=Place in PackageList, Turns ECHO ON"
-IF "%SELECT%"=="2" ECHO;@ECHO ON>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="2" ECHO;@ECHO ON>>"%NEW_PACK%"
 IF "%SELECT%"=="3" SET "PackType=SCRIPTED"&&SET "PackName=Echo_off"&&SET "PackDesc=Place in PackageList, Turns ECHO OFF"
-IF "%SELECT%"=="3" ECHO;@ECHO OFF>>"%MAKER_FOLDER%\PACKAGE.CMD"
+IF "%SELECT%"=="3" ECHO;@ECHO OFF>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_TASKMGR_PREF
-SET "PackType=SCRIPTED"&&SET "PackName=TaskManager_Prefs"&&SET "PackDesc=TaskManager Prefs"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=TaskManager_Prefs"&&SET "PackDesc=TaskManager Prefs"&&CALL:LIVE_WARN
 Reg.exe EXPORT "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\TaskManager" "%MAKER_FOLDER%\TASKMGR_PREF.REG"
-ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_COLOR_MODE_TOGGLE
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=11"&&SET "PACK_CFG_2=00"&&ECHO {1}Light {2}Dark&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Color_Light"&&SET "PackDesc=Use Light Mode"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Color_Dark"&&SET "PackDesc=Use Dark Mode"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SYSTEMUsesLightTheme" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SYSTEMUsesLightTheme" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_PACK_PERMIT_EXAMPLE
 SET "PackType=SCRIPTED"&&SET "PackName=PACK_PERMIT_DEMO"&&SET "PackDesc=PACK PERMIT DEMO"&&SET "REG_KEY=%%HIVE_USER%%\TEST_KEY"&&SET "REG_VAL=TEST_VAL"&&SET "RUN_MOD=EQU"&&SET "REG_DAT=1"
@@ -2674,42 +2671,41 @@ ECHO   Change or delete TEST_VAL DATA(1), the pack is denied, and test key remai
 ECHO     Leave TEST_VAL DATA(1), pack is permitted, and test key will be deleted
 ECHO       next, press {C} to create the pack, put in a package list and test
 IF "%CONFIRM%"=="X" CALL:PAUSED
-ECHO;@ECHO OFF>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe delete "%%HIVE_USER%%\TEST_KEY" /f^>NUL >>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;START REGEDIT.EXE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;ECHO PACK PERMITTED, TEST_KEY DELETED^&PAUSE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::MUST USE EXTRA SET OF PERCENTS IN PERMIT REG-KEY FIELD (ex. %%%%HIVE_USER%%%%\XYZ)>>%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;@ECHO OFF>>"%NEW_PACK%"
+ECHO;Reg.exe delete "%%HIVE_USER%%\TEST_KEY" /f^>NUL >>"%NEW_PACK%"
+ECHO;START REGEDIT.EXE>>"%NEW_PACK%"
+ECHO;ECHO PACK PERMITTED, TEST_KEY DELETED^&PAUSE>>"%NEW_PACK%"
+ECHO;::MUST USE EXTRA SET OF PERCENTS IN PERMIT REG-KEY FIELD (ex. %%%%HIVE_USER%%%%\XYZ)>>%NEW_PACK%"
 EXIT /B
 :PACKEX_MSI_EXAMPLE
-SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::PUT MSI IN PACK FOLDER.>>%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;"EXAMPLE.msi" /qn>>"%MAKER_FOLDER%\PACKAGE.CMD"
+SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"&&CALL:LIVE_WARN
+ECHO;::PUT MSI IN PACK FOLDER.>>%NEW_PACK%"
+ECHO;"EXAMPLE.msi" /qn>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_DRIVER_UPDATE
 SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=10"&&SET "PACK_CFG_2=01"&&ECHO - Driver Updates -&&ECHO {1}Enable {2}Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Driver_Update_Enable"&&SET "PackDesc=Driver Update Enable"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Driver_Update_Disable"&&SET "PackDesc=Driver Update Disable"
 CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_FEATURE_UPDATE_THRESHOLD
 SET "PackType=SCRIPTED"&&SET "PackName=Feature_Threshold"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
 SET "GET_VER="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion" /f "DisplayVersion" /c /e') DO (IF "%%a"=="DisplayVersion" SET "GET_VER=%%c")
 IF NOT DEFINED GET_VER SET "GET_VER=22H2"
 SET "PackDesc=Stop Updates at Release Threshold %GET_VER%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersion" /t REG_DWORD /d "1" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersionInfo" /t REG_SZ /d "%GET_VER%" /f>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersion" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersionInfo" /t REG_SZ /d "%GET_VER%" /f>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_DISM
 SET "PackType=SCRIPTED"&&SET "PackName=DISM_Special"&&SET "PackDesc=DISM special pack"&&SET "PackTag=DISM"
-ECHO;DISM /%%APPLY_TARGET%% /ABC:DEF /123:456>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;DISM /%%APPLY_TARGET%% /ABC:DEF /123:456>>"%NEW_PACK%"
 EXIT /B
 :PACKEX_ANSWER_FILE
 SET "PackType=SCRIPTED"&&SET "PackName=Unattended"&&SET "PackDesc=Generate Unattended Answer File"&&SET "EDIT_CUSTOM=unattend.xml"&&SET "PackTag=DISM"
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;::NOTE: WHEN SWITCHING TO A DIFFERENT LOCALE, UNATTEND MAY SKIP SETUPCOMPLETE.CMD>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
+ECHO;::NOTE: WHEN SWITCHING TO A DIFFERENT LOCALE, UNATTEND MAY SKIP SETUPCOMPLETE.CMD>>"%NEW_PACK%"
 ECHO        - USERNAME? -&&ECHO     - ENTER USERNAME -&&ECHO   - 0-9 A-Z - NO SPACES -&&ECHO      (ENTER) FOR DEFAULT&&SET "PROMPT_SET=NEWUSER2"&&CALL:PROMPT_SET_ANY
 SET "CHAR_STR=%NEWUSER2%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
 IF DEFINED CHAR_FLG SET "NEWUSER2="
@@ -2718,9 +2714,9 @@ ECHO.&&ECHO       - PRODUCT KEY? -&&ECHO XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&&ECHO    
 IF "%EXAMPLE_MODE%"=="CREATE" SET "PROMPT_SET=PRODUCT_KEY"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED PRODUCT_KEY SET "PRODUCT_KEY=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
 SET "ANSWER_FILE=%MAKER_FOLDER%\unattend.xml"
-ECHO;REM DISM /%%APPLY_TARGET%% /APPLY-UNATTEND:"%%CD%%\UNATTEND.XML">>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;MD "%%WINTAR%%\PANTHER">>"%MAKER_FOLDER%\PACKAGE.CMD"
-ECHO;COPY /Y "%%~DP0unattend.xml" "%%WINTAR%%\PANTHER">>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;REM DISM /%%APPLY_TARGET%% /APPLY-UNATTEND:"%%CD%%\UNATTEND.XML">>"%NEW_PACK%"
+ECHO;MD "%%WINTAR%%\PANTHER">>"%NEW_PACK%"
+ECHO;COPY /Y "%%~DP0unattend.xml" "%%WINTAR%%\PANTHER">>"%NEW_PACK%"
 ECHO;^<?xml version="1.0" encoding="utf-8"?^>>"%ANSWER_FILE%"
 ECHO;^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>>>"%ANSWER_FILE%"
 ECHO;	^<settings pass="oobeSystem"^>>>"%ANSWER_FILE%"
