@@ -1,6 +1,6 @@
 ::$haZZam! A native Windows image deployment tool. (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET $VER_CUR=1127&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET $VER_CUR=1128&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" ECHO Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
 SET "ARGUE=%*"&&SET "DELIMS= "&&CALL:ARGUE&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF DEFINED A%%a CALL SET "ARG%%a=%%A%%a%%")
 FOR /F "TOKENS=*" %%a in ('ECHO %CD%') DO (SET "PROG_FOLDER=%%a")
@@ -9,7 +9,7 @@ FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %PROG_FOLDER%^| FIND /V ""') do 
 IF DEFINED ARG1 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (FOR %%1 in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF DEFINED ARG%%1 CALL SET "ARG%%1=%%ARG%%1:%%G=%%G%%"))
 CALL:MOUNT_INT&&IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
 FOR /F "TOKENS=1 DELIMS=: " %%a IN ('DISM') DO (IF "%%a"=="Examples" SET "LANG_PASS=1")
-IF NOT DEFINED LANG_PASS ECHO Non-english host language/locale. -Untested- proceed with extreme caution.&&PAUSE
+IF NOT DEFINED LANG_PASS ECHO Non-english host language/locale. - Untested - proceed with extreme caution.&&PAUSE
 IF NOT "%PROG_FOLDER%"=="X:\$" SET "PROG_MODE=PORTABLE"&&COLOR 0A&&CALL:TITLECARD&&GOTO:PROG_MAIN
 IF "%PROG_FOLDER%"=="X:\$" IF "%SystemDrive%"=="X:" SET "PROG_MODE=RAMDISK"&&COLOR 0B&&CALL:TITLECARD
 CALL:HOME_AUTO&&CALL:SETS_HANDLER&&REG.EXE DELETE "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\MiniNT" /f>NUL 2>&1
@@ -24,7 +24,7 @@ IF NOT "%PROG_MODE%"=="RAMDISK" ECHO                          $haZZam^^! Image-D
 IF "%PROG_MODE%"=="RAMDISK" ECHO                        $haZZam^^! Boot-Environment&&CALL:PAD_LINE
 ECHO.&&ECHO  (%##%1%#$%) Image Management&&ECHO  (%##%2%#$%) Image Processor&&ECHO  (%##%3%#$%) Package Creator&&ECHO  (%##%4%#$%) File Management
 ECHO  (%##%5%#$%) Disk Management&&ECHO  (%##%6%#$%) Tasks&&ECHO  (%##%.%#$%) Settings&&ECHO.&&CALL:PAD_LINE
-IF DEFINED HOME_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" ECHO  [%#@%Disk%#$%[%#@%Error%#$% (%##%@%#$%) Attempt Home-ReAssign [ID[%#@%%HOME_TARGET%%#$%]&&CALL:PAD_LINE
+IF DEFINED HOME_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" ECHO  [%#@%Disk%#$%[%#@%Error%#$% (%##%@%#$%) Attempt Temp. Home-ReAssign [ID[%#@%%HOME_TARGET%%#$%]&&CALL:PAD_LINE
 IF DEFINED HOME_TARGET IF "%HOME_MOUNT%"=="YES" IF "%PROG_SOURCE%"=="S:\$" ECHO  [Disk[%#@%%HOME_NUMBER%%#$%] [ID[%#@%%HOME_TARGET%%#$%]&&CALL:PAD_LINE
 IF "%SHORTCUTS%"=="ENABLED" ECHO  (%##%Q%#$%)uit (%##%%HOTKEY_1%%#$%) (%##%%HOTKEY_2%%#$%) (%##%%HOTKEY_3%%#$%) (%##%%HOTKEY_4%%#$%) (%##%%HOTKEY_5%%#$%)&&CALL:PAD_LINE
 IF NOT "%SHORTCUTS%"=="ENABLED" ECHO  (%##%Q%#$%)uit (%##%?%#$%)                                           [%#@%%PROG_MODE% MODE%#$%]&&CALL:PAD_LINE
@@ -35,7 +35,7 @@ IF "%SELECT%"=="3" GOTO:MAKER_START
 IF "%SELECT%"=="4" GOTO:FILEMGR_START
 IF "%SELECT%"=="5" IF NOT DEFINED DISCLAIMER CALL:DISCLAIMER
 IF "%SELECT%"=="5" IF DEFINED DISCLAIMER GOTO:DISKMGR_START
-IF "%SELECT%"=="6" SET "EXAMPLE_MODE=INSTANT"&&CALL:PACKEX_MENU_START
+IF "%SELECT%"=="6" SET "PACK_MODE=INSTANT"&&CALL:PACKEX_MENU_START
 IF "%SELECT%"=="@" IF "%PROG_MODE%"=="RAMDISK" CALL:HOME_MANUAL
 IF "%SELECT%"=="Q" GOTO:QUIT
 IF "%SELECT%"=="~" SET&&CALL:PAUSED
@@ -138,8 +138,7 @@ REM COMMAND_MODE_COMMAND_MODE_COMMAND_MODE_COMMAND_MODE_COMMAND_MODE
 SET "CAME_FROM=COMMAND"&&SET "PROG_SOURCE=%PROG_FOLDER%"&&SET "PROG_TARGET=%PROG_FOLDER%"&&CALL:FOLDER_LOCATE&&SET "EXIT_FLAG="&&CALL:COMMAND_ERROR
 IF "%EXIT_FLAG%"=="1" GOTO:CLEAN_EXIT
 IF "%ARG1%"=="-HELP" CALL:COMMAND_HELP
-IF "%ARG1%"=="-NEXTBOOT" IF "%ARG2%"=="-VHDX" SET "BOOT_TARGET=VHDX"&&CALL:BOOT_TOGGLE
-IF "%ARG1%"=="-NEXTBOOT" IF "%ARG2%"=="-RECOVERY" SET "BOOT_TARGET=RECOVERY"&&CALL:BOOT_TOGGLE
+IF "%ARG1%"=="-NEXTBOOT" FOR %%a in (VHDX RECOVERY) DO (IF "%ARG2%"=="-%%a" SET "BOOT_TARGET=%%a"&&CALL:BOOT_TOGGLE)
 IF "%ARG1%"=="-NEXTBOOT" IF DEFINED NEXT_BOOT CALL ECHO Next boot is [%NEXT_BOOT%]
 IF "%ARG1%"=="-NEXTBOOT" IF NOT DEFINED NEXT_BOOT CALL ECHO Error: $haZZam boot environment not installed on this pc.
 IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
@@ -151,7 +150,7 @@ IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-INSTALL" SET "BOOTSVC=INSTALL"&&CALL:AUT
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-VHDX" IF DEFINED ARG7 IF "%ARG8%"=="-SIZE" IF DEFINED ARG9 SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"&&SET "WIM_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "VHDX_TARGET=%ARG7%"&&SET "VHDX_SIZE=%ARG9%"&&CALL:IMAGEPROC
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-WIM" IF DEFINED ARG7 IF "%ARG8%"=="-XLVL" IF DEFINED ARG9 SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=WIM"&&SET "WIM_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "WIM_TARGET=%ARG7%"&&SET "WIM_XLVL=%ARG9%"&&CALL:IMAGEPROC
 IF "%ARG1%"=="-IMAGEPROC" IF "%ARG2%"=="-VHDX" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-WIM" IF DEFINED ARG7 IF "%ARG8%"=="-XLVL" IF DEFINED ARG9 SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"&&SET "VHDX_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "WIM_TARGET=%ARG7%"&&SET "WIM_XLVL=%ARG9%"&&CALL:IMAGEPROC
-IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-INSTALL" IF "%ARG3%"=="-LIST" FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in (%CACHE_FOLDER%\%ARG4%) DO (CALL SET LIVE_APPLY=1&&CALL SET "IMAGE_PACK=%PACK_FOLDER%\%%2"&&CALL:PACK_INSTALL)
+IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-INSTALL" IF "%ARG3%"=="-LIST" FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in (%CACHE_FOLDER%\%ARG4%) DO (CALL SET LIVE_APPLY=1&&CALL:PAD_LINE&&CALL SET "IMAGE_PACK=%PACK_FOLDER%\%%2"&&CALL:PACK_INSTALL)
 IF "%ARG1%"=="-BOOTMAKER" IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 IF "%ARG5%"=="-SRC" IF DEFINED ARG6 IF EXIST "%PROG_SOURCE%\%ARG6%" SET "DISK_NUMBER=%ARG4%"&&CALL:DISK_QUERY>NUL 2>&1
 IF "%ARG1%"=="-BOOTMAKER" IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 IF "%ARG5%"=="-SRC" IF DEFINED ARG6 IF EXIST "%PROG_SOURCE%\%ARG6%" SET "DISK_NUMBER=%ARG4%"&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) DO (IF "%ARG4%"=="%%a" CALL SET "DISK_TARGET=%%DISKID_%%a%%"&&CALL ECHO.%%DISKID_%%a%%>"%TEMP%\DISK_TARGET")
 IF "%ARG1%"=="-BOOTMAKER" IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 IF "%ARG5%"=="-SRC" IF DEFINED ARG6 IF EXIST "%PROG_SOURCE%\%ARG6%" SET "BOOT_IMAGE=%PROG_SOURCE%\%ARG6%"&&SET "VHDX_$ETUP=%ARG8%"&&CALL:BOOT_MAKER
@@ -169,9 +168,7 @@ IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-DELETE" IF "%ARG3%"=="-DISK" IF DEFINED A
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-LOCK" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" SET "PART_NUMBER=%ARG6%"&&CALL:DISKMGR_LOCK
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" SET "PART_NUMBER=%ARG6%"&&IF "%ARG7%"=="-LETTER" SET "DISK_LETTER=%ARG8%"&&CALL:DISKMGR_MOUNT
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-UNMOUNT" IF "%ARG3%"=="-LETTER" IF DEFINED ARG4 SET "DISK_LETTER=%ARG4%"&&CALL:DISKMGR_UNMOUNT
-IF EXIST "%PROG_SOURCE%\ScratchPack" RD /S /Q "\\?\%PROG_SOURCE%\ScratchPack">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\SCRATCH" RD /S /Q "\\?\%PROG_SOURCE%\SCRATCH">NUL 2>&1
-IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
+CALL:SCRATCH_PACK_DELETE&&CALL:SCRATCH_DELETE&&IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
 GOTO:CLEAN_EXIT
 :COMMAND_ERROR
 SET "TEST="&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (CALL SET "TEST=%%ARG%%a%%"&&CALL:ARG_VIEW)
@@ -186,7 +183,7 @@ IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-INSTALL" IF "%ARG3%"=="-PACK" IF DEFINED
 IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-ISO" IF DEFINED ARG4 IF NOT EXIST "%IMAGE_FOLDER%\%ARG4%" ECHO PACKAGE %IMAGE_FOLDER%\%ARG4% is missing&&SET "EXIT_FLAG=1"
 EXIT /B
 :COMMAND_HELP
-ECHO $haZZam Command Line Parameters:&&ECHO.
+ECHO  $haZZam Command Line Parameters:
 ECHO    -help                                                    (This menu)
 ECHO    -arg                                                     (1st arg=arg-test. Last arg=exec+test)
 ECHO    -imagemgr -install -list (name.lst)                      (Install package list)
@@ -207,7 +204,6 @@ ECHO    -diskmgr -changeid -disk (#) /or/ -diskid (id) (new id)  (Change disk id
 ECHO    -diskmgr -create -disk (#) /or/ -diskid (id) -size (MB)  (Create NTFS partition on specified disk)
 ECHO    -diskmgr -format -disk (#) /or/ -diskid (id) -part (#)   (Format partition w/NTFS on specified disk)
 ECHO    -diskmgr -delete -disk (#) /or/ -diskid (id) -part (#)   (Delete partition on specified disk)
-ECHO    -diskmgr -lock -disk (#) /or/ -diskid (id) -part (#)     (Mark partition GUID as 'Do Not Mount')
 ECHO    -diskmgr -unmount -letter (ltr)                          (Remove drive letter)
 ECHO    -diskmgr -mount -disk (#) /or/ -diskid (id) -part (#) -letter (ltr) (Assign drive letter + unlock)
 ECHO  Examples:
@@ -238,16 +234,7 @@ IF "%TITLE%"=="0" TITLE  Build, administrate and backup your Windows in a native
 IF "%TITLE%"=="" GOTO:TITLECARD
 EXIT /B
 :PROG_MAIN_HELP
-CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.
-ECHO   (%##%1%#$%)Image Management     [%#@%Perform image related tasks%#$%]
-ECHO   (%##%2%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX image%#$%s]
-ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]
-ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]
-ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]
-ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]
-ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]
-ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]
-ECHO.&&ECHO       *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
+CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Management     [%#@%Perform image related tasks%#$%]&&ECHO   (%##%2%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX image%#$%s]&&ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]&&ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]&&ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]&&ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]&&ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]&&ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]&&ECHO.&&ECHO       *Appears once boot-media is imported via Image Management&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :DISCLAIMER
 CLS&&CALL:PAD_LINE&&ECHO %XLR2%
@@ -262,19 +249,13 @@ IF "%ACCEPTX%"=="Y" SET "DISCLAIMER=ACCEPTED"
 CALL:PAD_LINE&&ECHO      The [ %##%@%#$% ]\[%##%Current-Environment%#$%] option ^& disk management area
 ECHO          are the 'caution zones' and can be avoided if unsure.&&CALL:COLOR_LAY&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
-:PROMPT_SET_UPPER
-SET "PROMPT_VAR="&&SET /P "PROMPT_VAR=$>>"&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PROMPT_VAR=%%PROMPT_VAR:%%G=%%G%%")
-CALL SET "%PROMPT_SET%=%PROMPT_VAR%"&&SET "PROMPT_SET="&&SET "PROMPT_VAR="
-EXIT /B
-:PROMPT_SET_LOWER
-SET "PROMPT_VAR="&&SET /P "PROMPT_VAR=$>>"&&FOR %%G in (a b c d e f g h i j k l m n o p q r s t u v w x y z) DO (CALL SET "PROMPT_VAR=%%PROMPT_VAR:%%G=%%G%%")
-CALL SET "%PROMPT_SET%=%PROMPT_VAR%"&&SET "PROMPT_SET="&&SET "PROMPT_VAR="
-EXIT /B
 :PROMPT_SET_ANY
+IF NOT DEFINED PROMPT_SET SET "PROMPT_SET=SELECT"
 SET "PROMPT_VAR="&&SET /P "PROMPT_VAR=$>>"
 CALL SET "%PROMPT_SET%=%PROMPT_VAR%"&&SET "PROMPT_SET="&&SET "PROMPT_VAR="
 EXIT /B
 :PROMPT_SET
+IF NOT DEFINED PROMPT_SET SET "PROMPT_SET=SELECT"
 SET "PROMPT_VAR="&&SET /P "PROMPT_VAR=$>>"&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PROMPT_VAR=%%PROMPT_VAR:%%G=%%G%%")
 CALL SET "%PROMPT_SET%=%PROMPT_VAR%"&&SET "PROMPT_SET="&&SET "PROMPT_VAR="
 EXIT /B
@@ -282,9 +263,6 @@ EXIT /B
 SET "SELECT="&&SET /P "SELECT=$>>"&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "SELECT=%%SELECT:%%G=%%G%%")
 CALL SET "$ELECTMP=%%$ITEM%SELECT%%%"&&IF DEFINED SELECT CALL SET "$ELECT=%SELECT%"
 IF DEFINED SELECT IF DEFINED $ELECTMP CALL SET "$ELECT$=%$ELECTMP%"
-EXIT /B
-:MENU_SELECT_ANY
-SET "SELECT="&&SET /P "SELECT=$>>"
 EXIT /B
 :CHAR_CHK
 FOR %%a in (CHAR_STR CHAR_CHK) DO (IF NOT DEFINED %%a EXIT /B)
@@ -310,6 +288,7 @@ SET "RND_LST=%RND1%"&&CALL SET "%RND_SET%=%RND1%"&&SET "RND_SET="&&SET "RND1="
 EXIT /B
 :CLEAN
 FOR %%G in (XS HZ REG TMP LST DSK PAK DRVR DISM) DO (IF EXIST "$%%G*" DEL /F "$%%G*">NUL)
+IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
 IF EXIST "%PROG_SOURCE%\PROJECT_TMP" DEL /F "%PROG_SOURCE%\PROJECT_TMP">NUL
 EXIT /B
 :CHECK
@@ -356,13 +335,10 @@ IF NOT DEFINED APPLY_COPY SET "APPLY_COPY=ORIG"
 :FOLDER_LOCATE
 SET "MAKER_FOLDER=%PROG_SOURCE%\Project%MAKER_SLOT%"
 IF EXIST "%PROG_SOURCE%\AutoBoot.cmd" (SET "AUTOBOOT=ENABLED") ELSE (SET "AUTOBOOT=DISABLED")
-IF "%FOLDER_MODE%"=="ISOLATED" IF NOT EXIST "%PROG_SOURCE%\PACK" MD "%PROG_SOURCE%\PACK">NUL 2>&1
-IF "%FOLDER_MODE%"=="ISOLATED" IF NOT EXIST "%PROG_SOURCE%\IMAGE" MD "%PROG_SOURCE%\IMAGE">NUL 2>&1
-IF "%FOLDER_MODE%"=="ISOLATED" IF NOT EXIST "%PROG_SOURCE%\CACHE" MD "%PROG_SOURCE%\CACHE">NUL 2>&1
-IF "%FOLDER_MODE%"=="UNIFIED" SET "PACK_FOLDER=%PROG_SOURCE%"&&SET "IMAGE_FOLDER=%PROG_SOURCE%"&&SET "CACHE_FOLDER=%PROG_SOURCE%"
+IF "%FOLDER_MODE%"=="ISOLATED" IF NOT "%PROG_SOURCE%"=="X:\$" FOR %%a in (IMAGE PACK CACHE) DO (SET "%%a_FOLDER=%PROG_SOURCE%\%%a"&&IF NOT EXIST "%PROG_SOURCE%\%%a" MD "%PROG_SOURCE%\%%a">NUL 2>&1)
 SET "FOLDER_MODE=UNIFIED"&&IF EXIST "%PROG_SOURCE%\IMAGE" IF EXIST "%PROG_SOURCE%\PACK" IF EXIST "%PROG_SOURCE%\CACHE" SET "FOLDER_MODE=ISOLATED"
-IF "%FOLDER_MODE%"=="UNIFIED" SET "PACK_FOLDER=%PROG_SOURCE%"&&SET "IMAGE_FOLDER=%PROG_SOURCE%"&&SET "CACHE_FOLDER=%PROG_SOURCE%"
-IF "%FOLDER_MODE%"=="ISOLATED" SET "PACK_FOLDER=%PROG_SOURCE%\PACK"&&SET "IMAGE_FOLDER=%PROG_SOURCE%\IMAGE"&&SET "CACHE_FOLDER=%PROG_SOURCE%\CACHE"
+IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (IMAGE PACK CACHE) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
+IF NOT DEFINED S1 SET "S1= "&&SET "S2=  "&&SET "S3=   "&&SET "S4=    "&&SET "S5=     "&&SET "S6=      "&&SET "S7=       "&&SET "S8=        "&&SET "S9=         "&&SET "S10=          "
 SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 FOR %%a in (VHDX_$ETUP VHDX_SOURCE WIM_SOURCE) DO (SET "OBJ_FLD=%IMAGE_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
@@ -386,29 +362,15 @@ IF NOT "%SELECT%"=="X" EXIT /B
 IF "%FOLDER_MODE%"=="UNIFIED" SET "FOLDER_MODE=ISOLATED"&&GOTO:FOLDER_ISOLATED
 IF "%FOLDER_MODE%"=="ISOLATED" SET "FOLDER_MODE=UNIFIED"&&GOTO:FOLDER_UNIFIED
 :FOLDER_UNIFIED
-IF EXIST "%PROG_SOURCE%\IMAGE" MOVE /Y "%PROG_SOURCE%\IMAGE\*.*" "%PROG_SOURCE%">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\PACK" MOVE /Y "%PROG_SOURCE%\PACK\*.*" "%PROG_SOURCE%">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\CACHE" MOVE /Y "%PROG_SOURCE%\CACHE\*.*" "%PROG_SOURCE%">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\IMAGE" XCOPY /S /C /Y "%PROG_SOURCE%\IMAGE" "%PROG_SOURCE%">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\PACK" XCOPY /S /C /Y "%PROG_SOURCE%\PACK" "%PROG_SOURCE%">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\CACHE" XCOPY /S /C /Y "%PROG_SOURCE%\CACHE" "%PROG_SOURCE%">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\IMAGE" RD /Q /S "\\?\%PROG_SOURCE%\IMAGE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\PACK" RD /Q /S "\\?\%PROG_SOURCE%\PACK">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\CACHE" RD /Q /S "\\?\%PROG_SOURCE%\CACHE">NUL 2>&1
+FOR %%a in (IMAGE PACK CACHE) DO (IF EXIST "%PROG_SOURCE%\%%a" MOVE /Y "%PROG_SOURCE%\%%a\*.*" "%PROG_SOURCE%">NUL 2>&1)
+FOR %%a in (IMAGE PACK CACHE) DO (IF EXIST "%PROG_SOURCE%\%%a" XCOPY /S /C /Y "%PROG_SOURCE%\%%a" "%PROG_SOURCE%">NUL 2>&1)
+FOR %%a in (IMAGE PACK CACHE) DO (IF EXIST "%PROG_SOURCE%\%%a" RD /Q /S "\\?\%PROG_SOURCE%\%%a">NUL 2>&1)
 EXIT /B
 :FOLDER_ISOLATED
-IF NOT EXIST "%PROG_SOURCE%\IMAGE" MD "%PROG_SOURCE%\IMAGE">NUL 2>&1
-IF NOT EXIST "%PROG_SOURCE%\PACK" MD "%PROG_SOURCE%\PACK">NUL 2>&1
-IF NOT EXIST "%PROG_SOURCE%\CACHE" MD "%PROG_SOURCE%\CACHE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.$PK" MOVE /Y "%PROG_SOURCE%\*.$PK" "%PROG_SOURCE%\PACK">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.CAB" MOVE /Y "%PROG_SOURCE%\*.CAB" "%PROG_SOURCE%\PACK">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.MSU" MOVE /Y "%PROG_SOURCE%\*.MSU" "%PROG_SOURCE%\PACK">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.ISO" MOVE /Y "%PROG_SOURCE%\*.ISO" "%PROG_SOURCE%\IMAGE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.VHDX" MOVE /Y "%PROG_SOURCE%\*.VHDX" "%PROG_SOURCE%\IMAGE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.WIM" MOVE /Y "%PROG_SOURCE%\*.WIM" "%PROG_SOURCE%\IMAGE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.LST" MOVE /Y "%PROG_SOURCE%\*.LST" "%PROG_SOURCE%\CACHE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.MST" MOVE /Y "%PROG_SOURCE%\*.MST" "%PROG_SOURCE%\CACHE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\*.$BK" MOVE /Y "%PROG_SOURCE%\*.$BK" "%PROG_SOURCE%\CACHE">NUL 2>&1
+FOR %%a in (IMAGE PACK CACHE) DO (IF NOT EXIST "%PROG_SOURCE%\%%a" MD "%PROG_SOURCE%\%%a">NUL 2>&1)
+FOR %%a in ($PK CAB MSU) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\PACK">NUL 2>&1)
+FOR %%a in (ISO VHDX WIM) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\IMAGE">NUL 2>&1)
+FOR %%a in ($BK LST MST) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\CACHE">NUL 2>&1)
 EXIT /B
 :FILE_PICK
 IF NOT DEFINED PICK GOTO:PICK_ERROR
@@ -488,11 +450,10 @@ IF "%EXT%"=="MST" SET "$XNT="&&FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in ($HZ)
 IF NOT DEFINED NOECHO2 ECHO.
 IF EXIST "$HZ" DEL /F "$HZ">NUL 2>&1
 :LIST_ERROR
-FOR %%a in (EXT BLIST NLIST ONLY1 ONLY3 $MENU $LIST $HEAD) DO (SET "%%a=")
+FOR %%a in (EXT BLIST NLIST ONLY1 ONLY2 ONLY3 $MENU $LIST $HEAD) DO (SET "%%a=")
 EXIT /B
 :LIST_FILEX
 IF DEFINED ONLY1 IF NOT "%$CLM1%"=="%ONLY1%" EXIT /B
-IF DEFINED ONLY3 IF NOT "%$CLM3%"=="%ONLY3%" EXIT /B
 CALL SET /A "$XNT+=1"
 CALL SET "$ITEM%$XNT%=[%$CLM1%][%$CLM2%][%$CLM3%]"
 IF "%$MENU%"=="NUM" ECHO  [ %##%%$XNT%%#$% ]\[%#@%%$CLM1%%#$%][%#@%%$CLM2%%#$%]
@@ -549,7 +510,7 @@ IF "%SELECT%"=="$" IF NOT EXIST "%PROG_SOURCE%\AutoBoot.txt" CALL:PAD_LINE&&ECHO
 IF "%SELECT%"=="$" IF EXIST "%PROG_SOURCE%\AutoBoot.txt" CALL:PAD_LINE&&ECHO              AutoBoot.txt found. Restore or generate new?&&SET "AUTOMSG=                      Restore (%#@%R%#$%/%#@%X%#$%) Generate New."
 IF "%SELECT%"=="$" ECHO.%AUTOMSG%&&SET "AUTOMSG="&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF "%SELECT%"=="$" IF "%CONFIRM%"=="R" MOVE /Y "%PROG_SOURCE%\AutoBoot.txt" "%PROG_SOURCE%\AutoBoot.cmd">NUL&&SET "SELECT="
-IF "%SELECT%"=="$" IF "%CONFIRM%"=="X" CALL:AUTOBOOT_EXAMPLE
+IF "%SELECT%"=="$" IF "%CONFIRM%"=="X" CALL:AUTOBOOT_EXAMPLE>"%PROG_SOURCE%\AutoBoot.cmd"&&START NOTEPAD.EXE "%PROG_SOURCE%\AutoBoot.cmd"
 GOTO:$ETTINGS_START
 :AUTOBOOT_VIEW
 IF NOT EXIST "%PROG_SOURCE%\AutoBoot.cmd" EXIT /B
@@ -572,31 +533,27 @@ IF NOT DEFINED NEW_NAME EXIT /B
 CALL:SETS_HANDLER>NUL 2>&1
 RD /Q /S "\\?\%PROG_SOURCE%\SETTINGS_SAVE">NUL 2>&1
 MD "%PROG_SOURCE%\SETTINGS_SAVE\CACHE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\$ETTINGS.PRO" COPY /Y "%PROG_SOURCE%\$ETTINGS.PRO" "%PROG_SOURCE%\SETTINGS_SAVE">NUL 2>&1
-IF EXIST "%PROG_SOURCE%\AutoBoot.cmd" COPY /Y "%PROG_SOURCE%\AutoBoot.cmd" "%PROG_SOURCE%\SETTINGS_SAVE">NUL 2>&1
-IF EXIST "%CACHE_FOLDER%\*.MST" COPY /Y "%CACHE_FOLDER%\*.MST" "%PROG_SOURCE%\SETTINGS_SAVE\CACHE">NUL 2>&1
-IF EXIST "%CACHE_FOLDER%\*.LST" COPY /Y "%CACHE_FOLDER%\*.LST" "%PROG_SOURCE%\SETTINGS_SAVE\CACHE">NUL 2>&1
+FOR %%a in ($ETTINGS.PRO AutoBoot.cmd AutoBoot.txt) DO (IF EXIST "%PROG_SOURCE%\%%a" COPY /Y "%PROG_SOURCE%\%%a" "%PROG_SOURCE%\SETTINGS_SAVE">NUL 2>&1)
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%PROG_SOURCE%\SETTINGS_SAVE" /IMAGEFILE:"%CACHE_FOLDER%\%NEW_NAME%.$BK" /COMPRESS:FAST /NAME:"%NEW_NAME%" /CheckIntegrity /Verify>NUL 2>&1
 RD /Q /S "\\?\%PROG_SOURCE%\SETTINGS_SAVE">NUL 2>&1
 EXIT /B
 :AUTOBOOT_EXAMPLE
-(ECHO.::==========================START OF AUTOBOOT============================
-ECHO.::    Script cannot have an EXIT otherwise it goes into the main menu 
-ECHO.:: Autoboot service must be installed within host OS to switch upon boot
 ECHO.::=======================================================================
-ECHO.ECHO - AutoBoot - Example - Your Script - Goes here -
-ECHO.PAUSE
+ECHO.::    Script cannot have an EXIT otherwise it goes into the main menu. 
+ECHO.::Autoboot service must be installed within host OS to switch upon boot.
 ECHO.::=======================================================================
-ECHO.::                    - Example of a VHDX backup -    Home Folder = S:\$
+ECHO.::           ~ Example of a VHDX backup - Home Folder = S:\$ ~
 ECHO.REM $haZZam.cmd -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter z
 ECHO.REM copy /y s:\$\active.vhdx z:\Backups\last_crash.vhdx
 ECHO.REM $haZZam.cmd -diskmgr -unmount -letter z
 ECHO.REM $haZZam.cmd -imageproc -wim 22h2_finished.wim -index 1 -vhdx active.vhdx -size 25600
 ECHO.REM del S:\$\active.vhdx
 ECHO.REM move /y s:\$\image\active.vhdx s:\$
+ECHO.::==========================START OF AUTOBOOT============================
+ECHO.ECHO - AutoBoot - Example - Your Script - Goes here -
+ECHO.PAUSE
 ECHO.::===========================END OF AUTOBOOT=============================
-)>"%PROG_SOURCE%\AutoBoot.cmd"
-START NOTEPAD.EXE "%PROG_SOURCE%\AutoBoot.cmd"
+ECHO.::=======================================================================
 EXIT /B
 :AUTOBOOT_COUNT
 IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL&EXIT /B
@@ -608,8 +565,8 @@ ECHO;ECHO AutoBoot Finished. Restarting in 5 Seconds>>X:\COUNT.CMD
 ECHO;PING -n 6 127.0.0.1^>NUL >>X:\COUNT.CMD
 ECHO;DEL /Q /F S:\$\ERR.TXT>>X:\COUNT.CMD
 ECHO;EXIT^&^&EXIT>>X:\COUNT.CMD	
-CALL:PAD_LINE&&ECHO               To cancel AutoBoot, close countdown window.
-ECHO   Press (N) to return to recovery. Press (Y) to goto command prompt.&&CALL:PAD_LINE
+CALL:PAD_LINE&&ECHO              To cancel AutoBoot close countdown window.
+ECHO    Press (N) to return to recovery. Press (Y) for command prompt.&&CALL:PAD_LINE
 ECHO AUTOBOOT>S:\$\ERR.TXT
 START /WAIT X:\COUNT.CMD
 IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL
@@ -638,7 +595,7 @@ REM IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_
 :IMAGEMGR_START
 REM IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:CLEAN&&SET "LIVE_APPLY="&&CALL:PAD_LINE&&ECHO                            Image Management&&CALL:PAD_LINE
-IF DEFINED SOURCE_LOCATION ECHO                 {Windows Installation-Media Detected}&&CALL:PAD_LINE&&ECHO     (%##%+%#$%)Import Windows-Installation-Media      (%##%-%#$%)Import Boot-Media&&CALL:PAD_LINE
+IF DEFINED SOURCE_LOCATION ECHO                 (Windows Installation-Media Detected)&&CALL:PAD_LINE&&ECHO     (%##%+%#$%)Import Windows-Installation-Media      (%##%-%#$%)Import Boot-Media&&CALL:PAD_LINE
 IF NOT DEFINED SOURCE_LOCATION IF NOT "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%PROG_SOURCE%\*.SAV" IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO    Insert a Windows Disc/ISO/USB to Import Installation/Boot-Media&&CALL:PAD_LINE
 ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO  [%#@%VHDX%#$%]  (%##%I%#$%)nspect   (%##%D%#$%)ISM   (%##%M%#$%)ount/Unmount   (%##%N%#$%)ew(empty)  (%##%X%#$%)ISO&&CALL:PAD_LINE
@@ -687,12 +644,11 @@ SET "VDISK=%$PICK%"&&CALL:PAD_LINE&&ECHO  Attaching [%$PICK%]&&CALL:PAD_LINE&&CA
 IF NOT EXIST "V:\" ECHO  Error mounting [%$PICK%]&&CALL:PAD_LINE&&CALL:VDISK_DETACH
 EXIT /B
 :IMAGEMGR_LIST_MAIN
-CLS&&SET "ERROR="&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.
+CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.&&SET "ERROR="&&SET "LIST_CREATE="&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
 ECHO  [ %##%C%#$% ]\[%#@%Package-ImageApply%#$%[CAB]&&ECHO  [ %##%M%#$% ]\[%#@%Package-ImageApply%#$%[MSU]&&ECHO  [ %##%I%#$% ]\[%#@%Package-ImageApply%#$%[$PK]
 ECHO  [ %##%S%#$% ]\[%#@%Package-SetupComplete%#$%[$PK]&&ECHO  [ %##%R%#$% ]\[%#@%Package-RunOnce%#$%[$PK]&&ECHO  [ %##%D%#$% ]\[%#@%DISM-List%#$%]&&ECHO.&&CALL:PAD_LINE
 ECHO  [ %##%+%#$% ]\[%#@%Combine Exec-List%#$%]&&ECHO  [ %##%-%#$% ]\[%#@%Difference Base-List%#$%]&&ECHO  [ %##%*%#$% ]\[%#@%Create Base-List%#$%]&&CALL:PAD_LINE&&ECHO   AVAILABLE BASE-LIST'S:
 SET "NLIST=MST"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a (%##%#%#$%) To Start a New List&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
-SET "LIST_CREATE="&&SET "LIST_EXEC="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
 IF "%SELECT%"=="*" SET "LIST_CREATE=BASE-LIST"&&CALL:LIST_BASE_CREATE
 IF "%SELECT%"=="+" SET "LIST_CREATE=SANDWICH"&&CALL:LIST_COMBINATOR
 IF "%SELECT%"=="-" SET "LIST_CREATE=DIFF-LIST"&&SET "LIST_PASS=1"&&CALL:LIST_DIFFERENCER
@@ -806,8 +762,7 @@ IF EXIST "%CACHE_FOLDER%\%NEW_NAME%.MST" DEL /F "%CACHE_FOLDER%\%NEW_NAME%.MST">
 CALL:IF_LIVE2
 ECHO BASE-LIST>"%CACHE_FOLDER%\%NEW_NAME%.MST"
 DISM /ENGLISH /%APPLY_TARGET% /GET-CURRENTEDITION>"$DISM"
-SET "INFO_E="&&SET "INFO_V="&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($DISM) DO (
-IF "%%a %%b"=="Image Version" CALL SET "INFO_V=%%c"
+SET "INFO_E="&&SET "INFO_V="&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($DISM) DO (IF "%%a %%b"=="Image Version" CALL SET "INFO_V=%%c"
 IF "%%a %%b"=="Current Edition" IF NOT "%%c"=="is" CALL SET "INFO_E=%%c")
 ECHO Version[%INFO_V%] Edition[%INFO_E%]&&ECHO [%INFO_E%][%INFO_V%]>>"%CACHE_FOLDER%\%NEW_NAME%.MST"
 CALL:PAD_LINE&&ECHO Getting appx listing..&&CALL:PAD_LINE&&IF EXIST "$DISM" DEL /F "$DISM">NUL 2>&1
@@ -887,9 +842,8 @@ EXIT /B
 REM IMAGEMGR_RUN_LIST_IMAGEMGR_RUN_LIST_IMAGEMGR_RUN_LIST_IMAGEMGR_RUN_LIST
 :IMAGEMGR_RUN_LIST
 REM IMAGEMGR_RUN_LIST_IMAGEMGR_RUN_LIST_IMAGEMGR_RUN_LIST_IMAGEMGR_RUN_LIST
-SET "ERR_MSG="&&IF NOT DEFINED APPLY_COPY SET "APPLY_COPY=ORIG"
-IF NOT DEFINED $PICK EXIT /B
-SET "$LST1=%$PICK%"
+SET "ERR_MSG="&&IF NOT DEFINED $PICK EXIT /B
+SET "$LST1=%$PICK%"&&IF NOT DEFINED APPLY_COPY SET "APPLY_COPY=ORIG"
 SET "MENU_INSERTA= [ %##%@%#$% ]\[%##%Current-Environment%#$%]"&&SET "PICK=VHDX"&&CALL:FILE_PICK
 IF "%LIVE_APPLY%"=="1" IF NOT DEFINED DISCLAIMER CALL:DISCLAIMER&EXIT /B
 IF NOT "%LIVE_APPLY%"=="1" IF NOT DEFINED $PICK EXIT /B
@@ -911,7 +865,7 @@ IF NOT DEFINED $LST1 EXIT /B
 CALL:PAD_LINE&&ECHO [%#@%EXEC-LIST START%#$%] [%#@%%DATE%%#$%] [%#@%%TIME%%#$%]&&CALL:PAD_LINE&&CALL:COLOR_LAY
 IF "%PROG_MODE%"=="RAMDISK" IF "%BRUTE_FORCE%"=="ENABLED" SET "BRUTE_FORCE="&&SET "BRUTE_FLG=1"
 IF "%BRUTE_FORCE%"=="ENABLED" SC DELETE $BRUTE>NUL 2>&1
-SET "SETUPCOMPLETE_INITIAL="&&SET "RUNONCE_INITIAL="&&SET "BRUTE1="&&COPY /Y "%$LST1%" "$LST">NUL 2>&1
+SET "SC_PREPARE="&&SET "RO_PREPARE="&&SET "BRUTE1="&&COPY /Y "%$LST1%" "$LST">NUL 2>&1
 FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%a in ($LST) DO (
 IF "%%a"=="SERVICE" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1=1"&&SC CREATE $BRUTE BINPATH="CMD /C START "%PROG_SOURCE%\$BRUTE.CMD"" START=DEMAND>NUL 2>&1
 IF "%%a"=="TASK" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1=1"&&SC CREATE $BRUTE BINPATH="CMD /C START "%PROG_SOURCE%\$BRUTE.CMD"" START=DEMAND>NUL 2>&1
@@ -930,8 +884,8 @@ IF "%LIST_ITEM%"=="@" ECHO %#@%%BASE_MEAT%%#$%
 IF "%LIST_ITEM%:%LIST_EXEC%"=="APPX:DELETE" CALL:APPX_HUNT
 IF "%LIST_ITEM%:%LIST_EXEC%"=="TASK:DELETE" CALL:TASK_HUNT
 IF "%LIST_ITEM%:%LIST_EXEC%"=="COMPONENT:DELETE" CALL:COMP_HUNT
-IF "%LIST_ITEM%:%LIST_EXEC%"=="PACKAGE:RUN-ONCE" CALL:RUNONCE_CREATE
-IF "%LIST_ITEM%:%LIST_EXEC%"=="PACKAGE:SETUP-COMPLETE" CALL:SETUPCOMPLETE_CREATE
+IF "%LIST_ITEM%:%LIST_EXEC%"=="PACKAGE:RUN-ONCE" CALL:RO_CREATE
+IF "%LIST_ITEM%:%LIST_EXEC%"=="PACKAGE:SETUP-COMPLETE" CALL:SC_CREATE
 IF "%LIST_ITEM%"=="DISM" IF NOT "%BASE_MEAT%"=="" IF NOT "%LIST_EXEC%"=="" CALL:IF_LIVE2
 IF "%LIST_ITEM%"=="DISM" IF NOT "%BASE_MEAT%"=="" IF NOT "%LIST_EXEC%"=="" SET "DISM_OPER=%BASE_MEAT%"&&CALL:IMAGEMGR_DISM_OPER
 IF "%LIST_ITEM%:%LIST_EXEC%"=="PACKAGE:IMAGE-APPLY" CALL SET "IMAGE_PACK=%PACK_FOLDER%\%BASE_MEAT%"&&CALL:PACK_INSTALL
@@ -1097,55 +1051,39 @@ IF "%LIST_ITEM%:%LIST_EXEC%"=="FEATURE:DISABLE" SET "DISMSG="&&FOR /F "TOKENS=1 
 IF "%LIST_ITEM%:%LIST_EXEC%"=="FEATURE:ENABLE" IF NOT DEFINED DISMSG CALL ECHO Feature [%##%%BASE_MEAT%%#$%] is a stub or unable to remove&&CALL:PAD_LINE
 IF "%LIST_ITEM%:%LIST_EXEC%"=="FEATURE:DISABLE" IF NOT DEFINED DISMSG CALL ECHO Feature [%##%%BASE_MEAT%%#$%] is a stub or unable to remove&&CALL:PAD_LINE
 EXIT /B
-:SETUPCOMPLETE_CREATE
-CALL:IF_LIVE1
-IF NOT DEFINED SETUPCOMPLETE_INITIAL CALL:SETUPCOMPLETE_INITIAL
+:SC_CREATE
+SET "SCRO=SetupComplete"&&CALL:IF_LIVE1
+IF NOT DEFINED SC_PREPARE SET "SPC3="&&SET "SC_PREPARE=1"&&CALL:SC_RO_PREPARE
 IF NOT DEFINED BASE_MEAT EXIT /B
-ECHO Copying Package [%#@%%BASE_MEAT%%#$%] for SetupComplete...&&CALL:PAD_LINE
+CALL:SC_RO_COPY
+EXIT /B
+:RO_CREATE
+SET "SCRO=RunOnce"&&CALL:IF_LIVE1
+IF NOT DEFINED RO_PREPARE SET "SPC3=   "&&SET "RO_PREPARE=1"&&CALL:SC_RO_PREPARE
+IF NOT DEFINED BASE_MEAT EXIT /B
+CALL:SC_RO_COPY
+EXIT /B
+:SC_RO_COPY
+ECHO Copying Package [%#@%%BASE_MEAT%%#$%] for %SCRO%...&&CALL:PAD_LINE
 IF NOT EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [%##%%PACK_FOLDER%\%BASE_MEAT%%#$%] is missing&&CALL:PAD_LINE
 IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%APPLYDIR_MASTER%\$">NUL
-IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [PACKAGE][%BASE_MEAT%][IMAGE-APPLY]>>"%APPLYDIR_MASTER%\$\SETUPCOMPLETE.LST"
+IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [PACKAGE][%BASE_MEAT%][IMAGE-APPLY]>>"%APPLYDIR_MASTER%\$\%SCRO%.LST"
 EXIT /B
-:SETUPCOMPLETE_INITIAL
-SET "SETUPCOMPLETE_INITIAL=1"
+:SC_RO_PREPARE
 IF NOT EXIST "%APPLYDIR_MASTER%\$" MD "%APPLYDIR_MASTER%\$">NUL 2>&1
 COPY /Y "%PROG_FOLDER%\$HAZZAM.CMD" "%APPLYDIR_MASTER%\$">NUL 2>&1
-ECHO EXEC-LIST>"%APPLYDIR_MASTER%\$\SetupComplete.LST"
-IF NOT EXIST "%APPLYDIR_MASTER%\WINDOWS\Setup\Scripts" MD "%WINTAR%\Setup\Scripts">NUL 2>&1
-ECHO;%%SYSTEMDRIVE%%\$\$HAZZAM.CMD -IMAGEMGR -INSTALL -LIST SetupComplete.LST>"%WINTAR%\Setup\Scripts\SetupComplete.cmd"
-ECHO;EXIT 0 >>"%WINTAR%\Setup\Scripts\SetupComplete.cmd"
-CALL:PAD_LINE&&ECHO                        SetupComplete Preparation&&CALL:PAD_LINE
-EXIT /B
-:RUNONCE_CREATE
-CALL:IF_LIVE1
-IF NOT DEFINED RUNONCE_INITIAL CALL:RUNONCE_INITIAL
-IF NOT DEFINED BASE_MEAT EXIT /B
-ECHO Copying Package [%#@%%BASE_MEAT%%#$%] for RunOnce...&&CALL:PAD_LINE
-IF NOT EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [%##%%PACK_FOLDER%\%BASE_MEAT%%#$%] is missing&&CALL:PAD_LINE
-IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%APPLYDIR_MASTER%\$">NUL
-IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [PACKAGE][%BASE_MEAT%][IMAGE-APPLY]>>"%APPLYDIR_MASTER%\$\RunOnce.LST"
-EXIT /B
-:RUNONCE_INITIAL
-SET "RUNONCE_INITIAL=1"
-IF NOT EXIST "%APPLYDIR_MASTER%\$" MD "%APPLYDIR_MASTER%\$">NUL 2>&1
-COPY /Y "%PROG_FOLDER%\$HAZZAM.CMD" "%APPLYDIR_MASTER%\$">NUL 2>&1
-ECHO EXEC-LIST>"%APPLYDIR_MASTER%\$\RunOnce.LST"
-Reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce" /v "Runonce" /t REG_EXPAND_SZ /d "%%WINDIR%%\Setup\Scripts\RunOnce.cmd" /f>NUL 2>&1
-IF NOT EXIST "%APPLYDIR_MASTER%\WINDOWS\Setup\Scripts" MD "%WINTAR%\Setup\Scripts">NUL 2>&1
-ECHO;%%SYSTEMDRIVE%%\$\$HAZZAM.CMD -IMAGEMGR -INSTALL -LIST RunOnce.LST>"%WINTAR%\Setup\Scripts\RunOnce.cmd"
-ECHO;EXIT 0 >>"%WINTAR%\Setup\Scripts\RunOnce.cmd"
-CALL:PAD_LINE&&ECHO                           RunOnce Preparation&&CALL:PAD_LINE
+ECHO EXEC-LIST>"%APPLYDIR_MASTER%\$\%SCRO%.LST"
+IF "%SCRO%"=="RunOnce" Reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce" /v "Runonce" /t REG_EXPAND_SZ /d "%%WINDIR%%\Setup\Scripts\RunOnce.cmd" /f>NUL 2>&1
+IF NOT EXIST "%WINTAR%\Setup\Scripts" MD "%WINTAR%\Setup\Scripts">NUL 2>&1
+ECHO;%%SYSTEMDRIVE%%\$\$HAZZAM.CMD -IMAGEMGR -INSTALL -LIST %SCRO%.LST>"%WINTAR%\Setup\Scripts\%SCRO%.cmd"
+ECHO;EXIT 0 >>"%WINTAR%\Setup\Scripts\%SCRO%.cmd"
+CALL ECHO                        %SPC3%%SCRO% Preparation&&CALL:PAD_LINE
 EXIT /B
 :PACK_INSTALL
-CALL:PAD_LINE&&ECHO.                         Package Manager Start&&CALL:PAD_LINE
+ECHO.                         Package Manager Start&&CALL:PAD_LINE
 IF "%CAME_FROM%"=="COMMAND" IF NOT EXIST "%IMAGE_PACK%" ECHO ImageApply/RunOnce/SetupComplete items only
 IF NOT EXIST "%IMAGE_PACK%" CALL:PAD_LINE&&ECHO [%##%%IMAGE_PACK%%#$%] is missing&&CALL:PAD_LINE&&GOTO:PACK_INSTALL_FINISH
-SET "SCRATCH_PACK=%PROG_SOURCE%\ScratchPack"
-SET "PACK_BAD=The operation did NOT complete successfully"
-SET "PACK_GOOD=The operation completed successfully"
-IF EXIST "%SCRATCH_PACK%" DISM /cleanup-MountPoints>NUL 2>&1
-IF EXIST "%SCRATCH_PACK%" RD /S /Q "%SCRATCH_PACK%">NUL 2>&1
-IF NOT EXIST "%SCRATCH_PACK%" MD "%SCRATCH_PACK%">NUL 2>&1
+SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did NOT complete successfully"&&CALL:SCRATCH_PACK_CREATE
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=")
 FOR %%G in ("%IMAGE_PACK%") DO SET "PackExt=%%~xG"
 FOR %%G in (M A B U S C) DO (CALL SET "PackExt=%%PackExt:%%G=%%G%%")
@@ -1171,25 +1109,22 @@ IF "%PackExt%"==".MSU" DISM /ENGLISH /%APPLY_TARGET% /ADD-PACKAGE /PACKAGEPATH:"
 IF "%PackExt%"==".MSU" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ($DRVR) DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=1")
 IF "%PackExt%"==".MSU" IF DEFINED DISMSG CALL ECHO                 [%#@%%PACK_GOOD%%#$%]
 IF "%PackExt%"==".MSU" IF NOT DEFINED DISMSG CALL ECHO              [%##%%PACK_BAD%%#$%]
-IF "%PackExt%"==".MSU" GOTO:PACK_INSTALL_FINISH
+IF "%PackExt%"==".MSU" CALL:PAD_LINE&GOTO:PACK_INSTALL_FINISH
 IF "%PackType%"=="SCRIPTED" CD /D "%SCRATCH_PACK%"&&CMD /C "%SCRATCH_PACK%\PACKAGE.CMD"
-IF "%PackType%"=="SCRIPTED" CD /D "%~DP0"&&ECHO.
+IF "%PackType%"=="SCRIPTED" CD /D "%~DP0"&&ECHO.&&CALL:PAD_LINE
 IF "%PackType%"=="DRIVER" FOR /F "TOKENS=*" %%a in ('DIR/S/B "%SCRATCH_PACK%\*.INF"') DO (
-IF NOT EXIST "%%a\*" CALL:TITLECARD&&CALL:PAD_LINE&&ECHO Installing [NAME[%#@%%PackName%%#$%] [TYPE[%#@%%PackType%%#$%] [DESC[%#@%%PackDesc%%#$%]&&CALL:PAD_LINE&&CALL ECHO INF [%#@%%%a%#$%]&&CALL:PAD_LINE
+IF NOT EXIST "%%a\*" CALL:TITLECARD&&ECHO Installing [NAME[%#@%%PackName%%#$%] [TYPE[%#@%%PackType%%#$%] [DESC[%#@%%PackDesc%%#$%]&&CALL:PAD_LINE&&CALL ECHO INF [%#@%%%a%#$%]&&CALL:PAD_LINE
 IF NOT EXIST "%%a\*" IF NOT DEFINED LIVE_APPLY DISM /ENGLISH /%APPLY_TARGET% /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned>"$DRVR"
 IF NOT EXIST "%%a\*" IF DEFINED LIVE_APPLY pnputil.exe /add-driver "%%a" /install>"$DRVR"
 IF NOT EXIST "%%a\*" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ($DRVR) DO (
 IF "%%1"=="Driver package added successfully" CALL SET "DISMSG=1"
 IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=1")
-IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO                 [%#@%%PACK_GOOD%%#$%]
-IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG CALL ECHO              [%##%%PACK_BAD%%#$%])
+IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO                 [%#@%%PACK_GOOD%%#$%]&&CALL:PAD_LINE
+IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG CALL ECHO              [%##%%PACK_BAD%%#$%]&&CALL:PAD_LINE)
 :PACK_INSTALL_FINISH
 CALL:MOUNT_INT>NUL 2>&1
-IF EXIST "$DRVR" DEL /F "$DRVR">NUL
-IF EXIST "$PAK" DEL /F "$PAK">NUL
-IF EXIST "%SCRATCH_PACK%" DISM /cleanup-MountPoints>NUL 2>&1
-IF EXIST "%SCRATCH_PACK%" RD /S /Q "%SCRATCH_PACK%">NUL 2>&1
-SET "GET_WIM_INFO="&&CALL:PAD_LINE&&ECHO.                          Package Manager End&&CALL:PAD_LINE
+FOR %%a in (DRVR PAK) DO (IF EXIST "$%%a" DEL /F "$%%a">NUL)
+CALL:SCRATCH_PACK_DELETE&&SET "GET_WIM_INFO="&&ECHO.                          Package Manager End&&CALL:PAD_LINE
 EXIT /B
 :PACK_PERM
 SET "PACK_PERM="
@@ -1205,9 +1140,9 @@ IF NOT DEFINED RUN_MOD SET "RUN_MOD=EQU"
 SET "PACK_PASS="&&IF DEFINED PACK_PERM FOR %%a in (REG_SZ REG_DWORD REG_BINARY REG_EXPAND_SZ REG_MULTI_SZ REG_NONE) DO (IF "%COL1%" %RUN_MOD% "    %REG_VAL%    %%a    %REG_DAT%" SET "PACK_PASS=1")
 EXIT /B
 :DISM_CHOICE
-ECHO.&&ECHO  (%##%1%#$%)RestoreHealth&&ECHO  (%##%2%#$%)Cleanup&&ECHO  (%##%3%#$%)ResetBase&&ECHO  (%##%4%#$%)SPSuperseded&&ECHO  (%##%5%#$%)CheckHealth
+SET "DISM_OPER="&&ECHO.&&ECHO  (%##%1%#$%)RestoreHealth&&ECHO  (%##%2%#$%)Cleanup&&ECHO  (%##%3%#$%)ResetBase&&ECHO  (%##%4%#$%)SPSuperseded&&ECHO  (%##%5%#$%)CheckHealth
 ECHO  (%##%6%#$%)AnalyzeComponentStore&&ECHO  (%##%7%#$%)WinRE Remove&&ECHO  (%##%8%#$%)WinSxS Remove&&ECHO.&&SET "PROMPT_SET=DISM_MENU"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
-SET "DISM_OPER="&&IF "%DISM_MENU%"=="1" SET "DISM_OPER=RESTOREHEALTH"
+IF "%DISM_MENU%"=="1" SET "DISM_OPER=RESTOREHEALTH"
 IF "%DISM_MENU%"=="2" SET "DISM_OPER=CLEANUP"
 IF "%DISM_MENU%"=="3" SET "DISM_OPER=RESETBASE"
 IF "%DISM_MENU%"=="4" SET "DISM_OPER=SPSUPERSEDED"
@@ -1228,7 +1163,7 @@ IF EXIST "V:\" SET "ERR_MSG=%##%Drive letter V:\ can NOT be in use. Unmount the 
 SET "APPLY_TARGET=IMAGE:V:"&&SET "VDISK=%$PICK%"&&CALL:VDISK_ATTACH
 IF NOT EXIST "V:\Windows" SET "ERR_MSG=             %##%Vdisk error or Windows not installed on Vdisk.%#$%"&&CALL:VDISK_DETACH&&GOTO:DISM_OPER_CLEANUP
 :IMAGEMGR_DISM_OPER_JUMP
-CALL:IMAGEMGR_DISM_OPER
+CALL:PAD_LINE&&CALL:IMAGEMGR_DISM_OPER
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
 :DISM_OPER_CLEANUP
 IF DEFINED ERR_MSG CALL:PAD_LINE&&ECHO %ERR_MSG%&&CALL:PAD_LINE
@@ -1236,7 +1171,7 @@ CALL:SCRATCH_DELETE&&ECHO                         End of DISM-Operations&&CALL:P
 EXIT /B
 :IMAGEMGR_DISM_OPER
 CALL:IF_LIVE2
-CALL:PAD_LINE&&IF "%DISM_OPER%"=="RESTOREHEALTH" ECHO                      Executing DISM Restorehealth...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /Restorehealth
+IF "%DISM_OPER%"=="RESTOREHEALTH" ECHO                      Executing DISM Restorehealth...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /Restorehealth
 IF "%DISM_OPER%"=="CLEANUP" ECHO                  Executing DISM StartComponentCleanup.....&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /StartComponentCleanup
 IF "%DISM_OPER%"=="RESETBASE" ECHO                       Executing DISM ResetBase....&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /StartComponentCleanup /ResetBase
 IF "%DISM_OPER%"=="SPSUPERSEDED" ECHO                      Executing DISM SPSuperseded...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /SPSuperseded
@@ -1384,8 +1319,8 @@ IF "%SELECT%"=="G" SET "CAME_FROM=IMAGE"&&CALL:IMAGEPROC&&CALL:PAUSED
 GOTO:IMAGEPROC_START
 :IMAGEPROC_XLVL
 IF "%TARGET_TYPE%"=="WIM" CALL:WIM_XLVL
-IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_XLVL%"=="COMPACT-OS" SET "VHDX_XLVL=DISABLED"&&EXIT /B
-IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_XLVL%"=="DISABLED" SET "VHDX_XLVL=COMPACT-OS"&&EXIT /B
+IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_XLVL%"=="COMPACT" SET "VHDX_XLVL=DISABLED"&&EXIT /B
+IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_XLVL%"=="DISABLED" SET "VHDX_XLVL=COMPACT"&&EXIT /B
 EXIT /B
 :IMAGEPROC_VSIZE
 SET "PROMPT_SET=VHDX_SIZE"&&CALL:PAD_LINE&&ECHO                               VHDX size?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
@@ -1432,7 +1367,7 @@ EXIT /B
 REM IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_
 :IMAGEPROC
 REM IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_
-CALL:PAD_LINE&&ECHO                         Image-Processing Start&&CALL:PAD_LINE&&SET "ERR_MSG="&&SET "APPLYDIR_MASTER=V:"&&SET "CAPTUREDIR_MASTER=V:"&&SET "VHDX_MB=%VHDX_SIZE%"
+CALL:PAD_LINE&&ECHO                         Image Processing Start&&CALL:PAD_LINE&&SET "ERR_MSG="&&SET "APPLYDIR_MASTER=V:"&&SET "CAPTUREDIR_MASTER=V:"&&SET "VHDX_MB=%VHDX_SIZE%"
 IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" SET "ERR_MSG=%##%Target %VHDX_TARGET% exists. Try another name or rename the existing file.%#$%"&&GOTO:IMAGEPROC_CLEANUP
 IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERR_MSG=%##%Target %WIM_TARGET% exists. Try another name or rename the existing file.%#$%"&&GOTO:IMAGEPROC_CLEANUP
 IF "%SOURCE_TYPE%"=="VHDX" IF "%VHDX_SOURCE%"=="SELECT" SET "ERR_MSG=%##%Source %SOURCE_TYPE% not set.%#$%"&&GOTO:IMAGEPROC_CLEANUP
@@ -1442,8 +1377,8 @@ IF "%TARGET_TYPE%"=="WIM" IF "%WIM_TARGET%"=="SELECT" SET "ERR_MSG=%##%Target %T
 IF EXIST "V:\" SET "ERR_MSG=%##%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%"&&GOTO:IMAGEPROC_CLEANUP
 IF NOT DEFINED WIM_INDEX SET "WIM_INDEX=1"
 IF NOT DEFINED WIM_XLVL SET "WIM_XLVL=FAST"
-IF NOT "%VHDX_XLVL%"=="COMPACT-OS" SET "COMPACT="
-IF "%VHDX_XLVL%"=="COMPACT-OS" SET "COMPACT= /COMPACT"
+IF NOT "%VHDX_XLVL%"=="COMPACT" SET "COMPACTX="
+IF "%VHDX_XLVL%"=="COMPACT" SET "COMPACTX= /COMPACT"
 CALL:VDISK_DETACH&&CALL:SCRATCH_CREATE
 IF "%SOURCE_TYPE%"=="VHDX" SET "VDISK=%IMAGE_FOLDER%\%VHDX_SOURCE%"
 IF "%TARGET_TYPE%"=="VHDX" SET "VDISK=%IMAGE_FOLDER%\%VHDX_TARGET%"
@@ -1454,7 +1389,7 @@ IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" CALL:VDISK_CREATE
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="WIM" SET "VDISK=%SCRATCHDIR%\SCRATCH.VHDX"&&SET "VHDX_MB=20000"&&CALL:VDISK_CREATE
 IF NOT EXIST "V:\" SET "ERR_MSG=%##%Virtual Disk Error. If VHDX refuses mounting, reboot and try again.%#$%"&&CALL:VDISK_DETACH&&GOTO:IMAGEPROC_CLEANUP
 CALL:TITLECARD&&IF NOT DEFINED WIM_DESC SET "WIM_DESC=$HAZZAM"
-IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_SRC%" /INDEX:%WIM_INDEX% /APPLYDIR:"%APPLYDIR_MASTER%"%COMPACT%
+IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_SRC%" /INDEX:%WIM_INDEX% /APPLYDIR:"%APPLYDIR_MASTER%"%COMPACTX%
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="WIM" DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_SRC%" /INDEX:%WIM_INDEX% /APPLYDIR:"%APPLYDIR_MASTER%"
 IF "%TARGET_TYPE%"=="WIM" IF NOT EXIST "%APPLYDIR_MASTER%\*" CALL:VDISK_DETACH&&DEL /F /Q "%IMAGE_FOLDER%\%WIM_TARGET%">NUL 2>&1
 IF "%TARGET_TYPE%"=="VHDX" IF NOT EXIST "%APPLYDIR_MASTER%\*" CALL:VDISK_DETACH&&DEL /F /Q "%IMAGE_FOLDER%\%VHDX_TARGET%">NUL 2>&1
@@ -1464,29 +1399,27 @@ CALL:VDISK_DETACH>NUL 2>&1
 :IMAGEPROC_CLEANUP
 IF "%CAME_FROM%"=="IMAGE" SET "CAME_FROM="&&ECHO 
 IF DEFINED ERR_MSG ECHO  %ERR_MSG%&&ECHO.
-CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                        Image-Processing Complete&&CALL:PAD_LINE
+CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                        Image Processing Complete&&CALL:PAD_LINE
 EXIT /B
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
 :DISKMGR_START
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:CLEAN&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENU_FLAG="&&SET "ERROR="
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:CLEAN&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENUX="&&SET "ERROR="
 CALL:PAD_LINE&&ECHO                             Disk Management&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE
 IF NOT "%BOOT_IMAGE%"=="NONE" ECHO  [%#@%DISK%#$%] (%##%B%#$%)oot (%##%I%#$%)nspect (%##%E%#$%)rase (%##%#%#$%)ChangeUID (%##%U%#$%)SB (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
 IF "%BOOT_IMAGE%"=="NONE" ECHO  [%#@%DISK%#$%]  (%##%I%#$%)nspect  (%##%E%#$%)rase  (%##%#%#$%)Change UID  (%##%U%#$%)SB (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
 ECHO  [%#@%PART%#$%]    (%##%C%#$%)reate    (%##%D%#$%)elete    (%##%F%#$%)ormat    (%##%M%#$%)ount/Unmount&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="*" CALL:NEXT_BOOT
-IF "%SELECT%"=="B" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START
-IF "%SELECT%"=="$" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START
 IF "%SELECT%"=="U" RunDll32.exe shell32.dll,Control_RunDLL hotplug.dll
 IF "%SELECT%"=="M" CALL:LETTER_GET&&CALL:DISKMGR_MOUNT_PROMPT&&SET "SELECT="
+FOR %%a in ($ B) DO (IF "%SELECT%"=="%%a" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START)
 IF "%SELECT%"=="I" CALL:DISK_MENU&&CALL:DISKMGR_INSPECT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="E" SET "MENU_FLAG=1"&&CALL:DISKMGR_ERASE&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="C" SET "MENU_FLAG=1"&&CALL:DISK_MENU&&CALL:DISKMGR_CREATE&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="#" SET "MENU_FLAG=1"&&CALL:DISK_MENU&&CALL:DISKMGR_CHANGEID&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="D" SET "MENU_FLAG=1"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:DISKMGR_DELETE&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="F" SET "MENU_FLAG=1"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:DISKMGR_FORMAT&&CALL:DISK_PART_END&&SET "SELECT="
-IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
+IF "%SELECT%"=="E" SET "MENUX=1"&&CALL:DISKMGR_ERASE&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="C" SET "MENUX=1"&&CALL:DISK_MENU&&CALL:DISKMGR_CREATE&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="#" SET "MENUX=1"&&CALL:DISK_MENU&&CALL:DISKMGR_CHANGEID&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="D" SET "MENUX=1"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:DISKMGR_DELETE&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="F" SET "MENUX=1"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:DISKMGR_FORMAT&&CALL:DISK_PART_END&&SET "SELECT="
 GOTO:DISKMGR_START
 :NEXT_BOOT
 IF "%NEXT_BOOT%"=="NULL" SET "BOOT_TARGET=GET"&&CALL:BOOT_TOGGLE&EXIT /B
@@ -1523,8 +1456,8 @@ ECHO      Unplug any USB disks and reboot if this continues to occur.&&ECHO     
 IF "%CONFIRM%"=="X" GOTO:PART_CREATE
 EXIT /B
 :DISKMGR_ERASE
-IF "%MENU_FLAG%"=="1" CALL:PAD_LINE&&ECHO                            Which Disk (%##%#%#$%)?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-IF "%MENU_FLAG%"=="1" SET "MENU_FLAG="&&SET "CHECK=NUM"&&CALL:CHECK&&SET "DISK_NUMBER=%SELECT%"
+IF "%MENUX%"=="1" CALL:PAD_LINE&&ECHO                            Which Disk (%##%#%#$%)?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+IF "%MENUX%"=="1" SET "MENUX="&&SET "CHECK=NUM"&&CALL:CHECK&&SET "DISK_NUMBER=%SELECT%"
 IF DEFINED ERROR EXIT /B
 IF NOT DEFINED DISK_NUMBER EXIT /B
 FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) DO (IF "%DISK_NUMBER%"=="%%a" CALL SET "GET_DISK_ID=%%DISKID_%%a%%")
@@ -1563,8 +1496,8 @@ EXIT /B
 :DISKMGR_CREATE
 IF DEFINED ERROR EXIT /B
 IF NOT DEFINED DISK_NUMBER EXIT /B
-IF "%MENU_FLAG%"=="1" CALL:PAD_LINE&&ECHO             Enter a partition size. (0) Remainder of space &&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=PART_SIZE"&&CALL:PROMPT_SET
-IF "%MENU_FLAG%"=="1" SET "MENU_FLAG="&&SET "CHECK=NUM"&&SET "SELECT=%PART_SIZE%"&&CALL:CHECK
+IF "%MENUX%"=="1" CALL:PAD_LINE&&ECHO             Enter a partition size. (0) Remainder of space &&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=PART_SIZE"&&CALL:PROMPT_SET
+IF "%MENUX%"=="1" SET "MENUX="&&SET "CHECK=NUM"&&SET "SELECT=%PART_SIZE%"&&CALL:CHECK
 IF DEFINED ERROR EXIT /B
 IF "%PART_SIZE%"=="0" SET "PART_SIZE="
 IF NOT DEFINED PART_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
@@ -1577,7 +1510,7 @@ FOR %%a in (DISK_NUMBER PART_NUMBER) DO (IF NOT DEFINED %%a EXIT /B)
 EXIT /B
 :DISKMGR_CHANGEID
 IF NOT DEFINED DISK_NUMBER EXIT /B
-IF "%MENU_FLAG%"=="1" SET "MENU_FLAG="&&CALL:PAD_LINE&&ECHO                        Enter a new disk-UID (%##%#%#$%) &&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=GET_DISK_ID"&&CALL:PROMPT_SET
+IF "%MENUX%"=="1" SET "MENUX="&&CALL:PAD_LINE&&ECHO                        Enter a new disk-UID (%##%#%#$%) &&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=GET_DISK_ID"&&CALL:PROMPT_SET
 SET "UID_XNT="&&FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %GET_DISK_ID%^| FIND /V ""') do (CALL SET /A "UID_XNT+=1")
 IF NOT "%UID_XNT%"=="36" SET "GET_DISK_ID=00000000-0000-0000-0000-000000000000"
 (ECHO.select disk %DISK_NUMBER%&&ECHO.uniqueid disk id=%GET_DISK_ID%&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&ECHO 
@@ -1596,7 +1529,6 @@ FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) DO (IF "%SELECT%"=="%%a" CALL
 IF "%DISK_TARGET%"=="%HOME_TARGET%" GOTO:DISK_MENU
 IF "%DISK_TARGET%"=="00000000" SET "DISK_CONFLICT=1"
 IF "%DISK_TARGET%"=="0000-0000" SET "DISK_CONFLICT=1"
-IF "%DISK_TARGET%"=="00000000-0000-0000-0000-000000000000" SET "DISK_CONFLICT=1"
 IF DEFINED DISK_CONFLICT CALL:PAD_LINE&&ECHO Erase Disk first&&CALL:PAD_LINE&&CALL:PAUSED
 IF DEFINED DISK_CONFLICT GOTO:DISK_MENU
 IF "%DISK_TARGET%"=="" GOTO:DISK_MENU
@@ -1781,24 +1713,21 @@ CALL SET "FMGR_SOURCE_%FMS#%=%FMGR_SOURCE%"&&CALL SET "FMGR_SOURCE=%$PICK%"
 EXIT /B
 :FMGR_COPY
 IF NOT DEFINED $PICK EXIT /B
-IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" CALL:PAD_LINE&&ECHO                        Source/Target are the same..&&CALL:PAD_LINE&&CALL:PAUSED
-IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" EXIT /B
+IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" CALL:FMGR_SAME&EXIT /B
 CALL:PAD_LINE&&IF NOT EXIST "%$PICK%\*" ECHO Copying [%#@%%$PICK%%#$%]to[%#@%%FMGR_TARGET%%#$%]...&&XCOPY "%$PICK%" "%FMGR_TARGET%\" /C /Y>NUL 2>&1
 IF EXIST "%$PICK%\*" ECHO Copying [%#@%%$PICK%%#$%]to[%#@%%FMGR_TARGET%%#$%]...&&XCOPY "%$PICK%" "%FMGR_TARGET%\%$ELECT$%\" /E /C /I /Y>NUL 2>&1
 CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :FMGR_SYM
 IF NOT DEFINED $PICK EXIT /B
-IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" CALL:PAD_LINE&&ECHO                        Source/Target are the same..&&CALL:PAD_LINE&&CALL:PAUSED
-IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" EXIT /B
+IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" CALL:FMGR_SAME&EXIT /B
 CALL:PAD_LINE&&IF EXIST "%$PICK%\*" MKLINK /J "%FMGR_TARGET%\%$ELECT$%" "%$PICK%"
 IF NOT EXIST "%$PICK%\*" MKLINK "%FMGR_TARGET%\%$ELECT$%" "%$PICK%"
 CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :FMGR_MOVE
 IF NOT DEFINED $PICK EXIT /B
-IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" CALL:PAD_LINE&&ECHO                        Source/Target are the same..&&CALL:PAD_LINE&&CALL:PAUSED
-IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" EXIT /B
+IF "%FMGR_SOURCE%"=="%FMGR_TARGET%" CALL:FMGR_SAME&EXIT /B
 CALL:PAD_LINE&&IF NOT EXIST "%$PICK%\*" ECHO Moving [%#@%%$PICK%%#$%]to[%#@%%FMGR_TARGET%%#$%]...&&MOVE /Y "%$PICK%" "%FMGR_TARGET%\">NUL 2>&1
 IF EXIST "%$PICK%\*" ECHO Moving [%#@%%$PICK%%#$%]to[%#@%%FMGR_TARGET%%#$%]...&&XCOPY "%$PICK%" "%FMGR_TARGET%\%$ELECT$%\" /E /C /I /Y>NUL 2>&1
 IF EXIST "%$PICK%\*" RD /S /Q "\\?\%$PICK%">NUL 2>&1
@@ -1822,6 +1751,9 @@ EXIT /B
 :REMOVE_SLASH
 SET "SLASHZ=%SLASHER%"&&SET "SLASHER=%SLASHER%%SLASHX%"
 EXIT /B
+:FMGR_SAME
+CALL:PAD_LINE&&ECHO                        Source/Target are the same..&&CALL:PAD_LINE&&CALL:PAUSED
+EXIT /B
 :FMGR_SWAP
 IF NOT EXIST "%FMGR_SOURCE%" EXIT /B
 IF NOT EXIST "%FMGR_TARGET%" EXIT /B
@@ -1830,7 +1762,7 @@ EXIT /B
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP
 :$ETUP_START
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP 
-CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_LAY&&CALL:CLEAN&&SET "BTMP=%WINDIR%\System32\config\ELAM"&&SET "MENU_FLAG="&&SET "CAME_FROM="&&CALL:PAD_LINE
+CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_LAY&&CALL:CLEAN&&SET "BTMP=%WINDIR%\System32\config\ELAM"&&SET "MENUX="&&SET "CAME_FROM="&&CALL:PAD_LINE
 ECHO                              Boot Creator&&CALL:PAD_LINE&&ECHO          ~ Erase target disk ^& create native VHDX-Boot disk ~&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" IF "%PROG_MODE%"=="RAMDISK" ECHO                     ~ (%##%R%#$%)ebuild as [%#@%%BCD_SYSTEM%-MODE%#$%] ~&&CALL:PAD_LINE
@@ -1847,16 +1779,16 @@ IF "%SELECT%"=="S" SET /A "ACTIVE_BAY+=1"&&IF "%ACTIVE_BAY%" EQU "9" SET "ACTIVE
 IF "%SELECT%"=="S" IF "%ACTIVE_BAY%" GTR "%BOOT_BAYS%" SET "ACTIVE_BAY=0"
 IF "%SELECT%"=="Q" SET /A "BOOT_BAYS+=1"&&IF "%BOOT_BAYS%" EQU "9" SET "BOOT_BAYS=0"
 IF "%SELECT%"=="Q" IF "%BOOT_BAYS%" LSS "%ACTIVE_BAY%" SET "ACTIVE_BAY=%BOOT_BAYS%"
-IF "%SELECT%"=="-" IF "%FOLDER_MODE%"=="ISOLATED" SET "MENU_FLAG=I2B"&&SET "PICK=VHDX"&&CALL:FILE_PICK
-IF "%MENU_FLAG%"=="I2B" IF DEFINED $PICK CALL:PAD_LINE&&ECHO  Moving [%#@%%$PICK%%#$%]to[%#@%%PROG_SOURCE%%#$%]...&&CALL:PAD_LINE&&MOVE /Y "%$PICK%" "%PROG_SOURCE%\">NUL
-IF "%SELECT%"=="+" IF "%FOLDER_MODE%"=="ISOLATED" SET "MENU_FLAG=B2I"&&SET "PICK=BOOT"&&CALL:FILE_PICK
-IF "%MENU_FLAG%"=="B2I" IF DEFINED $PICK CALL:PAD_LINE&&ECHO  Moving [%#@%%$PICK%%#$%]to[%#@%%IMAGE_FOLDER%%#$%]...&&CALL:PAD_LINE&&MOVE /Y "%$PICK%" "%IMAGE_FOLDER%\">NUL
+IF "%SELECT%"=="-" IF "%FOLDER_MODE%"=="ISOLATED" SET "MENUX=I2B"&&SET "PICK=VHDX"&&CALL:FILE_PICK
+IF "%MENUX%"=="I2B" IF DEFINED $PICK CALL:PAD_LINE&&ECHO  Moving [%#@%%$PICK%%#$%]to[%#@%%PROG_SOURCE%%#$%]...&&CALL:PAD_LINE&&MOVE /Y "%$PICK%" "%PROG_SOURCE%\">NUL
+IF "%SELECT%"=="+" IF "%FOLDER_MODE%"=="ISOLATED" SET "MENUX=B2I"&&SET "PICK=BOOT"&&CALL:FILE_PICK
+IF "%MENUX%"=="B2I" IF DEFINED $PICK CALL:PAD_LINE&&ECHO  Moving [%#@%%$PICK%%#$%]to[%#@%%IMAGE_FOLDER%%#$%]...&&CALL:PAD_LINE&&MOVE /Y "%$PICK%" "%IMAGE_FOLDER%\">NUL
 IF "%SELECT%"=="M" IF NOT "%VHDX_$ETUP%"=="SELECT" IF "%BCD_SYSTEM%"=="SLOT" SET "BCD_SYSTEM=NAME"&&SET "SELECT="
 IF "%SELECT%"=="M" IF NOT "%VHDX_$ETUP%"=="SELECT" IF "%BCD_SYSTEM%"=="NAME" SET "BCD_SYSTEM=SLOT"&&SET "SELECT="
 IF "%SELECT%"=="R" IF "%PROG_MODE%"=="RAMDISK" IF NOT "%VHDX_$ETUP%"=="SELECT" SET "CAME_FROM=$ETUP"&&CALL:BCD_REBUILD&&CALL:PAUSED
 IF "%SELECT%"=="G" IF NOT "%VHDX_$ETUP%"=="SELECT" SET "CAME_FROM=$ETUP"&&CALL:BOOT_MAKER&&CALL:PAUSED
-IF "%SELECT%"=="V" SET "MENU_FLAG=PVHDX"&&SET "PICK=VHDX"&&CALL:FILE_PICK
-IF "%MENU_FLAG%"=="PVHDX" SET "VHDX_$ETUP=%$ELECT$%"&&SET "SELECT="
+IF "%SELECT%"=="V" SET "MENUX=PVHDX"&&SET "PICK=VHDX"&&CALL:FILE_PICK
+IF "%MENUX%"=="PVHDX" SET "VHDX_$ETUP=%$ELECT$%"&&SET "SELECT="
 GOTO:$ETUP_START
 :BCD_REBUILD
 IF "%BCD_SYSTEM%"=="NAME" CALL:PAD_LINE&&ECHO  Rebuilding BCD [%#@%%BCD_SYSTEM%-MODE%#$%] [VHDX[%#@%%VHDX_$ETUP%%#$%]&&CALL:PAD_LINE
@@ -1997,9 +1929,7 @@ REG.exe add "HKLM\%BCD_KEY%\Description" /v "System" /t REG_DWORD /d "1" /f
 REG.exe add "HKLM\%BCD_KEY%\Description" /v "TreatAsSystem" /t REG_DWORD /d "1" /f
 REG.exe delete "HKLM\%BCD_KEY%" /v "FirmwareModified" /f
 REG UNLOAD HKLM\%BCD_KEY%>NUL 2>&1
-IF "%CAME_FROM%"=="COMMAND" COPY /Y "%BCD_FILE%" "U:\EFI\Microsoft\Boot\BCD">NUL 2>&1
-IF "%CAME_FROM%"=="$ETUP" COPY /Y "%BCD_FILE%" "U:\EFI\Microsoft\Boot\BCD">NUL 2>&1
-IF "%CAME_FROM%"=="DISKMGR" COPY /Y "%BCD_FILE%" "U:\EFI\Microsoft\Boot\BCD">NUL 2>&1
+FOR %%a in (COMMAND $ETUP DISKMGR) DO (IF "%CAME_FROM%"=="%%a" COPY /Y "%BCD_FILE%" "U:\EFI\Microsoft\Boot\BCD">NUL 2>&1)
 DEL /Q /F "%TEMP%\BCD1"&&DEL /Q /F "%TEMP%\0020"&&DEL /Q /F "%BCD_FILE%"
 IF DEFINED BCD_SYSTEM_TEMP SET "BCD_SYSTEM_TEMP="&&SET "BCD_SYSTEM="
 EXIT /B
@@ -2021,13 +1951,10 @@ REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:SCRATCH_PACK_DELETE&&CALL:PAD_LINE&&ECHO                             Package Creator&&CALL:PAD_LINE
 FOR %%a in (PackName PackType PackTag PackDesc REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF EXIST "%MAKER_FOLDER%\PACKAGE.$HZ" COPY /Y "%MAKER_FOLDER%\PACKAGE.$HZ" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
-IF NOT "%REG_KEY%"=="NULL" IF NOT "%REG_VAL%"=="NULL" IF NOT "%RUN_MOD%"=="NULL" IF NOT "%REG_DAT%"=="NULL" SET "PACK_COND=ENABLED"
-IF "%REG_KEY%"=="NULL" SET "PACK_COND=DISABLED"
-IF "%REG_VAL%"=="NULL" SET "PACK_COND=DISABLED"
-IF "%RUN_MOD%"=="NULL" SET "PACK_COND=DISABLED"
-IF "%REG_DAT%"=="NULL" SET "PACK_COND=DISABLED"
+SET "PACK_CHK="&&IF NOT "%REG_KEY%"=="NULL" IF NOT "%REG_VAL%"=="NULL" IF NOT "%RUN_MOD%"=="NULL" IF NOT "%REG_DAT%"=="NULL" SET "PACK_CHK=1"
+IF DEFINED PACK_CHK FOR %%a in (REG_KEY REG_VAL RUN_MOD REG_DAT) DO (IF NOT DEFINED %%a SET "PACK_CHK=")
+IF "%PACK_CHK%"=="1" (SET "PACK_COND=ENABLED") ELSE (SET "PACK_COND=DISABLED")
 IF EXIST "$PAK" DEL /F "$PAK">NUL
-IF NOT "%REG_VAL%"=="NULL" IF NOT "%RUN_MOD%"=="NULL" IF NOT "%REG_DAT%"=="NULL" SET "PACK_COND=ENABLED"
 IF "%PACK_COND%"=="ENABLED" ECHO  [Name[%#@%%PackName%%#$%] [Type[%#@%%PackType%%#$%] [Tag[%#@%%PackTag%%#$%] [X-Lvl[%#@%%PACK_XLVL%%#$%] [PMT[%#@%%PACK_COND%%#$%]&&CALL:PAD_LINE
 IF "%PACK_COND%"=="DISABLED" ECHO  [Name[%#@%%PackName%%#$%] [Type[%#@%%PackType%%#$%] [Tag[%#@%%PackTag%%#$%] [X-Lvl[%#@%%PACK_XLVL%%#$%]&&CALL:PAD_LINE
 ECHO  [Desc]: %#@%%PackDesc%%#$%&&CALL:PAD_LINE
@@ -2042,9 +1969,9 @@ CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="P" CALL:PACK_COND
 IF "%SELECT%"=="Z" CALL:PACK_XLVL
-IF "%SELECT%"=="N" SET "EXAMPLE_MODE=CREATE"&&CALL:PACKEX_MENU_START&&SET "SELECT="
+IF "%SELECT%"=="N" SET "PACK_MODE=CREATE"&&CALL:PACKEX_MENU_START&&SET "SELECT="
 IF "%SELECT%"=="R" SET "PICK=$PK"&&CALL:FILE_PICK&&CALL:MAKER_RESTORE&&SET "SELECT="
-IF "%SELECT%"=="C" IF NOT "%PackType%"=="NULL" SET "EXAMPLE_MODE=CREATE"&&CALL:MAKER_CREATE&&SET "SELECT="
+IF "%SELECT%"=="C" IF NOT "%PackType%"=="NULL" SET "PACK_MODE=CREATE"&&CALL:MAKER_CREATE&&SET "SELECT="
 IF "%SELECT%"=="E" IF NOT "%PackType%"=="SCRIPTED" IF NOT "%PackType%"=="STORAGE" CALL:MAKER_EXPORT&&SET "SELECT="
 IF "%SELECT%"=="I" IF NOT "%PackType%"=="SCRIPTED" IF NOT "%PackType%"=="STORAGE" CALL:MAKER_INSPECT&&SET "SELECT="
 IF "%SELECT%"=="V" SET "EDIT_SETUP=1"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_README=1"&&SET "EDIT_CUSTOM="&&CALL:MAKER_EDITOR
@@ -2065,15 +1992,13 @@ IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_LINE&&ECHO                   Project[%#@%%MAKER_SLOT%%#$%] folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed
 CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" EXIT /B
-CALL:PAD_LINE&&ECHO.                          Package Restore Start&&CALL:PAD_LINE
-ECHO.                            Restoring Package
-IF NOT EXIST "%PROG_SOURCE%\ScratchPack" MD "%PROG_SOURCE%\ScratchPack">NUL 2>&1
-DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PICK%" /INDEX:2 /APPLYDIR:"%PROG_SOURCE%\ScratchPack">NUL 2>&1
+CALL:PAD_LINE&&ECHO.                          Package Restore Start&&CALL:PAD_LINE&&ECHO.                            Restoring Package
+CALL:SCRATCH_PACK_CREATE&&DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PICK%" /INDEX:2 /APPLYDIR:"%PROG_SOURCE%\ScratchPack">NUL 2>&1
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF EXIST "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" COPY /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (IF NOT DEFINED %%a CALL SET "%%a=NULL")
 IF EXIST "$PAK" DEL /F "$PAK">NUL
-IF NOT EXIST "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" CALL:PAD_LINE&&ECHO PACKAGE %PackName% IS DEFUNCT&&CALL:PAD_LINE&&SET "PACK_DEFUNCT=1"&&CALL:PAUSED
+IF NOT EXIST "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" CALL:PAD_LINE&&ECHO Package %##%%PackName%%#$% is defunct.&&CALL:PAD_LINE&&SET "PACK_DEFUNCT=1"&&CALL:PAUSED
 IF EXIST "%MAKER_FOLDER%" RD /S /Q "%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
 MOVE /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" "%MAKER_FOLDER%">NUL 2>&1
@@ -2081,19 +2006,16 @@ DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PICK%" /INDEX:1 /APPLYDIR:"%MAKER_FOLDE
 ECHO.&&CALL:PAD_LINE&&ECHO.                          Package Restore End&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :MAKER_CREATE
-SET "PACK_FAIL="&&CALL:PAD_LINE&&ECHO.                         Package Create Start&&CALL:PAD_LINE
-ECHO.                           Creating Package&&CALL:SCRATCH_PACK_DELETE
+SET "PACK_FAIL="&&CALL:PAD_LINE&&ECHO.                         Package Create Start&&CALL:PAD_LINE&&ECHO.                           Creating Package&&CALL:SCRATCH_PACK_DELETE
 IF NOT EXIST "%MAKER_FOLDER%\*.*" SET "PACK_FAIL=1"&&CALL:PAD_LINE&&ECHO.%#@%Project%MAKER_SLOT% is empty%#$%&&CALL:PAD_LINE&&CALL:PAUSED
 IF NOT DEFINED PackName SET "PACK_FAIL=1"&&CALL:PAD_LINE&&ECHO.PackName is Empty&&CALL:PAD_LINE&&CALL:PAUSED
 IF NOT DEFINED PackType SET "PACK_FAIL=1"&&CALL:PAD_LINE&&ECHO.PackType is Empty&&CALL:PAD_LINE&&CALL:PAUSED
 IF DEFINED PACK_FAIL EXIT /B
-IF NOT EXIST "%PROG_SOURCE%\ScratchPack" MD "%PROG_SOURCE%\ScratchPack">NUL 2>&1
-MOVE /Y "%MAKER_FOLDER%\PACKAGE.$HZ" "%PROG_SOURCE%\ScratchPack">NUL 2>&1
+CALL:SCRATCH_PACK_CREATE&&MOVE /Y "%MAKER_FOLDER%\PACKAGE.$HZ" "%PROG_SOURCE%\ScratchPack">NUL 2>&1
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%MAKER_FOLDER%" /IMAGEFILE:"%PACK_FOLDER%\%PackName%.$PK" /COMPRESS:%PACK_XLVL% /NAME:"%PackName%" /CheckIntegrity /Verify
 DISM /ENGLISH /APPEND-IMAGE /IMAGEFILE:"%PACK_FOLDER%\%PackName%.$PK" /CAPTUREDIR:"%PROG_SOURCE%\ScratchPack" /NAME:"%PackName%" /Description:$haZZam^^! /CheckIntegrity /Verify>NUL 2>&1
 MOVE /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.$HZ" "%MAKER_FOLDER%">NUL 2>&1
-CALL:SCRATCH_PACK_DELETE&&ECHO.&&CALL:PAD_LINE&&ECHO.                           Package Create End&&CALL:PAD_LINE
-IF NOT "%EXAMPLE_MODE%"=="INSTANT" CALL:PAUSED
+CALL:SCRATCH_PACK_DELETE&&ECHO.&&CALL:PAD_LINE&&ECHO.                           Package Create End&&CALL:PAD_LINE&&IF NOT "%PACK_MODE%"=="INSTANT" CALL:PAUSED
 EXIT /B
 :PACK_XLVL
 SET /A "PAK_XXX+=1"
@@ -2103,16 +2025,16 @@ IF "%PAK_XXX%"=="2" SET "PACK_XLVL=MAX"
 IF "%PAK_XXX%"=="3" SET "PACK_XLVL=NONE"
 EXIT /B
 :PACK_COND
-CALL ECHO Input REG-KEY&&ECHO (Case sensitive^^!)&&CALL:MENU_SELECT_ANY
+CALL ECHO Input REG-KEY&&ECHO (Case sensitive^^!)&&CALL:PROMPT_SET_ANY
 CALL SET "REG_KEY=%SELECT%"
 IF NOT DEFINED REG_KEY SET "REG_VAL="&&SET "RUN_MOD="&&SET "REG_DAT="&&CALL:PACK_MANIFEST&&EXIT /B
-CALL ECHO Input REG-VALUE&&ECHO (Case sensitive^^!)&&CALL:MENU_SELECT_ANY
+CALL ECHO Input REG-VALUE&&ECHO (Case sensitive^^!)&&CALL:PROMPT_SET_ANY
 CALL SET "REG_VAL=%SELECT%"
 IF NOT DEFINED REG_VAL EXIT /B
 CALL REG QUERY "%REG_KEY%" /V "%REG_VAL%" >"$HZ"
 SET "COL1="&&IF EXIST $HZ FOR /F "TOKENS=* DELIMS=" %%1 in ($HZ) DO (SET "COL1=%%1")
 CALL ECHO [%COL1%]&&DEL "$HZ">NUL 2>&1
-CALL ECHO Input REG-VALUE target data&&ECHO (Case sensitive^^!)&&CALL:MENU_SELECT_ANY
+CALL ECHO Input REG-VALUE target data&&ECHO (Case sensitive^^!)&&CALL:PROMPT_SET_ANY
 CALL SET "REG_DAT=%SELECT%"
 ECHO Permit install if data&&ECHO (%##%1%#$%)Match&&ECHO (%##%2%#$%)Does NOT match&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT SET "RUN_MOD=EQU"
@@ -2121,8 +2043,8 @@ IF "%SELECT%"=="2" SET "RUN_MOD=NEQ"
 CALL:PACK_MANIFEST
 EXIT /B
 :MAKER_EDITOR
-IF DEFINED EDIT_SETUP IF EXIST "%MAKER_FOLDER%\PACKAGE.CMD" START NOTEPAD.EXE "%MAKER_FOLDER%\PACKAGE.CMD"
 IF DEFINED EDIT_MANIFEST IF EXIST "%MAKER_FOLDER%\PACKAGE.$HZ" START NOTEPAD.EXE "%MAKER_FOLDER%\PACKAGE.$HZ"
+IF DEFINED EDIT_SETUP IF EXIST "%MAKER_FOLDER%\PACKAGE.CMD" START NOTEPAD.EXE "%MAKER_FOLDER%\PACKAGE.CMD"
 IF DEFINED EDIT_README IF EXIST "%MAKER_FOLDER%\README.TXT" START NOTEPAD.EXE "%MAKER_FOLDER%\README.TXT"
 IF DEFINED EDIT_CUSTOM IF EXIST "%MAKER_FOLDER%\%EDIT_CUSTOM%" START NOTEPAD.EXE "%MAKER_FOLDER%\%EDIT_CUSTOM%"
 SET "EDIT_SETUP="&&SET "EDIT_MANIFEST="&&SET "EDIT_README="&&SET "EDIT_CUSTOM="
@@ -2141,31 +2063,10 @@ FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) 
 (ECHO ----------[Package Manifest]---------=&&ECHO.PackName=%PackName%&&ECHO.PackType=%PackType%&&ECHO.PackDesc=%PackDesc%&&ECHO.PackTag=%PackTag%&&ECHO.REG_KEY=%REG_KEY%&&ECHO.REG_VAL=%REG_VAL%&&ECHO.RUN_MOD=%RUN_MOD%&&ECHO.REG_DAT=%REG_DAT%&&ECHO.Created=%date% %time%&&ECHO ------------[END OF FILE]------------=)>"%MAKER_FOLDER%\PACKAGE.$HZ"
 EXIT /B
 :PACK_VARS
-ECHO;::================================================>>"%NEW_PACK%"
-ECHO;::File and registry locations are normal during>>"%NEW_PACK%"
-ECHO;::SetupComplete, RunOnce, and Current-Environment.>>"%NEW_PACK%"
-ECHO;::During ImageApply they are externally mounted.>>"%NEW_PACK%"
-ECHO;::================================================>>"%NEW_PACK%"
-ECHO;::These variables are built in and can help>>"%NEW_PACK%"
-ECHO;::keep a script consistant throughout the entire>>"%NEW_PACK%"
-ECHO;::process, whether applying to a vhdx or live>>"%NEW_PACK%"
-ECHO;::================================================>>"%NEW_PACK%"
-ECHO;::Windows folder :   (%%WINTAR%%)>>"%NEW_PACK%"
-ECHO;::Drive root :       (%%DRVTAR%%)>>"%NEW_PACK%"
-ECHO;::User or defuser :  (%%USRTAR%%)>>"%NEW_PACK%"
-ECHO;::HKLM\SOFTWARE :    (%%HIVE_SOFTWARE%%)>>"%NEW_PACK%"
-ECHO;::HKLM\SYSTEM :      (%%HIVE_SYSTEM%%)>>"%NEW_PACK%"
-ECHO;::HKCU\ or defuser : (%%HIVE_USER%%)>>"%NEW_PACK%"
-ECHO;::================================================>>"%NEW_PACK%"
-ECHO;::==================START OF PACK=================>>"%NEW_PACK%"
-ECHO;::================================================>>"%NEW_PACK%"
-ECHO.>>"%NEW_PACK%"
+ECHO.::================================================&&ECHO.::File and registry locations are normal during&&ECHO.::SetupComplete, RunOnce, and Current-Environment.&&ECHO.::During ImageApply they are externally mounted.&&ECHO.::================================================&&ECHO.::These variables are built in and can help&&ECHO.::keep a script consistant throughout the entire&&ECHO.::process, whether applying to a vhdx or live.&&ECHO.::================================================&&ECHO.::Windows folder :   (%%WINTAR%%)&&ECHO.::Drive root :       (%%DRVTAR%%)&&ECHO.::User or defuser :  (%%USRTAR%%)&&ECHO.::HKLM\SOFTWARE :    (%%HIVE_SOFTWARE%%)&&ECHO.::HKLM\SYSTEM :      (%%HIVE_SYSTEM%%)&&ECHO.::HKCU\ or defuser : (%%HIVE_USER%%)&&ECHO.::================================================&ECHO.::==================START OF PACK=================&&ECHO.
 EXIT /B
 :PACK_END
-ECHO.>>"%NEW_PACK%"
-ECHO;::================================================>>"%NEW_PACK%"
-ECHO;::===================END OF PACK==================>>"%NEW_PACK%"
-ECHO;::================================================>>"%NEW_PACK%"
+ECHO.&&ECHO.::===================END OF PACK==================&&ECHO.::================================================
 EXIT /B
 :PACK_CONFIG
 SET "PACK_ENT="&&FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %PACK_CONFIG%^| FIND /V ""') do (CALL SET /A "PACK_ENT+=1"&&SET "PACK_CFG=%%G"&&CALL:PACK_CONFIG_XNT)
@@ -2174,140 +2075,96 @@ EXIT /B
 SET "PACK_ENT_%PACK_ENT%=%PACK_CFG%"
 EXIT /B
 :PACKEX_MENU_START
-@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_GNC
-CALL:PAD_LINE&&ECHO                                (TASKS)&&CALL:PAD_LINE&&IF NOT "%EXAMPLE_MODE%"=="INSTANT" GOTO:PACKEX_JUMP1
-ECHO.&&ECHO  (%##%A1%#$%) End Task                                              (%#@%INSTANT%#$%)
-ECHO  (%##%A2%#$%) Start/Stop Service                                    (%#@%INSTANT%#$%)
-ECHO  (%##%A3%#$%) List Accounts                                         (%#@%INSTANT%#$%)
-ECHO  (%##%FS%#$%) FOR-Sight                                             (%#@%INSTANT%#$%)
-:PACKEX_JUMP1
-ECHO  (%##%M1%#$%) Create Local User-Account
-ECHO  (%##%M2%#$%) Create Local Admin-Account
-IF "%EXAMPLE_MODE%"=="INSTANT" ECHO.&&GOTO:PACKEX_JUMP2
-CALL:PAD_LINE&&ECHO                         (New Package Template)&&CALL:PAD_LINE
-ECHO  (%##%N01%#$%) New Driver Package                                  (%#@%DRIVER%#$%)
-ECHO  (%##%N02%#$%) New Scripted Package                                (%#@%SCRIPTED%#$%)
-ECHO  (%##%N03%#$%) New Storage Package                                 (%#@%STORAGE%#$%)
-CALL:PAD_LINE&&ECHO                     (Lists: SetupComplete/RunOnce)&&CALL:PAD_LINE
-ECHO  (%##%L01%#$%) Pagefile Disable                                    (%#@%SCRIPTED%#$%)
-ECHO  (%##%L02%#$%) Import Firewall Rules.XML                           (%#@%SCRIPTED%#$%)
-ECHO  (%##%L03%#$%) Taskmgr Prefs                                       (%#@%SCRIPTED%#$%)
-ECHO  (%##%L04%#$%) Boot Timeout                                        (%#@%SCRIPTED%#$%)
-ECHO  (%##%L05%#$%) Computer Name                                       (%#@%SCRIPTED%#$%)
-CALL:PAD_LINE&&ECHO                          (Lists: ImageApply)&&CALL:PAD_LINE
-ECHO  (%##%S01%#$%) Setup+ Disable Hello                                (%#@%SCRIPTED%#$%)
-ECHO  (%##%S02%#$%) Setup+ Unattended Answer-File                       (%#@%SCRIPTED%#$%)
-ECHO  (%##%S03%#$%) Setup+ Initial RunOnce/Async Delay Desktop          (%#@%SCRIPTED%#$%)
-CALL:PAD_LINE&&ECHO                              (Any list)&&CALL:PAD_LINE
-ECHO  (%##%S04%#$%) Quicker Preparing Desktop...                        (%#@%SCRIPTED%#$%)
-ECHO  (%##%S05%#$%) WinLogon Verbose                                    (%#@%SCRIPTED%#$%)
-ECHO  (%##%S06%#$%) LSA Strict Rules                                    (%#@%SCRIPTED%#$%)
-ECHO  (%##%S07%#$%) Local Accounts Only                                 (%#@%SCRIPTED%#$%)
-ECHO  (%##%S08%#$%) Store Disable                                       (%#@%SCRIPTED%#$%)
-ECHO  (%##%S09%#$%) OneDrive Disable                                    (%#@%SCRIPTED%#$%)
-ECHO  (%##%S10%#$%) Cloud Content Disable                               (%#@%SCRIPTED%#$%)
-ECHO  (%##%S11%#$%) UAC Prompt Always/Never                             (%#@%SCRIPTED%#$%)
-ECHO  (%##%S12%#$%) NotificationCenter Disable                          (%#@%SCRIPTED%#$%)
-ECHO  (%##%S13%#$%) Net Discovery Enable/Disable                        (%#@%SCRIPTED%#$%)
-ECHO  (%##%S14%#$%) Bluetooth Advertising Enable/Disable                (%#@%SCRIPTED%#$%)
-ECHO  (%##%S15%#$%) Virtualization Based Security Enable/Disable        (%#@%SCRIPTED%#$%)
-ECHO  (%##%S16%#$%) Disable Explorer URL Access                         (%#@%SCRIPTED%#$%)
-ECHO  (%##%S17%#$%) Background Apps Disable                             (%#@%SCRIPTED%#$%)
-ECHO  (%##%S18%#$%) DCOM Enable/Disable (Breaks Stuff)                  (%#@%SCRIPTED%#$%)
-ECHO  (%##%S19%#$%) Prioritize Ethernet                                 (%#@%SCRIPTED%#$%)
-ECHO  (%##%S20%#$%) Prioritize WiFi                                     (%#@%SCRIPTED%#$%)
-ECHO  (%##%S21%#$%) Wakelocks General Disable                           (%#@%SCRIPTED%#$%)
-ECHO  (%##%S22%#$%) Wakelocks Network Disable                           (%#@%SCRIPTED%#$%)
-ECHO  (%##%S24%#$%) VB-Script Execution Disable                         (%#@%SCRIPTED%#$%)
-ECHO  (%##%S25%#$%) Feature Updates Threshold                           (%#@%SCRIPTED%#$%)
-ECHO  (%##%S26%#$%) Driver Updates Enable/Disable                       (%#@%SCRIPTED%#$%)
-ECHO  (%##%S30%#$%) Run Program Every Boot                              (%#@%SCRIPTED%#$%)
-ECHO  (%##%S40%#$%) Dark/Light Theme                                    (%#@%SCRIPTED%#$%)
-ECHO  (%##%S41%#$%) Wallpaper Single (WIP)
-ECHO  (%##%S42%#$%) Wallpaper Folder (WIP)
-CALL:PAD_LINE&&ECHO                                 (MISC)&&CALL:PAD_LINE
-ECHO  (%##%P01%#$%) Pack-Permit Demo
-ECHO  (%##%P02%#$%) MSI Installer Example                               (%#@%SCRIPTED%#$%)
-ECHO  (%##%DBG%#$%) DEBUG PAUSE/ECHO-ON/ECHO-OFF                        (%#@%SCRIPTED%#$%)
-ECHO  (%##%DISM%#$%) DISM Special                                       (%#@%SCRIPTED%#$%)
-ECHO  (%##%AB%#$%) AutoBoot Service install                             (%#@%SCRIPTED%#$%)
-:PACKEX_JUMP2
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
+@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&IF "%PACK_MODE%"=="INSTANT" ECHO.
+ECHO  (%##%T01%#$%) Create Local User-Account&&ECHO  (%##%T02%#$%) Create Local Admin-Account&&IF "%PACK_MODE%"=="INSTANT" ECHO  (%##%T03%#$%) End Task%S46%(%#@%INSTANT%#$%)&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%(%#@%INSTANT%#$%)&&ECHO  (%##%T05%#$%) List Accounts%S41%(%#@%INSTANT%#$%)&&ECHO  (%##%T06%#$%) FOR-Sight%S45%(%#@%INSTANT%#$%)&&ECHO.&&GOTO:PACKEX_JUMP
+CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%(%#@%DRIVER%#$%)&&ECHO  (%##%N02%#$%) New Scripted Package%S32%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N03%#$%) New Storage Package%S33%(%#@%STORAGE%#$%)&&CALL:PAD_LINE&&ECHO %S26%(Lists: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Setup+ Disable Hello%S32%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N11%#$%) Setup+ Unattended Answer-File%S23%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N12%#$%) Setup+ Initial RunOnce/Async Delay Desktop%S10%(%#@%SCRIPTED%#$%)&&CALL:PAD_LINE&&ECHO %S30%(Any list)&&CALL:PAD_LINE&&ECHO  (%##%N13%#$%) Quicker Preparing Desktop...%S24%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N14%#$%) WinLogon Verbose%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N15%#$%) LSA Strict Rules%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N16%#$%) Local Accounts Only%S33%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N17%#$%) Store Disable%S39%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N18%#$%) OneDrive Disable%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N19%#$%) Cloud Content Disable%S31%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N20%#$%) UAC Prompt Always/Never%S29%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N21%#$%) NotificationCenter Disable%S26%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N22%#$%) Net Discovery Enable/Disable%S24%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N23%#$%) Bluetooth Advertising Enable/Disable%S16%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N24%#$%) Virtualization Based Security Enable/Disable%S8%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N25%#$%) Disable Explorer URL Access%S25%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N26%#$%) Background Apps Disable%S29%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N27%#$%) DCOM Enable/Disable (Breaks Stuff)%S18%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N28%#$%) Prioritize Ethernet%S33%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N29%#$%) Prioritize WiFi%S37%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N30%#$%) Wakelocks General Disable%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N31%#$%) Wakelocks Network Disable%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N32%#$%) VB-Script Execution Disable%S25%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N33%#$%) Feature Updates Threshold%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N34%#$%) Driver Updates Enable/Disable%S23%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N35%#$%) Dark/Light Theme%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N36%#$%) Run Program Every Boot%S30%(%#@%SCRIPTED%#$%)&&ECHO  (%##%WIP%#$%) Wallpaper Single%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%WIP%#$%) Wallpaper Folder%S36%(%#@%SCRIPTED%#$%)&&CALL:PAD_LINE&&ECHO %S20%(Lists: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N42%#$%) Taskmgr Prefs%S39%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N43%#$%) Boot Timeout%S40%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N44%#$%) Computer Name%S39%(%#@%SCRIPTED%#$%)&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N50%#$%) Pack-Permit Demo%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N51%#$%) MSI Installer Example%S31%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N52%#$%) DISM Special%S40%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N53%#$%) AutoBoot Service install%S28%(%#@%SCRIPTED%#$%)&&ECHO  (%##%DBG%#$%) Debug Pause/Echo ON/Echo OFF%S24%(%#@%SCRIPTED%#$%)
+:PACKEX_JUMP
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
-SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (N01 N02 N03 AB A1 A2 A3 FS M1 M2 S01 S02 S03 S04 S05 S06 S07 S08 S09 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 S24 S25 S26 S30 S40 L01 L02 L03 L04 L05 P01 P02 DBG DISM) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
+SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T01 T02 T03 T04 T05 T06 N01 N02 N03 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N40 N41 N42 N43 N44 N50 N51 N52 N53 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
 IF NOT "%PASS%"=="1" EXIT /B
-IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECT_TMP"
-IF "%EXAMPLE_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                   Project[%#@%%MAKER_SLOT%%#$%] folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
-IF "%EXAMPLE_MODE%"=="CREATE" IF NOT "%CONFIRM%"=="X" EXIT /B
+IF "%PACK_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECT_TMP"
+IF "%PACK_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                   Project[%#@%%MAKER_SLOT%%#$%] folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF "%PACK_MODE%"=="CREATE" IF NOT "%CONFIRM%"=="X" EXIT /B
 IF EXIST "%MAKER_FOLDER%" RD /S /Q "\\?\%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
 SET "NEW_PACK=%MAKER_FOLDER%\PACKAGE.CMD"&&CALL:SCRATCH_PACK_DELETE&&CALL:MOUNT_INT
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
-CALL:PACK_VARS
-IF "%EXAMPLE%"=="N01" CALL:PACKEX_NEW_DRIVER
-IF "%EXAMPLE%"=="N02" CALL:PACKEX_NEW_SCRIPTED
-IF "%EXAMPLE%"=="N03" CALL:PACKEX_NEW_STORAGE
-IF "%EXAMPLE%"=="A1" CALL:PACKEX_TASKMGR_APP
-IF "%EXAMPLE%"=="A2" CALL:PACKEX_SVCMGR_APP
-IF "%EXAMPLE%"=="A3" CALL:PACKEX_QUERY_USERS
-IF "%EXAMPLE%"=="FS" CALL:FOR_SIGHT
-IF "%EXAMPLE%"=="A4" CALL:PACKEX_SHUTDOWN
-IF "%EXAMPLE%"=="M1" CALL:PACKEX_NEWUSER
-IF "%EXAMPLE%"=="M2" CALL:PACKEX_NEWADMIN
-IF "%EXAMPLE%"=="S01" CALL:PACKEX_DISABLE_HELLO
-IF "%EXAMPLE%"=="S02" CALL:PACKEX_ANSWER_FILE
-IF "%EXAMPLE%"=="S03" CALL:PACKEX_DELAY_DESKTOP
-IF "%EXAMPLE%"=="S04" CALL:PACKEX_SHORTEN_PREPARING
-IF "%EXAMPLE%"=="S05" CALL:PACKEX_WINLOGON_VERBOSE
-IF "%EXAMPLE%"=="S06" CALL:PACKEX_LSA_STRICT
-IF "%EXAMPLE%"=="S07" CALL:PACKEX_LOCAL_ACCOUNT
-IF "%EXAMPLE%"=="S08" CALL:PACKEX_STORE
-IF "%EXAMPLE%"=="S09" CALL:PACKEX_ONEDRIVE
-IF "%EXAMPLE%"=="S10" CALL:PACKEX_CLOUD_CONTENT
-IF "%EXAMPLE%"=="S11" CALL:PACKEX_UAC
-IF "%EXAMPLE%"=="S12" CALL:PACKEX_NOTIFICATION_CENTER
-IF "%EXAMPLE%"=="S13" CALL:PACKEX_LLT_DISCOVERY_RSPNDR
-IF "%EXAMPLE%"=="S14" CALL:PACKEX_BT_VISIBILITY
-IF "%EXAMPLE%"=="S15" CALL:PACKEX_VBS
-IF "%EXAMPLE%"=="S16" CALL:EXPLORER_URL_ACCESS
-IF "%EXAMPLE%"=="S17" CALL:PACKEX_BACKGROUND_APPS
-IF "%EXAMPLE%"=="S18" CALL:PACKEX_DCOM
-IF "%EXAMPLE%"=="S19" CALL:PACKEX_PRIORITIZE_ETHERNET
-IF "%EXAMPLE%"=="S20" CALL:PACKEX_PRIORITIZE_WIFI
-IF "%EXAMPLE%"=="S21" CALL:PACKEX_WAKELOCKS
-IF "%EXAMPLE%"=="S22" CALL:PACKEX_WAKELOCKS_NET
-IF "%EXAMPLE%"=="S24" CALL:PACKEX_SCRIPTHOST
-IF "%EXAMPLE%"=="S25" CALL:PACKEX_FEATURE_UPDATE_THRESHOLD
-IF "%EXAMPLE%"=="S26" CALL:PACKEX_DRIVER_UPDATE
-IF "%EXAMPLE%"=="S30" CALL:PACKEX_STARTUP_USER
-IF "%EXAMPLE%"=="S40" CALL:PACKEX_COLOR_MODE_TOGGLE
-IF "%EXAMPLE%"=="L01" CALL:PACKEX_PAGEFILE
-IF "%EXAMPLE%"=="L02" CALL:PACKEX_FIREWALL_IMPORT
-IF "%EXAMPLE%"=="L03" CALL:PACKEX_TASKMGR_PREF
-IF "%EXAMPLE%"=="L04" CALL:PACKEX_BOOT_TIMEOUT
-IF "%EXAMPLE%"=="L05" CALL:PACKEX_PCNAME
-IF "%EXAMPLE%"=="P01" CALL:PACKEX_PACK_PERMIT_EXAMPLE
-IF "%EXAMPLE%"=="P02" CALL:PACKEX_MSI_EXAMPLE
-IF "%EXAMPLE%"=="DBG" CALL:PACKEX_DEBUG
-IF "%EXAMPLE%"=="DISM" CALL:PACKEX_DISM
-IF "%EXAMPLE%"=="AB" CALL:PACKEX_AUTOBOOT
-IF "%PackType%"=="SCRIPTED" CALL:PACK_END
+CALL:PACK_VARS>"%NEW_PACK%"
+CALL:%EXAMPLE%
+IF "%PackType%"=="SCRIPTED" CALL:PACK_END>>"%NEW_PACK%"
 CALL:PACK_MANIFEST>NUL 2>&1
-IF "%EXAMPLE_MODE%"=="INSTANT" SET "PackName=%PackName%_TMP"&&SET "PackNameX=%PackName%_TMP"&&CALL:MAKER_CREATE>NUL 2>&1
-IF "%EXAMPLE_MODE%"=="INSTANT" SET "IMAGE_PACK=%PACK_FOLDER%\%PackName%.$PK"&&CALL:PACK_INSTALL>NUL 2>&1
-IF "%EXAMPLE_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\Project%MAKER_SLOT%"&&DEL /Q /F "%PACK_FOLDER%\%PackNameX%.$PK">NUL 2>&1
-IF "%EXAMPLE_MODE%"=="INSTANT" RD /S /Q "%PROG_SOURCE%\PROJECT_TMP">NUL 2>&1
-IF "%EXAMPLE_MODE%"=="CREATE" IF DEFINED EXAMPLE CALL:MAKER_EDITOR
+IF "%PACK_MODE%"=="INSTANT" SET "PackName=%PackName%_TMP"&&SET "PackNameX=%PackName%_TMP"&&CALL:MAKER_CREATE>NUL 2>&1
+IF "%PACK_MODE%"=="INSTANT" SET "IMAGE_PACK=%PACK_FOLDER%\%PackName%.$PK"&&CALL:PACK_INSTALL>NUL 2>&1
+IF "%PACK_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\Project%MAKER_SLOT%"&&DEL /Q /F "%PACK_FOLDER%\%PackNameX%.$PK">NUL 2>&1
+IF "%PACK_MODE%"=="INSTANT" RD /S /Q "%PROG_SOURCE%\PROJECT_TMP">NUL 2>&1
+IF "%PACK_MODE%"=="CREATE" IF DEFINED EXAMPLE CALL:MAKER_EDITOR
 IF "%PackType%"=="STORAGE" DEL /F "%NEW_PACK%">NUL 2>&1
 IF "%PackType%"=="DRIVER" DEL /F "%NEW_PACK%">NUL 2>&1
-SET "EXAMPLE_MODE="&&SET "SELECT="&&CALL:SCRATCH_PACK_DELETE
+SET "PACK_MODE="&&SET "SELECT="&&CALL:SCRATCH_PACK_DELETE
 EXIT /B
 :SCRATCH_PACK_DELETE
-IF EXIST "%PROG_SOURCE%\ScratchPack" DISM /cleanup-MountPoints>NUL 2>&1
+SET "SCRATCH_PACK=%PROG_SOURCE%\ScratchPack"&&IF EXIST "%PROG_SOURCE%\ScratchPack" DISM /cleanup-MountPoints>NUL 2>&1
 IF EXIST "%PROG_SOURCE%\ScratchPack" ATTRIB -R -S -H "%PROG_SOURCE%\ScratchPack" /S /D /L>NUL 2>&1
 IF EXIST "%PROG_SOURCE%\ScratchPack" RD /S /Q "\\?\%PROG_SOURCE%\ScratchPack">NUL 2>&1
 EXIT /B
-:PACKEX_SVCMGR_APP
+:SCRATCH_PACK_CREATE
+SET "SCRATCH_PACK=%PROG_SOURCE%\ScratchPack"&&IF EXIST "%PROG_SOURCE%\ScratchPack" CALL:SCRATCH_PACK_DELETE 
+IF NOT EXIST "%PROG_SOURCE%\ScratchPack" MD "%PROG_SOURCE%\ScratchPack">NUL 2>&1
+EXIT /B
+:TIME_WARN1
+ECHO;::Time mandatory: Needs to be applied during ImageApply>>"%NEW_PACK%"
+EXIT /B
+:TIME_WARN2
+ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%NEW_PACK%"
+EXIT /B
+:T01
+SET "PackType=SCRIPTED"&&SET "PackName=Add_User"&&SET "PackDesc=Creates Local User-Account"&&ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER"&&CALL:PROMPT_SET_ANY
+SET "CHAR_STR=%NEWUSER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
+IF "%PACK_MODE%"=="CREATE" CALL:TIME_WARN2
+IF DEFINED CHAR_FLG SET "NEWUSER="
+IF NOT DEFINED NEWUSER SET "NEWUSER=UserName"
+ECHO;Net User %NEWUSER% /add>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER% /passwordreq:No>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER% /passwordchg:No>>"%NEW_PACK%"
+ECHO;Net Accounts /maxpwage:unlimited>>"%NEW_PACK%"
+ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER%" SET PasswordExpires=FALSE>>"%NEW_PACK%"
+EXIT /B
+:T02
+SET "PackType=SCRIPTED"&&SET "PackName=Add_Admin"&&SET "PackDesc=Creates Local Admin-Account"
+ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER"&&CALL:PROMPT_SET_ANY
+SET "CHAR_STR=%NEWUSER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
+IF "%PACK_MODE%"=="CREATE" CALL:TIME_WARN2
+IF DEFINED CHAR_FLG SET "NEWUSER="
+IF NOT DEFINED NEWUSER SET "NEWUSER=UserName"
+ECHO;Net User %NEWUSER% /add>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER% /passwordreq:No>>"%NEW_PACK%"
+ECHO;Net User %NEWUSER% /passwordchg:No>>"%NEW_PACK%"
+ECHO;Net Accounts /maxpwage:unlimited>>"%NEW_PACK%"
+ECHO;Net localgroup Administrators %NEWUSER% /add>>"%NEW_PACK%"
+ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER%" SET PasswordExpires=FALSE>>"%NEW_PACK%"
+EXIT /B
+:T03
+CLS&&ECHO.
+CALL:PAD_LINE&&ECHO                            The Task Reaper&&CALL:PAD_LINE
+TASKLIST /FO LIST>"$TSK"
+SET "TSK_XNT="&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($TSK) DO (
+IF "%%a"=="Image" CALL SET "TSK_NAME=%%c%%d%%e%%f%%g"
+IF "%%a"=="PID" CALL SET "TSK_PID=%%b"
+IF "%%a"=="Mem" CALL SET "TSK_MEM=%%c"&&CALL:TASK_QUERY)
+IF EXIST "$TSK" DEL "$TSK">NUL
+CALL:PAD_LINE&&ECHO                            End Which Task(%##%#%#$%)?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+SET "CHECK=NUM"&&CALL:CHECK
+IF DEFINED ERROR EXIT /B
+CALL TASKKILL /F /IM "%%TSK_XNT_%SELECT%%%"
+CALL:PAD_LINE&&CALL:PAUSED
+GOTO:PACKEX_TASKMGR_APP
+:TASK_QUERY
+CALL SET /A "TSK_XNT+=1"
+CALL ECHO  [%#@%%TSK_XNT%%#$%] 	[PID[%#@%%TSK_PID%%#$%] 	[%#@%%TSK_NAME%%#$%]   	[MEM[%#@%%TSK_MEM%%#$%] KB&&CALL SET "TSK_XNT_%TSK_XNT%=%TSK_NAME%"
+EXIT /B
+:T04
 CLS&&ECHO.&&CALL:PAD_LINE&&ECHO                           The Service Reaper&&CALL:PAD_LINE
 SET "SVC_MODE="&&REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services" /f Type /c /e /s>"$SVC"
 SET "SVC_XNT="&&FOR /F "TOKENS=1-9 DELIMS=\ " %%a in ($SVC) DO (
@@ -2331,27 +2188,8 @@ CALL SET /A "SVC_XNT+=1"
 FOR /F "TOKENS=1-9 DELIMS= " %%1 in ('SC QUERY %SVC_NAME%') DO (IF "%%1"=="STATE" CALL SET "SVC_STATE=%%4")
 CALL ECHO  [%#@%%SVC_XNT%%#$%] 	[State[%#@%%SVC_STATE%%#$%] 	[%#@%%SVC_NAME%%#$%]&&CALL SET SVC_XNT_%SVC_XNT%=%SVC_NAME%
 EXIT /B
-:PACKEX_TASKMGR_APP
-CLS&&ECHO.
-CALL:PAD_LINE&&ECHO                            The Task Reaper&&CALL:PAD_LINE
-TASKLIST /FO LIST>"$TSK"
-SET "TSK_XNT="&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in ($TSK) DO (
-IF "%%a"=="Image" CALL SET "TSK_NAME=%%c%%d%%e%%f%%g"
-IF "%%a"=="PID" CALL SET "TSK_PID=%%b"
-IF "%%a"=="Mem" CALL SET "TSK_MEM=%%c"&&CALL:TASK_QUERY)
-IF EXIST "$TSK" DEL "$TSK">NUL
-CALL:PAD_LINE&&ECHO                            End Which Task(%##%#%#$%)?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-SET "CHECK=NUM"&&CALL:CHECK
-IF DEFINED ERROR EXIT /B
-CALL TASKKILL /F /IM "%%TSK_XNT_%SELECT%%%"
-CALL:PAD_LINE&&CALL:PAUSED
-GOTO:PACKEX_TASKMGR_APP
-:TASK_QUERY
-CALL SET /A "TSK_XNT+=1"
-CALL ECHO  [%#@%%TSK_XNT%%#$%] 	[PID[%#@%%TSK_PID%%#$%] 	[%#@%%TSK_NAME%%#$%]   	[MEM[%#@%%TSK_MEM%%#$%] KB&&CALL SET "TSK_XNT_%TSK_XNT%=%TSK_NAME%"
-EXIT /B
-:PACKEX_QUERY_USERS
-CLS&&CALL:PAD_LINE&&ECHO                       USER ACCOUNT ENUMERATION&&CALL:PAD_LINE
+:T05
+CLS&&CALL:PAD_LINE&&ECHO                       User account enumeration&&CALL:PAD_LINE
 NET USER>"$USR"
 FOR /F "TOKENS=1-9 SKIP=4 DELIMS= " %%a IN ($USR) DO (
 IF NOT "%%a"=="The" IF NOT "%%a"=="" NET USER %%a&&CALL:PAD_LINE
@@ -2364,9 +2202,9 @@ IF NOT "%%a"=="The" IF NOT "%%g"=="" NET USER %%g&&CALL:PAD_LINE
 IF NOT "%%a"=="The" IF NOT "%%h"=="" NET USER %%h&&CALL:PAD_LINE
 IF NOT "%%a"=="The" IF NOT "%%i"=="" NET USER %%i&&CALL:PAD_LINE)
 DEL /Q /F "$USR">NUL
-ECHO                     END OF USER ACCOUNT ENUMERATION&&CALL:PAD_LINE&&CALL:PAUSED
+ECHO                     End of user account enumeration&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
-:FOR_SIGHT
+:T06
 @ECHO OFF&&CLS&&CALL:PAD_LINE&&ECHO  FOR~SIGHT&&CALL:PAD_LINE
 IF NOT DEFINED FOR_SAV SET "FOR_SAV=FRESH"&&SET "CLM_TGT=1"&&SET "CMD_MODE=INT"&&SET "GET_ROW=1"
 IF EXIST EXT.CMD SET /P CUR_CMD=<EXT.CMD
@@ -2374,9 +2212,9 @@ IF NOT DEFINED CUR_CMD SET "CUR_CMD=VER"
 IF DEFINED CUR_CMD %CUR_CMD% >$FOR
 SET "ROW="&&IF EXIST "$FOR" FOR /F "TOKENS=1-9 DELIMS=<>()" %%A IN ($FOR) DO (SET "ARGUE=%%A%%B%%C%%D%%E%%F%%G%%H"&&CALL:ARGUE)
 IF EXIST "$FOR" SET "MARK="&&DEL /F $FOR>NUL 2>&1
-IF DEFINED FS_Z ECHO  {FOR} %FS_Z%
-CALL:PAD_LINE&&ECHO  {T}CLM[%CLM_TGT%] {F}ull  {R}ef          {G}o  {V}iew  {M}ode[%FOR_SAV%]  {Q}uit&&CALL:PAD_LINE
-ECHO  {D}ELIMS[%DELIMS%]  {C}MD [%CUR_CMD%]&&CALL:PAD_LINE&&ECHO                  Press (Enter) to reparse FOR results&&CALL:MENU_SELECT
+IF DEFINED FS_Z ECHO  (FOR) %FS_Z%
+CALL:PAD_LINE&&ECHO  (T)CLM[%CLM_TGT%] (F)ull  (R)ef          (G)o  (V)iew  (M)ode[%FOR_SAV%]  (Q)uit&&CALL:PAD_LINE
+ECHO  (D)ELIMS[%DELIMS%]  (C)MD [%CUR_CMD%]&&CALL:PAD_LINE&&ECHO                  Press (Enter) to reparse FOR results&&CALL:MENU_SELECT
 IF "%SELECT%"=="Q" EXIT /B
 IF "%SELECT%"=="G" START CMD /C FOR.CMD
 IF "%SELECT%"=="V" START NOTEPAD.EXE FOR.CMD
@@ -2390,115 +2228,44 @@ IF "%SELECT%"=="R" IF NOT DEFINED FOR_REF SET "FOR_REF=1"&&SET "SELECT="&&GOTO:F
 IF "%SELECT%"=="R" IF DEFINED FOR_REF SET "FOR_REF="&&SET "SELECT="&&GOTO:FOR_SIGHT
 IF "%SELECT%"=="C" IF NOT EXIST EXT.CMD ECHO;VER.EXE>EXT.CMD
 IF "%SELECT%"=="C" SET "SELECT="&&CALL:PAD_LINE&&START NOTEPAD.EXE EXT.CMD&&GOTO:FOR_SIGHT
-IF "%SELECT%"=="D" SET SELECT=&&SET "PROMPT_SET=DELIMS"&&CALL:PROMPT_SET_ANY
+IF "%SELECT%"=="D" SET "SELECT="&&SET "PROMPT_SET=DELIMS"&&CALL:PROMPT_SET_ANY
 IF "%SELECT%" GTR "0" SET "SKIP_XNT=%SELECT%"&&SET "ROW_TGT=%SELECT%"
 IF "%SELECT%" GTR "0" SET "MARK=1"&&SET /A "SKIP_XNT-=1"
 IF "%SELECT%" GTR "0" CALL SET "SKIPPER=SKIP=%SKIP_XNT%"
 IF "%SELECT%"=="1" SET "SKIPPER="
 GOTO:FOR_SIGHT
-:PACKEX_NEW_DRIVER
+:N01
 SET "PackType=DRIVER"&&CALL:PAD_LINE&&ECHO                        - New Driver Pack Name -&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED PackName SET PackName=Driver_%RANDOM%
 EXIT /B
-:PACKEX_NEW_SCRIPTED
+:N02
 SET "PackType=SCRIPTED"&&CALL:PAD_LINE&&ECHO                       - New Scripted Pack Name -&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED PackName SET PackName=Scripted_%RANDOM%
 EXIT /B
-:PACKEX_NEW_STORAGE
+:N03
 SET "PackType=STORAGE"&&CALL:PAD_LINE&&ECHO                        - New Storage Pack Name -&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED PackName SET PackName=Storage_%RANDOM%
 EXIT /B
-:LIVE_WARN
-ECHO;::LIVE COMMAND, NEEDS TO BE APPLIED LIVE aka SETUPCOMPLETE OR RUNONCE>>"%NEW_PACK%"
+:N10
+SET "PackType=SCRIPTED"&&SET "PackName=Hello_Disable"&&SET "PackDesc=Disable hello"&&CALL:TIME_WARN1
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_NEWUSER
-SET "PackType=SCRIPTED"&&SET "PackName=Add_User"&&SET "PackDesc=Creates Local User-Account"&&ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER1"&&CALL:PROMPT_SET_ANY
-SET "CHAR_STR=%NEWUSER1%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
-IF DEFINED CHAR_FLG SET "NEWUSER1="
-IF NOT DEFINED NEWUSER1 SET "NEWUSER1=UserName"
-ECHO;Net User %NEWUSER1% /add>>"%NEW_PACK%"
-ECHO;Net User %NEWUSER1% /passwordreq:No>>"%NEW_PACK%"
-ECHO;Net User %NEWUSER1% /passwordchg:No>>"%NEW_PACK%"
-ECHO;Net Accounts /maxpwage:unlimited>>"%NEW_PACK%"
-ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER1%" SET PasswordExpires=FALSE>>"%NEW_PACK%"
+:N12
+SET "PackType=SCRIPTED"&&SET "PackName=Desktop_Delay_1stBoot"&&SET "PackDesc=Delay explorer until RunOnce"&&CALL:TIME_WARN1
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_NEWADMIN
-SET "PackType=SCRIPTED"&&SET "PackName=Add_Admin"&&SET "PackDesc=Creates Local Admin-Account"
-ECHO       - Username? -&&ECHO     - Enter username -&&ECHO   - 0-9 A-Z - no spaces -&&SET "PROMPT_SET=NEWUSER1"&&CALL:PROMPT_SET_ANY
-SET "CHAR_STR=%NEWUSER1%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
-IF DEFINED CHAR_FLG SET "NEWUSER1="
-IF NOT DEFINED NEWUSER1 SET "NEWUSER1=UserName"
-ECHO;Net User %NEWUSER1% /add>>"%NEW_PACK%"
-ECHO;Net User %NEWUSER1% /passwordreq:No>>"%NEW_PACK%"
-ECHO;Net User %NEWUSER1% /passwordchg:No>>"%NEW_PACK%"
-ECHO;Net Accounts /maxpwage:unlimited>>"%NEW_PACK%"
-ECHO;Net localgroup Administrators %NEWUSER1% /add>>"%NEW_PACK%"
-ECHO;WMIC USERACCOUNT WHERE Name="%NEWUSER1%" SET PasswordExpires=FALSE>>"%NEW_PACK%"
+:N13
+SET "PackType=SCRIPTED"&&SET "PackName=Quicker_Preparing"&&SET "PackDesc=Shortens time of Preparing..."&&CALL:TIME_WARN1
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d 0 /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_BOOT_TIMEOUT
-SET "PackType=SCRIPTED"&&SET "PackName=Boot_Timeout"&&SET "PackDesc=Change Boot Timeout"&&CALL:LIVE_WARN
-ECHO   - ENTER BOOT TIMEOUT IN SECONDS -
-SET "PROMPT_SET=BOOT_TIMEOUT"&&CALL:PROMPT_SET
-IF NOT DEFINED BOOT_TIMEOUT EXIT /B
-ECHO;BCDEDIT /TIMEOUT %BOOT_TIMEOUT% >>"%NEW_PACK%"
+:N14
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1"&&SET "PACK_CFG_2=0"&&ECHO          - WinLogon Full Verbosity -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=WinLogonVerbose_Enable"&&SET "PackDesc=WinLogonVerbose Enable"
+IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=WinLogonVerbose_Disable"&&SET "PackDesc=WinLogonVerbose Disable"
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_STARTUP_USER
-SET "PackType=SCRIPTED"&&SET "PackName=UserLogon_Run"&&SET "PackDesc=Run a Program or batch at User Login"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Run" /v "RunUser" /t REG_EXPAND_SZ /d "%%PROGRAMDATA%%\USERLOGON.CMD" /f>>"%NEW_PACK%"
-ECHO;ECHO;EXPLORER.EXE C:\WINDOWS\SYSTEM32\NOTEPAD.EXE^>"%%PROGRAMDATA%%\USERLOGON.CMD">>"%NEW_PACK%"
-EXIT /B
-:PACKEX_AUTOBOOT
-SET "PackType=SCRIPTED"&&SET "PackName=AUTOBOOT_ENABLE"&&SET "PackDesc=Commands to enable AutoBoot and boot into recovery"&&CALL:LIVE_WARN
-ECHO;::NEEDS AutoBoot.cmd IN PACKAGE FOLDER>>"%NEW_PACK%"
-ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%NEW_PACK%"
-ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -autoboot -install>>"%NEW_PACK%"
-ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -nextboot -recovery>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_PCNAME
-SET "PackType=SCRIPTED"&&SET "PackName=PC_Name"&&SET "PackDesc=Renames the PC"&&CALL:LIVE_WARN
-ECHO       - Computer Name? -&&ECHO     - ENTER NAME -&&ECHO   - 0-9 A-Z - NO SPACES -&&SET "PROMPT_SET=PC_NAME"&&CALL:PROMPT_SET_ANY
-SET "CHAR_STR=%PC_NAME%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
-IF DEFINED CHAR_FLG SET "PC_NAME="
-IF NOT DEFINED PC_NAME SET "PC_NAME=Computer"
-ECHO;WMIC COMPUTERSYSTEM WHERE Name="Present Name" CALL RENAME Name="%PC_NAME%">>"%NEW_PACK%"
-EXIT /B
-:PACKEX_PAGEFILE
-SET "PackType=SCRIPTED"&&SET "PackName=Pagefile_Disable"&&SET "PackDesc=Disable Pagefile"&&CALL:LIVE_WARN
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "DisablePagingExecutive" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_MULTI_SZ /d "" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ExistingPageFiles" /t REG_MULTI_SZ /d "" /f>>"%NEW_PACK%"
-ECHO;powercfg.exe -h off>>"%NEW_PACK%"
-ECHO;wmic computersystem where name="%%computername%%" set AutomaticManagedPagefile=False>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="C:\\pagefile.sys" delete>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="D:\\pagefile.sys" delete>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="E:\\pagefile.sys" delete>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="F:\\pagefile.sys" delete>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="G:\\pagefile.sys" delete>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="H:\\pagefile.sys" delete>>"%NEW_PACK%"
-ECHO;wmic pagefileset where name="N:\\pagefile.sys" delete>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_FIREWALL_IMPORT
-SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "PackDesc=Import Windows Firewall.XML"&&CALL:LIVE_WARN
-NETSH advfirewall EXPORT "%MAKER_FOLDER%\FirewallPolicy.wfw"
-ECHO;NETSH advfirewall IMPORT "FirewallPolicy.wfw">>"%NEW_PACK%"
-EXIT /B
-:PACKEX_BACKGROUND_APPS
-SET "PackType=SCRIPTED"&&SET "PackName=BackgroundApps_Disable"&&SET "PackDesc=Disable Background Applications"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_WAKELOCKS_NET
-SET "PackType=SCRIPTED"&&SET "PackName=Wake_Net_Disable"&&SET "PackDesc=Disable Network Adapter Wakelocks"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_WAKELOCKS
-SET "PackType=SCRIPTED"&&SET "PackName=Wake_Disable"&&SET "PackDesc=Disable Wakelocks"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_LSA_STRICT
+:N15
 SET "PackType=SCRIPTED"&&SET "PackName=LSA_Strict"&&SET "PackDesc=Strict Ruleset For LSA"
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
@@ -2515,26 +2282,30 @@ ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymo
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d "O:BAG:BAD:(A;;RC;;;BA)" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_STORE
+:N16
+SET "PackType=SCRIPTED"&&SET "PackName=Online_Accounts_Disabled"&&SET "PackDesc=Only allow local accounts to login"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f>>"%NEW_PACK%"
+EXIT /B
+:N17
 SET "PackType=SCRIPTED"&&SET "PackName=Store_Disable"&&SET "PackDesc=Disable Store"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_ONEDRIVE
+:N18
 SET "PackType=SCRIPTED"&&SET "PackName=OneDrive_Disable"&&SET "PackDesc=Disable OneDrive"
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v "SYSTEM.IsPinnedToNameSpaceTree" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 ECHO;Reg.exe delete "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /v "ImagePath" /t REG_EXPAND_SZ /d "NUL" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_CLOUD_CONTENT
+:N19
 SET "PackType=SCRIPTED"&&SET "PackName=Cloud_Disable"&&SET "PackDesc=Disable Cloud-Content"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /ve /t REG_SZ /d "" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_UAC
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=111"&&SET "PACK_CFG_2=000"&&ECHO     - UAC Prompt -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+:N20
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=111"&&SET "PACK_CFG_2=000"&&ECHO     - UAC Prompt -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=UAC_Prompt_Always_On"&&SET "PackDesc=UAC Always Prompt"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=UAC_Prompt_Always_Off"&&SET "PackDesc=UAC Never Prompt"
 CALL:PACK_CONFIG
@@ -2542,25 +2313,15 @@ ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SY
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_NOTIFICATION_CENTER
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=0"&&SET "PACK_CFG_2=1"&&ECHO   - Notification Center -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+:N21
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=0"&&SET "PACK_CFG_2=1"&&ECHO   - Notification Center -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Notification_Center_Enable"&&SET "PackDesc=Enable Notification Center"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Notification_Center_Diable"&&SET "PackDesc=Disable Notification Center"
 CALL:PACK_CONFIG
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_BT_VISIBILITY
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1111"&&SET "PACK_CFG_2=0000"&&ECHO   - Bluetooth Advertising -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=BT_Visibility_On"&&SET "PackDesc=Enable Bluetooth Advertising"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=BT_Visibility_Off"&&SET "PackDesc=Disable Bluetooth Advertising"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_LLT_DISCOVERY_RSPNDR
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1110"&&SET "PACK_CFG_2=0001"&&ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+:N22
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1110"&&SET "PACK_CFG_2=0001"&&ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=LLT_Enable"&&SET "PackDesc=Enable Link-Layer-Topology Discovery Responder Driver"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=LLT_Disable"&&SET "PackDesc=Disable Link-Layer-Topology Discovery Responder Driver"
 CALL:PACK_CONFIG
@@ -2569,8 +2330,18 @@ ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRs
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_VBS
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=110101"&&SET "PACK_CFG_2=000002"&&ECHO  - Virtualization Based Security -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
+:N23
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1111"&&SET "PACK_CFG_2=0000"&&ECHO   - Bluetooth Advertising -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=BT_Visibility_On"&&SET "PackDesc=Enable Bluetooth Advertising"
+IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=BT_Visibility_Off"&&SET "PackDesc=Disable Bluetooth Advertising"
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
+EXIT /B
+:N24
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=110101"&&SET "PACK_CFG_2=000002"&&ECHO  - Virtualization Based Security -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=VBS_Enable"&&SET "PackDesc=Enable Virtualization Based Security"
 IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=VBS_Disable"&&SET "PackDesc=Disable Virtualization Based Security"
 CALL:PACK_CONFIG
@@ -2581,116 +2352,50 @@ ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\Hy
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "%PACK_ENT_5%" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "%PACK_ENT_6%" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_DCOM
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=Y"&&SET "PACK_CFG_2=N"&&ECHO         - DCOM -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=DCOM_Enable"&&SET "PackDesc=Enable DCOM"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=DCOM_Disable"&&SET "PackDesc=Disable DCOM"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_WINLOGON_VERBOSE
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1"&&SET "PACK_CFG_2=0"&&ECHO          - WinLogon Full Verbosity -&&ECHO {1}Enable&&ECHO {2}Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=WinLogonVerbose_Enable"&&SET "PackDesc=WinLogonVerbose Enable"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=WinLogonVerbose_Disable"&&SET "PackDesc=WinLogonVerbose Disable"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_DISABLE_HELLO
-SET "PackType=SCRIPTED"&&SET "PackName=Hello_Disable"&&SET "PackDesc=Disable hello"
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
-ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_SHORTEN_PREPARING
-SET "PackType=SCRIPTED"&&SET "PackName=Quicker_Preparing"&&SET "PackDesc=Shortens time of Preparing..."
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
-ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d 0 /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_DELAY_DESKTOP
-SET "PackType=SCRIPTED"&&SET "PackName=Desktop_Delay_1stBoot"&&SET "PackDesc=Delay explorer until RunOnce"
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
-ECHO;::SETUPCOMPLETE/RUNONCE IS TOO LATE>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_SCRIPTHOST
-SET "PackType=SCRIPTED"&&SET "PackName=VBS_Exec_Disable"&&SET "PackDesc=Disable visual basic script execution"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows Script Host\Settings" /v "Enabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Classes\PROTOCOLS\Handler\vbscript" /v "DISABLED_CLSID" /t REG_SZ /d "{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}" /f>>"%NEW_PACK%"
-EXIT /B
-:EXPLORER_URL_ACCESS
+:N25
 SET "PackType=SCRIPTED"&&SET "PackName=ExplorerRestrictNet"&&SET "PackDesc=No internet For explorer.exe/driver updates"
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_LOCAL_ACCOUNT
-SET "PackType=SCRIPTED"&&SET "PackName=Online_Accounts_Disabled"&&SET "PackDesc=Only allow local accounts to login"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f>>"%NEW_PACK%"
+:N26
+SET "PackType=SCRIPTED"&&SET "PackName=BackgroundApps_Disable"&&SET "PackDesc=Disable Background Applications"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_PRIORITIZE_ETHERNET
-SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_Ethernet"&&SET "PackDesc=Prioritize Ethernet Traffic"&&CALL:LIVE_WARN
+:N27
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=Y"&&SET "PACK_CFG_2=N"&&ECHO         - DCOM -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=DCOM_Enable"&&SET "PackDesc=Enable DCOM"
+IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=DCOM_Disable"&&SET "PackDesc=Disable DCOM"
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+EXIT /B
+:N28
+SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_Ethernet"&&SET "PackDesc=Prioritize Ethernet Traffic"&&CALL:TIME_WARN2
 ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=5 >>"%NEW_PACK%"
 ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=10 >>"%NEW_PACK%"
 EXIT /B
-:PACKEX_PRIORITIZE_WIFI
-SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_WiFi"&&SET "PackDesc=Prioritize Wi-Fi Traffic"&&CALL:LIVE_WARN
+:N29
+SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_WiFi"&&SET "PackDesc=Prioritize Wi-Fi Traffic"&&CALL:TIME_WARN2
 ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >>"%NEW_PACK%"
 ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=5 >>"%NEW_PACK%"
 EXIT /B
-:PACKEX_DEBUG
-ECHO  - DEBUG -&&ECHO {1}Pause&&ECHO {2}Echo On {3}Echo Off&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PackType=SCRIPTED"&&SET "PackName=Pause"&&SET "PackDesc=Place in PackageList, PAUSES EXECUTION"
-IF "%SELECT%"=="1" ECHO;PAUSE>>"%NEW_PACK%"
-IF "%SELECT%"=="2" SET "PackType=SCRIPTED"&&SET "PackName=Echo_on"&&SET "PackDesc=Place in PackageList, Turns ECHO ON"
-IF "%SELECT%"=="2" ECHO;@ECHO ON>>"%NEW_PACK%"
-IF "%SELECT%"=="3" SET "PackType=SCRIPTED"&&SET "PackName=Echo_off"&&SET "PackDesc=Place in PackageList, Turns ECHO OFF"
-IF "%SELECT%"=="3" ECHO;@ECHO OFF>>"%NEW_PACK%"
+:N30
+SET "PackType=SCRIPTED"&&SET "PackName=Wake_Disable"&&SET "PackDesc=Disable Wakelocks"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_TASKMGR_PREF
-SET "PackType=SCRIPTED"&&SET "PackName=TaskManager_Prefs"&&SET "PackDesc=TaskManager Prefs"&&CALL:LIVE_WARN
-Reg.exe EXPORT "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\TaskManager" "%MAKER_FOLDER%\TASKMGR_PREF.REG"
-ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%NEW_PACK%"
+:N31
+SET "PackType=SCRIPTED"&&SET "PackName=Wake_Net_Disable"&&SET "PackDesc=Disable Network Adapter Wakelocks"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_COLOR_MODE_TOGGLE
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=11"&&SET "PACK_CFG_2=00"&&ECHO {1}Light {2}Dark&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Color_Light"&&SET "PackDesc=Use Light Mode"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Color_Dark"&&SET "PackDesc=Use Dark Mode"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SYSTEMUsesLightTheme" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+:N32
+SET "PackType=SCRIPTED"&&SET "PackName=VBS_Exec_Disable"&&SET "PackDesc=Disable visual basic script execution"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows Script Host\Settings" /v "Enabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Classes\PROTOCOLS\Handler\vbscript" /v "DISABLED_CLSID" /t REG_SZ /d "{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_PACK_PERMIT_EXAMPLE
-SET "PackType=SCRIPTED"&&SET "PackName=PACK_PERMIT_DEMO"&&SET "PackDesc=PACK PERMIT DEMO"&&SET "REG_KEY=%%HIVE_USER%%\TEST_KEY"&&SET "REG_VAL=TEST_VAL"&&SET "RUN_MOD=EQU"&&SET "REG_DAT=1"
-CALL:PAD_LINE&&ECHO CLOSE REGEDIT IF ALREADY OPEN. PRESS A KEY, REGEDIT WILL REOPEN @ KEY:HKCU\TEST_KEY.
-CALL:PAD_LINE&&ECHO.                         Press {X} to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
-IF "%CONFIRM%"=="X" Reg.exe add "%HIVE_USER%\TEST_KEY" /v "TEST_VAL" /t REG_SZ /d "1" /f>NUL 2>&1
-IF "%CONFIRM%"=="X" Reg.exe add "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /v "LastKey" /t REG_SZ /d "Computer\%HIVE_USER%\TEST_KEY" /f>NUL 2>&1
-IF "%CONFIRM%"=="X" START REGEDIT.EXE
-ECHO   Change or delete TEST_VAL DATA(1), the pack is denied, and test key remains
-ECHO     Leave TEST_VAL DATA(1), pack is permitted, and test key will be deleted
-ECHO       next, press {C} to create the pack, put in a package list and test
-IF "%CONFIRM%"=="X" CALL:PAUSED
-ECHO;@ECHO OFF>>"%NEW_PACK%"
-ECHO;Reg.exe delete "%%HIVE_USER%%\TEST_KEY" /f^>NUL >>"%NEW_PACK%"
-ECHO;START REGEDIT.EXE>>"%NEW_PACK%"
-ECHO;ECHO PACK PERMITTED, TEST_KEY DELETED^&PAUSE>>"%NEW_PACK%"
-ECHO;::MUST USE EXTRA SET OF PERCENTS IN PERMIT REG-KEY FIELD (ex. %%%%HIVE_USER%%%%\XYZ)>>%NEW_PACK%"
-EXIT /B
-:PACKEX_MSI_EXAMPLE
-SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"&&CALL:LIVE_WARN
-ECHO;::PUT MSI IN PACK FOLDER.>>%NEW_PACK%"
-ECHO;"EXAMPLE.msi" /qn>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_DRIVER_UPDATE
-SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=10"&&SET "PACK_CFG_2=01"&&ECHO - Driver Updates -&&ECHO {1}Enable {2}Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Driver_Update_Enable"&&SET "PackDesc=Driver Update Enable"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Driver_Update_Disable"&&SET "PackDesc=Driver Update Disable"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-EXIT /B
-:PACKEX_FEATURE_UPDATE_THRESHOLD
+:N33
 SET "PackType=SCRIPTED"&&SET "PackName=Feature_Threshold"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
 SET "GET_VER="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion" /f "DisplayVersion" /c /e') DO (IF "%%a"=="DisplayVersion" SET "GET_VER=%%c")
 IF NOT DEFINED GET_VER SET "GET_VER=22H2"
@@ -2698,126 +2403,213 @@ SET "PackDesc=Stop Updates at Release Threshold %GET_VER%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersion" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersionInfo" /t REG_SZ /d "%GET_VER%" /f>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_DISM
+:N34
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=10"&&SET "PACK_CFG_2=01"&&ECHO - Driver Updates -&&ECHO (1)Enable (2)Disable&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Driver_Update_Enable"&&SET "PackDesc=Driver Update Enable"
+IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Driver_Update_Disable"&&SET "PackDesc=Driver Update Disable"
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+EXIT /B
+:N35
+SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=11"&&SET "PACK_CFG_2=00"&&ECHO (1)Light (2)Dark&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Color_Light"&&SET "PackDesc=Use Light Mode"
+IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Color_Dark"&&SET "PackDesc=Use Dark Mode"
+CALL:PACK_CONFIG
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SYSTEMUsesLightTheme" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
+EXIT /B
+:N36
+SET "PackType=SCRIPTED"&&SET "PackName=UserLogon_Run"&&SET "PackDesc=Run a Program or batch at User Login"
+ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Run" /v "RunUser" /t REG_EXPAND_SZ /d "%%PROGRAMDATA%%\USERLOGON.CMD" /f>>"%NEW_PACK%"
+ECHO;ECHO;EXPLORER.EXE C:\WINDOWS\SYSTEM32\NOTEPAD.EXE^>"%%PROGRAMDATA%%\USERLOGON.CMD">>"%NEW_PACK%"
+EXIT /B
+:N40
+SET "PackType=SCRIPTED"&&SET "PackName=Pagefile_Disable"&&SET "PackDesc=Disable Pagefile"&&CALL:TIME_WARN2
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "DisablePagingExecutive" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_MULTI_SZ /d "" /f>>"%NEW_PACK%"
+ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Session Manager\Memory Management" /v "ExistingPageFiles" /t REG_MULTI_SZ /d "" /f>>"%NEW_PACK%"
+ECHO;powercfg.exe -h off>>"%NEW_PACK%"
+ECHO;wmic computersystem where name="%%computername%%" set AutomaticManagedPagefile=False>>"%NEW_PACK%"
+FOR %%a in (C D E F G H) DO (ECHO;wmic pagefileset where name="%%a:\\pagefile.sys" delete>>"%NEW_PACK%")
+EXIT /B
+:N41
+SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "PackDesc=Import Windows Firewall.XML"&&CALL:TIME_WARN2
+NETSH advfirewall EXPORT "%MAKER_FOLDER%\FirewallPolicy.wfw"
+ECHO;NETSH advfirewall IMPORT "FirewallPolicy.wfw">>"%NEW_PACK%"
+EXIT /B
+:N42
+SET "PackType=SCRIPTED"&&SET "PackName=TaskManager_Prefs"&&SET "PackDesc=TaskManager Prefs"&&CALL:TIME_WARN2
+Reg.exe EXPORT "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\TaskManager" "%MAKER_FOLDER%\TASKMGR_PREF.REG"
+ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%NEW_PACK%"
+EXIT /B
+:N43
+SET "PackType=SCRIPTED"&&SET "PackName=Boot_Timeout"&&SET "PackDesc=Change Boot Timeout"&&CALL:TIME_WARN2
+ECHO   - Enter boot timeout in seconds -&&SET "PROMPT_SET=BOOT_TIMEOUT"&&CALL:PROMPT_SET
+IF NOT DEFINED BOOT_TIMEOUT SET "BOOT_TIMEOUT=5"
+ECHO;BCDEDIT /TIMEOUT %BOOT_TIMEOUT% >>"%NEW_PACK%"
+EXIT /B
+:N44
+SET "PackType=SCRIPTED"&&SET "PackName=PC_Name"&&SET "PackDesc=Renames the PC"&&CALL:TIME_WARN2
+ECHO       - Computer Name? -&&ECHO     - ENTER NAME -&&ECHO   - 0-9 A-Z - NO SPACES -&&SET "PROMPT_SET=PC_NAME"&&CALL:PROMPT_SET_ANY
+SET "CHAR_STR=%PC_NAME%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
+IF DEFINED CHAR_FLG SET "PC_NAME="
+IF NOT DEFINED PC_NAME SET "PC_NAME=Computer"
+ECHO;WMIC COMPUTERSYSTEM WHERE Name="Present Name" CALL RENAME Name="%PC_NAME%">>"%NEW_PACK%"
+EXIT /B
+:N50
+SET "PackType=SCRIPTED"&&SET "PackName=PACK_PERMIT_DEMO"&&SET "PackDesc=PACK PERMIT DEMO"&&SET "REG_KEY=%%HIVE_USER%%\TEST_KEY"&&SET "REG_VAL=TEST_VAL"&&SET "RUN_MOD=EQU"&&SET "REG_DAT=1"
+CALL:PAD_LINE&&ECHO Close Regedit if already open. Press enter, Regedit will reopen @ KEY:HKCU\TEST_KEY.
+CALL:PAD_LINE&&ECHO.                         Press (X) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF "%CONFIRM%"=="X" Reg.exe add "%HIVE_USER%\TEST_KEY" /v "TEST_VAL" /t REG_SZ /d "1" /f>NUL 2>&1
+IF "%CONFIRM%"=="X" Reg.exe add "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /v "LastKey" /t REG_SZ /d "Computer\%HIVE_USER%\TEST_KEY" /f>NUL 2>&1
+IF "%CONFIRM%"=="X" START REGEDIT.EXE
+ECHO   Change or delete TEST_VAL DATA(1), the pack is denied and test key remains.
+ECHO     Leave TEST_VAL DATA(1), pack is permitted and test key will be deleted.
+ECHO       Next, press (C) to create the pack and put in a package list to test.
+IF "%CONFIRM%"=="X" CALL:PAUSED
+ECHO;@ECHO OFF>>"%NEW_PACK%"
+ECHO;Reg.exe delete "%%HIVE_USER%%\TEST_KEY" /f^>NUL >>"%NEW_PACK%"
+ECHO;START REGEDIT.EXE>>"%NEW_PACK%"
+ECHO;ECHO Pack was permitted, TEST_KEY deleted^&PAUSE>>"%NEW_PACK%"
+ECHO;::Must use extra set of percents in permit REG-KEY field (ex. %%%%HIVE_USER%%%%\XYZ)>>%NEW_PACK%"
+EXIT /B
+:N51
+SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"&&CALL:TIME_WARN2
+ECHO;::Put MSI in pack folder.>>%NEW_PACK%"
+ECHO;"EXAMPLE.msi" /qn>>"%NEW_PACK%"
+EXIT /B
+:N52
 SET "PackType=SCRIPTED"&&SET "PackName=DISM_Special"&&SET "PackDesc=DISM special pack"&&SET "PackTag=DISM"
 ECHO;DISM /%%APPLY_TARGET%% /ABC:DEF /123:456>>"%NEW_PACK%"
 EXIT /B
-:PACKEX_ANSWER_FILE
-SET "PackType=SCRIPTED"&&SET "PackName=Unattended"&&SET "PackDesc=Generate Unattended Answer File"&&SET "EDIT_CUSTOM=unattend.xml"&&SET "PackTag=DISM"
-ECHO;::TIME-MANDATORY: NEEDS TO BE APPLIED DURING IMAGE-APPLY STAGE($PK LIST)>>"%NEW_PACK%"
-ECHO;::NOTE: WHEN SWITCHING TO A DIFFERENT LOCALE, UNATTEND MAY SKIP SETUPCOMPLETE.CMD>>"%NEW_PACK%"
-ECHO        - USERNAME? -&&ECHO     - ENTER USERNAME -&&ECHO   - 0-9 A-Z - NO SPACES -&&ECHO      (ENTER) FOR DEFAULT&&SET "PROMPT_SET=NEWUSER2"&&CALL:PROMPT_SET_ANY
-SET "CHAR_STR=%NEWUSER2%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
-IF DEFINED CHAR_FLG SET "NEWUSER2="
-IF NOT DEFINED NEWUSER2 SET "NEWUSER2=UserName"
-ECHO.&&ECHO       - PRODUCT KEY? -&&ECHO XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&&ECHO      (ENTER) FOR DEFAULT
-IF "%EXAMPLE_MODE%"=="CREATE" SET "PROMPT_SET=PRODUCT_KEY"&&CALL:PROMPT_SET_ANY
+:N53
+SET "PackType=SCRIPTED"&&SET "PackName=AUTOBOOT_ENABLE"&&SET "PackDesc=Commands to enable AutoBoot and boot into recovery"&&CALL:TIME_WARN2
+ECHO;::Needs AutoBoot.cmd in package folder>>"%NEW_PACK%"
+ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%NEW_PACK%"
+ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -autoboot -install>>"%NEW_PACK%"
+ECHO;START CMD /C "%%~DP0..\$haZZam.cmd" -nextboot -recovery>>"%NEW_PACK%"
+EXIT /B
+:DBG
+ECHO  - DEBUG -&&ECHO (1)Pause (2)Echo On (3)Echo Off&&CALL:MENU_SELECT
+IF "%SELECT%"=="1" SET "PackType=SCRIPTED"&&SET "PackName=Pause"&&SET "PackDesc=Place in PackageList, PAUSES EXECUTION"&&ECHO;PAUSE>>"%NEW_PACK%"
+IF "%SELECT%"=="2" SET "PackType=SCRIPTED"&&SET "PackName=Echo_on"&&SET "PackDesc=Place in PackageList, Turns ECHO ON"&&ECHO;@ECHO ON>>"%NEW_PACK%"
+IF "%SELECT%"=="3" SET "PackType=SCRIPTED"&&SET "PackName=Echo_off"&&SET "PackDesc=Place in PackageList, Turns ECHO OFF"&&ECHO;@ECHO OFF>>"%NEW_PACK%"
+EXIT /B
+:N11
+SET "PackType=SCRIPTED"&&SET "PackName=Unattended"&&SET "PackDesc=Generate Unattended Answer File"&&SET "EDIT_CUSTOM=unattend.xml"&&SET "PackTag=DISM"&&CALL:TIME_WARN1
+ECHO        - Username? -&&ECHO     - Enter Username -&&ECHO   - 0-9 A-Z - No Spaces -&&ECHO      (Enter) for default&&SET "PROMPT_SET=NEWUSER"&&CALL:PROMPT_SET_ANY
+SET "CHAR_STR=%NEWUSER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
+IF DEFINED CHAR_FLG SET "NEWUSER="
+IF NOT DEFINED NEWUSER SET "NEWUSER=UserName"
+ECHO.&&ECHO       - Product key? -&&ECHO XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&&ECHO      (Enter) for default
+IF "%PACK_MODE%"=="CREATE" SET "PROMPT_SET=PRODUCT_KEY"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED PRODUCT_KEY SET "PRODUCT_KEY=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
-SET "ANSWER_FILE=%MAKER_FOLDER%\unattend.xml"
 ECHO;REM DISM /%%APPLY_TARGET%% /APPLY-UNATTEND:"%%CD%%\UNATTEND.XML">>"%NEW_PACK%"
 ECHO;MD "%%WINTAR%%\PANTHER">>"%NEW_PACK%"
 ECHO;COPY /Y "%%~DP0unattend.xml" "%%WINTAR%%\PANTHER">>"%NEW_PACK%"
-ECHO;^<?xml version="1.0" encoding="utf-8"?^>>"%ANSWER_FILE%"
-ECHO;^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>>>"%ANSWER_FILE%"
-ECHO;	^<settings pass="oobeSystem"^>>>"%ANSWER_FILE%"
-ECHO;		^<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%ANSWER_FILE%"
-ECHO;			^<InputLocale^>0409:00000409^</InputLocale^>>>"%ANSWER_FILE%"
-ECHO;			^<SystemLocale^>en-US^</SystemLocale^>>>"%ANSWER_FILE%"
-ECHO;			^<UILanguage^>en-US^</UILanguage^>>>"%ANSWER_FILE%"
-ECHO;			^<UILanguageFallback^>en-US^</UILanguageFallback^>>>"%ANSWER_FILE%"
-ECHO;			^<UserLocale^>en-US^</UserLocale^>>>"%ANSWER_FILE%"
-ECHO;		^</component^>>>"%ANSWER_FILE%"
-ECHO;		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%ANSWER_FILE%"
-ECHO;			^<TimeZone^>Mountain Standard Time^</TimeZone^>>>"%ANSWER_FILE%"
-ECHO;			^<AutoLogon^>>>"%ANSWER_FILE%"
-ECHO;				^<Enabled^>true^</Enabled^>>>"%ANSWER_FILE%"
-ECHO;				^<LogonCount^>9999999^</LogonCount^>>>"%ANSWER_FILE%"
-ECHO;				^<Username^>%NEWUSER2%^</Username^>>>"%ANSWER_FILE%"
-ECHO;				^<Password^>>>"%ANSWER_FILE%"
-ECHO;					^<PlainText^>true^</PlainText^>>>"%ANSWER_FILE%"
-ECHO;					^<Value^>^</Value^>>>"%ANSWER_FILE%"
-ECHO;				^</Password^>>>"%ANSWER_FILE%"
-ECHO;			^</AutoLogon^>>>"%ANSWER_FILE%"
-ECHO;			^<OOBE^>>>"%ANSWER_FILE%"
-ECHO;				^<HideEULAPage^>true^</HideEULAPage^>>>"%ANSWER_FILE%"
-ECHO;				^<HideLocalAccountScreen^>true^</HideLocalAccountScreen^>>>"%ANSWER_FILE%"
-ECHO;				^<HideOnlineAccountScreens^>true^</HideOnlineAccountScreens^>>>"%ANSWER_FILE%"
-ECHO;				^<HideWirelessSetupInOOBE^>true^</HideWirelessSetupInOOBE^>>>"%ANSWER_FILE%"
-ECHO;				^<NetworkLocation^>Other^</NetworkLocation^>>>"%ANSWER_FILE%"
-ECHO;				^<ProtectYourPC^>3^</ProtectYourPC^>>>"%ANSWER_FILE%"
-ECHO;				^<SkipMachineOOBE^>true^</SkipMachineOOBE^>>>"%ANSWER_FILE%"
-ECHO;				^<SkipUserOOBE^>true^</SkipUserOOBE^>>>"%ANSWER_FILE%"
-ECHO;			^</OOBE^>>>"%ANSWER_FILE%"
-ECHO;			^<UserAccounts^>>>"%ANSWER_FILE%"
-ECHO;				^<LocalAccounts^>>>"%ANSWER_FILE%"
-ECHO;					^<LocalAccount wcm:action="add"^>>>"%ANSWER_FILE%"
-ECHO;						^<Group^>Administrators^</Group^>>>"%ANSWER_FILE%"
-ECHO;						^<Name^>%NEWUSER2%^</Name^>>>"%ANSWER_FILE%"
-ECHO;						^<Password^>>>"%ANSWER_FILE%"
-ECHO;							^<PlainText^>true^</PlainText^>>>"%ANSWER_FILE%"
-ECHO;							^<Value^>^</Value^>>>"%ANSWER_FILE%"
-ECHO;						^</Password^>>>"%ANSWER_FILE%"
-ECHO;					^</LocalAccount^>>>"%ANSWER_FILE%"
-ECHO;				^</LocalAccounts^>>>"%ANSWER_FILE%"
-ECHO;			^</UserAccounts^>>>"%ANSWER_FILE%"
-ECHO;		^</component^>>>"%ANSWER_FILE%"
-ECHO;	^</settings^>>>"%ANSWER_FILE%"
-ECHO;	^<settings pass="specialize"^>>>"%ANSWER_FILE%"
-ECHO;		^<component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%ANSWER_FILE%"
-ECHO;			^<SkipAutoActivation^>true^</SkipAutoActivation^>>>"%ANSWER_FILE%"
-ECHO;		^</component^>>>"%ANSWER_FILE%"
-ECHO;		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%ANSWER_FILE%"
-ECHO;			^<ComputerName^>Computer^</ComputerName^>>>"%ANSWER_FILE%"
-ECHO;			^<CopyProfile^>false^</CopyProfile^>>>"%ANSWER_FILE%"
-ECHO;			^<ProductKey^>%PRODUCT_KEY%^</ProductKey^>>>"%ANSWER_FILE%"
-ECHO;		^</component^>>>"%ANSWER_FILE%"
-ECHO;	^</settings^>>>"%ANSWER_FILE%"
-ECHO;	^<settings pass="windowsPE"^>>>"%ANSWER_FILE%"
-ECHO;		^<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%ANSWER_FILE%"
-ECHO;			^<InputLocale^>0409:00000409^</InputLocale^>>>"%ANSWER_FILE%"
-ECHO;			^<SystemLocale^>en-US^</SystemLocale^>>>"%ANSWER_FILE%"
-ECHO;			^<UILanguage^>en-US^</UILanguage^>>>"%ANSWER_FILE%"
-ECHO;			^<UILanguageFallback^>en-US^</UILanguageFallback^>>>"%ANSWER_FILE%"
-ECHO;			^<UserLocale^>en-US^</UserLocale^>>>"%ANSWER_FILE%"
-ECHO;			^<SetupUILanguage^>>>"%ANSWER_FILE%"
-ECHO;				^<UILanguage^>en-US^</UILanguage^>>>"%ANSWER_FILE%"
-ECHO;			^</SetupUILanguage^>>>"%ANSWER_FILE%"
-ECHO;		^</component^>>>"%ANSWER_FILE%"
-ECHO;		^<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%ANSWER_FILE%"
-ECHO;			^<Diagnostics^>>>"%ANSWER_FILE%"
-ECHO;				^<OptIn^>false^</OptIn^>>>"%ANSWER_FILE%"
-ECHO;			^</Diagnostics^>>>"%ANSWER_FILE%"
-ECHO;			^<DynamicUpdate^>>>"%ANSWER_FILE%"
-ECHO;				^<Enable^>false^</Enable^>>>"%ANSWER_FILE%"
-ECHO;				^<WillShowUI^>OnError^</WillShowUI^>>>"%ANSWER_FILE%"
-ECHO;			^</DynamicUpdate^>>>"%ANSWER_FILE%"
-ECHO;			^<ImageInstall^>>>"%ANSWER_FILE%"
-ECHO;				^<OSImage^>>>"%ANSWER_FILE%"
-ECHO;					^<Compact^>true^</Compact^>>>"%ANSWER_FILE%"
-ECHO;					^<WillShowUI^>OnError^</WillShowUI^>>>"%ANSWER_FILE%"
-ECHO;					^<InstallFrom^>>>"%ANSWER_FILE%"
-ECHO;						^<MetaData wcm:action="add"^>>>"%ANSWER_FILE%"
-ECHO;							^<Key^>/IMAGE/INDEX^</Key^>>>"%ANSWER_FILE%"
-ECHO;							^<Value^>1^</Value^>>>"%ANSWER_FILE%"
-ECHO;						^</MetaData^>>>"%ANSWER_FILE%"
-ECHO;					^</InstallFrom^>>>"%ANSWER_FILE%"
-ECHO;				^</OSImage^>>>"%ANSWER_FILE%"
-ECHO;			^</ImageInstall^>>>"%ANSWER_FILE%"
-ECHO;			^<UserData^>>>"%ANSWER_FILE%"
-ECHO;				^<AcceptEula^>true^</AcceptEula^>>>"%ANSWER_FILE%"
-ECHO;				^<ProductKey^>>>"%ANSWER_FILE%"
-ECHO;					^<Key^>%PRODUCT_KEY%^</Key^>>>"%ANSWER_FILE%"
-ECHO;					^<WillShowUI^>OnError^</WillShowUI^>>>"%ANSWER_FILE%"
-ECHO;				^</ProductKey^>>>"%ANSWER_FILE%"
-ECHO;			^</UserData^>>>"%ANSWER_FILE%"
-ECHO;		^</component^>>>"%ANSWER_FILE%"
-ECHO;	^</settings^>>>"%ANSWER_FILE%"
-ECHO;^</unattend^>>>"%ANSWER_FILE%"
+CALL:ANSWER_FILE>"%MAKER_FOLDER%\unattend.xml"
+EXIT /B
+:ANSWER_FILE
+ECHO;^<?xml version="1.0" encoding="utf-8"?^>
+ECHO;^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>
+ECHO;	^<settings pass="oobeSystem"^>
+ECHO;		^<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>
+ECHO;			^<InputLocale^>0409:00000409^</InputLocale^>
+ECHO;			^<SystemLocale^>en-US^</SystemLocale^>
+ECHO;			^<UILanguage^>en-US^</UILanguage^>
+ECHO;			^<UILanguageFallback^>en-US^</UILanguageFallback^>
+ECHO;			^<UserLocale^>en-US^</UserLocale^>
+ECHO;		^</component^>
+ECHO;		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>
+ECHO;			^<TimeZone^>Mountain Standard Time^</TimeZone^>
+ECHO;			^<AutoLogon^>
+ECHO;				^<Enabled^>true^</Enabled^>
+ECHO;				^<LogonCount^>9999999^</LogonCount^>
+ECHO;				^<Username^>%NEWUSER%^</Username^>
+ECHO;				^<Password^>
+ECHO;					^<PlainText^>true^</PlainText^>
+ECHO;					^<Value^>^</Value^>
+ECHO;				^</Password^>
+ECHO;			^</AutoLogon^>
+ECHO;			^<OOBE^>
+ECHO;				^<HideEULAPage^>true^</HideEULAPage^>
+ECHO;				^<HideLocalAccountScreen^>true^</HideLocalAccountScreen^>
+ECHO;				^<HideOnlineAccountScreens^>true^</HideOnlineAccountScreens^>
+ECHO;				^<HideWirelessSetupInOOBE^>true^</HideWirelessSetupInOOBE^>
+ECHO;				^<NetworkLocation^>Other^</NetworkLocation^>
+ECHO;				^<ProtectYourPC^>3^</ProtectYourPC^>
+ECHO;				^<SkipMachineOOBE^>true^</SkipMachineOOBE^>
+ECHO;				^<SkipUserOOBE^>true^</SkipUserOOBE^>
+ECHO;			^</OOBE^>
+ECHO;			^<UserAccounts^>
+ECHO;				^<LocalAccounts^>
+ECHO;					^<LocalAccount wcm:action="add"^>
+ECHO;						^<Group^>Administrators^</Group^>
+ECHO;						^<Name^>%NEWUSER%^</Name^>
+ECHO;						^<Password^>
+ECHO;							^<PlainText^>true^</PlainText^>
+ECHO;							^<Value^>^</Value^>
+ECHO;						^</Password^>
+ECHO;					^</LocalAccount^>
+ECHO;				^</LocalAccounts^>
+ECHO;			^</UserAccounts^>
+ECHO;		^</component^>
+ECHO;	^</settings^>
+ECHO;	^<settings pass="specialize"^>
+ECHO;		^<component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>
+ECHO;			^<SkipAutoActivation^>true^</SkipAutoActivation^>
+ECHO;		^</component^>
+ECHO;		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>
+ECHO;			^<ComputerName^>Computer^</ComputerName^>
+ECHO;			^<CopyProfile^>false^</CopyProfile^>
+ECHO;			^<ProductKey^>%PRODUCT_KEY%^</ProductKey^>
+ECHO;		^</component^>
+ECHO;	^</settings^>
+ECHO;	^<settings pass="windowsPE"^>
+ECHO;		^<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>
+ECHO;			^<InputLocale^>0409:00000409^</InputLocale^>
+ECHO;			^<SystemLocale^>en-US^</SystemLocale^>
+ECHO;			^<UILanguage^>en-US^</UILanguage^>
+ECHO;			^<UILanguageFallback^>en-US^</UILanguageFallback^>
+ECHO;			^<UserLocale^>en-US^</UserLocale^>
+ECHO;			^<SetupUILanguage^>
+ECHO;				^<UILanguage^>en-US^</UILanguage^>
+ECHO;			^</SetupUILanguage^>
+ECHO;		^</component^>
+ECHO;		^<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>
+ECHO;			^<Diagnostics^>
+ECHO;				^<OptIn^>false^</OptIn^>
+ECHO;			^</Diagnostics^>
+ECHO;			^<DynamicUpdate^>
+ECHO;				^<Enable^>false^</Enable^>
+ECHO;				^<WillShowUI^>OnError^</WillShowUI^>
+ECHO;			^</DynamicUpdate^>
+ECHO;			^<ImageInstall^>
+ECHO;				^<OSImage^>
+ECHO;					^<Compact^>true^</Compact^>
+ECHO;					^<WillShowUI^>OnError^</WillShowUI^>
+ECHO;					^<InstallFrom^>
+ECHO;						^<MetaData wcm:action="add"^>
+ECHO;							^<Key^>/IMAGE/INDEX^</Key^>
+ECHO;							^<Value^>1^</Value^>
+ECHO;						^</MetaData^>
+ECHO;					^</InstallFrom^>
+ECHO;				^</OSImage^>
+ECHO;			^</ImageInstall^>
+ECHO;			^<UserData^>
+ECHO;				^<AcceptEula^>true^</AcceptEula^>
+ECHO;				^<ProductKey^>
+ECHO;					^<Key^>%PRODUCT_KEY%^</Key^>
+ECHO;					^<WillShowUI^>OnError^</WillShowUI^>
+ECHO;				^</ProductKey^>
+ECHO;			^</UserData^>
+ECHO;		^</component^>
+ECHO;	^</settings^>
+ECHO;^</unattend^>
 EXIT /B
 :RESTART
-CALL:SETS_HANDLER>NUL 2>&1
-IF EXIST "U:\EFI" CALL:EFI_UNMOUNT>NUL 2>&1
-IF EXIST "V:\" CALL:VDISK_DETACH>NUL 2>&1
 "shutdown.exe" -r -f -t 0
 :QUIT
 CALL:SETS_HANDLER>NUL 2>&1
