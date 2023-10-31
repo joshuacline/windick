@@ -1,4 +1,5 @@
 Windows Deployment Image Customization Kit
+A native command shell Windows image deployment tool.
 - Feedback: https://www.reddit.com/r/windick/
 - Download: https://github.com/joshuacline/windick/archive/refs/heads/main.zip
 - Tutorial: https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
