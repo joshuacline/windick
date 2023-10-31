@@ -1,4 +1,4 @@
-Windows Deployment Image Customization Kit
+# Windows Deployment Image Customization Kit
 A native command shell Windows image deployment tool.
 - Feedback: https://www.reddit.com/r/windick/
 - Download: https://github.com/joshuacline/windick/archive/refs/heads/main.zip
