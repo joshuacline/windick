@@ -200,7 +200,7 @@ ECHO    -bootmaker -create -disk (#) / -diskid (id) -src (boot.wim)    (Erase + 
 ECHO  Examples:
 ECHO    -bootmaker -create -disk 0 -src boot.wim -vhdx z.vhdx
 ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -src boot.sav -vhdx z.vhdx
-ECHO.&&ECHO          [IMAGE PROCESSING]
+ECHO.&&ECHO          [IMAGE PROCESSOR]
 ECHO    -imageproc -wim (wim) -index (#) -wim (wim) -xlvl (fast/max)   (WIM index isolation)
 ECHO    -imageproc -wim (wim) -index (#) -vhdx (vhdx) -size (MB)       (WIM to VHDX Conversion)
 ECHO    -imageproc -vhdx (vhdx) -index (#) -wim (wim) -xlvl (fast/max) (VHDX to WIM Conversion)
@@ -247,7 +247,7 @@ IF "%TITLE%"=="0" TITLE  Build, administrate and backup your Windows in a native
 IF "%TITLE%"=="" GOTO:TITLECARD
 EXIT /B
 :PROG_MAIN_HELP
-CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Management     [%#@%Perform image related tasks%#$%]&&ECHO   (%##%2%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX image%#$%s]&&ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]&&ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]&&ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]&&ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]&&ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]&&ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]&&ECHO.&&ECHO       *Appears once boot-media is imported via Image Processing&&CALL:PAD_LINE&&CALL:PAUSED
+CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX images%#$%]&&ECHO   (%##%2%#$%)Image Management     [%#@%Perform image related tasks%#$%]&&ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]&&ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]&&ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]&&ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]&&ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]&&ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]&&ECHO.&&ECHO       *Appears once boot-media is imported via Image Processing&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :DISCLAIMER
 CLS&&CALL:PAD_LINE&&ECHO %XLR2%
@@ -288,7 +288,7 @@ EXIT /B
 SET /P "PAUSED=.                      Press (%##%Enter%#$%) to continue..."
 EXIT /B
 :TITLE_GNC
-TITLE Windows Deployment Image Customization Kit v%$VER_CUR%
+TITLE Windows Deployment Image Customization Kit v%$VER_CUR%   (%PROG_FOLDER%)
 EXIT /B
 :RANDOM
 SET "RND1=%RANDOM%%RANDOM%"&&SET "RND1=!RND1:~5,5!"&&SET "RND1=!RND1:~1,1!"
@@ -1002,7 +1002,7 @@ SET "SC_PREPARE="&&SET "RO_PREPARE="&&SET "BRUTE1="&&COPY /Y "%$LST1%" "$LST">NU
 FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%a in ($LST) DO (
 IF "%%a"=="SERVICE" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1=1"&&SC CREATE $BRUTE BINPATH="CMD /C START "%PROG_SOURCE%\$BRUTE.CMD"" START=DEMAND>NUL 2>&1
 IF "%%a"=="TASK" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1=1"&&SC CREATE $BRUTE BINPATH="CMD /C START "%PROG_SOURCE%\$BRUTE.CMD"" START=DEMAND>NUL 2>&1
-FOR %%1 in (# APPX COMPONENT DISM FEATURE EXTPACKAGE SERVICE TASK) DO (IF "%%1"=="%%a" CALL SET "LIST_ITEM=%%a"&&CALL SET "BASE_MEAT=%%b"&&CALL SET "LIST_ACTN=%%c"&&CALL SET "LIST_TIME=%%d"&&CALL:UNIFIED_PARSE))
+FOR %%1 in (# @ APPX COMPONENT DISM FEATURE EXTPACKAGE SERVICE TASK) DO (IF "%%1"=="%%a" CALL SET "LIST_ITEM=%%a"&&CALL SET "BASE_MEAT=%%b"&&CALL SET "LIST_ACTN=%%c"&&CALL SET "LIST_TIME=%%d"&&CALL:UNIFIED_PARSE))
 IF "%BRUTE_FORCE%"=="ENABLED" SC DELETE $BRUTE>NUL 2>&1
 IF DEFINED BRUTE_FLG SET "BRUTE_FORCE=1"
 CALL:SCRATCH_PACK_DELETE&&ECHO [%#@%EXEC-LIST END%#$%] [%#@%%DATE%%#$%] [%#@%%TIME%%#$%]&&SET "$LST1="&&IF EXIST "$LST" DEL /F "$LST">NUL 2>&1
@@ -1196,11 +1196,10 @@ IF NOT DEFINED BASE_MEAT EXIT /B
 CALL:SC_RO_COPY
 EXIT /B
 :SC_RO_COPY
-IF NOT "%LIST_ITEM%"=="EXTPACKAGE" IF NOT "%LIST_ITEM%"=="COMPONENT" IF NOT "%LIST_ITEM%"=="FEATURE" IF NOT "%LIST_ITEM%"=="SERVICE" IF NOT "%LIST_ITEM%"=="TASK" IF NOT "%LIST_ITEM%"=="DISM" ECHO List item error&&EXIT /B
 IF "%LIST_ITEM%"=="EXTPACKAGE" ECHO Copying Package [%#@%%BASE_MEAT%%#$%] for %SCRO%...&&CALL:PAD_LINE
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF NOT EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [%##%%PACK_FOLDER%\%BASE_MEAT%%#$%] is missing&&CALL:PAD_LINE
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%APPLYDIR_MASTER%\$">NUL
-IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [EXTPACKAGE][%BASE_MEAT%][IMAGE-APPLY]>>"%APPLYDIR_MASTER%\$\%SCRO%.LST"
+IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [EXTPACKAGE][%BASE_MEAT%][INSTALL][IMAGE-APPLY]>>"%APPLYDIR_MASTER%\$\%SCRO%.LST"
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" ECHO Scheduling %LIST_ITEM% %LIST_ACTN% of [%#@%%BASE_MEAT%%#$%] for %LIST_TIME%...&&CALL:PAD_LINE&&ECHO [%LIST_ITEM%][%BASE_MEAT%][%LIST_ACTN%][IMAGE-APPLY]>>"%APPLYDIR_MASTER%\$\%SCRO%.LST"
 EXIT /B
 :SC_RO_PREPARE
