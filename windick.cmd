@@ -1,6 +1,6 @@
 ::Windows Deployment Image Customization Kit (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "$VER_CUR=1131"&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "$VER_CUR=1132"&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" ECHO Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
 FOR %%1 in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (SET "A%%1="&&SET "ARG%%1=")
 SET "ARGUE=%*"&&SET "DELIMS= "&&CALL:ARGUE&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF DEFINED A%%a CALL SET "ARG%%a=%%A%%a%%")
@@ -379,7 +379,7 @@ SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y 
 IF NOT "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%PROG_SOURCE%\boot.sav" SET "BOOT_IMAGE=NONE"
 IF NOT "%PROG_MODE%"=="RAMDISK" IF EXIST "%PROG_SOURCE%\boot.sav" SET "BOOT_IMAGE=%PROG_SOURCE%\boot.sav"
 IF EXIST "%TEMP%\$WIM.TMP" DEL /Q /F "\\?\%TEMP%\$WIM.TMP">NUL 2>&1
-IF "%PROG_MODE%"=="RAMDISK" SET "BOOT_IMAGE=U:\$.WIM"
+IF "%PROG_MODE%"=="RAMDISK" SET "BOOT_IMAGE=W:\$.WIM"
 EXIT /B
 :OBJ_CLEAR
 CALL SET "OBJ_CHKX=%%%OBJ_CHK%%%"
@@ -1531,11 +1531,11 @@ EXIT /B
 IF EXIST "U:\" CALL:EFI_UNMOUNT
 IF EXIST "S:\" CALL:REASSIGN_LETTER
 SET "PART_ERR="&&CALL:DISKMGR_ERASE
-(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition EFI size=1500&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=U noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition EFI size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=U noerr&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF EXIST "U:\" IF EXIST "S:\" EXIT /B
 CALL:DISKMGR_ERASE
-(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=1500&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=1024&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.create partition primary&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.assign letter=U noerr&&ECHO.select partition 2&&ECHO.assign letter=S noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF EXIST "U:\" IF EXIST "S:\" EXIT /B
@@ -1643,27 +1643,29 @@ SET "PAD_SIZE=4"&&CALL:PAD_LINE&&DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :EFI_MOUNT
 IF NOT DEFINED DISK_TARGET ECHO DISK ID ERROR&&EXIT /B
-IF EXIST "U:\" (ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-IF EXIST "U:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT DEFINED EFI_LTR SET "EFI_LTR=U"
+IF EXIST "%EFI_LTR%:\" (ECHO.select VOLUME %EFI_LTR%&&ECHO.Remove letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF EXIST "%EFI_LTR%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Remove letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-IF NOT EXIST "U:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=ebd0a0a2-b9e5-4433-87c0-68b6b72699c7 override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-IF NOT EXIST "U:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-DEL /Q /F "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT EXIST "%EFI_LTR%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=ebd0a0a2-b9e5-4433-87c0-68b6b72699c7 override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT EXIST "%EFI_LTR%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Assign letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+SET "EFI_LTR="&&DEL /Q /F "$DSK">NUL 2>&1
 EXIT /B
 :EFI_UNMOUNT
-(ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT DEFINED EFI_LTR SET "EFI_LTR=U"
+(ECHO.select VOLUME %EFI_LTR%&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Remove letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x4000000000000001&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 DEL /Q /F "$DSK">NUL 2>&1
-IF NOT EXIST "U:\" EXIT /B
+IF NOT EXIST "%EFI_LTR%:\" EXIT /B
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=ebd0a0a2-b9e5-4433-87c0-68b6b72699c7 override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-(ECHO.select VOLUME U&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Remove letter=U noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select VOLUME %EFI_LTR%&&ECHO.Remove letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.Remove letter=%EFI_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.gpt attributes=0x4000000000000001&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-DEL /Q /F "$DSK">NUL 2>&1
+SET "EFI_LTR="&&DEL /Q /F "$DSK">NUL 2>&1
 EXIT /B
 :HOME_AUTO
 SET "HOME_MOUNT="&&CLS&&ECHO Querying disks...&&SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"
@@ -1901,10 +1903,10 @@ IF "%CAME_FROM%"=="$ETUP" CALL:DISK_MENU
 IF "%CAME_FROM%"=="$ETUP" IF DEFINED ERROR EXIT /B
 CALL:PAD_LINE&&ECHO                           Boot Creator Start&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"&&CALL:DISK_QUERY>NUL 2>&1
-IF "%PROG_MODE%"=="RAMDISK" SET "BOOT_IMAGE=U:\$.WIM"&&CALL:EFI_MOUNT>NUL 2>&1
+IF "%PROG_MODE%"=="RAMDISK" SET "EFI_LTR=W"&&CALL:EFI_MOUNT
+IF "%PROG_MODE%"=="RAMDISK" SET /P DISK_TARGET=<"%TEMP%\DISK_TARGET"&&CALL:DISK_QUERY>NUL 2>&1
 IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_IMAGE%" SET "BOOT_MSG=%##%No boot-media detected.%#$%"&&GOTO:BOOT_CLEANUP
-COPY /Y "%BOOT_IMAGE%" "%TEMP%\$WIM.TMP">NUL 2>&1
-IF "%PROG_MODE%"=="RAMDISK" CALL:EFI_UNMOUNT
+IF NOT "%PROG_MODE%"=="RAMDISK" COPY /Y "%BOOT_IMAGE%" "%TEMP%\$WIM.TMP">NUL 2>&1
 IF EXIST "%TEMP%\WINDICK" RD /Q /S "\\?\%TEMP%\WINDICK">NUL 2>&1
 IF NOT EXIST "%TEMP%\WINDICK" MD "%TEMP%\WINDICK">NUL 2>&1
 SET /P DISK_TARGET=<"%TEMP%\DISK_TARGET"&&CALL:DISK_QUERY>NUL 2>&1
@@ -1922,7 +1924,8 @@ IF DEFINED BOOT_ABT GOTO:BOOT_CLEANUP
 SET "SCRATCH_BOOT=S:\$\Scratch"
 IF EXIST "%SCRATCH_BOOT%" RD /S /Q "\\?\%SCRATCH_BOOT%">NUL 2>&1
 IF NOT EXIST "%SCRATCH_BOOT%" MD "%SCRATCH_BOOT%">NUL 2>&1
-MOVE /Y "%TEMP%\$WIM.TMP" "%SCRATCH_BOOT%\$.WIM">NUL 2>&1
+IF "%PROG_MODE%"=="RAMDISK" COPY /Y "W:\$.WIM" "%SCRATCH_BOOT%\$.WIM">NUL 2>&1
+IF NOT "%PROG_MODE%"=="RAMDISK" MOVE /Y "%TEMP%\$WIM.TMP" "%SCRATCH_BOOT%\$.WIM">NUL 2>&1
 SET "VDISK=%SCRATCH_BOOT%\SCRATCH.VHDX"&&SET "VHDX_MB=20000"&&CALL:VDISK_CREATE>NUL 2>&1
 SET "IMAGE_BOOT=%SCRATCH_BOOT%\$.WIM"&&SET "BOOT_X=Setup"&&CALL:BOOT_INDEX>NUL 2>&1
 SET "APPLYDIR_BOOT=V:"&&SET "CAPTUREDIR_BOOT=V:"
@@ -1961,7 +1964,9 @@ IF EXIST "%SCRATCH_BOOT%" DISM /cleanup-MountPoints>NUL 2>&1
 IF EXIST "%SCRATCH_BOOT%" RD /S /Q "\\?\%SCRATCH_BOOT%">NUL 2>&1
 IF "%PROG_MODE%"=="RAMDISK" CALL:HOME_AUTO>NUL 2>&1
 IF NOT "%PROG_MODE%"=="RAMDISK" CALL:REASSIGN_LETTER>NUL 2>&1
-IF EXIST "U:\" ECHO %#@%EFI partition still mounted, unplug disk to dismount EFI partition.%#$%&&CALL:PAD_LINE
+IF "%PROG_MODE%"=="RAMDISK" IF EXIST "W:\" SET "EFI_LTR=W"&&CALL:EFI_UNMOUNT
+IF EXIST "U:\" ECHO %#@%EFI partition [U] still mounted, unplug disk to dismount EFI partition.%#$%&&CALL:PAD_LINE
+IF "%PROG_MODE%"=="RAMDISK" IF EXIST "W:\" ECHO %#@%EFI partition [W] still mounted, unplug disk to dismount EFI partition.%#$%&&CALL:PAD_LINE
 IF DEFINED BOOT_ABT GOTO:BOOT_ABT
 IF "%PROG_MODE%"=="COMMAND" ECHO Copying %#@%%VHDX_$ETUP%...%#$%&&COPY /Y "\\?\%IMAGE_FOLDER%\%VHDX_$ETUP%" "%NXT_LETTER%:\$">NUL 2>&1
 IF "%CAME_FROM%"=="$ETUP" IF "%BCD_SYSTEM%"=="NAME" IF NOT "%VHDX_$ETUP%"=="SELECT" ECHO  Copying %#@%%VHDX_$ETUP%...%#$%&&COPY /Y "\\?\%IMAGE_FOLDER%\%VHDX_$ETUP%" "%NXT_LETTER%:\$">NUL 2>&1
