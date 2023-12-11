@@ -1,6 +1,6 @@
 ::Windows Deployment Image Customization Kit (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "$VER_CUR=1132"&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "$VER_CUR=1133"&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" ECHO Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
 FOR %%1 in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (SET "A%%1="&&SET "ARG%%1=")
 SET "ARGUE=%*"&&SET "DELIMS= "&&CALL:ARGUE&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF DEFINED A%%a CALL SET "ARG%%a=%%A%%a%%")
@@ -1264,7 +1264,7 @@ IF NOT EXIST "%IMAGE_PACK%" CALL:PAD_LINE&&ECHO [%##%%IMAGE_PACK%%#$%] is missin
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did NOT complete successfully"&&CALL:SCRATCH_PACK_CREATE
 FOR %%a in (PackName PackType PackDesc PackTag REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=")
 FOR %%G in ("%IMAGE_PACK%") DO SET "PackExt=%%~xG"
-FOR %%G in (M A B U S C K I P X L) DO (CALL SET "PackExt=%%PackExt:%%G=%%G%%")
+FOR %%G in (M A B U S C K I P X L G) DO (CALL SET "PackExt=%%PackExt:%%G=%%G%%")
 IF "%PackExt%"==".APPX" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%"
 IF "%PackExt%"==".CAB" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%"
 IF "%PackExt%"==".MSU" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%"
