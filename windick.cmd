@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1134 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1135 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_TMP=VER_CUR"&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" ECHO Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
@@ -22,7 +22,7 @@ REM PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_
 :PROG_MAIN
 REM PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_PROG_MAIN_
 SET "MOUNT="&&IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="X:\$" CALL:HOME_AUTO
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:CLEAN&&CALL:COLOR_LAY&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:COLOR_LAY&&CALL:PAD_LINE
 ECHO               Windows Deployment Image Customization Kit&&CALL:PAD_LINE
 ECHO.&&ECHO  (%##%1%#$%) Image Processor&&ECHO  (%##%2%#$%) Image Management&&ECHO  (%##%3%#$%) Package Creator&&ECHO  (%##%4%#$%) File Management
 ECHO  (%##%5%#$%) Disk Management&&ECHO  (%##%6%#$%) Tasks&&ECHO  (%##%.%#$%) Settings
@@ -258,7 +258,7 @@ EXIT /B
 :TITLECARD
 SET "RND_SET=TITLE"&&CALL:RANDOM
 IF "%TITLE%"=="1" TITLE  When finished, backup by converting to WIM.
-IF "%TITLE%"=="2" TITLE  Boot-media can be imported in Image Management using "-".
+IF "%TITLE%"=="2" TITLE  Boot-media can be imported in Image Processor using "-".
 IF "%TITLE%"=="3" TITLE  Rebuild the BCD store in boot-creator while in recovery mode.
 IF "%TITLE%"=="4" TITLE  Export/import all current drivers, combine into a driver-pack.
 IF "%TITLE%"=="5" TITLE  Generate a base-list (Appx/Comp/Feat/Serv/Task) in image management.
@@ -270,7 +270,7 @@ IF "%TITLE%"=="0" TITLE  Build, administrate and backup your Windows in a native
 IF "%TITLE%"=="" GOTO:TITLECARD
 EXIT /B
 :PROG_MAIN_HELP
-CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX images%#$%]&&ECHO   (%##%2%#$%)Image Management     [%#@%Perform image related tasks%#$%]&&ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]&&ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]&&ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]&&ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]&&ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]&&ECHO   (%##%.%#$%)Settings             [%#@%Settings backup, etc%#$%]&&ECHO.&&ECHO       *Appears once boot-media is imported via Image Processing&&CALL:PAD_LINE&&CALL:PAUSED
+CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX images%#$%]&&ECHO   (%##%2%#$%)Image Management     [%#@%Perform image related tasks%#$%]&&ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]&&ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]&&ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]&&ECHO    *(%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]&&ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]&&ECHO   (%##%.%#$%)Settings             [%#@%Settings%#$%]&&ECHO.&&ECHO       *Appears once boot-media is imported via Image Processing&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :DISCLAIMER
 CLS&&CALL:PAD_LINE&&ECHO %XLR2%
@@ -310,8 +310,9 @@ EXIT /B
 :PAUSED
 SET /P "PAUSED=.                      Press (%##%Enter%#$%) to continue..."
 EXIT /B
-:TITLE_GNC
-TITLE Windows Deployment Image Customization Kit v%VER_CUR% (%PROG_FOLDER%)
+:TITLE_X
+IF NOT DEFINED TITLE_X SET "TITLE_X=Windows Deployment Image Customization Kit v%VER_CUR% (%PROG_FOLDER%)"
+TITLE %TITLE_X%&&SET "TITLE_X="
 EXIT /B
 :RECOVERY_LOCK
 ECHO Enter password
@@ -351,7 +352,7 @@ FOR /F "TOKENS=1-9 DELIMS= " %%A IN ("%VER_CHK%") DO (SET "%VER_TMP%=%%G")
 SET "VER_CHK="&&SET "VER_GET="&&SET "VER_TMP="
 EXIT /B
 :SETS_CREATE
-(ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings&&ECHO.PAD_TYPE=&&ECHO.COLOR_TXT=&&ECHO.COLOR_ACC=&&ECHO.COLOR_BTN=&&ECHO.COLOR_SIZ=&&ECHO.COLOR_LAY=&&ECHO.COLOR_SEQ=1234567889&&ECHO.BOOT_TYPE=&&ECHO.BOOT_BAYS=&&ECHO.ACTIVE_BAY=&&ECHO.VHDX_$ETUP=&&ECHO.SOURCE_TYPE=&&ECHO.WIM_SOURCE=&&ECHO.VHDX_SOURCE=&&ECHO.TARGET_TYPE=&&ECHO.WIM_TARGET=&&ECHO.VHDX_TARGET=&&ECHO.WIM_XLVL=&&ECHO.VHDX_XLVL=&&ECHO.VHDX_SIZE=&&ECHO.WIM_INDEX=&&ECHO.PACK_XLVL=&&ECHO.BRUTE_FORCE=&&ECHO.SAFE_EXCLUDE=&&ECHO.SVC_SKIP=&&ECHO.COMP_SKIP=&&ECHO.SHORTCUTS=&&ECHO.HOTKEY_1=CMD&&ECHO.SHORT_1=START CMD.EXE&&ECHO.HOTKEY_2=NOTE&&ECHO.SHORT_2=START NOTEPAD.EXE&&ECHO.HOTKEY_3=REG&&ECHO.SHORT_3=START REGEDIT.EXE&&ECHO.HOTKEY_4=&&ECHO.SHORT_4=&&ECHO.HOTKEY_5=&&ECHO.SHORT_5=&&ECHO.DISCLAIMER=)>"%PROG_SOURCE%\settings.pro"&&CALL:SETS_LOAD>NUL 2>&1
+(ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings&&ECHO.PAD_TYPE=&&ECHO.COLOR_TXT=&&ECHO.COLOR_ACC=&&ECHO.COLOR_BTN=&&ECHO.COLOR_SIZ=&&ECHO.COLOR_LAY=&&ECHO.COLOR_SEQ=1234567889&&ECHO.BOOT_TYPE=&&ECHO.BOOT_BAYS=&&ECHO.ACTIVE_BAY=&&ECHO.VHDX_$ETUP=&&ECHO.SOURCE_TYPE=&&ECHO.WIM_SOURCE=&&ECHO.VHDX_SOURCE=&&ECHO.TARGET_TYPE=&&ECHO.WIM_TARGET=&&ECHO.VHDX_TARGET=&&ECHO.WIM_XLVL=&&ECHO.VHDX_XLVL=&&ECHO.VHDX_SIZE=&&ECHO.WIM_INDEX=&&ECHO.PACK_XLVL=&&ECHO.BRUTE_FORCE=&&ECHO.SAFE_EXCLUDE=&&ECHO.SVC_SKIP=&&ECHO.COMP_SKIP=&&ECHO.SHORTCUTS=&&ECHO.HOTKEY_1=CMD&&ECHO.SHORT_1=START CMD.EXE&&ECHO.HOTKEY_2=NOTE&&ECHO.SHORT_2=START NOTEPAD.EXE&&ECHO.HOTKEY_3=REG&&ECHO.SHORT_3=START REGEDIT.EXE&&ECHO.HOTKEY_4=&&ECHO.SHORT_4=&&ECHO.HOTKEY_5=&&ECHO.SHORT_5=&&ECHO.LOCK_RECOVERY=&&ECHO.DISCLAIMER=)>"%PROG_SOURCE%\settings.pro"&&CALL:SETS_LOAD>NUL 2>&1
 EXIT /B
 :SETS_LOAD
 COPY /Y "%PROG_SOURCE%\settings.pro" "$ET">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($ET) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
@@ -388,6 +389,7 @@ SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 FOR %%a in (VHDX_$ETUP VHDX_SOURCE WIM_SOURCE) DO (SET "OBJ_FLD=%IMAGE_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (VHDX_$ETUP VHDX_SOURCE WIM_SOURCE WIM_TARGET VHDX_TARGET) DO (IF NOT DEFINED %%a SET "%%a=SELECT")
+FOR %%a in (APPLYDIR CAPTUREDIR) DO (SET "%%a=")
 IF "%WIM_SOURCE%"=="SELECT" SET "WIM_DESC=NULL"&&SET "WIM_INDEX=1"
 SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y Z) DO (IF EXIST "%%a:\sources" SET "SOURCE_LOCATION=%%a:\sources")
 IF NOT "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "BOOT_IMAGE=NONE"
@@ -623,7 +625,7 @@ EXIT /B
 REM IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_
 :IMAGEPROC_START
 REM IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_IMAGEPROC_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                            Image Processing&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_X&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                            Image Processing&&CALL:PAD_LINE
 IF DEFINED SOURCE_LOCATION ECHO  [%#@%Windows Installation Media Detected%#$%]  (%##%+%#$%)Import WIM  (%##%-%#$%)Import Boot&&CALL:PAD_LINE
 IF NOT DEFINED SOURCE_LOCATION IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO    Insert a Windows Disc/ISO/USB to Import Installation/Boot Media&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_QUERY
@@ -734,7 +736,7 @@ EXIT /B
 REM IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_
 :IMAGEMGR_START
 REM IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_IMAGEMGR_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:CLEAN&&SET "LIVE_APPLY="&&CALL:PAD_LINE&&ECHO                            Image Management&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_X&&CALL:CLEAN&&SET "LIVE_APPLY="&&CALL:PAD_LINE&&ECHO                            Image Management&&CALL:PAD_LINE
 ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO  [%#@%VHDX%#$%]   (%##%M%#$%)ount/Unmount   (%##%I%#$%)nspect   (%##%D%#$%)ISM           (%##%X%#$%)Mount ISO&&CALL:PAD_LINE
 IF EXIST "%PACK_FOLDER%\*.PKX" ECHO   AVAILABLE ALL-IN-ONE'S:&&SET "BLIST=PKX"&&CALL:FILE_LIST&&CALL:PAD_LINE
@@ -1516,7 +1518,7 @@ EXIT /B
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
 :DISKMGR_START
 REM DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_DISKMGR_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:CLEAN&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENUX="&&SET "ERROR="
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_X&&CALL:CLEAN&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENUX="&&SET "ERROR="
 CALL:PAD_LINE&&ECHO                             Disk Management&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE
 IF NOT "%BOOT_IMAGE%"=="NONE" ECHO  [%#@%DISK%#$%] (%##%B%#$%)oot (%##%I%#$%)nspect (%##%E%#$%)rase (%##%#%#$%)ChangeUID (%##%U%#$%)SB (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
 IF "%BOOT_IMAGE%"=="NONE" ECHO  [%#@%DISK%#$%]  (%##%I%#$%)nspect  (%##%E%#$%)rase  (%##%#%#$%)Change UID  (%##%U%#$%)SB (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
@@ -1527,7 +1529,7 @@ IF NOT DEFINED SELECT GOTO:PROG_MAIN
 IF "%SELECT%"=="*" CALL:NEXT_BOOT
 IF "%SELECT%"=="U" RunDll32.exe shell32.dll,Control_RunDLL hotplug.dll
 IF "%SELECT%"=="M" CALL:LETTER_GET&&CALL:DISKMGR_MOUNT_PROMPT&&SET "SELECT="
-FOR %%a in ($ B) DO (IF "%SELECT%"=="%%a" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START)
+IF "%SELECT%"=="B" IF NOT "%BOOT_IMAGE%"=="NONE" GOTO:$ETUP_START
 IF "%SELECT%"=="I" CALL:DISK_MENU&&CALL:DISKMGR_INSPECT&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="E" SET "MENUX=1"&&CALL:DISKMGR_ERASE&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="C" SET "MENUX=1"&&CALL:DISK_MENU&&CALL:DISKMGR_CREATE&&CALL:DISK_PART_END&&SET "SELECT="
@@ -1741,7 +1743,7 @@ EXIT /B
 REM FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_
 :FILEMGR_START
 REM FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_FILEMGR_
-@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_X&&CALL:PAD_LINE
 IF NOT DEFINED FMGR_SOURCE SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET=%PROG_TARGET%"
 IF NOT EXIST "%FMGR_SOURCE%\*" SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET=%PROG_TARGET%"
 ECHO                             File Management&&CALL:PAD_LINE&&ECHO                               SRC (%##%%##%X%#$%) TGT&&CALL:PAD_LINE
@@ -1849,7 +1851,7 @@ EXIT /B
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP
 :$ETUP_START
 REM $ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP_$ETUP 
-CLS&&CALL:SETS_HANDLER&&CALL:TITLE_GNC&&CALL:COLOR_LAY&&CALL:CLEAN&&SET "BTMP=%WINDIR%\System32\config\ELAM"&&SET "MENUX="&&SET "CAME_FROM="&&CALL:PAD_LINE&&ECHO                              Boot Creator&&CALL:PAD_LINE
+CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:COLOR_LAY&&CALL:CLEAN&&SET "BTMP=%WINDIR%\System32\config\ELAM"&&SET "MENUX="&&SET "CAME_FROM="&&CALL:PAD_LINE&&ECHO                              Boot Creator&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="UNIFIED" ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF "%FOLDER_MODE%"=="ISOLATED" ECHO   MAIN FOLDER VHDX'S:&&SET "BLIST=BOOT"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                            (%##%-%#$%)MAIN/IMAGE(%##%+%#$%)&&CALL:PAD_LINE&&ECHO   IMAGE FOLDER VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" ECHO  (%##%R%#$%)ebuild Current BCD[%#@%%BOOT_TYPE%-MODE%#$%]           (%##%U%#$%)pdate Recovery&&CALL:PAD_LINE
@@ -1873,9 +1875,9 @@ IF "%SELECT%"=="T" IF "%BOOT_TYPE%"=="SLOT" SET "BOOT_TYPE=NAME"&&SET "SELECT="
 IF "%SELECT%"=="T" IF "%BOOT_TYPE%"=="NAME" SET "BOOT_TYPE=SLOT"&&SET "SELECT="
 IF "%SELECT%"=="L" IF "%LOCK_RECOVERY%"=="ENABLED" SET "LOCK_RECOVERY=DISABLED"&&SET "SELECT="
 IF "%SELECT%"=="L" IF "%LOCK_RECOVERY%"=="DISABLED" SET "LOCK_RECOVERY=ENABLED"&&SET "SELECT="
-IF "%SELECT%"=="U" IF "%PROG_MODE%"=="RAMDISK" ECHO In-place recovery update will be available next version.&&CALL:PAUSED
 IF "%SELECT%"=="R" IF "%PROG_MODE%"=="RAMDISK" IF NOT "%VHDX_$ETUP%"=="SELECT" SET "CAME_FROM=$ETUP"&&CALL:BCD_REBUILD&&CALL:PAUSED
 IF "%SELECT%"=="G" IF NOT "%VHDX_$ETUP%"=="SELECT" SET "CAME_FROM=$ETUP"&&CALL:RECOVERY_SET&&CALL:BOOT_MAKER&&CALL:PAUSED
+IF "%SELECT%"=="U" IF "%PROG_MODE%"=="RAMDISK" CALL:UPDATE_RECOVERY&&CALL:PAUSED
 IF "%SELECT%"=="V" SET "MENUX=PVHDX"&&SET "PICK=VHDX"&&CALL:FILE_PICK
 IF "%MENUX%"=="PVHDX" SET "VHDX_$ETUP=%$ELECT$%"&&SET "SELECT="
 GOTO:$ETUP_START
@@ -1914,7 +1916,7 @@ SET "SCRATCHDIR=S:\$\Scratch"&&CALL:SCRATCH_CREATE
 SET "VDISK=%SCRATCHDIR%\Scratch.vhdx"&&CALL:VDISK_CREATE
 IF "%PROG_MODE%"=="RAMDISK" IF EXIST "R:\$\BOOT.SAV" SET "BOOT_FOLDER=R:\$"
 IF "%PROG_MODE%"=="RAMDISK" IF EXIST "R:\$\BOOT\BOOT.SAV" SET "BOOT_FOLDER=R:\$\BOOT"
-IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO        Extracting boot-media. Using current boot.sav from recovery...&&CALL:PAD_LINE&&COPY /Y "Q:\$.WIM" "S:\$\boot.wim">NUL 2>&1
+IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO      Extracting boot-media. Using current boot.sav from recovery...&&CALL:PAD_LINE&&COPY /Y "Q:\$.WIM" "S:\$\boot.wim">NUL 2>&1
 IF EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO        Extracting boot-media. Using boot.sav located in folder...&&CALL:PAD_LINE&&COPY /Y "%BOOT_FOLDER%\boot.sav" "S:\$\boot.wim">NUL 2>&1
 SET "IMAGEFILE=S:\$\boot.wim"&&SET "INDEX_WORD=Setup"&&CALL:FIND_INDEX&&CALL:TITLECARD
 MOVE /Y "S:\$\boot.wim" "S:\$\boot.sav">NUL 2>&1
@@ -1924,7 +1926,7 @@ MD "%APPLYDIR%\$">NUL 2>&1
 COPY /Y "%TEMP%\DISK_TARGET" "%APPLYDIR%\$">NUL
 IF "%PROG_MODE%"=="RAMDISK" COPY /Y "R:\$\windick.cmd" "%APPLYDIR%\$">NUL&COPY /Y "R:\$\windick.cmd" "S:\$">NUL&COPY /Y "R:\$\settings.pro" "S:\$">NUL
 IF NOT "%PROG_MODE%"=="RAMDISK" COPY /Y "%PROG_SOURCE%\windick.cmd" "%APPLYDIR%\$">NUL&COPY /Y "%PROG_SOURCE%\windick.cmd" "S:\$">NUL&COPY /Y "%PROG_SOURCE%\settings.pro" "S:\$">NUL
-FOR %%a in (Boot EFI\Boot EFI\Microsoft\Boot) DO (MD U:\%%a)
+FOR %%a in (Boot EFI\Boot EFI\Microsoft\Boot) DO (MD U:\%%a>NUL 2>&1)
 IF EXIST "%BOOT_FOLDER%\boot.sdi" ECHO                    Using boot.sdi located in folder.&&CALL:PAD_LINE&&COPY /Y "%BOOT_FOLDER%\boot.sdi" "U:\Boot">NUL&&COPY /Y "%BOOT_FOLDER%\boot.sdi" "S:\$">NUL
 IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" COPY /Y "%APPLYDIR%\Windows\Boot\DVD\EFI\boot.sdi" "U:\Boot">NUL 2>&1
 IF NOT EXIST "U:\Boot\boot.sdi" SET "BOOT_MSG=%##%boot.sdi missing%#$%"&&GOTO:BOOT_CLEANUP
@@ -1942,7 +1944,7 @@ IF NOT EXIST "U:\EFI\Microsoft\Boot\BCD" SET "BOOT_MSG=%##%BCD missing%#$%"&&GOT
 ECHO                            Saving boot-media...&&CALL:PAD_LINE&&CALL:TITLECARD
 SET "IMAGEFILE=U:\$.WIM"&&CALL:CAPTURE_IMAGE
 :BOOT_CLEANUP
-ECHO.&&CALL:PAD_LINE&&ECHO                             Unmounting EFI...&&CALL:PAD_LINE&&CALL:TITLECARD
+CALL:PAD_LINE&&ECHO                             Unmounting EFI...&&CALL:PAD_LINE&&CALL:TITLECARD
 SET "VDISK=%SCRATCHDIR%\SCRATCH.VHDX"&&CALL:VDISK_DETACH&&CALL:SCRATCH_DELETE&&CALL:EFI_UNMOUNT
 IF EXIST "U:\" ECHO %#@%EFI partition [U] still mounted, unplug disk to dismount EFI partition.%#$%&&CALL:PAD_LINE
 IF NOT "%PROG_MODE%"=="RAMDISK" CALL:REASSIGN_LETTER>NUL 2>&1
@@ -1962,7 +1964,7 @@ CALL:PAD_LINE&&ECHO                           Boot Creator Finish&&CALL:PAD_LINE
 EXIT /B
 :RECOVERY_SET
 IF NOT "%LOCK_RECOVERY%"=="ENABLED" EXIT /B
-CALL:PAD_LINE&&ECHO.                           Recovery Password?&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=RECOVERY_LOCK"&&CALL:PROMPT_SET_ANY
+CALL:PAD_LINE&&ECHO.                           Recovery Password?&&CALL:PAD_LINE&&SET "PROMPT_SET=RECOVERY_LOCK"&&CALL:PROMPT_SET_ANY
 IF NOT DEFINED RECOVERY_LOCK SET "LOCK_RECOVERY=DISABLED"&&EXIT /B
 EXIT /B
 :BOOT_FETCH
@@ -1973,16 +1975,38 @@ IF EXIST "%APPLYDIR%\Windows\Boot\DVD\EFI\boot.sdi" CALL:PAD_LINE&&ECHO         
 IF EXIST "%APPLYDIR%\Windows\Boot\EFI\bootmgfw.efi" CALL:PAD_LINE&&ECHO              File bootmgfw.efi was found. Copying to folder.&&COPY /Y "%APPLYDIR%\Windows\Boot\EFI\bootmgfw.efi" "%BOOT_FOLDER%">NUL 2>&1
 CALL:PAD_LINE&&SET "VDISK=%SCRATCHDIR%\SCRATCH.VHDX"&&CALL:VDISK_DETACH&&CALL:SCRATCH_DELETE
 EXIT /B
+:UPDATE_RECOVERY
+IF EXIST "%BOOT_FOLDER%\boot.sav" CALL:PAD_LINE&&ECHO                       Boot.sav found in folder.&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%1%#$%) Update program&&ECHO  (%##%2%#$%) Update program + boot media&&ECHO.&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=UPDATE_PROMPT"&&CALL:PROMPT_SET
+IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "UPDATE_PROMPT=1"
+IF NOT "%UPDATE_PROMPT%"=="1" IF NOT "%UPDATE_PROMPT%"=="2" EXIT /B
+IF "%LOCK_RECOVERY%"=="ENABLED" CALL:PAD_LINE&&ECHO.                           Recovery Password?&&CALL:PAD_LINE&&SET "PROMPT_SET=RECOVERY_LOCK"&&CALL:PROMPT_SET_ANY
+CALL:PAD_LINE&&CALL:SCRATCH_CREATE&&CALL:EFI_MOUNT&&IF NOT DEFINED RECOVERY_LOCK SET "LOCK_RECOVERY=DISABLED"
+IF "%UPDATE_PROMPT%"=="1" ECHO      Extracting boot-media. Using current boot.sav from recovery...&&CALL:PAD_LINE&&COPY /Y "U:\$.WIM" "%BOOT_FOLDER%\TEMP.WIM">NUL 2>&1
+IF "%UPDATE_PROMPT%"=="2" ECHO        Extracting boot-media. Using boot.sav located in folder...&&CALL:PAD_LINE&&COPY /Y "%BOOT_FOLDER%\boot.sav" "%BOOT_FOLDER%\TEMP.WIM">NUL 2>&1
+SET "VDISK=%SCRATCHDIR%\SCRATCH.VHDX"&&CALL:VDISK_CREATE&&SET "IMAGEFILE=%BOOT_FOLDER%\TEMP.WIM"&&SET "INDEX_WORD=Setup"&&CALL:FIND_INDEX&&SET "IMAGEFILE=%BOOT_FOLDER%\TEMP.WIM"&&CALL:APPLY_IMAGE
+CALL:PAD_LINE&&IF NOT EXIST "V:\Windows" ECHO %##%Mount failure, Index %IMAGEINDEX%%#$% &&GOTO:UPDATE_RECOVERY_CLEANUP
+ECHO                    Using windick.cmd located in folder.&&CALL:PAD_LINE&&MD "%APPLYDIR%\$">NUL 2>&1
+COPY /Y "%PROG_FOLDER%\DISK_TARGET" "%APPLYDIR%\$">NUL&&COPY /Y "%PROG_SOURCE%\windick.cmd" "%APPLYDIR%\$">NUL
+IF EXIST "%APPLYDIR%\setup.exe" DEL /Q /F "\\?\%APPLYDIR%\setup.exe">NUL 2>&1
+IF NOT "%LOCK_RECOVERY%"=="ENABLED" DEL /Q /F "\\?\%APPLYDIR%\$\RECOVERY_LOCK">NUL 2>&1
+IF "%LOCK_RECOVERY%"=="ENABLED" ECHO.%RECOVERY_LOCK%>"%APPLYDIR%\$\RECOVERY_LOCK"
+(ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\windick.cmd)>"%APPLYDIR%\Windows\System32\winpeshl.ini"
+ECHO                            Saving boot-media...&&CALL:PAD_LINE&&CALL:TITLECARD&&DEL /Q /F "U:\$.WIM">NUL 2>&1
+SET "IMAGEFILE=U:\$.WIM"&&CALL:CAPTURE_IMAGE
+:UPDATE_RECOVERY_CLEANUP
+IF EXIST "%BOOT_FOLDER%\TEMP.WIM" DEL /F "%BOOT_FOLDER%\TEMP.WIM">NUL 2>&1
+CALL:PAD_LINE&&SET "VDISK=%SCRATCHDIR%\SCRATCH.VHDX"&&CALL:VDISK_DETACH&&CALL:SCRATCH_DELETE&&CALL:EFI_UNMOUNT
+EXIT /B
 :APPLY_IMAGE
 IF NOT DEFINED IMAGEFILE EXIT /B
 IF NOT DEFINED APPLYDIR SET "APPLYDIR=V:"
 IF NOT DEFINED IMAGEINDEX SET "IMAGEINDEX=1"
-DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGEFILE%" /INDEX:%IMAGEINDEX% /APPLYDIR:"%APPLYDIR%"&ECHO.
+DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGEFILE%" /INDEX:%IMAGEINDEX% /APPLYDIR:"%APPLYDIR%"&ECHO.&SET "IMAGEFILE="
 EXIT /B
 :CAPTURE_IMAGE
 IF NOT DEFINED IMAGEFILE EXIT /B
 IF NOT DEFINED CAPTUREDIR SET "CAPTUREDIR=V:"
-DISM /ENGLISH /CAPTURE-IMAGE /IMAGEFILE:"%IMAGEFILE%" /CAPTUREDIR:"%CAPTUREDIR%" /NAME:NAME /CheckIntegrity /Verify /Bootable
+DISM /ENGLISH /CAPTURE-IMAGE /IMAGEFILE:"%IMAGEFILE%" /CAPTUREDIR:"%CAPTUREDIR%" /NAME:NAME /CheckIntegrity /Verify /Bootable&ECHO.&SET "IMAGEFILE="
 EXIT /B
 :FIND_INDEX
 IF NOT DEFINED IMAGEFILE EXIT /B
@@ -1991,7 +2015,7 @@ DISM /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"%IMAGEFILE%" /INDEX:%INDEX_TMP%>$DISM
 FOR /F "TOKENS=5 SKIP=5 DELIMS=<> " %%a in ($DISM) DO (IF "%%a"=="%INDEX_WORD%" SET "IMAGEINDEX=%INDEX_TMP%"&&GOTO:FIND_INDEX_BREAK)
 IF NOT DEFINED IMAGEINDEX IF NOT "%INDEX_TMP%" EQU "20" GOTO:FIND_INDEX
 :FIND_INDEX_BREAK
-SET "INDEX_TMP="&&SET "INDEX_WORD="&&DEL /Q /F "$DISM">NUL 2>&1
+SET "IMAGEFILE="&&SET "INDEX_TMP="&&SET "INDEX_WORD="&&DEL /Q /F "$DISM">NUL 2>&1
 EXIT /B
 :BCD_CREATE
 IF "%CAME_FROM%"=="$ETUP" IF "%VHDX_$ETUP%"=="SELECT" SET "BOOT_TYPE=SLOT"&&SET "BOOT_TYPE_TEMP=1"
@@ -2053,7 +2077,7 @@ EXIT /B
 REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
 :MAKER_START
 REM MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_MAKER_
-@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&CALL:SCRATCH_PACK_DELETE&&CALL:PAD_LINE&&ECHO                             Package Creator&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_X&&CALL:SCRATCH_PACK_DELETE&&CALL:PAD_LINE&&ECHO                             Package Creator&&CALL:PAD_LINE
 FOR %%a in (PackName PackType PackTag PackDesc REG_KEY REG_VAL RUN_MOD REG_DAT) DO (CALL SET "%%a=NULL")
 IF EXIST "%MAKER_FOLDER%\PACKAGE.MAN" COPY /Y "%MAKER_FOLDER%\PACKAGE.MAN" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 SET "PACK_CHK="&&IF NOT "%REG_KEY%"=="NULL" IF NOT "%REG_VAL%"=="NULL" IF NOT "%RUN_MOD%"=="NULL" IF NOT "%REG_DAT%"=="NULL" SET "PACK_CHK=1"
@@ -2189,12 +2213,12 @@ SET "PACK_ENT_%PACK_ENT%=%PACK_CFG%"
 EXIT /B
 :PACKEX_MENU_START
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
-@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_GNC&&IF "%PACK_MODE%"=="INSTANT" CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%(%#@%INSTANT%#$%)&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%(%#@%INSTANT%#$%)&&ECHO  (%##%T03%#$%) End Task%S46%(%#@%INSTANT%#$%)&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%(%#@%INSTANT%#$%)&&ECHO  (%##%T05%#$%) List Accounts%S41%(%#@%INSTANT%#$%)&&ECHO  (%##%T06%#$%) FOR-Sight%S45%(%#@%INSTANT%#$%)&&ECHO.&&GOTO:PACKEX_JUMP
+@ECHO OFF&&CLS&&CALL:COLOR_LAY&&CALL:TITLE_X&&IF "%PACK_MODE%"=="INSTANT" CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%(%#@%INSTANT%#$%)&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%(%#@%INSTANT%#$%)&&ECHO  (%##%T03%#$%) End Task%S46%(%#@%INSTANT%#$%)&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%(%#@%INSTANT%#$%)&&ECHO  (%##%T05%#$%) List Accounts%S41%(%#@%INSTANT%#$%)&&ECHO  (%##%T06%#$%) FOR-Sight%S45%(%#@%INSTANT%#$%)&&ECHO.&&GOTO:PACKEX_JUMP
 CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%(%#@%DRIVER%#$%)&&ECHO  (%##%N02%#$%) New Scripted Package%S32%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N03%#$%) New AIO Package%S37%(%#@%AIOPACK%#$%)&&CALL:PAD_LINE&&ECHO %S26%(Time: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Setup+ Disable Hello%S32%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N11%#$%) Setup+ Unattended Answer-File%S23%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N12%#$%) Setup+ Initial RunOnce/Async Delay Desktop%S10%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N13%#$%) Quicker Preparing Desktop...%S24%(%#@%SCRIPTED%#$%)&&CALL:PAD_LINE&&ECHO %S30%(Any Time)&&CALL:PAD_LINE&&ECHO  (%##%N14%#$%) WinLogon Verbose%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N15%#$%) LSA Strict Rules%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N16%#$%) Local Accounts Only%S33%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N17%#$%) Store Disable%S39%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N18%#$%) OneDrive Disable%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N19%#$%) Cloud Content Disable%S31%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N20%#$%) UAC Prompt Always/Never%S29%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N21%#$%) NotificationCenter Disable%S26%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N22%#$%) Net Discovery Enable/Disable%S24%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N23%#$%) Bluetooth Advertising Enable/Disable%S16%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N24%#$%) Virtualization Based Security Enable/Disable%S8%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N25%#$%) Disable Explorer URL Access%S25%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N26%#$%) Background Apps Disable%S29%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N27%#$%) DCOM Enable/Disable (Breaks Stuff)%S18%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N28%#$%) Prioritize Ethernet%S33%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N29%#$%) Prioritize WiFi%S37%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N30%#$%) Wakelocks General Disable%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N31%#$%) Wakelocks Network Disable%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N32%#$%) VB-Script Execution Disable%S25%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N33%#$%) Feature Updates Threshold%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N34%#$%) Driver Updates Enable/Disable%S23%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N35%#$%) Dark/Light Theme%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N36%#$%) Run Program Every Boot%S30%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N37%#$%) Custom Wallpaper%S36%(%#@%SCRIPTED%#$%)&&CALL:PAD_LINE&&ECHO %S20%(Time: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%T01%#$%) Create Local User-Account%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S26%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N42%#$%) Taskmgr Prefs%S39%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N43%#$%) Boot Timeout%S40%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N44%#$%) Computer Name%S39%(%#@%SCRIPTED%#$%)&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N50%#$%) Pack-Permit Demo%S36%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N51%#$%) MSI Installer Example%S31%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N52%#$%) DISM Special%S40%(%#@%SCRIPTED%#$%)&&ECHO  (%##%N53%#$%) AutoBoot Service install%S28%(%#@%SCRIPTED%#$%)&&ECHO  (%##%DBG%#$%) Debug Pause/Echo ON/Echo OFF%S24%(%#@%SCRIPTED%#$%)
 :PACKEX_JUMP
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
-SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T01 T02 T03 T04 T05 T06 T10 N01 N02 N03 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N40 N41 N42 N43 N44 N50 N51 N52 N53 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
+SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T01 T02 T03 T04 T05 T06 N01 N02 N03 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N40 N41 N42 N43 N44 N50 N51 N52 N53 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
 IF NOT "%PASS%"=="1" EXIT /B
 IF "%PACK_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECT_TMP"
 IF "%PACK_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                   Project[%#@%%MAKER_SLOT%%#$%] folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
