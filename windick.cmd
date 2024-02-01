@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1140 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1141 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -813,13 +813,14 @@ EXIT /B
 (ECHO.Select vdisk file="%$PICK%"&&ECHO.Attach vdisk readonly&&ECHO.compact vdisk&&ECHO.detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&DEL "$DSK">NUL 2>&1
 EXIT /B
 :IMAGEMGR_LIST_MAIN
-CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.&&SET "ERROR="&&SET "LIST_CREATE="&&SET "LIST_ACTN="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
-ECHO  [ %##%P%#$% ]\[%#@%External Package%#$%]&&ECHO  [ %##%D%#$% ]\[%#@%DISM Operation]%#$%&&ECHO.&&SET "PAD_SIZE=3"&&CALL:PAD_LINE&&ECHO.&&ECHO  [ %##%*%#$% ]\[%#@%Create Base List%#$%]&&ECHO  [ %##%-%#$% ]\[%#@%Difference Base List%#$%]&&ECHO  [ %##%+%#$% ]\[%#@%Combine Exec List%#$%]&&ECHO.&&SET "PAD_SIZE=3"&&CALL:PAD_LINE&&ECHO   AVAILABLE BASE LIST'S:&&SET "NLIST=MST"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a (%##%#%#$%) To choose an action&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
+SET "ERROR="&&SET "LIST_CREATE="&&SET "LIST_ACTN="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
+CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE
+ECHO.&&ECHO  [ %##%P%#$% ]\[%#@%External Package%#$%]&&ECHO  [ %##%D%#$% ]\[%#@%DISM Operation]%#$%&&ECHO.&&SET "PAD_SIZE=3"&&CALL:PAD_LINE&&ECHO.&&ECHO  [ %##%*%#$% ]\[%#@%Create Base List%#$%]&&ECHO  [ %##%-%#$% ]\[%#@%Difference Base List%#$%]&&ECHO  [ %##%+%#$% ]\[%#@%Combine Exec List%#$%]&&ECHO.&&SET "PAD_SIZE=3"&&CALL:PAD_LINE&&ECHO   AVAILABLE BASE LIST'S:&&SET "NLIST=MST"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                    Select a (%##%#%#$%) To choose an action&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
+IF "%SELECT%"=="D" SET "LIST_CREATE=DISM"&&CALL:LIST_DISM_CREATE
+IF "%SELECT%"=="P" SET "LIST_CREATE=EXTPACKAGE"&&CALL:IMAGEMGR_LIST_PACK
 IF "%SELECT%"=="*" SET "LIST_CREATE=BASE-LIST"&&CALL:LIST_BASE_CREATE
 IF "%SELECT%"=="+" SET "LIST_CREATE=SANDWICH"&&CALL:LIST_COMBINATOR
 IF "%SELECT%"=="-" SET "LIST_CREATE=DIFF-LIST"&&SET "LIST_PASS=1"&&CALL:LIST_DIFFERENCER
-IF "%SELECT%"=="D" SET "LIST_CREATE=DISM"&&SET "LIST_ITEM=DISM"&&SET "LIST_ACTN=EXECUTE"&&CALL:LIST_DISM_CREATE
-IF "%SELECT%"=="P" CALL:IMAGEMGR_LIST_PACK
 IF DEFINED LIST_CREATE EXIT /B
 IF NOT DEFINED $ELECT$ EXIT /B
 IF "%SELECT%" GEQ "99" EXIT /B
@@ -827,13 +828,6 @@ IF NOT "%SELECT%" GEQ "1" EXIT /B
 SET /P $HEAD=<"%LIST_FOLDER%\%$ELECT$%"
 IF NOT "%$HEAD%"=="BASE-LIST" CALL:PAD_LINE&&ECHO                       Bad file-header, check file&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%$HEAD%"=="BASE-LIST" CALL:LIST_UNIFIED_CREATE
-EXIT /B
-:IMAGEMGR_LIST_PACK
-CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&ECHO.&&ECHO  [ %##%1%#$% ]\[%#@%Package%#$%[APPX]&&ECHO  [ %##%2%#$% ]\[%#@%Package%#$%[CAB]&&ECHO  [ %##%3%#$% ]\[%#@%Package%#$%[MSU]&&ECHO  [ %##%4%#$% ]\[%#@%Package%#$%[PKG]&&ECHO.&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
-IF "%SELECTX%"=="1" SET "LIST_CREATE=APPX"&&SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&SET "NLIST=APPX"&&SET "EXXT=APPX"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="2" SET "LIST_CREATE=CAB"&&SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&SET "NLIST=CAB"&&SET "EXXT=CAB"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="3" SET "LIST_CREATE=MSU"&&SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&SET "NLIST=MSU"&&SET "EXXT=MSU"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="4" SET "LIST_CREATE=PKG"&&SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&SET "NLIST=PKG"&&SET "EXXT=PKG"&&CALL:LIST_PACK_CREATE
 EXIT /B
 :LIST_UNIFIED_CREATE
 CLS&&SET "LIST_ACTN="&&SET "LIST_ITEM="&&SET "LIST_TIME="&&CALL:PAD_LINE&&ECHO                              Type of List?&&CALL:PAD_LINE
@@ -874,6 +868,14 @@ IF "%SELECTX%"=="I" SET "LIST_TIME=IMAGE-APPLY"
 IF "%SELECTX%"=="S" SET "LIST_TIME=SETUP-COMPLETE"
 IF "%SELECTX%"=="R" SET "LIST_TIME=RUN-ONCE"
 EXIT /B
+:IMAGEMGR_LIST_PACK
+SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE
+ECHO.&&ECHO  [ %##%1%#$% ]\[Package[%#@%PKG%#$%]&&ECHO  [ %##%2%#$% ]\[Package[%#@%CAB%#$%]&&ECHO  [ %##%3%#$% ]\[Package[%#@%MSU%#$%]&&ECHO  [ %##%4%#$% ]\[Package[%#@%APPX%#$%]&&ECHO.&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+IF "%SELECTX%"=="1" SET "EXXT=PKG"&&CALL:LIST_PACK_CREATE
+IF "%SELECTX%"=="2" SET "EXXT=CAB"&&CALL:LIST_PACK_CREATE
+IF "%SELECTX%"=="3" SET "EXXT=MSU"&&CALL:LIST_PACK_CREATE
+IF "%SELECTX%"=="4" SET "EXXT=APPX"&&CALL:LIST_PACK_CREATE
+EXIT /B
 :LIST_PACK_CREATE
 CLS&&CALL:PAD_LINE&&ECHO                               File Picker&&CALL:PAD_LINE&&SET "NLIST=%EXXT%"&&CALL:FILE_LIST
 CALL:PAD_MULT&&CALL:PAD_PREV&&CALL:MENU_SELECT
@@ -886,7 +888,8 @@ CALL:PAD_ADD&&SET "$LST1=%$PICK%"&&CALL:LIST_COMBINE
 CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_DISM_CREATE
-CLS&&SET "DISM_OPER="&&CALL:PAD_LINE&&ECHO                        DISM Image Maintainence&&CALL:PAD_LINE&&CALL:DISM_CHOICE
+CLS&&SET "DISM_OPER="&&SET "LIST_ITEM=DISM"&&SET "LIST_ACTN=EXECUTE"&&CALL:PAD_LINE
+ECHO                        DISM Image Maintainence&&CALL:PAD_LINE&&CALL:DISM_CHOICE
 IF NOT DEFINED DISM_OPER EXIT /B
 CALL:LIST_TIME
 IF NOT DEFINED LIST_TIME EXIT /B
@@ -1639,8 +1642,8 @@ REM DISK_MANAGER_DISK_MANAGER_DISK_MANAGER_DISK_MANAGER_DISK_MANAGER
 REM DISK_MANAGER_DISK_MANAGER_DISK_MANAGER_DISK_MANAGER_DISK_MANAGER
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:COLOR_LAY&&CALL:TITLE_X&&CALL:CLEAN&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENUX="&&SET "ERROR="
 CALL:PAD_LINE&&ECHO                             Disk Management&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE
-ECHO  [%#@%DISK%#$%] (%##%B%#$%)oot        (%##%I%#$%)nspect       (%##%E%#$%)rase        (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
-IF NOT "%PROG_MODE%"=="RAMDISK" ECHO  [%#@%PART%#$%] (%##%C%#$%)reate       (%##%D%#$%)elete       (%##%F%#$%)ormat       (%##%M%#$%)ount/Unmount
+ECHO  [%#@%DISK%#$%] (%##%B%#$%)oot       (%##%I%#$%)nspect       (%##%E%#$%)rase       (%##%*%#$%)NextBoot[%#@%%NEXT_BOOT%%#$%]&&CALL:PAD_LINE
+IF NOT "%PROG_MODE%"=="RAMDISK" ECHO  [%#@%PART%#$%] (%##%C%#$%)reate     (%##%D%#$%)elete     (%##%F%#$%)ormat     (%##%M%#$%)ount     (%##%U%#$%)nmount 
 IF "%PROG_MODE%"=="RAMDISK" ECHO  [%#@%PART%#$%] (%##%C%#$%)reate (%##%D%#$%)elete (%##%F%#$%)ormat (%##%M%#$%)ount (%##%U%#$%)nmount (%##%H%#$%)ide Host[%#@%%HOST_HIDE%%#$%]
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
@@ -1946,7 +1949,7 @@ REM BOOT_CREATOR_BOOT_CREATOR_BOOT_CREATOR_BOOT_CREATOR_BOOT_CREATOR__BOOT_CREAT
 CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:COLOR_LAY&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              Boot Creator&&CALL:PAD_LINE&&IF NOT DEFINED FILEZ SET "FILEZ=MOVE"
 IF "%HOST_SIZE%"=="DISABLED" (SET "EMBEE=") ELSE (SET "EMBEE=MB")
 IF "%FOLDER_MODE%"=="UNIFIED" ECHO   AVAILABLE VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
-IF "%FOLDER_MODE%"=="ISOLATED" ECHO   MAIN FOLDER VHDX'S:&&SET "BLIST=MAIN"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                       [%#@%MAIN%#$%(%##%-%#$%) (%##%X%#$%)[%#@%%FILEZ%%#$%] (%##%+%#$%)%#@%IMAGE%#$%]&&CALL:PAD_LINE&&ECHO   IMAGE FOLDER VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
+IF "%FOLDER_MODE%"=="ISOLATED" ECHO   MAIN FOLDER VHDX'S:&&SET "BLIST=MAIN"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO                        %#@%MAIN%#$%(%##%-%#$%) (%##%X%#$%)%#@%%FILEZ%%#$%] (%##%+%#$%)%#@%IMAGE%#$%&&CALL:PAD_LINE&&ECHO   IMAGE FOLDER VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO  (%##%O%#$%)ptions                       (%##%G%#$%)o^^!        (%##%V%#$%)HDX[%#@%%VHDX_SLOT0%%#$%]&&CALL:PAD_LINE
 IF DEFINED ADV_BOOT ECHO  [%#@%OPTIONS%#$%] (%##%E%#$%)xport EFI (%##%H%#$%)ost Size[%#@%%HOST_SIZE%%EMBEE%%#$%] (%##%L%#$%)ock Recovery[%#@%%LOCK_RECOVERY%%#$%]&&CALL:PAD_LINE
 IF DEFINED ADV_BOOT IF "%PROG_MODE%"=="RAMDISK" ECHO  [%#@%SPECIAL%#$%] (%##%.%#$%)Modify Boot Menu                (%##%U%#$%)pdate Recovery&&CALL:PAD_LINE
