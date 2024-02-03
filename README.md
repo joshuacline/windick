@@ -5,7 +5,7 @@ A native command shell Windows image deployment tool.
 - https://softpedia.com/get/System/System-Miscellaneous/Windows-Deployment-Image-Customization-Kit.shtml
 - Tutorials:
 - https://youtube.com/@wdicustomizationkit
-- https://social.technet.microsoft.com/wiki/contents/articles/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell.aspx
+- https://learn.microsoft.com/en-us/archive/technet-wiki/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell
 ![Alt text](/png/00.png "00")
 ![Alt text](/png/01.png "01")
 ![Alt text](/png/02.png "02")
