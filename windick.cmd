@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1142 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1143 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -32,7 +32,7 @@ ECHO.&&ECHO  (%##%1%#$%) Image Processor&&ECHO  (%##%2%#$%) Image Management&&EC
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" ECHO  [%#@%Disk Error%#$%] [ID[%#@%%HOST_TARGET%%#$%]&&CALL:PAD_LINE
 IF DEFINED HOST_TARGET IF "%HOST_MOUNT%"=="YES" IF "%PROG_SOURCE%"=="S:\$" ECHO  [Disk[%#@%%HOST_NUMBER%%#$%] [ID[%#@%%HOST_TARGET%%#$%]&&CALL:PAD_LINE
 IF NOT "%PROG_MODE%"=="RAMDISK" ECHO  (%##%Q%#$%)uit (%##%?%#$%)                              [%#@%%FREE%GB%#$% Free] [%#@%%PROG_MODE% MODE%#$%]&&CALL:PAD_LINE
-IF "%PROG_MODE%"=="RAMDISK" ECHO  (%##%Q%#$%)uit (%##%?%#$%) (%##%@%#$%)Basic Mode                 [%#@%%FREE%GB%#$% Free] [%#@%%PROG_MODE% MODE%#$%]&&CALL:PAD_LINE
+IF "%PROG_MODE%"=="RAMDISK" ECHO  (%##%Q%#$%)uit (%##%@%#$%)Basic Mode (%##%?%#$%)                 [%#@%%FREE%GB%#$% Free] [%#@%%PROG_MODE% MODE%#$%]&&CALL:PAD_LINE
 IF "%SHORTCUTS%"=="ENABLED" ECHO  (%##%%HOTKEY_1%%#$%) (%##%%HOTKEY_2%%#$%) (%##%%HOTKEY_3%%#$%) (%##%%HOTKEY_4%%#$%) (%##%%HOTKEY_5%%#$%)&&CALL:PAD_LINE
 CALL:MENU_SELECT
 IF "%SELECT%"=="Q" GOTO:QUIT
@@ -138,8 +138,8 @@ IF "%SELECT%"=="@" SET "BASIC_MODE=DISABLED"&&GOTO:MAIN_MENU
 GOTO:BASIC_MODE
 :BASIC_DELETE
 CLS&&CALL:PAD_LINE&&ECHO                           Delete Which Type?&&CALL:PAD_LINE&&ECHO.&&ECHO. (%##%1%#$%)VHDX&&ECHO. (%##%2%#$%)WIM&&ECHO.&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PICK=MAIN"&&CALL:FILE_PICK&&CALL:FMGR_DEL
-IF "%SELECT%"=="2" SET "PICK=WIM"&&CALL:FILE_PICK&&CALL:FMGR_DEL
+IF "%SELECT%"=="1" SET "PICK=MAIN"&&CALL:FILE_PICK&&CALL:FMGR_DEL&&SET "SELECT="
+IF "%SELECT%"=="2" SET "PICK=WIM"&&CALL:FILE_PICK&&CALL:FMGR_DEL&&SET "SELECT="
 EXIT /B
 :BASIC_BACKUP
 SET "PICK=MAIN"&&CALL:FILE_PICK
@@ -150,7 +150,7 @@ IF NOT DEFINED WIM_TARGET EXIT /B
 IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" CALL:PAD_LINE&&ECHO  %#@%%WIM_TARGET%%#$% exists. Try another name or delete the existing file..&&CALL:PAD_LINE&&CALL:PAUSED
 IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" EXIT /B
 SET "WIM_INDEX=1"&&CALL:IMAGEPROC_START
-IF NOT DEFINED ERR_MSG ECHO  %#@%%WIM_TARGET%%#$% converted to %#@%%VHDX_SOURCE%%#$%.&&CALL:PAD_LINE
+IF NOT DEFINED ERR_MSG ECHO  %#@%%VHDX_SOURCE%%#$% converted to %#@%%WIM_TARGET%%#$%.&&CALL:PAD_LINE
 CALL:PAUSED
 EXIT /B
 :BASIC_RESTORE
