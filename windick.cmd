@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1145 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1146 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -158,9 +158,9 @@ GOTO:BASIC_MODE
 ECHO                      Image Processor / Boot Creator&&CALL:PAD_LINE
 IF DEFINED SOURCE_LOCATION ECHO   (%##%-%#$%)Import Boot  %##%Windows Installation Media Detected%#$%  Import WIM(%##%+%#$%)&&CALL:PAD_LINE
 IF EXIST "%IMAGE_FOLDER%\*.WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
-IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO         %#@%Insert a Windows Disc/ISO to import installation media%#$%&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
+IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO         %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
 IF EXIST "%BOOT_FOLDER%\boot.sav" IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO  [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
-IF NOT EXIST "%BOOT_FOLDER%\boot.sav" ECHO             %#@%Insert a Windows Disc/ISO to import boot media%#$%&&CALL:PAD_LINE
+IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO             %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="PORTABLE" ECHO  (%##%Q%#$%)uit (%##%*%#$%)Advanced Mode (%##%F%#$%)ile Operation                  %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" CALL:PAD_PREV
 CALL:MENU_SELECT
@@ -315,7 +315,7 @@ EXIT /B
 REM COMMAND_MODE_COMMAND_MODE_COMMAND_MODE_COMMAND_MODE_COMMAND_MODE
 :COMMAND_MODE
 REM COMMAND_MODE_COMMAND_MODE_COMMAND_MODE_COMMAND_MODE_COMMAND_MODE
-SET "ERROR="&&SET "BRUTE_FORCE="&&SET "PROG_SOURCE=%PROG_FOLDER%"&&SET "PROG_TARGET=%PROG_FOLDER%"&&CALL:FOLDER_LOCATE&&SET "EXIT_FLAG="&&CALL:COMMAND_ERROR
+SET "ERROR="&&SET "BRUTE_FORCE="&&SET "PROG_SOURCE=%PROG_FOLDER%"&&SET "PROG_TARGET=%PROG_FOLDER%"&&CALL:FOLDER_LOCATE&&SET "EXIT_FLAG="&&CALL:COMMAND_ERROR&&CALL:PAD_LINE>NUL
 IF "%EXIT_FLAG%"=="1" GOTO:CLEAN_EXIT
 IF "%ARG1%"=="-HELP" CALL:COMMAND_HELP
 IF "%ARG1%"=="-FILEMGR" IF "%ARG2%"=="-GRANT" IF DEFINED ARG3 IF EXIST "%ARG3%" SET "$PICK=%ARG3%"&&SET "NO_PAUSE=1"&&CALL:FMGR_OWN
@@ -425,6 +425,19 @@ ECHO    -diskmgr -unmount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -
 ECHO.&&ECHO Specified images, lists, or boot media must be in their respective folders or the operation will fail.
 ECHO Note when using command-mode: in some instances there cannot be a space in the file name.
 EXIT /B
+:DISCLAIMER
+CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.
+ECHO    -------------------------- %XLR2%DISCLAIMER%#$% --------------------------
+ECHO     IT'S RECOMMENDED TO BACKUP YOUR DATA BEFORE MAKING ANY CHANGES
+ECHO      TO THE LIVE OPERATING SYSTEM OR PERFORMING DISK PARTITIONING
+ECHO    ----------------------------------------------------------------
+ECHO  The user assumes liability for loss relating to the use of this tool.     
+ECHO.&&ECHO                           Do You Agree? (%##%Y%#$%/%##%N%#$%)
+ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=ACCEPTX"&&CALL:PROMPT_SET
+IF "%ACCEPTX%"=="Y" SET "DISCLAIMER=ACCEPTED"
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO      The ( %##%@%#$% ) %##%Current-Environment%#$% option ^& disk management area
+ECHO          are the 'caution zones' and can be avoided if unsure.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAUSED
+EXIT /B
 :TITLECARD
 SET "RND_SET=TITX"&&CALL:RANDOM
 IF "%TITX%"=="1" SET "TITLE_X= When finished, backup by converting to WIM."
@@ -442,20 +455,6 @@ SET "TITX="&&CALL:TITLE_X
 EXIT /B
 :MAIN_MENU_HELP
 CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Processor      [%#@%Convert/isolate WIM/VHDX images%#$%]&&ECHO   (%##%2%#$%)Image Management     [%#@%Perform image related tasks%#$%]&&ECHO   (%##%3%#$%)Package Creator      [%#@%Create driver/scripted packages%#$%]&&ECHO   (%##%4%#$%)File Management      [%#@%Simple file manager, file-picker%#$%]&&ECHO   (%##%5%#$%)Disk Management      [%#@%Basic disk partitioning%#$%]&&ECHO     (%##%B%#$%)oot                [%#@%Create bootable deployment environment%#$%]&&ECHO   (%##%6%#$%)Tasks                [%#@%Miscellaneous tasks%#$%]&&ECHO   (%##%7%#$%)Settings             [%#@%Settings%#$%]&&ECHO   (%##%.%#$%)Modify Boot Menu     [%#@%Configure VHDX Slots%#$%]&&ECHO # (%##%U%#$%)pdate                [%#@%Push various updates to EFI%#$%]&&ECHO   (%##%*%#$%)Basic Mode           [%#@%Reduced functionality mode%#$%]&&ECHO.&&ECHO                 # Appears only when booted into recovery&&CALL:PAD_LINE&&CALL:PAUSED
-EXIT /B
-:DISCLAIMER
-CLS&&CALL:PAD_LINE&&ECHO %XLR2%
-ECHO    -------------------------- %#$%DISCLAIMER%XLR2% --------------------------
-ECHO     IT'S RECOMMENDED TO BACKUP YOUR DATA BEFORE MAKING ANY CHANGES
-ECHO      TO THE LIVE OPERATING SYSTEM OR PERFORMING DISK PARTITIONING
-ECHO    ----------------------------------------------------------------
-ECHO       By using this tool: You assume full liability for any loss 
-ECHO     that occurs resulting from or relating to the use of this tool.
-ECHO.&&CALL:PAD_LINE&&ECHO                           Do You Agree? (%##%Y%#$%/%##%N%#$%)
-CALL:PAD_LINE&&SET "PROMPT_SET=ACCEPTX"&&CALL:PROMPT_SET
-IF "%ACCEPTX%"=="Y" SET "DISCLAIMER=ACCEPTED"
-CALL:PAD_LINE&&ECHO      The ( %##%@%#$% ) %##%Current-Environment%#$% option ^& disk management area
-ECHO          are the 'caution zones' and can be avoided if unsure.&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PROMPT_SET
 IF NOT DEFINED PROMPT_SET SET "PROMPT_SET=SELECT"
@@ -518,13 +517,13 @@ IF EXIST "%PROG_SOURCE%\PROJECT_TMP" DEL /F "%PROG_SOURCE%\PROJECT_TMP">NUL
 EXIT /B
 :CHECK
 SET "ERROR="&&IF NOT DEFINED SELECT SET "ERROR=1"
-SET "CHAR_CHK= "&&SET "CHAR_STR=%SELECT%"&&CALL:CHAR_CHK
-IF "%CHECK%"=="NUM" IF "%SELECT%" LSS "0" SET "ERROR=1"
-IF "%CHECK%"=="NUM" IF "%SELECT%" GTR "9999999" SET "ERROR=1"
-IF "%CHECK%"=="NUM" SET "CAPS_SET=SELECT"&&SET "CAPS_VAR=%SELECT%"&&CALL:CAPS_SET
-IF "%CHECK%"=="NUM" FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (SET "CHAR_CHK=%%G"&&SET "CHAR_STR=%SELECT%"&&CALL:CHAR_CHK)
-IF "%CHECK%"=="LTR" SET "CAPS_SET=SELECT"&&SET "CAPS_VAR=%SELECT%"&&CALL:CAPS_SET
-IF "%CHECK%"=="LTR" FOR %%G in (0 1 2 3 4 5 6 7 8 9) DO (SET "CHAR_CHK=%%G"&&SET "CHAR_STR=%SELECT%"&&CALL:CHAR_CHK)
+IF NOT DEFINED ERROR SET "CHAR_CHK= "&&SET "CHAR_STR=%SELECT%"&&CALL:CHAR_CHK
+IF NOT DEFINED ERROR IF "%CHECK%"=="NUM" IF "%SELECT%" LSS "0" SET "ERROR=1"
+IF NOT DEFINED ERROR IF "%CHECK%"=="NUM" IF "%SELECT%" GTR "9999999" SET "ERROR=1"
+IF NOT DEFINED ERROR IF "%CHECK%"=="NUM" SET "CAPS_SET=SELECT"&&SET "CAPS_VAR=%SELECT%"&&CALL:CAPS_SET
+IF NOT DEFINED ERROR IF "%CHECK%"=="NUM" FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (SET "CHAR_CHK=%%G"&&SET "CHAR_STR=%SELECT%"&&CALL:CHAR_CHK)
+IF NOT DEFINED ERROR IF "%CHECK%"=="LTR" SET "CAPS_SET=SELECT"&&SET "CAPS_VAR=%SELECT%"&&CALL:CAPS_SET
+IF NOT DEFINED ERROR IF "%CHECK%"=="LTR" FOR %%G in (0 1 2 3 4 5 6 7 8 9) DO (SET "CHAR_CHK=%%G"&&SET "CHAR_STR=%SELECT%"&&CALL:CHAR_CHK)
 SET "CHECK="
 EXIT /B
 :VER_GET
@@ -582,7 +581,7 @@ CALL SET "OBJ_CHKX=%%%OBJ_CHK%%%"
 IF NOT EXIST "%OBJ_FLD%\%OBJ_CHKX%" CALL SET "%OBJ_CHK%=SELECT"
 EXIT /B
 :FOLDER_MODE
-CALL:PAD_LINE&&ECHO.       The folder structure will be regenerated. If a file is &&ECHO.     open/mounted and cannot be moved it's possible to lose data.&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO.       The folder structure will be regenerated. If a file is &&ECHO.     open/mounted and cannot be moved it's possible to lose data.&&ECHO.&&ECHO.                         Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT "%SELECT%"=="X" EXIT /B
 IF "%FOLDER_MODE%"=="UNIFIED" SET "FOLDER_MODE=ISOLATED"&&GOTO:FOLDER_ISOLATED
 IF "%FOLDER_MODE%"=="ISOLATED" SET "FOLDER_MODE=UNIFIED"&&GOTO:FOLDER_UNIFIED
@@ -978,7 +977,7 @@ IF NOT DEFINED $PICK EXIT /B
 "%$PICK%"&&CALL:SETS_HANDLER
 EXIT /B
 :ISO_UNMOUNT
-CALL:PAD_LINE&&ECHO                    Remove which ISO Drive Letter?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=ISO_LETTER"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                    Remove which ISO Drive Letter?&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=ISO_LETTER"&&CALL:PROMPT_SET
 IF NOT DEFINED ISO_LETTER EXIT /B
 (ECHO.select VOLUME %ISO_LETTER%&&ECHO.Remove letter=%ISO_LETTER% noerr&&ECHO.Exit)>"$DSK"&&CALL:PAD_LINE&&DISKPART /s "$DSK"&&ECHO Drive letter %ISO_LETTER% removed&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
@@ -1692,13 +1691,13 @@ IF EXIST "%PROG_SOURCE%\ScratchAIO" ATTRIB -R -S -H "%PROG_SOURCE%\ScratchAIO" /
 IF EXIST "%PROG_SOURCE%\ScratchAIO" RD /S /Q "\\?\%PROG_SOURCE%\ScratchAIO">NUL 2>&1
 EXIT /B
 :BOOT_IMPORT
-IF EXIST "%BOOT_FOLDER%\boot.sav" CALL:PAD_LINE&&ECHO          File boot.sav already exists. Press (%##%X%#$%) to overwrite.&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF EXIST "%BOOT_FOLDER%\boot.sav" CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO          File boot.sav already exists. Press (%##%X%#$%) to overwrite.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF EXIST "%BOOT_FOLDER%\boot.sav" IF NOT "%CONFIRM%"=="X" EXIT /B
 IF EXIST "%SOURCE_LOCATION%\boot.wim" ECHO Importing %#@%boot.wim%#$% to boot.sav...&&COPY /Y "%SOURCE_LOCATION%\boot.wim" "%BOOT_FOLDER%\boot.sav"
 EXIT /B
 :SOURCE_IMPORT
-IF EXIST "%SOURCE_LOCATION%\install.wim" ECHO.&&CALL:PAD_LINE&&ECHO                          Type new name of wim&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
-IF EXIST "%IMAGE_FOLDER%\%NEW_NAME%.wim" CALL:PAD_LINE&&ECHO          File %NEW_NAME%.wim already exists. Press (%##%X%#$%) to overwrite.&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF EXIST "%SOURCE_LOCATION%\install.wim" ECHO.&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                          Type new name of wim&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+IF EXIST "%IMAGE_FOLDER%\%NEW_NAME%.wim" CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO          File %NEW_NAME%.wim already exists. Press (%##%X%#$%) to overwrite.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF EXIST "%IMAGE_FOLDER%\%NEW_NAME%.wim" IF NOT "%CONFIRM%"=="X" EXIT /B
 IF DEFINED NEW_NAME ECHO Copying install.wim to %#@%%NEW_NAME%.wim%#$%...&&COPY /Y "%SOURCE_LOCATION%\install.wim" "%IMAGE_FOLDER%\%NEW_NAME%.wim"&&SET "NEW_NAME="
 EXIT /B
@@ -1942,7 +1941,7 @@ ECHO                        (%##%X%#$%)Try again (%##%Enter%#$%)Abort&&CALL:PAD_
 IF "%CONFIRM%"=="X" GOTO:PART_CREATE
 EXIT /B
 :BOOT_FETCH
-CALL:PAD_LINE&&ECHO      File boot.sav doesn't exist. Press (%##%X%#$%) to copy from recovery&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO      File boot.sav doesn't exist. Press (%##%X%#$%) to copy from recovery&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" EXIT /B
 CALL:EFI_MOUNT&&CALL:PAD_LINE&&ECHO  Copying %#@%boot.sav%#$%...&&COPY /Y "U:\$.WIM" "%BOOT_FOLDER%\boot.sav">NUL 2>&1
 CALL:EFI_UNMOUNT
@@ -1953,20 +1952,19 @@ IF "%NEXT_BOOT%"=="RECOVERY" SET "BOOT_TARGET=VHDX"&&CALL:BOOT_TOGGLE&EXIT /B
 IF "%NEXT_BOOT%"=="VHDX" SET "BOOT_TARGET=RECOVERY"&&CALL:BOOT_TOGGLE&EXIT /B
 EXIT /B
 :CONFIRM
-IF DEFINED ERROR SET "NO_TOP="&&SET "BTM_PAD="&&EXIT /B
+IF DEFINED ERROR SET "NO_TOP="&&EXIT /B
 IF NOT DEFINED NO_TOP CALL:PAD_LINE
-ECHO                   Are your sure? Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                   Are your sure? Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 SET "NO_TOP="&&IF NOT "%CONFIRM%"=="X" SET "ERROR=1"
-IF DEFINED BTM_PAD SET "BTM_PAD="&&CALL:PAD_LINE
 EXIT /B
 :LETTER_GET
 IF DEFINED ERROR EXIT /B
-CALL:PAD_LINE&&ECHO                           Which Drive Letter?&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=LTR"&&CALL:CHECK
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                           Which Drive Letter?&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=LTR"&&CALL:CHECK
 IF NOT DEFINED ERROR SET "DISK_LETTER=%SELECT%"
 EXIT /B
 :PART_GET
 IF DEFINED ERROR EXIT /B
-ECHO                           Which Partition? (%##%#%#$%)&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                           Which Partition? (%##%#%#$%)&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
 IF NOT DEFINED ERROR SET "PART_NUMBER=%SELECT%"
 EXIT /B
 :DISK_PART_END
@@ -1977,7 +1975,7 @@ EXIT /B
 :PART_CREATE_PROMPT
 IF DEFINED ERROR EXIT /B
 IF NOT DEFINED DISK_NUMBER EXIT /B
-ECHO             Enter a partition size. (%##%0%#$%) Remainder of space &&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO             Enter a partition size. (%##%0%#$%) Remainder of space &&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
 IF NOT DEFINED ERROR SET "PART_SIZE=%SELECT%"&&CALL:CONFIRM&&CALL:DISKMGR_CREATE
 EXIT /B
 :DISKMGR_CREATE
@@ -2016,6 +2014,7 @@ EXIT /B
 :DISK_ERASE_PROMPT
 CLS&&CALL:PAD_LINE&&ECHO                          Select a disk to erase&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 SET "CHECK=NUM"&&CALL:CHECK
+IF DEFINED HOST_NUMBER IF "%SELECT%"=="%HOST_NUMBER%" SET "ERROR=1"
 IF NOT DEFINED ERROR SET "DISK_NUMBER=%SELECT%"&&CALL:CONFIRM&&CALL:DISKMGR_ERASE
 EXIT /B
 :DISKMGR_ERASE
@@ -2112,40 +2111,29 @@ CALL:BOOT_QUERY&&SET "BOOT_TARGET="
 EXIT /B
 :DISK_MENU
 IF EXIST "%TEMP%\DISK_TARGET" DEL /F "%TEMP%\DISK_TARGET">NUL
-SET "ERROR="&&SET "DISK_CONFLICT="&&SET "DISK_TARGET="&&SET "DISK_NUMBER="&&CALL:DISK_QUERY
+SET "ERROR="&&SET "DISK_CONFLICT="&&SET "DISK_NUMBER="&&SET "DISK_TARGET="&&CALL:DISK_QUERY
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-IF "%SELECT%" GTR "9999999" SET "ERROR=1"&&EXIT /B
-IF "%SELECT%" LSS "0" SET "ERROR=1"&&EXIT /B
-FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) DO (IF "%SELECT%"=="%%a" CALL SET "DISK_TARGET=%%DISKID_%%a%%"&&CALL SET "DISK_TYPE=%%DISKTYPE_%%a%%")
-IF "%DISK_TARGET%"=="" SET "ERROR=1"
-IF "%DISK_TARGET%"=="%HOST_TARGET%" SET "ERROR=1"
-IF "%DISK_TARGET%"=="00000000" SET "ERROR=1"&&CALL:DISK_CONFLICT
-IF "%DISK_TARGET%"=="0000-0000" SET "ERROR=1"&&CALL:DISK_CONFLICT
+SET "CHECK=NUM"&&CALL:CHECK&&IF NOT DEFINED DISK_%SELECT% SET "ERROR=1"
 IF DEFINED ERROR EXIT /B
-CALL:DISK_QUERY>NUL
-IF "%DISK_NUMBER%"=="" SET "ERROR=1"&&EXIT /B
-ECHO.%DISK_TARGET%>"%TEMP%\DISK_TARGET"
-CALL:PAD_LINE&&ECHO  DISK %#@%%DISK_NUMBER%%#$% UID %#@%%DISK_TARGET%%#$% is the target disk&&CALL:PAD_LINE
-EXIT /B
-:DISK_CONFLICT
-SET "DISK_CONFLICT=1"&&CALL:PAD_LINE&&ECHO                   Generic disk UID detected [%XLR2%00000000%#$%].&&CALL:PAD_LINE
+CALL SET "DISK_TARGET=%%DISKID_%SELECT%%%"&&CALL:DISK_QUERY>NUL
+FOR %%G in (DISK_NUMBER DISK_TARGET) DO (IF NOT DEFINED %%G SET "ERROR=1"&&EXIT /B)
+IF "%DISK_TARGET%"=="00000000" SET "ERROR=1"&&SET "DISK_CONFLICT=1"&&CALL:PAD_LINE&&ECHO                   Generic disk UID detected [%XLR2%00000000%#$%].&&CALL:PAD_LINE
+IF DEFINED HOST_TARGET IF "%HOST_TARGET%"=="%DISK_TARGET%" SET "ERROR=1"
+IF NOT DEFINED ERROR CALL:PAD_LINE&&ECHO  DISK %#@%%DISK_NUMBER%%#$% UID %#@%%DISK_TARGET%%#$% is the target disk&&CALL:PAD_LINE&&ECHO.%DISK_TARGET%>"%TEMP%\DISK_TARGET"
 EXIT /B
 :DISK_QUERY
 IF NOT DEFINED NOBOX SET "BOX=T1"&&CALL:BOX
-(ECHO.LIST DISK&&ECHO.Exit)>"$DSK1"&&DISKPART /s "$DSK1">"$DSK2"
-FOR /F "TOKENS=2,4 SKIP=8 DELIMS= " %%a in ($DSK2) DO ((ECHO.SELECT DISK %%a&&ECHO.DETAIL DISK&&ECHO.Exit)>"$DSK3"&&DISKPART /s "$DSK3">"$DSK4"
-IF NOT "%%a"=="DiskPart..." FOR /F "TOKENS=1-5 SKIP=7 DELIMS={}: " %%1 in ($DSK4) DO (IF "%%1"=="Type" IF "%%2"=="File" SET "VSKIP%%a=%%a"))
-FOR /F "TOKENS=2,4 SKIP=8 DELIMS= " %%a in ($DSK2) DO (SET "DISK%%a="&&SET "DISKVENDOR_%%a="
-IF NOT DEFINED VSKIP%%a (ECHO.select disk %%a&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK3"&&DISKPART /s "$DSK3">"$DSK4"&&ECHO.
-IF NOT DEFINED VSKIP%%a IF NOT "%%a"=="DiskPart..." FOR /F "TOKENS=1-9 SKIP=7 DELIMS={}: " %%1 in ($DSK4) DO (
-IF NOT DEFINED DISK%%a SET "DISK%%a=%%a"&&ECHO    Disk ^(%##%%%a%#$%^)
-IF NOT DEFINED DISKVENDOR_%%a SET "DISKVENDOR_%%a=%%1 %%2 %%3"&&ECHO   Vendor = %#@%%%1 %%2 %%3%#$%
-IF "%%1"=="Type" SET "DISKTYPE_%%a=%%2"&&ECHO    Type  = %#@%%%2%#$%
-IF "%%1 %%2"=="Disk ID" SET "DISKID_%%a=%%3"&&ECHO    UID   = %#@%%%3%#$%&&IF "%%3"=="%DISK_TARGET%" SET "DISK_NUMBER=%%a"
-IF "%%1 %%2 %%3"=="Pagefile Disk Yes" ECHO  %XLR2% Active Pagefile%#$%
-IF "%%1"=="Partition" IF NOT "%%2"=="###" ECHO  P%%2 Size = %#@%%%4 %%5%#$%
-IF "%%3"=="S" SET "HOST_VOLUME=%%2"
-IF "%%3"=="T" SET "XTRA_VOLUME=%%2"))
+(ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1,2,4 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
+IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISK_%%b="&&SET "DISKVND="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
+IF "%%1 %%2"=="Disk %%b" SET "DISK_%%b=%%b"&&ECHO.&&ECHO    %#@%Disk%#$% ^(%##%%%b%#$%^)
+IF NOT "%%1 %%2"=="Disk %%b" IF NOT DEFINED DISKVND SET "DISKVND=$"&&ECHO   %#@%Vendor%#$% = %%1 %%2 %%3
+IF "%%1"=="Type" ECHO    %#@%Type%#$%  = %%2
+IF "%%1 %%2"=="Disk ID" SET "DISKID_%%b=%%3"&&ECHO    %#@%UID%#$%   = %%3&&IF "%%3"=="%DISK_TARGET%" SET "DISK_NUMBER=%%b"
+IF "%%1 %%2 %%3"=="Pagefile Disk Yes" SET "DISK_%%b="&&ECHO  %XLR2% Active Pagefile%#$%
+IF "%%1"=="Partition" IF NOT "%%2"=="###" ECHO  %#@%P%%2 Size%#$% = %%4 %%5
+IF "%%2 %%3 %%4"=="File Backed Virtual" SET "DISK_%%b="&&ECHO    %XLR2%Virtual Disk%#$%
+IF "%%1 %%3"=="Volume S" SET "HOST_VOLUME=%%2"
+IF "%%1 %%3"=="Volume T" SET "XTRA_VOLUME=%%2"))
 ECHO.&&IF NOT DEFINED NOBOX SET "BOX=B1"&&CALL:BOX
 SET "NOBOX="&&DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
@@ -2166,8 +2154,8 @@ IF "%SELECT%"=="O" IF NOT DEFINED ADV_BOOT SET "ADV_BOOT=1"&&SET "SELECT="
 IF "%SELECT%"=="G" CALL:BOOT_CREATOR_PROMPT
 GOTO:BOOT_CREATOR
 :HOST_SIZE
-IF "%HOST_SIZE%"=="DISABLED" CALL:PAD_LINE&&ECHO.&&ECHO   Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO     One benefit is having an additional drive letter when used in &&ECHO   conjunction with the hide host partition option in Disk Management.&&ECHO  Should be larger than the combined maximum filled size of all VHDX's.&&ECHO.
-CALL:PAD_LINE&&ECHO                     VHDX host partition size in MB?&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=HOST_SIZE"&&CALL:PROMPT_SET
+IF "%HOST_SIZE%"=="DISABLED" CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO   Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO     One benefit is having an additional drive letter when used in &&ECHO   conjunction with the hide host partition option in Disk Management.&&ECHO  Should be larger than the combined maximum filled size of all VHDX's.&&ECHO.&&SET "BOX=B2"&&CALL:BOX
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                     VHDX host partition size in MB?&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=HOST_SIZE"&&CALL:PROMPT_SET
 SET "SELECT=%HOST_SIZE%"&&SET "CHECK=NUM"&&CALL:CHECK
 IF DEFINED ERROR SET "HOST_SIZE=DISABLED"
 EXIT /B
@@ -2201,9 +2189,9 @@ IF NOT DEFINED IMAGEINDEX IF NOT "%INDEX_TMP%" EQU "20" GOTO:FIND_INDEX
 SET "IMAGEFILE="&&SET "INDEX_TMP="&&SET "INDEX_WORD="&&DEL /Q /F "$DISM">NUL 2>&1
 EXIT /B
 :EFI_FETCH
-IF EXIST "%BOOT_FOLDER%\boot.sdi" CALL:PAD_LINE&&ECHO          File boot.sdi already exists. Press (%##%X%#$%) to overwrite.&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF EXIST "%BOOT_FOLDER%\boot.sdi" CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO          File boot.sdi already exists. Press (%##%X%#$%) to overwrite.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF EXIST "%BOOT_FOLDER%\boot.sdi" IF NOT "%CONFIRM%"=="X" EXIT /B
-IF EXIST "%BOOT_FOLDER%\bootmgfw.efi" CALL:PAD_LINE&&ECHO        File bootmgfw.efi already exists. Press (%##%X%#$%) to overwrite.&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF EXIST "%BOOT_FOLDER%\bootmgfw.efi" CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO        File bootmgfw.efi already exists. Press (%##%X%#$%) to overwrite.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF EXIST "%BOOT_FOLDER%\bootmgfw.efi" IF NOT "%CONFIRM%"=="X" EXIT /B
 CALL:PAD_LINE&&ECHO        Extracting boot-media. Using boot.sav located in folder...&&CALL:PAD_LINE&&CALL:VTEMP_CREATE
 SET "IMAGEFILE=%BOOT_FOLDER%\boot.sav"&&SET "INDEX_WORD=Setup"&&CALL:FIND_INDEX&&SET "IMAGEFILE=%BOOT_FOLDER%\boot.sav"&&CALL:APPLY_IMAGE
@@ -2214,7 +2202,7 @@ EXIT /B
 :BOOT_CREATOR_PROMPT
 CLS&&CALL:PAD_LINE&&ECHO                          Select a disk to erase&&CALL:PAD_LINE&&CALL:DISK_MENU
 IF DEFINED DISK_CONFLICT SET "ERROR="
-IF NOT DEFINED ERROR ECHO                   %XLR2%Are your sure?%#$% Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF NOT DEFINED ERROR SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                   %XLR2%Are your sure?%#$% Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" SET "ERROR=1"
 IF DEFINED ERROR EXIT /B
 IF DEFINED DISK_CONFLICT CALL:PAD_LINE&&ECHO                           Converting to GPT..&&SET "ERROR="&&SET "DISK_NUMBER=%SELECT%"&&CALL:DISKMGR_ERASE
@@ -2340,7 +2328,7 @@ CALL:PAD_LINE&&ECHO  Saving Boot Menu...&&CALL:PAD_LINE&&CALL:EFI_MOUNT&&CALL:BC
 CALL:EFI_UNMOUNT&&ECHO  Done.&&CALL:PAD_LINE
 EXIT /B
 :UPDATE_RECOVERY
-SET "ERROR="&&CLS&&CALL:PAD_LINE&&ECHO                            Recovery Update&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%1%#$%) Program&&ECHO  (%##%2%#$%) Recovery Password&&ECHO  (%##%3%#$%) Boot Media&&ECHO  (%##%4%#$%) EFI Files&&ECHO.&&CALL:PAD_LINE
+SET "ERROR="&&CLS&&CALL:PAD_LINE&&ECHO                            Recovery Update&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%1%#$%) Program&&ECHO  (%##%2%#$%) Recovery Password&&ECHO  (%##%3%#$%) Boot Media&&ECHO  (%##%4%#$%) EFI Files&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE
 ECHO                         Select a (%##%#%#$%) to update&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="1" CALL:CONFIRMX&&CALL:UPDATE_PROG
@@ -2367,7 +2355,7 @@ ECHO                             Unmounting EFI...&&CALL:PAD_LINE&&CALL:VTEMP_DE
 EXIT /B
 :UPDATE_PASS
 IF DEFINED ERROR EXIT /B
-CALL:PAD_LINE&&ECHO       %XLR2%Important:%#$% Do not use any of these symbols [%XLR2% ^< ^> %% ^^! ^& ^^^^ %#$%].&&ECHO     These can break the password login to the recovery environment.&&CALL:PAD_LINE&&ECHO         Type new recovery password or press (%##%Enter%#$%) to remove.&&CALL:PAD_LINE&&SET "PROMPT_SET=RECOVERY_LOCK"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO       %XLR2%Important:%#$% Do not use any of these symbols [%XLR2% ^< ^> %% ^^! ^& ^^^^ %#$%].&&ECHO     These can break the password login to the recovery environment.&&ECHO.&&ECHO         Type new recovery password or press (%##%Enter%#$%) to remove.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=RECOVERY_LOCK"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 CALL:PAD_LINE&&CALL:WARNING_1&&CALL:VTEMP_CREATE
 IF DEFINED ERROR SET "RECOVERY_LOCK="&&ECHO %ERROR%&&CALL:PAD_LINE&&CALL:VTEMP_DELETE&&CALL:PAUSED&EXIT /B
 ECHO                          Extracting boot-media...&&CALL:PAD_LINE
@@ -2424,7 +2412,7 @@ EXIT /B
 ECHO   %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&CALL:PAD_LINE
 EXIT /B
 :CONFIRMX
-CALL:PAD_LINE&&ECHO                   Are your sure? Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                   Are your sure? Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" SET "ERROR=1"
 EXIT /B
 :VTEMP_CREATE
@@ -2474,15 +2462,14 @@ EXIT /B
 CALL:PAD_LINE&&ECHO                          Driver Inspect Start&&CALL:PAD_LINE&&DISM /ENGLISH /ONLINE /GET-DRIVERS&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PACKAGE_RESTORE_CHOICE
-CLS&&CALL:PAD_LINE&&ECHO %S26%Restore which type&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%1%#$%) PKG %#@%Driver/Scripted%#$%&&ECHO  (%##%2%#$%) PKX %#@%AIO Package%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&SET "PROMPT_SET=MAKER_RESTORE"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
+CLS&&CALL:PAD_LINE&&ECHO                           Restore which type&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%1%#$%) PKG %#@%Driver/Scripted%#$%&&ECHO  (%##%2%#$%) PKX %#@%AIO Package%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&SET "PROMPT_SET=MAKER_RESTORE"&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:PROMPT_SET
 IF "%MAKER_RESTORE%"=="1" SET "PICK=PKG"
 IF "%MAKER_RESTORE%"=="2" SET "PICK=PKX"
 CALL:FILE_PICK&&CALL:PACKAGE_RESTORE
 EXIT /B
 :PACKAGE_RESTORE
 IF NOT DEFINED $PICK EXIT /B
-CALL:PAD_LINE&&ECHO                    Project%#@%%MAKER_SLOT%%#$% folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed
-CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                    Project%#@%%MAKER_SLOT%%#$% folder will be cleared&&ECHO.&&ECHO.                         Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" EXIT /B
 CALL:PAD_LINE&&ECHO.                          Package Restore Start&&CALL:PAD_LINE&&ECHO.                            Restoring Package
 CALL:SCRATCH_PACK_CREATE&&DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PICK%" /INDEX:2 /APPLYDIR:"%PROG_SOURCE%\ScratchPack">NUL 2>&1
