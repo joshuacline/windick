@@ -564,8 +564,7 @@ IF EXIST "%PROG_SOURCE%\AutoBoot.cmd" (SET "AUTOBOOT=ENABLED") ELSE (SET "AUTOBO
 SET "FOLDER_MODE=UNIFIED"&&IF EXIST "%PROG_SOURCE%\IMAGE" IF EXIST "%PROG_SOURCE%\PACK" IF EXIST "%PROG_SOURCE%\LIST" IF EXIST "%PROG_SOURCE%\BOOT" SET "FOLDER_MODE=ISOLATED"
 IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%\%%a")
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
-IF NOT DEFINED S1 SET "S1= "&&SET "S2=  "&&SET "S3=   "&&SET "S4=    "&&SET "S5=     "&&SET "S6=      "&&SET "S7=       "&&SET "S8=        "&&SET "S9=         "&&SET "S10=          "
-SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"
+IF NOT DEFINED XLR0 SET "S1= "&&SET "S2=  "&&SET "S3=   "&&SET "S4=    "&&SET "S5=     "&&SET "S6=      "&&SET "S7=       "&&SET "S8=        "&&SET "S9=         "&&SET "S10=          "&&SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"
 FOR %%a in (APPLYDIR CAPTUREDIR $VHDX ERROR) DO (SET "%%a=")
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9) DO (SET "OBJ_FLD=%PROG_SOURCE%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
@@ -819,11 +818,11 @@ IF DEFINED SOURCE_LOCATION ECHO  [%#@%Windows Installation Media Detected%#$%]  
 IF NOT DEFINED SOURCE_LOCATION IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO    Insert a Windows Disc/ISO/USB to Import Installation/Boot Media&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "WIM_DESC=NULL"
 IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_QUERY
-ECHO                              %SOURCE_TYPE% (%##%X%#$%) %TARGET_TYPE%&&CALL:PAD_LINE
-IF "%SOURCE_TYPE%"=="VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource[%#@%VHDX%#$%] [%#@%%VHDX_SOURCE%%#$%]&&CALL:PAD_LINE
-IF "%SOURCE_TYPE%"=="WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource[%#@%WIM%#$%] [%#@%%WIM_SOURCE%%#$%] (%##%I%#$%)ndex[%#@%%WIM_INDEX%%#$%] [Edition[%#@%%WIM_DESC%%#$%]&&CALL:PAD_LINE
-IF "%TARGET_TYPE%"=="VHDX" ECHO   %#@%EXISTING VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget[%#@%VHDX%#$%] [%#@%%VHDX_TARGET%%#$%]      (%##%G%#$%)o^^!  (%##%V%#$%)Size[%#@%%VHDX_SIZE%MB%#$%] (%##%Z%#$%)[%#@%%VHDX_XLVL%%#$%]&&CALL:PAD_LINE
-IF "%TARGET_TYPE%"=="WIM" ECHO   %#@%EXISTING WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget[%#@%WIM%#$%] [%#@%%WIM_TARGET%%#$%]      (%##%G%#$%)o^^!     (%##%Z%#$%)[X-Lvl[%#@%%WIM_XLVL%%#$%]&&CALL:PAD_LINE
+ECHO                              %#@%%SOURCE_TYPE%%#$% (%##%X%#$%) %#@%%TARGET_TYPE%%#$%&&CALL:PAD_LINE
+IF "%SOURCE_TYPE%"=="VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource[%#@%VHDX%#$%] %#@%%VHDX_SOURCE%%#$%&&CALL:PAD_LINE
+IF "%SOURCE_TYPE%"=="WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource[%#@%WIM%#$%] %#@%%WIM_SOURCE%%#$%   (%##%I%#$%)ndex %#@%%WIM_INDEX%%#$%   Edition: %#@%%WIM_DESC%%#$%&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="VHDX" ECHO   %#@%EXISTING VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget[%#@%VHDX%#$%] %#@%%VHDX_TARGET%%#$%        (%##%G%#$%)o^^!  (%##%V%#$%)Size %#@%%VHDX_SIZE%MB%#$%  (%##%Z%#$%) %#@%%VHDX_XLVL%%#$%&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="WIM" ECHO   %#@%EXISTING WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget[%#@%WIM%#$%] %#@%%WIM_TARGET%%#$%        (%##%G%#$%)o^^!     (%##%Z%#$%) X-Lvl %#@%%WIM_XLVL%%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="G" CALL:IMAGEPROC_START
@@ -1266,7 +1265,7 @@ CALL:SCRATCH_DELETE&&CALL:AIO_DELETE&&CALL:PAD_LINE&&ECHO                       
 EXIT /B
 :UNIFIED_LIST_RUN
 IF NOT DEFINED $LST1 EXIT /B
-CALL:PAD_LINE&&ECHO [%#@%EXEC-LIST START%#$%] [%#@%%DATE%%#$%] [%#@%%TIME%%#$%]&&CALL:PAD_LINE
+CALL:PAD_LINE&&ECHO  %#@%EXEC-LIST START%#$%   %DATE%  %TIME%&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" IF "%BRUTE_FORCE%"=="ENABLED" SET "BRUTE_FORCE="&&SET "BRUTE_FLG=1"
 IF "%BRUTE_FORCE%"=="ENABLED" SC DELETE $BRUTE>NUL 2>&1
 SET "DRIVER_QRY="&&SET "SC_PREPARE="&&SET "RO_PREPARE="&&SET "BRUTE1="&&COPY /Y "%$LST1%" "$LST">NUL 2>&1
@@ -1276,7 +1275,7 @@ IF "%%a"=="TASK" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1
 FOR %%1 in (# @ APPX COMPONENT DISM DRIVER FEATURE EXTPACKAGE SERVICE TASK) DO (IF "%%1"=="%%a" CALL SET "LIST_ITEM=%%a"&&CALL SET "BASE_MEAT=%%b"&&CALL SET "LIST_ACTN=%%c"&&CALL SET "LIST_TIME=%%d"&&CALL:UNIFIED_PARSE))
 IF "%BRUTE_FORCE%"=="ENABLED" SC DELETE $BRUTE>NUL 2>&1
 IF DEFINED BRUTE_FLG SET "BRUTE_FORCE=1"
-CALL:SCRATCH_PACK_DELETE&&ECHO [%#@%EXEC-LIST END%#$%] [%#@%%DATE%%#$%] [%#@%%TIME%%#$%]&&SET "$LST1="&&IF EXIST "$LST" DEL /F "$LST">NUL 2>&1
+CALL:SCRATCH_PACK_DELETE&&ECHO  %#@%EXEC-LIST END%#$%   %DATE%  %TIME%&&SET "$LST1="&&IF EXIST "$LST" DEL /F "$LST">NUL 2>&1
 IF EXIST "$QRY" DEL /F "$QRY">NUL
 EXIT /B
 :UNIFIED_PARSE
@@ -1300,38 +1299,38 @@ EXIT /B
 IF NOT "%LIST_ITEM%:%LIST_ACTN%"=="DRIVER:DELETE" EXIT /B
 CALL:IF_LIVE2
 IF NOT DEFINED DRIVER_QRY SET "DRIVER_QRY=1"&&ECHO Getting driver listing..&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% /GET-DRIVERS /FORMAT:TABLE>"$QRY"
-ECHO Removing driver [%#@%%BASE_MEAT%%#$%]&&CALL:PAD_LINE
+ECHO Removing driver %#@%%BASE_MEAT%%#$%&&CALL:PAD_LINE&&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
 FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ($QRY) DO (SET "DISMSG="&&SET "X1=%%a"&&SET "CAPS_SET=X2"&&SET "CAPS_VAR=%%b"&&CALL:CAPS_SET&&CALL:DRVR_REMOVE)
-IF NOT EXIST "$DRVR" ECHO Driver [%##%%BASE_MEAT%%#$%] doesn't exist&&CALL:PAD_LINE
+IF NOT EXIST "$DRVR" ECHO Driver %##%%BASE_MEAT%%#$% doesn't exist&&CALL:PAD_LINE
 IF EXIST "$DRVR" DEL /F "$DRVR">NUL
 EXIT /B
 :DRVR_REMOVE
 IF NOT "%X2%"=="%BASE_MEAT%" EXIT /B
-ECHO Uninstalling INF [%#@%%X1%%#$%]&&CALL:PAD_LINE
+ECHO Uninstalling INF %#@%%X1%%#$%&&CALL:PAD_LINE
 IF DEFINED LIVE_APPLY PNPUTIL.EXE /DELETE-DRIVER "%X1%" /UNINSTALL /FORCE>"$DRVR"
 IF NOT DEFINED LIVE_APPLY DISM /ENGLISH /%APPLY_TARGET% /REMOVE-DRIVER /DRIVER:"%X1%">"$DRVR"
 IF EXIST "$DRVR" FOR /F "TOKENS=1 DELIMS=." %%1 in ($DRVR) DO (IF "%%1"=="The operation completed successfully" SET "DISMSG=%%1"
 IF "%%1"=="Driver package deleted successfully" SET "DISMSG=The operation completed successfully")
-IF EXIST "$DRVR" IF NOT DEFINED DISMSG ECHO Driver [%##%%BASE_MEAT%%#$%] unable to remove&&CALL:PAD_LINE
-IF DEFINED DISMSG ECHO                 [%#@%%DISMSG%%#$%]&&CALL:PAD_LINE
+IF EXIST "$DRVR" IF NOT DEFINED DISMSG ECHO Driver %##%%BASE_MEAT%%#$% unable to remove&&CALL:PAD_LINE
+IF DEFINED DISMSG ECHO                  %#@%%DISMSG%%#$%&&CALL:PAD_LINE
 EXIT /B
 :SVC_HUNT
 CALL:IF_LIVE1
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DELETE" ECHO Removing Service [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE
-IF NOT "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DELETE" ECHO Changing start to [%#@%%LIST_ACTN%%#$%] for Service [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DELETE" ECHO Removing Service %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE
+IF NOT "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DELETE" ECHO Changing start to %#@%%LIST_ACTN%%#$% for Service %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE
 REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /F ImagePath /c /e /s>$REG1 2>&1
 SET "SVC_GO="&&SET "SVC_XNT="&&FOR /F "TOKENS=1-9* DELIMS=: " %%a IN ($REG1) DO (IF "%%a"=="ImagePath" IF NOT "%%c"=="NUL" CALL SET "SVC_GO=1")
-IF NOT DEFINED SVC_GO SET "REGMSG=Service [%##%%BASE_MEAT%%#$%] doesn't exist"&&GOTO:SVC_SKIP
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:AUTO" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "2" /F>NUL&&ECHO                 [%#@%The operation completed successfully%#$%]&&CALL:PAD_LINE&&EXIT /B
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:MANUAL" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "3" /F>NUL&&ECHO                 [%#@%The operation completed successfully%#$%]&&CALL:PAD_LINE&&EXIT /B
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DISABLE" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "4" /F>NUL&&ECHO                 [%#@%The operation completed successfully%#$%]&&CALL:PAD_LINE&&EXIT /B
-FOR %%1 in (%SVC_SKIP%) DO (IF "%BASE_MEAT%"=="%%1" CALL ECHO Deleting Service [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE&&CALL ECHO             [%##%The operation did NOT complete successfully%#$%]&&CALL:PAD_LINE&&EXIT /B)
+IF NOT DEFINED SVC_GO SET "REGMSG=Service %##%%BASE_MEAT%%#$% doesn't exist"&&GOTO:SVC_SKIP
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:AUTO" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "2" /F>NUL&&ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE&&EXIT /B
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:MANUAL" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "3" /F>NUL&&ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE&&EXIT /B
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DISABLE" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "4" /F>NUL&&ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE&&EXIT /B
+FOR %%1 in (%SVC_SKIP%) DO (IF "%BASE_MEAT%"=="%%1" CALL ECHO Deleting Service %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&CALL ECHO              %##%The operation did NOT complete successfully%#$%&&CALL:PAD_LINE&&EXIT /B)
 IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
 SET "SVC_XNT="&&CALL SET "X0Z="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "SVC_XNT+=1"&&CALL SET "X1=%%a"&&CALL SET "X2=%%b"&&CALL:SVCBBQ&&CALL:NULL)
 REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /F ImagePath /c /e /s>$REG2 2>&1
-SET "REGMSG="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ($REG2) DO (IF "%%a"=="ImagePath" IF NOT "%%c"=="NUL" CALL SET "REGMSG=            [%##%The operation did NOT complete successfully%#$%]")
+SET "REGMSG="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ($REG2) DO (IF "%%a"=="ImagePath" IF NOT "%%c"=="NUL" CALL SET "REGMSG=             %##%The operation did NOT complete successfully%#$%")
 :SVC_SKIP
-IF NOT DEFINED REGMSG ECHO                 [%#@%The operation completed successfully%#$%]&&CALL:PAD_LINE
+IF NOT DEFINED REGMSG ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE
 IF DEFINED REGMSG ECHO %REGMSG%&&CALL:PAD_LINE
 IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
 IF EXIST "$REG1" DEL /F "$REG1">NUL
@@ -1341,8 +1340,8 @@ EXIT /B
 IF "%X1%"=="%ENDQ%" EXIT /B
 IF "%BASE_MEAT%"=="%X0Z%" EXIT /B
 SET "X0Z=%BASE_MEAT%"&&SET "REGMSG="
-IF "%SVC_XNT%"=="1" IF "%X1%"=="ERROR" SET "REGMSG=Service [%##%%BASE_MEAT%%#$%] doesn't exist"&&CALL:PAD_LINE
-IF "%SVC_XNT%"=="1" IF "%X1%"=="%ENDQ%" SET "REGMSG=Service [%##%%BASE_MEAT%%#$%] doesn't exist"&&CALL:PAD_LINE
+IF "%SVC_XNT%"=="1" IF "%X1%"=="ERROR" SET "REGMSG=Service %##%%BASE_MEAT%%#$% doesn't exist"&&CALL:PAD_LINE
+IF "%SVC_XNT%"=="1" IF "%X1%"=="%ENDQ%" SET "REGMSG=Service %##%%BASE_MEAT%%#$% doesn't exist"&&CALL:PAD_LINE
 IF DEFINED REGMSG EXIT /B
 SET SVC_CMD1=REG DELETE "%X1%" /F&&SET SVC_CMD2=REG ADD "%X1%" /V "ImagePath" /T REG_EXPAND_SZ /D "NUL" /F
 IF NOT "%BRUTE_FORCE%"=="ENABLED" %SVC_CMD1%>NUL 2>&1
@@ -1354,14 +1353,14 @@ IF "%BRUTE_FORCE%"=="ENABLED" SC START $BRUTE>NUL 2>&1
 IF EXIST "$REG1" DEL /F "$REG1">NUL
 EXIT /B
 :TASK_HUNT
-ECHO Removing Task [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE&&CALL:IF_LIVE1
+ECHO Removing Task %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&CALL:IF_LIVE1
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /F Id /c /e /s>$REG1 2>&1
 IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
 SET "TASK_GO="&&SET "TASK_XNT="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG1) DO (IF "%%a"=="    Id    REG_SZ    " SET "TASK_GO=1")
 IF NOT DEFINED TASK_GO SET "REGMSG=Task [%##%%BASE_MEAT%%#$%] doesn't exist"&&GOTO:TASK_SKIP
 SET "TASK_XNT="&&CALL SET "X0Z="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "TASK_XNT+=1"&&CALL SET "X1=%%a"&&CALL SET "X2=%%b"&&CALL:TASKBBQ&&CALL:TASK_CHK)
 :TASK_SKIP
-IF NOT DEFINED REGMSG ECHO                 [%#@%The operation completed successfully%#$%]&&CALL:PAD_LINE
+IF NOT DEFINED REGMSG ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE
 IF DEFINED REGMSG ECHO %REGMSG%&&CALL:PAD_LINE
 IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
 IF EXIST "$REG1" DEL /F "$REG1">NUL
@@ -1369,14 +1368,14 @@ IF EXIST "$REG2" DEL /F "$REG2">NUL
 EXIT /B
 :TASK_CHK
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /F Id /c /e /s>$REG2 2>&1
-SET "REGMSG="&&SET "TASK_XNT="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG2) DO (IF "%%a"=="    Id    REG_SZ    " CALL SET "REGMSG=            [%##%The operation did NOT complete successfully%#$%]")
+SET "REGMSG="&&SET "TASK_XNT="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG2) DO (IF "%%a"=="    Id    REG_SZ    " CALL SET "REGMSG=             %##%The operation did NOT complete successfully%#$%")
 EXIT /B
 :TASKBBQ
 IF "%X1%"=="%ENDQ%" EXIT /B
 IF "%BASE_MEAT%"=="%X0Z%" EXIT /B
 SET "REGMSG="&&IF NOT "%BASE_MEAT%"=="%X0Z%" SET "X0Z=%BASE_MEAT%"
-IF "%TASK_XNT%"=="1" IF "%X1%"=="ERROR" SET "REGMSG=Task [%##%%BASE_MEAT%%#$%] doesn't exist"&&CALL:PAD_LINE
-IF "%TASK_XNT%"=="1" IF "%X1%"=="%ENDQ%" SET "REGMSG=Task [%##%%BASE_MEAT%%#$%] doesn't exist"&&CALL:PAD_LINE
+IF "%TASK_XNT%"=="1" IF "%X1%"=="ERROR" SET "REGMSG=Task %##%%BASE_MEAT%%#$% doesn't exist"&&CALL:PAD_LINE
+IF "%TASK_XNT%"=="1" IF "%X1%"=="%ENDQ%" SET "REGMSG=Task %##%%BASE_MEAT%%#$% doesn't exist"&&CALL:PAD_LINE
 IF DEFINED REGMSG EXIT /B
 SET TASK_CMD1=REG DELETE "%X1%" /F&&SET TASK_CMD2=REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%X2%}" /F
 IF NOT "%BRUTE_FORCE%"=="ENABLED" IF NOT "%X1%"=="    Id    REG_SZ    " %TASK_CMD1%>NUL 2>&1
@@ -1391,14 +1390,14 @@ IF EXIST "$REG1" DEL /F "$REG1">NUL
 EXIT /B
 :APPX_HUNT
 SET "APPX_SKIP="&&SET "APPX_DONE="&&SET "APPX_ERR="&&SET "APPX_ABT="&&SET "DISMSG="&&CALL:IF_LIVE1
-ECHO Removing AppX [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE
+ECHO Removing AppX %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications" /F "%BASE_MEAT%">"$REG1"
 SET "APPX_XNT="&&FOR /F "TOKENS=3* DELIMS=_" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "APPX_XNT+=1"&&CALL SET "TX1=%%a"&&CALL SET "TX2=%%b"&&CALL:APPX_IBX)
 IF NOT DEFINED APPX_SKIP REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications" /F "%BASE_MEAT%">"$REG1"
 IF NOT DEFINED APPX_SKIP SET "APPX_XNT="&&FOR /F "TOKENS=3* DELIMS=_" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "APPX_XNT+=1"&&CALL SET "TX1=%%a"&&CALL SET "TX2=%%b"&&CALL:APPX_NML)
-IF DEFINED APPX_ERR ECHO AppX [%##%%BASE_MEAT%%#$%] is a stub or unable to remove&&CALL:PAD_LINE
-IF NOT DEFINED APPX_DONE IF NOT DEFINED APPX_ERR ECHO AppX [%##%%BASE_MEAT%%#$%] doesn't exist&&CALL:PAD_LINE
-IF DEFINED APPX_DONE ECHO                 [%#@%%DISMSG%%#$%]&&CALL:PAD_LINE
+IF DEFINED APPX_ERR ECHO AppX %##%%BASE_MEAT%%#$% is a stub or unable to remove&&CALL:PAD_LINE
+IF NOT DEFINED APPX_DONE IF NOT DEFINED APPX_ERR ECHO AppX %##%%BASE_MEAT%%#$% doesn't exist&&CALL:PAD_LINE
+IF DEFINED APPX_DONE ECHO                  %#@%%DISMSG%%#$%&&CALL:PAD_LINE
 IF EXIST "$REG*" DEL /F "$REG*">NUL
 EXIT /B
 :APPX_IBX
@@ -1425,14 +1424,14 @@ CALL:IF_LIVE1
 IF DEFINED APPX_DONE REG ADD "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\%BASE_MEAT%_%TX2%">NUL 2>&1
 EXIT /B
 :COMP_HUNT
-ECHO Removing Component [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE&&CALL:IF_LIVE1
+ECHO Removing Component %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&CALL:IF_LIVE1
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages" /F "%BASE_MEAT%">"$REG1"
 SET "X0Z="&&SET "COMP_XNT="&&SET "FNL_XNT="&&FOR /F "TOKENS=1* DELIMS=:~" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "COMP_XNT+=1"&&CALL SET /A "FNL_XNT+=1"&&CALL SET "TX1=%%a"&&CALL SET "TX2=%%b"&&CALL:COMP_HUNT2)
 EXIT /B
 :COMP_HUNT2
 IF "%X0Z%"=="%TX1%" EXIT /B
 IF "%COMP_XNT%" GTR "1" EXIT /B
-IF "%TX1%"=="%ENDQ%" ECHO Component [%##%%BASE_MEAT%%#$%] doesn't exist&&CALL:PAD_LINE&&EXIT /B
+IF "%TX1%"=="%ENDQ%" ECHO Component %##%%BASE_MEAT%%#$% doesn't exist&&CALL:PAD_LINE&&EXIT /B
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_EXT
 FOR %%a in (1 2 3 4 5 6 7 8 9) DO (CALL SET "COMP_Z%%a=")
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages" /F "%BASE_MEAT%">"$REG2"
@@ -1453,8 +1452,8 @@ SET "COMP_ABT=X"&&SET "COMP_ABT1="&&IF "%SAFE_EXCLUDE%"=="ENABLED" FOR /F "TOKEN
 SET "COMP_ABT2="&&IF "%SAFE_EXCLUDE%"=="ENABLED" FOR /F "TOKENS=1-9 DELIMS=-" %%1 IN ("%BASE_MEAT%") DO (IF "%%5"=="REQUIRED" SET "COMP_ABT2=1")
 SET "COMP_Z%FNL_XNT%=%BASE_MEAT%~%X2%"&&SET "COMP_ABT3="&&FOR %%1 in (%COMP_SKIP%) DO (IF "%BASE_MEAT%"=="%%1" SET "COMP_ABT3=1")
 IF NOT DEFINED COMP_ABT1 IF NOT DEFINED COMP_ABT2 IF NOT DEFINED COMP_ABT3 SET "COMP_ABT="
-SET /A "FNL_XNT+=1"&&SET "X0Z=%BASE_MEAT%~%X2%"&&IF NOT DEFINED COMP_FLAG ECHO Removing Subcomp [%#@%%BASE_MEAT%~%X2%%#$%]...&&CALL:PAD_LINE
-IF DEFINED COMP_ABT IF "%FNL_XNT%"=="2" SET "COMP_FLAG=1"&&ECHO Component [%##%%BASE_MEAT%%#$%] is required or unable to remove&&CALL:PAD_LINE
+SET /A "FNL_XNT+=1"&&SET "X0Z=%BASE_MEAT%~%X2%"&&IF NOT DEFINED COMP_FLAG ECHO Removing Subcomp %#@%%BASE_MEAT%~%X2%%#$%...&&CALL:PAD_LINE
+IF DEFINED COMP_ABT IF "%FNL_XNT%"=="2" SET "COMP_FLAG=1"&&ECHO Component %##%%BASE_MEAT%%#$% is required or unable to remove&&CALL:PAD_LINE
 IF DEFINED COMP_ABT EXIT /B
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_EXT
 REG ADD "%X1%~%X2%" /V "Visibility" /T REG_DWORD /D "1" /F>NUL 2>&1
@@ -1462,18 +1461,18 @@ REG DELETE "%X1%~%X2%\Owners" /F>NUL 2>&1
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_MIX
 DISM /ENGLISH /%APPLY_TARGET% %NORESTART%/REMOVE-PACKAGE /PACKAGENAME:"%BASE_MEAT%~%X2%" >"$DISM1"
 SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ($DISM1) DO (SET "DISMSG="&&IF "%%1"=="The operation completed successfully" CALL SET "DISMSG=%%1")
-IF NOT DEFINED DISMSG ECHO Component [%##%%BASE_MEAT%%#$%] is a stub or unable to remove&&CALL:PAD_LINE
-IF DEFINED DISMSG ECHO                 [%#@%%DISMSG%%#$%]&&CALL:PAD_LINE
+IF NOT DEFINED DISMSG ECHO Component %##%%BASE_MEAT%%#$% is a stub or unable to remove&&CALL:PAD_LINE
+IF DEFINED DISMSG ECHO                  %#@%%DISMSG%%#$%&&CALL:PAD_LINE
 IF EXIST "$DISM1" DEL /F "$DISM1">NUL
 EXIT /B
 :FEAT_HUNT
 CALL:IF_LIVE2
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" ECHO Enabling Feature [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% %NORESTART%/ENABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /ALL>"$DISM1"
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%a in ($DISM1) DO (SET "DISMSG="&&IF "%%a"=="The operation completed successfully" CALL SET "DISMSG=%%a"&&CALL ECHO                 [%#@%%%a%#$%]&&CALL:PAD_LINE)
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" ECHO Disabling Feature [%#@%%BASE_MEAT%%#$%]...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% %NORESTART%/DISABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /REMOVE>"$DISM1"
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%a in ($DISM1) DO (SET "DISMSG="&&IF "%%a"=="The operation completed successfully" CALL SET "DISMSG=%%a"&&CALL ECHO                 [%#@%%%a%#$%]&&CALL:PAD_LINE)
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" IF NOT DEFINED DISMSG CALL ECHO Feature [%##%%BASE_MEAT%%#$%] is a stub or unable to remove&&CALL:PAD_LINE
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" IF NOT DEFINED DISMSG CALL ECHO Feature [%##%%BASE_MEAT%%#$%] is a stub or unable to remove&&CALL:PAD_LINE
+IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" ECHO Enabling Feature %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% %NORESTART%/ENABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /ALL>"$DISM1"
+IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%a in ($DISM1) DO (SET "DISMSG="&&IF "%%a"=="The operation completed successfully" CALL SET "DISMSG=%%a"&&CALL ECHO                  %#@%%%a%#$%&&CALL:PAD_LINE)
+IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" ECHO Disabling Feature %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&DISM /ENGLISH /%APPLY_TARGET% %NORESTART%/DISABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /REMOVE>"$DISM1"
+IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%a in ($DISM1) DO (SET "DISMSG="&&IF "%%a"=="The operation completed successfully" CALL SET "DISMSG=%%a"&&CALL ECHO                  %#@%%%a%#$%&&CALL:PAD_LINE)
+IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" IF NOT DEFINED DISMSG CALL ECHO Feature %##%%BASE_MEAT%%#$% is a stub or unable to remove&&CALL:PAD_LINE
+IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" IF NOT DEFINED DISMSG CALL ECHO Feature %##%%BASE_MEAT%%#$% is a stub or unable to remove&&CALL:PAD_LINE
 EXIT /B
 :SC_CREATE
 SET "SCRO=SetupComplete"&&CALL:IF_LIVE1
@@ -1511,14 +1510,11 @@ IF NOT EXIST "%IMAGE_PACK%" CALL:PAD_LINE&&ECHO %##%%IMAGE_PACK%%#$% doesn't exi
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did NOT complete successfully"&&CALL:SCRATCH_PACK_CREATE
 FOR %%a in (PackName PackType PackDesc PackTag) DO (CALL SET "%%a=")
 FOR %%G in ("%IMAGE_PACK%") DO SET "PackExt=%%~xG"
-FOR %%G in (M A B U S C K I P X L G) DO (CALL SET "PackExt=%%PackExt:%%G=%%G%%")
-IF "%PackExt%"==".APPX" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%"
-IF "%PackExt%"==".CAB" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%"
-IF "%PackExt%"==".MSU" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%"
+FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PackExt=%%PackExt:%%G=%%G%%")
+FOR %%G in (APPX CAB MSU) DO (IF "%PackExt%"==".%%G" SET "PackType=DRIVER"&&SET "PackName=%IMAGE_PACK%")
 IF NOT "%PackExt%"==".PKG" GOTO:PACK_JUMP
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_PACK%" /INDEX:2 /APPLYDIR:"%SCRATCH_PACK%" >NUL 2>&1
 COPY /Y "%SCRATCH_PACK%\PACKAGE.MAN" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
-IF "%GET_WIM_INFO%"=="1" GOTO:PACK_INSTALL_FINISH
 ECHO Extracting %#@%%IMAGE_PACK%..%#$%&&CALL:PAD_LINE
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_PACK%" /INDEX:1 /APPLYDIR:"%SCRATCH_PACK%">NUL
 :PACK_JUMP
@@ -1534,29 +1530,29 @@ IF "%PackExt%"==".APPX" DISM /ENGLISH /%APPLY_TARGET% /ADD-PROVISIONEDAPPXPACKAG
 IF "%PackExt%"==".APPX" CALL:PACK_CHECK
 IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG DISM /ENGLISH /%APPLY_TARGET% /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%IMAGE_PACK%" /SKIPLICENSE>"$DRVR"
 IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG CALL:PACK_CHECK
-IF "%PackExt%"==".APPX" IF DEFINED DISMSG CALL ECHO                 [%#@%%PACK_GOOD%%#$%]
-IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG CALL ECHO              [%##%%PACK_BAD%%#$%]
+IF "%PackExt%"==".APPX" IF DEFINED DISMSG CALL ECHO                  %#@%%PACK_GOOD%%#$%
+IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG CALL ECHO               %##%%PACK_BAD%%#$%
 IF "%PackExt%"==".APPX" CALL:PAD_LINE&GOTO:PACK_INSTALL_FINISH
 IF "%PackExt%"==".MSU" DISM /ENGLISH /%APPLY_TARGET% /ADD-PACKAGE /PACKAGEPATH:"%IMAGE_PACK%" >"$DRVR"
 IF "%PackExt%"==".MSU" CALL:PACK_CHECK
-IF "%PackExt%"==".MSU" IF DEFINED DISMSG CALL ECHO                 [%#@%%PACK_GOOD%%#$%]
-IF "%PackExt%"==".MSU" IF NOT DEFINED DISMSG CALL ECHO              [%##%%PACK_BAD%%#$%]
+IF "%PackExt%"==".MSU" IF DEFINED DISMSG CALL ECHO                  %#@%%PACK_GOOD%%#$%
+IF "%PackExt%"==".MSU" IF NOT DEFINED DISMSG CALL ECHO               %##%%PACK_BAD%%#$%
 IF "%PackExt%"==".MSU" CALL:PAD_LINE&GOTO:PACK_INSTALL_FINISH
 IF "%PackType%"=="SCRIPTED" CD /D "%SCRATCH_PACK%"&&CMD /C "%SCRATCH_PACK%\PACKAGE.CMD"
 IF "%PackType%"=="SCRIPTED" CD /D "%~DP0"&&ECHO.&&CALL:PAD_LINE
 IF "%PackType%"=="DRIVER" FOR /F "TOKENS=*" %%a in ('DIR/S/B "%SCRATCH_PACK%\*.INF"') DO (
-IF NOT EXIST "%%a\*" CALL:TITLECARD&&CALL ECHO Installing INF [%#@%%%a%#$%]&&CALL:PAD_LINE
+IF NOT EXIST "%%a\*" CALL:TITLECARD&&CALL ECHO Installing INF %#@%%%a%#$%&&CALL:PAD_LINE
 IF NOT EXIST "%%a\*" IF NOT DEFINED LIVE_APPLY DISM /ENGLISH /%APPLY_TARGET% /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned>"$DRVR"
 IF NOT EXIST "%%a\*" IF DEFINED LIVE_APPLY pnputil.exe /add-driver "%%a" /install>"$DRVR"
 IF NOT EXIST "%%a\*" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ($DRVR) DO (
 IF "%%1"=="Driver package added successfully" CALL SET "DISMSG=1"
 IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=1")
-IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO                 [%#@%%PACK_GOOD%%#$%]&&CALL:PAD_LINE
-IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG CALL ECHO              [%##%%PACK_BAD%%#$%]&&CALL:PAD_LINE)
+IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO                  %#@%%PACK_GOOD%%#$%&&CALL:PAD_LINE
+IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG CALL ECHO               %##%%PACK_BAD%%#$%&&CALL:PAD_LINE)
 :PACK_INSTALL_FINISH
 CALL:MOUNT_INT>NUL 2>&1
 FOR %%a in (DRVR PAK) DO (IF EXIST "$%%a" DEL /F "$%%a">NUL)
-CALL:SCRATCH_PACK_DELETE&&SET "GET_WIM_INFO="&&ECHO.                          Package Manager End&&CALL:PAD_LINE
+CALL:SCRATCH_PACK_DELETE&&ECHO.                          Package Manager End&&CALL:PAD_LINE
 EXIT /B
 :PACK_CHECK
 SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ($DRVR) DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=1")
@@ -1617,13 +1613,13 @@ SET "WinSxS="&&DEL /F "$XS">NUL
 EXIT /B
 :LATERS_WINSXS
 IF "%QUERYX%_%SUBX%"=="%SUBZ%" EXIT /B
-FOR %%1 in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF %SUBXNT% EQU %%1500 CALL ECHO WinSxS folder queue item [%##%%%1500%#$%]...
-IF "%SUBXNT%"=="%%1000" CALL ECHO WinSxS folder queue item [%##%%%1000%#$%]...)
+FOR %%1 in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20) DO (IF %SUBXNT% EQU %%1500 CALL ECHO WinSxS folder queue item %##%%%1500%#$%...
+IF "%SUBXNT%"=="%%1000" CALL ECHO WinSxS folder queue item %##%%%1000%#$%...)
 SET "DNTX="&&FOR %%a in (%STRINGX%) DO (IF "%QUERYX%"=="%%a" SET "DNTX=1")
 SET "SUBZ=%QUERYX%_%SUBX%"&&SET "DNTX="&&FOR %%a in (%STRINGX%) DO (IF "%QUERYX%"=="%%a" SET "DNTX=1")
 IF NOT DEFINED DNTX (TAKEOWN /F "%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" /R /D Y>NUL 2>&1
 ICACLS "%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" /grant %USERNAME%:F /T>NUL 2>&1
-RD /Q /S "\\?\%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" >NUL 2>&1) ELSE (ECHO Keeping [%#@%%QUERYX%_%SUBX%%#$%])
+RD /Q /S "\\?\%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" >NUL 2>&1) ELSE (ECHO Keeping %#@%%QUERYX%_%SUBX%%#$%)
 EXIT /B
 :IMAGEMGR_INSPECT
 SET "ERR_MSG="&&SET "REPORT_IMAGE="&&SET "MENU_INSERTA= ( %##%@%#$% ) %##%Current-Environment%#$%"&&SET "NOECHO1=1"&&SET "PICK=VHDX"&&CALL:FILE_PICK
@@ -1643,19 +1639,19 @@ IF NOT EXIST "%APPLYDIR_MASTER%\WINDOWS\Setup\Scripts\SETUPCOMPLETE.CMD" ECHO.No
 IF EXIST "%APPLYDIR_MASTER%\WINDOWS\PANTHER\UNATTEND.XML" ECHO.Unattend.xml located in \WINDOWS\PANTHER>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 IF NOT EXIST "%APPLYDIR_MASTER%\WINDOWS\PANTHER\UNATTEND.XML" ECHO.No Unattend.xml exists in image>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-ECHO Searching: [%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Run>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\Run">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: [%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\RunOnce">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: [%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Run]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Run>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Run">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: [%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: [%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnceEx]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnceEx>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnceEx">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: [%HIVE_SOFTWARE%\Wow6432Node\Microsoft\Windows\CurrentVersion\Run]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_SOFTWARE%\Wow6432Node\Microsoft\Windows\CurrentVersion\Run>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_SOFTWARE%\Wow6432Node\Microsoft\Windows\CurrentVersion\Run">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: [%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon]>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
+ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon" /f Userinit /c /e /s>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
 CALL:MOUNT_INT
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
@@ -1733,7 +1729,7 @@ REM FILE_MANAGER_FILE_MANAGER_FILE_MANAGER_FILE_MANAGER_FILE_MANAGER_FILE_MANAGE
 @ECHO OFF&&CLS&&CALL:TITLE_X&&CALL:PAD_LINE
 IF NOT DEFINED FMGR_SOURCE SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET=%PROG_TARGET%"
 IF NOT EXIST "%FMGR_SOURCE%\*" SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET=%PROG_TARGET%"
-ECHO                             File Management&&CALL:PAD_LINE&&ECHO                               SRC (%##%X%#$%) TGT&&CALL:PAD_LINE
+ECHO                             File Management&&CALL:PAD_LINE&&ECHO                               %#@%SRC%#$% (%##%X%#$%) %#@%TGT%#$%&&CALL:PAD_LINE
 IF "%FMGR_DUAL%"=="ENABLED" ECHO   %#@%TARGET FOLDER:%#$% %FMGR_TARGET%&&SET "BLIST=FMGT"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO   %#@%SOURCE FOLDER:%#$% %FMGR_SOURCE%&&SET "MENU_INSERTA=  (%##%..%#$%)"&&SET "BLIST=FMGS"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO  (%##%E%#$%)xplore (%##%N%#$%)ew (%##%O%#$%)pen (%##%C%#$%)opy (%##%M%#$%)ove (%##%R%#$%)ename (%##%D%#$%)elete (%##%#%#$%)Own (%##%V%#$%)iew&&CALL:PAD_LINE
@@ -1817,7 +1813,7 @@ ECHO.&&IF NOT DEFINED NO_PAUSE CALL:PAD_LINE&&CALL:PAUSED
 SET "NO_PAUSE="
 EXIT /B
 :FMGR_EXPLORE
-CALL:PAD_LINE&&ECHO.                             Enter a path&&CALL:PAD_LINE&&ECHO   %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\" ECHO [%%G:\])
+CALL:PAD_LINE&&ECHO.                             Enter a path&&CALL:PAD_LINE&&ECHO   %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\" ECHO  %%G:\)
 ECHO.&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 SET "SLASHER="&&IF DEFINED SELECT FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %SELECT%^| FIND /V ""') do (SET "SLASHX=%%G"&&CALL:REMOVE_SLASH)
 IF NOT "%SLASHX%"=="\" IF EXIST "%SELECT%\*" SET "FMGR_SOURCE=%SELECT%"
@@ -1999,7 +1995,7 @@ EXIT /B
 :DISKMGR_MOUNT
 IF DEFINED ERROR EXIT /B
 FOR %%a in (DISK_NUMBER DISK_LETTER PART_NUMBER) DO (IF NOT DEFINED %%a EXIT /B)
-IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  MOUNTING [%DISK_LETTER%:\]&&CALL:PAD_LINE
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  MOUNTING %DISK_LETTER%:\&&CALL:PAD_LINE
 SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_ASSIGN
 IF NOT EXIST "%DISK_LETTER%:\" SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_ASSIGN
 IF EXIST "%DISK_LETTER%:\" SET "DISK_MSG=Partition %PART_NUMBER% on Disk %DISK_NUMBER% has been assigned letter %DISK_LETTER%."
@@ -2008,7 +2004,7 @@ EXIT /B
 :DISKMGR_UNMOUNT
 IF DEFINED ERROR EXIT /B
 FOR %%a in (DISK_NUMBER DISK_LETTER PART_NUMBER) DO (IF NOT DEFINED %%a EXIT /B)
-IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  UNMOUNTING [%DISK_LETTER%:\]&&CALL:PAD_LINE
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  UNMOUNTING %DISK_LETTER%:\&&CALL:PAD_LINE
 SET "LETT_X=%DISK_LETTER%"&&CALL:VOL_REMOVE&&SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_REMOVE
 EXIT /B
 :DISK_ERASE_PROMPT
@@ -2542,7 +2538,7 @@ REM PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU
 REM PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
 @ECHO OFF&&CLS&&CALL:TITLE_X&&IF "%PACK_MODE%"=="INSTANT" CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%[%#@%INSTANT%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%[%#@%INSTANT%#$%]&&ECHO  (%##%T03%#$%) End Task%S46%[%#@%INSTANT%#$%]&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%[%#@%INSTANT%#$%]&&ECHO  (%##%T05%#$%) List Accounts%S41%[%#@%INSTANT%#$%]&&ECHO.&&GOTO:PACKEX_JUMP
-CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%[%#@%DRIVER%#$%]&&ECHO  (%##%N02%#$%) New Scripted Package%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N03%#$%) New AIO Package%S37%[%#@%AIOPACK%#$%]&&CALL:PAD_LINE&&ECHO %S26%(Time: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Setup+ Disable Hello%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N11%#$%) Setup+ Unattended Answer-File%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N12%#$%) Setup+ Initial RunOnce/Async Delay Desktop%S10%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N13%#$%) Quicker Preparing Desktop...%S24%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S30%(Any Time)&&CALL:PAD_LINE&&ECHO  (%##%N14%#$%) WinLogon Verbose%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N15%#$%) LSA Strict Rules%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N16%#$%) Local Accounts Only%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N17%#$%) Store Disable%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N18%#$%) OneDrive Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N19%#$%) Cloud Content Disable%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N20%#$%) UAC Prompt Always/Never%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N21%#$%) NotificationCenter Disable%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N22%#$%) Net Discovery Enable/Disable%S24%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N23%#$%) Bluetooth Advertising Enable/Disable%S16%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N24%#$%) Virtualization Based Security Enable/Disable%S8%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N25%#$%) Disable Explorer URL Access%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N26%#$%) Background Apps Disable%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N27%#$%) DCOM Enable/Disable (Breaks Stuff)%S18%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N28%#$%) Prioritize Ethernet%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N29%#$%) Prioritize WiFi%S37%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N30%#$%) Wakelocks General Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N31%#$%) Wakelocks Network Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N32%#$%) VB-Script Execution Disable%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N33%#$%) Feature Updates Threshold%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N34%#$%) Driver Updates Enable/Disable%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N35%#$%) Dark/Light Theme%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N36%#$%) Run Program Every Boot%S30%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N37%#$%) Custom Wallpaper%S36%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S20%(Time: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%T01%#$%) Create Local User-Account%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N42%#$%) Taskmgr Prefs%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N43%#$%) Boot Timeout%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N44%#$%) Computer Name%S39%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N51%#$%) MSI Installer Example%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N52%#$%) DISM Special%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N53%#$%) AutoBoot Service install (SetupComplete/RunOnce)%S4%[%#@%SCRIPTED%#$%]&&ECHO  (%##%DBG%#$%) Debug Pause/Echo ON/Echo OFF%S24%[%#@%SCRIPTED%#$%]
+CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%[%#@%DRIVER%#$%]&&ECHO  (%##%N02%#$%) New Scripted Package%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N03%#$%) New AIO Package%S37%[%#@%AIOPACK%#$%]&&CALL:PAD_LINE&&ECHO %S26%(Time: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Setup+ Disable Hello%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N11%#$%) Setup+ Unattended Answer-File%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N12%#$%) Setup+ Initial RunOnce/Async Delay Desktop%S10%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N13%#$%) Quicker Preparing Desktop...%S24%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S30%(Any Time)&&CALL:PAD_LINE&&ECHO  (%##%N14%#$%) WinLogon Verbose%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N15%#$%) LSA Strict Rules%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N16%#$%) Local Accounts Only%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N17%#$%) Store Disable%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N18%#$%) OneDrive Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N19%#$%) Cloud Content Disable%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N20%#$%) UAC Prompt Always/Never%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N21%#$%) NotificationCenter Disable%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N22%#$%) Net Discovery Enable/Disable%S24%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N23%#$%) Bluetooth Advertising Enable/Disable%S16%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N24%#$%) Virtualization Based Security Enable/Disable        [%#@%SCRIPTED%#$%]&&ECHO  (%##%N25%#$%) Disable Explorer URL Access%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N26%#$%) Background Apps Disable%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N27%#$%) DCOM Enable/Disable (Breaks Stuff)%S18%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N28%#$%) Prioritize Ethernet%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N29%#$%) Prioritize WiFi%S37%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N30%#$%) Wakelocks General Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N31%#$%) Wakelocks Network Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N32%#$%) VB-Script Execution Disable%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N33%#$%) Feature Updates Threshold%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N34%#$%) Driver Updates Enable/Disable%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N35%#$%) Dark/Light Theme%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N36%#$%) Run Program Every Boot%S30%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N37%#$%) Custom Wallpaper%S36%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S20%(Time: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%T01%#$%) Create Local User-Account%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N42%#$%) Taskmgr Prefs%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N43%#$%) Boot Timeout%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N44%#$%) Computer Name%S39%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N51%#$%) MSI Installer Example%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N52%#$%) DISM Special%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N53%#$%) AutoBoot Service install (SetupComplete/RunOnce)    [%#@%SCRIPTED%#$%]&&ECHO  (%##%DBG%#$%) Debug Pause/Echo ON/Echo OFF%S24%[%#@%SCRIPTED%#$%]
 :PACKEX_JUMP
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
