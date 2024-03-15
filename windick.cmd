@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1147 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1148 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -160,7 +160,7 @@ IF DEFINED SOURCE_LOCATION ECHO   (%##%-%#$%)Import Boot  %##%Windows Installati
 IF EXIST "%IMAGE_FOLDER%\*.WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
 IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO         %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
 IF EXIST "%BOOT_FOLDER%\boot.sav" IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO  [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
-IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO             %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE
+IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO             %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&IF "%PROG_MODE%"=="RAMDISK" ECHO  [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="PORTABLE" ECHO  (%##%Q%#$%)uit (%##%*%#$%)Advanced Mode (%##%F%#$%)ile Operation                  %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" CALL:PAD_PREV
 CALL:MENU_SELECT
@@ -492,7 +492,7 @@ EXIT /B
 SET /P "PAUSED=.                      Press (%##%Enter%#$%) to continue..."
 EXIT /B
 :TITLE_X
-IF NOT DEFINED TITLE_X SET "TITLE_X=Windows Deployment Image Customization Kit v%VER_CUR% (%PROG_FOLDER%)"
+IF NOT DEFINED TITLE_X SET "TITLE_X=Windows Deployment Image Customization Kit v%VER_CUR% (%PROG_SOURCE%)"
 TITLE %TITLE_X%&&SET "TITLE_X="
 EXIT /B
 :RECOVERY_LOCK
@@ -1890,7 +1890,7 @@ FOR %%a in (DISK_X PART_X) DO (IF NOT DEFINED %%a EXIT /B)
 SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 :PART_8000
 FOR %%a in (DISK_X PART_X) DO (IF NOT DEFINED %%a EXIT /B)
-(ECHO.select disk %DISK_X%&&ECHO.select partition %PART_X%&&ECHO.gpt attributes=0x8000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_X%&&ECHO.select partition %PART_X%&&ECHO.gpt attributes=0x0000000000000000&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 :PART_EFIX
 FOR %%a in (DISK_X PART_X) DO (IF NOT DEFINED %%a EXIT /B)
@@ -2049,8 +2049,7 @@ EXIT /B
 SET "HOST_MOUNT="&&CLS&&ECHO Querying disks...&&IF EXIST "S:\" CALL:HOST_REASSIGN
 SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"
 SET "HOST_TARGET=%DISK_TARGET%"&&CALL:DISK_QUERY>NUL 2>&1
-SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=2"&&SET "LETT_X=S"&&CALL:PART_ASSIGN
-IF NOT EXIST "S:\" SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=2"&&SET "LETT_X=S"&&CALL:PART_ASSIGN
+SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=2"&&SET "LETT_X=S"&&CALL:PART_ASSIGN
 IF EXIST "S:\" IF NOT EXIST "S:\$" MD "S:\$">NUL 2>&1
 IF EXIST "S:\$" IF NOT EXIST "S:\$\windick.cmd" IF EXIST "X:\$\windick.cmd" COPY "X:\$\windick.cmd" "S:\$">NUL 2>&1
 IF NOT EXIST "S:\$" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOST_AUTO
