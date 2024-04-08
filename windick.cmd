@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1150 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1151 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -2550,12 +2550,12 @@ REM PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU
 :PACK_EXAMPLE_MENU
 REM PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
-@ECHO OFF&&CLS&&CALL:TITLE_X&&IF "%PACK_MODE%"=="INSTANT" CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T00%#$%) Sysprep Menu%S42%[%#@%INSTANT%#$%]&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%[%#@%INSTANT%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%[%#@%INSTANT%#$%]&&ECHO  (%##%T03%#$%) End Task%S46%[%#@%INSTANT%#$%]&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%[%#@%INSTANT%#$%]&&ECHO  (%##%T05%#$%) List Accounts%S41%[%#@%INSTANT%#$%]&&ECHO.&&GOTO:PACKEX_JUMP
+@ECHO OFF&&CLS&&CALL:TITLE_X&&IF "%PACK_MODE%"=="INSTANT" CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T00%#$%) Sysprep Menu%S42%[%#@%INSTANT%#$%]&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%[%#@%INSTANT%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%[%#@%INSTANT%#$%]&&ECHO  (%##%T03%#$%) End Task%S46%[%#@%INSTANT%#$%]&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%[%#@%INSTANT%#$%]&&ECHO  (%##%T05%#$%) List Accounts%S41%[%#@%INSTANT%#$%]&&ECHO  (%##%T06%#$%) SFC /Scannow%S42%[%#@%INSTANT%#$%]&&ECHO.&&GOTO:PACKEX_JUMP
 CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%[%#@%DRIVER%#$%]&&ECHO  (%##%N02%#$%) New Scripted Package%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N03%#$%) New AIO Package%S37%[%#@%AIOPACK%#$%]&&CALL:PAD_LINE&&ECHO %S26%(Time: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Setup+ Disable Hello%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N11%#$%) Setup+ Unattended Answer-File%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N12%#$%) Setup+ Initial RunOnce/Async Delay Desktop%S10%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N13%#$%) Quicker Preparing Desktop...%S24%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S30%(Any Time)&&CALL:PAD_LINE&&ECHO  (%##%N14%#$%) WinLogon Verbose%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N15%#$%) LSA Strict Rules%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N16%#$%) Local Accounts Only%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N17%#$%) Store Disable%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N18%#$%) OneDrive Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N19%#$%) Cloud Content Disable%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N20%#$%) UAC Prompt Always/Never%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N21%#$%) NotificationCenter Disable%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N22%#$%) Net Discovery Enable/Disable%S24%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N23%#$%) Bluetooth Advertising Enable/Disable%S16%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N24%#$%) Virtualization Based Security Enable/Disable        [%#@%SCRIPTED%#$%]&&ECHO  (%##%N25%#$%) Disable Explorer URL Access%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N26%#$%) Background Apps Disable%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N27%#$%) DCOM Enable/Disable (Breaks Stuff)%S18%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N28%#$%) Prioritize Ethernet%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N29%#$%) Prioritize WiFi%S37%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N30%#$%) Wakelocks General Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N31%#$%) Wakelocks Network Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N32%#$%) VB-Script Execution Disable%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N33%#$%) Feature Updates Threshold%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N34%#$%) Driver Updates Enable/Disable%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N35%#$%) Dark/Light Theme%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N36%#$%) Run Program Every Boot%S30%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N37%#$%) Custom Wallpaper%S36%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S20%(Time: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%T01%#$%) Create Local User-Account%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N42%#$%) Taskmgr Prefs%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N43%#$%) Boot Timeout%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N44%#$%) Computer Name%S39%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N51%#$%) MSI Installer Example%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N52%#$%) DISM Special%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N53%#$%) AutoBoot Service install (SetupComplete/RunOnce)    [%#@%SCRIPTED%#$%]&&ECHO  (%##%DBG%#$%) Debug Pause/Echo ON/Echo OFF%S24%[%#@%SCRIPTED%#$%]
 :PACKEX_JUMP
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
-SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T00 T01 T02 T03 T04 T05 N01 N02 N03 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N40 N41 N42 N43 N44 N51 N52 N53 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
+SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T00 T01 T02 T03 T04 T05 T06 N01 N02 N03 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N40 N41 N42 N43 N44 N51 N52 N53 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
 IF NOT "%PASS%"=="1" EXIT /B
 IF "%PACK_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECT_TMP"
 IF "%PACK_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                    Project%#@%%MAKER_SLOT%%#$% folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
@@ -2564,7 +2564,8 @@ IF EXIST "%MAKER_FOLDER%" RD /S /Q "\\?\%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
 SET "NEW_PACK=%MAKER_FOLDER%\PACKAGE.CMD"&&CALL:SCRATCH_PACK_DELETE&&CALL:MOUNT_INT
 FOR %%a in (PackName PackType PackDesc PackTag) DO (CALL SET "%%a=NULL")
-CALL:%EXAMPLE%
+SET "ERROR="&&CALL:%EXAMPLE%
+IF DEFINED ERROR GOTO:PACKEX_END
 CALL:PACK_MANIFEST>NUL 2>&1
 IF "%PackType%"=="SCRIPTED" CALL:PACK_END
 IF "%PACK_MODE%"=="INSTANT" SET "PackName=%PackName%_TMP"&&SET "PackNameX=%PackName%_TMP"&&CALL:PACKAGE_CREATE>NUL 2>&1
@@ -2574,6 +2575,7 @@ IF "%PACK_MODE%"=="INSTANT" RD /S /Q "%PROG_SOURCE%\PROJECT_TMP">NUL 2>&1
 IF "%PACK_MODE%"=="CREATE" IF DEFINED EXAMPLE CALL:PACKAGE_EDITOR
 IF "%PackType%"=="AIOPACK" IF EXIST "%NEW_PACK%" DEL /F "%NEW_PACK%">NUL 2>&1
 IF "%PackType%"=="DRIVER" IF EXIST "%NEW_PACK%" DEL /F "%NEW_PACK%">NUL 2>&1
+:PACKEX_END
 SET "PACK_MODE="&&SET "SELECT="&&CALL:SCRATCH_PACK_DELETE
 EXIT /B
 :SCRATCH_PACK_DELETE
@@ -2702,6 +2704,12 @@ IF NOT "%%a"=="The" IF NOT "%%h"=="" NET USER %%h&&CALL:PAD_LINE
 IF NOT "%%a"=="The" IF NOT "%%i"=="" NET USER %%i&&CALL:PAD_LINE)
 DEL /Q /F "$USR">NUL
 ECHO                     End of user account enumeration&&CALL:PAD_LINE&&CALL:PAUSED
+EXIT /B
+:T06
+IF NOT "%PACK_MODE%"=="INSTANT" EXIT /B
+CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO            %XLR2%This will scan and attempt to repair system files%#$%&&ECHO.&&ECHO.                         Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF NOT "%CONFIRM%"=="X" SET "ERROR=1"&&EXIT /B
+SFC /SCANNOW
 EXIT /B
 :N01
 SET "PackType=DRIVER"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                     - New Driver Pack (PKG) Name -&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
