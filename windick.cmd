@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1153 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1154 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -613,7 +613,7 @@ CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX
 IF "%PICK%"=="MAIN" (SET "PICKX=MAIN FOLDER VHDX") ELSE (SET "PICKX=%PICK%")
 ECHO   %#@%AVAILABLE %PICKX%'S:%#$%&&SET "PICKX="&&IF "%PICK%"=="LST" SET "NOECHO1=1"&&ECHO.&&ECHO  ( %##%0%#$% ) %##%Create New List%#$%
 SET "NLIST=%PICK%"&&CALL:FILE_LIST&&SET "BOX=B1"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV
-FOR %%a in (ERROR SELECT LIST_NAME $MAKE $PICK $ELECT $ELECT$ FILE_PATH FILE_NAME FILE_EXT) DO (SET "%%a=")
+FOR %%a in (ERROR SELECT LIST_NAME $MAKE $PICK $ELECT $ELECT$ $HEAD FILE_PATH FILE_NAME FILE_EXT) DO (SET "%%a=")
 SET /P "SELECT=$>>"&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "SELECT=%%SELECT:%%G=%%G%%")
 IF "%SELECT%"=="@" IF "%PICK%"=="VHDX" SET "LIVE_APPLY=1"&&GOTO:PICK_ERROR
 IF "%SELECT%"=="0" IF NOT "%PICK%"=="LST" SET "ERROR=1"
@@ -635,9 +635,9 @@ IF DEFINED $MAKE SET /P "LIST_NAME=$>>"
 IF DEFINED $MAKE IF NOT DEFINED LIST_NAME SET "ERROR=1"&&GOTO:PICK_ERROR
 IF DEFINED $MAKE SET "$ELECT$=%LIST_NAME%.lst"&&ECHO EXEC-LIST>"%$FOLD%\%LIST_NAME%.lst"
 IF EXIST "%$FOLD%\%$ELECT$%" SET "$PICK=%$FOLD%\%$ELECT$%"
-SET "$HEAD="&&FOR %%a in (LST MST) DO (IF "%PICK%"=="%%a" SET /P $HEAD=<"%$PICK%")
+FOR %%a in (LST MST) DO (IF "%PICK%"=="%%a" SET /P $HEAD=<"%$PICK%")
 IF "%PICK%"=="LST" IF NOT "%$HEAD%"=="EXEC-LIST" SET "ERROR=1"
-IF "%PICK%"=="MST" IF NOT "%$HEAD%"=="BASE-LIST" SET "ERROR=1"
+IF "%PICK%"=="MST" IF NOT "%$HEAD%"=="BASE-LIST" IF NOT "%$HEAD%"=="BASE-GROUP" SET "ERROR=1"
 IF DEFINED ERROR CALL:PAD_LINE&&ECHO                       Bad file-header, check file&&CALL:PAD_LINE&&CALL:PAUSED
 :PICK_ERROR
 IF NOT DEFINED ERROR FOR %%G in ("%$PICK%") DO (SET "FILE_PATH=%%~dG%%~pG"&&SET "FILE_BODY=%%~nG"&&SET "FILE_EXT=%%~xG")
@@ -682,20 +682,26 @@ IF DEFINED BLIST SET "$MENU=BAS"&&SET "EXT=%BLIST%"
 IF DEFINED NLIST SET "$MENU=NUM"&&SET "EXT=%NLIST%"
 SET "$HEAD="&&FOR %%a in (LST MST) DO (IF "%EXT%"=="%%a" SET /P $HEAD=<"%$LIST%")
 IF "%EXT%"=="LST" IF NOT "%$HEAD%"=="EXEC-LIST" SET "ERROR=1"
-IF "%EXT%"=="MST" IF NOT "%$HEAD%"=="BASE-LIST" SET "ERROR=1"
+IF "%EXT%"=="MST" IF NOT "%$HEAD%"=="BASE-LIST" IF NOT "%$HEAD%"=="BASE-GROUP" SET "ERROR=1"
 IF DEFINED ERROR CALL:PAD_LINE&&ECHO                       Bad file-header, check file&&CALL:PAD_LINE&&CALL:PAUSED&&GOTO:LIST_ERROR
 COPY /Y "%$LIST%" "$HZ">NUL
 IF NOT DEFINED NOECHO1 ECHO.
+SET "$CLM1_LST="&&SET "$CLM2_LST="&&SET "$CLM3_LST="
 IF "%EXT%"=="MST" SET "$XNT="&&FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in ($HZ) DO (IF NOT "%%1"=="" CALL SET "$CLM1=%%1"&&CALL SET "$CLM2=%%2"&&CALL SET "$CLM3=%%3"&&CALL:LIST_FILEX)
 IF NOT DEFINED NOECHO2 ECHO.
 IF EXIST "$HZ" DEL /F "$HZ">NUL 2>&1
 :LIST_ERROR
-FOR %%a in (EXT BLIST NLIST ONLY1 ONLY2 ONLY3 $MENU $LIST $HEAD) DO (SET "%%a=")
+FOR %%a in (EXT BLIST NLIST ONLY1 ONLY2 ONLY3 $MENU $LIST $CLM1 $CLM2 $CLM3 $CLM1_LST $CLM2_LST $CLM3_LST) DO (SET "%%a=")
 EXIT /B
 :LIST_FILEX
 IF DEFINED ONLY1 IF NOT "%$CLM1%"=="%ONLY1%" EXIT /B
+IF DEFINED ONLY2 IF NOT "%$CLM2%"=="%ONLY2%" EXIT /B
+IF DEFINED ONLY3 IF NOT "%$CLM3%"=="%ONLY3%" EXIT /B
+IF "%$HEAD%"=="BASE-GROUP" IF DEFINED ONLY1 IF NOT DEFINED ONLY2 IF "%$CLM2%"=="%$CLM2_LST%" EXIT /B
+IF "%$HEAD%"=="BASE-GROUP" SET "$CLM1_LST=%$CLM1%"&&SET "$CLM2_LST=%$CLM2%"&&SET "$CLM3_LST=%$CLM3%"
 CALL SET /A "$XNT+=1"
 CALL SET "$ITEM%$XNT%=[%$CLM1%][%$CLM2%][%$CLM3%]"
+IF DEFINED ONLY1 IF DEFINED ONLY2 ECHO  ( %##%%$XNT%%#$% ) %$CLM3%&&EXIT /B
 IF "%$MENU%"=="NUM" ECHO  ( %##%%$XNT%%#$% ) %$CLM2%
 IF "%$MENU%"=="BAS" ECHO    %#@%%$CLM1%%#$% %$CLM2%
 EXIT /B
@@ -1040,9 +1046,12 @@ EXIT /B
 :IMAGEMGR_LIST_MAIN
 SET "ERROR="&&SET "LIST_CREATE="&&SET "LIST_ACTN="&&SET "LIST_ITEM="&&SET "NLIST="&&SET "$HEAD="&&SET "EXXT="
 CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX
-ECHO.&&ECHO  ( %##%P%#$% ) External Package&&ECHO  ( %##%D%#$% ) DISM Operation&&ECHO  ( %##%R%#$% ) Registry Operation&&ECHO  ( %##%F%#$% ) File Operation&&ECHO.&&SET "PAD_SIZE=3"&&CALL:PAD_LINE&&ECHO.&&ECHO  ( %##%*%#$% ) Create Base List&&ECHO  ( %##%-%#$% ) Difference Base List&&ECHO  ( %##%+%#$% ) Combine Exec List&&ECHO.&&SET "PAD_SIZE=3"&&CALL:PAD_LINE&&ECHO   %#@%AVAILABLE BASE LIST'S:%#$%&&SET "NLIST=MST"&&CALL:FILE_LIST&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
+ECHO.&&ECHO  ( %##%U%#$% ) Unattended Install&&ECHO  ( %##%P%#$% ) External Package&&ECHO  ( %##%D%#$% ) DISM Operation&&ECHO  ( %##%R%#$% ) Registry Operation&&ECHO  ( %##%F%#$% ) File Operation&&ECHO  ( %##%G%#$% ) Group Seperator&&ECHO.&&ECHO  ( %##%*%#$% ) Create Source Base List&&ECHO  ( %##%-%#$% ) Difference Base List&&ECHO  ( %##%+%#$% ) Combine Exec List&&ECHO  ( %##%.%#$% ) Create Group Base List&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO   %#@%AVAILABLE BASE LIST'S:%#$%&&SET "NLIST=MST"&&CALL:FILE_LIST&&SET "BOX=B1"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&CALL:MENU_SELECT
+IF "%SELECT%"=="U" SET "LIST_CREATE=UNATTEND"&&CALL:LIST_UNATTEND_CREATE
 IF "%SELECT%"=="D" SET "LIST_CREATE=DISM"&&CALL:LIST_DISM_CREATE
 IF "%SELECT%"=="F" SET "LIST_CREATE=FILE"&&CALL:LIST_FILE_CREATE
+IF "%SELECT%"=="G" SET "LIST_CREATE=GROUP"&&CALL:LIST_GROUP_BOUNDRY
+IF "%SELECT%"=="." SET "LIST_CREATE=CONVERT"&&CALL:LIST_GROUP_CONVERT
 IF "%SELECT%"=="R" SET "LIST_CREATE=REGISTRY"&&CALL:LIST_REGISTRY_CREATE
 IF "%SELECT%"=="P" SET "LIST_CREATE=EXTPACKAGE"&&CALL:IMAGEMGR_LIST_PACK
 IF "%SELECT%"=="*" SET "LIST_CREATE=BASE-LIST"&&CALL:LIST_BASE_CREATE
@@ -1053,12 +1062,51 @@ IF NOT DEFINED $ELECT$ EXIT /B
 IF "%SELECT%" GEQ "99" EXIT /B
 IF NOT "%SELECT%" GEQ "1" EXIT /B
 SET /P $HEAD=<"%LIST_FOLDER%\%$ELECT$%"
-IF NOT "%$HEAD%"=="BASE-LIST" CALL:PAD_LINE&&ECHO                       Bad file-header, check file&&CALL:PAD_LINE&&CALL:PAUSED
+IF NOT "%$HEAD%"=="BASE-LIST" IF NOT "%$HEAD%"=="BASE-GROUP" CALL:PAD_LINE&&ECHO                       Bad file-header, check file&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%$HEAD%"=="BASE-LIST" CALL:LIST_UNIFIED_CREATE
+IF "%$HEAD%"=="BASE-GROUP" CALL:LIST_GROUP_CREATE
+EXIT /B
+:LIST_UNATTEND_CREATE
+IF NOT EXIST "%PROG_SOURCE%\unattend.xml" CALL:UNATTEND_GENERATE
+IF NOT EXIST "%PROG_SOURCE%\unattend.xml" EXIT /B
+SET "PICK=LST"&&CALL:FILE_PICK
+IF NOT DEFINED $PICK EXIT /B
+CALL:PAD_ADD&&ECHO.&&ECHO  %#@%UNATTEND%#$% unattend.xml %#@%EXECUTE%#$% %##%IMAGE-APPLY%#$% &&ECHO [UNATTEND][unattend.xml][EXECUTE][IMAGE-APPLY]>>"%$PICK%"
+ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
+EXIT /B
+:UNATTEND_GENERATE
+CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                  Enter Username: %XLR2%0-9 A-Z - No Spaces%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEWUSER"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+SET "CHAR_STR=%NEWUSER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
+IF DEFINED CHAR_FLG SET "NEWUSER="
+IF NOT DEFINED NEWUSER EXIT /B
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO            Enter Product key: %#@%XXXXX-XXXXX-XXXXX-XXXXX-XXXXX%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=PRODUCT_KEY"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+IF NOT DEFINED PRODUCT_KEY SET "PRODUCT_KEY=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
+CALL:ANSWER_FILE>"%PROG_SOURCE%\unattend.xml"
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO               Unattend.xml has been created in main folder.&&ECHO.&&ECHO     Note: %XLR2%Delete the existing unattend.xml before creating another.%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAUSED
+EXIT /B
+:LIST_GROUP_BOUNDRY
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                          Enter new group name&&ECHO          Note: %#@%Place this entry at the start of the group%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=GRP_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+IF NOT DEFINED GRP_NAME EXIT /B
+CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                          Enter subgroup name&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=GRP_SUB"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+IF NOT DEFINED GRP_SUB EXIT /B
+SET "PICK=LST"&&CALL:FILE_PICK
+IF NOT DEFINED $PICK EXIT /B
+CALL:PAD_ADD&&ECHO.&&ECHO  %#@%GROUP%#$% %GRP_NAME% %GRP_SUB%&&ECHO [GROUP][%GRP_NAME%][%GRP_SUB%]>>"%$PICK%"
+ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
+EXIT /B
+:LIST_GROUP_CONVERT
+SET "PICK=LST"&&CALL:FILE_PICK
+IF NOT DEFINED $PICK EXIT /B
+COPY /Y "%$PICK%" "$LST">NUL
+SET "ISGROUP="&&FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in ($LST) DO (IF "%%1"=="GROUP" SET "ISGROUP=1")
+IF NOT DEFINED ISGROUP CALL:PAD_LINE&&ECHO  List does not contain any groups. Aborted.&&CALL:PAD_LINE&&CALL:PAUSED&EXIT /B
+SET "$LST2=%$PICK%"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                    Type name of new group base list&&ECHO.&&ECHO  Note: This converts an execution list (.lst) into a base list (.mst)&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+IF NOT DEFINED NEW_NAME EXIT /B
+SET "$LST1=%LIST_FOLDER%\%NEW_NAME%.mst"
+CALL:PAD_ADD&&SET "GROUPX=1"&&CALL:LIST_COMBINE&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :LIST_UNIFIED_CREATE
-CLS&&SET "LIST_ACTN="&&SET "LIST_ITEM="&&SET "LIST_TIME="&&CALL:PAD_LINE&&ECHO                              Type of List?&&CALL:PAD_LINE
-SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%1%#$%) AppX&&ECHO  (%##%2%#$%) Component&&ECHO  (%##%3%#$%) Feature&&ECHO  (%##%4%#$%) Service&&ECHO  (%##%5%#$%) Task&&ECHO  (%##%6%#$%) Driver&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+CLS&&SET "LIST_ACTN="&&SET "LIST_ITEM="&&SET "LIST_TIME="&&CALL:PAD_LINE&&ECHO                            Select an option&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%1%#$%) AppX&&ECHO  (%##%2%#$%) Component&&ECHO  (%##%3%#$%) Feature&&ECHO  (%##%4%#$%) Service&&ECHO  (%##%5%#$%) Task&&ECHO  (%##%6%#$%) Driver&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
 IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" IF NOT "%SELECTX%"=="3" IF NOT "%SELECTX%"=="4" IF NOT "%SELECTX%"=="5" IF NOT "%SELECTX%"=="6" EXIT /B
 CLS&&CALL:PAD_LINE&&ECHO                             Type of Action?&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.
 IF "%SELECTX%"=="1" SET "LIST_ITEM=APPX"&&ECHO  (%##%1%#$%) Delete&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
@@ -1088,6 +1136,39 @@ CALL:LIST_WRITE&&SET "PICK=LST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_ADD&&SET "$LST1=%$PICK%"&&CALL:LIST_COMBINE
 CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
+EXIT /B
+:LIST_GROUP_CREATE
+CLS&&SET "LIST_ACTN="&&SET "LIST_TIME="&&SET "LIST_ITEM=GROUP"&&CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO   %#@%GETTING GROUP LISTING%#$%...&&SET "$LIST=%LIST_FOLDER%\%$ELECT$%"&&SET "$LISTX=%LIST_FOLDER%\%$ELECT$%"&&SET "ONLY1=GROUP"&&SET "NLIST=MST"&&CALL:LIST_FILE&&SET "BOX=B1"&&CALL:BOX
+IF DEFINED ERROR EXIT /B
+CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+IF NOT DEFINED SELECT EXIT /B
+CALL SET "ITEM_SELECT=%%$ITEM%SELECT%%%"
+FOR /F "TOKENS=1-9 DELIMS=[]" %%1 IN ("%ITEM_SELECT%") DO (SET "GROUP_TARGET=%%2")
+CLS&&SET "LIST_ACTN="&&SET "LIST_TIME="&&SET "LIST_ITEM=GROUP"&&CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO   %#@%GETTING SUBGROUP LISTING%#$%...&&SET "$LIST=%$LISTX%"&&SET "ONLY1=GROUP"&&SET "ONLY2=%GROUP_TARGET%"&&SET "NLIST=MST"&&CALL:LIST_FILE&&SET "BOX=B1"&&CALL:BOX
+IF DEFINED ERROR EXIT /B
+CALL:PAD_MULT&&CALL:PAD_PREV&&CALL:MENU_SELECT
+IF NOT DEFINED SELECT EXIT /B
+COPY /Y "%$LISTX%" "$HZ">NUL
+FOR %%a in (%$ELECT%) DO (IF NOT "%%a"=="" CALL SET "FULL_TARGET=%%$ITEM%%a%%"&&CALL:GROUP_POPULATE)
+SET "PICK=LST"&&CALL:FILE_PICK
+IF NOT DEFINED $PICK EXIT /B
+CALL:PAD_ADD&&SET "$LST1=%$PICK%"&&CALL:LIST_COMBINE
+CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
+EXIT /B
+:GROUP_POPULATE
+SET "SUB_TARGET="&&FOR /F "TOKENS=1-9 DELIMS=[]" %%1 in ("%FULL_TARGET%") DO (SET "SUB_TARGET=%%3")
+SET "DRVTAR_X=%DRVTAR%"&&SET "HIVE_SOFTWARE_X=%HIVE_SOFTWARE%"&&SET "HIVE_SYSTEM_X=%HIVE_SYSTEM%"&&SET "HIVE_USER_X=%HIVE_USER%"&&SET "DRVTAR=%%DRVTAR%%"&&SET "HIVE_SOFTWARE=%%HIVE_SOFTWARE%%"&&SET "HIVE_SYSTEM=%%HIVE_SYSTEM%%"&&SET "HIVE_USER=%%HIVE_USER%%"
+SET "WRITEX="&&FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in ($HZ) DO (
+IF "%%1"=="GROUP" IF "%%2"=="%GROUP_TARGET%" IF "%%3"=="%SUB_TARGET%" SET "WRITEX=1"
+IF "%%1"=="GROUP" IF "%%2"=="%GROUP_TARGET%" IF NOT "%%3"=="%SUB_TARGET%" SET "WRITEX="
+IF "%%1"=="GROUP" IF NOT "%%2"=="%GROUP_TARGET%" IF NOT "%%3"=="%SUB_TARGET%" SET "WRITEX="
+IF NOT "%%1"=="" CALL SET "$CLM1=%%1"&&CALL SET "$CLM2=%%2"&&CALL SET "$CLM3=%%3"&&CALL SET "$CLM4=%%4"&&CALL:GROUP_WRITE)
+SET "DRVTAR=%DRVTAR_X%"&&SET "HIVE_SOFTWARE=%HIVE_SOFTWARE_X%"&&SET "HIVE_SYSTEM=%HIVE_SYSTEM_X%"&&SET "HIVE_USER=%HIVE_USER_X%"&&SET "DRVTAR_X="&&SET "HIVE_SOFTWARE_X="&&SET "HIVE_SYSTEM_X="&&SET "HIVE_USER_X="
+EXIT /B
+:GROUP_WRITE
+IF NOT DEFINED WRITEX EXIT /B
+IF "%$CLM1%"=="GROUP" ECHO [%$CLM1%][%$CLM2%][%$CLM3%]>>"$LST2"
+IF NOT "%$CLM1%"=="GROUP" ECHO [%$CLM1%][%$CLM2%][%$CLM3%][%$CLM4%]>>"$LST2"
 EXIT /B
 :LIST_TIME
 SET "LIST_TIME="&&CLS&&CALL:PAD_LINE&&ECHO                             Time of Action?&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%I%#$%)mage-Apply&&ECHO  (%##%S%#$%)etupComplete&&ECHO  (%##%R%#$%)unOnce&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
@@ -1190,16 +1271,19 @@ SET "$LST2=%$PICK%"&&CALL:PAD_SAME
 IF "%$LST1%"=="%$LST2%" EXIT /B
 CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                            Name of new list?&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED NEW_NAME EXIT /B
-COPY /Y "%$LST1%" "%LIST_FOLDER%\%NEW_NAME%.lst">NUL
-SET "$LST1=%LIST_FOLDER%\%NEW_NAME%.lst"
-CALL:PAD_ADD&&IF EXIST "%$LST1%" IF DEFINED $LST1 ECHO.&&ECHO  LIST 1&&ECHO.&&FOR /F "TOKENS=1-9 DELIMS=[]" %%a in (%$LST1%) DO (IF NOT "%%a"=="" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" CALL ECHO   %#@%%%a%#$% %%b %#@%%%c%#$% %##%%%d%#$%)
-ECHO.&&ECHO  LIST 2&&CALL:LIST_COMBINE&&CALL:PAD_LINE&&CALL:PAUSED
+COPY /Y "%$LST1%" "$HZ">NUL
+CALL:PAD_ADD&&ECHO.&&ECHO  LIST 1&&ECHO.&&FOR /F "TOKENS=1-9 DELIMS=[]" %%a in ($HZ) DO (IF NOT "%%a"=="" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" CALL ECHO   %#@%%%a%#$% %%b %#@%%%c%#$% %##%%%d%#$%)
+ECHO.&&ECHO  LIST 2&&SET "$LST1=$HZ"&&CALL:LIST_COMBINE
+MOVE /Y "$HZ" "%LIST_FOLDER%\%NEW_NAME%.lst">NUL
+CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :LIST_DIFFERENCER
 SET "PICK=MST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
+IF "%$HEAD%"=="BASE-GROUP" CALL:PAD_LINE&&ECHO  Incompatible: Base list is a group base. Aborted.&&CALL:PAD_LINE&&CALL:PAUSED&EXIT /B
 SET "$LST1=%$PICK%"&&SET "PICK=MST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
+IF "%$HEAD%"=="BASE-GROUP" CALL:PAD_LINE&&ECHO  Incompatible: Base list is a group base. Aborted.&&CALL:PAD_LINE&&CALL:PAUSED&EXIT /B
 SET "$LST2=%$PICK%"&&CALL:PAD_SAME
 IF "%$LST1%"=="%$LST2%" EXIT /B
 CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                            Name of new list?&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
@@ -1285,10 +1369,13 @@ EXIT /B
 :LIST_COMBINE
 IF DEFINED $LST1 COPY /Y "%$LST1%" "$LST1">NUL
 IF DEFINED $LST2 COPY /Y "%$LST2%" "$LST2">NUL
+IF NOT DEFINED GROUPX ECHO EXEC-LIST>"$LST3"
+IF DEFINED GROUPX SET "GROUPX="&&ECHO BASE-GROUP>"$LST3"
 SET "DRVTAR_X=%DRVTAR%"&&SET "HIVE_SOFTWARE_X=%HIVE_SOFTWARE%"&&SET "HIVE_SYSTEM_X=%HIVE_SYSTEM%"&&SET "HIVE_USER_X=%HIVE_USER%"&&SET "DRVTAR=%%DRVTAR%%"&&SET "HIVE_SOFTWARE=%%HIVE_SOFTWARE%%"&&SET "HIVE_SYSTEM=%%HIVE_SYSTEM%%"&&SET "HIVE_USER=%%HIVE_USER%%"
-ECHO EXEC-LIST>"$LST3"
-IF EXIST "$LST1" FOR /F "TOKENS=1-9 DELIMS=[]" %%a in ($LST1) DO (IF NOT "%%a"=="" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" CALL ECHO [%%a][%%b][%%c][%%d]>>"$LST3")
-IF EXIST "$LST2" ECHO.&&FOR /F "TOKENS=1-9 DELIMS=[]" %%a in ($LST2) DO (IF NOT "%%a"=="" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" CALL ECHO   %#@%%%a%#$% %%b %#@%%%c%#$% %##%%%d%#$%&&CALL ECHO [%%a][%%b][%%c][%%d]>>"$LST3")
+IF EXIST "$LST1" FOR /F "TOKENS=1-9 DELIMS=[]" %%a in ($LST1) DO (IF NOT "%%a"=="" IF NOT "%%a"=="BASE-GROUP" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" IF NOT "%%a"=="GROUP" CALL ECHO [%%a][%%b][%%c][%%d]>>"$LST3"
+IF NOT "%%a"=="" IF NOT "%%a"=="BASE-GROUP" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" IF "%%a"=="GROUP" CALL ECHO [%%a][%%b][%%c]>>"$LST3")
+IF EXIST "$LST2" ECHO.&&FOR /F "TOKENS=1-9 DELIMS=[]" %%a in ($LST2) DO (IF NOT "%%a"=="" IF NOT "%%a"=="BASE-GROUP" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" IF NOT "%%a"=="GROUP" CALL ECHO   %#@%%%a%#$% %%b %#@%%%c%#$% %##%%%d%#$%&&CALL ECHO [%%a][%%b][%%c][%%d]>>"$LST3"
+IF NOT "%%a"=="" IF NOT "%%a"=="BASE-GROUP" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="VERSION" IF "%%a"=="GROUP" CALL ECHO   %#@%%%a%#$% %%b %#@%%%c%#$%&&CALL ECHO [%%a][%%b][%%c]>>"$LST3")
 IF EXIST "$LST2" ECHO.
 COPY /Y "$LST3" "%$LST1%">NUL
 SET "DRVTAR=%DRVTAR_X%"&&SET "HIVE_SOFTWARE=%HIVE_SOFTWARE_X%"&&SET "HIVE_SYSTEM=%HIVE_SYSTEM_X%"&&SET "HIVE_USER=%HIVE_USER_X%"&&SET "DRVTAR_X="&&SET "HIVE_SOFTWARE_X="&&SET "HIVE_SYSTEM_X="&&SET "HIVE_USER_X="&&SET "$LST1="&&SET "$LST2="&&SET "$LST3="&&IF EXIST "$LST*" DEL /F "$LST*">NUL
@@ -1349,14 +1436,15 @@ SET "DRIVER_QRY="&&SET "SC_PREPARE="&&SET "RO_PREPARE="&&SET "BRUTE1="&&COPY /Y 
 FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%a in ($LST) DO (
 IF "%%a"=="SERVICE" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1=1"&&SC CREATE $BRUTE BINPATH="CMD /C START "%PROG_SOURCE%\$BRUTE.CMD"" START=DEMAND>NUL 2>&1
 IF "%%a"=="TASK" IF "%BRUTE_FORCE%"=="ENABLED" IF NOT DEFINED BRUTE1 SET "BRUTE1=1"&&SC CREATE $BRUTE BINPATH="CMD /C START "%PROG_SOURCE%\$BRUTE.CMD"" START=DEMAND>NUL 2>&1
-FOR %%1 in (# @ APPX COMPONENT DISM DRIVER FEATURE EXTPACKAGE SERVICE TASK REGISTRY FILEOPER) DO (
+FOR %%1 in (# @ APPX COMPONENT DISM DRIVER FEATURE EXTPACKAGE SERVICE TASK REGISTRY FILEOPER UNATTEND) DO (
 IF "%%1"=="%%a" IF "%%1"=="FILEOPER" SET "MOUNT="&&SET "DRVTAR=%%DRVTAR%%"
 IF "%%1"=="%%a" IF "%%1"=="REGISTRY" SET "MOUNT="&&SET "HIVE_SOFTWARE=%%HIVE_SOFTWARE%%"&&SET "HIVE_SYSTEM=%%HIVE_SYSTEM%%"&&SET "HIVE_USER=%%HIVE_USER%%"
 IF "%%1"=="%%a" CALL SET "LIST_ITEM=%%a"&&CALL SET "BASE_MEAT=%%b"&&CALL SET "LIST_ACTN=%%c"&&CALL SET "LIST_TIME=%%d"&&CALL:UNIFIED_PARSE))
 IF "%BRUTE_FORCE%"=="ENABLED" SC DELETE $BRUTE>NUL 2>&1
 IF DEFINED BRUTE_FLG SET "BRUTE_FORCE=1"
 CALL:SCRATCH_PACK_DELETE&&ECHO  %#@%EXEC-LIST END%#$%   %DATE%  %TIME%&&SET "$LST1="&&IF EXIST "$LST" DEL /F "$LST">NUL 2>&1
-IF EXIST "$QRY" DEL /F "$QRY">NUL
+IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
+IF EXIST "$QRY" DEL /Q /F "$QRY">NUL 2>&1
 EXIT /B
 :UNIFIED_PARSE
 SET "NORESTART="&&SET "ENDQ=End of search"&&IF DEFINED LIVE_APPLY SET "NORESTART=/NORESTART "
@@ -1369,6 +1457,7 @@ IF "%LIST_ITEM%:%LIST_TIME%"=="FEATURE:IMAGE-APPLY" CALL:FEAT_HUNT
 IF "%LIST_ITEM%:%LIST_TIME%"=="SERVICE:IMAGE-APPLY" CALL:SVC_HUNT
 IF "%LIST_ITEM%:%LIST_TIME%"=="REGISTRY:IMAGE-APPLY" CALL:REG_HUNT
 IF "%LIST_ITEM%:%LIST_TIME%"=="FILEOPER:IMAGE-APPLY" CALL:FILE_HUNT
+IF "%LIST_ITEM%:%LIST_TIME%"=="UNATTEND:IMAGE-APPLY" CALL:UNATTEND_XML
 IF "%LIST_ITEM%:%LIST_TIME%"=="COMMAND:IMAGE-APPLY" ECHO NOT IMPLEMENTED
 IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="APPX:DELETE:IMAGE-APPLY" CALL:APPX_HUNT
 IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="TASK:DELETE:IMAGE-APPLY" CALL:TASK_HUNT
@@ -1378,30 +1467,41 @@ IF "%LIST_ITEM%:%LIST_TIME%"=="DISM:IMAGE-APPLY" IF NOT "%BASE_MEAT%"=="" IF NOT
 IF "%LIST_ITEM%:%LIST_TIME%"=="EXTPACKAGE:IMAGE-APPLY" CALL SET "IMAGE_PACK=%PACK_FOLDER%\%BASE_MEAT%"&&CALL:PACK_INSTALL
 CALL:CLEAN&&CALL:MOUNT_NONE
 EXIT /B
+:UNATTEND_XML
+IF NOT EXIST "%PROG_SOURCE%\unattend.xml" ECHO  %XLR2%Unattend.xml does not exist in program folder.%#$%&&CALL:PAD_LINE&&EXIT /B
+CALL:IF_LIVE_MIX
+MD "%WINTAR%\PANTHER">NUL 2>&1
+IF EXIST "%WINTAR%\PANTHER\unattend.xml" TAKEOWN /F "%WINTAR%\PANTHER\unattend.xml">NUL 2>&1
+IF EXIST "%WINTAR%\PANTHER\unattend.xml" ICACLS "%WINTAR%\PANTHER\unattend.xml" /grant %USERNAME%:F>NUL 2>&1
+COPY /Y "%PROG_SOURCE%\unattend.xml" "%WINTAR%\PANTHER">NUL 2>&1
+IF EXIST "%WINTAR%\PANTHER\unattend.xml" ECHO  Unattend.xml was successfully added.
+IF NOT EXIST "%WINTAR%\PANTHER\unattend.xml" ECHO  %XLR2%Adding unattend.xml was unsuccessful.%#$%
+CALL:PAD_LINE
+EXIT /B
 :FILE_HUNT
 CALL:IF_LIVE_MIX
-CALL SET "BASE_MEAT=%BASE_MEAT%"
-IF NOT EXIST "%BASE_MEAT%" ECHO  File/folder %#@%%BASE_MEAT%%#$% does not exist.&&CALL:PAD_LINE&&EXIT /B
+CALL SET "BASE_MEAT=%BASE_MEAT:"=%"
+IF NOT EXIST "%BASE_MEAT%" ECHO  File/folder %#@%"%BASE_MEAT%"%#$% does not exist.&&CALL:PAD_LINE&&EXIT /B
 IF EXIST "%BASE_MEAT%\*" TAKEOWN /F "%BASE_MEAT%" /R /D Y >NUL 2>&1
 IF EXIST "%BASE_MEAT%\*" ICACLS "%BASE_MEAT%\*" /grant %USERNAME%:F /T >NUL 2>&1
 IF NOT EXIST "%BASE_MEAT%\*" TAKEOWN /F "%BASE_MEAT%" >NUL 2>&1
 IF NOT EXIST "%BASE_MEAT%\*" ICACLS "%BASE_MEAT%" /grant %USERNAME%:F >NUL 2>&1
 IF NOT EXIST "%BASE_MEAT%\*" DEL /Q /F "\\?\%BASE_MEAT%" >NUL 2>&1
 IF EXIST "%BASE_MEAT%\*" RD /S /Q "\\?\%BASE_MEAT%" >NUL 2>&1
-IF EXIST "%BASE_MEAT%" ECHO  Could not delete %#@%%BASE_MEAT%%#$%.
-IF NOT EXIST "%BASE_MEAT%\*" IF NOT EXIST "%BASE_MEAT%" ECHO  File/folder %#@%%BASE_MEAT%%#$% was successfully deleted.
+IF EXIST "%BASE_MEAT%" ECHO  Could not delete %#@%"%BASE_MEAT%"%#$%.
+IF NOT EXIST "%BASE_MEAT%\*" IF NOT EXIST "%BASE_MEAT%" ECHO  File/folder %#@%"%BASE_MEAT%"%#$% was successfully deleted.
 SET "BASE_MEAT="&&CALL:PAD_LINE
 EXIT /B
 :REG_HUNT
 IF NOT "%LIST_ACTN%"=="ADD" IF NOT "%LIST_ACTN%"=="DELETE" ECHO ERROR: List action is not add or delete&&EXIT /B
 CALL:IF_LIVE_EXT
-IF "%LIST_ACTN%"=="ADD" ECHO Adding registry key/value %#@%%BASE_MEAT%%#$%&&CALL:PAD_LINE
-IF "%LIST_ACTN%"=="DELETE" ECHO Deleting registry key/value %#@%%BASE_MEAT%%#$%&&CALL:PAD_LINE
+IF "%LIST_ACTN%"=="ADD" ECHO Adding registry %#@%%BASE_MEAT%%#$%&&CALL:PAD_LINE
+IF "%LIST_ACTN%"=="DELETE" ECHO Deleting registry %#@%%BASE_MEAT%%#$%&&CALL:PAD_LINE
 IF NOT "%BRUTE_FORCE%"=="ENABLED" CALL Reg.exe %LIST_ACTN% %BASE_MEAT% >NUL 2>&1
 IF "%BRUTE_FORCE%"=="ENABLED" CALL Reg.exe %LIST_ACTN% %BASE_MEAT% >"%PROG_SOURCE%\$BRUTE.CMD"
 IF "%BRUTE_FORCE%"=="ENABLED" ECHO EXIT>>"%PROG_SOURCE%\$BRUTE.CMD"
 IF "%BRUTE_FORCE%"=="ENABLED" SC START $BRUTE>NUL 2>&1
-SET "BASE_MEAT="&&IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
+SET "BASE_MEAT="&&IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
 EXIT /B
 :DRVR_HUNT
 IF NOT "%LIST_ITEM%:%LIST_ACTN%"=="DRIVER:DELETE" EXIT /B
@@ -1433,14 +1533,14 @@ IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:AUTO" REG ADD "%HIVE_SYSTEM%\ControlSet00
 IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:MANUAL" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "3" /F>NUL&&ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE&&EXIT /B
 IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DISABLE" REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "4" /F>NUL&&ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE&&EXIT /B
 FOR %%1 in (%SVC_SKIP%) DO (IF "%BASE_MEAT%"=="%%1" CALL ECHO Deleting Service %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&CALL ECHO              %##%The operation did NOT complete successfully%#$%&&CALL:PAD_LINE&&EXIT /B)
-IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
+IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
 SET "SVC_XNT="&&CALL SET "X0Z="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "SVC_XNT+=1"&&CALL SET "X1=%%a"&&CALL SET "X2=%%b"&&CALL:SVCBBQ&&CALL:NULL)
 REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /F ImagePath /c /e /s>$REG2 2>&1
 SET "REGMSG="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ($REG2) DO (IF "%%a"=="ImagePath" IF NOT "%%c"=="NUL" CALL SET "REGMSG=             %##%The operation did NOT complete successfully%#$%")
 :SVC_SKIP
 IF NOT DEFINED REGMSG ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE
 IF DEFINED REGMSG ECHO %REGMSG%&&CALL:PAD_LINE
-IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
+IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
 IF EXIST "$REG1" DEL /F "$REG1">NUL
 IF EXIST "$REG2" DEL /F "$REG2">NUL
 EXIT /B
@@ -1463,14 +1563,14 @@ EXIT /B
 :TASK_HUNT
 ECHO Removing Task %#@%%BASE_MEAT%%#$%...&&CALL:PAD_LINE&&CALL:IF_LIVE_EXT
 REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /F Id /c /e /s>$REG1 2>&1
-IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
+IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
 SET "TASK_GO="&&SET "TASK_XNT="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG1) DO (IF "%%a"=="    Id    REG_SZ    " SET "TASK_GO=1")
 IF NOT DEFINED TASK_GO SET "REGMSG=Task [%##%%BASE_MEAT%%#$%] doesn't exist"&&GOTO:TASK_SKIP
 SET "TASK_XNT="&&CALL SET "X0Z="&&FOR /F "TOKENS=1-9* DELIMS={}:" %%a IN ($REG1) DO (IF NOT "%%a"=="" CALL SET /A "TASK_XNT+=1"&&CALL SET "X1=%%a"&&CALL SET "X2=%%b"&&CALL:TASKBBQ&&CALL:TASK_CHK)
 :TASK_SKIP
 IF NOT DEFINED REGMSG ECHO                  %#@%The operation completed successfully%#$%&&CALL:PAD_LINE
 IF DEFINED REGMSG ECHO %REGMSG%&&CALL:PAD_LINE
-IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /F "%PROG_SOURCE%\$BRUTE.CMD">NUL
+IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
 IF EXIST "$REG1" DEL /F "$REG1">NUL
 IF EXIST "$REG2" DEL /F "$REG2">NUL
 EXIT /B
@@ -2649,11 +2749,11 @@ REM PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU
 REM PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU_PACK_EXAMPLE_MENU
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
 @ECHO OFF&&CLS&&CALL:TITLE_X&&IF "%PACK_MODE%"=="INSTANT" CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T00%#$%) Sysprep Menu%S42%[%#@%INSTANT%#$%]&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%[%#@%INSTANT%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%[%#@%INSTANT%#$%]&&ECHO  (%##%T03%#$%) End Task%S46%[%#@%INSTANT%#$%]&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%[%#@%INSTANT%#$%]&&ECHO  (%##%T05%#$%) List Accounts%S41%[%#@%INSTANT%#$%]&&ECHO  (%##%T06%#$%) SFC /Scannow%S42%[%#@%INSTANT%#$%]&&ECHO.&&GOTO:PACKEX_JUMP
-CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%[%#@%DRIVER%#$%]&&ECHO  (%##%N02%#$%) New Scripted Package%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N03%#$%) New AIO Package%S37%[%#@%AIOPACK%#$%]&&CALL:PAD_LINE&&ECHO %S26%(Time: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Setup+ Disable Hello%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N11%#$%) Setup+ Unattended Answer-File%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N12%#$%) Setup+ Initial RunOnce/Async Delay Desktop%S10%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N13%#$%) Quicker Preparing Desktop...%S24%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S30%(Any Time)&&CALL:PAD_LINE&&ECHO  (%##%N14%#$%) WinLogon Verbose%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N15%#$%) LSA Strict Rules%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N16%#$%) Local Accounts Only%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N17%#$%) Store Disable%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N18%#$%) OneDrive Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N19%#$%) Cloud Content Disable%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N20%#$%) UAC Prompt Always/Never%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N21%#$%) NotificationCenter Disable%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N22%#$%) Net Discovery Enable/Disable%S24%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N23%#$%) Bluetooth Advertising Enable/Disable%S16%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N24%#$%) Virtualization Based Security Enable/Disable        [%#@%SCRIPTED%#$%]&&ECHO  (%##%N25%#$%) Disable Explorer URL Access%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N26%#$%) Background Apps Disable%S29%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N27%#$%) DCOM Enable/Disable (Breaks Stuff)%S18%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N28%#$%) Prioritize Ethernet%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N29%#$%) Prioritize WiFi%S37%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N30%#$%) Wakelocks General Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N31%#$%) Wakelocks Network Disable%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N32%#$%) VB-Script Execution Disable%S25%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N33%#$%) Feature Updates Threshold%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N34%#$%) Driver Updates Enable/Disable%S23%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N35%#$%) Dark/Light Theme%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N36%#$%) Run Program Every Boot%S30%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N37%#$%) Custom Wallpaper%S36%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S20%(Time: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%T01%#$%) Create Local User-Account%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N42%#$%) Taskmgr Prefs%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N43%#$%) Boot Timeout%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N44%#$%) Computer Name%S39%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N51%#$%) MSI Installer Example%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N52%#$%) DISM Special%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N53%#$%) AutoBoot Service install (SetupComplete/RunOnce)    [%#@%SCRIPTED%#$%]&&ECHO  (%##%DBG%#$%) Debug Pause/Echo ON/Echo OFF%S24%[%#@%SCRIPTED%#$%]
+CALL:PAD_LINE&&ECHO %S24%(New Package Template)&&CALL:PAD_LINE&&ECHO  (%##%N01%#$%) New Driver Package%S34%[%#@%DRIVER%#$%]&&ECHO  (%##%N02%#$%) New Scripted Package%S32%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N03%#$%) New AIO Package%S37%[%#@%AIOPACK%#$%]&&CALL:PAD_LINE&&ECHO %S26%(Time: ImageApply)&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Run Program Every Boot%S30%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N15%#$%) Feature Updates Threshold%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N20%#$%) Custom Wallpaper%S36%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO %S20%(Time: SetupComplete/RunOnce)&&CALL:PAD_LINE&&ECHO  (%##%T01%#$%) Create Local User-Account%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S26%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N40%#$%) Pagefile Disable%S36%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N41%#$%) Import Firewall Rules.XML%S27%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N43%#$%) Boot Timeout%S40%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N44%#$%) Computer Name%S39%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N45%#$%) AutoBoot Service install%S28%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N46%#$%) MSI Installer Example%S31%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N47%#$%) Prioritize Ethernet%S33%[%#@%SCRIPTED%#$%]&&ECHO  (%##%N48%#$%) Prioritize WiFi%S37%[%#@%SCRIPTED%#$%]&&CALL:PAD_LINE&&ECHO%S33%(Misc)&&CALL:PAD_LINE&&ECHO  (%##%N50%#$%) DISM Tag (needed for DISM Commands)%S17%[%#@%SCRIPTED%#$%]
 :PACKEX_JUMP
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
-SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T00 T01 T02 T03 T04 T05 T06 N01 N02 N03 N10 N11 N12 N13 N14 N15 N16 N17 N18 N19 N20 N21 N22 N23 N24 N25 N26 N27 N28 N29 N30 N31 N32 N33 N34 N35 N36 N37 N40 N41 N42 N43 N44 N51 N52 N53 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
+SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (T00 T01 T02 T03 T04 T05 T06 N01 N02 N03 N10 N15 N20 N40 N41 N43 N44 N45 N46 N47 N48 N50 DBG) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
 IF NOT "%PASS%"=="1" EXIT /B
 IF "%PACK_MODE%"=="INSTANT" SET "MAKER_FOLDER=%PROG_SOURCE%\PROJECT_TMP"
 IF "%PACK_MODE%"=="CREATE" CALL:PAD_LINE&&ECHO                    Project%#@%%MAKER_SLOT%%#$% folder will be cleared&&CALL:PAD_LINE&&ECHO.                         Press (%##%X%#$%) to proceed&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
@@ -2824,156 +2924,7 @@ ECHO EXEC-LIST>"%MAKER_FOLDER%\PACKAGE.LST"
 ECHO Manually add/copy/paste items or replace the PACKAGE.LST (this) with an existing list.>>"%MAKER_FOLDER%\PACKAGE.LST"
 ECHO Copy all listed packages to ADD (APPX/CAB/MSU/PKG) into project folder before package creation.>>"%MAKER_FOLDER%\PACKAGE.LST"
 EXIT /B
-:N10
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Hello_Disable"&&SET "PackDesc=Disable hello"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN1
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N12
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Desktop_Delay_1stBoot"&&SET "PackDesc=Delay explorer until RunOnce"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN1
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N13
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Quicker_Preparing"&&SET "PackDesc=Shortens time of Preparing..."&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN1
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d 0 /f>>"%NEW_PACK%"
-EXIT /B
-:N14
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1"&&SET "PACK_CFG_2=0"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO          - WinLogon Full Verbosity -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=WinLogonVerbose_Enable"&&SET "PackDesc=WinLogonVerbose Enable"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=WinLogonVerbose_Disable"&&SET "PackDesc=WinLogonVerbose Disable"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-EXIT /B
 :N15
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=LSA_Strict"&&SET "PackDesc=Strict Ruleset For LSA"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "LsaPid" /t REG_DWORD /d "632" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "ProductType" /t REG_DWORD /d "125" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RunAsPPL" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "SubmitControl" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "disabledomaincreds" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "everyoneincludesanonymous" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "NoLmHash" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "restrictanonymoussam" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d "O:BAG:BAD:(A;;RC;;;BA)" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N16
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Online_Accounts_Disabled"&&SET "PackDesc=Only allow local accounts to login"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f>>"%NEW_PACK%"
-EXIT /B
-:N17
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Store_Disable"&&SET "PackDesc=Disable Store"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-EXIT /B
-:N18
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=OneDrive_Disable"&&SET "PackDesc=Disable OneDrive"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v "SYSTEM.IsPinnedToNameSpaceTree" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe delete "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Services\OneSyncSvc" /v "ImagePath" /t REG_EXPAND_SZ /d "NUL" /f>>"%NEW_PACK%"
-EXIT /B
-:N19
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Cloud_Disable"&&SET "PackDesc=Disable Cloud-Content"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /ve /t REG_SZ /d "" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-EXIT /B
-:N20
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=111"&&SET "PACK_CFG_2=000"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO     - UAC Prompt -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=UAC_Prompt_Always_On"&&SET "PackDesc=UAC Always Prompt"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=UAC_Prompt_Always_Off"&&SET "PackDesc=UAC Never Prompt"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
-EXIT /B
-:N21
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=0"&&SET "PACK_CFG_2=1"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO   - Notification Center -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Notification_Center_Enable"&&SET "PackDesc=Enable Notification Center"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Notification_Center_Diable"&&SET "PackDesc=Disable Notification Center"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-EXIT /B
-:N22
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1110"&&SET "PACK_CFG_2=0001"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO  - Link-Layer-Topology Discovery Responder Driver -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=LLT_Enable"&&SET "PackDesc=Enable Link-Layer-Topology Discovery Responder Driver"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=LLT_Disable"&&SET "PackDesc=Disable Link-Layer-Topology Discovery Responder Driver"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
-EXIT /B
-:N23
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=1111"&&SET "PACK_CFG_2=0000"&&ECHO   - Bluetooth Advertising -&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=BT_Visibility_On"&&SET "PackDesc=Enable Bluetooth Advertising"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=BT_Visibility_Off"&&SET "PackDesc=Disable Bluetooth Advertising"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
-EXIT /B
-:N24
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=110101"&&SET "PACK_CFG_2=000002"&&ECHO  - Virtualization Based Security -&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=VBS_Enable"&&SET "PackDesc=Enable Virtualization Based Security"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=VBS_Disable"&&SET "PackDesc=Disable Virtualization Based Security"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "%PACK_ENT_3%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "%PACK_ENT_4%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "%PACK_ENT_5%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\LSA" /v "LsaCfgFlags " /t REG_DWORD /d "%PACK_ENT_6%" /f>>"%NEW_PACK%"
-EXIT /B
-:N25
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=ExplorerRestrictNet"&&SET "PackDesc=No internet For explorer.exe/driver updates"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N26
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=BackgroundApps_Disable"&&SET "PackDesc=Disable Background Applications"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N27
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=Y"&&SET "PACK_CFG_2=N"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO         - DCOM -&&ECHO (1)Enable&&ECHO (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=DCOM_Enable"&&SET "PackDesc=Enable DCOM"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=DCOM_Disable"&&SET "PackDesc=Disable DCOM"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-EXIT /B
-:N28
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_Ethernet"&&SET "PackDesc=Prioritize Ethernet Traffic"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
-ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=5 >>"%NEW_PACK%"
-ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=10 >>"%NEW_PACK%"
-EXIT /B
-:N29
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_WiFi"&&SET "PackDesc=Prioritize Wi-Fi Traffic"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
-ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >>"%NEW_PACK%"
-ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=5 >>"%NEW_PACK%"
-EXIT /B
-:N30
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Wake_Disable"&&SET "PackDesc=Disable Wakelocks"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N31
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Wake_Net_Disable"&&SET "PackDesc=Disable Network Adapter Wakelocks"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SYSTEM%%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-EXIT /B
-:N32
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=VBS_Exec_Disable"&&SET "PackDesc=Disable visual basic script execution"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows Script Host\Settings" /v "Enabled" /t REG_DWORD /d "0" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Classes\PROTOCOLS\Handler\vbscript" /v "DISABLED_CLSID" /t REG_SZ /d "{3050F3B2-98B5-11CF-BB82-00AA00BDCE0B}" /f>>"%NEW_PACK%"
-EXIT /B
-:N33
 CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Feature_Threshold"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
 SET "GET_VER="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion" /f "DisplayVersion" /c /e') DO (IF "%%a"=="DisplayVersion" SET "GET_VER=%%c")
 IF NOT DEFINED GET_VER SET "GET_VER=22H2"
@@ -2981,28 +2932,12 @@ SET "PackDesc=Stop Updates at Release Threshold %GET_VER%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersion" /t REG_DWORD /d "1" /f>>"%NEW_PACK%"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersionInfo" /t REG_SZ /d "%GET_VER%" /f>>"%NEW_PACK%"
 EXIT /B
-:N34
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=10"&&SET "PACK_CFG_2=01"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO - Driver Updates -&&ECHO (1)Enable (2)Disable&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Driver_Update_Enable"&&SET "PackDesc=Driver Update Enable"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Driver_Update_Disable"&&SET "PackDesc=Driver Update Disable"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-EXIT /B
-:N35
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PACK_CFG_1=11"&&SET "PACK_CFG_2=00"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&ECHO (1)Light (2)Dark&&CALL:MENU_SELECT
-IF "%SELECT%"=="1" SET "PACK_CONFIG=%PACK_CFG_1%"&&SET "PackName=Color_Light"&&SET "PackDesc=Use Light Mode"
-IF "%SELECT%"=="2" SET "PACK_CONFIG=%PACK_CFG_2%"&&SET "PackName=Color_Dark"&&SET "PackDesc=Use Dark Mode"
-CALL:PACK_CONFIG
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "%PACK_ENT_1%" /f>>"%NEW_PACK%"
-ECHO;Reg.exe add "%%HIVE_USER%%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SYSTEMUsesLightTheme" /t REG_DWORD /d "%PACK_ENT_2%" /f>>"%NEW_PACK%"
-EXIT /B
-:N36
+:N10
 CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=UserLogon_Run"&&SET "PackDesc=Run a Program or batch at User Login"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
 ECHO;Reg.exe add "%%HIVE_SOFTWARE%%\Microsoft\Windows\CurrentVersion\Run" /v "RunUser" /t REG_EXPAND_SZ /d "%%PROGRAMDATA%%\USERLOGON.CMD" /f>>"%NEW_PACK%"
 ECHO;ECHO;EXPLORER.EXE C:\WINDOWS\SYSTEM32\NOTEPAD.EXE^>"%%PROGRAMDATA%%\USERLOGON.CMD">>"%NEW_PACK%"
 EXIT /B
-:N37
+:N20
 CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Wallpaper"&&SET "PackDesc=Replace stock wallpaper"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
 ECHO.>"%MAKER_FOLDER%\wallpaper.jpg"
 ECHO;::Replace wallpaper.jpg with custom wallpaper before creating pack>>"%NEW_PACK%"
@@ -3031,11 +2966,6 @@ CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "Pa
 NETSH advfirewall EXPORT "%MAKER_FOLDER%\FirewallPolicy.wfw"
 ECHO;NETSH advfirewall IMPORT "FirewallPolicy.wfw">>"%NEW_PACK%"
 EXIT /B
-:N42
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=TaskManager_Prefs"&&SET "PackDesc=TaskManager Prefs"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
-Reg.exe EXPORT "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\TaskManager" "%MAKER_FOLDER%\TASKMGR_PREF.REG"
-ECHO;Reg.exe IMPORT TASK_PREF.REG>>"%NEW_PACK%"
-EXIT /B
 :N43
 CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Boot_Timeout"&&SET "PackDesc=Change Boot Timeout"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
 ECHO   - Enter boot timeout in seconds -&&SET "PROMPT_SET=BOOT_TIMEOUT"&&CALL:PROMPT_SET
@@ -3050,41 +2980,37 @@ IF DEFINED CHAR_FLG SET "PC_NAME="
 IF NOT DEFINED PC_NAME SET "PC_NAME=Computer"
 ECHO;WMIC COMPUTERSYSTEM WHERE Name="Present Name" CALL RENAME Name="%PC_NAME%">>"%NEW_PACK%"
 EXIT /B
-:N51
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
-ECHO;::Put MSI in pack folder.>>%NEW_PACK%"
-ECHO;"EXAMPLE.msi" /qn>>"%NEW_PACK%"
-EXIT /B
-:N52
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=DISM_Special"&&SET "PackDesc=DISM special pack"&&SET "PackTag=DISM"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;DISM /%%APPLY_TARGET%% /ABC:DEF /123:456>>"%NEW_PACK%"
-EXIT /B
-:N53
+:N45
 CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=AUTOBOOT_ENABLE"&&SET "PackDesc=Commands to enable AutoBoot and boot into recovery"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
 ECHO;::Needs AutoBoot.cmd in package folder>>"%NEW_PACK%"
 ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%NEW_PACK%"
 ECHO;START CMD /C "%%~DP0..\windick.cmd" -autoboot -install>>"%NEW_PACK%"
 ECHO;START CMD /C "%%~DP0..\windick.cmd" -nextboot -recovery>>"%NEW_PACK%"
 EXIT /B
+:N46
+CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
+ECHO;::Put MSI in pack folder.>>%NEW_PACK%"
+ECHO;"EXAMPLE.msi" /qn>>"%NEW_PACK%"
+EXIT /B
+:N47
+CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_Ethernet"&&SET "PackDesc=Prioritize Ethernet Traffic"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
+ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=5 >>"%NEW_PACK%"
+ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=10 >>"%NEW_PACK%"
+EXIT /B
+:N48
+CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Prioritize_WiFi"&&SET "PackDesc=Prioritize Wi-Fi Traffic"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:TIME_WARN2
+ECHO;NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >>"%NEW_PACK%"
+ECHO;NETSH interface ipv4 SET interface "Ethernet" metric=5 >>"%NEW_PACK%"
+EXIT /B
+:N50
+CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=DISM_Special"&&SET "PackDesc=DISM special pack"&&SET "PackTag=DISM"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
+ECHO;DISM /%%APPLY_TARGET%% /ABC:DEF /123:456>>"%NEW_PACK%"
+EXIT /B
 :DBG
 CALL:PACK_STRT&&ECHO  - DEBUG -&&ECHO (1)Pause (2)Echo On (3)Echo Off&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PackType=SCRIPTED"&&SET "PackName=Pause"&&SET "PackDesc=Place in PackageList, PAUSES EXECUTION"&&ECHO;PAUSE>>"%NEW_PACK%"
 IF "%SELECT%"=="2" SET "PackType=SCRIPTED"&&SET "PackName=Echo_on"&&SET "PackDesc=Place in PackageList, Turns ECHO ON"&&ECHO;@ECHO ON>>"%NEW_PACK%"
 IF "%SELECT%"=="3" SET "PackType=SCRIPTED"&&SET "PackName=Echo_off"&&SET "PackDesc=Place in PackageList, Turns ECHO OFF"&&ECHO;@ECHO OFF>>"%NEW_PACK%"
-EXIT /B
-:N11
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "PackName=Unattended"&&SET "PackDesc=Generate Unattended Answer File"&&SET "EDIT_CUSTOM=unattend.xml"&&SET "PackTag=DISM"&&SET "EDIT_MANIFEST=1"&&CALL:TIME_WARN1
-ECHO        - Username? -&&ECHO     - Enter Username -&&ECHO   - 0-9 A-Z - No Spaces -&&ECHO      (Enter) for default&&SET "PROMPT_SET=NEWUSER"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
-SET "CHAR_STR=%NEWUSER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
-IF DEFINED CHAR_FLG SET "NEWUSER="
-IF NOT DEFINED NEWUSER SET "NEWUSER=UserName"
-ECHO.&&ECHO       - Product key? -&&ECHO XXXXX-XXXXX-XXXXX-XXXXX-XXXXX&&ECHO      (Enter) for default
-IF "%PACK_MODE%"=="CREATE" SET "PROMPT_SET=PRODUCT_KEY"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
-IF NOT DEFINED PRODUCT_KEY SET "PRODUCT_KEY=92NFX-8DJQP-P6BBQ-THF9C-7CG2H"
-ECHO;::DISM /%%APPLY_TARGET%% /APPLY-UNATTEND:"%%CD%%\UNATTEND.XML">>"%NEW_PACK%"
-ECHO;MD "%%WINTAR%%\PANTHER">>"%NEW_PACK%"
-ECHO;COPY /Y "%%~DP0unattend.xml" "%%WINTAR%%\PANTHER">>"%NEW_PACK%"
-CALL:ANSWER_FILE>"%MAKER_FOLDER%\unattend.xml"
 EXIT /B
 :ANSWER_FILE
 ECHO;^<?xml version="1.0" encoding="utf-8"?^>
