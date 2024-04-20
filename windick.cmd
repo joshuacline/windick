@@ -2811,8 +2811,8 @@ FOR %%a in (AIOPACK DRIVER) DO (IF "%PackType%"=="%%a" IF EXIST "%NEW_PACK%" DEL
 SET "SELECT="&&CALL:SCRATCH_PACK_DELETE
 EXIT /B
 :MENU_TASKS
-@ECHO OFF&&CLS&&CALL:TITLE_X&&IF NOT DEFINED S45 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
-CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##%T00%#$%) Sysprep Menu%S42%[%#@%INSTANT%#$%]&&ECHO  (%##%T01%#$%) Create Local User-Account%S29%[%#@%INSTANT%#$%]&&ECHO  (%##%T02%#$%) Create Local Admin-Account%S28%[%#@%INSTANT%#$%]&&ECHO  (%##%T03%#$%) End Task%S46%[%#@%INSTANT%#$%]&&ECHO  (%##%T04%#$%) Start/Stop Service%S36%[%#@%INSTANT%#$%]&&ECHO  (%##%T05%#$%) List Accounts%S41%[%#@%INSTANT%#$%]&&ECHO  (%##%T06%#$%) SFC /Scannow%S42%[%#@%INSTANT%#$%]&&ECHO  (%##%T07%#$%) Generate unattend.xml%S33%[%#@%INSTANT%#$%]&&ECHO  (%##%T08%#$%) Export Custom Wallpaper%29%[%#@%SCRIPTED%#$%]&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+@ECHO OFF&&CLS&&CALL:TITLE_X&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "S1%%a=%S10%%%S%%a%%"&&CALL SET "S2%%a=%S10%%S10%%%S%%a%%"&&CALL SET "S3%%a=%S10%%S10%%S10%%%S%%a%%"&&CALL SET "S4%%a=%S10%%S10%%S10%%S10%%%S%%a%%")
+CALL:PAD_LINE&&ECHO %S31%(Tasks)&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%T00%#$%) Sysprep Menu&&ECHO  (%##%T01%#$%) Create Local User-Account&&ECHO  (%##%T02%#$%) Create Local Admin-Account&&ECHO  (%##%T03%#$%) End Task&&ECHO  (%##%T04%#$%) Start/Stop Service&&ECHO  (%##%T05%#$%) List Accounts&&ECHO  (%##%T06%#$%) SFC /Scannow&&ECHO  (%##%T07%#$%) Generate unattend.xml&&ECHO  (%##%T08%#$%) Export Custom Wallpaper&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
 FOR %%a in (T00 T01 T02 T03 T04 T05 T06 T07 T08) DO (IF "%%a"=="%SELECT%" SET "ERROR="&&CALL:%EXAMPLE%)
 EXIT /B
