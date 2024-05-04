@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1155 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1156 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -1743,7 +1743,6 @@ IF "%PackType%"=="SCRIPTED" IF "%PackTag%"=="MOUNT" CALL:IF_LIVE_EXT
 IF "%PackType%"=="SCRIPTED" IF "%PackTag%"=="UNMOUNT" CALL:IF_LIVE_MIX
 IF "%PackType%"=="SCRIPTED" IF NOT "%PackTag%"=="MOUNT" IF NOT "%PackTag%"=="UNMOUNT" ECHO Package outdated. Missing mount option.&&GOTO:PACK_INSTALL_FINISH
 ECHO Running %#@%%PackName%%#$% %#@%%PackExt%%#$% DESC: %#@%%PackDesc%%#$%
-IF "%PackExt%"==".CAB" EXPAND "%IMAGE_PACK%" -F:* "%SCRATCH_PACK%" >NUL 2>&1
 IF "%PackExt%"==".APPX" DISM /ENGLISH /%APPLY_TARGET% /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%IMAGE_PACK%" >"$DRVR"
 IF "%PackExt%"==".APPX" CALL:PACK_CHECK
 IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG DISM /ENGLISH /%APPLY_TARGET% /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%IMAGE_PACK%" /SKIPLICENSE>"$DRVR"
@@ -1751,6 +1750,10 @@ IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG CALL:PACK_CHECK
 IF "%PackExt%"==".APPX" IF DEFINED DISMSG CALL ECHO                  %#@%%PACK_GOOD%%#$%
 IF "%PackExt%"==".APPX" IF NOT DEFINED DISMSG CALL ECHO               %##%%PACK_BAD%%#$%
 IF "%PackExt%"==".APPX" GOTO:PACK_INSTALL_FINISH
+IF "%PackExt%"==".CAB" DISM /ENGLISH /%APPLY_TARGET% /ADD-PACKAGE /PACKAGEPATH:"%IMAGE_PACK%" >"$DRVR"
+IF "%PackExt%"==".CAB" CALL:PACK_CHECK
+IF "%PackExt%"==".CAB" IF DEFINED DISMSG CALL ECHO                  %#@%%PACK_GOOD%%#$%&&GOTO:PACK_INSTALL_FINISH
+IF "%PackExt%"==".CAB" IF NOT DEFINED DISMSG EXPAND "%IMAGE_PACK%" -F:* "%SCRATCH_PACK%" >NUL 2>&1
 IF "%PackExt%"==".MSU" DISM /ENGLISH /%APPLY_TARGET% /ADD-PACKAGE /PACKAGEPATH:"%IMAGE_PACK%" >"$DRVR"
 IF "%PackExt%"==".MSU" CALL:PACK_CHECK
 IF "%PackExt%"==".MSU" IF DEFINED DISMSG CALL ECHO                  %#@%%PACK_GOOD%%#$%
