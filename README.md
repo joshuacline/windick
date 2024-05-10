@@ -3,8 +3,8 @@ A native command shell Windows image deployment tool.
 
 [![Download](https://img.shields.io/github/v/release/joshuacline/windick)](https://github.com/joshuacline/windick/archive/refs/heads/main.zip)
 # Mirrors
-- https://majorgeeks.com/files/details/windows_deployment_image_customization_kit.html
-- https://softpedia.com/get/System/System-Miscellaneous/Windows-Deployment-Image-Customization-Kit.shtml
+- https://www.majorgeeks.com/files/details/windows_deployment_image_customization_kit.html
+- https://www.softpedia.com/get/System/System-Miscellaneous/Windows-Deployment-Image-Customization-Kit.shtml
 # Tutorial
 - https://youtube.com/@windozedev
 - https://learn.microsoft.com/en-us/archive/technet-wiki/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell
