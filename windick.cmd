@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1158 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1159 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -269,10 +269,10 @@ IF NOT DEFINED INDEX_TMP ECHO ERROR&&SET "ERROR=1"&&EXIT /B
 SET "INDEX_TMP="&&SET "NAME_TMP="&&SET "BOX=B1"&&ECHO.&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT SET "ERROR=1"&&EXIT /B
 SET "WIM_INDEX=%SELECT%"&&CALL:WIM_INDEX_QUERY
-IF "%WIM_DESC%"=="NULL" ECHO.&&ECHO ERROR&&SET "ERROR=1"
+IF "%WIM_DESC%"=="NULL" ECHO.&&ECHO  %XLR2%ERROR%#$%&&SET "ERROR=1"
 EXIT /B
 :WIM_INDEX_LIST
-ECHO  (%##%%INDEX_TMP%%#$%) %NAME_TMP%
+ECHO  ( %##%%INDEX_TMP%%#$% ) %NAME_TMP%
 EXIT /B
 :WIM_INDEX_QUERY
 SET "WIM_DESC="&&FOR /F "TOKENS=1-5 DELIMS=<> " %%a in ('DISM /ENGLISH /Get-ImageInfo /ImageFile:"%IMAGE_FOLDER%\%WIM_SOURCE%" /Index:%WIM_INDEX%') DO (IF "%%a"=="Edition" SET "WIM_DESC=%%c"
@@ -324,11 +324,11 @@ IF "%ARG1%"=="-FILEMGR" IF "%ARG2%"=="-GRANT" IF DEFINED ARG3 IF EXIST "%ARG3%" 
 IF "%ARG1%"=="-NEXTBOOT" FOR %%a in (VHDX RECOVERY) DO (IF "%ARG2%"=="-%%a" SET "BOOT_TARGET=%%a"&&CALL:BOOT_TOGGLE)
 IF "%ARG1%"=="-NEXTBOOT" IF DEFINED NEXT_BOOT CALL ECHO Next boot is [%NEXT_BOOT%]
 IF "%ARG1%"=="-NEXTBOOT" IF NOT DEFINED NEXT_BOOT CALL ECHO ERROR: The boot environment is not installed on this disk.
-IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
-IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_NUMBER%"
+IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
+IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_NUMBER%"
 IF "%ARG1%"=="-BOOTMAKER" IF DEFINED ARG2 IF "%ARG3%"=="-DISK" IF "%DISK_TARGET%"=="00000000" SET "ARG1="&&ECHO Convert to GPT first.
-IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
-IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISKID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_NUMBER%"
+IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
+IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_NUMBER%"
 IF "%ARG1%"=="-DISKMGR" IF DEFINED ARG2 IF "%ARG3%"=="-DISK" IF "%DISK_TARGET%"=="00000000" SET "ARG1="&&ECHO Convert to GPT first.
 IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-REMOVE" SET "BOOTSVC=REMOVE"&&CALL:AUTOBOOT_SVC&ECHO AutoBoot switcher is removed
 IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-INSTALL" SET "BOOTSVC=INSTALL"&&CALL:AUTOBOOT_SVC&ECHO AutoBoot switcher is installed
@@ -355,7 +355,7 @@ IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-GETDISK" IF "%ARG3%"=="-DISK" IF DEFINED 
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-GETDISK" IF "%ARG3%"=="-DISK" IF NOT DEFINED DISKID_%DISK_NUMBER% CALL ECHO DISK #/UID DOES NOT EXIST
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-ERASE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 CALL:DISK_QUERY>NUL
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-ERASE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15) DO (IF "%ARG4%"=="%%a" CALL SET "DISK_TARGET=%%DISKID_%%a%%"&&CALL:DISKMGR_ERASE)
-IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-CHANGEID" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "GET_DISK_ID=%ARG5%"&&CALL:DISKMGR_CHANGEID
+IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-CHANGEUID" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "GET_DISK_ID=%ARG5%"&&CALL:DISKMGR_CHANGEID
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-SIZE"  IF DEFINED ARG6 SET "PART_SIZE=%ARG6%"&&CALL:DISKMGR_CREATE
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-FORMAT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" IF DEFINED ARG6 SET "PART_NUMBER=%ARG6%"&&CALL:DISKMGR_FORMAT
 IF "%ARG1%"=="-DISKMGR" IF "%ARG2%"=="-DELETE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" IF DEFINED ARG6 SET "PART_NUMBER=%ARG6%"&&CALL:DISKMGR_DELETE
@@ -379,55 +379,54 @@ IF "%ARG1%"=="-IMAGEMGR" IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-VHDX" IF DEFINED ARG
 EXIT /B
 :COMMAND_HELP
 ECHO  Command Line Parameters:
-ECHO.&&ECHO          [MISC]
-ECHO    -help                                                          (This menu)
-ECHO    -nextboot -vhdx                                                (Schedule next boot to vhdx)
-ECHO    -nextboot -recovery                                            (Schedule next boot to recovery)
-ECHO    -autoboot -install                                             (Install reboot to recovery switcher service)
-ECHO    -autoboot -remove                                              (Remove reboot to recovery switcher service)
-ECHO.&&ECHO          [BOOT CREATOR]
-ECHO    -bootmaker -create -disk (#) -vhdx (vhdx)                      (Create Boot-Media on specified disk)
-ECHO    -bootmaker -create -diskid (id) -vhdx (vhdx) -size (size)      (Create Boot-Media + custom host partition size)
-ECHO  Examples:
-ECHO    -bootmaker -create -disk 0 -vhdx z.vhdx                        (Default is entire disk when size not specified)
-ECHO    -bootmaker -create -diskid 12345678-1234-1234-1234-123456781234 -vhdx z.vhdx -size 100000
-ECHO.&&ECHO          [IMAGE PROCESSOR]
-ECHO    -imageproc -wim (wim) -index (#) -wim (wim) -xlvl (fast/max)   (WIM index isolation)
-ECHO    -imageproc -wim (wim) -index (#) -vhdx (vhdx) -size (MB)       (WIM to VHDX Conversion)
-ECHO    -imageproc -vhdx (vhdx) -index (#) -wim (wim) -xlvl (fast/max) (VHDX to WIM Conversion)
-ECHO  Examples:
-ECHO    -imageproc -wim x.wim -index 1 -vhdx z.vhdx -size 25600
-ECHO    -imageproc -wim x.wim -index 1 -wim z.wim -xlvl fast
-ECHO    -imageproc -vhdx z.vhdx -index 1 -wim x.wim -xlvl fast
-ECHO.&&ECHO          [IMAGE MANAGEMENT]
-ECHO    -imagemgr -run -lst (x.lst) -live /or/ -vhdx (z.vhdx)          (Run list)
-ECHO    -imagemgr -run -pkx (x.pkx) -live /or/ -vhdx (z.vhdx)          (Run AIO Package w/integrated list)
-ECHO    -imagemgr -runbrute -lst (x.lst) -live /or/ -vhdx (z.vhdx)     (Run list with brute force enabled)
-ECHO  Examples:
-ECHO    -imagemgr -run -lst "x y z.lst" -live
-ECHO    -imagemgr -run -pkx x.pkx -vhdx z.vhdx
-ECHO    -imagemgr -runbrute -lst x.lst -vhdx z.vhdx
-ECHO.&&ECHO          [FILE MANAGEMENT]
-ECHO    -filemgr -grant (file/folder)                                  (Take ownership + Grant Permissions)
-ECHO  Examples:
-ECHO    -filemgr -grant c:\x.txt
-ECHO.&&ECHO          [DISK MANAGEMENT]
-ECHO    -diskmgr -list                                                 (Condensed list of disks)
-ECHO    -diskmgr -getdisk -disk (#) /or/ -diskid (id)                  (Query disk # / disk id)
-ECHO    -diskmgr -inspect -disk (#) /or/ -diskid (id)                  (DiskPart inquiry on specified disk)
-ECHO    -diskmgr -erase -disk (#) /or/ -diskid (id)                    (Delete ALL partitions on specified disk)
-ECHO    -diskmgr -changeid -disk (#) /or/ -diskid (id) (new id)        (Change disk id of specified disk)
-ECHO    -diskmgr -create -disk (#) /or/ -diskid (id) -size (MB)        (Create NTFS partition on specified disk)
-ECHO    -diskmgr -format -disk (#) /or/ -diskid (id) -part (#)         (Format partition w/NTFS on specified disk)
-ECHO    -diskmgr -delete -disk (#) /or/ -diskid (id) -part (#)         (Delete partition on specified disk)
-ECHO    -diskmgr -mount -disk (#) /or/ -diskid (id) -part (#) -letter (letter)        (Assign drive letter)
-ECHO    -diskmgr -unmount -disk (#) /or/ -diskid (id) -part (#) -letter (letter)      (Remove drive letter)
-ECHO  Examples:
-ECHO    -diskmgr -create -disk 0 -size 25600
-ECHO    -diskmgr -mount -disk 0 -part 1 -letter e
-ECHO    -diskmgr -unmount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter e
-ECHO.&&ECHO Specified images, lists, or boot media must be in their respective folders or the operation will fail.
-ECHO Note when using command-mode: in some instances there cannot be a space in the file name.
+ECHO    %##%Miscellaneous%#$%
+ECHO    -help                                                           This menu
+ECHO    -nextboot -vhdx                                                 Schedule next boot to vhdx
+ECHO    -nextboot -recovery                                             Schedule next boot to recovery
+ECHO    -autoboot -install                                              Install reboot to recovery switcher service
+ECHO    -autoboot -remove                                               Remove reboot to recovery switcher service
+ECHO    %##%Image Processing%#$%
+ECHO    -imageproc -wim %#@%x.wim%#$% -index %#@%#%#$% -wim %#@%x.wim%#$% -xlvl %#@%fast/max%#$%        WIM index isolation
+ECHO    -imageproc -wim %#@%x.wim%#$% -index %#@%#%#$% -vhdx %#@%x.vhdx%#$% -size %#@%MB%#$%            WIM to VHDX Conversion
+ECHO    -imageproc -vhdx %#@%x.vhdx%#$% -index %#@%#%#$% -wim %#@%x.wim%#$% -xlvl %#@%fast/max%#$%      VHDX to WIM Conversion
+ECHO  Examples-
+ECHO    %#@%-imageproc -wim x.wim -index 1 -vhdx x.vhdx -size 25600%#$%
+ECHO    %#@%-imageproc -wim x.wim -index 1 -wim x.wim -xlvl fast%#$%
+ECHO    %#@%-imageproc -vhdx x.vhdx -index 1 -wim x.wim -xlvl fast%#$%
+ECHO    %##%Image Management%#$%
+ECHO    -imagemgr -run -lst %#@%x.lst%#$% -live /or/ -vhdx %#@%x.vhdx%#$%               Run list
+ECHO    -imagemgr -run -pkx %#@%x.pkx%#$% -live /or/ -vhdx %#@%x.vhdx%#$%               Run AIO Package w/integrated list
+ECHO    -imagemgr -runbrute -lst %#@%x.lst%#$% -live /or/ -vhdx %#@%x.vhdx%#$%          Run list with brute force enabled
+ECHO  Examples-
+ECHO    %#@%-imagemgr -run -lst "x y z.lst" -live%#$%
+ECHO    %#@%-imagemgr -run -pkx x.pkx -vhdx x.vhdx%#$%
+ECHO    %#@%-imagemgr -runbrute -lst x.lst -vhdx x.vhdx%#$%
+ECHO    %##%File Management%#$%
+ECHO    -filemgr -grant %#@%file/folder%#$%                                     Take ownership + Grant Permissions
+ECHO  Examples-
+ECHO    %#@%-filemgr -grant c:\x.txt%#$%
+ECHO    %##%Disk Management%#$%
+ECHO    -diskmgr -list                                                  Condensed list of disks
+ECHO    -diskmgr -getdisk -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$%                     Query disk # / disk uid
+ECHO    -diskmgr -inspect -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$%                     DiskPart inquiry on specified disk
+ECHO    -diskmgr -erase -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$%                       Delete all partitions on specified disk
+ECHO    -diskmgr -create -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -size %#@%MB%#$%             Create NTFS partition on specified disk
+ECHO    -diskmgr -format -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#$%              Format partition w/NTFS on specified disk
+ECHO    -diskmgr -delete -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#$%              Delete partition on specified disk
+ECHO    -diskmgr -changeuid -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% %#@%new-uid%#$%           Change disk uid of specified disk
+ECHO    -diskmgr -mount -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#$% -letter %#@%letter%#$%         Assign drive letter
+ECHO    -diskmgr -unmount -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#$% -letter %#@%letter%#$%       Remove drive letter
+ECHO  Examples-
+ECHO    %#@%-diskmgr -create -disk 0 -size 25600%#$%
+ECHO    %#@%-diskmgr -mount -disk 0 -part 1 -letter e%#$%
+ECHO    %#@%-diskmgr -unmount -diskuid 12345678-1234-1234-1234-123456781234 -part 1 -letter e%#$%
+ECHO    %##%Boot Creator%#$%
+ECHO    -bootmaker -create -disk %#@%#%#$% -vhdx %#@%x.vhdx%#$%                         Erase specified disk and make bootable
+ECHO    -bootmaker -create -diskuid %#@%uid%#$% -vhdx %#@%x.vhdx%#$% -size %#@%MB%#$%           Erase specified disk and make bootable + set host partition size
+ECHO  Examples-
+ECHO    %#@%-bootmaker -create -disk 0 -vhdx x.vhdx%#$%                         Default is the entire disk when size is not specified
+ECHO    %#@%-bootmaker -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx -size 100000%#$%
+ECHO.&&PAUSE
 EXIT /B
 :DISCLAIMER
 CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.
@@ -482,6 +481,8 @@ EXIT /B
 IF NOT DEFINED CASE SET "CASE=UPPER"
 IF "%CASE%"=="LOWER" FOR %%G in (a b c d e f g h i j k l m n o p q r s t u v w x y z) DO (CALL SET "CAPS_VAR=%%CAPS_VAR:%%G=%%G%%")
 IF "%CASE%"=="UPPER" FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "CAPS_VAR=%%CAPS_VAR:%%G=%%G%%")
+IF "%CAPS_VAR%"=="a=a" SET "CAPS_VAR="
+IF "%CAPS_VAR%"=="A=A" SET "CAPS_VAR="
 CALL SET "%CAPS_SET%=%CAPS_VAR%"&&SET "CAPS_SET="&&SET "CAPS_VAR="&&SET "CASE="
 EXIT /B
 :CHAR_CHK
@@ -785,8 +786,8 @@ IF NOT DEFINED SOURCE_LOCATION IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO    Inser
 IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "WIM_DESC=NULL"
 IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_QUERY
 ECHO                              %#@%%SOURCE_TYPE%%#$% (%##%X%#$%) %#@%%TARGET_TYPE%%#$%&&CALL:PAD_LINE
-IF "%SOURCE_TYPE%"=="PATH" ECHO   %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\*" ECHO    %%G:\)
-IF "%SOURCE_TYPE%"=="PATH" ECHO.&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource PATH  %#@%%PATH_SOURCE%%#$%  %XLR1%Use caution with this option%#$%&&CALL:PAD_LINE
+IF "%SOURCE_TYPE%"=="PATH" ECHO   %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\*" ECHO    %%G:)
+IF "%SOURCE_TYPE%"=="PATH" ECHO.&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource PATH  %#@%%PATH_SOURCE%%#$%  %XLR2%Use caution with this option%#$%&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource VHDX  %#@%%VHDX_SOURCE%%#$%&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource WIM  %#@%%WIM_SOURCE%%#$%   (%##%I%#$%)ndex %#@%%WIM_INDEX%%#$%   Edition: %#@%%WIM_DESC%%#$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="VHDX" ECHO   %#@%EXISTING VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget VHDX  %#@%%VHDX_TARGET%%#$%        (%##%G%#$%)o^^!  (%##%V%#$%)Size %#@%%VHDX_SIZE%MB%#$%  (%##%Z%#$%) %#@%%VHDX_XLVL%%#$%&&CALL:PAD_LINE
@@ -800,7 +801,7 @@ IF "%SELECT%"=="T" CALL:IMAGEPROC_PROMPT
 IF "%SELECT%"=="Z" CALL:IMAGEPROC_XLVL
 IF "%SELECT%"=="S" CALL:IMAGEPROC_PICK&&SET "SELECT="
 IF "%SELECT%"=="V" IF "%TARGET_TYPE%"=="VHDX" CALL:IMAGEPROC_VSIZE&&SET "SELECT="
-IF "%SELECT%"=="I" IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX
+IF "%SELECT%"=="I" IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_MENU
 IF "%SELECT%"=="+" IF DEFINED SOURCE_LOCATION CALL:SOURCE_IMPORT&&SET "SELECT="
 IF "%SELECT%"=="-" IF DEFINED SOURCE_LOCATION CALL:BOOT_IMPORT&&SET "SELECT="
 GOTO:IMAGE_PROCESSOR
@@ -875,11 +876,6 @@ IF "%IMAGEPROC_SLOT%"=="1" SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"
 IF "%IMAGEPROC_SLOT%"=="2" SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"
 IF "%IMAGEPROC_SLOT%"=="3" SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=WIM"
 IF "%IMAGEPROC_SLOT%"=="4" SET "SOURCE_TYPE=PATH"&&SET "TARGET_TYPE=WIM"
-EXIT /B
-:WIM_INDEX
-SET /A "WIM_INDEX+=1"
-IF "%WIM_INDEX%"=="20" SET "WIM_INDEX=1"
-CALL:WIM_INDEX_QUERY
 EXIT /B
 ::#########################################################################
 :IMAGE_MANAGER
@@ -1053,8 +1049,8 @@ EXIT /B
 CLS&&SET "LIST_ACTN="&&SET "LIST_TIME="&&SET "LIST_ITEM=GROUP"&&CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO   %#@%GETTING GROUP LISTING%#$%...&&SET "$LIST=%LIST_FOLDER%\%$ELECT$%"&&SET "$LISTX=%LIST_FOLDER%\%$ELECT$%"&&SET "ONLY1=GROUP"&&SET "NLIST=MST"&&CALL:LIST_FILE&&SET "BOX=B1"&&CALL:BOX
 IF DEFINED ERROR EXIT /B
 CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-IF NOT DEFINED SELECT EXIT /B
 CALL SET "ITEM_SELECT=%%$ITEM%SELECT%%%"
+IF NOT DEFINED ITEM_SELECT EXIT /B
 FOR /F "TOKENS=1-9 DELIMS=[]" %%1 IN ("%ITEM_SELECT%") DO (SET "GROUP_TARGET=%%2")
 CLS&&SET "LIST_ACTN="&&SET "LIST_TIME="&&SET "LIST_ITEM=GROUP"&&CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO   %#@%GETTING SUBGROUP LISTING%#$%...&&SET "$LIST=%$LISTX%"&&SET "ONLY1=GROUP"&&SET "ONLY2=%GROUP_TARGET%"&&SET "NLIST=MST"&&CALL:LIST_FILE&&SET "BOX=B1"&&CALL:BOX
 IF DEFINED ERROR EXIT /B
@@ -1097,15 +1093,15 @@ IF NOT "%$CLM1%"=="GROUP" IF NOT "%$CLM1%"=="#" IF NOT "%$CLM1%"=="$0" IF NOT "%
 EXIT /B
 :LIST_MISCELLANEOUS
 CLS&&CALL:PAD_LINE&&ECHO                              List Creator&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX
-ECHO.&&ECHO  ( %##%1%#$% ) Registry Operation&&ECHO  ( %##%2%#$% ) File Operation&&ECHO  ( %##%3%#$% ) Command Operation&&ECHO  ( %##%4%#$% ) DISM Operation&&ECHO  ( %##%5%#$% ) Group Seperator&&ECHO  ( %##%6%#$% ) Comment Entry&&ECHO  ( %##%7%#$% ) Prompt Entry&&ECHO  ( %##%8%#$% ) Wallpaper Import&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&SET "PROMPT_SET=SELECTZ"&&CALL:PROMPT_SET
-IF "%SELECTZ%"=="1" CALL:LIST_REGISTRY_CREATE
-IF "%SELECTZ%"=="2" CALL:LIST_FILE_CREATE
-IF "%SELECTZ%"=="3" CALL:LIST_COMMAND_CREATE
-IF "%SELECTZ%"=="4" CALL:LIST_DISM_CREATE
-IF "%SELECTZ%"=="5" CALL:LIST_GROUP_BOUNDRY
-IF "%SELECTZ%"=="6" CALL:LIST_COMMENT_CREATE
-IF "%SELECTZ%"=="7" CALL:LIST_PROMPT_CREATE
-IF "%SELECTZ%"=="8" CALL:LIST_WALLPAPER_CREATE
+ECHO.&&ECHO  ( %##%1%#$% ) Registry Operation&&ECHO  ( %##%2%#$% ) File Operation&&ECHO  ( %##%3%#$% ) Command Operation&&ECHO  ( %##%4%#$% ) DISM Operation&&ECHO  ( %##%5%#$% ) Group Seperator&&ECHO  ( %##%6%#$% ) Comment Entry&&ECHO  ( %##%7%#$% ) Prompt Entry&&ECHO  ( %##%8%#$% ) Wallpaper Import&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+IF "%SELECTX%"=="1" CALL:LIST_REGISTRY_CREATE
+IF "%SELECTX%"=="2" CALL:LIST_FILEOPER_CREATE
+IF "%SELECTX%"=="3" CALL:LIST_COMMAND_CREATE
+IF "%SELECTX%"=="4" CALL:LIST_DISM_CREATE
+IF "%SELECTX%"=="5" CALL:LIST_GROUP_BOUNDRY
+IF "%SELECTX%"=="6" CALL:LIST_COMMENT_CREATE
+IF "%SELECTX%"=="7" CALL:LIST_PROMPT_CREATE
+IF "%SELECTX%"=="8" CALL:LIST_WALLPAPER_CREATE
 EXIT /B
 :LIST_WALLPAPER_CREATE
 IF NOT EXIST "%CACHE_FOLDER%\wallpaper.jpg" CALL:T9X
@@ -1154,13 +1150,15 @@ SET "$LST1=%LIST_FOLDER%\%NEW_NAME%.mst"
 CALL:PAD_ADD&&SET "GROUPX=1"&&CALL:LIST_COMBINE&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :LIST_COMMENT_CREATE
-CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO            Enter the message for the comment: [ %#@%A-Z 0-9%#$% ]&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_ANY=1"&&SET "PROMPT_SET=PROMPT_XYZ"&&CALL:PROMPT_SET
+CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO             Enter the message for the comment: [ %#@%A-Z 0-9%#$% ]&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_ANY=1"&&SET "PROMPT_SET=PROMPT_XYZ"&&CALL:PROMPT_SET
 IF NOT DEFINED PROMPT_XYZ EXIT /B
-CALL:PAD_LINE&&ECHO           Choose a color: [ %XLR0%0%XLR1%1%XLR2%2%XLR3%3%XLR4%4%XLR5%5%XLR6%6%XLR7%7%XLR8%8%XLR9%9%#$% ]&&SET "PROMPT_SET=COLOR_XYZ"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&ECHO           Choose a color: [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_XYZ"&&CALL:PROMPT_SET
 IF NOT DEFINED COLOR_XYZ EXIT /B
+SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_XYZ%"=="%%a" SET "PASS=1")
+IF NOT "%PASS%"=="1" SET "COLOR_XYZ=0"&&ECHO  %XLR2%ERROR&&EXIT /B
 SET "PICK=LST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
-CALL:PAD_ADD&&ECHO.&&CALL ECHO %#@%#%#$% %PROMPT_XYZ% %%XLR%COLOR_XYZ%%%COLOR %COLOR_XYZ% %#$%&&ECHO [#][%PROMPT_XYZ%][%COLOR_XYZ%]>>"%$PICK%"
+CALL:PAD_ADD&&ECHO.&&CALL ECHO  %#@%#%#$% %PROMPT_XYZ% %%XLR%COLOR_XYZ%%%COLOR %COLOR_XYZ% %#$%&&ECHO [#][%PROMPT_XYZ%][%COLOR_XYZ%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_PROMPT_CREATE
@@ -1168,14 +1166,14 @@ CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO             Enter the me
 IF NOT DEFINED PROMPT_XYZ EXIT /B
 CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                     Select a pipe number: [ %#@%0-9%#$% ]&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_ANY=1"&&SET "PROMPT_SET=PIPE_XYZ"&&CALL:PROMPT_SET
 IF NOT DEFINED PIPE_XYZ EXIT /B
+SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%PIPE_XYZ%"=="%%a" SET "PASS=1")
+ECHO.&&IF NOT "%PASS%"=="1" ECHO  %XLR2%ERROR%#$%&&EXIT /B
 SET "PICK=LST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
-SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%PIPE_XYZ%"=="%%a" SET "PASS=1")
-CALL:PAD_ADD&&ECHO.&&IF NOT "%PASS%"=="1" ECHO %XLR2%ERROR:%#$% Input not [ %#@%0-9%#$% ].
-IF "%PASS%"=="1" ECHO %#@%$%PIPE_XYZ%%#$% %PROMPT_XYZ% PIPE%PIPE_XYZ%&&ECHO [$%PIPE_XYZ%][%PROMPT_XYZ%][PIPE%PIPE_XYZ%]>>"%$PICK%"
+CALL:PAD_ADD&&ECHO.&&ECHO  %#@%$%PIPE_XYZ%%#$% %PROMPT_XYZ% %##%PIPE%PIPE_XYZ%%#$%&&ECHO [$%PIPE_XYZ%][%PROMPT_XYZ%][PIPE%PIPE_XYZ%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
-:LIST_FILE_CREATE
+:LIST_FILEOPER_CREATE
 CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO              Enter the folder path + file name to delete&&ECHO          %XLR2%Drive letter:\ omitted. Cannot contain quotes (^",^')%#$%&&ECHO                       Example: %#@%Windows\example.bmp%#$%&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_ANY=1"&&SET "PROMPT_SET=FOLDFILE"&&CALL:PROMPT_SET
 IF NOT DEFINED FOLDFILE EXIT /B
 CALL:LIST_TIME
@@ -1183,7 +1181,7 @@ IF NOT DEFINED LIST_TIME EXIT /B
 SET "PICK=LST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_ADD&&ECHO.&&SET "FILE_TGT=%%DRVTAR%%"
-ECHO %#@%FILEOPER%#$% %#@%DELETE%#$% "%FILE_TGT%\%FOLDFILE%" %##%%LIST_TIME%%#$%&&ECHO [FILEOPER]["%FILE_TGT%\%FOLDFILE%"][DELETE][%LIST_TIME%]>>"%$PICK%"
+ECHO  %#@%FILEOPER%#$% %#@%DELETE%#$% "%FILE_TGT%\%FOLDFILE%" %##%%LIST_TIME%%#$%&&ECHO [FILEOPER]["%FILE_TGT%\%FOLDFILE%"][DELETE][%LIST_TIME%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_TIME
@@ -1194,16 +1192,16 @@ IF "%SELECTX%"=="3" SET "LIST_TIME=RO"
 EXIT /B
 :LIST_REGISTRY_CREATE
 SET "REG_OPER="&&SET "REG_HIVE="&&SET "REG_KEY="&&SET "REG_VAL="&&SET "REG_DATA="&&SET "REG_TYPE="&&CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                          Select operation type&&CALL:PAD_LINE
-SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) Registry Add&&ECHO  ( %##%2%#$% ) Registry Delete&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
-IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" EXIT /B
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) Registry Add&&ECHO  ( %##%2%#$% ) Registry Delete&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&SET "REG_OPER="&&CALL:PROMPT_SET
 IF "%SELECTX%"=="1" SET "REG_OPER=ADD"
 IF "%SELECTX%"=="2" SET "REG_OPER=DELETE"
+IF NOT DEFINED REG_OPER EXIT /B
 CLS&&CALL:PAD_LINE&&ECHO                          Select registry hive&&CALL:PAD_LINE
-SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) HKLM\Software&&ECHO  ( %##%2%#$% ) HKLM\System&&ECHO  ( %##%3%#$% ) HKCU or DefaultUser&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
-IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" IF NOT "%SELECTX%"=="3" EXIT /B
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) HKLM\Software&&ECHO  ( %##%2%#$% ) HKLM\System&&ECHO  ( %##%3%#$% ) HKCU or DefaultUser&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&SET "REG_HIVE="&&CALL:PROMPT_SET
 IF "%SELECTX%"=="1" SET "REG_HIVE=%%HIVE_SOFTWARE%%"
 IF "%SELECTX%"=="2" SET "REG_HIVE=%%HIVE_SYSTEM%%"
 IF "%SELECTX%"=="3" SET "REG_HIVE=%%HIVE_USER%%"
+IF NOT DEFINED REG_HIVE EXIT /B
 CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO.&&ECHO                          Enter the registry key&&ECHO %XLR2%HKCU/HKLM/USER,Software/System are omitted. Cannot contain quotes (^",^')%#$%&&ECHO.
 ECHO                          Example: %#@%key\name%#$%
 ECHO.&&SET "BOX=B1"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=REG_KEY"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
@@ -1215,12 +1213,11 @@ IF NOT DEFINED REG_VAL EXIT /B
 IF "%REG_VAL%"=="-" GOTO:REG_SKIP
 IF "%REG_OPER%"=="DELETE" GOTO:REG_SKIP
 CLS&&CALL:PAD_LINE&&ECHO                          Select value type&&CALL:PAD_LINE
-SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) REG_SZ&&ECHO  ( %##%2%#$% ) REG_DWORD&&ECHO  ( %##%3%#$% ) REG_BINARY&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
-IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" IF NOT "%SELECTX%"=="3" EXIT /B
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) REG_SZ&&ECHO  ( %##%2%#$% ) REG_DWORD&&ECHO  ( %##%3%#$% ) REG_BINARY&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&SET "REG_TYPE="&&CALL:PROMPT_SET
 IF "%SELECTX%"=="1" SET "REG_TYPE=REG_SZ"
 IF "%SELECTX%"=="2" SET "REG_TYPE=REG_DWORD"
 IF "%SELECTX%"=="3" SET "REG_TYPE=REG_BINARY"
-IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" IF NOT "%SELECTX%"=="3" EXIT /B
+IF NOT DEFINED REG_TYPE EXIT /B
 CALL:PAD_LINE&&SET "BOX=T1"&&CALL:BOX&&ECHO.&&ECHO                          Enter the value data&&ECHO                       %XLR2%Cannot contain quotes (^",^')%#$%&&ECHO.
 ECHO                          Example: %#@%0%#$%
 ECHO.&&SET "BOX=B1"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=REG_DATA"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
@@ -1231,15 +1228,15 @@ IF NOT DEFINED LIST_TIME EXIT /B
 SET "PICK=LST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_ADD&&ECHO.
-IF "%REG_OPER%"=="ADD" IF "%REG_VAL%"=="-" ECHO %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
-IF "%REG_OPER%"=="ADD" IF NOT "%REG_VAL%"=="-" ECHO %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /t %REG_TYPE% /d "%REG_DATA%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /t %REG_TYPE% /d "%REG_DATA%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
-IF "%REG_OPER%"=="DELETE" IF "%REG_VAL%"=="-" ECHO %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
-IF "%REG_OPER%"=="DELETE" IF NOT "%REG_VAL%"=="-" ECHO %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
+IF "%REG_OPER%"=="ADD" IF "%REG_VAL%"=="-" ECHO  %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
+IF "%REG_OPER%"=="ADD" IF NOT "%REG_VAL%"=="-" ECHO  %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /t %REG_TYPE% /d "%REG_DATA%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /t %REG_TYPE% /d "%REG_DATA%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
+IF "%REG_OPER%"=="DELETE" IF "%REG_VAL%"=="-" ECHO  %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
+IF "%REG_OPER%"=="DELETE" IF NOT "%REG_VAL%"=="-" ECHO  %#@%REGISTRY%#$% %#@%%REG_OPER%%#$% "%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /f %##%%LIST_TIME%%#$%&&ECHO [REGISTRY]["%REG_HIVE%\%REG_KEY%" /v "%REG_VAL%" /f][%REG_OPER%][%LIST_TIME%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :IMAGEMGR_LIST_PACK
 SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                           Select package type&&CALL:PAD_LINE
-SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) %#@%PKG%#$% Package&&ECHO  ( %##%2%#$% ) %#@%CAB%#$% Package&&ECHO  ( %##%3%#$% ) %#@%MSU%#$% Package&&ECHO  ( %##%4%#$% ) %#@%APPX%#$% Package&&ECHO  ( %##%5%#$% ) %#@%APPXBUNDLE%#$% Package&&ECHO  ( %##%6%#$% ) %#@%MSIXBUNDLE%#$% Package&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  ( %##%1%#$% ) %#@%PKG%#$% Package&&ECHO  ( %##%2%#$% ) %#@%CAB%#$% Package&&ECHO  ( %##%3%#$% ) %#@%MSU%#$% Package&&ECHO  ( %##%4%#$% ) %#@%APPX%#$% Package&&ECHO  ( %##%5%#$% ) %#@%APPXbundle%#$% Package&&ECHO  ( %##%6%#$% ) %#@%MSIXbundle%#$% Package&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
 IF "%SELECTX%"=="1" SET "EXXT=PKG"&&CALL:LIST_PACK_CREATE
 IF "%SELECTX%"=="2" SET "EXXT=CAB"&&CALL:LIST_PACK_CREATE
 IF "%SELECTX%"=="3" SET "EXXT=MSU"&&CALL:LIST_PACK_CREATE
@@ -1751,7 +1748,7 @@ EXIT /B
 ::#########################################################################
 :PACK_INSTALL
 ::#########################################################################
-IF NOT EXIST "%IMAGE_PACK%" ECHO  %XLR2%%IMAGE_PACK% doesn't exist.%#$%&&GOTO:PACK_INSTALL_FINISH
+IF NOT EXIST "%IMAGE_PACK%" ECHO  %XLR4%%IMAGE_PACK% doesn't exist.%#$%&&GOTO:PACK_INSTALL_FINISH
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"&&CALL:SCRATCH_PACK_CREATE
 FOR %%a in (PackName PackType PackDesc PackTag) DO (CALL SET "%%a=")
 FOR %%G in ("%IMAGE_PACK%") DO SET "PackFull=%%~nG%%~xG"&&SET "PackExt=%%~xG"
@@ -1763,11 +1760,12 @@ COPY /Y "%SCRATCH_PACK%\PACKAGE.MAN" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS
 ECHO Extracting %#@%%PackFull%%#$%...
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_PACK%" /INDEX:1 /APPLYDIR:"%SCRATCH_PACK%">NUL
 :PACK_JUMP
-IF "%PackType%"=="DRIVER" CALL:IF_LIVE_MIX
+IF "%PackType%"=="SCRIPTED" IF NOT "%PackTag%"=="MOUNT" IF NOT "%PackTag%"=="UNMOUNT" ECHO  %XLR2%Package outdated. Missing mount option.%#$%&&GOTO:PACK_INSTALL_FINISH
+IF NOT "%PackType%"=="DRIVER" ECHO Running %#@%%PackFull%%#$%...
+IF "%PackType%"=="DRIVER" ECHO Installing %#@%%PackFull%%#$%...
 IF "%PackType%"=="SCRIPTED" IF "%PackTag%"=="MOUNT" CALL:IF_LIVE_EXT
 IF "%PackType%"=="SCRIPTED" IF "%PackTag%"=="UNMOUNT" CALL:IF_LIVE_MIX
-IF "%PackType%"=="SCRIPTED" IF NOT "%PackTag%"=="MOUNT" IF NOT "%PackTag%"=="UNMOUNT" ECHO  %XLR2%Package outdated. Missing mount option.%#$%&&GOTO:PACK_INSTALL_FINISH
-IF "%PackExt%"==".PKG" ECHO Running %#@%%PackFull%%#$% Type %#@%%PackType%%#$%
+IF "%PackType%"=="DRIVER" CALL:IF_LIVE_MIX
 FOR %%G in (APPXBUNDLE MSIXBUNDLE) DO (IF "%PackExt%"==".%%G" SET "PackExt=.APPX")
 IF "%PackExt%"==".APPX" DISM /ENGLISH /%APPLY_TARGET% /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%IMAGE_PACK%" >"$DRVR"
 IF "%PackExt%"==".APPX" CALL:PACK_CHECK
@@ -2071,8 +2069,8 @@ IF "%SELECT%"=="UID" CALL:DISK_MENU&&CALL:DISK_UID_PROMPT&&CALL:DISK_PART_END&&S
 IF "%SELECT%"=="E" CALL:DISK_ERASE_PROMPT&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="I" CLS&&CALL:PAD_LINE&&ECHO                         Select a disk to inspect&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:DISKMGR_INSPECT&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="C" CLS&&CALL:PAD_LINE&&ECHO                    Select a disk to create partition&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_CREATE_PROMPT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="F" CLS&&CALL:PAD_LINE&&ECHO                    Select a disk to format partition&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_FORMAT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="D" CLS&&CALL:PAD_LINE&&ECHO                    Select a disk to delete partition&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_DELETE&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="F" CLS&&CALL:PAD_LINE&&ECHO                    %XLR2%Select a disk to format partition%#$%&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_FORMAT&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="D" CLS&&CALL:PAD_LINE&&ECHO                    %XLR2%Select a disk to delete partition%#$%&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_DELETE&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="M" CLS&&CALL:PAD_LINE&&ECHO                    Select a disk to mount partition&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:LETTER_GET&&CALL:CONFIRM&&CALL:DISKMGR_MOUNT&SET "SELECT="
 IF "%SELECT%"=="U" CLS&&CALL:PAD_LINE&&ECHO                    Select a disk to unmount partition&&CALL:PAD_LINE&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:LETTER_GET&&CALL:CONFIRM&&CALL:DISKMGR_UNMOUNT&SET "SELECT="
 IF "%SELECT%"=="B" IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOOT_FETCH
@@ -2157,7 +2155,7 @@ IF NOT "%HOST_SIZE%"=="DISABLED" IF EXIST "S:\" SET "DISK_X=%DISK_NUMBER%"&&CALL
 IF NOT "%HOST_SIZE%"=="DISABLED" IF EXIST "S:\" SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=3"&&SET "LETT_X=T"&&CALL:PART_ASSIGN)
 IF EXIST "U:\" IF EXIST "S:\" SET "EFI="&&EXIT /B
 IF NOT DEFINED RETRY_PART SET "RETRY_PART=1"&&SET "EFI="&&GOTO:PART_CREATE
-SET "PART_ERR=1"&&SET "EFI="&&SET "RETRY_PART="&&ECHO.&&ECHO                      The drive is currently in use.&&ECHO  Malfunctioning disks or those of poor quality also raise this error.&&ECHO     Unplug the USB disk and/or reboot if this continues to occur.&&ECHO.
+SET "PART_ERR=1"&&SET "EFI="&&SET "RETRY_PART="&&ECHO.&&ECHO                      %XLR2%The drive is currently in use.%#$%&&ECHO  Malfunctioning disks or those of poor quality also raise this error.&&ECHO     Unplug the USB disk and/or reboot if this continues to occur.&&ECHO.
 EXIT /B
 :BOOT_FETCH
 CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO      File boot.sav doesn't exist. Press (%##%X%#$%) to copy from recovery&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
@@ -2183,7 +2181,7 @@ IF NOT DEFINED ERROR SET "DISK_LETTER=%SELECT%"
 EXIT /B
 :PART_GET
 IF DEFINED ERROR EXIT /B
-SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                           Which Partition? (%##%#%#$%)&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
+SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                             Which Partition?&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
 IF NOT DEFINED ERROR SET "PART_NUMBER=%SELECT%"
 EXIT /B
 :DISK_PART_END
@@ -2218,7 +2216,7 @@ EXIT /B
 :DISKMGR_MOUNT
 IF DEFINED ERROR EXIT /B
 FOR %%a in (DISK_NUMBER DISK_LETTER PART_NUMBER) DO (IF NOT DEFINED %%a EXIT /B)
-IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  MOUNTING %DISK_LETTER%:\&&CALL:PAD_LINE
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  Mounting %#@%%DISK_LETTER%:\%#$%...&&CALL:PAD_LINE
 SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_ASSIGN
 IF NOT EXIST "%DISK_LETTER%:\" SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_ASSIGN
 IF EXIST "%DISK_LETTER%:\" SET "DISK_MSG=Partition %PART_NUMBER% on Disk %DISK_NUMBER% has been assigned letter %DISK_LETTER%."
@@ -2227,11 +2225,11 @@ EXIT /B
 :DISKMGR_UNMOUNT
 IF DEFINED ERROR EXIT /B
 FOR %%a in (DISK_NUMBER DISK_LETTER PART_NUMBER) DO (IF NOT DEFINED %%a EXIT /B)
-IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  UNMOUNTING %DISK_LETTER%:\&&CALL:PAD_LINE
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&ECHO  Unmounting %#@%%DISK_LETTER%:\%#$%...&&CALL:PAD_LINE
 SET "LETT_X=%DISK_LETTER%"&&CALL:VOL_REMOVE&&SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_REMOVE
 EXIT /B
 :DISK_ERASE_PROMPT
-CLS&&CALL:PAD_LINE&&ECHO                          Select a disk to erase&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&ECHO                          %XLR2%Select a disk to erase%#$%&&CALL:PAD_LINE&&CALL:DISK_QUERY&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 SET "CHECK=NUM"&&CALL:CHECK
 IF DEFINED HOST_NUMBER IF "%SELECT%"=="%HOST_NUMBER%" SET "ERROR=1"
 IF NOT DEFINED ERROR SET "DISK_NUMBER=%SELECT%"&&CALL:CONFIRM&&CALL:DISKMGR_ERASE
@@ -2420,7 +2418,7 @@ IF EXIST "%APPLYDIR%\Windows\Boot\EFI\bootmgfw.efi" CALL:PAD_LINE&&ECHO         
 CALL:PAD_LINE&&CALL:VTEMP_DELETE
 EXIT /B
 :BOOT_CREATOR_PROMPT
-CLS&&CALL:PAD_LINE&&ECHO                          Select a disk to erase&&CALL:PAD_LINE&&CALL:DISK_MENU
+CLS&&CALL:PAD_LINE&&ECHO                          %XLR2%Select a disk to erase%#$%&&CALL:PAD_LINE&&CALL:DISK_MENU
 IF DEFINED DISK_CONFLICT SET "ERROR="
 IF NOT DEFINED ERROR SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                   %XLR2%Are your sure?%#$% Press (%##%X%#$%) to proceed&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" SET "ERROR=1"
@@ -2555,6 +2553,7 @@ EXIT /B
 SET "ERROR="&&CALL:HOST_AUTO&&CLS&&CALL:PAD_LINE&&ECHO                            Recovery Update&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO  (%##%1%#$%) Program&&ECHO  (%##%2%#$%) Recovery Password&&ECHO  (%##%3%#$%) Boot Media&&ECHO  (%##%4%#$%) EFI Files&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE
 ECHO                         Select a (%##%#%#$%) to update&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
+IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
 IF "%SELECT%"=="1" CALL:CONFIRMX&&CALL:UPDATE_PROG
 IF "%SELECT%"=="2" CALL:CONFIRMX&&CALL:UPDATE_PASS
 IF "%SELECT%"=="3" CALL:CONFIRMX&&CALL:UPDATE_BOOT
@@ -2803,19 +2802,19 @@ SET "PackType=DRIVER"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO       
 IF NOT DEFINED PackName SET PackName=Driver_%RANDOM%
 EXIT /B
 :N02
-CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                      New Scripted Pack (PKG) name&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                    Enter new scripted pack PKG name:&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED PackName SET PackName=Scripted_%RANDOM%
-CLS&&CALL:PAD_LINE&&ECHO                            Select an option&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO. (%##%1%#$%) Keep registry hives mounted for duration of the package&&ECHO. (%##%2%#$%) %XLR2%Keep registry hives unmounted for duration of the package%#$%&&ECHO.&&ECHO    Note: DISM operations are incompatible if the hives are mounted.&&ECHO  When unmounted, registry %%HIVE_VARS%% always point to the live system.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO. (%##%1%#$%) Keep registry hives mounted for duration of the package&&ECHO. (%##%2%#$%) %XLR2%Keep registry hives unmounted for duration of the package%#$%&&ECHO.&&ECHO    Note: DISM operations are incompatible if the hives are mounted.&&ECHO  When unmounted, registry %%HIVE_VARS%% always point to the live system.&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" SET "PackTag=MOUNT"
 IF "%SELECT%"=="2" SET "PackTag=UNMOUNT"
-IF NOT "%SELECT%"=="1" IF NOT "%SELECT%"=="2" SET "ERROR=1"
+IF NOT "%SELECT%"=="1" IF NOT "%SELECT%"=="2" SET "PackTag=MOUNT"
 EXIT /B
 :N03
-SET "PackType=AIOPACK"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                          New AIO Pack (PKX) name &&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+SET "PackType=AIOPACK"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:PAD_LINE&&SET "BOX=T2"&&CALL:BOX&&ECHO.&&ECHO                       Enter new AIO Pack PKX name:&&ECHO.&&SET "BOX=B2"&&CALL:BOX&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED PackName SET PackName=AIOPACK_%RANDOM%
 ECHO EXEC-LIST>"%MAKER_FOLDER%\PACKAGE.LST"
-ECHO Manually add/copy/paste items or replace the PACKAGE.LST with an existing list.>>"%MAKER_FOLDER%\PACKAGE.LST"
-ECHO Copy all listed packages (APPX/CAB/MSU/PKG) into the project folder before package creation.>>"%MAKER_FOLDER%\PACKAGE.LST"
+ECHO Manually add, copy and paste items, or replace PACKAGE.LST with an existing list.>>"%MAKER_FOLDER%\PACKAGE.LST"
+ECHO Copy listed appx, cab, msu, and pkg packages into the project folder before package creation.>>"%MAKER_FOLDER%\PACKAGE.LST"
 EXIT /B
 :N10
 CALL:PACK_STRT&&SET "PackTag=UNMOUNT"&&SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "PackDesc=Import Windows Firewall.XML"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
@@ -3005,9 +3004,9 @@ ECHO.::    Script cannot have an EXIT otherwise it goes into the main menu.
 ECHO.::Autoboot service must be installed within host OS to switch upon boot.
 ECHO.::==========================START OF AUTOBOOT============================
 ECHO.::        Example of a VHDX backup/Restore - Host Folder = S:\$
-ECHO.REM windick.cmd -diskmgr -mount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter z
+ECHO.REM windick.cmd -diskmgr -mount -diskuid 12345678-1234-1234-1234-123456781234 -part 1 -letter z
 ECHO.REM copy /y s:\$\active.vhdx z:\Backups\last_power_off.vhdx
-ECHO.REM windick.cmd -diskmgr -unmount -diskid 12345678-1234-1234-1234-123456781234 -part 1 -letter z 
+ECHO.REM windick.cmd -diskmgr -unmount -diskuid 12345678-1234-1234-1234-123456781234 -part 1 -letter z 
 ECHO.REM windick.cmd -imageproc -wim 22h2_ready2go.wim -index 1 -vhdx active.vhdx -size 25600
 ECHO.REM del S:\$\active.vhdx
 ECHO.REM move /y s:\$\image\active.vhdx s:\$
