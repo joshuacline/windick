@@ -1,4 +1,9 @@
 BASE-GROUP
+[GROUP][Advertisements][Start Menu Ads Enable]
+[REGISTRY]["%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations" /t REG_DWORD /d "1" /f][ADD][IA]
+[GROUP][Advertisements][Start Menu Ads Disable]
+[REGISTRY]["%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations" /t REG_DWORD /d "0" /f][ADD][IA]
+
 [GROUP][Startup][Boot Menu Timeout]
 [#][Scheduling boot timeout command...][7]
 [$1][                   Enter the boot timeout in seconds:][PIPE1]
