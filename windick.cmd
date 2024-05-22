@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1160 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1161 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -120,6 +120,28 @@ EXIT /B
 IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
 CHCP 65001 >NUL
 ECHO;%##%└%#$%                                                                    %##%┘%#$%&&CHCP %CHCP_OLD% >NUL
+EXIT /B
+:LOGO
+IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
+SET "RND_SET=LOGOX"&&CALL:RANDOM&&CHCP 65001>NUL
+FOR %%a in (0 1 2) DO (IF "%%a"=="%LOGOX%" SET "LOGO=1")
+FOR %%a in (3 4 5) DO (IF "%%a"=="%LOGOX%" SET "LOGO=2")
+IF NOT DEFINED LOGO SET "LOGO=3"
+SET "@1=%XLR1%"&SET "@2=%XLR2%"&SET "@3=%XLR3%"&SET "@4=%XLR4%"&&SET "LOGOX="&&SET "XNTZ="&&CALL:LOGO_X&&CLS&&SET "LOGO="&&CHCP %CHCP_OLD% >NUL
+EXIT /B
+:LOGO_X
+CLS&&ECHO.
+IF "%LOGO%"=="1" ECHO                           %@1%WELCOME TO&&ECHO.&&ECHO. %@1% ▄█     █▄   ▄█ ███▄▄▄▄   ███████▄   ▄█  ▄███████  ▄█   ▄█▄&&ECHO. %@2%███     ███ ███ ███▀▀▀██▄ ███  ▀███ ███ ███   ███ ███ ▄███▀&&ECHO. %@3%███     ███ ███ ███   ███ ███   ███ ███ ███   █▀  ███▐██▀&&ECHO. %@4%███     ███ ███ ███   ███ ███   ███ ███ ███      ▄█████▀&&ECHO. %@1%███     ███ ███ ███   ███ ███   ███ ███ ███   █▄  ███▐██▄&&ECHO. %@2%███ ▄█▄ ███ ███ ███   ███ ███  ▄███ ███ ███   ███ ███ ▀███▄  ▄▄  ▄▄  ▄▄&&ECHO. %@3% ▀███▀███▀  █▀   ▀█   █▀  ███████▀  █▀  ███████▀  ███   ▀█▀  ▀▀  ▀▀  ▀▀%#$%
+IF NOT "%LOGO%"=="1" ECHO                           %@2%W%@3%E%@4%L%@1%C%@2%O%@3%M%@4%E%@1% %@2%T%@3%O&&ECHO.&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1% %@2%▄%@3%█%@4% %@1% %@2% %@3% %@4% %@1%█%@2%▄%@3% %@4% %@1% %@2%▄%@3%█%@4% %@1%█%@2%█%@3%█%@4%▄%@1%▄%@2%▄%@3%▄%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2%█%@3%█%@4%█%@1%█%@2%▄%@3% %@4% %@1% %@2%▄%@3%█%@4% %@1% %@2%▄%@3%█%@4%█%@1%█%@2%█%@3%█%@4%█%@1%█%@2% %@3% %@4%▄%@1%█%@2% %@3% %@4% %@1%▄%@2%█%@3%▄&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4%▀%@1%▀%@2%▀%@3%█%@4%█%@1%▄%@2% %@3%█%@4%█%@1%█%@2% %@3% %@4%▀%@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2% %@3%█%@4%█%@1%█%@2% %@3%▄%@4%█%@1%█%@2%█%@3%▀&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2% %@3%█%@4%█%@1%█%@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%▀%@1% %@2% %@3%█%@4%█%@1%█%@2%▐%@3%█%@4%█%@1%▀&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2% %@3%█%@4%█%@1%█%@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3% %@4% %@1% %@2%▄%@3%█%@4%█%@1%█%@2%█%@3%█%@4%▀%@1%&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2% %@3%█%@4%█%@1%█%@2% %@3% %@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%▄%@1% %@2% %@3%█%@4%█%@1%█%@2%▐%@3%█%@4%█%@1%▄&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1%█%@2%█%@3%█%@4% %@1%▄%@2%█%@3%▄%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2% %@3%█%@4%█%@1%█%@2% %@3% %@4%▄%@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1%█%@2%█%@3%█%@4% %@1% %@2% %@3%█%@4%█%@1%█%@2% %@3%█%@4%█%@1%█%@2% %@3%▀%@4%█%@1%█%@2%█%@3%▄%@4% %@1% %@2%▄%@3%▄%@4% %@1% %@2%▄%@3%▄%@4% %@1% %@2%▄%@3%▄&&IF "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+IF NOT "%LOGO%"=="1" ECHO. %@1% %@2%▀%@3%█%@4%█%@1%█%@2%▀%@3%█%@4%█%@1%█%@2%▀%@3% %@4% %@1%█%@2%▀%@3% %@4% %@1% %@2%▀%@3%█%@4% %@1% %@2% %@3%█%@4%▀%@1% %@2% %@3%█%@4%█%@1%█%@2%█%@3%█%@4%█%@1%█%@2%▀%@3% %@4% %@1%█%@2%▀%@3% %@4% %@1%█%@2%█%@3%█%@4%█%@1%█%@2%█%@3%█%@4%▀%@1% %@2% %@3%█%@4%█%@1%█%@2% %@3% %@4% %@1%▀%@2%█%@3%▀%@4% %@1% %@2%▀%@3%▀%@4% %@1% %@2%▀%@3%▀%@4% %@1% %@2%▀%@3%▀%#$%
+IF NOT "%LOGO%"=="3" SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
+SET /A "XNTZ+=1"&&IF NOT "%XNTZ%"=="15" GOTO:LOGO_X
 EXIT /B
 :ARGUE
 CALL SET "ARG%ARGZ%=%ARGX:"=%"
@@ -474,11 +496,6 @@ EXIT /B
 IF NOT DEFINED TITLE_X SET "TITLE_X=Windows Deployment Image Customization Kit v%VER_CUR% (%PROG_SOURCE%)"
 TITLE %TITLE_X%&&SET "TITLE_X="
 EXIT /B
-:LOGO
-CLS&&ECHO.&&IF NOT DEFINED LOGOX SET "LOGOX=1"&&SET "@1=%XLR1%"&SET "@2=%XLR2%"&SET "@3=%XLR3%"&SET "@4=%XLR4%"&&CHCP 65001>NUL
-ECHO                           %@1%WELCOME TO&&ECHO.&&ECHO. %@1% ▄█     █▄   ▄█ ███▄▄▄▄   ███████▄   ▄█  ▄███████  ▄█   ▄█▄&&ECHO. %@2%███     ███ ███ ███▀▀▀██▄ ███  ▀███ ███ ███   ███ ███ ▄███▀&&ECHO. %@3%███     ███ ███ ███   ███ ███   ███ ███ ███   █▀  ███▐██▀&&ECHO. %@4%███     ███ ███ ███   ███ ███   ███ ███ ███      ▄█████▀&&ECHO. %@1%███     ███ ███ ███   ███ ███   ███ ███ ███   █▄  ███▐██▄&&ECHO. %@2%███ ▄█▄ ███ ███ ███   ███ ███  ▄███ ███ ███   ███ ███ ▀███▄  ▄▄  ▄▄  ▄▄&&ECHO. %@3% ▀███▀███▀  █▀   ▀█   █▀  ███████▀  █▀  ███████▀  ███   ▀█▀  ▀▀  ▀▀  ▀▀%#$%&&SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"&&SET /A "XNTZ+=1"&&IF NOT "%XNTZ%"=="15" GOTO:LOGO
-CLS&&SET "XNTZ="&&SET "LOGOX="&&CHCP %CHCP_OLD% >NUL
-EXIT /B
 :MAIN_MENU_HELP
 CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Processor       %#@%Convert/isolate WIM/VHDX images%#$%&&ECHO   (%##%2%#$%)Image Management      %#@%Perform image related tasks%#$%&&ECHO   (%##%3%#$%)Package Creator       %#@%Create driver/scripted packages%#$%&&ECHO   (%##%4%#$%)File Management       %#@%Simple file manager, file-picker%#$%&&ECHO   (%##%5%#$%)Disk Management       %#@%Basic disk partitioning%#$%&&ECHO     (%##%B%#$%)oot                 %#@%Create bootable deployment environment%#$%&&ECHO   (%##%6%#$%)Tasks                 %#@%Miscellaneous tasks%#$%&&ECHO   (%##%7%#$%)Settings              %#@%Settings%#$%&&ECHO # (%##%.%#$%)Modify Boot Menu      %#@%Configure VHDX Slots%#$%&&ECHO # (%##%U%#$%)pdate                 %#@%Push various updates to EFI%#$%&&ECHO   (%##%*%#$%)Basic Mode            %#@%Reduced functionality mode%#$%&&ECHO.&&ECHO                 # Appears only when booted into recovery&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
@@ -581,7 +598,7 @@ SET "FOLDER_MODE=UNIFIED"&&IF EXIST "%PROG_SOURCE%\CACHE" IF EXIST "%PROG_SOURCE
 IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%\%%a")
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
 IF NOT DEFINED XLR0 SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"&&CALL:PAD_LINE>NUL 2>&1
-FOR %%a in (APPLYDIR CAPTUREDIR IMAGEINDEX $VHDX ERROR) DO (SET "%%a=")
+FOR %%a in (SELECTX SELECTY SELECTZ APPLYDIR CAPTUREDIR IMAGEINDEX $VHDX ERROR) DO (SET "%%a=")
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9) DO (SET "OBJ_FLD=%PROG_SOURCE%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (VHDX_SLOTX WIM_SOURCE VHDX_SOURCE) DO (SET "OBJ_FLD=%IMAGE_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
@@ -718,7 +735,7 @@ IF NOT DEFINED HOTKEY_1 SET "HOTKEY_1=CMD"&&SET "SHORT_1=START CMD.EXE"
 IF NOT DEFINED HOTKEY_2 SET "HOTKEY_2=NOTE"&&SET "SHORT_2=START NOTEPAD.EXE"
 IF NOT DEFINED HOTKEY_3 SET "HOTKEY_3=REG"&&SET "SHORT_3=START REGEDIT.EXE"
 CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&ECHO                         Settings Configuration&&CALL:PAD_LINE&&ECHO.
-ECHO  (%##%1%#$%) Padding Style     %#@%PAD %PAD_TYPE%%#$%&&ECHO  (%##%2%#$%) Color Text        %#@%COLOR %COLOR_TXT%%#$%&&ECHO  (%##%3%#$%) Color Accent      %#@%COLOR %COLOR_ACC%%#$%&&ECHO  (%##%4%#$%) Color Button      %#@%COLOR %COLOR_BTN%%#$%&&ECHO  (%##%5%#$%) Color Size        %#@%%COLOR_SIZ%%#$%&&ECHO  (%##%6%#$%) Color Layout      %#@%%COLOR_LAY%%#$%&&ECHO  (%##%7%#$%) Color Sequence    %#@%%COLOR_SEQ%%#$%&&ECHO  (%##%8%#$%) Folder Layout     %#@%%FOLDER_MODE%%#$%&&ECHO.&&CALL:PAD_LINE
+ECHO  (%##%1%#$%) Padding Style     %#@%PAD %PAD_TYPE%%#$%&&CALL ECHO  (%##%2%#$%) Color Text        %#@%COLOR %%XLR%COLOR_TXT%%%%COLOR_TXT%%#$%&&CALL ECHO  (%##%3%#$%) Color Accent      %#@%COLOR %%XLR%COLOR_ACC%%%%COLOR_ACC%%#$%&&CALL ECHO  (%##%4%#$%) Color Button      %#@%COLOR %%XLR%COLOR_BTN%%%%COLOR_BTN%%#$%&&ECHO  (%##%5%#$%) Color Size        %#@%%COLOR_SIZ%%#$%&&ECHO  (%##%6%#$%) Color Layout      %#@%%COLOR_LAY%%#$%&&ECHO  (%##%7%#$%) Color Sequence    %#@%%COLOR_SEQ%%#$%&&ECHO  (%##%8%#$%) Folder Layout     %#@%%FOLDER_MODE%%#$%&&ECHO.&&CALL:PAD_LINE
 ECHO  [%#@%Settings%#$%]  (%##%S%#$%)hortcuts                          (%##%#%#$%) Clear Settings&&CALL:PAD_LINE
 IF "%SHORTCUTS%"=="ENABLED" CALL ECHO  [%#@%Shortcut%#$%]  (%##%X%#$%)Slot %#@%%SHORT_SLOT%%#$%   (%##%A%#$%)ssign %#@%%%SHORT_%SHORT_SLOT%%%%#$%   (%##%H%#$%)otKey %#@%%%HOTKEY_%SHORT_SLOT%%%%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
@@ -1204,22 +1221,22 @@ ECHO  %#@%FILEOPER%#$% %#@%DELETE%#$% "%FILE_TGT%\%FOLDFILE%" %##%%LIST_TIME%%#$
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_TIME
-SET "LIST_TIME="&&CLS&&CALL:PAD_LINE&&ECHO                             Time of Action?&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) ImageApply     %#@%IA%#$%&&ECHO  (%##%2%#$%) SetupComplete  %#@%SC%#$%&&ECHO  (%##%3%#$%) RunOnce        %#@%RO%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
-IF "%SELECTX%"=="1" SET "LIST_TIME=IA"
-IF "%SELECTX%"=="2" SET "LIST_TIME=SC"
-IF "%SELECTX%"=="3" SET "LIST_TIME=RO"
+SET "LIST_TIME="&&CLS&&CALL:PAD_LINE&&ECHO                             Time of Action?&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) ImageApply     %#@%IA%#$%&&ECHO  (%##%2%#$%) SetupComplete  %#@%SC%#$%&&ECHO  (%##%3%#$%) RunOnce        %#@%RO%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTZ"&&CALL:PROMPT_SET
+IF "%SELECTZ%"=="1" SET "LIST_TIME=IA"
+IF "%SELECTZ%"=="2" SET "LIST_TIME=SC"
+IF "%SELECTZ%"=="3" SET "LIST_TIME=RO"
 EXIT /B
 :LIST_REGISTRY_CREATE
 SET "REG_OPER="&&SET "REG_HIVE="&&SET "REG_KEY="&&SET "REG_VAL="&&SET "REG_DATA="&&SET "REG_TYPE="&&CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                          Select operation type&&CALL:PAD_LINE
-CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) Registry Add&&ECHO  ( %##%2%#$% ) Registry Delete&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&SET "REG_OPER="&&CALL:PROMPT_SET
-IF "%SELECTX%"=="1" SET "REG_OPER=ADD"
-IF "%SELECTX%"=="2" SET "REG_OPER=DELETE"
+CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) Registry Add&&ECHO  ( %##%2%#$% ) Registry Delete&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&SET "REG_OPER="&&CALL:PROMPT_SET
+IF "%SELECTY%"=="1" SET "REG_OPER=ADD"
+IF "%SELECTY%"=="2" SET "REG_OPER=DELETE"
 IF NOT DEFINED REG_OPER EXIT /B
 CLS&&CALL:PAD_LINE&&ECHO                          Select registry hive&&CALL:PAD_LINE
-CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) HKLM\Software&&ECHO  ( %##%2%#$% ) HKLM\System&&ECHO  ( %##%3%#$% ) HKCU or DefaultUser&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&SET "REG_HIVE="&&CALL:PROMPT_SET
-IF "%SELECTX%"=="1" SET "REG_HIVE=%%HIVE_SOFTWARE%%"
-IF "%SELECTX%"=="2" SET "REG_HIVE=%%HIVE_SYSTEM%%"
-IF "%SELECTX%"=="3" SET "REG_HIVE=%%HIVE_USER%%"
+CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) HKLM\Software&&ECHO  ( %##%2%#$% ) HKLM\System&&ECHO  ( %##%3%#$% ) HKCU or DefaultUser&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&SET "REG_HIVE="&&CALL:PROMPT_SET
+IF "%SELECTY%"=="1" SET "REG_HIVE=%%HIVE_SOFTWARE%%"
+IF "%SELECTY%"=="2" SET "REG_HIVE=%%HIVE_SYSTEM%%"
+IF "%SELECTY%"=="3" SET "REG_HIVE=%%HIVE_USER%%"
 IF NOT DEFINED REG_HIVE EXIT /B
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO                          Enter the registry key&&ECHO %XLR2%HKCU/HKLM/USER,Software/System are omitted. Cannot contain quotes (^",^')%#$%&&ECHO.
 ECHO                          Example: %#@%key\name%#$%
@@ -1232,10 +1249,10 @@ IF NOT DEFINED REG_VAL EXIT /B
 IF "%REG_VAL%"=="-" GOTO:REG_SKIP
 IF "%REG_OPER%"=="DELETE" GOTO:REG_SKIP
 CLS&&CALL:PAD_LINE&&ECHO                          Select value type&&CALL:PAD_LINE
-CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) REG_SZ&&ECHO  ( %##%2%#$% ) REG_DWORD&&ECHO  ( %##%3%#$% ) REG_BINARY&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&SET "REG_TYPE="&&CALL:PROMPT_SET
-IF "%SELECTX%"=="1" SET "REG_TYPE=REG_SZ"
-IF "%SELECTX%"=="2" SET "REG_TYPE=REG_DWORD"
-IF "%SELECTX%"=="3" SET "REG_TYPE=REG_BINARY"
+CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) REG_SZ&&ECHO  ( %##%2%#$% ) REG_DWORD&&ECHO  ( %##%3%#$% ) REG_BINARY&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&SET "REG_TYPE="&&CALL:PROMPT_SET
+IF "%SELECTY%"=="1" SET "REG_TYPE=REG_SZ"
+IF "%SELECTY%"=="2" SET "REG_TYPE=REG_DWORD"
+IF "%SELECTY%"=="3" SET "REG_TYPE=REG_BINARY"
 IF NOT DEFINED REG_TYPE EXIT /B
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO                          Enter the value data&&ECHO                       %XLR2%Cannot contain quotes (^",^')%#$%&&ECHO.
 ECHO                          Example: %#@%0%#$%
@@ -1254,16 +1271,15 @@ IF "%REG_OPER%"=="DELETE" IF NOT "%REG_VAL%"=="-" ECHO  %#@%REGISTRY%#$% %#@%%RE
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :IMAGEMGR_LIST_PACK
-SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                           Select package type&&CALL:PAD_LINE
+SET "EXXT="&&SET "LIST_ITEM=EXTPACKAGE"&&SET "LIST_ACTN=INSTALL"&&CLS&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                           Select package type&&CALL:PAD_LINE
 CALL:BOXT2&&ECHO.&&ECHO  ( %##%1%#$% ) %#@%PKG%#$% Package&&ECHO  ( %##%2%#$% ) %#@%CAB%#$% Package&&ECHO  ( %##%3%#$% ) %#@%MSU%#$% Package&&ECHO  ( %##%4%#$% ) %#@%APPX%#$% Package&&ECHO  ( %##%5%#$% ) %#@%APPXbundle%#$% Package&&ECHO  ( %##%6%#$% ) %#@%MSIXbundle%#$% Package&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
-IF "%SELECTX%"=="1" SET "EXXT=PKG"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="2" SET "EXXT=CAB"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="3" SET "EXXT=MSU"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="4" SET "EXXT=APPX"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="5" SET "EXXT=APPXBUNDLE"&&CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="6" SET "EXXT=MSIXBUNDLE"&&CALL:LIST_PACK_CREATE
-EXIT /B
-:LIST_PACK_CREATE
+IF "%SELECTX%"=="1" SET "EXXT=PKG"
+IF "%SELECTX%"=="2" SET "EXXT=CAB"
+IF "%SELECTX%"=="3" SET "EXXT=MSU"
+IF "%SELECTX%"=="4" SET "EXXT=APPX"
+IF "%SELECTX%"=="5" SET "EXXT=APPXBUNDLE"
+IF "%SELECTX%"=="6" SET "EXXT=MSIXBUNDLE"
+IF NOT DEFINED EXXT EXIT /B
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO   %#@%AVAILABLE %EXXT%'S:%#$%&&SET "NLIST=%EXXT%"&&CALL:FILE_LIST&&CALL:BOXB1
 CALL:PAD_MULT&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
@@ -1277,16 +1293,16 @@ EXIT /B
 :LIST_DISM_CREATE
 CLS&&SET "DISM_OPER="&&SET "LIST_ITEM=DISM"&&SET "LIST_ACTN=EXECUTE"&&CALL:PAD_LINE
 ECHO                        DISM Image Maintainence&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) RestoreHealth&&ECHO  (%##%2%#$%) Cleanup&&ECHO  (%##%3%#$%) ResetBase&&ECHO  (%##%4%#$%) SPSuperseded&&ECHO  (%##%5%#$%) CheckHealth
-ECHO  (%##%6%#$%) AnalyzeComponentStore&&ECHO  (%##%7%#$%) WinRE Remove&&ECHO  (%##%8%#$%) WinSxS Remove&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=DISM_MENU"&&CALL:PROMPT_SET
-IF "%DISM_MENU%"=="1" SET "DISM_OPER=RESTOREHEALTH"
-IF "%DISM_MENU%"=="2" SET "DISM_OPER=CLEANUP"
-IF "%DISM_MENU%"=="3" SET "DISM_OPER=RESETBASE"
-IF "%DISM_MENU%"=="4" SET "DISM_OPER=SPSUPERSEDED"
-IF "%DISM_MENU%"=="5" SET "DISM_OPER=CHECKHEALTH"
-IF "%DISM_MENU%"=="6" SET "DISM_OPER=ANALYZE"
-IF "%DISM_MENU%"=="7" SET "DISM_OPER=WINRE"
-IF "%DISM_MENU%"=="8" SET "DISM_OPER=WINSXS"
-IF NOT DEFINED DISM_OPER EXIT /B
+ECHO  (%##%6%#$%) AnalyzeComponentStore&&ECHO  (%##%7%#$%) WinRE Remove&&ECHO  (%##%8%#$%) WinSxS Remove&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+IF "%SELECTY%"=="1" SET "DISM_OPER=RESTOREHEALTH"
+IF "%SELECTY%"=="2" SET "DISM_OPER=CLEANUP"
+IF "%SELECTY%"=="3" SET "DISM_OPER=RESETBASE"
+IF "%SELECTY%"=="4" SET "DISM_OPER=SPSUPERSEDED"
+IF "%SELECTY%"=="5" SET "DISM_OPER=CHECKHEALTH"
+IF "%SELECTY%"=="6" SET "DISM_OPER=ANALYZE"
+IF "%SELECTY%"=="7" SET "DISM_OPER=WINRE"
+IF "%SELECTY%"=="8" SET "DISM_OPER=WINSXS"
+IF NOT DEFINED SELECTY EXIT /B
 CALL:LIST_TIME
 IF NOT DEFINED LIST_TIME EXIT /B
 SET "PICK=LST"&&CALL:FILE_PICK
@@ -1483,15 +1499,14 @@ IF DEFINED BRUTE_FLG SET "BRUTE_FLG="&&SET "BRUTE_FORCE=ENABLED"
 CALL:SCRATCH_PACK_DELETE&&ECHO.&&ECHO              %#@%EXEC-LIST END:%#$%  %DATE%  %TIME%&&CALL:BOXB2&&CALL:PAD_LINE
 SET "$LST1="&&SET "LIST_ITEM="&&SET "LIST_LAST="&&SET "DRIVER_QRY="&&SET "SC_PREPARE="&&SET "RO_PREPARE="
 IF EXIST "%PROG_SOURCE%\$BRUTE.CMD" DEL /Q /F "%PROG_SOURCE%\$BRUTE.CMD">NUL 2>&1
-CALL:PIPE_CLEAR&&CALL:CLEAN&&IF EXIST "$QRY" DEL /Q /F "$QRY">NUL 2>&1
+CALL:CLEAN&&CALL:PIPE_CLEAR&&CALL:MOUNT_REST&&IF EXIST "$QRY" DEL /Q /F "$QRY">NUL 2>&1
 EXIT /B
 :UNIFIED_PARSE
 FOR %%a in (FILEOPER REGISTRY COMMAND) DO (IF "%%a"=="%LIST_ITEM%" CALL:MOUNT_REST)
 FOR %%a in (LIST_ITEM BASE_MEAT LIST_ACTN) DO (IF NOT DEFINED %%a EXIT /B)
 SET "NORESTART="&&SET "ENDQ=End of search"&&IF DEFINED LIVE_APPLY SET "NORESTART=/NORESTART "
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%LIST_ITEM%"=="$%%a" SET "PIPE%%a=%LIST_ACTN%"&&EXIT /B)
-IF "%LIST_TIME%"=="RO" CALL:RO_CREATE
-IF "%LIST_TIME%"=="SC" CALL:SC_CREATE
+FOR %%a in (SC RO) DO (IF "%%a"=="%LIST_TIME%" CALL:SC_RO_CREATE)
 IF "%LIST_ITEM%"=="#" CALL ECHO.%%XLR%LIST_ACTN%%%%BASE_MEAT%%#$%
 IF "%LIST_ITEM%:%LIST_TIME%"=="DRIVER:IA" CALL:DRVR_HUNT
 IF "%LIST_ITEM%:%LIST_TIME%"=="FEATURE:IA" CALL:FEAT_HUNT
@@ -1736,33 +1751,23 @@ IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" SET "DISMSG="&&FOR /F "TOKENS=1 
 IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" IF NOT DEFINED DISMSG CALL ECHO  %XLR2%Feature %BASE_MEAT% is a stub or unable to enable.%#$%
 IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" IF NOT DEFINED DISMSG CALL ECHO  %XLR2%Feature %BASE_MEAT% is a stub or unable to disable.%#$%
 EXIT /B
-:SC_CREATE
+:SC_RO_CREATE
 IF NOT DEFINED LIST_ITEMS1 CALL:LIST_ITEMS
 SET "ITEM_PASS="&&FOR %%a in (%LIST_ITEMS1% %LIST_ITEMS2%) DO (IF "%LIST_ITEM%"=="%%a" SET "ITEM_PASS=1")
 SET "LIST_ITEMS1="&&SET "LIST_ITEMS2="&&IF NOT DEFINED ITEM_PASS EXIT /B
-SET "SCRO=SetupComplete"&&CALL:IF_LIVE_EXT
-IF NOT DEFINED SC_PREPARE SET "SPC3="&&SET "SC_PREPARE=1"&&CALL:SC_RO_PREPARE
+CALL:IF_LIVE_EXT
+IF "%LIST_TIME%"=="SC" SET "SCRO=SetupComplete"
+IF "%LIST_TIME%"=="RO" SET "SCRO=RunOnce"
+IF NOT DEFINED %LIST_TIME%_PREPARE SET "%LIST_TIME%_PREPARE=1"&&CALL:SC_RO_PREPARE
 IF NOT DEFINED BASE_MEAT EXIT /B
-CALL:SC_RO_COPY
-EXIT /B
-:RO_CREATE
-IF NOT DEFINED LIST_ITEMS1 CALL:LIST_ITEMS
-SET "ITEM_PASS="&&FOR %%a in (%LIST_ITEMS1% %LIST_ITEMS2%) DO (IF "%LIST_ITEM%"=="%%a" SET "ITEM_PASS=1")
-SET "LIST_ITEMS1="&&SET "LIST_ITEMS2="&&IF NOT DEFINED ITEM_PASS EXIT /B
-SET "SCRO=RunOnce"&&CALL:IF_LIVE_EXT
-IF NOT DEFINED RO_PREPARE SET "SPC3=   "&&SET "RO_PREPARE=1"&&CALL:SC_RO_PREPARE
-IF NOT DEFINED BASE_MEAT EXIT /B
-CALL:SC_RO_COPY
-EXIT /B
-:SC_RO_COPY
 IF "%LIST_ITEM%"=="EXTPACKAGE" ECHO Copying Package %#@%%BASE_MEAT% for %##%%LIST_TIME%%#$%...
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF NOT EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO  %XLR4%%PACK_FOLDER%\%BASE_MEAT% doesn't exist.%#$%&&EXIT /B
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%APPLYDIR_MASTER%\$">NUL
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO [EXTPACKAGE][%BASE_MEAT%][INSTALL][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.lst"
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" CALL:MOUNT_CLEAR
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" ECHO Scheduling %#@%%LIST_ITEM%%#$% %BASE_MEAT% %#@%%LIST_ACTN%%#$% for %##%%LIST_TIME%%#$%.&&ECHO [%LIST_ITEM%][%BASE_MEAT%][%LIST_ACTN%][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.lst"
-SET "BASE_MEAT="&&CALL:MOUNT_REST
-EXIT /B
+IF NOT "%LIST_ITEM%"=="EXTPACKAGE" CALL:MOUNT_REST
+SET "BASE_MEAT="&&EXIT /B
 :SC_RO_PREPARE
 IF NOT EXIST "%APPLYDIR_MASTER%\$" MD "%APPLYDIR_MASTER%\$">NUL 2>&1
 COPY /Y "%PROG_FOLDER%\windick.cmd" "%APPLYDIR_MASTER%\$">NUL 2>&1
