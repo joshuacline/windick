@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1161 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1162 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -33,7 +33,7 @@ FOR %%a in (SHORTCUTS BASIC_MODE) DO (IF NOT DEFINED %%a SET "%%a=DISABLED")
 IF "%PROG_MODE%"=="RAMDISK" IF "%BASIC_MODE%"=="ENABLED" GOTO:BASIC_MODE
 IF "%PROG_MODE%"=="PORTABLE" IF "%BASIC_MODE%"=="ENABLED" GOTO:BASIC_CREATOR
 CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:FREE_CALC&&CALL:PAD_LINE&&ECHO               Windows Deployment Image Customization Kit&&CALL:PAD_LINE
-ECHO.&&ECHO  (%##%1%#$%) Image Processor&&ECHO  (%##%2%#$%) Image Management&&ECHO  (%##%3%#$%) Package Creator&&ECHO  (%##%4%#$%) File Management&&ECHO  (%##%5%#$%) Disk Management&&ECHO  (%##%6%#$%) Tasks&&ECHO  (%##%7%#$%) Settings&&IF "%PROG_MODE%"=="RAMDISK" ECHO  (%##%.%#$%) Modify Boot Menu
+ECHO.&&ECHO  (%##%1%#$%) Image Processing&&ECHO  (%##%2%#$%) Image Management&&ECHO  (%##%3%#$%) Package Creator&&ECHO  (%##%4%#$%) File Management&&ECHO  (%##%5%#$%) Disk Management&&ECHO  (%##%6%#$%) Tasks&&ECHO  (%##%7%#$%) Settings&&IF "%PROG_MODE%"=="RAMDISK" ECHO  (%##%.%#$%) Modify Boot Menu
 ECHO.&&CALL:PAD_LINE
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" ECHO   %XLR2%Disk Error%#$% UID %#@%%HOST_TARGET%%#$%&&CALL:PAD_LINE
 IF DEFINED HOST_TARGET IF "%HOST_MOUNT%"=="YES" IF "%PROG_SOURCE%"=="S:\$" ECHO   Disk %#@%%HOST_NUMBER%%#$% UID %#@%%HOST_TARGET%%#$%&&CALL:PAD_LINE
@@ -43,7 +43,7 @@ IF "%SHORTCUTS%"=="ENABLED" ECHO  (%##%%HOTKEY_1%%#$%) (%##%%HOTKEY_2%%#$%) (%##
 CALL:MENU_SELECT
 IF "%SELECT%"=="Q" GOTO:QUIT
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
-IF "%SELECT%"=="1" GOTO:IMAGE_PROCESSOR
+IF "%SELECT%"=="1" GOTO:IMAGE_PROCESSING
 IF "%SELECT%"=="2" GOTO:IMAGE_MANAGER
 IF "%SELECT%"=="3" GOTO:PACKAGE_CREATOR
 IF "%SELECT%"=="4" GOTO:FILE_MANAGER
@@ -184,10 +184,10 @@ IF "%SELECT%"=="*" SET "BASIC_MODE=DISABLED"&&GOTO:MAIN_MENU
 GOTO:BASIC_MODE
 :BASIC_CREATOR
 @ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:FREE_CALC&&SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y Z) DO (IF EXIST "%%a:\sources\install.wim" SET "SOURCE_LOCATION=%%a:\sources")
-CALL:PAD_LINE&&ECHO                      Image Processor / Boot Creator&&CALL:PAD_LINE
+CALL:PAD_LINE&&ECHO                     Image Processing / Boot Creator&&CALL:PAD_LINE
 IF DEFINED SOURCE_LOCATION ECHO   (%##%-%#$%)Import Boot  %##%Windows Installation Media Detected%#$%  Import WIM(%##%+%#$%)&&CALL:PAD_LINE
-IF EXIST "%IMAGE_FOLDER%\*.WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
-IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT2&&ECHO.&&ECHO         %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSOR%#$%]             (%##%C%#$%)onvert&&CALL:PAD_LINE
+IF EXIST "%IMAGE_FOLDER%\*.WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. [%#@%IMAGE PROCESSING%#$%]            (%##%C%#$%)onvert&&CALL:PAD_LINE
+IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT2&&ECHO.&&ECHO         %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSING%#$%]            (%##%C%#$%)onvert&&CALL:PAD_LINE
 IF EXIST "%BOOT_FOLDER%\boot.sav" IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO  [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
 IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOXT2&&ECHO.&&ECHO             %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&IF "%PROG_MODE%"=="RAMDISK" ECHO  [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="PORTABLE" ECHO  (%##%Q%#$%)uit (%##%*%#$%)Advanced Mode (%##%F%#$%)ile Operation                  %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
@@ -208,7 +208,12 @@ CLS&&CALL:PAD_LINE&&ECHO                              Boot Creator&&SET "NOCLS=1
 IF DEFINED VHDX_SLOTX IF EXIST "%IMAGE_FOLDER%\%VHDX_SLOTX%" CALL:BOOT_CREATOR_PROMPT
 EXIT /B
 :CONVERT_PROMPT
-CLS&&CALL:PAD_LINE&&ECHO                            Image Processing&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO. (%##%1%#$%) WIM to VHDX&&ECHO. (%##%2%#$%) VHDX to WIM&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&ECHO                            Image Processing&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.
+IF EXIST "%IMAGE_FOLDER%\*.WIM" ECHO. (%##%1%#$%) WIM to VHDX
+IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. (%##%2%#$%) VHDX to WIM
+IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" IF NOT EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. Nothing to convert.
+ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+:CONVERT_PROMPT_SKIP
 IF "%SELECT%"=="1" CALL:BASIC_RESTORE&&SET "SELECT="
 IF "%SELECT%"=="2" CALL:BASIC_BACKUP&&SET "SELECT="
 EXIT /B
@@ -219,10 +224,7 @@ SET "VHDX_SOURCE=%FILE_BODY%%FILE_EXT%"
 SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"&&CALL:IMAGEPROC_PROMPT
 IF NOT DEFINED WIM_TARGET EXIT /B
 IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO ERROR&&EXIT /B
-IF DEFINED ERROR EXIT /B
 SET "WIM_INDEX=1"&&CALL:IMAGEPROC_START
-IF NOT DEFINED ERR_MSG ECHO  %#@%%VHDX_SOURCE%%#$% converted to %#@%%WIM_TARGET%%#$%.&&CALL:PAD_LINE
-CALL:PAUSED
 EXIT /B
 :BASIC_RESTORE
 SET "PICK=WIM"&&CALL:FILE_PICK
@@ -233,12 +235,9 @@ IF DEFINED ERROR EXIT /B
 SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"&&CALL:IMAGEPROC_PROMPT
 IF NOT DEFINED VHDX_TARGET EXIT /B
 IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO ERROR&&EXIT /B
-IF DEFINED ERROR EXIT /B
 CALL:IMAGEPROC_VSIZE
 IF DEFINED ERROR EXIT /B
 CALL:IMAGEPROC_START
-IF NOT DEFINED ERR_MSG ECHO  %#@%%WIM_SOURCE%%#$% converted to %#@%%VHDX_TARGET%%#$%.&&CALL:PAD_LINE
-CALL:PAUSED
 EXIT /B
 :BASIC_FILE
 CLS&&IF NOT DEFINED FILE_OPER CALL:FILE_OPER
@@ -474,7 +473,7 @@ EXIT /B
 :TITLECARD
 SET "RND_SET=TITX"&&CALL:RANDOM
 IF "%TITX%"=="1" SET "TITLE_X= When finished, backup by converting to WIM."
-IF "%TITX%"=="2" SET "TITLE_X= Boot media can be imported in Image Processor using (-)."
+IF "%TITX%"=="2" SET "TITLE_X= Boot media can be imported in Image Processing using (-)."
 IF "%TITX%"=="3" SET "TITLE_X= Modify the boot menu while booted into recovery mode."
 IF "%TITX%"=="4" SET "TITLE_X= Export/import all current drivers, combine into a driver-pack."
 IF "%TITX%"=="5" SET "TITLE_X= Generate a base-list (Appx/Comp/Feat/Serv/Task) in image management."
@@ -491,7 +490,7 @@ IF NOT DEFINED TITLE_X SET "TITLE_X=Windows Deployment Image Customization Kit v
 TITLE %TITLE_X%&&SET "TITLE_X="
 EXIT /B
 :MAIN_MENU_HELP
-CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%)Image Processor       %#@%Convert/isolate WIM/VHDX images%#$%&&ECHO   (%##%2%#$%)Image Management      %#@%Perform image related tasks%#$%&&ECHO   (%##%3%#$%)Package Creator       %#@%Create driver/scripted packages%#$%&&ECHO   (%##%4%#$%)File Management       %#@%Simple file manager, file-picker%#$%&&ECHO   (%##%5%#$%)Disk Management       %#@%Basic disk partitioning%#$%&&ECHO     (%##%B%#$%)oot                 %#@%Create bootable deployment environment%#$%&&ECHO   (%##%6%#$%)Tasks                 %#@%Miscellaneous tasks%#$%&&ECHO   (%##%7%#$%)Settings              %#@%Settings%#$%&&ECHO # (%##%.%#$%)Modify Boot Menu      %#@%Configure VHDX Slots%#$%&&ECHO # (%##%U%#$%)pdate                 %#@%Push various updates to EFI%#$%&&ECHO   (%##%*%#$%)Basic Mode            %#@%Reduced functionality mode%#$%&&ECHO.&&ECHO                 # Appears only when booted into recovery&&CALL:PAD_LINE&&CALL:PAUSED
+CLS&&CALL:PAD_LINE&&ECHO                              Main Menu Help  &&CALL:PAD_LINE&&ECHO.&&ECHO   (%##%1%#$%) Image Processing      %#@%Convert/isolate WIM/VHDX images%#$%&&ECHO   (%##%2%#$%) Image Management      %#@%Perform image related tasks%#$%&&ECHO   (%##%3%#$%) Package Creator       %#@%Create driver/scripted packages%#$%&&ECHO   (%##%4%#$%) File Management       %#@%Simple file manager, file-picker%#$%&&ECHO   (%##%5%#$%) Disk Management       %#@%Basic disk partitioning%#$%&&ECHO     (%##%B%#$%)oot                  %#@%Create bootable deployment environment%#$%&&ECHO   (%##%6%#$%) Tasks                 %#@%Miscellaneous tasks%#$%&&ECHO   (%##%7%#$%) Settings              %#@%Settings%#$%&&ECHO # (%##%.%#$%) Modify Boot Menu      %#@%Configure VHDX Slots%#$%&&ECHO # (%##%U%#$%)pdate                  %#@%Push various updates to EFI%#$%&&ECHO   (%##%*%#$%) Basic Mode            %#@%Reduced functionality mode%#$%&&ECHO.&&ECHO                 # Appears only when booted into recovery&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PROMPT_SET
 IF NOT DEFINED PROMPT_SET SET "PROMPT_SET=SELECT"
@@ -596,8 +595,9 @@ FOR %%a in (SELECTX SELECTY SELECTZ APPLYDIR CAPTUREDIR IMAGEINDEX $VHDX ERROR) 
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9) DO (SET "OBJ_FLD=%PROG_SOURCE%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (VHDX_SLOTX WIM_SOURCE VHDX_SOURCE) DO (SET "OBJ_FLD=%IMAGE_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
-FOR %%a in (PATH_SOURCE WIM_SOURCE VHDX_SOURCE WIM_TARGET VHDX_TARGET VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9) DO (IF NOT DEFINED %%a SET "%%a=SELECT")
+FOR %%a in (PATH_SOURCE PATH_TARGET WIM_SOURCE VHDX_SOURCE WIM_TARGET VHDX_TARGET VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9) DO (IF NOT DEFINED %%a SET "%%a=SELECT")
 IF NOT EXIST "%PATH_SOURCE%\*" SET "PATH_SOURCE=SELECT"
+IF NOT EXIST "%PATH_TARGET%\*" SET "PATH_TARGET=SELECT"
 SET "OBJ_FLD="&&SET "OBJ_CHK="&&SET "OBJ_CHKX="&&IF "%WIM_SOURCE%"=="SELECT" SET "WIM_INDEX=1"
 EXIT /B
 :OBJ_CLEAR
@@ -725,13 +725,14 @@ EXIT /B
 :SETTINGS_MENU
 ::#########################################################################
 IF NOT DEFINED SHORT_SLOT SET "SHORT_SLOT=1"
+IF NOT DEFINED SHORTCUTS SET "SHORTCUTS=DISABLED"
 IF NOT DEFINED HOTKEY_1 SET "HOTKEY_1=CMD"&&SET "SHORT_1=START CMD.EXE"
 IF NOT DEFINED HOTKEY_2 SET "HOTKEY_2=NOTE"&&SET "SHORT_2=START NOTEPAD.EXE"
 IF NOT DEFINED HOTKEY_3 SET "HOTKEY_3=REG"&&SET "SHORT_3=START REGEDIT.EXE"
 CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&ECHO                         Settings Configuration&&CALL:PAD_LINE&&ECHO.
-ECHO  (%##%1%#$%) Padding Style     %#@%PAD %PAD_TYPE%%#$%&&CALL ECHO  (%##%2%#$%) Color Text        %#@%COLOR %%XLR%COLOR_TXT%%%%COLOR_TXT%%#$%&&CALL ECHO  (%##%3%#$%) Color Accent      %#@%COLOR %%XLR%COLOR_ACC%%%%COLOR_ACC%%#$%&&CALL ECHO  (%##%4%#$%) Color Button      %#@%COLOR %%XLR%COLOR_BTN%%%%COLOR_BTN%%#$%&&ECHO  (%##%5%#$%) Color Size        %#@%%COLOR_SIZ%%#$%&&ECHO  (%##%6%#$%) Color Layout      %#@%%COLOR_LAY%%#$%&&ECHO  (%##%7%#$%) Color Sequence    %#@%%COLOR_SEQ%%#$%&&ECHO  (%##%8%#$%) Folder Layout     %#@%%FOLDER_MODE%%#$%&&ECHO.&&CALL:PAD_LINE
-ECHO  [%#@%Settings%#$%]  (%##%S%#$%)hortcuts                          (%##%#%#$%) Clear Settings&&CALL:PAD_LINE
-IF "%SHORTCUTS%"=="ENABLED" CALL ECHO  [%#@%Shortcut%#$%]  (%##%X%#$%)Slot %#@%%SHORT_SLOT%%#$%   (%##%A%#$%)ssign %#@%%%SHORT_%SHORT_SLOT%%%%#$%   (%##%H%#$%)otKey %#@%%%HOTKEY_%SHORT_SLOT%%%%#$%&&CALL:PAD_LINE
+ECHO  (%##%1%#$%) Padding Style     %#@%PAD %PAD_TYPE%%#$%&&CALL ECHO  (%##%2%#$%) Color Text        %#@%COLOR %%XLR%COLOR_TXT%%%%COLOR_TXT%%#$%&&CALL ECHO  (%##%3%#$%) Color Accent      %#@%COLOR %%XLR%COLOR_ACC%%%%COLOR_ACC%%#$%&&CALL ECHO  (%##%4%#$%) Color Button      %#@%COLOR %%XLR%COLOR_BTN%%%%COLOR_BTN%%#$%&&ECHO  (%##%5%#$%) Color Size        %#@%%COLOR_SIZ%%#$%&&ECHO  (%##%6%#$%) Color Layout      %#@%%COLOR_LAY%%#$%&&ECHO  (%##%7%#$%) Color Sequence    %#@%%COLOR_SEQ%%#$%&&ECHO  (%##%8%#$%) Folder Layout     %#@%%FOLDER_MODE%%#$%&&ECHO  (%##%9%#$%) Shortcuts         %#@%%SHORTCUTS%%#$%&&ECHO.&&CALL:PAD_LINE
+ECHO.                          (%##%#%#$%) Clear Settings&&CALL:PAD_LINE
+IF "%SHORTCUTS%"=="ENABLED" CALL ECHO  [%#@%SHORTCUTS%#$%]  (%##%X%#$%)Slot %#@%%SHORT_SLOT%%#$%   (%##%A%#$%)ssign %#@%%%SHORT_%SHORT_SLOT%%%%#$%   (%##%H%#$%)otKey %#@%%%HOTKEY_%SHORT_SLOT%%%%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
@@ -739,8 +740,8 @@ IF "%SELECT%"=="#" CALL:SETS_CLEAR&&SET "SELECT="
 IF "%SELECT%"=="8" CALL:FOLDER_MODE&&SET "SELECT="
 IF "%SELECT%"=="A" IF "%SHORTCUTS%"=="ENABLED" CALL:SHORTCUTS
 IF "%SELECT%"=="H" IF "%SHORTCUTS%"=="ENABLED" CALL:SHORTCUTS
-IF "%SELECT%"=="S" IF "%SHORTCUTS%"=="DISABLED" SET "SHORTCUTS=ENABLED"&&SET "SELECT="
-IF "%SELECT%"=="S" IF "%SHORTCUTS%"=="ENABLED" SET "SHORTCUTS=DISABLED"&&SET "SELECT="
+IF "%SELECT%"=="9" IF "%SHORTCUTS%"=="DISABLED" SET "SHORTCUTS=ENABLED"&&SET "SELECT="
+IF "%SELECT%"=="9" IF "%SHORTCUTS%"=="ENABLED" SET "SHORTCUTS=DISABLED"&&SET "SELECT="
 IF "%SELECT%"=="X" SET /A "SHORT_SLOT+=1"&&IF "%SHORT_SLOT%"=="5" SET "SHORT_SLOT=1"&&SET "SELECT="
 FOR %%a in (- 1 2 3 4 5 6 7) DO (IF "%SELECT%"=="%%a" CALL:VISUAL_OPTIONS)
 GOTO:SETTINGS_MENU
@@ -759,8 +760,10 @@ IF "%SELECT%"=="7" SET "XNTX="&&FOR /F "DELIMS=" %%G IN ('CMD.EXE /D /U /C ECHO 
 IF "%SELECT%"=="7" IF "%XNTX%"=="10" SET "COLOR_SEQ=%COLOR_XXX%"
 EXIT /B
 :SHORTCUTS
-IF "%SELECT%"=="A" SET "PROMPT_SET=SHORT_%SHORT_SLOT%"&&CALL:PAD_LINE&&ECHO                              Type Command&&CALL:PAD_LINE&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
-IF "%SELECT%"=="H" CALL:PAD_LINE&&ECHO                          Type 2+ Digit Hotkey&&CALL:PAD_LINE&&SET "PROMPT_SET=HOTKEY_%SHORT_SLOT%"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&CALL:BOXT2&&ECHO.
+IF "%SELECT%"=="A" ECHO                              Type Command&&SET "PROMPT_SET=SHORT_%SHORT_SLOT%"&&SET "PROMPT_ANY=1"
+IF "%SELECT%"=="H" ECHO                          Type 2+ Digit Hotkey&&SET "PROMPT_SET=HOTKEY_%SHORT_SLOT%"
+ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PROMPT_SET
 EXIT /B
 :AUTOBOOT_COUNT
 IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL&EXIT /B
@@ -799,7 +802,7 @@ CMD /C OUTER.BAT>NUL 2>&1
 DEL /Q /F OUTER.BAT>NUL 2>&1
 EXIT /B
 ::#########################################################################
-:IMAGE_PROCESSOR
+:IMAGE_PROCESSING
 ::#########################################################################
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y Z) DO (IF EXIST "%%a:\sources\install.wim" SET "SOURCE_LOCATION=%%a:\sources")
 IF NOT DEFINED SOURCE_TYPE SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"
@@ -819,6 +822,8 @@ IF "%SOURCE_TYPE%"=="VHDX" ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&C
 IF "%SOURCE_TYPE%"=="WIM" ECHO   %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%S%#$%)ource WIM  %#@%%WIM_SOURCE%%#$%   (%##%I%#$%)ndex %#@%%WIM_INDEX%%#$%   Edition: %#@%%WIM_DESC%%#$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="VHDX" ECHO   %#@%EXISTING VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget VHDX  %#@%%VHDX_TARGET%%#$%        (%##%G%#$%)o^^!  (%##%V%#$%)Size %#@%%VHDX_SIZE%MB%#$%  (%##%Z%#$%) %#@%%VHDX_XLVL%%#$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="WIM" ECHO   %#@%EXISTING WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget WIM  %#@%%WIM_TARGET%%#$%        (%##%G%#$%)o^^!     (%##%Z%#$%) X-Lvl %#@%%WIM_XLVL%%#$%&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="PATH" ECHO   %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\*" ECHO    %%G:)
+IF "%TARGET_TYPE%"=="PATH" ECHO.&&CALL:PAD_LINE&&ECHO. (%##%T%#$%)arget PATH  %#@%%PATH_TARGET%%#$%        (%##%G%#$%)o^^!   %XLR2%Use caution with this option%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
@@ -831,25 +836,32 @@ IF "%SELECT%"=="V" IF "%TARGET_TYPE%"=="VHDX" CALL:IMAGEPROC_VSIZE&&SET "SELECT=
 IF "%SELECT%"=="I" IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_MENU
 IF "%SELECT%"=="+" IF DEFINED SOURCE_LOCATION CALL:SOURCE_IMPORT&&SET "SELECT="
 IF "%SELECT%"=="-" IF DEFINED SOURCE_LOCATION CALL:BOOT_IMPORT&&SET "SELECT="
-GOTO:IMAGE_PROCESSOR
+GOTO:IMAGE_PROCESSING
 :IMAGEPROC_START
-CALL:PAD_LINE&&ECHO                         Image Processing Start&&CALL:PAD_LINE&&SET "ERR_MSG="&&SET "APPLYDIR_MASTER=V:"&&SET "CAPTUREDIR_MASTER=V:"&&SET "VHDX_MB=%VHDX_SIZE%"
-IF EXIST "V:\" SET "ERR_MSG=%##%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="SELECT" SET "ERR_MSG=%##%Source %SOURCE_TYPE% not set.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "ERR_MSG=%##%Source %SOURCE_TYPE% not set.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%TARGET_TYPE%"=="WIM" IF "%WIM_TARGET%"=="SELECT" SET "ERR_MSG=%##%Target %TARGET_TYPE% not set.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERR_MSG=%##%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "%PATH_SOURCE%\*" SET "ERR_MSG=%##%Source %SOURCE_TYPE% doesn't exist.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%SOURCE_TYPE%"=="VHDX" IF "%VHDX_SOURCE%"=="SELECT" SET "ERR_MSG=%##%Source %SOURCE_TYPE% not set.%#$%"&&GOTO:IMAGEPROC_CLEANUP
-IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_TARGET%"=="SELECT" SET "ERR_MSG=%##%Target %TARGET_TYPE% not set.%#$%"&&GOTO:IMAGEPROC_CLEANUP
+SET "ERROR="&&SET "APPLYDIR_MASTER=V:"&&SET "CAPTUREDIR_MASTER=V:"&&SET "VHDX_MB=%VHDX_SIZE%"&&IF NOT "%PROG_MODE%"=="COMMAND" CLS
+CALL:PAD_LINE&&CALL:BOXT2&&ECHO          %#@%IMAGE PROCESSING START:%#$%  %DATE%  %TIME%
+IF EXIST "V:\" SET "ERROR=1"&&ECHO.&&ECHO.%##%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%&&ECHO.
+IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% not set.%#$%
+IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% not set.%#$%
+IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% not set.%#$%
+IF "%TARGET_TYPE%"=="WIM" IF "%WIM_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% not set.%#$%
+IF "%SOURCE_TYPE%"=="VHDX" IF "%VHDX_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% not set.%#$%
+IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% not set.%#$%
+IF "%PROG_MODE%"=="COMMAND" IF "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "%PATH_SOURCE%\*" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% doesn't exist.%#$%
+IF "%PROG_MODE%"=="COMMAND" IF "%TARGET_TYPE%"=="PATH" IF NOT EXIST "%PATH_TARGET%\*" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% doesn't exist.%#$%
+IF "%PROG_MODE%"=="RAMDISK" IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %##%Cannot use vhdx host partition S:\ as a path.%#$%
+IF "%PROG_MODE%"=="RAMDISK" IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %##%Cannot use vhdx host partition S:\ as a path.%#$%
+IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%
 IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" CALL:BOXT2&&ECHO.&&ECHO                     File %#@%%VHDX_TARGET%%#$% already exists.&&ECHO   %XLR2%Note:%#$% Updating may cause errors. Try a new vhdx if having issues.&&ECHO.&&ECHO.                        Press (%##%X%#$%) to overwrite.&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
-IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" SET "ERR_MSG=%##%Aborted.%#$%"&&GOTO:IMAGEPROC_CLEANUP
+IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" SET "ERROR=1"&&ECHO.&&ECHO. %##%Aborted.%#$%
+IF DEFINED ERROR GOTO:IMAGEPROC_CLEANUP
 IF "%VHDX_XLVL%"=="COMPACT" (SET "COMPACTX= /COMPACT") ELSE (SET "COMPACTX=")
 IF NOT DEFINED WIM_INDEX SET "WIM_INDEX=1"
 IF NOT DEFINED WIM_XLVL SET "WIM_XLVL=FAST"
 IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25600"
 CALL:VDISK_DETACH&&CALL:SCRATCH_CREATE
 IF "%SOURCE_TYPE%"=="PATH" SET "APPLYDIR_MASTER=%PATH_SOURCE%"&&SET "CAPTUREDIR_MASTER=%PATH_SOURCE%"
+IF "%TARGET_TYPE%"=="PATH" SET "APPLYDIR_MASTER=%PATH_TARGET%"&&SET "CAPTUREDIR_MASTER=%PATH_TARGET%"
 IF "%SOURCE_TYPE%"=="VHDX" SET "VDISK=%IMAGE_FOLDER%\%VHDX_SOURCE%"
 IF "%TARGET_TYPE%"=="VHDX" SET "VDISK=%IMAGE_FOLDER%\%VHDX_TARGET%"
 IF "%SOURCE_TYPE%"=="WIM" SET "IMAGE_SRC=%IMAGE_FOLDER%\%WIM_SOURCE%"
@@ -858,16 +870,17 @@ IF "%SOURCE_TYPE%"=="VHDX" IF "%TARGET_TYPE%"=="WIM" CALL:VDISK_ATTACH
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" CALL:VDISK_ATTACH
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" IF NOT EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" CALL:VDISK_CREATE
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="WIM" SET "VDISK=%SCRATCHDIR%\SCRATCH.VHDX"&&SET "VHDX_MB=250000"&&CALL:VDISK_CREATE
-IF NOT "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "V:\" SET "ERR_MSG=%##%Virtual Disk Error. If VHDX refuses mounting, try another.%#$%"&&CALL:VDISK_DETACH&&GOTO:IMAGEPROC_CLEANUP
+IF NOT "%SOURCE_TYPE%"=="PATH" IF NOT "%TARGET_TYPE%"=="PATH" IF NOT EXIST "V:\" SET "ERROR=1"&&ECHO.&&ECHO. %##%Virtual Disk Error. If VHDX refuses mounting, try another.%#$%&&CALL:VDISK_DETACH&&GOTO:IMAGEPROC_CLEANUP
 CALL:TITLECARD&&IF NOT DEFINED WIM_DESC SET "WIM_DESC=WINDICK"
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_SRC%" /INDEX:%WIM_INDEX% /APPLYDIR:"%APPLYDIR_MASTER%"%COMPACTX%
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="WIM" DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_SRC%" /INDEX:%WIM_INDEX% /APPLYDIR:"%APPLYDIR_MASTER%"
+IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="PATH" DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%IMAGE_SRC%" /INDEX:%WIM_INDEX% /APPLYDIR:"%APPLYDIR_MASTER%"
 IF "%TARGET_TYPE%"=="WIM" IF EXIST "%APPLYDIR_MASTER%\*" DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%CAPTUREDIR_MASTER%" /IMAGEFILE:"%IMAGE_TGT%" /COMPRESS:%WIM_XLVL% /NAME:%WIM_DESC%
-IF NOT EXIST "%APPLYDIR_MASTER%\*" SET "ERR_MSG=%##%Source Extraction Error. If WIM refuses to extract, try another.%#$%"
+IF NOT EXIST "%APPLYDIR_MASTER%\*" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source Extraction Error. If WIM refuses to extract, try another.%#$%
 CALL:VDISK_DETACH
 :IMAGEPROC_CLEANUP
-ECHO.&&IF DEFINED ERR_MSG ECHO %ERR_MSG%&&ECHO.
-CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&ECHO                        Image Processing Complete&&CALL:PAD_LINE
+ECHO.&&ECHO           %#@%IMAGE PROCESSING END:%#$%  %DATE%  %TIME%&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:SCRATCH_DELETE
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :IMAGEPROC_XLVL
 IF "%TARGET_TYPE%"=="WIM" IF "%WIM_XLVL%"=="FAST" SET "WIM_XLVL=MAX"&&EXIT /B
@@ -882,7 +895,9 @@ SET "SELECT=%VHDX_SIZE%"&&SET "CHECK=NUM"&&CALL:CHECK
 IF DEFINED ERROR SET "VHDX_SIZE=25600"
 EXIT /B
 :IMAGEPROC_PROMPT
-CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                          Enter new name of .%TARGET_TYPE%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV
+IF "%TARGET_TYPE%"=="PATH" CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO.                    Enter the target drive letter&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=PATH_LETTER"&&CALL:PROMPT_SET
+IF "%TARGET_TYPE%"=="PATH" SET "PATH_TARGET=%PATH_LETTER%:"
+IF NOT "%TARGET_TYPE%"=="PATH" CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                          Enter new name of .%TARGET_TYPE%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV
 IF "%TARGET_TYPE%"=="WIM" SET "PROMPT_SET=WIM_TARGET"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF "%TARGET_TYPE%"=="WIM" IF DEFINED WIM_TARGET SET "WIM_TARGET=%WIM_TARGET%.wim"
 IF "%TARGET_TYPE%"=="WIM" IF NOT DEFINED WIM_TARGET SET "ERROR=1"
@@ -899,11 +914,12 @@ IF "%SOURCE_TYPE%"=="PATH" SET "PATH_SOURCE=%PATH_LETTER%:"
 EXIT /B
 :IMAGEPROC_SLOT
 SET /A "IMAGEPROC_SLOT+=1"
-IF "%IMAGEPROC_SLOT%" GTR "4" SET "IMAGEPROC_SLOT=1"
+IF "%IMAGEPROC_SLOT%" GTR "5" SET "IMAGEPROC_SLOT=1"
 IF "%IMAGEPROC_SLOT%"=="1" SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"
 IF "%IMAGEPROC_SLOT%"=="2" SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"
 IF "%IMAGEPROC_SLOT%"=="3" SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=WIM"
 IF "%IMAGEPROC_SLOT%"=="4" SET "SOURCE_TYPE=PATH"&&SET "TARGET_TYPE=WIM"
+IF "%IMAGEPROC_SLOT%"=="5" SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=PATH"
 EXIT /B
 ::#########################################################################
 :IMAGE_MANAGER
@@ -917,7 +933,7 @@ IF EXIST "%PACK_FOLDER%\*.PKX" ECHO   %#@%AVAILABLE ALL-IN-ONES:%#$%&&SET "BLIST
 IF EXIST "%LIST_FOLDER%\*.LST" ECHO   %#@%AVAILABLE EXEC LISTS:%#$%&&SET "BLIST=LST"&&CALL:FILE_LIST&&CALL:PAD_LINE
 IF NOT EXIST "%PACK_FOLDER%\*.PKX" IF NOT EXIST "%LIST_FOLDER%\*.LST" ECHO   %#@%AVAILABLE EXEC LISTS/ALL-IN-ONES:%#$%&&SET "BLIST=LST"&&CALL:FILE_LIST&&CALL:PAD_LINE
 ECHO  [%#@%LIST%#$%]    (%##%N%#$%)ew      (%##%E%#$%)dit     (%##%G%#$%)o^^!                    (%##%O%#$%)ptions&&CALL:PAD_LINE
-IF DEFINED ADV_IMGM ECHO  (%##%B%#$%)rute Force Mode %#@%%BRUTE_FORCE%%#$%   (%##%X%#$%)Mount ISO   (%##%S%#$%)afe Exclude %#@%%SAFE_EXCLUDE%%#$%&&CALL:PAD_LINE
+IF DEFINED ADV_IMGM ECHO  [%#@%OPTIONS%#$%] (%##%B%#$%)rute Force %#@%%BRUTE_FORCE%%#$% (%##%X%#$%)Mount ISO (%##%S%#$%)afe Exclude %#@%%SAFE_EXCLUDE%%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
@@ -2103,7 +2119,7 @@ IF "%SELECT%"=="D" CLS&&CALL:PAD_LINE&&SET "QUERY_MSG=                    %XLR2%
 IF "%SELECT%"=="M" CLS&&CALL:PAD_LINE&&SET "QUERY_MSG=                    Select a disk to mount partition"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:LETTER_GET&&CALL:CONFIRM&&CALL:DISKMGR_MOUNT&SET "SELECT="
 IF "%SELECT%"=="U" CLS&&CALL:PAD_LINE&&SET "QUERY_MSG=                   Select a disk to unmount partition"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:LETTER_GET&&CALL:CONFIRM&&CALL:DISKMGR_UNMOUNT&SET "SELECT="
 IF "%SELECT%"=="B" IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOOT_FETCH
-IF "%SELECT%"=="B" IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:PAD_LINE&&ECHO    Import boot media from within image processor before proceeding.&&CALL:PAD_LINE&&CALL:PAUSED
+IF "%SELECT%"=="B" IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:PAD_LINE&&ECHO    Import boot media from within image processing before proceeding.&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%SELECT%"=="H" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="DISABLED" SET "HOST_HIDE=ENABLED"&&SET "SELECT="&&CALL:PAD_LINE&&ECHO VHDX host partition will be hidden upon exit. Boot into recovery to revert.&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%SELECT%"=="H" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="ENABLED" SET "HOST_HIDE=DISABLED"&&SET "SELECT="
 GOTO:DISK_MANAGER
@@ -2399,7 +2415,7 @@ CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO           
 IF NOT DEFINED HOST_SIZE SET "HOST_SIZE=DISABLED"
 IF "%HOST_SIZE%"=="DISABLED" (SET "EMBEE=") ELSE (SET "EMBEE=MB")
 ECHO   %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO  (%##%O%#$%)ptions                       (%##%G%#$%)o^^!        (%##%V%#$%)HDX %#@%%VHDX_SLOTX%%#$%&&CALL:PAD_LINE
-IF DEFINED ADV_BOOT ECHO  [%#@%Options%#$%]  (%##%E%#$%)xport EFI Files   (%##%H%#$%)ost Size %#@%%HOST_SIZE%%EMBEE%%#$%&&CALL:PAD_LINE
+IF DEFINED ADV_BOOT ECHO  [%#@%OPTIONS%#$%]  (%##%E%#$%)xport EFI Files   (%##%H%#$%)ost Size %#@%%HOST_SIZE%%EMBEE%%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:DISK_MANAGER
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:DISK_MANAGER
@@ -2732,7 +2748,7 @@ EXIT /B
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                    Project %#@%%MAKER_SLOT%%#$% folder will be cleared&&ECHO.&&ECHO.                         Press (%##%X%#$%) to proceed&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" EXIT /B
-CALL:PAD_LINE&&ECHO.                          Package Restore Start&&CALL:PAD_LINE&&ECHO.                            Restoring Package
+CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO           %#@%PACKAGE RESTORE START:%#$%  %DATE%  %TIME%
 CALL:SCRATCH_PACK_CREATE&&DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PICK%" /INDEX:2 /APPLYDIR:"%PROG_SOURCE%\ScratchPack">NUL 2>&1
 FOR %%a in (PackName PackType PackDesc PackTag) DO (CALL SET "%%a=NULL")
 IF EXIST "%PROG_SOURCE%\ScratchPack\PACKAGE.MAN" COPY /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.MAN" "$PAK">NUL&&FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in ($PAK) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
@@ -2743,20 +2759,20 @@ IF EXIST "%MAKER_FOLDER%" RD /S /Q "%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
 MOVE /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.MAN" "%MAKER_FOLDER%">NUL 2>&1
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PICK%" /INDEX:1 /APPLYDIR:"%MAKER_FOLDER%"
-ECHO.&&CALL:PAD_LINE&&ECHO.                          Package Restore End&&CALL:PAD_LINE&&CALL:PAUSED
+ECHO.&&ECHO            %#@%PACKAGE RESTORE END:%#$%  %DATE%  %TIME%&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PACKAGE_CREATE
-SET "PACK_FAIL="&&CALL:PAD_LINE&&ECHO.                         Package Create Start&&CALL:PAD_LINE&&ECHO.                           Creating Package&&CALL:SCRATCH_PACK_DELETE
-IF NOT EXIST "%MAKER_FOLDER%\*.*" SET "PACK_FAIL=1"&&CALL:PAD_LINE&&ECHO.%#@%Project%MAKER_SLOT% is empty%#$%&&CALL:PAD_LINE&&CALL:PAUSED
-IF NOT DEFINED PackName SET "PACK_FAIL=1"&&CALL:PAD_LINE&&ECHO.PackName is Empty&&CALL:PAD_LINE&&CALL:PAUSED
-IF NOT DEFINED PackType SET "PACK_FAIL=1"&&CALL:PAD_LINE&&ECHO.PackType is Empty&&CALL:PAD_LINE&&CALL:PAUSED
-IF DEFINED PACK_FAIL EXIT /B
+SET "ERROR="&&CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO            %#@%PACKAGE CREATE START:%#$%  %DATE%  %TIME%
+IF NOT EXIST "%MAKER_FOLDER%\*.*" SET "ERROR=1"&&CALL:PAD_LINE&&ECHO.%#@%Project%MAKER_SLOT% is empty%#$%&&CALL:PAD_LINE&&CALL:PAUSED
+IF NOT DEFINED PackName SET "ERROR=1"&&CALL:PAD_LINE&&ECHO.PackName is Empty&&CALL:PAD_LINE&&CALL:PAUSED
+IF NOT DEFINED PackType SET "ERROR=1"&&CALL:PAD_LINE&&ECHO.PackType is Empty&&CALL:PAD_LINE&&CALL:PAUSED
+IF DEFINED ERROR EXIT /B
 CALL:SCRATCH_PACK_CREATE&&MOVE /Y "%MAKER_FOLDER%\PACKAGE.MAN" "%PROG_SOURCE%\ScratchPack">NUL 2>&1
 IF "%PackType%"=="AIOPACK" (SET "GX=x") ELSE (SET "GX=g")
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%MAKER_FOLDER%" /IMAGEFILE:"%PACK_FOLDER%\%PackName%.pk%GX%" /COMPRESS:%PACK_XLVL% /NAME:"%PackName%" /CheckIntegrity /Verify
 DISM /ENGLISH /APPEND-IMAGE /IMAGEFILE:"%PACK_FOLDER%\%PackName%.pk%GX%" /CAPTUREDIR:"%PROG_SOURCE%\ScratchPack" /NAME:"%PackName%" /Description:WINDICK /CheckIntegrity /Verify>NUL 2>&1
 MOVE /Y "%PROG_SOURCE%\ScratchPack\PACKAGE.MAN" "%MAKER_FOLDER%">NUL 2>&1
-CALL:SCRATCH_PACK_DELETE&&ECHO.&&CALL:PAD_LINE&&ECHO.                           Package Create End&&CALL:PAD_LINE&&CALL:PAUSED
+CALL:SCRATCH_PACK_DELETE&&ECHO.&&ECHO             %#@%PACKAGE CREATE END:%#$%  %DATE%  %TIME%&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :PACKAGE_EDITOR
 IF DEFINED EDIT_MANIFEST IF EXIST "%MAKER_FOLDER%\PACKAGE.MAN" START NOTEPAD.EXE "%MAKER_FOLDER%\PACKAGE.MAN"
@@ -2785,10 +2801,10 @@ FOR %%a in (PackName PackType PackDesc PackTag) DO (IF NOT DEFINED %%a CALL SET 
 (ECHO ----------[Package Manifest]---------=&&ECHO.PackName=%PackName%&&ECHO.PackType=%PackType%&&ECHO.PackDesc=%PackDesc%&&ECHO.PackTag=%PackTag%&&ECHO.Created=%date% %time%&&ECHO ------------[END OF FILE]------------=)>"%MAKER_FOLDER%\PACKAGE.MAN"
 EXIT /B
 :PACK_STRT
-(ECHO.::================================================&&ECHO.::These variables are built in and can help&&ECHO.::keep a script consistant throughout the entire&&ECHO.::process, whether applying to a vhdx or live.&&ECHO.::================================================&&ECHO.::Windows folder :    %%WINTAR%%&&ECHO.::Drive root :        %%DRVTAR%%&&ECHO.::User or defuser :   %%USRTAR%%&&ECHO.::HKLM\SOFTWARE :     %%HIVE_SOFTWARE%%&&ECHO.::HKLM\SYSTEM :       %%HIVE_SYSTEM%%&&ECHO.::HKCU or defuser :   %%HIVE_USER%%&&ECHO.::================================================&&ECHO.::==================START OF PACK=================&&ECHO.)>"%NEW_PACK%"
+(ECHO.::================================================&&ECHO.::These variables are built in and can help&&ECHO.::keep a script consistant throughout the entire&&ECHO.::process, whether applying to a vhdx or live.&&ECHO.::================================================&&ECHO.::Windows folder :    %%WINTAR%%&&ECHO.::Drive root :        %%DRVTAR%%&&ECHO.::User or defuser :   %%USRTAR%%&&ECHO.::HKLM\SOFTWARE :     %%HIVE_SOFTWARE%%&&ECHO.::HKLM\SYSTEM :       %%HIVE_SYSTEM%%&&ECHO.::HKCU or defuser :   %%HIVE_USER%%&&ECHO.::================================================&&ECHO.::==================START OF PACK=================&&ECHO.)>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACK_END
-(ECHO.&&ECHO.::===================END OF PACK==================&&ECHO.::================================================)>>"%NEW_PACK%"
+(ECHO.&&ECHO.::===================END OF PACK==================&&ECHO.::================================================)>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :PACK_CONFIG
 SET "PACK_ENT="&&FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO %PACK_CONFIG%^| FIND /V ""') do (CALL SET /A "PACK_ENT+=1"&&SET "PACK_CFG=%%G"&&CALL:PACK_CONFIG_XNT)
@@ -2799,22 +2815,22 @@ EXIT /B
 ::#########################################################################
 :PACK_MENU
 ::#########################################################################
-@ECHO OFF&&CLS&&CALL:TITLE_X&&CALL:PAD_LINE&&ECHO                          New Package Template&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%N01%#$%) New Driver Package                                  [%#@%DRIVER%#$%]&&ECHO  (%##%N02%#$%) New Scripted Package                                [%#@%SCRIPTED%#$%]&&ECHO  (%##%N03%#$%) New AIO Package                                     [%#@%AIOPACK%#$%]&&CALL:PAD_LINE&&ECHO                      Time: SetupComplete/RunOnce&&CALL:PAD_LINE&&ECHO  (%##%N10%#$%) Firewall Rules Import                               [%#@%SCRIPTED%#$%]&&ECHO  (%##%N11%#$%) AutoBoot Service install                            [%#@%SCRIPTED%#$%]&&ECHO  (%##%N12%#$%) MSI Installer Example                               [%#@%SCRIPTED%#$%]&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CLS&&CALL:TITLE_X&&CALL:PAD_LINE&&ECHO                          New Package Template&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##% 1 %#$%) New Driver Package                                  [%#@%DRIVER%#$%]&&ECHO  (%##% 2 %#$%) New Scripted Package                                [%#@%SCRIPTED%#$%]&&ECHO  (%##% 3 %#$%) New AIO Package                                     [%#@%AIOPACK%#$%]&&ECHO.&&CALL:PAD_LINE&&ECHO                            Package Examples&&CALL:PAD_LINE&&ECHO.&&ECHO  (%##% 10 %#$%) Firewall Rules Import                              [%#@%SCRIPTED%#$%]&&ECHO  (%##% 11 %#$%) AutoBoot Service install                           [%#@%SCRIPTED%#$%]&&ECHO  (%##% 12 %#$%) MSI Installer Example                              [%#@%SCRIPTED%#$%]&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
-SET "EXAMPLE=%SELECT%"&&SET "PASS="&&FOR %%a in (N01 N02 N03 N10 N11 N12) DO (IF "%%a"=="%SELECT%" SET "PASS=1")
-IF NOT "%PASS%"=="1" EXIT /B
+SET "EXAMPLE="&&FOR %%a in (1 2 3 10 11 12) DO (IF "%%a"=="%SELECT%" SET "EXAMPLE=N%SELECT%")
+IF NOT DEFINED EXAMPLE EXIT /B
 CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                    Project %#@%%MAKER_SLOT%%#$% folder will be cleared&&ECHO.&&ECHO.                         Press (%##%X%#$%) to proceed&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" EXIT /B
 IF EXIST "%MAKER_FOLDER%" RD /S /Q "\\?\%MAKER_FOLDER%">NUL 2>&1
 IF NOT EXIST "%MAKER_FOLDER%" MD "%MAKER_FOLDER%">NUL 2>&1
-SET "NEW_PACK=%MAKER_FOLDER%\PACKAGE.CMD"&&CALL:SCRATCH_PACK_DELETE&&CALL:MOUNT_NONE
+CALL:SCRATCH_PACK_DELETE&&CALL:MOUNT_NONE
 FOR %%a in (PackName PackType PackDesc PackTag) DO (CALL SET "%%a=NULL")
 SET "ERROR="&&CALL:%EXAMPLE%
 IF DEFINED ERROR GOTO:PACKEX_END
 CALL:PACK_MANIFEST>NUL 2>&1
 IF "%PackType%"=="SCRIPTED" CALL:PACK_END
 CALL:PACKAGE_EDITOR
-FOR %%a in (AIOPACK DRIVER) DO (IF "%PackType%"=="%%a" IF EXIST "%NEW_PACK%" DEL /F "%NEW_PACK%">NUL 2>&1)
+FOR %%a in (AIOPACK DRIVER) DO (IF "%PackType%"=="%%a" IF EXIST "%MAKER_FOLDER%\PACKAGE.CMD" DEL /F "%MAKER_FOLDER%\PACKAGE.CMD">NUL 2>&1)
 :PACKEX_END
 SET "SELECT="&&CALL:SCRATCH_PACK_DELETE
 EXIT /B
@@ -2827,11 +2843,11 @@ EXIT /B
 SET "SCRATCH_PACK=%PROG_SOURCE%\ScratchPack"&&IF EXIST "%PROG_SOURCE%\ScratchPack" CALL:SCRATCH_PACK_DELETE 
 IF NOT EXIST "%PROG_SOURCE%\ScratchPack" MD "%PROG_SOURCE%\ScratchPack">NUL 2>&1
 EXIT /B
-:N01
+:N1
 SET "PackType=DRIVER"&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                       New Driver Pack (PKG) name&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED PackName SET PackName=Driver_%RANDOM%
 EXIT /B
-:N02
+:N2
 CALL:PACK_STRT&&SET "PackType=SCRIPTED"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                    Enter new scripted pack PKG name:&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED PackName SET PackName=Scripted_%RANDOM%
 CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO. (%##%1%#$%) Keep registry hives mounted for duration of the package&&ECHO. (%##%2%#$%) %XLR2%Keep registry hives unmounted for duration of the package%#$%&&ECHO.&&ECHO    Note: DISM operations are incompatible if the hives are mounted.&&ECHO  When unmounted, registry %%HIVE_VARS%% always point to the live system.&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:MENU_SELECT
@@ -2839,7 +2855,7 @@ IF "%SELECT%"=="1" SET "PackTag=MOUNT"
 IF "%SELECT%"=="2" SET "PackTag=UNMOUNT"
 IF NOT "%SELECT%"=="1" IF NOT "%SELECT%"=="2" SET "PackTag=MOUNT"
 EXIT /B
-:N03
+:N3
 SET "PackType=AIOPACK"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                       Enter new AIO Pack PKX name:&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&SET "PROMPT_SET=PackName"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED PackName SET PackName=AIOPACK_%RANDOM%
 ECHO EXEC-LIST>"%MAKER_FOLDER%\PACKAGE.LST"
@@ -2848,23 +2864,23 @@ ECHO Copy listed appx, cab, msu, and pkg packages into the project folder before
 EXIT /B
 :N10
 CALL:PACK_STRT&&SET "PackTag=UNMOUNT"&&SET "PackType=SCRIPTED"&&SET "PackName=Firewall_Import"&&SET "PackDesc=Import Windows Firewall.XML"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%NEW_PACK%"
+ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%MAKER_FOLDER%\PACKAGE.CMD"
 NETSH advfirewall EXPORT "%MAKER_FOLDER%\FirewallRules.wfw"
-ECHO;NETSH advfirewall IMPORT "FirewallRules.wfw">>"%NEW_PACK%"
+ECHO;NETSH advfirewall IMPORT "FirewallRules.wfw">>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :N11
 CALL:PACK_STRT&&SET "PackTag=UNMOUNT"&&SET "PackType=SCRIPTED"&&SET "PackName=AUTOBOOT_ENABLE"&&SET "PackDesc=Commands to enable AutoBoot and boot into recovery"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%NEW_PACK%"
-ECHO;::Needs AutoBoot.cmd in package folder>>"%NEW_PACK%"
-ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%NEW_PACK%"
-ECHO;START CMD /C "%%~DP0..\windick.cmd" -autoboot -install>>"%NEW_PACK%"
-ECHO;START CMD /C "%%~DP0..\windick.cmd" -nextboot -recovery>>"%NEW_PACK%"
+ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::Needs AutoBoot.cmd in package folder>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;COPY /Y AutoBoot.cmd "%%~DP0.." >>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;START CMD /C "%%~DP0..\windick.cmd" -autoboot -install>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;START CMD /C "%%~DP0..\windick.cmd" -nextboot -recovery>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :N12
 CALL:PACK_STRT&&SET "PackTag=UNMOUNT"&&SET "PackType=SCRIPTED"&&SET "PackName=MSI_INSTALLER_EXAMPLE"&&SET "PackDesc=Scripted Pack MSI Installer Example"&&SET "EDIT_MANIFEST=1"&&SET "EDIT_SETUP=1"
-ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%NEW_PACK%"
-ECHO;::Put MSI in pack folder.>>%NEW_PACK%"
-ECHO;"EXAMPLE.msi" /qn>>"%NEW_PACK%"
+ECHO;::Live Command: Needs to be applied during SetupComplete or RunOnce>>"%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;::Put MSI in pack folder.>>%MAKER_FOLDER%\PACKAGE.CMD"
+ECHO;"EXAMPLE.msi" /qn>>"%MAKER_FOLDER%\PACKAGE.CMD"
 EXIT /B
 :TASK_MENU
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:PAD_LINE&&ECHO                                  Tasks&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) Sysprep Menu&&ECHO  (%##%2%#$%) Create Local User-Account&&ECHO  (%##%3%#$%) Create Local Admin-Account&&ECHO  (%##%4%#$%) End Task&&ECHO  (%##%5%#$%) Start/Stop Service&&ECHO  (%##%6%#$%) List Accounts&&ECHO  (%##%7%#$%) SFC /Scannow&&ECHO  (%##%8%#$%) Generate unattend.xml&&ECHO  (%##%9%#$%) Export Stock Wallpaper&&ECHO  (%##%10%#$%) AutoBoot&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
