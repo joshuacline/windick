@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1163 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1164 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -80,41 +80,36 @@ IF "%PAD_TYPE%"=="8" SET "PADX=▓"
 IF "%PAD_TYPE%"=="9" SET "PADX=~"
 IF "%PAD_TYPE%"=="10" SET "PADX=="
 IF "%PAD_TYPE%"=="11" SET "PADX=#"
-IF "%PAD_SIZE%"=="LARGE" SET "PAD_BLK=%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%#$%"
-IF "%PAD_SIZE%"=="SMALL" SET "PAD_BLK=%#0%%PADX%%#1%%PADX%%#2%%PADX%%#3%%PADX%%#4%%PADX%%#5%%PADX%%#6%%PADX%%#7%%PADX%%#8%%PADX%%#9%%PADX%%#$%"
+IF "%PAD_SIZE%"=="LARGE" SET "PAD_BLK=%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%"
+IF "%PAD_SIZE%"=="SMALL" SET "PAD_BLK=%#0%%PADX%%#1%%PADX%%#2%%PADX%%#3%%PADX%%#4%%PADX%%#5%%PADX%%#6%%PADX%%#7%%PADX%%#8%%PADX%%#9%%PADX%"
 SET "XLRX=%TXT_COLOR%"&&SET "#Z=%#$%"&&SET "XNTX=$"&&CALL:COLOR_ASSIGN
 SET "XLRX=%BTN_COLOR%"&&SET "XLRZ=%#$%"&&SET "XNTX=#"&&CALL:COLOR_ASSIGN
 SET "XLRX=%ACC_COLOR%"&&SET "XLRZ=%#$%"&&SET "XNTX=@"&&CALL:COLOR_ASSIGN
 IF "%PAD_TYPE%"=="0" ECHO.%#$%&&EXIT /B
 SET "PAD_SEQX=%PAD_SEQ%"&&IF NOT "%PAD_SEQ%X"=="%PAD_SEQX%X" SET "XNTX=0"&&SET "XLRX="&&FOR /F "DELIMS=" %%G IN ('CMD.EXE /D /U /C ECHO %PAD_SEQ%^| FIND /V ""') do (CALL SET "XLRX=%%G"&&CALL:COLOR_ASSIGN&&CALL SET /A XNTX+=1)
-IF "%PAD_SIZE%"=="LARGE" ECHO;%#0%%PAD_BLK%%#1%%PAD_BLK%%#2%%PAD_BLK%%#3%%PAD_BLK%%#4%%PAD_BLK%%#5%%PAD_BLK%%#6%%PAD_BLK%
-IF "%PAD_SIZE%"=="SMALL" ECHO;%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%
+IF "%PAD_SIZE%"=="LARGE" ECHO.%#0%%PAD_BLK%%#1%%PAD_BLK%%#2%%PAD_BLK%%#3%%PAD_BLK%%#4%%PAD_BLK%%#5%%PAD_BLK%%#6%%PAD_BLK%%#$%
+IF "%PAD_SIZE%"=="SMALL" ECHO.%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%#$%
 SET "#0=%#1%"&SET "#1=%#2%"&SET "#2=%#3%"&SET "#3=%#4%"&SET "#4=%#5%"&SET "#5=%#6%"&SET "#6=%#7%"&SET "#7=%#8%"&SET "#8=%#9%"&SET "#9=%#0%"&&SET "PAD_BLK="&&SET "PADX="&&FOR %%a in (1 2 3 4 5 6 7 8) DO (IF "%PAD_TYPE%"=="%%a" CHCP %CHCP_OLD% >NUL)
 EXIT /B
 :BOX0
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
-CHCP 65001 >NUL
-ECHO;%##%►%#$%                                                                    %##%◄%#$%&&CHCP %CHCP_OLD% >NUL
-EXIT /B
+SET "BOX=0"&&GOTO:BOX_DISP
 :BOXT1
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
-CHCP 65001 >NUL
-ECHO;%##%╭%#$%                                                                    %##%╮%#$%&&CHCP %CHCP_OLD% >NUL
-EXIT /B
+SET "BOX=T1"&&GOTO:BOX_DISP
 :BOXB1
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
-CHCP 65001 >NUL
-ECHO;%##%╰%#$%                                                                    %##%╯%#$%&&CHCP %CHCP_OLD% >NUL
-EXIT /B
+SET "BOX=B1"&&GOTO:BOX_DISP
 :BOXT2
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
-CHCP 65001 >NUL
-ECHO;%##%┌%#$%                                                                    %##%┐%#$%&&CHCP %CHCP_OLD% >NUL
-EXIT /B
+SET "BOX=T2"&&GOTO:BOX_DISP
 :BOXB2
+SET "BOX=B2"&&GOTO:BOX_DISP
+:BOX_DISP
 IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
 CHCP 65001 >NUL
-ECHO;%##%└%#$%                                                                    %##%┘%#$%&&CHCP %CHCP_OLD% >NUL
+IF "%BOX%"=="0" ECHO.%##%►                                                                    ◄%#$%
+IF "%BOX%"=="T1" ECHO.%##%╭                                                                    ╮%#$%
+IF "%BOX%"=="B1" ECHO.%##%╰                                                                    ╯%#$%
+IF "%BOX%"=="T2" ECHO.%##%┌                                                                    ┐%#$%
+IF "%BOX%"=="B2" ECHO.%##%└                                                                    ┘%#$%
+SET "BOX="&&CHCP %CHCP_OLD% >NUL
 EXIT /B
 :LOGO
 IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
@@ -761,17 +756,30 @@ IF "%SELECT%"=="X" SET /A "SHORT_SLOT+=1"&&IF "%SHORT_SLOT%"=="5" SET "SHORT_SLO
 FOR %%a in (- 1 2 3 4 5 6) DO (IF "%SELECT%"=="%%a" CALL:VISUAL_OPTIONS)
 GOTO:SETTINGS_MENU
 :VISUAL_OPTIONS
-IF "%SELECT%"=="1" SET /A "PAD_TYPE+=1"&&IF "%PAD_TYPE%"=="11" SET "PAD_TYPE=0"&&SET "SELECT="
+IF "%SELECT%"=="1" CALL:PAD_TYPE&&SET "SELECT="
 IF "%SELECT%"=="2" IF "%PAD_SIZE%"=="LARGE" SET "PAD_SIZE=SMALL"&&SET "SELECT="
 IF "%SELECT%"=="2" IF "%PAD_SIZE%"=="SMALL" SET "PAD_SIZE=LARGE"&&SET "SELECT="
 IF "%SELECT%"=="3" CALL:PAD_LINE&&ECHO     Type 10 digit color sequence [ %XLR0%0%XLR1%1%XLR2%2%XLR3%3%XLR4%4%XLR5%5%XLR6%6%XLR7%7%XLR8%8%XLR9%9%#$% ] or (%##%-%#$%) for default&&CALL:PAD_LINE&&SET "PROMPT_SET=COLOR_XXX"&&CALL:PROMPT_SET
 IF "%SELECT%"=="3" IF "%COLOR_XXX%"=="-" SET "PAD_SEQ=6666600000"&&SET "SELECT="
 IF "%SELECT%"=="3" SET "XNTX="&&FOR /F "DELIMS=" %%G IN ('CMD.EXE /D /U /C ECHO %COLOR_XXX%^| FIND /V ""') do (CALL SET /A XNTX+=1)
 IF "%SELECT%"=="3" IF "%XNTX%"=="10" SET "PAD_SEQ=%COLOR_XXX%"&&SET "COLOR_XXX="&&SET "SELECT="
-IF "%SELECT%"=="4" SET /A "TXT_COLOR+=1"&&IF "%TXT_COLOR%"=="9" SET "TXT_COLOR=0"&&SET "SELECT="
-IF "%SELECT%"=="5" SET /A "ACC_COLOR+=1"&&IF "%ACC_COLOR%"=="9" SET "ACC_COLOR=0"&&SET "SELECT="
-IF "%SELECT%"=="6" SET /A "BTN_COLOR+=1"&&IF "%BTN_COLOR%"=="9" SET "BTN_COLOR=0"&&SET "SELECT="
+IF "%SELECT%"=="4" SET "COLOR_TMP=TXT_COLOR"&&CALL:COLOR_CHOICE
+IF "%SELECT%"=="5" SET "COLOR_TMP=ACC_COLOR"&&CALL:COLOR_CHOICE
+IF "%SELECT%"=="6" SET "COLOR_TMP=BTN_COLOR"&&CALL:COLOR_CHOICE
 EXIT /B
+:PAD_TYPE
+IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
+CHCP 65001 >NUL
+CALL:PAD_LINE&&ECHO Choose: (%##%0%#$%)None (%##%1%#$%)◌ (%##%2%#$%)○ (%##%3%#$%)● (%##%4%#$%)□ (%##%5%#$%)■ (%##%6%#$%)░ (%##%7%#$%)▒ (%##%8%#$%)▓ (%##%9%#$%)~ (%##%10%#$%)= (%##%11%#$%)#&&CHCP %CHCP_OLD% >NUL
+CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=PAD_TYPE"&&CALL:PROMPT_SET
+SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11) DO (IF "%PAD_TYPE%"=="%%a" SET "PASS=1")
+IF NOT "%PASS%"=="1" SET "PAD_TYPE=1"
+EXIT /B
+:COLOR_CHOICE
+CALL:PAD_LINE&&ECHO            Choose a color: [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_123"&&CALL:PROMPT_SET
+SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_123%"=="%%a" SET "PASS=1")
+IF "%PASS%"=="1" SET "%COLOR_TMP%=%COLOR_123%"
+SET "COLOR_TMP="&&SET "COLOR_123="&&EXIT /B
 :SHORTCUTS
 CALL:PAD_LINE&&CALL:BOXT2&&ECHO.
 IF "%SELECT%"=="A" ECHO                              Type Command&&SET "PROMPT_SET=SHORT_%SHORT_SLOT%"&&SET "PROMPT_ANY=1"
@@ -1198,10 +1206,17 @@ IF NOT DEFINED GRP_SUB EXIT /B
 CALL:PAD_LINE&&ECHO        Choose subgroup color: [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_XYZ"&&CALL:PROMPT_SET
 IF NOT DEFINED COLOR_XYZ EXIT /B
 SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_XYZ%"=="%%a" SET "PASS=1")
-IF NOT "%PASS%"=="1" SET "COLOR_XYZ=0"&&ECHO  %XLR2%ERROR&&EXIT /B
+IF NOT "%PASS%"=="1" SET "COLOR_XYZ="&&ECHO  %XLR2%ERROR&&EXIT /B
+CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO                         Enter subgroup comment&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&ECHO                         Press (%##%Enter%#$%) for none&&SET "PROMPT_SET=GRP_COM"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+IF DEFINED GRP_COM CALL:PAD_LINE&&ECHO        Choose comment color: [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_123"&&CALL:PROMPT_SET
+IF DEFINED GRP_COM IF NOT DEFINED COLOR_123 EXIT /B
+IF DEFINED GRP_COM SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_123%"=="%%a" SET "PASS=1")
+IF DEFINED GRP_COM IF NOT "%PASS%"=="1" SET "COLOR_123="&&ECHO  %XLR2%ERROR&&EXIT /B
 SET "PICK=LST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
-CALL:PAD_ADD&&ECHO.&&CALL ECHO  GROUP %GRP_NAME% %%XLR%COLOR_XYZ%%%%GRP_SUB%%#$%&&ECHO [GROUP][%GRP_NAME%][%%COLOR%COLOR_XYZ%%%%GRP_SUB%]>>"%$PICK%"
+CALL:PAD_ADD&&ECHO.&&CALL ECHO  GROUP %GRP_NAME% %%XLR%COLOR_XYZ%%%%GRP_SUB%%#$% %%XLR%COLOR_123%%%%GRP_COM%%#$%
+IF DEFINED GRP_COM ECHO [GROUP][%GRP_NAME%][%%COLOR%COLOR_XYZ%%%%GRP_SUB%][%%COLOR%COLOR_123%%%%GRP_COM%]>>"%$PICK%"
+IF NOT DEFINED GRP_COM ECHO [GROUP][%GRP_NAME%][%%COLOR%COLOR_XYZ%%%%GRP_SUB%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_GROUP_CONVERT
@@ -1321,17 +1336,15 @@ CALL:PAD_ADD&&SET "$LST1=%$PICK%"&&CALL:LIST_COMBINE
 CALL:PAD_END&&CALL:TITLECARD&&CALL:PAUSED
 EXIT /B
 :LIST_DISM_CREATE
-CLS&&SET "DISM_OPER="&&SET "LIST_ITEM=DISM"&&SET "LIST_ACTN=EXECUTE"&&CALL:PAD_LINE
-ECHO                        DISM Image Maintainence&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) RestoreHealth&&ECHO  (%##%2%#$%) Cleanup&&ECHO  (%##%3%#$%) ResetBase&&ECHO  (%##%4%#$%) SPSuperseded&&ECHO  (%##%5%#$%) CheckHealth
-ECHO  (%##%6%#$%) AnalyzeComponentStore&&ECHO  (%##%7%#$%) WinRE Remove&&ECHO  (%##%8%#$%) WinSxS Remove&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
-IF "%SELECTY%"=="1" SET "DISM_OPER=RESTOREHEALTH"
-IF "%SELECTY%"=="2" SET "DISM_OPER=CLEANUP"
-IF "%SELECTY%"=="3" SET "DISM_OPER=RESETBASE"
-IF "%SELECTY%"=="4" SET "DISM_OPER=SPSUPERSEDED"
-IF "%SELECTY%"=="5" SET "DISM_OPER=CHECKHEALTH"
-IF "%SELECTY%"=="6" SET "DISM_OPER=ANALYZE"
-IF "%SELECTY%"=="7" SET "DISM_OPER=WINRE"
-IF "%SELECTY%"=="8" SET "DISM_OPER=WINSXS"
+CLS&&SET "DISM_OPER="&&SET "LIST_ITEM=DISM"&&SET "LIST_ACTN=EXECUTE"&&CALL:PAD_LINE&&ECHO                        DISM Image Maintainence&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) RestoreHealth&&ECHO  (%##%2%#$%) Cleanup&&ECHO  (%##%3%#$%) ResetBase&&ECHO  (%##%4%#$%) SPSuperseded&&ECHO  (%##%5%#$%) CheckHealth&&ECHO  (%##%6%#$%) AnalyzeComponentStore&&ECHO  (%##%7%#$%) WinRE Remove&&ECHO  (%##%8%#$%) WinSxS Remove&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+IF "%SELECTY%"=="1" SET "DISM_OPER=Restorehealth"
+IF "%SELECTY%"=="2" SET "DISM_OPER=Cleanup"
+IF "%SELECTY%"=="3" SET "DISM_OPER=ResetBase"
+IF "%SELECTY%"=="4" SET "DISM_OPER=SPSuperseded"
+IF "%SELECTY%"=="5" SET "DISM_OPER=CheckHealth"
+IF "%SELECTY%"=="6" SET "DISM_OPER=Analyze"
+IF "%SELECTY%"=="7" SET "DISM_OPER=WinRE"
+IF "%SELECTY%"=="8" SET "DISM_OPER=WinSXS"
 IF NOT DEFINED DISM_OPER EXIT /B
 CALL:LIST_TIME
 IF NOT DEFINED LIST_TIME EXIT /B
@@ -1873,7 +1886,9 @@ EXIT /B
 SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ($DRVR) DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=1")
 EXIT /B
 :DISM_OPER
-IF NOT "%LIST_ACTN%"=="RESTOREHEALTH" IF NOT "%LIST_ACTN%"=="CLEANUP" IF NOT "%LIST_ACTN%"=="RESETBASE" IF NOT "%LIST_ACTN%"=="SPSUPERSEDED" IF NOT "%LIST_ACTN%"=="CHECKHEALTH" IF NOT "%LIST_ACTN%"=="ANALYZE" IF NOT "%LIST_ACTN%"=="WINRE" IF NOT "%LIST_ACTN%"=="WINSXS" ECHO  %XLR4%ERROR: List action is not restorehealth, cleanup, resetbase, spsuperseded, checkhealth, analyze, winre, or winsxs.%#$%&&EXIT /B
+IF NOT DEFINED BASE_MEAT ECHO ERROR&&EXIT /B
+SET "CAPS_SET=DISM_OPER"&&SET "CAPS_VAR=%DISM_OPER%"&&CALL:CAPS_SET
+IF NOT "%DISM_OPER%"=="RESTOREHEALTH" IF NOT "%DISM_OPER%"=="CLEANUP" IF NOT "%DISM_OPER%"=="RESETBASE" IF NOT "%DISM_OPER%"=="SPSUPERSEDED" IF NOT "%DISM_OPER%"=="CHECKHEALTH" IF NOT "%DISM_OPER%"=="ANALYZE" IF NOT "%DISM_OPER%"=="WINRE" IF NOT "%DISM_OPER%"=="WINSXS" ECHO  %XLR4%ERROR: Action is not restorehealth, cleanup, resetbase, spsuperseded, checkhealth, analyze, winre, or winsxs.%#$%&&EXIT /B
 CALL:IF_LIVE_MIX
 IF "%DISM_OPER%"=="RESTOREHEALTH" ECHO Executing %#@%DISM Restorehealth%#$%...&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /Restorehealth
 IF "%DISM_OPER%"=="CLEANUP" ECHO Executing %#@%DISM StartComponentCleanup%#$%...&&DISM /ENGLISH /%APPLY_TARGET% /CLEANUP-IMAGE /StartComponentCleanup
@@ -2656,7 +2671,11 @@ IF NOT DEFINED ERROR CALL:BCD_CREATE>NUL 2>&1
 CALL:EFI_UNMOUNT&&ECHO  Done.&&CALL:PAD_LINE
 EXIT /B
 :UPDATE_RECOVERY
-CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&ECHO                            Recovery Update&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) Program&&ECHO  (%##%2%#$%) Recovery Password&&ECHO  (%##%3%#$%) Boot Media&&ECHO  (%##%4%#$%) EFI Files&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE
+CLS&&CALL:SETS_HANDLER
+IF "%FREE%" LSS "3" SET "ERROR=1"
+IF "%FREE%"=="ERROR" SET "ERROR=1"
+IF DEFINED ERROR CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO.        Not enough free space. Clear some space and try again.&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAUSED&EXIT /B
+CALL:PAD_LINE&&ECHO                            Recovery Update&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO  (%##%1%#$%) Program&&ECHO  (%##%2%#$%) Recovery Password&&ECHO  (%##%3%#$%) Boot Media&&ECHO  (%##%4%#$%) EFI Files&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE
 ECHO                         Select a (%##%#%#$%) to update&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
@@ -2944,7 +2963,8 @@ IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
 FOR %%a in (1 2 3 4 5 6 7 8 9 10) DO (IF "%%a"=="%SELECT%" CALL:T%SELECT%X)
 GOTO:TASK_MENU
 :T1X
-@ECHO OFF&&CLS&&CALL:TITLE_X&&CALL:PAD_LINE&&ECHO                              Sysprep Menu&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO. (%##%1%#$%) Audit Mode&&ECHO. (%##%2%#$%) Generalize&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+@ECHO OFF&&CLS&&IF NOT EXIST "%WINDIR%\SYSTEM32\SYSPREP\SYSPREP.EXE" ECHO ERROR: SYSPREP NOT AVAILABLE&&EXIT /B
+CALL:TITLE_X&&CALL:PAD_LINE&&ECHO                              Sysprep Menu&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO. (%##%1%#$%) Audit Mode&&ECHO. (%##%2%#$%) Generalize&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF "%SELECT%"=="1" CALL:SYSPREP_AUD&&SET "SELECT="
 IF "%SELECT%"=="2" CALL:SYSPREP_GEN&&SET "SELECT="
 EXIT /B
