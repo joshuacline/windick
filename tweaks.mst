@@ -195,3 +195,11 @@ BASE-GROUP
 [COMMAND][Net User %PIPE2% /passwordchg:No][EXECUTE][SC]
 [COMMAND][Net Accounts /maxpwage:unlimited][EXECUTE][SC]
 [COMMAND][WMIC USERACCOUNT WHERE Name="%PIPE2%" SET PasswordExpires=FALSE][EXECUTE][SC]
+
+[GROUP][Miscellaneous][Skip initial OOBE setup]
+[REGISTRY]["%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\OOBE" /v "HideEULAPage" /t REG_DWORD /d "1" /f][ADD][IA]
+[REGISTRY]["%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\OOBE" /v "HideLocalAccountScreen" /t REG_DWORD /d "1" /f][ADD][IA]
+[REGISTRY]["%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\OOBE" /v "HideOnlineAccountScreens" /t REG_DWORD /d "1" /f][ADD][IA]
+[REGISTRY]["%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\OOBE" /v "HideWirelessSetupInOOBE" /t REG_DWORD /d "1" /f][ADD][IA]
+[REGISTRY]["%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\OOBE" /v "SkipMachineOOBE" /t REG_DWORD /d "1" /f][ADD][IA]
+[REGISTRY]["%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\OOBE" /v "SkipUserOOBE" /t REG_DWORD /d "1" /f][ADD][IA]

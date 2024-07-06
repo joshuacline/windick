@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1165 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1166 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -126,6 +126,11 @@ CALL ECHO.%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%&&SET "
 CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%#$% &&SET "@1=%@4%"&SET "@2=%@1%"&SET "@3=%@2%"&SET "@4=%@3%"
 FOR %%a in (X) DO (SET "RND_SET=XXX"&&CALL:RANDOM&&SET "XXX=")
 SET /A "XNTZ+=1"&&IF NOT "%XNTZ%"=="5" GOTO:LOGO_X
+EXIT /B
+:PAD_WRITE
+IF NOT DEFINED CHCP_TMP FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_TMP=%%a"
+CHCP 65001 >NUL&&ECHO;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■&&CHCP %CHCP_TMP% >NUL
+::ECHO.>>"TXT.TXT" 2>&1
 EXIT /B
 :ARGUE
 CALL SET "ARG%ARGZ%=%ARGX:"=%"
@@ -534,7 +539,7 @@ EXIT /B
 SET "RND1=%RANDOM%%RANDOM%"&&SET "RND1=!RND1:~5,5!"&&SET "RND1=!RND1:~1,1!"
 EXIT /B
 :CLEAN
-FOR %%G in (HZ TMP LST DSK PAK DRVR) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL)
+FOR %%G in (HZ TMP LST DSK PAK) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL)
 IF EXIST "%TEMP%\DISK_TARGET" DEL /Q /F "%TEMP%\DISK_TARGET">NUL 2>&1
 EXIT /B
 :CHECK
@@ -864,18 +869,18 @@ GOTO:IMAGE_PROCESSING
 :IMAGEPROC_START
 SET "ERROR="&&SET "APPLYDIR_MASTER=V:"&&SET "CAPTUREDIR_MASTER=V:"&&SET "VHDX_MB=%VHDX_SIZE%"&&IF NOT "%PROG_MODE%"=="COMMAND" CLS
 CALL:PAD_LINE&&CALL:BOXT2&&ECHO          %#@%IMAGE PROCESSING START:%#$%  %DATE%  %TIME%
-IF EXIST "V:\" SET "ERROR=1"&&ECHO.&&ECHO.%##%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%&&ECHO.
-IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% not set.%#$%
-IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% not set.%#$%
-IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% not set.%#$%
-IF "%TARGET_TYPE%"=="WIM" IF "%WIM_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% not set.%#$%
-IF "%SOURCE_TYPE%"=="VHDX" IF "%VHDX_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% not set.%#$%
-IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% not set.%#$%
-IF "%PROG_MODE%"=="COMMAND" IF "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "%PATH_SOURCE%\*" SET "ERROR=1"&&ECHO.&&ECHO. %##%Source %SOURCE_TYPE% doesn't exist.%#$%
-IF "%PROG_MODE%"=="COMMAND" IF "%TARGET_TYPE%"=="PATH" IF NOT EXIST "%PATH_TARGET%\*" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %TARGET_TYPE% doesn't exist.%#$%
-IF "%PROG_MODE%"=="RAMDISK" IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %##%Cannot use vhdx host partition S:\ as a path.%#$%
-IF "%PROG_MODE%"=="RAMDISK" IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %##%Cannot use vhdx host partition S:\ as a path.%#$%
-IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO. %##%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%
+IF EXIST "V:\" SET "ERROR=1"&&ECHO.&&ECHO.     %XLR4%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%&&ECHO.
+IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Source %SOURCE_TYPE% not set.%#$%
+IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Source %SOURCE_TYPE% not set.%#$%
+IF "%SOURCE_TYPE%"=="VHDX" IF "%VHDX_SOURCE%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Source %SOURCE_TYPE% not set.%#$%
+IF "%TARGET_TYPE%"=="WIM" IF "%WIM_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Target %TARGET_TYPE% not set.%#$%
+IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Target %TARGET_TYPE% not set.%#$%
+IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Target %TARGET_TYPE% not set.%#$%
+IF "%PROG_MODE%"=="COMMAND" IF "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "%PATH_SOURCE%\*" SET "ERROR=1"&&ECHO.&&ECHO.                         %XLR4%Source %SOURCE_TYPE% doesn't exist.%#$%
+IF "%PROG_MODE%"=="COMMAND" IF "%TARGET_TYPE%"=="PATH" IF NOT EXIST "%PATH_TARGET%\*" SET "ERROR=1"&&ECHO.&&ECHO.                         %XLR4%Target %TARGET_TYPE% doesn't exist.%#$%
+IF "%PROG_MODE%"=="RAMDISK" IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition S:\ as a path.%#$%
+IF "%PROG_MODE%"=="RAMDISK" IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition S:\ as a path.%#$%
+IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%
 IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" CALL:BOXT2&&ECHO.&&ECHO                     File %#@%%VHDX_TARGET%%#$% already exists.&&ECHO   %XLR2%Note:%#$% Updating may cause errors. Try a new vhdx if having issues.&&ECHO.&&ECHO.                        Press (%##%X%#$%) to overwrite.&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" SET "ERROR=1"&&ECHO.&&ECHO. %##%Aborted.%#$%
 IF DEFINED ERROR GOTO:IMAGEPROC_CLEANUP
@@ -951,18 +956,17 @@ EXIT /B
 @ECHO OFF&&CLS&&SET "LIVE_APPLY="&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO                            Image Management&&CALL:PAD_LINE
 IF NOT DEFINED BRUTE_FORCE SET "BRUTE_FORCE=DISABLED"
 IF NOT DEFINED SAFE_EXCLUDE SET "SAFE_EXCLUDE=ENABLED"
-CALL:BOXT1&&ECHO   %#@%AVAILABLE VHDX'S%#$%:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE
-ECHO  [%#@%VHDX%#$%]    (%##%I%#$%)nspect      (%##%M%#$%)ount / Unmount&&CALL:PAD_LINE
 IF EXIST "%PACK_FOLDER%\*.PKX" CALL:BOXT1&&ECHO   %#@%AVAILABLE ALL-IN-ONES:%#$%&&SET "BLIST=PKX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE
 IF EXIST "%LIST_FOLDER%\*.LST" CALL:BOXT1&&ECHO   %#@%AVAILABLE EXEC LISTS:%#$%&&SET "BLIST=LST"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE
 IF NOT EXIST "%PACK_FOLDER%\*.PKX" IF NOT EXIST "%LIST_FOLDER%\*.LST" CALL:BOXT1&&ECHO   %#@%AVAILABLE EXEC LISTS/ALL-IN-ONES:%#$%&&SET "BLIST=LST"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE
 ECHO  [%#@%LIST%#$%]    (%##%N%#$%)ew      (%##%E%#$%)dit     (%##%G%#$%)o^^!                    (%##%O%#$%)ptions&&CALL:PAD_LINE
-IF DEFINED ADV_IMGM ECHO  [%#@%OPTIONS%#$%] (%##%B%#$%)rute Force %#@%%BRUTE_FORCE%%#$% (%##%X%#$%)Mount ISO (%##%S%#$%)afe Exclude %#@%%SAFE_EXCLUDE%%#$%&&CALL:PAD_LINE
+IF DEFINED ADV_IMGM ECHO  [%#@%OPTIONS%#$%] (%##%B%#$%)rute Force %#@%%BRUTE_FORCE%%#$% (%##%S%#$%)afe Exclude %#@%%SAFE_EXCLUDE%%#$% (%##%X%#$%)Mount ISO&&CALL:PAD_LINE
+IF DEFINED ADV_IMGM IF EXIST "V:\*" ECHO  [%#@%VHDX%#$%]    (%##%M%#$%)ount / Unmount: %XLR4%Drive Letter V: is mounted or in use%#$%&&CALL:PAD_LINE
+IF DEFINED ADV_IMGM IF NOT EXIST "V:\*" ECHO  [%#@%VHDX%#$%]    (%##%M%#$%)ount / Unmount: %XLR5%Drive Letter V: is available for use%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_TARGET IF "%PROG_SOURCE%"=="%PROG_FOLDER%" GOTO:MAIN_MENU
 IF "%SELECT%"=="G" CALL:IMAGEMGR_CHOICE&&SET "SELECT="
-IF "%SELECT%"=="I" CALL:IMAGEMGR_INSPECT&&SET "SELECT="
 IF "%SELECT%"=="N" CALL:IMAGEMGR_LIST_MAIN&&SET "SELECT="
 IF "%SELECT%"=="O" IF DEFINED ADV_IMGM SET "ADV_IMGM="&&SET "SELECT="
 IF "%SELECT%"=="O" IF NOT DEFINED ADV_IMGM SET "ADV_IMGM=1"&&SET "SELECT="
@@ -1020,8 +1024,9 @@ IF NOT DEFINED ISO_LETTER EXIT /B
 EXIT /B
 :VHDX_MOUNT
 IF NOT DEFINED $PICK EXIT /B
-SET "VDISK=%$PICK%"&&CALL:PAD_LINE&&ECHO  Attaching %$PICK%&&CALL:PAD_LINE&&CALL:VDISK_ATTACH
-IF NOT EXIST "V:\" ECHO  Error mounting %$PICK%&&CALL:PAD_LINE&&CALL:VDISK_DETACH
+FOR %%G in ("%$PICK%") DO (SET "VHDX_123=%%~nG%%~xG")
+SET "VDISK=%$PICK%"&&ECHO  Mounting %#@%%VHDX_123%%#$%...&&SET "VHDX_123="&&CALL:VDISK_ATTACH
+IF NOT EXIST "V:\" ECHO ERROR&&CALL:VDISK_DETACH
 EXIT /B
 :VDISK_CREATE
 IF NOT DEFINED VDISK EXIT /B
@@ -1029,18 +1034,18 @@ CALL:VDISK_DETACH>NUL 2>&1
 IF NOT DEFINED VHDX_MB SET "VHDX_MB=25600"
 IF EXIST "%VDISK%" DEL /Q /F "%VDISK%">NUL 2>&1
 (ECHO.create vdisk file="%VDISK%" maximum=%VHDX_MB% type=expandable&&ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk&&ECHO.create partition primary&&ECHO.select partition 1&&ECHO.format fs=ntfs quick&&ECHO.Assign letter=V noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-SET "VHDX_MB="&&DEL /F "$DSK">NUL 2>&1
+SET "VHDX_MB="&&IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :VDISK_ATTACH
 SET "VDISK_SYS="&&CALL:VDISK_DETACH>NUL 2>&1
 (ECHO.Select vdisk file="%VDISK%"&&ECHO.Attach vdisk&&ECHO.select partition 1&&ECHO.Assign letter=V noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF EXIST "V:\WINDOWS" SET "VDISK_SYS=1"
-DEL /F "$DSK">NUL 2>&1
+IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :VDISK_DETACH
 (ECHO.Select vdisk file="%VDISK%"&&ECHO.Detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-IF EXIST "V:\" CALL:VDISK_BRUTE
-DEL /F "$DSK">NUL 2>&1
+IF EXIST "V:\*" CALL:VDISK_BRUTE
+IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :VDISK_BRUTE
 (ECHO.List Volume&&ECHO.Exit)>"$DSK1"&&DISKPART /s "$DSK1">"$DSK2"
@@ -1050,10 +1055,11 @@ SET "DISK_TMP="&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ($DSK2) DO (
 IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISK_TMP=%%b"
 IF "%%a"=="*" IF "%%b"=="Disk" SET "DISK_TMP=%%c")
 (ECHO.List Vdisk&&ECHO.Exit)>"$DSK1"&&DISKPART /s "$DSK1">"$DSK2"
-SET "VDISK_TMP="&&FOR /F "TOKENS=1-9* DELIMS= " %%a IN ($DSK2) DO (IF "%%a"=="VDisk" IF "%%d"=="%DISK_TMP%" IF EXIST "%%i" SET "VDISK_TMP=%%i")
-CALL:PAD_LINE&&CALL ECHO  Detaching %VDISK_TMP%&&CALL:PAD_LINE
+SET "VDISK_TMP="&&FOR /F "TOKENS=1-8* DELIMS= " %%a IN ($DSK2) DO (IF "%%a"=="VDisk" IF "%%d"=="%DISK_TMP%" IF EXIST "%%i" SET "VDISK_TMP=%%i")
+FOR %%G in ("%VDISK_TMP%") DO (SET "VHDX_123=%%~nG%%~xG")
+CALL ECHO  Unmounting %#@%%VHDX_123%%#$%...&&SET "VHDX_123="
 (ECHO.Select vdisk file="%VDISK_TMP%"&&ECHO.Detach vdisk&&ECHO.Exit)>"$DSK1"&&DISKPART /s "$DSK1" >NUL 2>&1
-DEL /F "$DSK*">NUL 2>&1
+IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :VDISK_COMPACT
 (ECHO.Select vdisk file="%$PICK%"&&ECHO.Attach vdisk readonly&&ECHO.compact vdisk&&ECHO.detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"&&DEL "$DSK">NUL 2>&1
@@ -1519,15 +1525,16 @@ EXIT /B
 ::#########################################################################
 IF NOT DEFINED SAFE_EXCLUDE SET "SAFE_EXCLUDE=ENABLED"
 SET "ERR_MSG="&&IF "%LIVE_APPLY%"=="1" GOTO:THE_ACTION
-IF EXIST "V:\" SET "ERR_MSG=%##%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%"&&GOTO:THE_ACTION_CLEANUP
+IF EXIST "V:\" SET "ERR_MSG=     %XLR4%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%"&&GOTO:THE_ACTION_CLEANUP
 CALL:VDISK_ATTACH
-IF NOT "%VDISK_SYS%"=="1" SET "ERR_MSG=             %##%Vdisk error or Windows not installed on Vdisk.%#$%"&&CALL:VDISK_DETACH&&GOTO:THE_ACTION_CLEANUP
+IF NOT "%VDISK_SYS%"=="1" SET "ERR_MSG=           %XLR4%Vdisk error or Windows is not installed on Vdisk.%#$%"&&CALL:VDISK_DETACH&&GOTO:THE_ACTION_CLEANUP
 :THE_ACTION
 CALL:UNIFIED_LIST_RUN
 CALL:MOUNT_NONE
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
 :THE_ACTION_CLEANUP
-IF DEFINED ERR_MSG ECHO.&&ECHO %ERR_MSG%
+IF DEFINED ERR_MSG IF "%PROG_MODE%"=="COMMAND" ECHO.&&ECHO %ERR_MSG%
+IF DEFINED ERR_MSG IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO %ERR_MSG%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE
 CALL:SCRATCH_DELETE&&CALL:AIO_DELETE&&CALL:TITLECARD&&IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :UNIFIED_LIST_RUN
@@ -1877,52 +1884,6 @@ SET "SUBZ=%QUERYX%_%SUBX%"&&SET "DNTX="&&FOR %%a in (%STRINGX%) DO (IF "%QUERYX%
 IF NOT DEFINED DNTX (TAKEOWN /F "%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" /R /D Y>NUL 2>&1
 ICACLS "%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" /grant %USERNAME%:F /T>NUL 2>&1
 RD /Q /S "\\?\%WINTAR%\%WinSxS%\%QUERYX%_%SUBX%" >NUL 2>&1) ELSE (ECHO Keeping %#@%%QUERYX%_%SUBX%%#$%)
-EXIT /B
-:IMAGEMGR_INSPECT
-SET "ERR_MSG="&&SET "REPORT_IMAGE="&&SET "MENU_INSERTA= ( %##%@%#$% ) %##%Current-Environment%#$%"&&SET "NOECHO1=1"&&SET "PICK=VHDX"&&CALL:FILE_PICK
-IF NOT "%LIVE_APPLY%"=="1" IF NOT DEFINED $PICK EXIT /B
-IF "%LIVE_APPLY%"=="1" IF NOT DEFINED DISCLAIMER CALL:DISCLAIMER&EXIT /B
-IF "%LIVE_APPLY%"=="1" SET "REPORT_IMAGE=LIVE"&&GOTO:INSPECT_JUMP_LIVE
-IF EXIST "V:\" SET "ERR_MSG=%##%Drive letter V:\ can NOT be in use. Unmount the Vdisk in use.%#$%"&&CALL:PAD_LINE&&ECHO.&&GOTO:INSPECT_CLEANUP
-SET "REPORT_IMAGE=%$ELECT$%"&&CALL:SCRATCH_CREATE&&SET "VDISK=%IMAGE_FOLDER%\%$ELECT$%"&&CALL:VDISK_ATTACH&&CALL:MOUNT_EXT
-IF NOT "%VDISK_SYS%"=="1" SET "ERR_MSG=             %##%Vdisk error or Windows not installed on Vdisk.%#$%"&&CALL:VDISK_DETACH&&GOTO:INSPECT_CLEANUP
-:INSPECT_JUMP_LIVE
-CALL:PAD_LINE&&ECHO                             Performing scan...&&CALL:TITLECARD&&CALL:IF_LIVE_EXT
-CALL:PAD_WRITE>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-ECHO STARTUP ITEMS REPORT>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-IF EXIST "%APPLYDIR_MASTER%\WINDOWS\Setup\Scripts\SETUPCOMPLETE.CMD" ECHO.SetupComplete.cmd located in \WINDOWS\Setup\Scripts>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-IF NOT EXIST "%APPLYDIR_MASTER%\WINDOWS\Setup\Scripts\SETUPCOMPLETE.CMD" ECHO.No SetupComplete.cmd exists in image>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-IF EXIST "%APPLYDIR_MASTER%\WINDOWS\PANTHER\UNATTEND.XML" ECHO.Unattend.xml located in \WINDOWS\PANTHER>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-IF NOT EXIST "%APPLYDIR_MASTER%\WINDOWS\PANTHER\UNATTEND.XML" ECHO.No Unattend.xml exists in image>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-ECHO Searching: %HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Run>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\Run">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: %HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_USER%\Software\Microsoft\Windows\CurrentVersion\RunOnce">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Run>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Run">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnceEx>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnceEx">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: %HIVE_SOFTWARE%\Wow6432Node\Microsoft\Windows\CurrentVersion\Run>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_SOFTWARE%\Wow6432Node\Microsoft\Windows\CurrentVersion\Run">>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-ECHO Searching: %HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Winlogon" /f Userinit /c /e /s>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT" 2>&1
-CALL:MOUNT_NONE
-IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
-CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-ECHO  Inspection Complete [%REPORT_IMAGE%] %DATE% %TIME% >>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-CALL:PAD_WRITE>>"%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-START NOTEPAD.EXE "%PROG_SOURCE%\%REPORT_IMAGE%_REPORT.TXT"
-:INSPECT_CLEANUP
-IF DEFINED ERR_MSG CALL:PAD_LINE&&ECHO %ERR_MSG%
-CALL:SCRATCH_DELETE&&CALL:PAD_LINE&&CALL:PAUSED
-EXIT /B
-:PAD_WRITE
-IF NOT DEFINED CHCP_TMP FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_TMP=%%a"
-CHCP 65001 >NUL&&ECHO;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■&&CHCP %CHCP_TMP% >NUL
 EXIT /B
 :SCRATCH_CREATE
 IF NOT DEFINED SCRATCHDIR SET "SCRATCHDIR=%PROG_SOURCE%\Scratch"
