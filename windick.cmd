@@ -445,7 +445,7 @@ EXIT /B
 IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_QUERY>NUL
 IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_DETECT%"
 IF DEFINED ARG2 IF "%ARG3%"=="-DISK" IF "%DISK_TARGET%"=="00000000" ECHO.Disk uid 00000000 can not addressed by uid. Convert to GPT first (erase).&&EXIT /B
-IF "%ARG2%"=="-LIST" CALL:DISK_QUERY
+IF "%ARG2%"=="-LIST" CALL:DISK_LIST
 IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISK_QUERY>NUL 2>&1
 IF "%ARG3%"=="-DISK" IF DEFINED ARG4 CALL SET "DISK_TARGET=%%DISKID_%DISK_NUMBER%%%"&&CALL:DISK_QUERY>NUL
 IF "%ARG2%"=="-INSPECT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISKMGR_INSPECT
@@ -2113,9 +2113,7 @@ EXIT /B
 ::#########################################################################
 :DISK_MANAGER
 ::#########################################################################
-@ECHO OFF&&CLS&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENUX="&&SET "ERROR="&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO.                            Disk Management&&CALL:PAD_LINE
-IF NOT DEFINED ADV_DISK CALL:DISK_QUERY_SIMPLE&&CALL:PAD_LINE
-IF DEFINED ADV_DISK SET "NOBOX=1"&&CALL:DISK_QUERY&&CALL:PAD_LINE
+@ECHO OFF&&CLS&&SET "DISK_LETTER="&&SET "DISK_MSG="&&SET "MENUX="&&SET "ERROR="&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO.                            Disk Management&&CALL:PAD_LINE&&CALL:DISK_LIST_BASIC&&CALL:PAD_LINE
 IF NOT DEFINED HOST_HIDE SET "HOST_HIDE=DISABLED"
 IF NOT DEFINED HOST_HIDE SET "HOST_HIDE=DISABLED"
 IF NOT DEFINED NEXT_BOOT SET "NEXT_BOOT=QUERY"
@@ -2136,11 +2134,11 @@ IF "%SELECT%"=="V" SET "PICK=VHDX"&&CALL:FILE_PICK&&CALL:VHDX_MOUNT&&SET "SELECT
 IF "%SELECT%"=="B" IF EXIST "%BOOT_FOLDER%\boot.sav" GOTO:BOOT_CREATOR
 IF "%SELECT%"=="UID" CALL:DISK_MENU&&CALL:DISK_UID_PROMPT&&CALL:DISK_PART_END&&SET "SELECT="
 IF "%SELECT%"=="E" CALL:DISK_ERASE_PROMPT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="I" SET "QUERY_MSG=                         Select a disk to inspect"&&CALL:DISK_MENU&&CALL:DISKMGR_INSPECT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="C" SET "QUERY_MSG=                    Select a disk to create partition"&&CALL:DISK_MENU&&CALL:PART_CREATE_PROMPT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="F" SET "QUERY_MSG=                    %XLR2%Select a disk to format partition%#$%"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_FORMAT&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="D" SET "QUERY_MSG=                    %XLR2%Select a disk to delete partition%#$%"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_DELETE&&CALL:DISK_PART_END&&SET "SELECT="
-IF "%SELECT%"=="M" SET "QUERY_MSG=                    Select a disk to mount partition"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:LETTER_GET&&CALL:CONFIRM&&CALL:DISKMGR_MOUNT&SET "SELECT="
+IF "%SELECT%"=="I" SET "QUERY_MSG=                        Select a disk to inspect"&&CALL:DISK_MENU&&CALL:DISKMGR_INSPECT&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="C" SET "QUERY_MSG=                   Select a disk to create partition"&&CALL:DISK_MENU&&CALL:PART_CREATE_PROMPT&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="F" SET "QUERY_MSG=                   %XLR2%Select a disk to format partition%#$%"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_FORMAT&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="D" SET "QUERY_MSG=                   %XLR2%Select a disk to delete partition%#$%"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:CONFIRM&&CALL:DISKMGR_DELETE&&CALL:DISK_PART_END&&SET "SELECT="
+IF "%SELECT%"=="M" SET "QUERY_MSG=                   Select a disk to mount partition"&&CALL:DISK_MENU&&CALL:PART_GET&&CALL:LETTER_GET&&CALL:CONFIRM&&CALL:DISKMGR_MOUNT&SET "SELECT="
 IF "%SELECT%"=="B" IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOOT_FETCH
 IF "%SELECT%"=="B" IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:PAD_LINE&&ECHO.   Import boot media from within image processing before proceeding.&&CALL:PAD_LINE&&CALL:PAUSED
 IF "%SELECT%"=="H" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="DISABLED" SET "HOST_HIDE=ENABLED"&&SET "SELECT="&&CALL:PAD_LINE&&ECHO.VHDX host partition will be hidden upon exit. Boot into recovery to revert.&&CALL:PAD_LINE&&CALL:PAUSED
@@ -2278,7 +2276,7 @@ EXIT /B
 :PART_CREATE_PROMPT
 IF DEFINED ERROR EXIT /B
 IF NOT DEFINED DISK_NUMBER EXIT /B
-CALL:BOXT2&&ECHO.&&ECHO.            Enter a partition size. (%##%0%#$%) Remainder of space &&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
+CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO.            Enter a partition size. (%##%0%#$%) Remainder of space &&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT&&SET "CHECK=NUM"&&CALL:CHECK
 IF NOT DEFINED ERROR SET "PART_SIZE=%SELECT%"&&CALL:CONFIRM&&CALL:DISKMGR_CREATE
 EXIT /B
 :DISKMGR_CREATE
@@ -2426,7 +2424,7 @@ IF EXIST "S:\" (ECHO.select VOLUME S&&ECHO.Remove letter=S noerr&&ECHO.Exit)>"$D
 IF EXIST "S:\" (ECHO.select VOLUME %HOST_VOLUME%&&ECHO.assign letter=%HOST_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"
 SET "HOST_TARGET=%DISK_TARGET%"&&IF DEFINED ARBIT_FLAG CALL:DISK_QUERY>NUL 2>&1
-IF NOT DEFINED ARBIT_FLAG SET "NOBOX=1"&&SET "QUERY_X=1"&&CALL:DISK_QUERY
+IF NOT DEFINED ARBIT_FLAG SET "QUERY_X=1"&&CALL:DISK_QUERY
 SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=S"&&CALL:PART_ASSIGN
 IF EXIST "S:\" IF NOT EXIST "S:\$" MD "S:\$">NUL 2>&1
 IF EXIST "S:\$" IF NOT EXIST "S:\$\windick.cmd" IF EXIST "X:\$\windick.cmd" COPY "X:\$\windick.cmd" "S:\$">NUL 2>&1
@@ -2466,38 +2464,53 @@ IF "%BOOT_TARGET%"=="RECOVERY" SET "NEXT_BOOT=RECOVERY"&&BCDEDIT.EXE /displayord
 CALL:BOOT_QUERY&&SET "BOOT_TARGET="
 EXIT /B
 :DISK_MENU
-CLS&&SET "ERROR="&&SET "DISK_TARGET="&&CALL:PAD_LINE&&CALL:DISK_QUERY
+CLS&&SET "ERROR="&&SET "DISK_TARGET="&&CALL:PAD_LINE&&SET "GET_DISK=1"&&CALL:DISK_LIST
 CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=DISK_NUMBER"&&CALL:PROMPT_SET
 SET "CHECK=NUM"&&SET "CHECK_VAR=%DISK_NUMBER%"&&CALL:CHECK&&IF NOT DEFINED DISK_%DISK_NUMBER% SET "ERROR=1"
 IF DEFINED ERROR EXIT /B
-CALL SET "DISK_TARGET=%%DISKID_%DISK_NUMBER%%%"&&CALL:DISK_QUERY>NUL
+CALL SET "DISK_TARGET=%%DISKID_%DISK_NUMBER%%%"&&CALL:DISK_QUERY>NUL 2>&1
 FOR %%G in (DISK_NUMBER DISK_TARGET) DO (IF NOT DEFINED %%G SET "ERROR=1")
 IF DEFINED HOST_NUMBER IF "%DISK_NUMBER%"=="%HOST_NUMBER%" SET "ERROR=1"
 IF DEFINED HOST_TARGET IF "%HOST_TARGET%"=="%DISK_TARGET%" SET "ERROR=1"
 EXIT /B
-:DISK_QUERY
+:DISK_LIST
 IF NOT DEFINED NOBOX CALL:BOXT1
 IF DEFINED QUERY_MSG ECHO.%QUERY_MSG%
+(ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-5 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
+IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISKVND="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&SET "LTRX=X"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
+IF "%%1 %%2"=="Disk %%b" ECHO.&&ECHO.   %#@%Disk%#$% ^(%##%%%b%#$%^)
+IF NOT "%%1 %%2"=="Disk %%b" IF NOT DEFINED DISKVND SET "DISKVND=$"&&ECHO.   %%1 %%2 %%3 %%4 %%5
+IF "%%1"=="Type" ECHO.    %#@%Type%#$% = %%2
+IF "%%1 %%2"=="Disk ID" ECHO.    %#@%UID%#$%  = %%3
+IF "%%1 %%2 %%3"=="Pagefile Disk Yes" ECHO. %XLR2%  Active Pagefile%#$%
+IF "%%1"=="Partition" IF NOT "%%2"=="###" SET "PARTX=%%2"&&SET "SIZEXXX=%%4 %%5"&&(ECHO.select disk %%b&&ECHO.select partition %%2&&ECHO.detail partition&&ECHO.Exit)>"$DSK"&&SET "LTRX="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=* " %%A in ('DISKPART /s "$DSK"') DO (IF "%%A"=="Volume" IF NOT "%%B"=="###" SET "LTRX=%%C"&&CALL:DISK_CHECK)
+IF NOT DEFINED LTRX ECHO.    %#@%Part %%2%#$% Vol * %%4 %%5))
+IF DEFINED GET_DISK CALL:DISK_QUERY>NUL 2>&1
+ECHO.&&IF NOT DEFINED NOBOX CALL:BOXB1
+FOR %%a in (PASS LTRX QUERY_MSG GET_DISK NOBOX) DO (SET "%%a=")
+DEL /Q /F "$DSK*">NUL 2>&1
+EXIT /B
+:DISK_CHECK
+SET "PASS="&&FOR %%$ in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%%$"=="%LTRX%" SET "PASS=1"&&ECHO.    %#@%Part %PARTX%%#$% Vol %#@%%LTRX%%#$% %SIZEXXX%)
+IF NOT DEFINED PASS ECHO.    %#@%Part %PARTX%%#$% Vol * %SIZEXXX%
+EXIT /B
+:DISK_LIST_BASIC
+CALL:BOXT1&&(ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-5 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
+IF "%%a"=="Disk" IF NOT "%%b"=="###" ECHO.&&ECHO.   %#@%%%a%#$% ^(%##%%%b%#$%^)&&SET "DISKVND="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
+IF NOT "%%1 %%2"=="Disk %%b" IF NOT DEFINED DISKVND SET "DISKVND=$"&&ECHO.   %%1 %%2 %%3 %%4 %%5
+FOR %%$ in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%%1"=="Volume" IF "%%3"=="%%$" ECHO.     Vol %#@%%%$%#$%)))
+ECHO.&&CALL:BOXB1&&DEL /Q /F "$DSK*">NUL 2>&1
+EXIT /B
+:DISK_QUERY
 SET "DISK_DETECT="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30) DO (IF DEFINED DISK_%%a SET "DISK_%%a="&&SET "DISKID_%%a=")
-(ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1,2,4 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
-IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISK_%%b="&&SET "DISKVND="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
-IF "%%1 %%2"=="Disk %%b" SET "DISK_%%b=%%b"&&IF NOT DEFINED QUERY_X ECHO.&&ECHO.   %#@%Disk%#$% ^(%##%%%b%#$%^)
-IF NOT "%%1 %%2"=="Disk %%b" IF NOT DEFINED DISKVND SET "DISKVND=$"&&IF NOT DEFINED QUERY_X ECHO.  %#@%Vendor%#$% = %%1 %%2 %%3 %%4 %%5
-IF "%%1"=="Type" IF NOT DEFINED QUERY_X ECHO.   %#@%Type%#$%  = %%2
+(ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1,2,4 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISK_%%b="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
+IF "%%1 %%2"=="Disk %%b" SET "DISK_%%b=%%b"
 IF "%%1 %%2"=="Disk ID" SET "DISKID_%%b=%%3"&&IF "%%3"=="%DISK_TARGET%" SET "DISK_DETECT=%%b"
-IF "%%1 %%2"=="Disk ID" IF NOT DEFINED QUERY_X ECHO.   %#@%UID%#$%   = %%3
 IF "%%1 %%2"=="Disk ID" IF DEFINED QUERY_X ECHO. Getting info for disk uid %##%%%3%#$%...
-IF "%%1 %%2 %%3"=="Pagefile Disk Yes" SET "DISK_%%b="&&IF NOT DEFINED QUERY_X ECHO. %XLR2% Active Pagefile%#$%
-IF "%%1"=="Partition" IF NOT "%%2"=="###" IF NOT DEFINED QUERY_X ECHO. %#@%P%%2 Size%#$% = %%4 %%5
+IF "%%1 %%2 %%3"=="Pagefile Disk Yes" SET "DISK_%%b="
 IF "%%2 %%3 %%4"=="File Backed Virtual" SET "DISK_%%b=VDISK"
 IF "%%1 %%3"=="Volume S" SET "HOST_VOLUME=%%2"))
-ECHO.&&IF NOT DEFINED NOBOX CALL:BOXB1
-SET "QUERY_MSG="&&SET "QUERY_X="&&SET "NOBOX="&&DEL /Q /F "$DSK*">NUL 2>&1
-EXIT /B
-:DISK_QUERY_SIMPLE
-CALL:BOXT1&&ECHO.&&(ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-5 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
-IF "%%a"=="Disk" IF NOT "%%b"=="###" ECHO.   %#@%%%a %%b%#$%&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (FOR %%$ in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%%1"=="Volume" IF "%%3"=="%%$" ECHO.    vol %#@%%%$%#$%)))
-ECHO.&&CALL:BOXB1&&DEL /Q /F "$DSK*">NUL 2>&1
+SET "QUERY_X="&&DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 ::#########################################################################
 :BOOT_CREATOR
@@ -2599,7 +2612,7 @@ IF "%DISK_TARGET%"=="00000000" ECHO.%XLR2%ERROR: Disk uid is 00000000%#$%&&GOTO:
 ECHO. Creating partitions on disk uid %DISK_TARGET%...&&CALL:PART_CREATE
 IF DEFINED ERROR ECHO.%XLR2%ERROR: Disk is currently in use - unplug disk and/or reboot, then try again.%#$%&&GOTO:BOOT_FINISH
 SET "SCRATCHDIR=%PRI_LETTER%:\$\Scratch"&&CALL:SCRATCH_CREATE
-ECHO. Mounting temporary vdisk letter %VDISK_LTR%...&&SET "VDISK=%SCRATCHDIR%\scratch.vhdx"&&SET "VDISK_LTR=ANY"&&CALL:VDISK_CREATE>NUL 2>&1
+ECHO. Mounting temporary vdisk...&&SET "VDISK=%SCRATCHDIR%\scratch.vhdx"&&SET "VDISK_LTR=ANY"&&CALL:VDISK_CREATE>NUL 2>&1
 IF EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO. Extracting boot-media. Using boot.sav located in folder...&&COPY /Y "%BOOT_FOLDER%\boot.sav" "%PRI_LETTER%:\$\boot.wim">NUL 2>&1
 SET "IMAGEFILE=%PRI_LETTER%:\$\boot.wim"&&SET "INDEX_WORD=Setup"&&CALL:FIND_INDEX&&CALL:TITLECARD
 MOVE /Y "%PRI_LETTER%:\$\boot.wim" "%PRI_LETTER%:\$\boot.sav">NUL 2>&1
@@ -2615,6 +2628,11 @@ IF NOT EXIST "%EFI_LETTER%:\Boot\boot.sdi" SET "ERROR=1"&&ECHO.%XLR2%ERROR: boot
 IF EXIST "%BOOT_FOLDER%\bootmgfw.efi" ECHO. Using bootmgfw.efi located in folder.&&COPY /Y "%BOOT_FOLDER%\bootmgfw.efi" "%EFI_LETTER%:\EFI\Boot\bootx64.efi">NUL&&COPY /Y "%BOOT_FOLDER%\bootmgfw.efi" "%PRI_LETTER%:\$">NUL
 IF NOT EXIST "%BOOT_FOLDER%\bootmgfw.efi" COPY /Y "%APPLYDIR%\Windows\Boot\EFI\bootmgfw.efi" "%EFI_LETTER%:\EFI\Boot\bootx64.efi">NUL 2>&1
 IF NOT EXIST "%EFI_LETTER%:\EFI\Boot\bootx64.efi" SET "ERROR=1"&&ECHO.%XLR2%ERROR: bootmgfw.efi missing%#$%&&GOTO:BOOT_CLEANUP
+
+TAKEOWN /F "%WINTAR%\System32\setup.bmp">NUL 2>&1
+ICACLS "%WINTAR%\System32\setup.bmp" /grant %USERNAME%:F>NUL 2>&1
+IF EXIST "%CACHE_FOLDER%\wallpaper.jpg" COPY /Y "%CACHE_FOLDER%\wallpaper.jpg" "%WINTAR%\System32\setup.bmp">NUL 2>&1
+
 IF EXIST "%APPLYDIR%\setup.exe" DEL /Q /F "\\?\%APPLYDIR%\setup.exe">NUL 2>&1
 IF EXIST "%APPLYDIR%\$\RECOVERY_LOCK" DEL /Q /F "\\?\%APPLYDIR%\$\RECOVERY_LOCK">NUL 2>&1
 COPY /Y "%APPLYDIR%\Windows\System32\config\ELAM" "%TEMP%\BCD">NUL 2>&1
@@ -2628,7 +2646,7 @@ REM DISM /IMAGE:"%APPLYDIR%" /SET-SCRATCHSPACE:512 >NUL 2>&1
 ECHO. Saving boot-media...&&CALL:TITLECARD
 SET "IMAGEFILE=%EFI_LETTER%:\$.WIM"&&CALL:CAPTURE_IMAGE
 :BOOT_CLEANUP
-ECHO. Unmounting temporary vdisk letter %VDISK_LTR%...&&SET "VDISK=%SCRATCHDIR%\scratch.vhdx"&&CALL:VDISK_DETACH>NUL 2>&1
+ECHO. Unmounting temporary vdisk...&&SET "VDISK=%SCRATCHDIR%\scratch.vhdx"&&CALL:VDISK_DETACH>NUL 2>&1
 ECHO. Unmounting EFI...&&CALL:SCRATCH_DELETE&&CALL:EFI_UNMOUNT
 IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%VHDX_SLOTX%" IF EXIST "%PRI_LETTER%:\$" ECHO. Copying %#@%%VHDX_SLOTX%%#$%...&&COPY /Y "%IMAGE_FOLDER%\%VHDX_SLOTX%" "%PRI_LETTER%:\$">NUL 2>&1
 IF NOT DEFINED ERROR IF NOT EXIST "%IMAGE_FOLDER%\%VHDX_SLOTX%" ECHO. No VHDX was selected. You can modify the boot menu while booted into recovery.
