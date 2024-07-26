@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1168 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1169 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -6,9 +6,11 @@ IF NOT "%ERRORLEVEL%" EQU "0" ECHO.Right-Click ^& Run As Administrator&&PAUSE&&G
 FOR /F "TOKENS=*" %%a in ('ECHO.%CD%') DO (SET "PROG_FOLDER=%%a")
 SET "CAPS_SET=PROG_FOLDER"&&SET "CAPS_VAR=%PROG_FOLDER%"&&CALL:CAPS_SET
 SET "CHAR_STR=%PROG_FOLDER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&CALL:SID_GET
-IF NOT "%PROG_FOLDER%"=="%SYSTEMDRIVE%\WINDOWS\SYSTEM32" IF EXIST "%PROG_FOLDER%\*" SET "PATH_PASS=1"
-IF NOT DEFINED PATH_PASS ECHO.ERROR: Invalid path or folder name. Relocate, then launch again.&&PAUSE&&GOTO:CLEAN_EXIT
 IF DEFINED CHAR_FLG ECHO.ERROR: Remove the space from the path or folder name, then launch again.&&PAUSE&&GOTO:CLEAN_EXIT
+IF "%PROG_FOLDER%"=="%SYSTEMDRIVE%\WINDOWS\SYSTEM32" ECHO.ERROR: Invalid path or folder name. Relocate, then launch again.&&PAUSE&&GOTO:CLEAN_EXIT
+FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%PROG_FOLDER%") DO (IF "%%a\%%b\%%c"=="%SystemDrive%\WINDOWS\TEMP" SET "PATH_FAIL=1"
+IF "%%a\%%b\%%d\%%e\%%f"=="%SystemDrive%\USERS\APPDATA\LOCAL\TEMP" SET "PATH_FAIL=1")
+IF DEFINED PATH_FAIL ECHO.ERROR: This should not be run from a temp folder. Extract zip into a new folder, then launch again.&&PAUSE&&GOTO:CLEAN_EXIT
 FOR %%1 in (1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
 FOR %%1 in (1 2 3 4 5 6 7 8 9) DO (IF DEFINED ARG%%1 SET "ARGZ=%%1"&&CALL SET "ARGX=%%ARG%%1%%"&&CALL:ARGUE)
 IF DEFINED ARG1 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (
@@ -448,12 +450,13 @@ IF "%ARG2%"=="-LIST" CALL:DISK_LIST
 IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISK_DETECT>NUL 2>&1
 IF "%ARG3%"=="-DISK" IF DEFINED ARG4 CALL SET "DISK_TARGET=%%DISKID_%DISK_NUMBER%%%"&&CALL:DISK_DETECT>NUL
 IF "%ARG2%"=="-INSPECT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISKMGR_INSPECT
-IF "%ARG2%"=="-ERASE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISKMGR_ERASE
+IF "%ARG2%"=="-ERASE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "$GET=TST_LETTER"&&CALL:LETTER_ANY&&CALL:DISKMGR_ERASE
 IF "%ARG2%"=="-CHANGEUID" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "GET_DISK_ID=%ARG5%"&&CALL:DISKMGR_CHANGEID
 IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-SIZE"  IF DEFINED ARG6 SET "PART_SIZE=%ARG6%"&&CALL:DISKMGR_CREATE
 IF "%ARG2%"=="-FORMAT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" IF DEFINED ARG6 SET "PART_NUMBER=%ARG6%"&&CALL:DISKMGR_FORMAT
 IF "%ARG2%"=="-DELETE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" IF DEFINED ARG6 SET "PART_NUMBER=%ARG6%"&&CALL:DISKMGR_DELETE
 IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" IF DEFINED ARG6 SET "PART_NUMBER=%ARG6%"&&IF "%ARG7%"=="-LETTER" IF DEFINED ARG8 SET "DISK_LETTER=%ARG8%"&&CALL:DISKMGR_MOUNT
+IF "%ARG2%"=="-MOUNT" IF "%ARG3%"=="-VHDX" IF EXIST "%IMAGE_FOLDER%\%ARG4%" SET "VDISK=%IMAGE_FOLDER%\%ARG4%"&&IF "%ARG5%"=="-LETTER" IF DEFINED ARG6 SET "VDISK_LTR=%ARG6%"&&CALL:VDISK_ATTACH
 IF "%ARG2%"=="-UNMOUNT" IF "%ARG3%"=="-LETTER" IF DEFINED ARG4 SET "$LTR=%ARG4%"&&CALL:DISKMGR_UNMOUNT
 EXIT /B
 :COMMAND_BOOTMAKER
@@ -504,7 +507,8 @@ ECHO.   -diskmgr -format -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#
 ECHO.   -diskmgr -delete -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#$%              Delete partition on specified disk
 ECHO.   -diskmgr -changeuid -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% %#@%new-uid%#$%           Change disk uid of specified disk
 ECHO.   -diskmgr -mount -disk %#@%#%#$% /or/ -diskuid %#@%uid%#$% -part %#@%#%#$% -letter %#@%letter%#$%         Assign drive letter
-ECHO.   -diskmgr -unmount -letter %#@%letter%#$%                                                                 Remove drive letter
+ECHO.   -diskmgr -unmount -letter %#@%letter%#$%                                         Remove drive letter
+ECHO.   -diskmgr -mount -vhdx %#@%x.vhdx%#$% -letter %#@%letter%#$%                              Mount virtual disk
 ECHO. Examples-
 ECHO.   %#@%-diskmgr -create -disk 0 -size 25600%#$%
 ECHO.   %#@%-diskmgr -mount -disk 0 -part 1 -letter e%#$%
@@ -1561,7 +1565,6 @@ IF "%LIST_ITEM%:%LIST_TIME%"=="EXTPACKAGE:IA" CALL SET "IMAGE_PACK=%PACK_FOLDER%
 EXIT /B
 :COMMAND_EXEC
 IF NOT "%LIST_ACTN%"=="COMMAND" IF NOT "%LIST_ACTN%"=="REGISTRY" ECHO. %XLR4%ERROR: List action is not COMMAND or REGISTRY.%#$%&&EXIT /B
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a="&&SET "COLOR%%a=%%XLR%%a%%")
 IF "%LIST_ACTN%"=="COMMAND" CALL:IF_LIVE_MIX
 IF "%LIST_ACTN%"=="REGISTRY" CALL:IF_LIVE_EXT
 IF "%LIST_ACTN%"=="COMMAND" SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER) DO (CALL SET "%%a_X=%%%%a%%"&&CALL SET "%%a=%XLR2%ERROR: Non-registry command%#@%")
@@ -1572,9 +1575,6 @@ IF "%LIST_ACTN%"=="REGISTRY" IF "%BRUTE_FORCE%"=="ENABLED" CALL CMD.EXE /C %BASE
 IF "%LIST_ACTN%"=="REGISTRY" IF "%BRUTE_FORCE%"=="ENABLED" ECHO.EXIT>>"%PROG_SOURCE%\$BRUTE.CMD"
 IF "%LIST_ACTN%"=="REGISTRY" IF "%BRUTE_FORCE%"=="ENABLED" SC START $BRUTE>NUL 2>&1
 IF "%LIST_ACTN%"=="REGISTRY" IF NOT "%BRUTE_FORCE%"=="ENABLED" CALL CMD.EXE /C %BASE_MEAT%
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=%%COLOR%%a%%")
-CALL CMD /C ECHO.%#$%>NUL
 EXIT /B
 :DRVR_HUNT
 IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: List action is not delete.%#$%&&EXIT /B
@@ -2254,7 +2254,7 @@ IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :DISK_ERASE_PROMPT
 SET "QUERY_MSG=                         %XLR2%Select a disk to erase%#$%"&&CALL:DISK_MENU
-IF NOT DEFINED ERROR CALL:CONFIRM&&CALL:DISKMGR_ERASE
+IF NOT DEFINED ERROR CALL:CONFIRM&&SET "$GET=TST_LETTER"&&CALL:LETTER_ANY&&CALL:DISKMGR_ERASE
 EXIT /B
 :DISKMGR_ERASE
 IF DEFINED ERROR EXIT /B
