@@ -242,9 +242,9 @@ GOTO:BASIC_MODE
 @ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:FREE_CALC&&SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y Z) DO (IF EXIST "%%a:\sources\install.wim" SET "SOURCE_LOCATION=%%a:\sources")
 CALL:PAD_LINE&&ECHO.                    Image Processing / Boot Creator&&CALL:PAD_LINE
 IF DEFINED SOURCE_LOCATION ECHO.  (%##%-%#$%)Import Boot  %##%Windows Installation Media Detected%#$%  Import WIM(%##%+%#$%)&&CALL:PAD_LINE
-IF EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT1&&ECHO.  %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%IMAGE PROCESSING%#$%]            (%##%C%#$%)onvert&&CALL:PAD_LINE
+IF EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT1&&ECHO.  %#@%AVAILABLE WIMs:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%IMAGE PROCESSING%#$%]            (%##%C%#$%)onvert&&CALL:PAD_LINE
 IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT2&&ECHO.&&ECHO.        %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSING%#$%]            (%##%C%#$%)onvert&&CALL:PAD_LINE
-IF EXIST "%BOOT_FOLDER%\boot.sav" IF EXIST "%IMAGE_FOLDER%\*.VHDX" CALL:BOXT1&&ECHO.  %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
+IF EXIST "%BOOT_FOLDER%\boot.sav" IF EXIST "%IMAGE_FOLDER%\*.VHDX" CALL:BOXT1&&ECHO.  %#@%AVAILABLE VHDXs:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
 IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOXT2&&ECHO.&&ECHO.            %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&IF "%PROG_MODE%"=="RAMDISK" ECHO. [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="PORTABLE" ECHO. (%##%Q%#$%)uit (%##%*%#$%)Advanced Mode (%##%F%#$%)ile Operation                  %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" CALL:PAD_PREV
@@ -382,7 +382,7 @@ IF "%SELECT%"=="X" CALL:BCD_REBUILD
 GOTO:BCD_MENU
 :IMAGE_VIEW
 IF NOT "%FOLDER_MODE%"=="ISOLATED" EXIT /B
-CLS&&CALL:PAD_LINE&&ECHO.                       Move VHDX between folders&&CALL:PAD_LINE&&ECHO.  IMAGE FOLDER VHDX'S:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO.                             (%##%-%#$%) MOVE (%##%+%#$%)&&CALL:PAD_LINE&&ECHO.  MAIN FOLDER VHDX'S:&&SET "BLIST=MAIN"&&CALL:FILE_LIST&&CALL:PAD_LINE
+CLS&&CALL:PAD_LINE&&ECHO.                       Move VHDX between folders&&CALL:PAD_LINE&&ECHO.  IMAGE FOLDER VHDXs:&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:PAD_LINE&&ECHO.                             (%##%-%#$%) MOVE (%##%+%#$%)&&CALL:PAD_LINE&&ECHO.  MAIN FOLDER VHDXs:&&SET "BLIST=MAIN"&&CALL:FILE_LIST&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
 IF "%SELECT%"=="-" SET "FILEZ=MOVE"&&CALL:IMAGE_MOVE
@@ -963,10 +963,10 @@ IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_QUERY
 ECHO.                             %#@%%SOURCE_TYPE%%#$% (%##%X%#$%) %#@%%TARGET_TYPE%%#$%&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="PATH" CALL:BOXT1&&ECHO.  %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\" ECHO.   %%G:)
 IF "%SOURCE_TYPE%"=="PATH" ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%PATH%#$%] (%##%S%#$%)ource %#@%%PATH_SOURCE%%#$%  %XLR2%Use caution with this option%#$%&&CALL:PAD_LINE
-IF "%SOURCE_TYPE%"=="VHDX" CALL:BOXT1&&ECHO.  %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%VHDX%#$%] (%##%S%#$%)ource %#@%%VHDX_SOURCE%%#$%&&CALL:PAD_LINE
-IF "%SOURCE_TYPE%"=="WIM" CALL:BOXT1&&ECHO.  %#@%AVAILABLE WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%WIM%#$%] (%##%S%#$%)ource %#@%%WIM_SOURCE%%#$%   (%##%I%#$%)ndex %#@%%WIM_INDEX%%#$%   Edition: %#@%%WIM_DESC%%#$%&&CALL:PAD_LINE
-IF "%TARGET_TYPE%"=="VHDX" CALL:BOXT1&&ECHO.  %#@%EXISTING VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%VHDX%#$%] (%##%T%#$%)arget %#@%%VHDX_TARGET%%#$%        (%##%G%#$%)o^^!  (%##%V%#$%)Size %#@%%VHDX_SIZE%MB%#$%  (%##%Z%#$%) %#@%%VHDX_XLVL%%#$%&&CALL:PAD_LINE
-IF "%TARGET_TYPE%"=="WIM" CALL:BOXT1&&ECHO.  %#@%EXISTING WIM'S:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%WIM%#$%] (%##%T%#$%)arget %#@%%WIM_TARGET%%#$%        (%##%G%#$%)o^^!     (%##%Z%#$%) X-Lvl %#@%%WIM_XLVL%%#$%&&CALL:PAD_LINE
+IF "%SOURCE_TYPE%"=="VHDX" CALL:BOXT1&&ECHO.  %#@%AVAILABLE VHDXs:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%VHDX%#$%] (%##%S%#$%)ource %#@%%VHDX_SOURCE%%#$%&&CALL:PAD_LINE
+IF "%SOURCE_TYPE%"=="WIM" CALL:BOXT1&&ECHO.  %#@%AVAILABLE WIMs:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%WIM%#$%] (%##%S%#$%)ource %#@%%WIM_SOURCE%%#$%   (%##%I%#$%)ndex %#@%%WIM_INDEX%%#$%   Edition: %#@%%WIM_DESC%%#$%&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="VHDX" CALL:BOXT1&&ECHO.  %#@%EXISTING VHDXs:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%VHDX%#$%] (%##%T%#$%)arget %#@%%VHDX_TARGET%%#$%        (%##%G%#$%)o^^!  (%##%V%#$%)Size %#@%%VHDX_SIZE%MB%#$%  (%##%Z%#$%) %#@%%VHDX_XLVL%%#$%&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="WIM" CALL:BOXT1&&ECHO.  %#@%EXISTING WIMs:%#$%&&SET "BLIST=WIM"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%WIM%#$%] (%##%T%#$%)arget %#@%%WIM_TARGET%%#$%        (%##%G%#$%)o^^!     (%##%Z%#$%) X-Lvl %#@%%WIM_XLVL%%#$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="PATH" CALL:BOXT1&&ECHO.  %#@%AVAILABLE DRIVES:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\" ECHO.   %%G:)
 IF "%TARGET_TYPE%"=="PATH" ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%PATH%#$%] (%##%T%#$%)arget %#@%%PATH_TARGET%%#$%        (%##%G%#$%)o^^!   %XLR2%Use caution with this option%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
@@ -1349,7 +1349,7 @@ IF "%SELECTX%"=="4" SET "EXXT=APPX"
 IF "%SELECTX%"=="5" SET "EXXT=APPXBUNDLE"
 IF "%SELECTX%"=="6" SET "EXXT=MSIXBUNDLE"
 IF NOT DEFINED EXXT EXIT /B
-CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.  %#@%AVAILABLE %EXXT%'S:%#$%&&SET "NLIST=%EXXT%"&&CALL:FILE_LIST&&CALL:BOXB1
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.  %#@%AVAILABLE %EXXT%s:%#$%&&SET "NLIST=%EXXT%"&&CALL:FILE_LIST&&CALL:BOXB1
 CALL:PAD_MULT&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
 CALL:LIST_TIME
@@ -2390,7 +2390,7 @@ EXIT /B
 CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:PAD_LINE&&ECHO.                             Boot Creator&&CALL:PAD_LINE
 IF NOT DEFINED HOST_SIZE SET "HOST_SIZE=DISABLED"
 IF "%HOST_SIZE%"=="DISABLED" (SET "EMBEE=") ELSE (SET "EMBEE=MB")
-CALL:BOXT1&&ECHO.  %#@%AVAILABLE VHDX'S:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. (%##%O%#$%)ptions                       (%##%G%#$%)o^^!        (%##%V%#$%)HDX %#@%%VHDX_SLOTX%%#$%&&CALL:PAD_LINE
+CALL:BOXT1&&ECHO.  %#@%AVAILABLE VHDXs:%#$%&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. (%##%O%#$%)ptions                       (%##%G%#$%)o^^!        (%##%V%#$%)HDX %#@%%VHDX_SLOTX%%#$%&&CALL:PAD_LINE
 IF DEFINED ADV_BOOT ECHO. [%#@%OPTIONS%#$%]  (%##%E%#$%)xport EFI Files   (%##%H%#$%)ost Size %#@%%HOST_SIZE%%EMBEE%%#$%&&CALL:PAD_LINE&&ECHO. [%#@%ADDFILE%#$%]  (%##%1%#$%) %#@%%ADDFILE_1%%#$% (%##%2%#$%) %#@%%ADDFILE_2%%#$% (%##%3%#$%) %#@%%ADDFILE_3%%#$% (%##%4%#$%) %#@%%ADDFILE_4%%#$% (%##%5%#$%) %#@%%ADDFILE_5%%#$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:DISK_MANAGER
@@ -2417,7 +2417,7 @@ IF DEFINED $PICK IF EXIST "%FMGR_SOURCE%\%$PICK_BODY%%$PICK_EXT%" IF NOT EXIST "
 IF NOT DEFINED $PICK SET "ADDFILE_%ADDFILEX%=SELECT"
 EXIT /B
 :HOST_SIZE
-IF "%HOST_SIZE%"=="DISABLED" CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO.  Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO.    One benefit is having an additional drive letter when used in &&ECHO.  conjunction with the hide host partition option in Disk Management.&&ECHO. Should be larger than the combined maximum filled size of all VHDX's.&&ECHO.&&CALL:BOXB2
+IF "%HOST_SIZE%"=="DISABLED" CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO.  Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO.    One benefit is having an additional drive letter when used in &&ECHO.  conjunction with the hide host partition option in Disk Management.&&ECHO. Should be larger than the combined maximum filled size of all VHDXs.&&ECHO.&&CALL:BOXB2
 CALL:PAD_LINE&&CALL:BOXT2&&ECHO.&&ECHO.                    VHDX host partition size in MB?&&ECHO.&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=HOST_SIZE"&&CALL:PROMPT_SET
 SET "SELECT=%HOST_SIZE%"&&SET "CHECK=NUM"&&CALL:CHECK
 IF DEFINED ERROR SET "HOST_SIZE=DISABLED"
