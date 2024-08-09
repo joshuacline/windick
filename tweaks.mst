@@ -1,4 +1,5 @@
 BASE-GROUP
+
 [GROUP][Initial Setup][Import unattend.xml - Skips initial setup/wifi/user pages][%COLOR4%        * unattend.xml must be in folder]
 [COMMAND][ECHO. Importing unattend.xml][COMMAND][IA][SILENT1]
 [COMMAND][IF EXIST "%CACHE_FOLDER%\unattend.xml" MD "%WINTAR%\PANTHER"][COMMAND][IA][SILENT2]
@@ -9,7 +10,7 @@ BASE-GROUP
 [COMMAND][IF NOT EXIST "%CACHE_FOLDER%\unattend.xml" ECHO. ERROR: unattend.xml does not exist in folder.][COMMAND][IA][SILENT1]
 [GROUP][Initial Setup][First Logon Waiting Screen %COLOR5%Enable]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "1" /f][REGISTRY][IA]
-[GROUP][Initial Setup][First Logon Waiting Screen%COLOR2%Disable]
+[GROUP][Initial Setup][First Logon Waiting Screen %COLOR2%Disable]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f][REGISTRY][IA]
 
 [GROUP][Advertisements][Copilot %COLOR5%Enable]
@@ -318,6 +319,15 @@ BASE-GROUP
 [COMMAND][wmic pagefileset where name="D:\\pagefile.sys" delete][COMMAND][SC]
 [COMMAND][wmic pagefileset where name="E:\\pagefile.sys" delete][COMMAND][SC]
 
+[GROUP][Miscellaneous][Schedule nextboot boot recovery][%COLOR4%        * item will be scheduled for %COLOR7%RunOnce]
+[COMMAND][START CMD /C "%PROG_SOURCE%\windick.cmd" -nextboot -recovery][COMMAND][RO]
+[GROUP][Miscellaneous][Schedule nextboot boot VHDX][%COLOR4%        * item will be scheduled for %COLOR7%RunOnce]
+[COMMAND][START CMD /C "%PROG_SOURCE%\windick.cmd" -nextboot -vhdx][COMMAND][RO]
+[GROUP][Miscellaneous][Install autoboot switcher service][%COLOR4%        * item will be scheduled for %COLOR7%RunOnce]
+[COMMAND][IF EXIST "%PROG_SOURCE%\autoboot.cmd" START CMD /C "%PROG_SOURCE%\windick.cmd" -autoboot -install][COMMAND][RO]
+[COMMAND][IF EXIST "%PROG_SOURCE%\autoboot.cmd" COPY /Y "%PROG_SOURCE%\autoboot.cmd" "%DRVTAR%\$"][COMMAND][IA][SILENT2]
+[COMMAND][IF NOT EXIST "%PROG_SOURCE%\autoboot.cmd" ECHO. ERROR: autoboot.cmd does not exist in folder.][COMMAND][IA][SILENT1]
+
 [GROUP][Miscellaneous][Notification center %COLOR5%Enable]
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "0" /f][REGISTRY][IA]
 [GROUP][Miscellaneous][Notification center %COLOR2%Disable]
@@ -328,9 +338,9 @@ BASE-GROUP
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f][REGISTRY][IA]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f][REGISTRY][IA]
 [GROUP][Miscellaneous][DCOM %COLOR5%Enable]
-[COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "Y" /f]
+[COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "Y" /f][REGISTRY][IA]
 [GROUP][Miscellaneous][DCOM %COLOR2%Disable]
-[COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "N" /f]
+[COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "N" /f][REGISTRY][IA]
 [GROUP][Miscellaneous][Driver updates %COLOR5%Enable]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "1" /f][REGISTRY][IA]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "0" /f][REGISTRY][IA]
