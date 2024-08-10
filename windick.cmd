@@ -1,6 +1,6 @@
-::Windows Deployment Image Customization Kit v 1170 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1171 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&SET "ARG0=%*"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" ECHO.Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
 FOR /F "TOKENS=*" %%a in ('ECHO.%CD%') DO (SET "PROG_FOLDER=%%a")
@@ -112,10 +112,10 @@ SET "BOX=B2"&&GOTO:BOX_DISP
 IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
 CHCP 65001 >NUL
 IF "%BOX%"=="0" ECHO.%##%►                                                                    ◄%#$%
-IF "%BOX%"=="T1" ECHO.%##%╭                                                                    ╮%#$%
-IF "%BOX%"=="B1" ECHO.%##%╰                                                                    ╯%#$%
-IF "%BOX%"=="T2" ECHO.%##%┌                                                                    ┐%#$%
-IF "%BOX%"=="B2" ECHO.%##%└                                                                    ┘%#$%
+IF "%BOX%"=="T1" ECHO.%##%╭────────────────────────────────────────────────────────────────────╮%#$%
+IF "%BOX%"=="B1" ECHO.%##%╰────────────────────────────────────────────────────────────────────╯%#$%
+IF "%BOX%"=="T2" ECHO.%##%┌────────────────────────────────────────────────────────────────────┐%#$%
+IF "%BOX%"=="B2" ECHO.%##%└────────────────────────────────────────────────────────────────────┘%#$%
 SET "BOX="&&CHCP %CHCP_OLD% >NUL
 EXIT /B
 ::#########################################################################
@@ -425,6 +425,9 @@ EXIT /B
 :COMMAND_IMAGEMGR
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LST" IF DEFINED ARG4 IF NOT EXIST "%LIST_FOLDER%\%ARG4%" ECHO.List %LIST_FOLDER%\%ARG4% doesn't exist&&EXIT /B
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-VHDX" IF DEFINED ARG6 IF NOT EXIST "%IMAGE_FOLDER%\%ARG6%" ECHO.VHDX %IMAGE_FOLDER%\%ARG6% doesn't exist&&EXIT /B
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" CALL:MOUNT_CLEAR&&IF DEFINED ARG4 SET "PARSE_X="&&FOR /F "TOKENS=1-9* DELIMS=[]" %%a in ('ECHO.%ARG0%') DO (IF "%%b"=="COMMAND" SET "PARSE_X=1"&&SET "ARG4=[%%b][%%c][%%d][%%e]"&&SET "ARGZ=5"&&CALL SET "ARGX=%%f"&&CALL:ARGUE)
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" CALL:MOUNT_REST&&IF DEFINED PARSE_X FOR /F "TOKENS=1-6* DELIMS= " %%a in ('ECHO.%ARG5%') DO (SET "ARG5=%%a"&&SET "ARG6=%%b"&&SET "ARG7=%%c"&&SET "ARG8=%%d"&&SET "ARG9=%%e")
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED PARSE_X SET "PARSE_X="&&FOR %%a in (5 6 7 8 9) DO (SET "CAPS_SET=ARG%%a"&&CALL SET "CAPS_VAR=%%ARG%%a%%"&&CALL:CAPS_SET)
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 SET "DEL_Z=1"&&SET "ARG3=-LST"&&SET "ARG4=$LSTZ"&&(ECHO.EXEC-LIST&&ECHO.%ARG4%)>"%LIST_FOLDER%\$LSTZ"
 IF "%ARG2%"=="-RUNBRUTE" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 SET "DEL_Z=1"&&SET "ARG3=-LST"&&SET "ARG4=$LSTZ"&&(ECHO.EXEC-LIST&&ECHO.%ARG4%)>"%LIST_FOLDER%\$LSTZ"
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LST" IF DEFINED ARG4 IF EXIST "%LIST_FOLDER%\%ARG4%" SET "$LST1=%LIST_FOLDER%\%ARG4%"&&IF "%ARG5%"=="-LIVE" SET "LIVE_APPLY=1"&&SET "BRUTE_FORCE=DISABLED"&&CALL:IMAGEMGR_RUN_LIST
@@ -991,9 +994,9 @@ IF "%PROG_MODE%"=="COMMAND" IF "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "%PATH_SOURC
 IF "%PROG_MODE%"=="COMMAND" IF "%TARGET_TYPE%"=="PATH" IF NOT EXIST "%PATH_TARGET%\" SET "ERROR=1"&&ECHO.&&ECHO.                         %XLR4%Target %TARGET_TYPE% doesn't exist.%#$%
 IF "%PROG_MODE%"=="RAMDISK" IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition S:\ as a path.%#$%
 IF "%PROG_MODE%"=="RAMDISK" IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition S:\ as a path.%#$%
-IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%
-IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" ECHO.&&ECHO.                    File %#@%%VHDX_TARGET%%#$% already exists.&&ECHO.  %XLR2%Note:%#$% Updating may cause errors. Try a new vhdx if having issues.&&ECHO.&&ECHO.                        Press (%##%X%#$%) to overwrite.&&ECHO.&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
-IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" SET "ERROR=1"&&ECHO.&&ECHO. %##%Aborted.%#$%
+IF "%TARGET_TYPE%"=="WIM" IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%
+IF "%TARGET_TYPE%"=="VHDX" IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" ECHO.&&ECHO.                    File %#@%%VHDX_TARGET%%#$% already exists.&&ECHO.  %XLR2%Note:%#$% Updating may cause errors. Try a new vhdx if having issues.&&ECHO.&&ECHO.                        Press (%##%X%#$%) to overwrite.&&ECHO.&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF "%TARGET_TYPE%"=="VHDX" IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" SET "ERROR=1"&&ECHO.&&ECHO. %##%Aborted.%#$%
 IF DEFINED ERROR GOTO:IMAGEPROC_CLEANUP
 IF NOT DEFINED WIM_INDEX SET "WIM_INDEX=1"
 IF NOT DEFINED WIM_XLVL SET "WIM_XLVL=FAST"
@@ -1038,7 +1041,7 @@ IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_XLVL%"=="COMPACT" SET "VHDX_XLVL=DISABLED"&
 IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_XLVL%"=="DISABLED" SET "VHDX_XLVL=COMPACT"&&EXIT /B
 EXIT /B
 :IMAGEPROC_VSIZE
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                         New VHDX size in MB?&&ECHO.                Note: 25000 or greater is recommended&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=VHDX_SIZE"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                       Enter new VHDX size in MB&&ECHO.                Note: 25000 or greater is recommended&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=VHDX_SIZE"&&CALL:PROMPT_SET
 SET "CHECK=NUM"&&SET "CHECK_VAR=%VHDX_SIZE%"&&CALL:CHECK
 IF DEFINED ERROR SET "VHDX_SIZE=25600"
 EXIT /B
