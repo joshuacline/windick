@@ -123,7 +123,17 @@ MULTI-LIST
 [COMMANDQ]ECHO.                   Firewall rules have been exported.][CMD][IA]
 [COMMANDQ]ECHO. Next, create an import firewall rules list entry located in tweaks.mst.][CMD][IA]
 
-[GROUP][Mount VHDX test][TEST]
+[GROUP][Export to program\cache folder][Export power schemes to xml]
+[COMMANDQ][ECHO. Exporting min, max, and balanced power schemes to xml...][CMD][IA]
+[COMMANDQ]POWERCFG /EXPORT "%CACHE_FOLDER%\power_bal.xml" SCHEME_BALANCED%}%NUL][CMD][IA]
+[COMMANDQ]POWERCFG /EXPORT "%CACHE_FOLDER%\power_min.xml" SCHEME_MIN%}%NUL][CMD][IA]
+[COMMANDQ]POWERCFG /EXPORT "%CACHE_FOLDER%\power_max.xml" SCHEME_MAX%}%NUL][CMD][IA]
+[COMMANDQ]ECHO.                   Power scheme has been exported.][CMD][IA]
+[COMMANDQ]ECHO. Next, create a power scheme import list entry located in tweaks.mst.][CMD][IA]
+
+[GROUP][Mount VHDX list item][TEST]
+[COMMANDQ]ECHO.         Recommended to put this at the top of any subgroup.][CMD][IA]
+[COMMANDQ]ECHO.        Default is the live system when this item is not used.][CMD][IA]
 [PICK][  AVAILABLE VHDXs:][VHDX][                      Select the filesystem target]
 [COMMANDQ][ECHO. DRVTAR=%DRVTAR%  HIVE_SOFTWARE=%HIVE_SOFTWARE%][REG][IA]
 [COMMAND][REG QUERY %HIVE_USER%][REG][IA]

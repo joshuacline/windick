@@ -361,6 +361,17 @@ BASE-GROUP
 [COMMANDQ][IF EXIST "%CACHE_FOLDER%\firewallrules.xml" COPY /Y "%CACHE_FOLDER%\firewallrules.xml" "%DRVTAR%\$"%}%NUL][CMD][IA]
 [COMMANDQ][IF NOT EXIST "%CACHE_FOLDER%\firewallrules.xml" ECHO. ERROR: firewallrules.xml does not exist in folder.][CMD][IA]
 
+[GROUP][Import from program\cache folder][Import power schemes from xml][%COLOR4%        * item will be scheduled for %COLOR7%RunOnce %COLOR4%- .xml must be in folder]
+[COMMANDQ][ECHO. Importing power schemes from xml...][CMD][RO]
+
+[COMMANDQ]IF EXIST "%CACHE_FOLDER%\power_bal.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_bal.xml"%}%NUL][CMD][RO]
+[COMMANDQ]IF EXIST "%CACHE_FOLDER%\power_min.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_min.xml"%}%NUL][CMD][RO]
+[COMMANDQ]IF EXIST "%CACHE_FOLDER%\power_max.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_max.xml"%}%NUL][CMD][RO]
+[COMMANDQ][IF EXIST "%CACHE_FOLDER%\power_bal.xml" COPY /Y "%CACHE_FOLDER%\power_bal.xml" "%DRVTAR%\$"%}%NUL][CMD][IA]
+[COMMANDQ][IF EXIST "%CACHE_FOLDER%\power_min.xml" COPY /Y "%CACHE_FOLDER%\power_min.xml" "%DRVTAR%\$"%}%NUL][CMD][IA]
+[COMMANDQ][IF EXIST "%CACHE_FOLDER%\power_max.xml" COPY /Y "%CACHE_FOLDER%\power_max.xml" "%DRVTAR%\$"%}%NUL][CMD][IA]
+[COMMANDQ][IF NOT EXIST "%CACHE_FOLDER%\power_bal.xml" IF NOT EXIST "%CACHE_FOLDER%\power_min.xml" IF NOT EXIST "%CACHE_FOLDER%\power_max.xml" ECHO. ERROR: no power scheme xml files exist in folder.][CMD][IA]
+
 [GROUP][Tutorial][Create new folder at base of drive target]
 [COMMAND][MD "%DRVTAR%\new_folder_test"][CMD][IA]
 
