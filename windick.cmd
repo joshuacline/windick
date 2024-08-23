@@ -609,7 +609,8 @@ EXIT /B
 SET "RND1=%RANDOM%%RANDOM%"&&SET "RND1=!RND1:~5,5!"&&SET "RND1=!RND1:~1,1!"
 EXIT /B
 :CLEAN
-FOR %%G in (HZ TMP LST DSK PAK RUN) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL)
+IF NOT EXIST "$*" EXIT /B
+FOR %%G in (HZ TMP LST DSK RUN) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL)
 IF NOT DEFINED DRIVER_QRY IF EXIST "$QRY" DEL /Q /F "$QRY">NUL
 EXIT /B
 :ARGUE
@@ -1247,7 +1248,7 @@ IF NOT EXIST "%EXTPACKAGE%" ECHO. %XLR4%%EXTPACKAGE% doesn't exist.%#$%&&EXIT /B
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"
 FOR %%G in ("%EXTPACKAGE%") DO SET "PACKFULL=%%~nG%%~xG"&&SET "PACKEXT=%%~xG"
 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PACKEXT=%%PACKEXT:%%G=%%G%%")
-IF "%PACKEXT%"==".PKX" IF DEFINED PKX_SESSION ECHO.%XLR4%ERROR: %PACKFULL% - %PKX_NAME% is already in session. Abort.%#$%&&EXIT /B
+IF "%PACKEXT%"==".PKX" IF DEFINED PKX_SESSION ECHO. %XLR2%ERROR: %PACKFULL% - %PKX_NAME% is already in session. Abort.%#$%&&EXIT /B
 IF "%PACKEXT%"==".PKX" IF NOT DEFINED PKX_SESSION SET "PKX_SESSION=1"&&SET "PKX_PACK=%EXTPACKAGE%"&&GOTO:PKX_RUN
 FOR %%G in (APPXBUNDLE MSIXBUNDLE) DO (IF "%PACKEXT%"==".%%G" SET "PACKEXT=.APPX")
 ECHO.Installing %#@%%PACKFULL%%#$%...&&CALL:IF_LIVE_MIX
@@ -1265,8 +1266,9 @@ SET "PKX_FOLDER=%PROG_SOURCE%\ScratchPKX"&&MD "%PROG_SOURCE%\ScratchPKX">NUL 2>&
 FOR %%G in ("%PKX_PACK%") DO (SET "PKX_NAME=%%~nG%%~xG")
 ECHO. Extracting %#@%%PKX_NAME%%#$%...
 SET "LIST_FOLDER_Z=%LIST_FOLDER%"&&SET "PACK_FOLDER_Z=%PACK_FOLDER%"&&SET "CACHE_FOLDER_Z=%CACHE_FOLDER%"&&DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%PKX_PACK%" /INDEX:1 /APPLYDIR:"%PKX_FOLDER%">NUL 2>&1
-CD /D "%PKX_FOLDER%">NUL
-SET "LIST_FOLDER=%PKX_FOLDER%"&&SET "PACK_FOLDER=%PKX_FOLDER%"&&SET "CACHE_FOLDER=%PKX_FOLDER%"&&SET "$RUN=%PKX_FOLDER%\package.lst"&&CALL:LIST_RUN
+IF EXIST "%PKX_FOLDER%\package.lst" CD /D "%PKX_FOLDER%">NUL
+IF NOT EXIST "%PKX_FOLDER%\package.lst" ECHO. %XLR2%ERROR: Package is either missing package.lst or unable to extract.%#$%
+SET "LIST_FOLDER=%PKX_FOLDER%"&&SET "PACK_FOLDER=%PKX_FOLDER%"&&SET "CACHE_FOLDER=%PKX_FOLDER%"&&IF EXIST "%PKX_FOLDER%\package.lst" SET "$RUN=%PKX_FOLDER%\package.lst"&&CALL:LIST_RUN
 SET "LIST_FOLDER=%LIST_FOLDER_Z%"&&SET "PACK_FOLDER=%PACK_FOLDER_Z%"&&SET "CACHE_FOLDER=%CACHE_FOLDER_Z%"&&CD /D "%PROG_FOLDER%">NUL
 SET "LIST_FOLDER_Z="&&SET "PACK_FOLDER_Z="&&SET "CACHE_FOLDER_Z="&&SET "PKX_SESSION="&&SET "PKX_PACK="&&SET "PKX_FOLDER="&&SET "PKX_NAME="&&IF EXIST "%PROG_SOURCE%\ScratchPKX" CALL:PKX_DELETE
 EXIT /B
@@ -1285,7 +1287,7 @@ EXIT /B
 :DRVR_INSTALL
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"&&CALL:IF_LIVE_MIX
 FOR /F "TOKENS=*" %%a in ('DIR/S/B "%BASE_MEAT%\*.INF"') DO (
-IF NOT EXIST "%%a\*" FOR %%G in ("%%a") DO (CALL ECHO.Installing %#@%%%~nG.inf%#$%)
+IF NOT EXIST "%%a\*" FOR %%G in ("%%a") DO (CALL ECHO.Installing %#@%%%~nG.inf%#$%...)
 IF NOT EXIST "%%a\*" IF DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('pnputil.exe /add-driver "%%a" /install 2^>NUL') DO (IF "%%1"=="Driver package added successfully" CALL SET "DISMSG=%PACK_GOOD%")
 IF NOT EXIST "%%a\*" IF NOT DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=%PACK_GOOD%")
 IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO. %XLR5%%PACK_GOOD%.%#$%
@@ -1294,14 +1296,14 @@ EXIT /B
 :DRVR_REMOVE
 CALL:IF_LIVE_MIX
 IF NOT EXIST "$QRY" SET "DRIVER_QRY=1"&&ECHO.Getting driver listing...&&DISM /ENGLISH /%APPLY_TARGET% /GET-DRIVERS /FORMAT:TABLE>"$QRY"
-ECHO.Removing driver %#@%%BASE_MEAT%%#$%&&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
+ECHO.Removing driver %#@%%BASE_MEAT%%#$%...&&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
 SET "DISMSG="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ($QRY) DO (SET "X1=%%a"&&SET "CAPS_SET=X2"&&SET "CAPS_VAR=%%b"&&CALL:CAPS_SET&&CALL:DRVR_REMOVEX)
 IF NOT DEFINED DISMSG ECHO. %XLR4%Driver %BASE_MEAT% doesn't exist.%#$%
 IF DEFINED DISMSG ECHO. %XLR5%%DISMSG%%#$%
 EXIT /B
 :DRVR_REMOVEX
 IF NOT "%X2%"=="%BASE_MEAT%" EXIT /B
-ECHO.Uninstalling %#@%%X1%%#$%
+ECHO.Uninstalling %#@%%X1%%#$%...
 IF DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('PNPUTIL.EXE /DELETE-DRIVER "%X1%" /UNINSTALL /FORCE 2^>NUL') DO (IF "%%1"=="Driver package deleted successfully" SET "DISMSG=The operation completed successfully.")
 IF NOT DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /REMOVE-DRIVER /DRIVER:"%X1%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" SET "DISMSG=%%1.")
 EXIT /B
@@ -1645,27 +1647,19 @@ EXIT /B
 :LIST_MULTI_TEMPLATE
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                  This feature is a work in progress.&&ECHO.    It's a hybrid of a group base list and an execution list, with&&ECHO. simple scripted tools in mind. A blank list template will be created.&&ECHO.&&ECHO.                          Enter new list name&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED NEW_NAME EXIT /B
-ECHO.MULTI-LIST>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.[GROUP][Example][Example Command]>>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.[COMMANDQ][ECHO. List says hello][CMD][IA]>>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.[COMMANDQ][PAUSE][CMD][IA]>>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.>>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.Mounting of a vhdx or associated registry hives is not implemented.>>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.Only COMMAND/CMD, GROUP, and $0-$9 prompts are currently functioning.>>"%LIST_FOLDER%\%NEW_NAME%.lst"
-ECHO.Avoid using COMMAND/REG, EXTPACKAGE, DRIVER, DISM, COMPONENT, FEATURE, SERVICE, and TASK list entries.>>"%LIST_FOLDER%\%NEW_NAME%.lst"
+(ECHO.MULTI-LIST&&ECHO.[GROUP][Example][Example Command]&&ECHO.[COMMANDQ][ECHO. List says hello][CMD][IA]&&ECHO.[COMMANDQ][PAUSE][CMD][IA])>"%LIST_FOLDER%\%NEW_NAME%.lst"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.lst"
 EXIT /B
 :LIST_COMMAND_CREATE
-CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                          Select command type&&ECHO.&&ECHO. (%##%1%#$%) Non-registry command - %XLR4%hives always remain unmounted%#$%&&ECHO. (%##%2%#$%) Registry command - %XLR4%hives mounted when target is a virtual disk%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "QUIET="&&SET "COMMAND_ENTRY="&&SET "COMMAND_TYPE="&&SET "COMMAND_EXEC="&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                          Select command type&&ECHO.&&ECHO. (%##%1%#$%) Non-registry command - %XLR4%hives always remain unmounted%#$%&&ECHO. (%##%2%#$%) Registry command - %XLR4%hives mounted when target is a virtual disk%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "QUIET="&&SET "COMMAND_ENTRY="&&SET "COMMAND_TYPE="&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
 IF "%SELECTY%"=="1" SET "COMMAND_TYPE=CMD"
-IF "%SELECTY%"=="2" SET "COMMAND_TYPE=REG"
+IF "%SELECTY%"=="2" SET "COMMAND_TYPE=REG"&&SET "COMMAND_ENTRY=COMMAND"&&GOTO:COMMAND_SKIP
 IF NOT DEFINED COMMAND_TYPE EXIT /B
-IF "%COMMAND_TYPE%"=="REG" SET "COMMAND_ENTRY=COMMAND"&&GOTO:COMMAND_SKIP
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                    Select command execution style&&ECHO.&&ECHO. (%##%1%#$%) Verbose - %XLR4%Announcement verbose / execution verbose%#$%&&ECHO. (%##%2%#$%) Quiet Type A - %XLR4%Announcement verbose / execution quiet%#$%&&ECHO. (%##%3%#$%) Quiet Type B - %XLR4%Announcement quiet / execution verbose%#$%&&ECHO. (%##%4%#$%) Quiet Type C - %XLR4%Announcement quiet / execution quiet%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
-IF "%SELECTY%"=="1" SET "COMMAND_EXEC=VERBOSE"&&SET "COMMAND_ENTRY=COMMAND"
-IF "%SELECTY%"=="2" SET "COMMAND_EXEC=QUIETA"&&SET "QUIET=1"&&SET "COMMAND_ENTRY=COMMAND"
-IF "%SELECTY%"=="3" SET "COMMAND_EXEC=QUIETB"&&SET "COMMAND_ENTRY=COMMANDQ"
-IF "%SELECTY%"=="4" SET "COMMAND_EXEC=QUIETC"&&SET "QUIET=1"&&SET "COMMAND_ENTRY=COMMANDQ"
+IF "%SELECTY%"=="1" SET "COMMAND_ENTRY=COMMAND"
+IF "%SELECTY%"=="2" SET "COMMAND_ENTRY=COMMAND"&&SET "QUIET=1"
+IF "%SELECTY%"=="3" SET "COMMAND_ENTRY=COMMANDQ"
+IF "%SELECTY%"=="4" SET "COMMAND_ENTRY=COMMANDQ"&&SET "QUIET=1"
 IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" IF NOT "%SELECTY%"=="3" IF NOT "%SELECTY%"=="4" EXIT /B
 :COMMAND_SKIP
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&CALL:MOUNT_CLEAR
