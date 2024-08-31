@@ -388,8 +388,8 @@ BASE-GROUP
 [GROUP][Tutorial][Create .txt file in new folder + escape a character]
 [COMMAND][ECHO.text file + %@%%+% escaped%}% "%DRVTAR%\new_folder_test\file.txt"][CMD][IA]
 
-[GROUP][Tutorial][Copy file from aio package folder to new folder][%COLOR4%        * when used in an aio pack]
-[COMMAND][copy "%AIO_FOLDER%\package.man" "%DRVTAR%\new_folder_test"][CMD][IA]
+[GROUP][Tutorial][Copy file from pkx package folder to new folder][%COLOR4%        * when used in an pkx pack]
+[COMMAND][copy "%PKX_FOLDER%\package.lst" "%DRVTAR%\new_folder_test"][CMD][IA]
 
 [GROUP][Tutorial][DISM variable (APPLY_TARGET) for vdisk or current environment]
 [COMMAND][DISM /ENGLISH /%APPLY_TARGET% /NORESTART /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%PACK_FOLDER%\x.appx"][CMD][IA]
