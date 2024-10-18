@@ -3,9 +3,8 @@
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&SET "ARG0=%*"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" ECHO.Right-Click ^& Run As Administrator&&PAUSE&&GOTO:CLEAN_EXIT
-FOR /F "TOKENS=*" %%a in ('ECHO.%CD%') DO (SET "PROG_FOLDER=%%a")
-SET "CAPS_SET=PROG_FOLDER"&&SET "CAPS_VAR=%PROG_FOLDER%"&&CALL:CAPS_SET
-SET "CHAR_STR=%PROG_FOLDER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&CALL:SID_GET
+FOR /F "TOKENS=*" %%a in ('ECHO.%CD%') DO (SET "CAPS_SET=PROG_FOLDER"&&SET "CAPS_VAR=%%a"&&CALL:CAPS_SET)
+SET "CHAR_STR=%PROG_FOLDER%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
 IF DEFINED CHAR_FLG ECHO.ERROR: Remove the space from the path or folder name, then launch again.&&PAUSE&&GOTO:CLEAN_EXIT
 IF "%PROG_FOLDER%"=="%SYSTEMDRIVE%\WINDOWS\SYSTEM32" ECHO.ERROR: Invalid path or folder name. Relocate, then launch again.&&PAUSE&&GOTO:CLEAN_EXIT
 FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%PROG_FOLDER%") DO (IF "%%a\%%b\%%c"=="%SystemDrive%\WINDOWS\TEMP" SET "PATH_FAIL=1"
@@ -15,7 +14,7 @@ FOR %%1 in (1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
 FOR %%1 in (1 2 3 4 5 6 7 8 9) DO (IF DEFINED ARG%%1 SET "ARGZ=%%1"&&CALL SET "ARGX=%%ARG%%1%%"&&CALL:ARGUE)
 IF DEFINED ARG1 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (
 FOR %%1 in (1 2 3 4 5 6 7 8 9) DO (IF DEFINED ARG%%1 CALL SET "ARG%%1=%%ARG%%1:%%G=%%G%%"))
-IF "%PROG_FOLDER%"=="X:\$" IF "%SystemDrive%"=="X:" SET "WINPE_BOOT=1"
+CALL:SID_GET&IF "%PROG_FOLDER%"=="X:\$" IF "%SystemDrive%"=="X:" SET "WINPE_BOOT=1"
 CALL:MOUNT_INT&&IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
 FOR /F "TOKENS=1 DELIMS=: " %%a IN ('DISM') DO (IF "%%a"=="Examples" SET "LANG_PASS=1")
 IF NOT DEFINED LANG_PASS ECHO.WARNING: Non-english host language/locale. Untested, proceed with caution.&&PAUSE
@@ -125,49 +124,52 @@ EXIT /B
 ::#########################################################################
 :UPDATE_RECOVERY
 ::#########################################################################
-CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&ECHO.                           Recovery Update&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO. (%##%1%#$%) Program  (%##%*%#$%) Test&&ECHO. (%##%2%#$%) Recovery Password&&ECHO. (%##%3%#$%) Boot Media&&ECHO. (%##%4%#$%) EFI Files&&ECHO.&&ECHO.  Only files located in program folder %##%$%#$% are copied to EFI partition&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&ECHO.                           Recovery Update&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO. (%##%1%#$%) Program  (%##%*%#$%) Test&&ECHO. (%##%2%#$%) Recovery Password&&ECHO. (%##%3%#$%) Boot Media&&ECHO. (%##%4%#$%) EFI Files&&ECHO.&&ECHO.  %XLR4%Note: files located in either the main folder $ or $\Boot are used%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
-SET "RECOVERY_QUEUE="&&FOR %%a in (1 2 3 4) DO (IF "%SELECT%"=="%%a" CALL:CONFIRM)
-IF DEFINED ERROR SET "SELECT="
-IF "%SELECT%"=="*" SET "VER_GET=%PROG_SOURCE%\windick.cmd"&&CALL:VER_GET&&COPY /Y "%PROG_SOURCE%\windick.cmd" "%PROG_FOLDER%"&&GOTO:MAIN_MENU
+IF "%SELECT%"=="*" IF EXIST "%PROG_SOURCE%\windick.cmd" SET "VER_GET=%PROG_SOURCE%\windick.cmd"&&CALL:VER_GET&&COPY /Y "%PROG_SOURCE%\windick.cmd" "%PROG_FOLDER%"&&GOTO:MAIN_MENU
 FOR %%a in (0 1 2 3 ERROR) DO (IF "%FREE%"=="%%a" CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.        Not enough free space. Clear some space and try again.&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAUSED&GOTO:MAIN_MENU)
-IF "%SELECT%"=="1" SET "REBOOT_MAN=1"&&CALL:UPDATE_PROG
-IF "%SELECT%"=="2" SET "REBOOT_MAN=1"&&CALL:UPDATE_PASS
-IF "%SELECT%"=="3" SET "REBOOT_MAN=1"&&CALL:UPDATE_BOOT
-IF "%SELECT%"=="4" SET "REBOOT_MAN=1"&&CALL:UPDATE_EFI
-IF EXIST "%BOOT_FOLDER%\$TMP.WIM" DEL /Q /F "%BOOT_FOLDER%\$TMP.WIM">NUL 2>&1
-IF DEFINED REBOOT_MAN ECHO.&&ECHO.              %#@%UPDATE FINISH:%#$%  %DATE%  %TIME%&&CALL:BOXB2&&CALL:PAD_LINE&&ECHO.                       THE SYSTEM WILL NOW RESTART.&&CALL:PAD_LINE&&CALL:PAUSED
-IF DEFINED REBOOT_MAN GOTO:CLEAN_EXIT
+IF "%SELECT%"=="1" GOTO:UPDATE_PROG
+IF "%SELECT%"=="2" GOTO:UPDATE_PASS
+IF "%SELECT%"=="3" GOTO:UPDATE_BOOT
+IF "%SELECT%"=="4" GOTO:UPDATE_EFI
 GOTO:UPDATE_RECOVERY
 :UPDATE_PROG
-CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
-IF NOT EXIST "%PROG_SOURCE%\windick.cmd" SET "ERROR=1"&&ECHO.%XLR2%ERROR: File windick.cmd is not located in folder. Abort.%#$%&&EXIT /B
+IF NOT EXIST "%PROG_SOURCE%\windick.cmd" SET "ERROR=1"&&ECHO.%XLR2%ERROR: File windick.cmd is not located in folder. Abort.%#$%&&CALL:PAUSED&GOTO:UPDATE_END
+SET "VER_GET=%PROG_SOURCE%\windick.cmd"&&SET "VER_SET=VER_X"&&CALL:VER_GET
+SET "VER_GET=%PROG_FOLDER%\windick.cmd"&&SET "VER_SET=VER_Y"&&CALL:VER_GET
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                  This will replace %#@%v%VER_Y%%#$% with %#@%v%VER_X%%#$%&&ECHO.&&CALL:BOXB1&&CALL:CONFIRM
+IF NOT "%CONFIRM%"=="X" GOTO:UPDATE_END
+SET "REBOOT_MAN=1"&&CLS&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
 CALL:EFI_MOUNT
-IF DEFINED ERROR EXIT /B
+IF DEFINED ERROR GOTO:UPDATE_END
 CALL:VTEMP_CREATE
-IF DEFINED ERROR CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&EXIT /B
+IF DEFINED ERROR CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 ECHO. Extracting boot-media...&&COPY /Y "%EFI_LETTER%:\$.WIM" "%BOOT_FOLDER%\$TMP.WIM">NUL 2>&1
 SET "IMAGEFILE=%BOOT_FOLDER%\$TMP.WIM"&&CALL:APPLY_IMAGE
-IF NOT EXIST "%APPLYDIR%\Windows" SET "ERROR=1"&&ECHO.%XLR2%ERROR: BOOT MEDIA%#$%&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&EXIT /B
+IF NOT EXIST "%APPLYDIR%\Windows" SET "ERROR=1"&&ECHO.%XLR2%ERROR: BOOT MEDIA%#$%&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 ECHO. Using windick.cmd located in folder.&&COPY /Y "%PROG_SOURCE%\windick.cmd" "%APPLYDIR%\$">NUL
 ECHO. Saving boot-media...&&DEL /Q /F "%EFI_LETTER%:\$.WIM">NUL 2>&1
 SET "IMAGEFILE=%EFI_LETTER%:\$.WIM"&&CALL:CAPTURE_IMAGE
 ECHO. Unmounting EFI...&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT
-EXIT /B
+GOTO:UPDATE_END
 :UPDATE_PASS
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.      %XLR2%Important:%#$% Do not use any of these symbols [%XLR2% ^< ^> %% ^^! ^& ^^^^ %#$%].&&ECHO.    These can break the password login to the recovery environment.&&ECHO.&&ECHO.       Enter new recovery password or press (%##%Enter%#$%) to remove.&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&SET "PROMPT_SET=RECOVERY_LOCK"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.      %XLR2%Important:%#$% Do not use any of these symbols [%XLR2% ^< ^> %% ^^! ^& ^^^^ %#$%].&&ECHO.    These can break the password login to the recovery environment.&&ECHO.&&ECHO.        Enter new recovery password or leave blank to remove.&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&SET "PROMPT_SET=RECOVERY_LOCK"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 ECHO.%RECOVERY_LOCK%>"%PROG_SOURCE%\$RCV"
 SET /P RECOVERY_LOCK=<"%PROG_SOURCE%\$RCV"
 DEL /Q /F "%PROG_SOURCE%\$RCV">NUL 2>&1
-CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&IF NOT DEFINED RECOVERY_LOCK ECHO.                  This will remove the password lock
+IF DEFINED RECOVERY_LOCK ECHO.                This will change the password to %#@%%RECOVERY_LOCK%%#$%
+ECHO.&&CALL:BOXB1&&CALL:CONFIRM
+IF NOT "%CONFIRM%"=="X" SET "RECOVERY_LOCK="&&GOTO:UPDATE_END
+SET "REBOOT_MAN=1"&&CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
 CALL:EFI_MOUNT
-IF DEFINED ERROR SET "RECOVERY_LOCK="&&EXIT /B
+IF DEFINED ERROR SET "RECOVERY_LOCK="&&GOTO:UPDATE_END
 CALL:VTEMP_CREATE
-IF DEFINED ERROR SET "RECOVERY_LOCK="&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&EXIT /B
+IF DEFINED ERROR SET "RECOVERY_LOCK="&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 ECHO. Extracting boot-media...&&COPY /Y "%EFI_LETTER%:\$.WIM" "%BOOT_FOLDER%\$TMP.WIM">NUL 2>&1
 SET "IMAGEFILE=%BOOT_FOLDER%\$TMP.WIM"&&CALL:APPLY_IMAGE
-IF NOT EXIST "%APPLYDIR%\Windows" SET "RECOVERY_LOCK="&&SET "ERROR=1"&&ECHO.%XLR2%ERROR: BOOT MEDIA%#$%&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&EXIT /B
+IF NOT EXIST "%APPLYDIR%\Windows" SET "RECOVERY_LOCK="&&SET "ERROR=1"&&ECHO.%XLR2%ERROR: BOOT MEDIA%#$%&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 IF DEFINED RECOVERY_LOCK ECHO. Password will be changed to %#@%%RECOVERY_LOCK%%#$%.
 IF NOT DEFINED RECOVERY_LOCK ECHO. Recovery password will be removed.
 IF DEFINED RECOVERY_LOCK ECHO.%RECOVERY_LOCK%>"%APPLYDIR%\$\RECOVERY_LOCK"
@@ -175,19 +177,28 @@ IF NOT DEFINED RECOVERY_LOCK DEL /Q /F "\\?\%APPLYDIR%\$\RECOVERY_LOCK">NUL 2>&1
 ECHO. Saving boot-media...&&DEL /Q /F "%EFI_LETTER%:\$.WIM">NUL 2>&1
 SET "IMAGEFILE=%EFI_LETTER%:\$.WIM"&&CALL:CAPTURE_IMAGE
 SET "RECOVERY_LOCK="&&ECHO. Unmounting EFI...&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT
-EXIT /B
+GOTO:UPDATE_END
 :UPDATE_BOOT
 IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOOT_FETCH
-CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
-IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "ERROR=1"&&ECHO.%XLR2%ERROR: File boot.sav is not located in folder. Abort.%#$%&&EXIT /B
+IF NOT EXIST "%BOOT_FOLDER%\boot.sav" SET "ERROR=1"&&ECHO.%XLR2%ERROR: File boot.sav is not located in folder. Abort.%#$%&&CALL:PAUSED&GOTO:UPDATE_END
+MOVE /Y "%BOOT_FOLDER%\boot.sav" "%BOOT_FOLDER%\boot.wim">NUL
+FOR /F "TOKENS=1-9 SKIP=4 DELIMS=: " %%a in ('DISM /ENGLISH /GET-IMAGEINFO /IMAGEFILE:%BOOT_FOLDER%\boot.wim /INDEX:1 2^>NUL') DO (
+IF "%%a"=="Version" SET "VER_X=%%b"
+IF "%%a %%b"=="ServicePack Build" SET "VER_Z=%%c")
+MOVE /Y "%BOOT_FOLDER%\boot.wim" "%BOOT_FOLDER%\boot.sav">NUL
+SET "VER_X=%VER_X%.%VER_Z%"&&SET "VER_Y="&&FOR /F "TOKENS=1-9 DELIMS=: " %%a in ('DISM /ENGLISH /ONLINE /GET-CURRENTEDITION 2^>NUL') DO (
+IF "%%a %%b"=="Image Version" SET "VER_Y=%%c")
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.        This will replace %#@%v%VER_Y%%#$% with %#@%v%VER_X%%#$%&&SET "VER_X="&&SET "VER_y="&&SET "VER_z="&&CALL:BOXB2&&CALL:CONFIRM
+IF NOT "%CONFIRM%"=="X" GOTO:UPDATE_END
+SET "REBOOT_MAN=1"&&CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
 CALL:EFI_MOUNT
-IF DEFINED ERROR EXIT /B
+IF DEFINED ERROR GOTO:UPDATE_END
 CALL:VTEMP_CREATE
-IF DEFINED ERROR CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&EXIT /B
+IF DEFINED ERROR CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 ECHO. Extracting boot-media. Using boot.sav located in folder...&&COPY /Y "%BOOT_FOLDER%\boot.sav" "%BOOT_FOLDER%\$TMP.WIM">NUL 2>&1
 SET "INDEX_WORD=Setup"&&SET "IMAGEFILE=%BOOT_FOLDER%\$TMP.WIM"&&CALL:FIND_INDEX
 SET "IMAGEFILE=%BOOT_FOLDER%\$TMP.WIM"&&CALL:APPLY_IMAGE
-IF NOT EXIST "%APPLYDIR%\Windows" SET "ERROR=1"&&ECHO.%XLR2%ERROR: BOOT MEDIA%#$%&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&EXIT /B
+IF NOT EXIST "%APPLYDIR%\Windows" SET "ERROR=1"&&ECHO.%XLR2%ERROR: BOOT MEDIA%#$%&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 MD "%APPLYDIR%\$">NUL 2>&1
 COPY /Y "%PROG_FOLDER%\DISK_TARGET" "%APPLYDIR%\$">NUL&&COPY /Y "%PROG_FOLDER%\windick.cmd" "%APPLYDIR%\$">NUL
 IF EXIST "%PROG_FOLDER%\RECOVERY_LOCK" COPY /Y "%PROG_FOLDER%\RECOVERY_LOCK" "%APPLYDIR%\$">NUL
@@ -197,18 +208,24 @@ IF EXIST "%APPLYDIR%\setup.exe" DEL /Q /F "\\?\%APPLYDIR%\setup.exe">NUL 2>&1
 ECHO. Saving boot-media...&&DEL /Q /F "%EFI_LETTER%:\$.WIM">NUL 2>&1
 SET "IMAGEFILE=%EFI_LETTER%:\$.WIM"&&CALL:CAPTURE_IMAGE
 ECHO. Unmounting EFI...&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT
-EXIT /B
+GOTO:UPDATE_END
 :UPDATE_EFI
-CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
-IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" IF NOT EXIST "%BOOT_FOLDER%\bootmgfw.efi" SET "ERROR=1"&&ECHO.%XLR2%ERROR: Files boot.sdi and bootmgfw.efi are not located in folder. Abort.%#$%&&EXIT /B
+IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" IF NOT EXIST "%BOOT_FOLDER%\bootmgfw.efi" SET "ERROR=1"&&ECHO.%XLR2%ERROR: Files boot.sdi and bootmgfw.efi are not located in folder. Abort.%#$%&&CALL:PAUSED&GOTO:UPDATE_END
+CALL:CONFIRM
+IF NOT "%CONFIRM%"=="X" GOTO:UPDATE_END
+SET "REBOOT_MAN=1"&&CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                  %XLR4%Recovery update has been initiated.%#$%&&ECHO.  %XLR2%Caution:%#$% Interrupting this process can render the disk unbootable.&&ECHO.
 CALL:EFI_MOUNT
-IF DEFINED ERROR EXIT /B
+IF DEFINED ERROR GOTO:UPDATE_END
 IF EXIST "%BOOT_FOLDER%\boot.sdi" ECHO. Using boot.sdi located in folder.&&COPY /Y "%BOOT_FOLDER%\boot.sdi" "%EFI_LETTER%:\Boot">NUL
 IF EXIST "%BOOT_FOLDER%\bootmgfw.efi" ECHO. Using bootmgfw.efi located in folder.&&COPY /Y "%BOOT_FOLDER%\bootmgfw.efi" "%EFI_LETTER%:\EFI\Boot\bootx64.efi">NUL
 IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" ECHO. File boot.sdi is not located in folder, skipping.
 IF NOT EXIST "%BOOT_FOLDER%\bootmgfw.efi" ECHO. File bootmgfw.efi is not located in folder, skipping.
 ECHO. Unmounting EFI...&CALL:EFI_UNMOUNT
-EXIT /B
+GOTO:UPDATE_END
+:UPDATE_END
+IF EXIST "%BOOT_FOLDER%\$TMP.WIM" DEL /Q /F "%BOOT_FOLDER%\$TMP.WIM">NUL 2>&1
+IF DEFINED REBOOT_MAN ECHO.&&ECHO.                       THE SYSTEM WILL NOW RESTART.&&ECHO.&&ECHO.              %#@%UPDATE FINISH:%#$%  %DATE%  %TIME%&&CALL:BOXB2&&CALL:PAD_LINE&&CALL:PAUSED&GOTO:CLEAN_EXIT
+GOTO:UPDATE_RECOVERY
 :VTEMP_CREATE
 IF DEFINED ERROR EXIT /B
 CALL:SCRATCH_CREATE
@@ -225,7 +242,7 @@ EXIT /B
 @ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:FREE_CALC&&CALL:PAD_LINE&&ECHO.              Windows Deployment Image Customization Kit&&CALL:PAD_LINE
 CALL:BOXT1&&ECHO.&&ECHO. (%##%1%#$%) Backup&&ECHO. (%##%2%#$%) Restore&&ECHO. (%##%3%#$%) Boot Creator&&ECHO. (%##%4%#$%) File Operation&&ECHO. (%##%.%#$%) Change Boot Order&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE
 IF DEFINED HOST_ERROR ECHO.  %XLR2%Disk Error%#$% UID %#@%%HOST_TARGET%%#$%&&CALL:PAD_LINE
-ECHO. (%##%Q%#$%)uit (%##%*%#$%)Advanced Menu                                   %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
+ECHO. (%##%Q%#$%)uit (%##%*%#$%)Main Menu                                       %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
 CALL:MENU_SELECT
 IF "%SELECT%"=="Q" GOTO:QUIT
 IF DEFINED HOST_ERROR GOTO:BASIC_MODE
@@ -244,7 +261,7 @@ IF EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT1&&SET "MENUT0=  %#@%AVAILABLE WIMs:%#$
 IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" CALL:BOXT1&&ECHO.&&ECHO.        %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&IF EXIST "%IMAGE_FOLDER%\*.VHDX" ECHO. [%#@%IMAGE PROCESSING%#$%]            (%##%C%#$%)onvert&&CALL:PAD_LINE
 IF EXIST "%BOOT_FOLDER%\boot.sav" IF EXIST "%IMAGE_FOLDER%\*.VHDX" CALL:BOXT1&&SET "MENUT0=  %#@%AVAILABLE VHDXs:%#$%"&&SET "MENUT1= "&&SET "MENUB0= "&&SET "BLIST=VHDX"&&CALL:FILE_LIST&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO. [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
 IF NOT EXIST "%BOOT_FOLDER%\boot.sav" CALL:BOXT1&&ECHO.&&ECHO.            %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&IF "%PROG_MODE%"=="RAMDISK" ECHO. [%#@%BOOT CREATOR%#$%]                  (%##%G%#$%)o^^!&&CALL:PAD_LINE
-IF "%PROG_MODE%"=="PORTABLE" ECHO. (%##%Q%#$%)uit (%##%*%#$%)Advanced Menu (%##%F%#$%)ile Operation                  %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
+IF "%PROG_MODE%"=="PORTABLE" ECHO. (%##%Q%#$%)uit (%##%*%#$%)Main Menu (%##%F%#$%)ile Operation                      %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" CALL:PAD_PREV
 CALL:MENU_SELECT
 IF NOT DEFINED SELECT IF "%PROG_MODE%"=="RAMDISK" GOTO:BASIC_MODE
@@ -659,10 +676,10 @@ IF DEFINED ERROR ECHO. ERROR: input [ %XLR4%%CHECK_VAR%%#$% ] is invalid
 SET "CHECK="&&SET "CHECK_VAR="
 EXIT /B
 :VER_GET
-IF NOT DEFINED VER_TMP SET "VER_TMP=VER_CUR"
+IF NOT DEFINED VER_SET SET "VER_SET=VER_CUR"
 IF EXIST "%VER_GET%" SET /P VER_CHK=<"%VER_GET%"
-FOR /F "TOKENS=1-9 DELIMS= " %%A IN ("%VER_CHK%") DO (SET "%VER_TMP%=%%G")
-SET "VER_CHK="&&SET "VER_GET="&&SET "VER_TMP="
+FOR /F "TOKENS=1-9 DELIMS= " %%A IN ("%VER_CHK%") DO (SET "%VER_SET%=%%G")
+SET "VER_CHK="&&SET "VER_GET="&&SET "VER_SET="
 EXIT /B
 :LOGO
 IF "%RECOVERY_LOGO%"=="DISABLED" EXIT /B
@@ -1171,7 +1188,7 @@ IF "%IMAGEMGR_RUN%"=="2" SET "MENUT0=  %#@%AVAILABLE LISTs:%#$%"&&SET "MENUT1= "
 IF NOT DEFINED $PICK EXIT /B
 IF "%IMAGEMGR_RUN%"=="1" SET "PKX_PACK=%$PICK%"
 IF "%IMAGEMGR_RUN%"=="2" SET "$RUN=%$PICK%"
-IF "%$HEAD%"=="MULTI-LIST" SET "NLIST_TMP=LIST"&&CALL:LIST_GROUP_VIEW&EXIT /B
+IF "%$HEAD%"=="MULTI-LIST" SET "NLIST_TMP=LIST"&&SET "MENUT0=                             List Execute"&&SET "MENUT1= "&&CALL:LIST_GROUP_VIEW&EXIT /B
 SET "MENUT0=  %#@%AVAILABLE VHDXs:%#$%"&&SET "MENUT1= "&&SET "MENUT2= ( %##%@%#$% ) %##%Current-Environment%#$%"&&SET "MENUB0= "&&SET "PICK=VHDX"&&CALL:FILE_PICK
 IF DEFINED LIVE_APPLY IF NOT DEFINED DISCLAIMER CALL:DISCLAIMER
 IF DEFINED LIVE_APPLY IF NOT DEFINED DISCLAIMER EXIT /B
