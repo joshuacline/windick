@@ -13,26 +13,10 @@ A native command shell Windows image deployment tool.
 - https://youtube.com/@windozedev
 - https://learn.microsoft.com/en-us/archive/technet-wiki/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell
 
-- Main Menu
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/mainmenu.png "mainmenu")
-
-- Image Processing
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.png "imageprocessing")
-
-- Image Management
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imagemanagement.png "imagemanagement")
-
-- Package Creator
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/packagecreator.png "packagecreator")
-
-- File Management
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/filemanagement.png "filemanagement")
-
-- Disk Management
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/diskmanagement.png "diskmanagement")
-
-- Boot Creator
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootcreator.png "bootcreator")
-
-- WinPE Recovery Environment
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/recoverybasic.png "recovery")
