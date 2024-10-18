@@ -13,32 +13,32 @@ A native command shell Windows image deployment tool.
 - https://learn.microsoft.com/en-us/archive/technet-wiki/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell
 # Documentation
 - Main Menu
-https://github.com/joshuacline/documentation/main/windick/mainmenu.md
+https://github.com/joshuacline/documentation/blob/main/windick/mainmenu.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/mainmenu.png "mainmenu")
 
 - Boot Creator
-https://github.com/joshuacline/documentation/main/windick/bootcreator.md
+https://github.com/joshuacline/documentation/blob/main/windick/bootcreator.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootcreator.png "bootcreator")
 - Image Processing
-https://github.com/joshuacline/documentation/main/windick/imageprocessing.md
+https://github.com/joshuacline/documentation/blob/main/windick/imageprocessing.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.png "imageprocessing")
 
 - Image Management
-https://github.com/joshuacline/documentation/main/windick/imagemanagement.md
+https://github.com/joshuacline/documentation/blob/main/windick/imagemanagement.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imagemanagement.png "imagemanagement")
 
 - Package Creator
-https://github.com/joshuacline/documentation/main/windick/packagecreator.md
+https://github.com/joshuacline/documentation/blob/main/windick/packagecreator.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/packagecreator.png "packagecreator")
 
 - File Management
-https://github.com/joshuacline/documentation/main/windick/filemanagement.md
+https://github.com/joshuacline/documentation/blob/main/windick/filemanagement.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/filemanagement.png "filemanagement")
 
 - Disk Management
-https://github.com/joshuacline/documentation/main/windick/diskmanagement.md
+https://github.com/joshuacline/documentation/blob/main/windick/diskmanagement.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/diskmanagement.png "diskmanagement")
 
 - WinPE Recovery Environment
-https://github.com/joshuacline/documentation/main/windick/recovery.md
+https://github.com/joshuacline/documentation/blob/main/windick/recovery.md
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/recoverybasic.png "recovery")
