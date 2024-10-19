@@ -131,9 +131,4 @@ MULTI-LIST
 [COMMANDQ]ECHO.                   Power scheme has been exported.][CMD][IA]
 [COMMANDQ]ECHO. Next, create a power scheme import list entry located in tweaks.mst.][CMD][IA]
 
-[GROUP][Mount VHDX list item][TEST]
-[COMMANDQ]ECHO.         Recommended to put this at the top of any subgroup.][CMD][IA]
-[COMMANDQ]ECHO.        Default is the live system when this item is not used.][CMD][IA]
-[PICK][  AVAILABLE VHDXs:][VHDX][                      Select the filesystem target]
-[COMMANDQ][ECHO. DRVTAR=%DRVTAR%  HIVE_SOFTWARE=%HIVE_SOFTWARE%][REG][IA]
-[COMMAND][REG QUERY %HIVE_USER%][REG][IA]
+

@@ -401,24 +401,12 @@ BASE-GROUP
 [COMMANDQ][ECHO. Executing Delete WinSxS folder...][CMD][IA]
 [WINSXS][Delete WinSxS folder][DELETE][IA]
 
-[GROUP][Tutorial][Create new folder at base of drive target]
+[GROUP][Examples][Create new folder at base of drive target]
 [COMMAND][MD "%DRVTAR%\new_folder_test"][CMD][IA]
-
-[GROUP][Tutorial][Takeown + Grant permissions to new folder]
+[GROUP][Examples][Takeown + Grant permissions to new folder]
 [COMMAND][takeown /f "%DRVTAR%\new_folder_test"][CMD][IA]
 [COMMAND][icacls "%DRVTAR%\new_folder_test" /grant %USERNAME%:F][CMD][IA]
-
-[GROUP][Tutorial][Copy file from main folder to new folder]
+[GROUP][Examples][Copy file from main folder to new folder]
 [COMMAND][copy "%PROG_SOURCE%\settings.ini" "%DRVTAR%\new_folder_test"][CMD][IA]
-
-[GROUP][Tutorial][Create .txt file in new folder]
-[COMMAND][ECHO.text file %}% "%DRVTAR%\new_folder_test\file.txt"][CMD][IA]
-
-[GROUP][Tutorial][Create .txt file in new folder + escape a character]
-[COMMAND][ECHO.text file + %@%%+% escaped%}% "%DRVTAR%\new_folder_test\file.txt"][CMD][IA]
-
-[GROUP][Tutorial][Copy file from pkx package folder to new folder][%COLOR4%        * when used in an pkx pack]
+[GROUP][Examples][Copy file from pkx package folder to new folder][%COLOR4%        * when used in an pkx pack]
 [COMMAND][copy "%PKX_FOLDER%\package.lst" "%DRVTAR%\new_folder_test"][CMD][IA]
-
-[GROUP][Tutorial][DISM variable (APPLY_TARGET) for vdisk or current environment]
-[COMMAND][DISM /ENGLISH /%APPLY_TARGET% /NORESTART /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%PACK_FOLDER%\x.appx"][CMD][IA]
