@@ -17,9 +17,25 @@ A native command shell Windows image deployment tool.
 - https://youtube.com/@windozedev
 
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/mainmenu.png "mainmenu")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.png "imageprocessing")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imagemanagement.png "imagemanagement")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/packagecreator.png "packagecreator")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/filemanagement.png "filemanagement")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/diskmanagement.png "diskmanagement")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootcreator.png "bootcreator")
+- Image Processing
+https://github.com/joshuacline/documentation/blob/main/windick/imageprocessing.md
+- Image Management
+https://github.com/joshuacline/documentation/blob/main/windick/imagemanagement.md
+- Package Creator
+https://github.com/joshuacline/documentation/blob/main/windick/packagecreator.md
+- File Management
+https://github.com/joshuacline/documentation/blob/main/windick/filemanagement.md
+- Disk Management
+https://github.com/joshuacline/documentation/blob/main/windick/diskmanagement.md
+- Boot Creator
+https://github.com/joshuacline/documentation/blob/main/windick/bootcreator.md
+- Tasks
+https://github.com/joshuacline/documentation/blob/main/windick/tasks.md
+- Settings
+https://github.com/joshuacline/documentation/blob/main/windick/settings.md
+- Basic Menu
+https://github.com/joshuacline/documentation/blob/main/windick/mainbasic.md
+- WinPE Recovery Environment
+https://github.com/joshuacline/documentation/blob/main/windick/recovery.md
+
+![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/mainbasic.png "mainbasic")
