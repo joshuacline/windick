@@ -46,9 +46,8 @@ BASE-GROUP
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "0" /f][REG][IA]
 
 [GROUP][Startup][Boot Menu Timeout][%COLOR4%        * item will be scheduled for %COLOR7%SetupComplete]
-[#][Scheduling boot timeout command...][7]
 [$1][                   Enter the boot timeout in seconds:][VAR1]
-[COMMAND][BCDEDIT /TIMEOUT %VAR1%][CMD][SC]
+[COMMAND][bcdedit /timeout %VAR1%][CMD][SC]
 
 [GROUP][Startup][RunOnce initializes before desktop]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f][REG][IA]

@@ -780,17 +780,17 @@ IF NOT "%SELECT%"=="X" EXIT /B
 IF "%FOLDER_MODE%"=="UNIFIED" SET "FOLDER_MODE=ISOLATED"&&GOTO:FOLDER_ISOLATED
 IF "%FOLDER_MODE%"=="ISOLATED" SET "FOLDER_MODE=UNIFIED"&&GOTO:FOLDER_UNIFIED
 :FOLDER_UNIFIED
-FOR %%a in (Cache Image Pack List Boot) DO (IF EXIST "%PROG_SOURCE%\%%a" MOVE /Y "%PROG_SOURCE%\%%a\*.*" "%PROG_SOURCE%">NUL 2>&1)
-FOR %%a in (Cache Image Pack List Boot) DO (IF EXIST "%PROG_SOURCE%\%%a" XCOPY /S /C /Y "%PROG_SOURCE%\%%a" "%PROG_SOURCE%">NUL 2>&1)
-FOR %%a in (Cache Image Pack List Boot) DO (IF EXIST "%PROG_SOURCE%\%%a" RD /Q /S "\\?\%PROG_SOURCE%\%%a">NUL 2>&1)
+FOR %%a in (cache image pack list boot) DO (IF EXIST "%PROG_SOURCE%\%%a" MOVE /Y "%PROG_SOURCE%\%%a\*.*" "%PROG_SOURCE%">NUL 2>&1)
+FOR %%a in (cache image pack list boot) DO (IF EXIST "%PROG_SOURCE%\%%a" XCOPY /S /C /Y "%PROG_SOURCE%\%%a" "%PROG_SOURCE%">NUL 2>&1)
+FOR %%a in (cache image pack list boot) DO (IF EXIST "%PROG_SOURCE%\%%a" RD /Q /S "\\?\%PROG_SOURCE%\%%a">NUL 2>&1)
 EXIT /B
 :FOLDER_ISOLATED
-FOR %%a in (Cache Image Pack List Boot) DO (IF NOT EXIST "%PROG_SOURCE%\%%a" MD "%PROG_SOURCE%\%%a">NUL 2>&1)
-FOR %%a in (XML JPG REG) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\Cache">NUL 2>&1)
-FOR %%a in (EFI SDI SAV) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\Boot">NUL 2>&1)
-FOR %%a in (LIST BASE) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\List">NUL 2>&1)
-FOR %%a in (ISO VHDX WIM) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\Image">NUL 2>&1)
-FOR %%a in (PKX CAB MSU APPX APPXBUNDLE MSIXBUNDLE) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\Pack">NUL 2>&1)
+FOR %%a in (cache image pack list boot) DO (IF NOT EXIST "%PROG_SOURCE%\%%a" MD "%PROG_SOURCE%\%%a">NUL 2>&1)
+FOR %%a in (XML JPG REG) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\cache">NUL 2>&1)
+FOR %%a in (EFI SDI SAV) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\boot">NUL 2>&1)
+FOR %%a in (LIST BASE) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\list">NUL 2>&1)
+FOR %%a in (ISO VHDX WIM) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\image">NUL 2>&1)
+FOR %%a in (PKX CAB MSU APPX APPXBUNDLE MSIXBUNDLE) DO (IF EXIST "%PROG_SOURCE%\*.%%a" MOVE /Y "%PROG_SOURCE%\*.%%a" "%PROG_SOURCE%\pack">NUL 2>&1)
 EXIT /B
 :FILE_PICK
 IF NOT DEFINED PICK GOTO:PICK_ERROR
@@ -1227,34 +1227,6 @@ IF NOT DEFINED PKX_SESSION CALL:CLEAN
 IF NOT DEFINED DUAL_SESSION CALL:MOUNT_INT&&CALL:SCRATCH_DELETE&&IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 FOR %%a in (DUAL_SESSION ERR_MSG LIST_ITEMS1 LIST_ITEMS2 $RUN LIST_ITEM LIST_TIME LIST_ACTN BASE_MEAT LIST_CLM5) DO (SET "%%a=")
 EXIT /B
-:RASTI_CREATE
-IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('REG QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="CMD /C START %PROG_SOURCE%\$RAS.cmd" reg.exe add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD /C START %PROG_SOURCE%\$RAS.cmd" /f)
-IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="CMD /C START "%PROG_SOURCE%\$RAS.cmd"" START=DEMAND>NUL 2>&1
-IF "%$RAS%"=="RATI" ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD.EXE /C START %PROG_SOURCE%\$RATI.cmd" /f^>NUL 2^>^&^1>"%PROG_SOURCE%\$RAS.cmd"
-IF "%$RAS%"=="RATI" ECHO.NET START TrustedInstaller^>NUL 2^>^&^1>>"%PROG_SOURCE%\$RAS.cmd"
-IF "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%PROG_SOURCE%\$RAS.cmd"
-IF "%$RAS%"=="RATI" ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%PROG_SOURCE%\$RAS.cmd"
-IF "%$RAS%"=="RATI" ECHO.DEL /Q /F "%PROG_SOURCE%\$RAS.cmd"^>NUL^&EXIT>>"%PROG_SOURCE%\$RAS.cmd"
-ECHO.CD /D "%%WINDIR%%\TEMP">"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%"=="COMMAND" CALL ECHO.CALL CMD.EXE /C %BASE_MEAT%>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DELETE" CALL ECHO.REG DELETE "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /F^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:AUTO" CALL ECHO.REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "2" /F^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:MANUAL" CALL ECHO.REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "3" /F^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DISABLE" CALL ECHO.REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "4" /F^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%"=="TASK" CALL ECHO.REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /F^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%"=="TASK" CALL ECHO.REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%TASKID%}" /F^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF "%LIST_ITEM%"=="TASK" CALL ECHO.DEL /F "%WINTAR%\System32\Tasks\%BASE_MEAT%"^>NUL 2^>^&^1>>"%PROG_SOURCE%\$%$RAS%.cmd"
-ECHO.DEL /Q /F "%PROG_SOURCE%\$%$RAS%.cmd"^>NUL^&EXIT>>"%PROG_SOURCE%\$%$RAS%.cmd"
-IF NOT "%WINPE_BOOT%"=="1" NET START $RAS>NUL 2>&1
-IF "%WINPE_BOOT%"=="1" CALL:RASTI_CREATEPE>NUL 2>&1
-EXIT /B
-:RASTI_CREATEPE
-CALL CMD.EXE /C "%PROG_SOURCE%\$RAS.cmd"
-EXIT /B
-:RAS_DELETE
-IF "%WINPE_BOOT%"=="1" EXIT /B
-FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "HKLM\SYSTEM\ControlSet001\SERVICES\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SC DELETE $RAS>NUL 2>&1)
-EXIT /B
 :UNIFIED_PARSE
 SET "$RAS="&&FOR %%a in (COMMAND COMMANDQ DRIVER) DO (IF "%%a"=="%LIST_ITEM%" CALL:MOUNT_REST)
 IF DEFINED $HALT IF NOT DEFINED $HALTX SET "$HALTX=1"&&ECHO. ERROR: HALTED.
@@ -1276,6 +1248,42 @@ IF "%LIST_ITEM%"=="MOUNT" IF DEFINED MLT_SESSION IF NOT DEFINED PKX_SESSION CALL
 FOR %%a in (SC RO) DO (IF "%%a"=="%LIST_TIME%" CALL:SC_RO_CREATE)
 IF EXIST "$*" CALL:CLEAN
 EXIT /B
+:RASTI_CREATE
+IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('REG QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="CMD /C START %PROG_FOLDER%\$RAS.cmd" reg.exe add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD /C START %PROG_FOLDER%\$RAS.cmd" /f)
+IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="CMD /C START "%PROG_FOLDER%\$RAS.cmd"" START=DEMAND>NUL 2>&1
+IF "%$RAS%"=="RATI" ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD.EXE /C START %PROG_FOLDER%\$RATI.cmd" /f^>NUL 2^>^&^1>"%PROG_FOLDER%\$RAS.cmd"
+IF "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
+IF "%$RAS%"=="RATI" ECHO.NET START TrustedInstaller^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
+IF "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
+IF "%$RAS%"=="RATI" ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
+IF "%$RAS%"=="RATI" ECHO.DEL /Q /F "%PROG_FOLDER%\$RAS.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$RAS.cmd"
+ECHO.@ECHO OFF^&CD /D "%PROG_FOLDER%">"%PROG_FOLDER%\$%$RAS%.cmd"
+ECHO.CALL:ROUTINE^>"%PROG_FOLDER%\$LOG">>"%PROG_FOLDER%\$%$RAS%.cmd"
+ECHO.DEL /Q /F "%PROG_FOLDER%\$%$RAS%.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$%$RAS%.cmd"
+ECHO.:ROUTINE>>"%PROG_FOLDER%\$%$RAS%.cmd"
+FOR %%a in (COMMAND COMMANDQ) DO (IF "%LIST_ITEM%"=="%%a" CALL ECHO.CALL CMD.EXE /C %BASE_MEAT%>>"%PROG_FOLDER%\$%$RAS%.cmd")
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DELETE" CALL ECHO.REG DELETE "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /F^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:AUTO" CALL ECHO.REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "2" /F^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:MANUAL" CALL ECHO.REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "3" /F^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF "%LIST_ITEM%:%LIST_ACTN%"=="SERVICE:DISABLE" CALL ECHO.REG ADD "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V "Start" /T REG_DWORD /D "4" /F^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF "%LIST_ITEM%"=="TASK" CALL ECHO.REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /F^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF "%LIST_ITEM%"=="TASK" CALL ECHO.REG DELETE "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%TASKID%}" /F^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF "%LIST_ITEM%"=="TASK" CALL ECHO.DEL /Q /F "%WINTAR%\System32\Tasks\%BASE_MEAT%"^>NUL 2^>^&^1>>"%PROG_FOLDER%\$%$RAS%.cmd"
+ECHO.EXIT /B>>"%PROG_FOLDER%\$%$RAS%.cmd"
+IF NOT "%WINPE_BOOT%"=="1" NET START $RAS>NUL 2>&1
+IF "%WINPE_BOOT%"=="1" CALL:RASTI_CREATEPE>NUL 2>&1
+:$RASTI_WAIT
+FOR %%a in (RAS RATI) DO (IF EXIST "%PROG_FOLDER%\$%%a.cmd" GOTO:$RASTI_WAIT)
+IF EXIST "%PROG_FOLDER%\$LOG" FOR /F "TOKENS=* DELIMS=" %%a in (%PROG_FOLDER%\$LOG) DO (ECHO.%%a)
+IF EXIST "%PROG_FOLDER%\$LOG" DEL /Q /F "%PROG_FOLDER%\$LOG">NUL 2>&1
+EXIT /B
+:RASTI_CREATEPE
+CALL CMD.EXE /C "%PROG_SOURCE%\$RAS.cmd"
+EXIT /B
+:RAS_DELETE
+IF "%WINPE_BOOT%"=="1" EXIT /B
+FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "HKLM\SYSTEM\ControlSet001\SERVICES\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SC DELETE $RAS>NUL 2>&1)
+EXIT /B
 :PICK_ITEM
 EXIT /B
 :MOUNT_ITEM
@@ -1288,27 +1296,22 @@ IF "%LIST_ITEM%"=="MOUNT" IF DEFINED $PICK IF EXIST "%VDISK_LTR%:\" SET "VDISK_A
 IF "%LIST_ITEM%"=="MOUNT" IF DEFINED $PICK IF NOT EXIST "%VDISK_LTR%:\" SET "$HALT=1"&&EXIT /B
 EXIT /B
 :COMMAND_ITEM
-IF NOT "%LIST_ACTN%"=="CMD" IF NOT "%LIST_ACTN%"=="REG" IF NOT "%LIST_ACTN%"=="REG_RAS" IF NOT "%LIST_ACTN%"=="REG_RATI" ECHO. %XLR4%ERROR: Command list action is not CMD, REG, REG_RAS, or REG_RATI.%#$%&&EXIT /B
-IF "%LIST_ACTN%"=="CMD" CALL:IF_LIVE_MIX
+IF NOT "%LIST_ACTN%"=="CMD" IF NOT "%LIST_ACTN%"=="REG" IF NOT "%LIST_ACTN%"=="REG_RAS" IF NOT "%LIST_ACTN%"=="REG_RATI" IF NOT "%LIST_ACTN%"=="CMD_RAS" IF NOT "%LIST_ACTN%"=="CMD_RATI" ECHO. %XLR4%ERROR: Command list action is not CMD, REG, CMD_RAS, CMD_RATI, REG_RAS, or REG_RATI.%#$%&&EXIT /B
 FOR /F "TOKENS=1-2 DELIMS=_" %%a IN ("%LIST_ACTN%") DO (SET "LIST_ACTN=%%a"&&SET "$RAS=%%b")
-IF "%LIST_ACTN%"=="CMD" IF "%LIST_ITEM%"=="COMMAND" CALL ECHO.Executing command %#@%%BASE_MEAT%%#$%...
-IF "%LIST_ACTN%"=="CMD" SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER) DO (CALL SET "%%a_X=%%%%a%%"&&CALL SET "%%a=%XLR2%ERROR: Non-registry command%#$%")
-IF "%LIST_ACTN%"=="CMD" CALL CMD.EXE /C %BASE_MEAT%
-IF "%LIST_ACTN%"=="CMD" SET "MOUNT=%MOUNT_SAVE%"&&SET "MOUNT_SAVE="&&SET "HIVE_SOFTWARE=%HIVE_SOFTWARE_X%"&&SET "HIVE_SYSTEM=%HIVE_SYSTEM_X%"&&SET "HIVE_USER=%HIVE_USER_X%"&&FOR %%a in (HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER) DO (SET "%%a_X=")
+IF "%LIST_ACTN%"=="CMD" CALL:IF_LIVE_MIX
 IF "%LIST_ACTN%"=="REG" CALL:IF_LIVE_EXT
-IF "%LIST_ACTN%"=="REG" IF "%LIST_ITEM%"=="COMMAND" IF NOT DEFINED $RAS CALL ECHO.Executing reg command %#@%%BASE_MEAT%%#$%...
-IF "%LIST_ACTN%"=="REG" IF "%LIST_ITEM%"=="COMMAND" IF "%$RAS%"=="RAS" IF "%WINPE_BOOT%"=="1" CALL ECHO.Executing reg command as system via WinPE %#@%%BASE_MEAT%%#$%...
-IF "%LIST_ACTN%"=="REG" IF "%LIST_ITEM%"=="COMMAND" IF "%$RAS%"=="RAS" IF NOT "%WINPE_BOOT%"=="1" CALL ECHO.Executing reg command as system via service %#@%%BASE_MEAT%%#$%...
-IF "%LIST_ACTN%"=="REG" IF "%LIST_ITEM%"=="COMMAND" IF "%$RAS%"=="RATI" CALL ECHO.Executing reg command via trustedinstaller %#@%%BASE_MEAT%%#$%...
-IF "%LIST_ACTN%"=="REG" IF NOT DEFINED $RAS CALL CMD.EXE /C %BASE_MEAT%
-IF "%LIST_ACTN%"=="REG" IF DEFINED $RAS CALL:RASTI_CREATE
-:$RAS_WAIT
-FOR %%a in (RAS RATI) DO (IF EXIST "%PROG_SOURCE%\$%%a.cmd" GOTO:$RAS_WAIT)
+IF "%LIST_ITEM%"=="COMMAND" IF NOT DEFINED $RAS CALL ECHO.Executing command as %##%user %#@%%BASE_MEAT%%#$%...
+IF "%LIST_ITEM%"=="COMMAND" IF "%$RAS%"=="RAS" CALL ECHO.Executing command as %##%system %#@%%BASE_MEAT%%#$%...
+IF "%LIST_ITEM%"=="COMMAND" IF "%$RAS%"=="RATI" CALL ECHO.Executing command as %##%trustedinstaller %#@%%BASE_MEAT%%#$%...
+IF "%LIST_ACTN%"=="CMD" SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER) DO (CALL SET "%%a_X=%%%%a%%"&&CALL SET "%%a=%XLR2%ERROR: Non-registry command%#$%")
+IF NOT DEFINED $RAS CALL CMD.EXE /C %BASE_MEAT%
+IF DEFINED $RAS CALL:RASTI_CREATE
+IF "%LIST_ACTN%"=="CMD" SET "MOUNT=%MOUNT_SAVE%"&&SET "MOUNT_SAVE="&&SET "HIVE_SOFTWARE=%HIVE_SOFTWARE_X%"&&SET "HIVE_SYSTEM=%HIVE_SYSTEM_X%"&&SET "HIVE_USER=%HIVE_USER_X%"&&FOR %%a in (HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER) DO (SET "%%a_X=")
 IF NOT DEFINED PKX_SESSION CD /D "%PROG_FOLDER%">NUL
 IF DEFINED PKX_SESSION CD /D "%PKX_FOLDER%">NUL
 EXIT /B
 :PACK_ITEM
-SET "PACKEXT="&&IF NOT "%LIST_ACTN%"=="INSTALL" ECHO. %XLR4%ERROR: External package list action is not install.%#$%&&EXIT /B
+SET "PACKEXT="&&IF NOT "%LIST_ACTN%"=="INSTALL" ECHO. %XLR4%ERROR: External package list action is not INSTALL.%#$%&&EXIT /B
 IF NOT EXIST "%EXTPACKAGE%" ECHO. %XLR4%%EXTPACKAGE% doesn't exist.%#$%&&EXIT /B
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"
 FOR %%G in ("%EXTPACKAGE%") DO SET "PACKFULL=%%~nG%%~xG"&&SET "PACKEXT=%%~xG"
@@ -1345,7 +1348,7 @@ ICACLS "%PROG_SOURCE%\ScratchPKX" /grant %USERNAME%:F /T >NUL 2>&1
 RD /S /Q "\\?\%PROG_SOURCE%\ScratchPKX">NUL 2>&1
 EXIT /B
 :DRVR_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" IF NOT "%LIST_ACTN%"=="INSTALL" ECHO. %XLR4%ERROR: Driver list action is not install or delete.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="DELETE" IF NOT "%LIST_ACTN%"=="INSTALL" ECHO. %XLR4%ERROR: Driver list action is not INSTALL or DELETE.%#$%&&EXIT /B
 IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="DRIVER:INSTALL:IA" CALL:DRVR_INSTALL
 IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="DRIVER:DELETE:IA" CALL:DRVR_REMOVE
 EXIT /B
@@ -1373,7 +1376,7 @@ IF DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('PNPUTIL.EXE /DELETE-DR
 IF NOT DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /REMOVE-DRIVER /DRIVER:"%X1%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" SET "DISMSG=%%1.")
 EXIT /B
 :APPX_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Appx list action is not delete.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Appx list action is not DELETE.%#$%&&EXIT /B
 ECHO.Removing AppX %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_EXT
 SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
 IF DEFINED APPX_SKIP SET "CAPS_SET=APPX_SKIPX"&&SET "CAPS_VAR=%APPX_SKIP%"&&CALL:CAPS_SET
@@ -1404,7 +1407,7 @@ ICACLS "%APPX_PATH%" /grant %USERNAME%:F /T>NUL 2>&1
 RD /Q /S "\\?\%APPX_PATH%" >NUL 2>&1
 EXIT /B
 :COMP_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Component list action is not delete.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Component list action is not DELETE.%#$%&&EXIT /B
 ECHO.Removing Component %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_EXT
 SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
 IF DEFINED COMP_SKIP SET "CAPS_SET=COMP_SKIPX"&&SET "CAPS_VAR=%COMP_SKIP%"&&CALL:CAPS_SET
@@ -1445,20 +1448,20 @@ IF NOT DEFINED DISMSG ECHO. %XLR2%Component %BASE_MEAT% is a stub or unable to r
 IF DEFINED DISMSG ECHO. %XLR5%%DISMSG%%#$%
 EXIT /B
 :CAP_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Capability list action is not delete.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Capability list action is not DELETE.%#$%&&EXIT /B
 ECHO.Removing Capability %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_MIX
 SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /REMOVE-CAPABILITY /CAPABILITYNAME:"%BASE_MEAT%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" CALL ECHO. %XLR5%%%1.%#$%&&EXIT /B)
 ECHO. %XLR4%Capability %BASE_MEAT% doesn't exist.%#$%
 EXIT /B
 :FEAT_ITEM
-IF NOT "%LIST_ACTN%"=="ENABLE" IF NOT "%LIST_ACTN%"=="DISABLE" ECHO. %XLR4%ERROR: Feature list action is not enable or disable.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="ENABLE" IF NOT "%LIST_ACTN%"=="DISABLE" ECHO. %XLR4%ERROR: Feature list action is not ENABLE or DISABLE.%#$%&&EXIT /B
 CALL:IF_LIVE_MIX
 IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" ECHO.Enabling Feature %#@%%BASE_MEAT%%#$%... &&FOR /F "TOKENS=1 DELIMS=." %%a in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /ENABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /ALL 2^>NUL') DO (IF "%%a"=="The operation completed successfully" CALL ECHO. %XLR5%%%a.%#$% &&EXIT /B)
 IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" ECHO.Disabling Feature %#@%%BASE_MEAT%%#$%... &&FOR /F "TOKENS=1 DELIMS=." %%a in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /DISABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /REMOVE 2^>NUL') DO (IF "%%a"=="The operation completed successfully" CALL ECHO. %XLR5%%%a.%#$% &&EXIT /B)
 ECHO. %XLR2%Feature %BASE_MEAT% is a stub or unable to change.%#$%
 EXIT /B
 :SVC_ITEM
-IF NOT "%LIST_ACTN%"=="AUTO" IF NOT "%LIST_ACTN%"=="MANUAL" IF NOT "%LIST_ACTN%"=="DISABLE" IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Service list action is not auto, manual, disable, or delete.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="AUTO" IF NOT "%LIST_ACTN%"=="MANUAL" IF NOT "%LIST_ACTN%"=="DISABLE" IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Service list action is not AUTO, MANUAL, DISABLE, or DELETE.%#$%&&EXIT /B
 CALL:IF_LIVE_EXT
 IF "%LIST_ACTN%"=="DELETE" ECHO.Removing Service %#@%%BASE_MEAT%%#$%...
 IF NOT "%LIST_ACTN%"=="DELETE" ECHO.Changing start to %#@%%LIST_ACTN%%#$% for Service %#@%%BASE_MEAT%%#$%...
@@ -1468,8 +1471,6 @@ IF DEFINED SVC_SKIP FOR %%1 in (%SVC_SKIPX%) DO (IF "%BASE_MEAT%"=="%%1" ECHO. %
 SET "SVC_GO="&&FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (IF "%%a"=="Start" SET "SVC_GO=1")
 IF NOT DEFINED SVC_GO ECHO. %XLR4%Service %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
 SET "$RAS=RATI"&&CALL:RASTI_CREATE
-:$RAS_SVC
-FOR %%a in (RAS RATI) DO (IF EXIST "%PROG_SOURCE%\$%%a.cmd" GOTO:$RAS_SVC)
 FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (
 IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF NOT "%%c"=="0x2" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="MANUAL" IF "%%a"=="Start" IF NOT "%%c"=="0x3" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
@@ -1478,13 +1479,11 @@ IF "%LIST_ACTN%"=="DELETE" IF "%%a"=="Start" ECHO. %XLR2%The operation did not c
 ECHO. %XLR5%The operation completed successfully.%#$%
 EXIT /B
 :TASK_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Task list action is not delete.%#$%&&EXIT /B
+IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR: Task list action is not DELETE.%#$%&&EXIT /B
 ECHO.Removing Task %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_EXT
 SET "TASKID="&&FOR /F "TOKENS=1-4 DELIMS={} " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /V Id 2^>NUL') DO (IF "%%a"=="Id" SET "TASKID=%%c")
 IF NOT DEFINED TASKID ECHO. %XLR4%Task %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
 SET "$RAS=RATI"&&CALL:RASTI_CREATE
-:$RAS_TASK
-FOR %%a in (RAS RATI) DO (IF EXIST "%PROG_SOURCE%\$%%a.cmd" GOTO:$RAS_TASK)
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /V Id 2^>NUL') DO (IF "%%a"=="Id" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B)
 ECHO. %XLR5%The operation completed successfully.%#$%
 EXIT /B
@@ -1511,12 +1510,12 @@ IF "%LIST_TIME%"=="SC" SET "SCRO=SetupComplete"
 IF "%LIST_TIME%"=="RO" SET "SCRO=RunOnce"
 IF NOT DEFINED %LIST_TIME%_PREPARE SET "%LIST_TIME%_PREPARE=1"&&CALL:SC_RO_PREPARE
 IF NOT DEFINED BASE_MEAT EXIT /B
-IF "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Copying Package %#@%%BASE_MEAT% for %##%%LIST_TIME%%#$%...
+IF "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Copying Package %#@%%BASE_MEAT% for %##%%SCRO%%#$%...
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF NOT EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO. %XLR4%%PACK_FOLDER%\%BASE_MEAT% doesn't exist.%#$%&&EXIT /B
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%APPLYDIR_MASTER%\$">NUL
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO.[EXTPACKAGE][%BASE_MEAT%][INSTALL][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.list"
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" CALL:MOUNT_CLEAR
-IF NOT "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Scheduling %#@%%LIST_ITEM%%#$% %BASE_MEAT% %#@%%LIST_ACTN%%#$% for %##%%LIST_TIME%%#$%.&&ECHO.[%LIST_ITEM%][%BASE_MEAT%][%LIST_ACTN%][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.list"
+IF NOT "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Scheduling %#@%%LIST_ITEM%%#$% %BASE_MEAT% %#@%%LIST_ACTN%%#$% for %##%%SCRO%%#$%.&&ECHO.[%LIST_ITEM%][%BASE_MEAT%][%LIST_ACTN%][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.list"
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" CALL:MOUNT_REST
 SET "BASE_MEAT="&&EXIT /B
 :SC_RO_PREPARE
@@ -1642,14 +1641,15 @@ FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=%%COLOR%%a%%")
 EXIT /B
 :MOUNT_CLEAR
 IF NOT DEFINED PROG_SOURCE EXIT /B
-SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (@ - + }} } { DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PROG_SOURCE PKX_FOLDER APPLY_TARGET) DO (CALL SET "%%a_X=%%%%a%%"
-CALL SET "%%a="
+SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PROG_SOURCE PKX_FOLDER APPLY_TARGET) DO (CALL SET "%%a_X=%%%%a%%"&&SET "%%a="
+SET "%%a=%%%%a%%")
+SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (@ - + }} } {) DO (SET "%%a="
 SET "%%a=%%%%a%%")
 EXIT /B
 :MOUNT_REST
 IF NOT DEFINED PROG_SOURCE_X EXIT /B
-SET "MOUNT=%MOUNT_SAVE%"&&SET "MOUNT_SAVE="&&FOR %%a in (@ - + }} } { DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PROG_SOURCE PKX_FOLDER APPLY_TARGET) DO (CALL SET "%%a=%%%%a_X%%"
-CALL SET "%%a_X=")
+SET "MOUNT=%MOUNT_SAVE%"&&SET "MOUNT_SAVE="&&FOR %%a in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PROG_SOURCE PKX_FOLDER APPLY_TARGET) DO (CALL SET "%%a=%%%%a_X%%"&&SET "%%a_X=")
+SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
 EXIT /B
 :LIST_MISCELLANEOUS
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                             List Builder&&ECHO.&&ECHO. (%##%*%#$%) Create Source Base&&ECHO. (%##%.%#$%) Create Group Base&&ECHO.&&ECHO. (%##%1%#$%) Group Seperator Item&&ECHO. (%##%2%#$%) External Package Item&&ECHO. (%##%3%#$%) Command Operation Item&&ECHO. (%##%4%#$%) Prompt / Variable Item&&ECHO.&&ECHO. (%##%-%#$%) Difference Base Lists&&ECHO. (%##%+%#$%) Create Multi List&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$ELECT$="&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
@@ -1669,35 +1669,33 @@ IF NOT DEFINED NEW_NAME EXIT /B
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.list"
 EXIT /B
 :LIST_COMMAND_CREATE
-CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                          Select command type&&ECHO.&&ECHO. (%##%1%#$%) Non-registry command - %XLR4%hives always remain unmounted%#$%&&ECHO. (%##%2%#$%) Registry command - %XLR4%hives mounted when target is a virtual disk%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "QUIET="&&SET "COMMAND_ENTRY="&&SET "COMMAND_TYPE="&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                             Command Type&&ECHO.&&ECHO. (%##%1%#$%) Non-registry command - %XLR4%hives always remain unmounted%#$%&&ECHO. (%##%2%#$%) Registry command - %XLR4%hives mounted when target is a virtual disk%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "QUIET="&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" EXIT /B
 IF "%SELECTY%"=="1" SET "COMMAND_TYPE=CMD"
-IF "%SELECTY%"=="2" SET "COMMAND_TYPE=REG"&&SET "COMMAND_ENTRY=COMMAND"&&GOTO:COMMAND_SKIP
-IF NOT DEFINED COMMAND_TYPE EXIT /B
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                    Select command execution style&&ECHO.&&ECHO. (%##%1%#$%) Verbose - %XLR4%Announcement verbose / execution verbose%#$%&&ECHO. (%##%2%#$%) Quiet Type A - %XLR4%Announcement verbose / execution quiet%#$%&&ECHO. (%##%3%#$%) Quiet Type B - %XLR4%Announcement quiet / execution verbose%#$%&&ECHO. (%##%4%#$%) Quiet Type C - %XLR4%Announcement quiet / execution quiet%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+IF "%SELECTY%"=="2" SET "COMMAND_TYPE=REG"
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                               Elevation&&ECHO.&&ECHO. (%##%1%#$%) Run as User&&ECHO. (%##%2%#$%) Run as System&&ECHO. (%##%3%#$%) Run as TrustedInstaller&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTZ"&&CALL:PROMPT_SET
+IF NOT "%SELECTZ%"=="1" IF NOT "%SELECTZ%"=="2" IF NOT "%SELECTZ%"=="3" EXIT /B
+IF "%SELECTZ%"=="1" SET "COMMAND_TYPE=%COMMAND_TYPE%"
+IF "%SELECTZ%"=="2" SET "COMMAND_TYPE=%COMMAND_TYPE%_RAS"
+IF "%SELECTZ%"=="3" SET "COMMAND_TYPE=%COMMAND_TYPE%_RATI"
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                              Announcement&&ECHO.&&ECHO. (%##%1%#$%) Announcement normal&&ECHO. (%##%2%#$%) Announcement quiet&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTY"&&CALL:PROMPT_SET
+IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" EXIT /B
 IF "%SELECTY%"=="1" SET "COMMAND_ENTRY=COMMAND"
-IF "%SELECTY%"=="2" SET "COMMAND_ENTRY=COMMAND"&&SET "QUIET=1"
-IF "%SELECTY%"=="3" SET "COMMAND_ENTRY=COMMANDQ"
-IF "%SELECTY%"=="4" SET "COMMAND_ENTRY=COMMANDQ"&&SET "QUIET=1"
-IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" IF NOT "%SELECTY%"=="3" IF NOT "%SELECTY%"=="4" EXIT /B
-:COMMAND_SKIP
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&CALL:MOUNT_CLEAR
+IF "%SELECTY%"=="2" SET "COMMAND_ENTRY=COMMANDQ"
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&CALL:MOUNT_CLEAR
 ECHO.%XLR2%Important:%#$% Do not use any of these symbols directly [%XLR2% ^< ^> ^| [ ] ^& ^^ %#$%].&&ECHO.    These can cause the program to crash when the list is accessed.&&ECHO.   %XLR5%Substitutions:   %XLR2%^^%#$%=%XLR5%%@%   %XLR2%^<%#$%=%XLR5%%{%   %XLR2%^>%#$%=%XLR5%%}%   %XLR2%^>^>%#$%=%XLR5%%}}%   %XLR2%^|%#$%=%XLR5%%-%   %XLR2%^&%#$%=%XLR5%%+%%#$%
-ECHO.     If complex commands are required, create a scripted package.&&ECHO.&&ECHO.                          %#@%Built-in variables:%#$%&&ECHO.                      %%DRVTAR%% %%WINTAR%% %%USRTAR%%&&ECHO.              %%HIVE_SOFTWARE%% %%HIVE_SYSTEM%% %%HIVE_USER%%&&ECHO.      %%IMAGE_FOLDER%% %%LIST_FOLDER%% %%PACK_FOLDER%% %%CACHE_FOLDER%%&&ECHO.                      %%PROG_SOURCE%% %%PKX_FOLDER%%&&ECHO.&&ECHO.                             %#@%ENTER COMMAND:%#$%&&ECHO.
+ECHO.   To quiet command execution, put %XLR5%%}%NUL%#$% at the end of the command.&&ECHO.     If complex commands are required, create a scripted package.&&ECHO.&&ECHO.                          %#@%Built-in variables:%#$%&&ECHO.                      %%DRVTAR%% %%WINTAR%% %%USRTAR%%&&ECHO.              %%HIVE_SOFTWARE%% %%HIVE_SYSTEM%% %%HIVE_USER%%&&ECHO.      %%IMAGE_FOLDER%% %%LIST_FOLDER%% %%PACK_FOLDER%% %%CACHE_FOLDER%%&&ECHO.                      %%PROG_SOURCE%% %%PKX_FOLDER%%&&ECHO.&&ECHO.                             %#@%ENTER COMMAND:%#$%&&ECHO.
 CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COMMANDX"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF DEFINED COMMANDX IF DEFINED QUIET SET "COMMANDX=%COMMANDX%%}%NUL"
 CALL:MOUNT_REST&&IF NOT DEFINED COMMANDX EXIT /B
 CALL:LIST_TIME
 IF NOT DEFINED LIST_TIME EXIT /B
-IF "%COMMAND_TYPE%"=="REG" CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                               Elevation&&ECHO.&&ECHO. (%##%1%#$%) Run as Normal&&ECHO. (%##%2%#$%) Run as System&&ECHO. (%##%3%#$%) Run as TrustedInstaller&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTZ"&&CALL:PROMPT_SET
-IF "%SELECTZ%"=="1" SET "COMMAND_TYPE=REG"
-IF "%SELECTZ%"=="2" SET "COMMAND_TYPE=REG_RAS"
-IF "%SELECTZ%"=="3" SET "COMMAND_TYPE=REG_RATI"
-IF NOT DEFINED SELECTZ EXIT /B
 SET "MENUT0=  %#@%AVAILABLE LISTs:%#$%"&&SET "MENUT1= "&&SET "MENUT2= ( %##%0%#$% ) Create new list"&&SET "MENUB0= "&&SET "PICK=LIST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
-CALL:PAD_ADD&&ECHO.&&ECHO. %#@%%COMMAND_ENTRY%%#$% %COMMANDX% %#@%%COMMAND_TYPE%%#$% %##%%LIST_TIME%%#$%
-ECHO.[%COMMAND_ENTRY%][%COMMANDX%][%COMMAND_TYPE%][%LIST_TIME%]>>"%$PICK%"
-ECHO.&&CALL:PAD_END&&CALL:PAUSED
+CALL:PAD_ADD&&ECHO.&&CALL:MOUNT_CLEAR
+FOR /F "TOKENS=1* DELIMS=" %%1 IN ("%COMMANDX%") DO (ECHO. %#@%%COMMAND_ENTRY%%#$% %%1 %#@%%COMMAND_TYPE%%#$% %##%%LIST_TIME%%#$%
+ECHO.[%COMMAND_ENTRY%][%%1][%COMMAND_TYPE%][%LIST_TIME%]>>"%$PICK%")
+CALL:MOUNT_REST&&ECHO.&&CALL:PAD_END&&CALL:PAUSED
 EXIT /B
 :LIST_GROUP_BOUNDRY
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                         Enter new group name&&ECHO.         Note: %#@%Place this entry at the start of the group%#$%&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=GRP_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
@@ -1910,7 +1908,7 @@ EXIT /B
 CALL:PAD_LINE&&ECHO.                         Multiples OK ( %##%1 2 3%#$% )&&CALL:PAD_LINE
 EXIT /B
 :PAD_ADD
-CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                The Following Items Were Added/Combined:
+CLS&&CALL:PAD_LINE&&CALL:BOXT2&&ECHO.                The following items were added/combined:
 EXIT /B
 :PAD_END
 CALL:BOXB2&&CALL:PAD_LINE
