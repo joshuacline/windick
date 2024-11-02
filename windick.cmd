@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1182 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1181 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&SET "ARG0=%*"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
