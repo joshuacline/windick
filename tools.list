@@ -119,6 +119,7 @@ MULTI-LIST
 
 [GROUP][Export to program\cache folder][Export firewallrules.xml]
 [COMMANDQ][ECHO. Exporting firewallrules.xml...][CMD][IA]
+[COMMANDQ][IF EXIST "%CACHE_FOLDER%\firewallrules.xml" DEL /F /Q "%CACHE_FOLDER%\firewallrules.xml"%}%NUL][CMD][IA]
 [COMMANDQ]NETSH advfirewall EXPORT "%CACHE_FOLDER%\firewallrules.xml"%}%NUL][CMD][IA]
 [COMMANDQ]ECHO.                   Firewall rules have been exported.][CMD][IA]
 [COMMANDQ]ECHO. Next, create an import firewall rules list entry located in tweaks.mst.][CMD][IA]
