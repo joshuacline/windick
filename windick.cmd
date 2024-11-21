@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1184 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1185 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL&&SET "VER_GET=%0"&&CALL:VER_GET&&SET "ORIG_CD=%CD%"&&CD /D "%~DP0"&&SET "ARG0=%*"
 Reg.exe query "HKU\S-1-5-19\Environment">NUL
@@ -30,14 +30,13 @@ IF "%AUTOBOOT%"=="ENABLED" (GOTO:CLEAN_EXIT) ELSE (CALL:LOGO)
 ::#########################################################################
 :MAIN_MENU
 ::#########################################################################
-@ECHO OFF&&CLS&&SET "MOUNT="&&IF NOT DEFINED SHORTCUTS SET "SHORTCUTS=DISABLED"
-IF NOT DEFINED MENU_MODE SET "MENU_MODE=NORMAL"
+@ECHO OFF&&CLS&&SET "MOUNT="&&IF NOT DEFINED MENU_MODE SET "MENU_MODE=NORMAL"
 IF "%MENU_MODE%"=="CUSTOM" GOTO:CUSTOM_MODE
-IF "%PROG_MODE%"=="RAMDISK" IF "%MENU_MODE%"=="BASIC" GOTO:BASIC_MODE
-IF "%PROG_MODE%"=="PORTABLE" IF "%MENU_MODE%"=="BASIC" GOTO:BASIC_CREATOR
+IF "%MENU_MODE%"=="BASIC" IF "%PROG_MODE%"=="RAMDISK" GOTO:BASIC_MODE
+IF "%MENU_MODE%"=="BASIC" IF "%PROG_MODE%"=="PORTABLE" GOTO:BASIC_CREATOR
 CLS&&CALL:SETS_HANDLER&&CALL:TITLE_X&&CALL:CLEAN&&CALL:FREE_CALC&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.              Windows Deployment Image Customization Kit&&ECHO.&&ECHO. (%##%1%#$%) Image Processing&&ECHO. (%##%2%#$%) Image Management&&ECHO. (%##%3%#$%) Package Creator&&ECHO. (%##%4%#$%) File Management&&ECHO. (%##%5%#$%) Disk Management&&ECHO. (%##%6%#$%) Tasks&&ECHO. (%##%7%#$%) Settings&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##%.%#$%) Change Boot Order
 ECHO.&&CALL:BOXB1&&CALL:PAD_LINE
-IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="S:\$" ECHO.  Disk %#@%%HOST_NUMBER%%#$% UID %#@%%HOST_TARGET%%#$%&&CALL:PAD_LINE
+IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="Z:\$" ECHO.  Disk %#@%%HOST_NUMBER%%#$% UID %#@%%HOST_TARGET%%#$%&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="X:\$" ECHO.  %XLR2%Disk Error%#$% UID %#@%%HOST_TARGET%%#$%&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##%Q%#$%)uit  (%##%*%#$%) Basic Menu  (%##%U%#$%)pdate                          %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
 IF "%PROG_MODE%"=="PORTABLE" ECHO. (%##%Q%#$%)uit  (%##%*%#$%) Basic Menu                                    %#@%%FREE%GB%#$% Free&&CALL:PAD_LINE
@@ -506,7 +505,7 @@ IF "%ARG2%"=="-LIST" CALL:DISK_LIST
 IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISK_DETECT>NUL 2>&1
 IF "%ARG3%"=="-DISK" IF DEFINED ARG4 CALL SET "DISK_TARGET=%%DISKID_%DISK_NUMBER%%%"&&CALL:DISK_DETECT>NUL
 IF "%ARG2%"=="-INSPECT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&CALL:DISKMGR_INSPECT
-IF "%ARG2%"=="-ERASE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "$GET=TST_LETTER"&&CALL:LETTER_ANY&&CALL:DISKMGR_ERASE
+IF "%ARG2%"=="-ERASE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "$GET=TST_LETTER"&&CALL:LETTER_ANY&&CALL:DISKMGR_ERASE&SET "TST_LETTER="
 IF "%ARG2%"=="-CHANGEUID" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&SET "GET_DISK_ID=%ARG5%"&&CALL:DISKMGR_CHANGEID
 IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-SIZE"  IF DEFINED ARG6 SET "PART_SIZE=%ARG6%"&&CALL:DISKMGR_CREATE
 IF "%ARG2%"=="-FORMAT" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF "%ARG5%"=="-PART" IF DEFINED ARG6 SET "PART_NUMBER=%ARG6%"&&CALL:DISKMGR_FORMAT
@@ -767,7 +766,7 @@ FOR %%a in (%SETS_LIST%) DO (CALL ECHO.%%a=%%%%a%%>>"settings.ini")
 SET "SETS_LIST="&&IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="X:\$" SET "HOST_GET=1"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT "%DISK_TARGET%"=="%HOST_TARGET%" SET "HOST_GET=1"
 IF DEFINED HOST_GET SET "HOST_GET="&&CALL:HOST_AUTO
-IF "%PROG_MODE%"=="RAMDISK" IF EXIST "S:\$" COPY /Y "settings.ini" "S:\$">NUL
+IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\$" COPY /Y "settings.ini" "Z:\$">NUL
 :SETS_MAIN
 IF NOT DEFINED + SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
 IF NOT DEFINED PROJ_SLOT SET "PROJ_SLOT=1"
@@ -1015,18 +1014,18 @@ IF NOT DEFINED SHORT_RUN EXIT /B
 CALL START %SHORT_RUN%
 EXIT /B
 :AUTOBOOT_COUNT
-IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL&EXIT /B
-ECHO.AUTOBOOT ERROR>S:\$\ERR.TXT
+IF EXIST "Z:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "Z:\$\ERR.TXT"&&MOVE /Y "Z:\$\AutoBoot.cmd" "Z:\$\AutoBoot.txt">NUL&EXIT /B
+ECHO.AUTOBOOT ERROR>Z:\$\ERR.TXT
 ECHO.@ECHO OFF>X:\COUNT.CMD
 ECHO.FOR %%%%a in (20 19 18 17 16 15 14 13 13 12 11 10 9 8 7 6 5 4 3 2 1 0) DO (CLS^&^&ECHO.AutoBoot starts in %%%%a seconds...^&^&PING -n 2 127.0.0.1^>NUL)>>X:\COUNT.CMD
-ECHO.CD /D S:\$^&CALL S:\$\AutoBoot.cmd>>X:\COUNT.CMD
+ECHO.CD /D Z:\$^&CALL Z:\$\AutoBoot.cmd>>X:\COUNT.CMD
 ECHO.ECHO.AutoBoot Finished. Restarting in 5 Seconds^&PING -n 6 127.0.0.1^>NUL>>X:\COUNT.CMD
-ECHO.DEL /Q /F S:\$\ERR.TXT^>NUL>>X:\COUNT.CMD
+ECHO.DEL /Q /F Z:\$\ERR.TXT^>NUL>>X:\COUNT.CMD
 ECHO.EXIT^&^&EXIT>>X:\COUNT.CMD
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.             To cancel AutoBoot close countdown window.
 ECHO.   Press (N) to return to recovery. Press (Y) for command prompt.&&CALL:BOXB1&&CALL:PAD_LINE
 START /WAIT X:\COUNT.CMD
-IF EXIST "S:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "S:\$\ERR.TXT"&&MOVE /Y "S:\$\AutoBoot.cmd" "S:\$\AutoBoot.txt">NUL
+IF EXIST "Z:\$\ERR.TXT" SET "AUTOBOOT=DISABLED"&&DEL "Z:\$\ERR.TXT"&&MOVE /Y "Z:\$\AutoBoot.cmd" "Z:\$\AutoBoot.txt">NUL
 EXIT /B
 ::#########################################################################
 :IMAGE_PROCESSING
@@ -1076,8 +1075,8 @@ IF "%TARGET_TYPE%"=="VHDX" IF "%VHDX_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&EC
 IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="SELECT" SET "ERROR=1"&&ECHO.&&ECHO.                          %XLR4%Target %TARGET_TYPE% not set.%#$%
 IF "%PROG_MODE%"=="COMMAND" IF "%SOURCE_TYPE%"=="PATH" IF NOT EXIST "%PATH_SOURCE%\" SET "ERROR=1"&&ECHO.&&ECHO.                         %XLR4%Source %SOURCE_TYPE% doesn't exist.%#$%
 IF "%PROG_MODE%"=="COMMAND" IF "%TARGET_TYPE%"=="PATH" IF NOT EXIST "%PATH_TARGET%\" SET "ERROR=1"&&ECHO.&&ECHO.                         %XLR4%Target %TARGET_TYPE% doesn't exist.%#$%
-IF "%PROG_MODE%"=="RAMDISK" IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition S:\ as a path.%#$%
-IF "%PROG_MODE%"=="RAMDISK" IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="S:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition S:\ as a path.%#$%
+IF "%PROG_MODE%"=="RAMDISK" IF "%SOURCE_TYPE%"=="PATH" IF "%PATH_SOURCE%"=="Z:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition Z:\ as a path.%#$%
+IF "%PROG_MODE%"=="RAMDISK" IF "%TARGET_TYPE%"=="PATH" IF "%PATH_TARGET%"=="Z:" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Cannot use vhdx host partition Z:\ as a path.%#$%
 IF "%TARGET_TYPE%"=="WIM" IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" SET "ERROR=1"&&ECHO.&&ECHO. %XLR4%Target %WIM_TARGET% exists. Try another name or delete the existing file.%#$%
 IF "%TARGET_TYPE%"=="VHDX" IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" ECHO.&&ECHO.                    File %#@%%VHDX_TARGET%%#$% already exists.&&ECHO.  %XLR2%Note:%#$% Updating may cause errors. Try a new vhdx if having issues.&&ECHO.&&ECHO.                        Press (%##%X%#$%) to overwrite.&&ECHO.&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF "%TARGET_TYPE%"=="VHDX" IF NOT DEFINED ERROR IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" SET "ERROR=1"&&ECHO.&&ECHO. %##%Abort.%#$%
@@ -1260,8 +1259,14 @@ IF "%LIST_ITEM%:%LIST_TIME%"=="WINSXS:IA" CALL:WINSXS_REMOVE
 IF "%LIST_ITEM%:%LIST_TIME%"=="EXTPACKAGE:IA" CALL SET "EXTPACKAGE=%PACK_FOLDER%\%BASE_MEAT%"&&CALL:PACK_ITEM
 IF "%LIST_ITEM%"=="MOUNT" IF "%CURR_SESSION%"=="MULTI" CALL:MOUNT_ITEM
 IF "%LIST_ITEM%"=="UNMOUNT" IF "%CURR_SESSION%"=="MULTI" CALL:UNMOUNT_ITEM
+IF "%LIST_ITEM%"=="CONFIRM" IF "%CURR_SESSION%"=="MULTI" CALL:CONFIRM_ITEM
 FOR %%a in (SC RO) DO (IF "%%a"=="%LIST_TIME%" CALL:SC_RO_CREATE)
 IF EXIST "$*" CALL:CLEAN
+EXIT /B
+:CONFIRM_ITEM
+ECHO.&&CALL:BOXT1&&ECHO.&&ECHO.%BASE_MEAT%&&ECHO.%LIST_ACTN%
+ECHO.&&ECHO.                  %XLR4%Are you sure?%#$% Press (%##%X%#$%) to proceed&&CALL:BOXB1&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+IF NOT "%CONFIRM%"=="X" SET "$HALT=1"
 EXIT /B
 :RASTI_CREATE
 IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('REG QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="CMD /C START %PROG_FOLDER%\$RAS.cmd" reg.exe add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD /C START %PROG_FOLDER%\$RAS.cmd" /f)
@@ -1687,7 +1692,7 @@ EXIT /B
 :LIST_MULTI_TEMPLATE
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                  This feature is a work in progress.&&ECHO.      It's a hybrid of a group base and an execution list, with&&ECHO.    simple scripted tools in mind. A example list will be created.&&ECHO.&&ECHO.                          Enter new list name&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF NOT DEFINED NEW_NAME EXIT /B
-(ECHO.MULTI-LIST&&ECHO.[GROUP][Mount and Unmount VHDX list items][EXAMPLE]&&ECHO.&&ECHO.[MOUNT][  AVAILABLE VHDXs:][                      Select the filesystem target]&&ECHO.&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the top of any subgroup.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.Default target is the live system when this item is not used.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA]&&ECHO.&&ECHO.[UNMOUNT][Unmount VHDX][Detaches virtual disk if it was attached during this instance.]&&ECHO.&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the bottomm of any subgroup.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.Target returns to the live system following the usage of this item.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA])>"%LIST_FOLDER%\%NEW_NAME%.list"
+(ECHO.MULTI-LIST&&ECHO.[GROUP][Mount and Unmount VHDX list items][EXAMPLE]&&ECHO.&&ECHO.[MOUNT][  AVAILABLE VHDXs:][                      Select the filesystem target]&&ECHO.&&ECHO.[CONFIRM][                    This is a confirmation prompt.][              If not confirmed, progress will be halted.]&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the top of any subgroup.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.Default target is the live system when this item is not used.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA]&&ECHO.&&ECHO.[UNMOUNT][Unmount VHDX][Detaches virtual disk if it was attached during this instance.]&&ECHO.&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the bottomm of any subgroup.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.Target returns to the live system following the usage of this item.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA])>"%LIST_FOLDER%\%NEW_NAME%.list"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.list"
 EXIT /B
 :LIST_COMMAND_CREATE
@@ -1927,7 +1932,7 @@ EXIT /B
 CALL:BOXB2&&CALL:PAD_LINE
 EXIT /B
 :LIST_ITEMS
-SET LIST_ITEMS1=APPX FEATURE COMPONENT CAPABILITY SERVICE TASK WINSXS DRIVER EXTPACKAGE COMMAND COMMANDQ PICK MOUNT UNMOUNT
+SET LIST_ITEMS1=APPX FEATURE COMPONENT CAPABILITY SERVICE TASK WINSXS DRIVER EXTPACKAGE COMMAND COMMANDQ PICK MOUNT UNMOUNT CONFIRM
 SET LIST_ITEMS2=# $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 GROUP
 EXIT /B
 :IF_LIVE_EXT
@@ -2272,7 +2277,7 @@ IF "%NEXT_BOOT%"=="VHDX" SET "BOOT_TARGET=RECOVERY"&&CALL:BOOT_TOGGLE&EXIT /B
 EXIT /B
 :CONFIRM
 IF DEFINED ERROR EXIT /B
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                  %XLR4%Are your sure?%#$% Press (%##%X%#$%) to proceed&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                  %XLR4%Are you sure?%#$% Press (%##%X%#$%) to proceed&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL SET "PROMPT_SET=CONFIRM"&&CALL:PROMPT_SET
 IF NOT "%CONFIRM%"=="X" SET "ERROR=1"
 EXIT /B
 :LETTER_GET
@@ -2370,7 +2375,7 @@ EXIT /B
 IF DEFINED ERROR EXIT /B
 FOR %%a in (DISK_NUMBER DISK_LETTER PART_NUMBER) DO (IF NOT DEFINED %%a EXIT /B)
 IF EXIST "%DISK_LETTER%:\" ECHO. %XLR4%ERROR:%#$% Choose a different drive letter.&&EXIT /B
-IF "%PROG_MODE%"=="RAMDISK" IF "%DISK_LETTER%"=="S" ECHO. %XLR4%ERROR:%#$% Choose a different drive letter.&&EXIT /B
+IF "%PROG_MODE%"=="RAMDISK" IF "%DISK_LETTER%"=="Z" ECHO. %XLR4%ERROR:%#$% Choose a different drive letter.&&EXIT /B
 IF NOT "%PROG_MODE%"=="COMMAND" ECHO.&&ECHO. Mounting disk %DISK_NUMBER% partition %PART_NUMBER% to letter %DISK_LETTER%:\...
 SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_ASSIGN
 IF NOT EXIST "%DISK_LETTER%:\" SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=%PART_NUMBER%"&&SET "LETT_X=%DISK_LETTER%"&&CALL:PART_ASSIGN
@@ -2388,10 +2393,7 @@ FOR %%G in (Z Y X W V U T S R Q P O N M L K J I H G F E D) DO (IF NOT EXIST "%%G
 SET "$GET="&&EXIT /B
 :DISKMGR_UNMOUNT
 IF NOT EXIST "%$LTR%:\" EXIT /B
-IF "%$RAS%"=="ANY" SET "$GET=$RAS"&&CALL:LETTER_ANY
 SET "CHECK=LTR"&&SET "CHECK_VAR=%$LTR%"&&CALL:CHECK
-IF DEFINED ERROR GOTO:DISKMGR_UNMOUNT_END
-IF DEFINED $RAS SET "CHECK=NUM"&&SET "CHECK_VAR=%$RAS%"&&CALL:CHECK
 IF DEFINED ERROR GOTO:DISKMGR_UNMOUNT_END
 (ECHO.List Volume&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ('DISKPART /s "$DSK"') DO (IF "%%c"=="%$LTR%" SET "$VOL=%%b")
 (ECHO.Select Volume %$VOL%&&ECHO.Detail Volume&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 DELIMS= " %%a IN ('DISKPART /s "$DSK"') DO (
@@ -2400,15 +2402,13 @@ IF "%%a"=="*" IF "%%b"=="Disk" SET "$DISK=%%c")
 (ECHO.List Vdisk&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-8* DELIMS= " %%a IN ('DISKPART /s "$DSK"') DO (IF "%%a"=="VDisk" IF "%%d"=="%$DISK%" IF EXIST "%%i" SET "$VDISK=%%i"&&FOR %%G in ("%%i") DO (SET "$NAM=%%~nG%%~xG"))
 IF NOT DEFINED $VDISK ECHO. Unmounting disk %$DISK% letter %$LTR%...&&(ECHO.Select Volume %$VOL%&&ECHO.Remove letter=%$LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF DEFINED $VDISK ECHO. Unmounting vdisk %$NAM% letter %$LTR%...&&(ECHO.Select vdisk file="%$VDISK%"&&ECHO.Detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK" >NUL 2>&1
-IF NOT DEFINED $VDISK IF DEFINED $RAS (ECHO.Select Volume %$VOL%&&ECHO.Assign letter=%$RAS% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-IF DEFINED $VDISK IF DEFINED $RAS (ECHO.Select vdisk file="%$VDISK%"&&ECHO.Attach vdisk&&ECHO.select partition 1&&ECHO.Assign letter=%$RAS% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 :DISKMGR_UNMOUNT_END
-FOR %%G in (PASS1 PASS2 $DISK $VDISK $VOL $RAS $NAM $LTR) DO (SET "%%G=")
+FOR %%G in (PASS1 PASS2 $DISK $VDISK $VOL $NAM $LTR) DO (SET "%%G=")
 IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :DISK_ERASE_PROMPT
 SET "QUERY_MSG=                         %XLR2%Select a disk to erase%#$%"&&CALL:DISK_MENU
-IF NOT DEFINED ERROR CALL:CONFIRM&&SET "$GET=TST_LETTER"&&CALL:LETTER_ANY&&CALL:DISKMGR_ERASE
+IF NOT DEFINED ERROR CALL:CONFIRM&&SET "$GET=TST_LETTER"&&CALL:LETTER_ANY&&CALL:DISKMGR_ERASE&SET "TST_LETTER="
 EXIT /B
 :DISKMGR_ERASE
 IF DEFINED ERROR EXIT /B
@@ -2437,21 +2437,21 @@ EXIT /B
 :HOST_HIDE
 CALL:PAD_LINE&&ECHO.Hiding VHDX host partition...&&CALL:PAD_LINE&&SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"&&CALL:DISK_DETECT>NUL 2>&1
 IF NOT DEFINED DISK_DETECT EXIT /B
-SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=S"&&CALL:PART_REMOVE&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_4000
+SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=Z"&&CALL:PART_REMOVE&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_4000
 EXIT /B
 :HOST_AUTO
 SET "HOST_ERROR="&&IF NOT DEFINED ARBIT_FLAG CLS&&ECHO.Querying disks...
-IF EXIST "S:\" (ECHO.select volume S&&ECHO.remove letter=S noerr&&ECHO.exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF EXIST "Z:\" (ECHO.select volume Z&&ECHO.remove letter=Z noerr&&ECHO.exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET /P DISK_TARGET=<"%PROG_FOLDER%\DISK_TARGET"
 SET "HOST_TARGET=%DISK_TARGET%"
 IF DEFINED ARBIT_FLAG CALL:DISK_DETECT>NUL 2>&1
 IF NOT DEFINED ARBIT_FLAG SET "QUERY_X=1"&&CALL:DISK_DETECT
-SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=S"&&CALL:PART_ASSIGN
-IF EXIST "S:\" IF NOT EXIST "S:\$" MD "S:\$">NUL 2>&1
-IF EXIST "S:\$" IF NOT EXIST "S:\$\windick.cmd" COPY "X:\$\windick.cmd" "S:\$">NUL 2>&1
-IF EXIST "S:\$\settings.ini" COPY /Y "S:\$\settings.ini" "%PROG_FOLDER%">NUL 2>&1
-IF NOT EXIST "S:\$" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOST_AUTO
-SET "ARBIT_FLAG="&&IF EXIST "S:\$" SET "PROG_SOURCE=S:\$"&&SET "HOST_NUMBER=%DISK_DETECT%"
+SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=Z"&&CALL:PART_ASSIGN
+IF EXIST "Z:\" IF NOT EXIST "Z:\$" MD "Z:\$">NUL 2>&1
+IF EXIST "Z:\$" IF NOT EXIST "Z:\$\windick.cmd" COPY "X:\$\windick.cmd" "Z:\$">NUL 2>&1
+IF EXIST "Z:\$\settings.ini" COPY /Y "Z:\$\settings.ini" "%PROG_FOLDER%">NUL 2>&1
+IF NOT EXIST "Z:\$" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOST_AUTO
+SET "ARBIT_FLAG="&&IF EXIST "Z:\$" SET "PROG_SOURCE=Z:\$"&&SET "HOST_NUMBER=%DISK_DETECT%"
 IF NOT DEFINED DISK_DETECT SET "HOST_ERROR=1"&&SET "DISK_TARGET="
 EXIT /B
 :EFI_MOUNT
@@ -2528,6 +2528,7 @@ FOR %%$ in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%%1"=="
 ECHO.&&DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :DISK_DETECT
+FOR /F "TOKENS=1 DELIMS=:" %%G in ("%PROG_SOURCE%") DO (SET "PROG_VOLUME=%%G")
 SET "DISK_DETECT="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30) DO (IF DEFINED DISK_%%a SET "DISK_%%a="&&SET "DISKID_%%a=")
 (ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1,2,4 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISK_%%b="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
 IF "%%1 %%2"=="Disk %%b" SET "DISK_%%b=%%b"
@@ -2535,7 +2536,8 @@ IF "%%1 %%2"=="Disk ID" SET "DISKID_%%b=%%3"&&IF "%%3"=="%DISK_TARGET%" SET "DIS
 IF "%%1 %%2"=="Disk ID" IF DEFINED QUERY_X ECHO. Getting info for disk uid %##%%%3%#$%...
 IF "%%1 %%2 %%3"=="Pagefile Disk Yes" SET "DISK_%%b="
 IF "%%2 %%3 %%4"=="File Backed Virtual" SET "DISK_%%b=VDISK"
-IF "%%1 %%3"=="Volume S" IF "%PROG_MODE%"=="RAMDISK" SET "HOST_VOLUME=%%2"))
+IF "%%1 %%3"=="Volume %PROG_VOLUME%" SET "DISK_%%b="
+IF "%%1 %%3"=="Volume Z" IF "%PROG_MODE%"=="RAMDISK" SET "HOST_VOLUME=%%2"))
 SET "QUERY_X="&&DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 ::#########################################################################
@@ -2714,10 +2716,8 @@ IF EXIST "%APPLYDIR%\$\RECOVERY_LOCK" DEL /Q /F "\\?\%APPLYDIR%\$\RECOVERY_LOCK"
 COPY /Y "%APPLYDIR%\Windows\System32\config\ELAM" "%TEMP%\BCD">NUL 2>&1
 ::ECHO."%%SYSTEMDRIVE%%\$\WINDICK.CMD">"%APPLYDIR%\WINDOWS\SYSTEM32\STARTNET.CMD"
 (ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\windick.cmd)>"%APPLYDIR%\Windows\System32\winpeshl.ini"
-SET "VHDX_SLOTZ=%VHDX_SLOT0%"
-SET "VHDX_SLOT0=%VHDX_SLOTX%"&&CALL:BCD_CREATE>NUL 2>&1
-SET "VHDX_SLOT0=%VHDX_SLOTZ%"
-SET "VHDX_SLOTZ="&&IF NOT EXIST "%EFI_LETTER%:\EFI\Microsoft\Boot\BCD" SET "ERROR=1"&&ECHO. %XLR2%ERROR:%#$% BCD missing.&&GOTO:BOOT_CLEANUP
+SET "VHDX_SLOTZ=%VHDX_SLOT0%"&&SET "VHDX_SLOT0=%VHDX_SLOTX%"&&CALL:BCD_CREATE>NUL 2>&1
+SET "VHDX_SLOT0=%VHDX_SLOTZ%"&&SET "VHDX_SLOTZ="&&IF NOT EXIST "%EFI_LETTER%:\EFI\Microsoft\Boot\BCD" SET "ERROR=1"&&ECHO. %XLR2%ERROR:%#$% BCD missing.&&GOTO:BOOT_CLEANUP
 ::DISM /IMAGE:"%APPLYDIR%" /SET-SCRATCHSPACE:512 >NUL 2>&1
 ECHO. Saving boot-media...&&CALL:TITLECARD
 SET "IMAGEFILE=%EFI_LETTER%:\$.WIM"&&CALL:CAPTURE_IMAGE
@@ -2872,11 +2872,11 @@ ECHO.::    Script cannot have an EXIT otherwise it goes into the main menu.
 ECHO.::Autoboot service must be installed within host OS to switch upon boot.
 ECHO.::==========================START OF AUTOBOOT============================
 ECHO.ECHO.- AutoBoot - Example - Your Script - Goes here -
-ECHO.::        Example of a VHDX backup/Restore - Host Folder = S:\$
-ECHO.REM if exist "S:\$\x.vhdx" del /f "S:\$\x.vhdx"
-ECHO.REM if exist "S:\$\image\x.vhdx" del /f "S:\$\image\x.vhdx"
+ECHO.::        Example of a VHDX backup/Restore - Host Folder = Z:\$
+ECHO.REM if exist "Z:\$\x.vhdx" del /f "Z:\$\x.vhdx"
+ECHO.REM if exist "Z:\$\image\x.vhdx" del /f "Z:\$\image\x.vhdx"
 ECHO.REM windick.cmd -imageproc -wim x.wim -index 1 -vhdx x.vhdx -size 25600
-ECHO.REM if exist "S:\$\image\x.vhdx" move /y "S:\$\image\x.vhdx" S:\$
+ECHO.REM if exist "Z:\$\image\x.vhdx" move /y "Z:\$\image\x.vhdx" Z:\$
 ECHO.PAUSE
 ECHO.::===========================END OF AUTOBOOT=============================
 ECHO.::=======================================================================
