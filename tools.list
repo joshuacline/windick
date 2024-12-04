@@ -138,15 +138,6 @@ MULTI-LIST
 [CONFIRM][ ][ ]
 [COMMAND][SFC /SCANNOW][CMD][IA]
 
-[GROUP][Miscellaneous Tasks][Install Autoboot Service][%COLOR2%        * Use this option with caution]
-[COMMANDQ][ECHO.   Autoboot service sets the following boot to recovery upon boot.][CMD][IA]
-[CONFIRM][ ][ ]
-[COMMAND][windick.cmd -autoboot -install][CMD][IA]
-
-[GROUP][Miscellaneous Tasks][Remove Autoboot Service][%COLOR2%        * Use this option with caution]
-[CONFIRM][ ][ ]
-[COMMAND][windick.cmd -autoboot -remove][CMD][IA]
-
 [GROUP][Miscellaneous Tasks][Sysprep Generalize with OOBE enabled][%COLOR2%        * Use this option with caution]
 [COMMANDQ][ECHO.  This will generalize the CURRENT windows installation and enable OOBE.][CMD][IA]
 [CONFIRM][ ][ ]

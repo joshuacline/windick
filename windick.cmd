@@ -301,7 +301,7 @@ IF NOT DEFINED HOST_FOLDER SET "HOST_FOLDER=$"
 IF NOT DEFINED HOST_HIDE SET "HOST_HIDE=DISABLED"
 IF NOT DEFINED ADDFILE_0 SET "ADDFILE_0=LIST\tweaks.base"
 IF NOT DEFINED ADDFILE_1 SET "ADDFILE_1=LIST\tools.list"
-IF NOT DEFINED HOTKEY_1 SET "HOTKEY_1=CMD"&&SET "SHORT_1=CMD.EXE"
+IF NOT DEFINED HOTKEY_1 SET "HOTKEY_1=CMD"&&SET "SHORT_1=EXIT"
 IF NOT DEFINED HOTKEY_2 SET "HOTKEY_2=NOTE"&&SET "SHORT_2=NOTEPAD.EXE"
 IF NOT DEFINED HOTKEY_3 SET "HOTKEY_3=REG"&&SET "SHORT_3=REGEDIT.EXE"
 IF NOT DEFINED APPX_SKIP SET "APPX_SKIP=Microsoft.DesktopAppInstaller Microsoft.VCLibs.140.00"
@@ -469,11 +469,11 @@ IF "%ARG1%"=="-FILEMGR" IF "%ARG2%"=="-GRANT" IF NOT EXIST "%ARG3%" ECHO.%ARG3% 
 IF "%ARG1%"=="-FILEMGR" IF "%ARG2%"=="-GRANT" IF DEFINED ARG3 IF EXIST "%ARG3%" SET "$PICK=%ARG3%"&&SET "NO_PAUSE=1"&&CALL:FMGR_OWN
 IF "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG2%"=="-RECOVERY" IF NOT "%ARG2%"=="-VHDX" ECHO.Valid options are -recovery and -vhdx
 IF "%ARG1%"=="-NEXTBOOT" FOR %%a in (VHDX RECOVERY) DO (IF "%ARG2%"=="-%%a" SET "BOOT_TARGET=%%a"&&CALL:BOOT_TOGGLE)
-IF "%ARG1%"=="-NEXTBOOT" IF DEFINED NEXT_BOOT CALL ECHO.Next boot is %NEXT_BOOT%
-IF "%ARG1%"=="-NEXTBOOT" IF NOT DEFINED NEXT_BOOT CALL ECHO. %XLR4%ERROR:%#$% The boot environment is not installed on this disk.
+IF "%ARG1%"=="-NEXTBOOT" IF DEFINED NEXT_BOOT ECHO.Next boot is %NEXT_BOOT%
+IF "%ARG1%"=="-NEXTBOOT" IF NOT DEFINED NEXT_BOOT ECHO. %XLR4%ERROR:%#$% The boot environment is not installed on this system.
 IF "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG2%"=="-INSTALL" IF NOT "%ARG2%"=="-REMOVE" ECHO.Valid options are -install and -remove
-IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-REMOVE" SET "BOOTSVC=REMOVE"&&CALL:AUTOBOOT_SVC&ECHO.AutoBoot switcher is removed
-IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-INSTALL" SET "BOOTSVC=INSTALL"&&CALL:AUTOBOOT_SVC&ECHO.AutoBoot switcher is installed
+IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-REMOVE" SET "BOOTSVC=REMOVE"&&CALL:AUTOBOOT_SVC
+IF "%ARG1%"=="-AUTOBOOT" IF "%ARG2%"=="-INSTALL" SET "BOOTSVC=INSTALL"&&CALL:AUTOBOOT_SVC
 IF "%ARG1%"=="-BOOTMAKER" CALL:COMMAND_BOOTMAKER
 IF "%ARG1%"=="-DISKMGR" CALL:COMMAND_DISKMGR
 IF "%ARG1%"=="-IMAGEMGR" CALL:COMMAND_IMAGEMGR
@@ -595,7 +595,7 @@ EXIT /B
 CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                        Settings Configuration&&ECHO.
 ECHO. (%##%-%#$%) Color Shift (%##%+%#$%)&&ECHO. (%##%1%#$%) Pad Type          %#@%PAD %PAD_TYPE%%#$%&&ECHO. (%##%2%#$%) Pad Size          %#@%%PAD_SIZE%%#$%&&ECHO. (%##%3%#$%) Pad Sequence      %#@%%PAD_SEQ%%#$%&&CALL ECHO. (%##%4%#$%) Text Color        %#@%COLOR %%XLR%TXT_COLOR%%%%TXT_COLOR%%#$%&&CALL ECHO. (%##%5%#$%) Accent Color      %#@%COLOR %%XLR%ACC_COLOR%%%%ACC_COLOR%%#$%&&CALL ECHO. (%##%6%#$%) Button Color      %#@%COLOR %%XLR%BTN_COLOR%%%%BTN_COLOR%%#$%&&CALL ECHO. (%##%7%#$%) Pad Box           %#@%%PAD_BOX%%#$%&&ECHO. (%##%8%#$%) Folder Layout     %#@%%FOLDER_MODE%%#$%&&ECHO. (%##%9%#$%) Shortcuts         %#@%%SHORTCUTS%%#$%&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##%10%#$%) Update&&ECHO. (%##%11%#$%) Host Hide        %#@%%HOST_HIDE%%#$%
 ECHO. (%##%@%#$%) Clear Settings&&ECHO. (%##%*%#$%) Enable Custom Menu&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE
-IF "%SHORTCUTS%"=="ENABLED" CALL ECHO. [%#@%SHORTCUTS%#$%]  (%##%X%#$%)Slot %#@%%SHORT_SLOT%%#$%   (%##%A%#$%)ssign %#@%%%SHORT_%SHORT_SLOT%%%%#$%   (%##%H%#$%)otKey %#@%%%HOTKEY_%SHORT_SLOT%%%%#$%&&CALL:PAD_LINE
+IF "%SHORTCUTS%"=="ENABLED" CALL ECHO. [%#@%SHORTCUTS%#$%]  (%##%X%#$%)Slot %#@%%SHORT_SLOT%%#$%   (%##%H%#$%)otKey %#@%%%HOTKEY_%SHORT_SLOT%%%%#$%   (%##%A%#$%)ssign %#@%%%SHORT_%SHORT_SLOT%%%%#$% &&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
@@ -686,10 +686,10 @@ CALL START %SHORT_RUN%
 EXIT /B
 :AUTOBOOT_SVC
 CALL:BOOT_QUERY
-IF NOT DEFINED BOOT_OK EXIT /B
-IF "%BOOTSVC%"=="INSTALL" SET "BOOTSVC="&&SC CREATE AutoBoot binpath="%WinDir%\SYSTEM32\CMD.EXE /C BCDEDIT.EXE /displayorder %GUID_TMP% /addfirst" start=auto>NUL 2>&1
-IF "%BOOTSVC%"=="REMOVE" SET "BOOTSVC="&&SC DELETE AutoBoot>NUL 2>&1
-EXIT /B
+IF NOT DEFINED BOOT_OK ECHO. %XLR4%ERROR:%#$% The boot environment is not installed on this system.&&EXIT /B
+IF "%BOOTSVC%"=="INSTALL" ECHO. Recovery switcher service is installed.&&SC CREATE AutoBoot binpath="%WinDir%\SYSTEM32\CMD.EXE /C BCDEDIT.EXE /displayorder %GUID_TMP% /addfirst" start=auto>NUL 2>&1
+IF "%BOOTSVC%"=="REMOVE" ECHO.Recovery switcher service is removed.&&SC DELETE AutoBoot>NUL 2>&1
+SET "BOOTSVC="&&EXIT /B
 :UPDATE_RECOVERY
 SET "PROG_NAME=windick"&&CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                           Recovery Update&&ECHO.&&ECHO. (%##%1%#$%) Program  (%##%*%#$%) Test&&ECHO. (%##%2%#$%) Recovery Wallpaper&&ECHO. (%##%3%#$%) Recovery Password&&ECHO. (%##%4%#$%) Boot Media&&ECHO. (%##%5%#$%) Host Folder&&ECHO. (%##%6%#$%) EFI Files&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
