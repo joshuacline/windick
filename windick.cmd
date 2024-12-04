@@ -212,7 +212,7 @@ SET "TIMER="&&SET "TIMER_LAST="&&SET "TIMER_MSG="&&EXIT /B
 :CLEAN
 IF NOT EXIST "$*" EXIT /B
 FOR %%G in (HZ TMP LST DSK RUN) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL 2>&1)
-IF NOT DEFINED DRIVER_QRY IF EXIST "$QRY" DEL /Q /F "$QRY">NUL
+FOR %%G in (DRVR FEAT) DO (IF NOT DEFINED %%G_QRY IF EXIST "$%%G" DEL /Q /F "$%%G">NUL 2>&1)
 EXIT /B
 :ARGUE
 CALL SET "ARG%ARGZ%=%ARGX:"=%"
@@ -224,8 +224,8 @@ IF "%CHECK%"=="NUM" SET "CHECK_FLT=0 1 2 3 4 5 6 7 8 9"
 IF "%CHECK%"=="LTR" SET "CHECK_FLT=A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z"
 IF "%CHECK%"=="ALPHA" SET "CHECK_FLT=0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z"
 IF NOT DEFINED ERROR FOR /F "DELIMS=" %%$ in ('CMD.EXE /D /U /C ECHO.%CHECK_VAR%^| FIND /V ""') do (
-SET "PASS="&&FOR %%a in (%CHECK_FLT%) DO (IF "%%a"=="%%$" SET "PASS=1")
-IF NOT DEFINED PASS SET "ERROR=1"
+SET "$GO="&&FOR %%a in (%CHECK_FLT%) DO (IF "%%a"=="%%$" SET "$GO=1")
+IF NOT DEFINED $GO SET "ERROR=1"
 IF NOT DEFINED SPACE IF "%%$"==" " SET "ERROR=1")
 IF DEFINED ERROR ECHO. %XLR4%ERROR:%#$% input [ %XLR4%%CHECK_VAR%%#$% ] is invalid
 SET "CHECK="&&SET "CHECK_VAR="&&SET "CHECK_FLT="&&SET "SPACE="
@@ -311,7 +311,7 @@ IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
 IF NOT DEFINED XLR0 SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"&&CALL:PAD_LINE>NUL 2>&1
 IF NOT DEFINED COLOR0 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a="&&SET "COLOR%%a=%%XLR%%a%%")
-FOR %%a in (SELECTX SELECTY SELECTZ APPLYDIR CAPTUREDIR IMAGEINDEX $VHDX ERROR LIVE_APPLY $HALT $HALTX VDISK VDISK_LTR VDISK_ATTACHED VDISK_FLAG DUAL_SESSION PKX_SESSION LST_SESSION CURR_SESSION LAST_SESSION) DO (SET "%%a=")
+FOR %%a in (SELECTX SELECTY SELECTZ APPLYDIR CAPTUREDIR IMAGEINDEX $VHDX ERROR LIVE_APPLY $HALT $HALTX VDISK VDISK_LTR VDISK_ATTACHED VDISK_FLAG DUAL_SESSION PKX_SESSION LST_SESSION CURR_SESSION LAST_SESSION FEAT_QRY DRVR_QRY) DO (SET "%%a=")
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 FOR %%a in (MENU_LIST) DO (SET "OBJ_FLD=%LIST_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (PE_WALLPAPER) DO (SET "OBJ_FLD=%CACHE_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
@@ -646,15 +646,13 @@ EXIT /B
 IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
 CHCP 65001 >NUL
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                           Choose a pad type&&ECHO.&&ECHO.   (%##%0%#$%)None (%##%1%#$%)◌ (%##%2%#$%)○ (%##%3%#$%)● (%##%4%#$%)□ (%##%5%#$%)■ (%##%6%#$%)░ (%##%7%#$%)▒ (%##%8%#$%)▓ (%##%9%#$%)~ (%##%10%#$%)= (%##%11%#$%)#&&CHCP %CHCP_OLD% >NUL
-ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=PAD_TYPE"&&CALL:PROMPT_SET
-SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11) DO (IF "%PAD_TYPE%"=="%%a" SET "PASS=1")
-IF NOT "%PASS%"=="1" SET "PAD_TYPE=1"
+ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11) DO (IF "%SELECTX%"=="%%a" SET "PAD_TYPE=%SELECTX%")
 EXIT /B
 :COLOR_CHOICE
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                            Choose a color&&ECHO.&&ECHO.                  [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_123"&&CALL:PROMPT_SET
-SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_123%"=="%%a" SET "PASS=1")
-IF "%PASS%"=="1" SET "%COLOR_TMP%=%COLOR_123%"
-SET "COLOR_TMP="&&SET "COLOR_123="&&EXIT /B
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                            Choose a color&&ECHO.&&ECHO.                  [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%SELECTX%"=="%%a" SET "%COLOR_TMP%=%SELECTX%")
+SET "COLOR_TMP="&&EXIT /B
 :COLOR_SHIFT_PAD
 FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO.%PAD_SEQ%^| FIND /V ""') do (SET "XXX_XXX=%%G"&&SET /A "PAD_XNT+=1"&&CALL:PAD_XNT)
 SET "PAD_SEQ=%PAD_SHIFT%"&&FOR %%a in (PAD_SHIFT PAD_XNT XXX_XXX) DO (SET "%%a=")
@@ -909,8 +907,9 @@ EXIT /B
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&IF NOT DEFINED SOURCE_TYPE SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"
 SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y Z) DO (IF EXIST "%%a:\sources\boot.wim" SET "SOURCE_LOCATION=%%a:\sources")
 SET "PROC_DISPLAY="&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                           Image Processing&&ECHO.
-IF DEFINED SOURCE_LOCATION ECHO.  (%##%-%#$%)Import Boot  %##%Windows Installation Media Detected%#$%  Import WIM(%##%+%#$%)&&ECHO.
-IF NOT DEFINED SOURCE_LOCATION IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO.   Insert a Windows Disc/ISO/USB to Import Installation/Boot Media&&ECHO.
+IF DEFINED SOURCE_LOCATION ECHO. (%##%-%#$%) Import Boot  %XLR5%Windows Installation Media Detected%#$%  Import WIM (%##%+%#$%)&&ECHO.
+IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO.        %#@%Insert a Windows Disc/ISO to import installation media%#$%&&ECHO.
+IF NOT EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO.            %#@%Insert a Windows Disc/ISO to import boot media%#$%&&ECHO.
 IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "WIM_DESC=NULL"
 IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_QUERY
 FOR %%G in (%SOURCE_TYPE% %TARGET_TYPE%) DO (IF "%%G"=="VHDX" SET "PROC_DISPLAY=1")
@@ -1116,7 +1115,7 @@ IF "%CURR_SESSION%"=="PACK" IF DEFINED DUAL_SESSION IF DEFINED VDISK_FLAG GOTO:L
 IF "%CURR_SESSION%"=="MULTI" IF NOT DEFINED DUAL_SESSION IF DEFINED MLT_SESSION IF NOT DEFINED PKX_SESSION CALL:MOUNT_INT&IF "%VDISK_ATTACHED%"=="1" CALL:VDISK_DETACH
 IF DEFINED VDISK_FLAG CALL:MOUNT_INT&CALL:VDISK_DETACH
 :LIST_RUN_END
-IF NOT DEFINED DUAL_SESSION FOR %%a in (DRIVER_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
+IF NOT DEFINED DUAL_SESSION FOR %%a in (DRVR_QRY FEAT_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
 ECHO.&&ECHO.             %#@%%CURR_SESSION%-LIST END:%#$%  %DATE%  %TIME%&&CALL:BOXB2
 IF NOT DEFINED PKX_SESSION CALL:CLEAN
 IF NOT DEFINED DUAL_SESSION CALL:MOUNT_INT&&CALL:SCRATCH_DELETE&&IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
@@ -1258,34 +1257,6 @@ TAKEOWN /F "%PROG_SOURCE%\scratchPKX" /R /D Y>NUL 2>&1
 ICACLS "%PROG_SOURCE%\scratchPKX" /grant %USERNAME%:F /T >NUL 2>&1
 RD /S /Q "\\?\%PROG_SOURCE%\scratchPKX">NUL 2>&1
 EXIT /B
-:DRVR_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" IF NOT "%LIST_ACTN%"=="INSTALL" ECHO. %XLR4%ERROR:%#$% Driver list action is not INSTALL or DELETE.&&EXIT /B
-IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="DRIVER:INSTALL:IA" CALL:DRVR_INSTALL
-IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="DRIVER:DELETE:IA" CALL:DRVR_REMOVE
-EXIT /B
-:DRVR_INSTALL
-SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"&&CALL:IF_LIVE_MIX
-FOR /F "TOKENS=*" %%a in ('DIR/S/B "%BASE_MEAT%\*.INF" 2^>NUL') DO (
-IF NOT EXIST "%%a\*" FOR %%G in ("%%a") DO (CALL ECHO.Installing %#@%%%~nG.inf%#$%...)
-IF NOT EXIST "%%a\*" IF DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('pnputil.exe /add-driver "%%a" /install 2^>NUL') DO (IF "%%1"=="Driver package added successfully" CALL SET "DISMSG=%PACK_GOOD%")
-IF NOT EXIST "%%a\*" IF NOT DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=%PACK_GOOD%")
-IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO. %XLR5%%PACK_GOOD%.%#$%
-IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG CALL ECHO. %XLR2%%PACK_BAD%.%#$%)
-EXIT /B
-:DRVR_REMOVE
-CALL:IF_LIVE_MIX
-IF NOT EXIST "$QRY" SET "DRIVER_QRY=1"&&ECHO.Getting driver listing...&&DISM /ENGLISH /%APPLY_TARGET% /GET-DRIVERS /FORMAT:TABLE>"$QRY"
-ECHO.Removing driver %#@%%BASE_MEAT%%#$%...&&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
-SET "DISMSG="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ($QRY) DO (SET "X1=%%a"&&SET "CAPS_SET=X2"&&SET "CAPS_VAR=%%b"&&CALL:CAPS_SET&&CALL:DRVR_REMOVEX)
-IF NOT DEFINED DISMSG ECHO. %XLR4%Driver %BASE_MEAT% doesn't exist.%#$%
-IF DEFINED DISMSG ECHO. %XLR5%%DISMSG%%#$%
-EXIT /B
-:DRVR_REMOVEX
-IF NOT "%X2%"=="%BASE_MEAT%" EXIT /B
-ECHO.Uninstalling %#@%%X1%%#$%...
-IF DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('PNPUTIL.EXE /DELETE-DRIVER "%X1%" /UNINSTALL /FORCE 2^>NUL') DO (IF "%%1"=="Driver package deleted successfully" SET "DISMSG=The operation completed successfully.")
-IF NOT DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /REMOVE-DRIVER /DRIVER:"%X1%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" SET "DISMSG=%%1.")
-EXIT /B
 :APPX_ITEM
 IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR:%#$% Appx list action is not DELETE.&&EXIT /B
 ECHO.Removing AppX %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_EXT
@@ -1297,7 +1268,7 @@ IF NOT DEFINED APPX_KEY FOR /F "TOKENS=1-1* DELIMS=\" %%a IN ('REG QUERY "%HIVE_
 IF NOT DEFINED APPX_KEY IF NOT DEFINED APPX_DONE ECHO. %XLR4%AppX %BASE_MEAT% doesn't exist.%#$%
 IF DEFINED APPX_KEY IF NOT DEFINED APPX_DONE ECHO. %XLR2%AppX %BASE_MEAT% is a stub or unable to remove.%#$%
 :APPX_END
-FOR %%a in (APPX_DONE APPX_PATH APPX_VER APPX_KEY) DO (CALL SET "%%a=")
+FOR %%a in (APPX_DONE APPX_PATH APPX_VER APPX_KEY) DO (SET "%%a=")
 EXIT /B
 :APPX_NML
 FOR /F "TOKENS=1-9 SKIP=2 DELIMS=\ " %%a in ('REG QUERY "%APPX_KEY%" /V Path 2^>NUL') DO (IF "%%a"=="Path" SET "APPX_PATH=%DRVTAR%\Program Files\WindowsApps\%%g")
@@ -1317,6 +1288,12 @@ EXIT /B
 TAKEOWN /F "%APPX_PATH%" /R /D Y>NUL 2>&1
 ICACLS "%APPX_PATH%" /grant %USERNAME%:F /T>NUL 2>&1
 RD /Q /S "\\?\%APPX_PATH%" >NUL 2>&1
+EXIT /B
+:CAP_ITEM
+IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR:%#$% Capability list action is not DELETE.&&EXIT /B
+ECHO.Removing Capability %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_MIX
+SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /REMOVE-CAPABILITY /CAPABILITYNAME:"%BASE_MEAT%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" CALL ECHO. %XLR5%%%1.%#$%&&EXIT /B)
+ECHO. %XLR4%Capability %BASE_MEAT% doesn't exist.%#$%
 EXIT /B
 :COMP_ITEM
 IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR:%#$% Component list action is not DELETE.&&EXIT /B
@@ -1359,17 +1336,50 @@ SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET%
 IF NOT DEFINED DISMSG ECHO. %XLR2%Component %BASE_MEAT% is a stub or unable to remove.%#$%
 IF DEFINED DISMSG ECHO. %XLR5%%DISMSG%%#$%
 EXIT /B
-:CAP_ITEM
-IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR:%#$% Capability list action is not DELETE.&&EXIT /B
-ECHO.Removing Capability %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_MIX
-SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /REMOVE-CAPABILITY /CAPABILITYNAME:"%BASE_MEAT%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" CALL ECHO. %XLR5%%%1.%#$%&&EXIT /B)
-ECHO. %XLR4%Capability %BASE_MEAT% doesn't exist.%#$%
+:DRVR_ITEM
+IF NOT "%LIST_ACTN%"=="DELETE" IF NOT "%LIST_ACTN%"=="INSTALL" ECHO. %XLR4%ERROR:%#$% Driver list action is not INSTALL or DELETE.&&EXIT /B
+IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="DRIVER:INSTALL:IA" CALL:DRVR_INSTALL
+IF "%LIST_ITEM%:%LIST_ACTN%:%LIST_TIME%"=="DRIVER:DELETE:IA" CALL:DRVR_REMOVE
+EXIT /B
+:DRVR_INSTALL
+SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"&&CALL:IF_LIVE_MIX
+FOR /F "TOKENS=*" %%a in ('DIR/S/B "%BASE_MEAT%\*.INF" 2^>NUL') DO (
+IF NOT EXIST "%%a\*" FOR %%G in ("%%a") DO (CALL ECHO.Installing %#@%%%~nG.inf%#$%...)
+IF NOT EXIST "%%a\*" IF DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('pnputil.exe /add-driver "%%a" /install 2^>NUL') DO (IF "%%1"=="Driver package added successfully" CALL SET "DISMSG=%PACK_GOOD%")
+IF NOT EXIST "%%a\*" IF NOT DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=%PACK_GOOD%")
+IF NOT EXIST "%%a\*" IF DEFINED DISMSG CALL ECHO. %XLR5%%PACK_GOOD%.%#$%
+IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG CALL ECHO. %XLR2%%PACK_BAD%.%#$%)
+EXIT /B
+:DRVR_REMOVE
+SET "FILE_OUTPUT=$DRVR"&&CALL:IF_LIVE_MIX
+IF NOT DEFINED DRVR_QRY IF EXIST "$DRVR" DEL /Q /F "$DRVR">NUL 2>&1
+IF NOT EXIST "$DRVR" SET "DRVR_QRY=1"&&ECHO.Getting driver listing...&&FOR /F "TOKENS=1-9 DELIMS=|" %%a in ('DISM /ENGLISH /%APPLY_TARGET% /GET-DRIVERS /FORMAT:TABLE 2^>NUL') DO (FOR /F "TOKENS=1 DELIMS= " %%# in ("%%a") DO (SET "X1=%%#")
+FOR /F "TOKENS=1 DELIMS= " %%# in ("%%g") DO (SET "X3=%%#")
+FOR /F "TOKENS=1 DELIMS= " %%# in ("%%b") DO (SET "CAPS_SET=X2"&&SET "CAPS_VAR=%%#"&&CALL:CAPS_SET&&CALL:FILE_OUTPUT))
+ECHO.Removing driver %#@%%BASE_MEAT%%#$%...&&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
+SET "DISMSG="&&FOR /F "TOKENS=1-3 DELIMS=|" %%a in ($DRVR) DO (IF "%%b"=="%BASE_MEAT%" ECHO.Uninstalling %#@%%%a%#$% v%%c...
+IF "%%b"=="%BASE_MEAT%" IF DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('PNPUTIL.EXE /DELETE-DRIVER "%%a" /UNINSTALL /FORCE 2^>NUL') DO (IF "%%1"=="Driver package deleted successfully" SET "DISMSG=The operation completed successfully.")
+IF "%%b"=="%BASE_MEAT%" IF NOT DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('DISM /ENGLISH /%APPLY_TARGET% /REMOVE-DRIVER /DRIVER:"%%a" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" SET "DISMSG=%%1."))
+IF NOT DEFINED DISMSG ECHO. %XLR4%Driver %BASE_MEAT% doesn't exist.%#$%
+IF DEFINED DISMSG ECHO. %XLR5%%DISMSG%%#$%
+EXIT /B
+:FILE_OUTPUT
+IF "%FILE_OUTPUT%"=="$FEAT" ECHO.%X1%%-%%X2%>>"$FEAT"
+IF "%FILE_OUTPUT%"=="$DRVR" ECHO.%X1%%-%%X2%%-%%X3%>>"$DRVR"
 EXIT /B
 :FEAT_ITEM
 IF NOT "%LIST_ACTN%"=="ENABLE" IF NOT "%LIST_ACTN%"=="DISABLE" ECHO. %XLR4%ERROR:%#$% Feature list action is not ENABLE or DISABLE.&&EXIT /B
-CALL:IF_LIVE_MIX
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:ENABLE" ECHO.Enabling Feature %#@%%BASE_MEAT%%#$%... &&FOR /F "TOKENS=1 DELIMS=." %%a in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /ENABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /ALL 2^>NUL') DO (IF "%%a"=="The operation completed successfully" CALL ECHO. %XLR5%%%a.%#$% &&EXIT /B)
-IF "%LIST_ITEM%:%LIST_ACTN%"=="FEATURE:DISABLE" ECHO.Disabling Feature %#@%%BASE_MEAT%%#$%... &&FOR /F "TOKENS=1 DELIMS=." %%a in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /DISABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /REMOVE 2^>NUL') DO (IF "%%a"=="The operation completed successfully" CALL ECHO. %XLR5%%%a.%#$% &&EXIT /B)
+SET "FILE_OUTPUT=$FEAT"&&CALL:IF_LIVE_MIX
+IF NOT DEFINED FEAT_QRY IF EXIST "$FEAT" DEL /Q /F "$FEAT">NUL 2>&1
+IF NOT EXIST "$FEAT" SET "FEAT_QRY=1"&&ECHO.Getting feature listing...&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ('DISM /ENGLISH /%APPLY_TARGET% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (FOR %%X in (Enabled Disabled) DO (IF "%%b"=="%%X" SET "CAPS_SET=X1"&&SET "CAPS_VAR=%%a"&&SET "X2=%%b"&&CALL:CAPS_SET&&CALL:FILE_OUTPUT))
+IF "%LIST_ACTN%"=="ENABLE" ECHO.Enabling Feature %#@%%BASE_MEAT%%#$%... &&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
+IF "%LIST_ACTN%"=="DISABLE" ECHO.Disabling Feature %#@%%BASE_MEAT%%#$%... &&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
+SET "FEAT="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=|" %%a in ($FEAT) DO (IF "%%a"=="%BASE_MEAT%" SET "FEAT=1"&&SET "X1=%%a"&&SET "X2=%%b")
+IF NOT DEFINED FEAT ECHO. %XLR4%Feature %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
+IF "%LIST_ACTN%"=="ENABLE" IF "%X2%"=="Enabled" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
+IF "%LIST_ACTN%"=="DISABLE" IF "%X2%"=="Disabled" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
+IF "%LIST_ACTN%"=="ENABLE" FOR /F "TOKENS=1 DELIMS=." %%$ in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /ENABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /ALL 2^>NUL') DO (IF "%%$"=="The operation completed successfully" CALL ECHO. %XLR5%%%$.%#$% &&SET "X2=Enabled"&&CALL:FILE_OUTPUT&&EXIT /B)
+IF "%LIST_ACTN%"=="DISABLE" FOR /F "TOKENS=1 DELIMS=." %%$ in ('DISM /ENGLISH /%APPLY_TARGET% /NORESTART /DISABLE-FEATURE /FEATURENAME:"%BASE_MEAT%" /REMOVE 2^>NUL') DO (IF "%%$"=="The operation completed successfully" CALL ECHO. %XLR5%%%$.%#$% &&SET "X2=Disabled"&&CALL:FILE_OUTPUT&&EXIT /B)
 ECHO. %XLR2%Feature %BASE_MEAT% is a stub or unable to change.%#$%
 EXIT /B
 :SVC_ITEM
@@ -1380,8 +1390,12 @@ IF NOT "%LIST_ACTN%"=="DELETE" ECHO.Changing start to %#@%%LIST_ACTN%%#$% for Se
 SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
 IF DEFINED SVC_SKIP SET "CAPS_SET=SVC_SKIPX"&&SET "CAPS_VAR=%SVC_SKIP%"&&CALL:CAPS_SET
 IF DEFINED SVC_SKIP FOR %%1 in (%SVC_SKIPX%) DO (IF "%BASE_MEAT%"=="%%1" ECHO. %XLR2%The operation has been skipped.%#$%&&EXIT /B)
-SET "SVC_GO="&&FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (IF "%%a"=="Start" SET "SVC_GO=1")
-IF NOT DEFINED SVC_GO ECHO. %XLR4%Service %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
+SET "$GO="&&FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (
+IF "%%a"=="Start" SET "$GO=1"
+IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF "%%c"=="0x2" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
+IF "%LIST_ACTN%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
+IF "%LIST_ACTN%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B)
+IF NOT DEFINED $GO ECHO. %XLR4%Service %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
 SET "$RAS=RATI"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (
 IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF NOT "%%c"=="0x2" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
@@ -1627,13 +1641,13 @@ CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                         Enter subgroup n
 IF NOT DEFINED GRP_SUB EXIT /B
 CALL:PAD_LINE&&ECHO.       Choose subgroup color: [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_XYZ"&&CALL:PROMPT_SET
 IF NOT DEFINED COLOR_XYZ EXIT /B
-SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_XYZ%"=="%%a" SET "PASS=1")
-IF NOT "%PASS%"=="1" SET "COLOR_XYZ="&&ECHO. %XLR2%ERROR&&EXIT /B
+SET "$GO="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_XYZ%"=="%%a" SET "$GO=1")
+IF NOT DEFINED $GO SET "COLOR_XYZ="&&ECHO. %XLR2%ERROR&&EXIT /B
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                        Enter subgroup comment&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&ECHO.                        Press (%##%Enter%#$%) for none&&SET "PROMPT_SET=GRP_COM"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 IF DEFINED GRP_COM CALL:PAD_LINE&&ECHO.       Choose comment color: [ %XLR0% 0 %XLR1% 1 %XLR2% 2 %XLR3% 3 %XLR4% 4 %XLR5% 5 %XLR6% 6 %XLR7% 7 %XLR8% 8 %XLR9% 9 %#$% ]&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=COLOR_123"&&CALL:PROMPT_SET
 IF DEFINED GRP_COM IF NOT DEFINED COLOR_123 EXIT /B
-IF DEFINED GRP_COM SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_123%"=="%%a" SET "PASS=1")
-IF DEFINED GRP_COM IF NOT "%PASS%"=="1" SET "COLOR_123="&&ECHO. %XLR2%ERROR&&EXIT /B
+IF DEFINED GRP_COM SET "$GO="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%COLOR_123%"=="%%a" SET "$GO=1")
+IF DEFINED GRP_COM IF NOT DEFINED $GO SET "COLOR_123="&&ECHO. %XLR2%ERROR&&EXIT /B
 SET "MENUT0=                             List Builder"&&SET "MENUT1= "&&SET "MENUT2=  %#@%AVAILABLE LISTs:%#$%"&&SET "MENUT3= "&&SET "MENUT4= ( %##%0%#$% ) Create new list"&&SET "MENUB0= "&&SET "PICK=LIST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_ADD&&ECHO.&&CALL ECHO. GROUP %GRP_NAME% %%XLR%COLOR_XYZ%%%%GRP_SUB%%#$% %%XLR%COLOR_123%%%%GRP_COM%%#$%
@@ -1659,8 +1673,8 @@ CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.            Enter the message for th
 IF NOT DEFINED PROMPT_XYZ EXIT /B
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                     Select a var number: [ %#@%0-9%#$% ]&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_ANY=1"&&SET "PROMPT_SET=VAR_XYZ"&&CALL:PROMPT_SET
 IF NOT DEFINED VAR_XYZ EXIT /B
-SET "PASS="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%VAR_XYZ%"=="%%a" SET "PASS=1")
-ECHO.&&IF NOT "%PASS%"=="1" ECHO. %XLR2%ERROR%#$%&&EXIT /B
+SET "$GO="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%VAR_XYZ%"=="%%a" SET "$GO=1")
+ECHO.&&IF NOT DEFINED $GO ECHO. %XLR2%ERROR%#$%&&EXIT /B
 SET "MENUT0=                             List Builder"&&SET "MENUT1= "&&SET "MENUT2=  %#@%AVAILABLE LISTs:%#$%"&&SET "MENUT3= "&&SET "MENUT4= ( %##%0%#$% ) Create new list"&&SET "MENUB0= "&&SET "PICK=LIST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_ADD&&ECHO.&&ECHO. %#@%$%VAR_XYZ%%#$% %PROMPT_XYZ% %##%VAR%VAR_XYZ%%#$%&&ECHO.[$%VAR_XYZ%][%PROMPT_XYZ%][VAR%VAR_XYZ%]>>"%$PICK%"
@@ -1714,9 +1728,9 @@ CALL:PAUSED
 EXIT /B
 :LIST_BASE_CREATE
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                             List Builder&&ECHO.&&ECHO. (%##%*%#$%) All base list items&&ECHO. (%##%1%#$%) Appx&&ECHO. (%##%2%#$%) Feature&&ECHO. (%##%3%#$%) Component&&ECHO. (%##%4%#$%) Capability&&ECHO. (%##%5%#$%) Service&&ECHO. (%##%6%#$%) Task&&ECHO. (%##%7%#$%) Driver&&ECHO.&&ECHO.                         Multiples OK ( %##%1 2 3%#$% )&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=BASE_CHOICE"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
-IF "%BASE_CHOICE%"=="*" SET "BASE_CHOICE=1 2 3 4 5 6 7"
-SET "PASS="&&FOR /F "TOKENS=1" %%a IN ("%BASE_CHOICE%") DO (FOR %%1 IN (1 2 3 4 5 6 7) DO (IF "%%a"=="%%1" SET "PASS=1"))
-IF NOT DEFINED PASS EXIT /B
+IF "%BASE_CHOICE%"=="*" SET "BASE_CHOICE=1 4 2 5 6 7 3"
+SET "$GO="&&FOR /F "TOKENS=1" %%a IN ("%BASE_CHOICE%") DO (FOR %%1 IN (1 2 3 4 5 6 7) DO (IF "%%a"=="%%1" SET "$GO=1"))
+IF NOT DEFINED $GO EXIT /B
 SET "MENUT0=                   Choose a source to generate base"&&SET "MENUT1= "&&SET "MENUT2=  %#@%AVAILABLE VHDXs:%#$%"&&SET "MENUT3= "&&SET "MENUT4= ( %##%@%#$% ) %##%Current Environment%#$%"&&SET "MENUB0= "&&SET "PICK=VHDX"&&CALL:FILE_PICK
 IF NOT DEFINED LIVE_APPLY IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                      Enter name of new base list&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
@@ -2345,7 +2359,7 @@ IF "%%a"=="*" IF "%%b"=="Disk" SET "$DISK=%%c")
 IF NOT DEFINED $VDISK ECHO. Unmounting disk %$DISK% letter %$LTR%...&&(ECHO.Select Volume %$VOL%&&ECHO.Remove letter=%$LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 IF DEFINED $VDISK ECHO. Unmounting vdisk %$NAM% letter %$LTR%...&&(ECHO.Select vdisk file="%$VDISK%"&&ECHO.Detach vdisk&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK" >NUL 2>&1
 :DISKMGR_UNMOUNT_END
-FOR %%G in (PASS1 PASS2 $DISK $VDISK $VOL $NAM $LTR) DO (SET "%%G=")
+FOR %%G in ($DISK $VDISK $VOL $NAM $LTR) DO (SET "%%G=")
 IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :DISK_ERASE_PROMPT
@@ -2429,23 +2443,27 @@ EXIT /B
 :DISK_LIST
 CALL:BOXT1
 IF DEFINED QUERY_MSG ECHO.%QUERY_MSG%
+FOR /F "TOKENS=1 DELIMS=:" %%G in ("%SystemDrive%") DO (SET "SYS_VOLUME=%%G")
+FOR /F "TOKENS=1 DELIMS=:" %%G in ("%PROG_SOURCE%") DO (SET "PROG_VOLUME=%%G")
 (ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-5 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
 IF "%%a"=="Disk" IF NOT "%%b"=="###" SET "DISKVND="&&(ECHO.select disk %%b&&ECHO.detail disk&&ECHO.list partition&&ECHO.Exit)>"$DSK"&&SET "LTRX=X"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS={}: " %%1 in ('DISKPART /s "$DSK"') DO (
 IF "%%1 %%2"=="Disk %%b" ECHO.&&ECHO.   %#@%Disk%#$% ^(%##%%%b%#$%^)
 IF NOT "%%1 %%2"=="Disk %%b" IF NOT DEFINED DISKVND SET "DISKVND=$"&&ECHO.   %%1 %%2 %%3 %%4 %%5
 IF "%%1"=="Type" ECHO.    %#@%Type%#$% = %%2
 IF "%%1 %%2"=="Disk ID" ECHO.    %#@%UID%#$%  = %%3
-IF "%%1 %%2 %%3"=="Pagefile Disk Yes" ECHO. %XLR2%  Active Pagefile%#$%
+IF "%%1 %%3"=="Volume %SYS_VOLUME%" ECHO.  %XLR2%  System Volume%#$%
+IF "%%1 %%3"=="Volume %PROG_VOLUME%" ECHO.  %XLR2%  Program Volume%#$%
+IF "%%1 %%2 %%3"=="Pagefile Disk Yes" ECHO.  %XLR2%  Active Pagefile%#$%
 IF "%%1"=="Partition" IF NOT "%%2"=="###" SET "PARTX=%%2"&&SET "SIZEX=%%4 %%5"&&(ECHO.select disk %%b&&ECHO.select partition %%2&&ECHO.detail partition&&ECHO.Exit)>"$DSK"&&SET "LTRX="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=* " %%A in ('DISKPART /s "$DSK"') DO (IF "%%A"=="Volume" IF NOT "%%B"=="###" SET "LTRX=%%C"&&CALL:DISK_CHECK)
 IF NOT DEFINED LTRX IF NOT "%%2"=="DiskPart..." ECHO.    %#@%Part %%2%#$% Vol * %%4 %%5))
 IF DEFINED DISK_GET CALL:DISK_DETECT>NUL 2>&1
 ECHO.&&CALL:BOXB1
-FOR %%a in (PASS LTRX PARTX SIZEX QUERY_MSG DISK_GET) DO (SET "%%a=")
+FOR %%a in ($GO LTRX PARTX SIZEX QUERY_MSG DISK_GET) DO (SET "%%a=")
 DEL /Q /F "$DSK*">NUL 2>&1
 EXIT /B
 :DISK_CHECK
-SET "PASS="&&FOR %%$ in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%%$"=="%LTRX%" SET "PASS=1"&&ECHO.    %#@%Part %PARTX%%#$% Vol %#@%%LTRX%%#$% %SIZEX%)
-IF NOT DEFINED PASS ECHO.    %#@%Part %PARTX%%#$% Vol * %SIZEX%
+SET "$GO="&&FOR %%$ in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%%$"=="%LTRX%" SET "$GO=1"&&ECHO.    %#@%Part %PARTX%%#$% Vol %#@%%LTRX%%#$% %SIZEX%)
+IF NOT DEFINED $GO ECHO.    %#@%Part %PARTX%%#$% Vol * %SIZEX%
 EXIT /B
 :DISK_LIST_BASIC
 (ECHO.LIST DISK&&ECHO.Exit)>"$DSK"&&FOR /F "TOKENS=1-5 SKIP=8 DELIMS= " %%a in ('DISKPART /s "$DSK"') DO (
@@ -2510,8 +2528,12 @@ IF DEFINED ADDFILEZ IF DEFINED $PICK IF EXIST "%$PICK%" IF NOT EXIST "%$PICK%\*"
 IF DEFINED ADDFILEZ IF NOT DEFINED $PICK SET "ADDFILE_%ADDFILEX%=SELECT"
 EXIT /B
 :HOST_SIZE
-CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.  Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO.    One benefit is having an additional drive letter when used in &&ECHO.  conjunction with the hide host partition option in Disk Management.&&ECHO. Should be larger than the combined maximum filled size of all VHDX's.&&ECHO.&&ECHO.                 Enter VHDX host partition size in MB&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=HOST_SIZE"&&CALL:PROMPT_SET
-SET "CHECK_VAR=%HOST_SIZE%"&&SET "CHECK=NUM"&&CALL:CHECK
+CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.  Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO.    One benefit is having an additional drive letter when used in &&ECHO.     conjunction with the hide host partition option in settings.&&ECHO. Should be larger than the combined maximum filled size of all VHDX's.&&ECHO.&&ECHO.                 Enter VHDX host partition size in GB&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+SET "CHECK=NUM"&&SET "CHECK_VAR=%SELECTX%"&&CALL:CHECK
+IF DEFINED ERROR SET "HOST_SIZE="&&EXIT /B
+IF %SELECTX% LSS 1 SET "ERROR=1"
+IF %SELECTX% GTR 9999 SET "ERROR=1"
+IF NOT DEFINED ERROR SET "HOST_SIZE=%SELECTX%000"
 IF DEFINED ERROR SET "HOST_SIZE="
 EXIT /B
 :EFI_FETCH
