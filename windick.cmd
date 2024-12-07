@@ -876,6 +876,7 @@ IF DEFINED ERROR ECHO. %XLR2%ERROR:%#$% Unable to get file size or free space. A
 CALL:GET_SPACE&&FOR %%a in (EFI_FREE BOOT_X) DO (IF NOT DEFINED %%a SET "%%a=0")
 IF %EFI_FREE% LEQ %BOOT_X% ECHO. %XLR2%ERROR:%#$% File boot.sav %BOOT_X%MB exceeds %EFI_FREE%MB. Abort.&&ECHO. Unmounting EFI...&&SET "ERROR=1"&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 FOR %%a in (0 ERROR) DO (IF "%FREE%"=="%%a" ECHO. %XLR2%ERROR:%#$% Not enough free space. Clear some space and try again. Abort.&&ECHO. Unmounting EFI...&&SET "ERROR=1"&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END)
+DEL /Q /F "%EFI_LETTER%:\$.WIM">NUL 2>&1
 MOVE /Y "%SCRATCHDIR%\boot.wim" "%EFI_LETTER%:\$.WIM">NUL
 ECHO. Unmounting EFI...&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT
 :UPDATE_END
@@ -2666,8 +2667,8 @@ SET "PROG_NAME=windick"&&IF NOT "%PROG_MODE%"=="COMMAND" CLS
 CALL:BOXT2&&ECHO.           %#@%BOOT CREATOR START:%#$%  %DATE%  %TIME%&&ECHO.&&CALL:GET_SPACE
 SET "DISK_MSG="&&DISM /cleanup-MountPoints>NUL 2>&1
 SET "CHAR_STR=%VHDX_SLOTX%"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK
-IF DEFINED CHAR_FLG ECHO. %XLR4%ERROR:%#$% Remove the space from the VHDX name, then try again. Abort&&SET "ERROR=1"&&GOTO:BOOT_FINISH
-FOR %%a in (0 1 2 3 4 5 ERROR) DO (IF "%FREE%"=="%%a" ECHO. %XLR2%ERROR:%#$% Not enough free space. Clear some space and try again. Abort&&SET "ERROR=1"&&GOTO:BOOT_FINISH)
+IF DEFINED CHAR_FLG ECHO. %XLR4%ERROR:%#$% Remove the space from the VHDX name, then try again. Abort.&&SET "ERROR=1"&&GOTO:BOOT_FINISH
+FOR %%a in (0 1 2 3 4 5 ERROR) DO (IF "%FREE%"=="%%a" ECHO. %XLR2%ERROR:%#$% Not enough free space. Clear some space and try again. Abort.&&SET "ERROR=1"&&GOTO:BOOT_FINISH)
 SET "UID_XNT="&&FOR /F "DELIMS=" %%G in ('CMD.EXE /D /U /C ECHO.%DISK_TARGET%^| FIND /V ""') do (CALL SET /A "UID_XNT+=1")
 IF NOT "%UID_XNT%"=="36" (ECHO. Converting to GPT..&&CALL:DISKMGR_ERASE&&CALL:DISK_DETECT>NUL 2>&1
 SET "DISK_TARGET="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30) DO (IF "%DISK_NUMBER%"=="%%a" CALL SET "DISK_TARGET=%%DISKID_%%a%%"&&CALL ECHO. Assigning new disk uid %%DISKID_%%a%%...&&CALL:DISK_DETECT>NUL 2>&1))
@@ -2686,10 +2687,10 @@ IF EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO. Extracting boot-media. Using boot.sav lo
 SET "IMAGEFILE=%PRI_LETTER%:\%HOST_FOLDER%\boot.wim"&&SET "INDEX_WORD=Setup"&&CALL:GET_WIMINDEX
 IF NOT DEFINED IMAGEINDEX SET "IMAGEINDEX=1"
 SET "IMAGE_X=%PRI_LETTER%:\%HOST_FOLDER%\boot.wim"&&SET "INDEX_X=%IMAGEINDEX%"&&CALL:GET_WIMVER
-IF DEFINED ERROR ECHO. %XLR2%ERROR:%#$% File boot.sav is corrupt. Abort&&GOTO:BOOT_CLEANUP
+IF DEFINED ERROR ECHO. %XLR2%ERROR:%#$% File boot.sav is corrupt. Abort.&&GOTO:BOOT_CLEANUP
 ECHO. v%VER_X%&&DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%PRI_LETTER%:\%HOST_FOLDER%\boot.wim" /INDEX:%IMAGEINDEX% /APPLYDIR:"%VDISK_LTR%:"&ECHO.&SET "IMAGEINDEX="
 MOVE /Y "%PRI_LETTER%:\%HOST_FOLDER%\boot.wim" "%PRI_LETTER%:\%HOST_FOLDER%\boot.sav">NUL 2>&1
-IF NOT EXIST "%VDISK_LTR%:\Windows" ECHO. %XLR2%ERROR:%#$% BOOT MEDIA. Abort&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
+IF NOT EXIST "%VDISK_LTR%:\Windows" ECHO. %XLR2%ERROR:%#$% BOOT MEDIA. Abort.&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
 MD "%VDISK_LTR%:\$">NUL 2>&1
 ECHO.%DISK_TARGET%>"%VDISK_LTR%:\$\HOST_TARGET"
 ECHO.%HOST_FOLDER%>"%VDISK_LTR%:\$\HOST_FOLDER"
@@ -2697,10 +2698,10 @@ COPY /Y "%PROG_FOLDER%\%PROG_NAME%.cmd" "%VDISK_LTR%:\$">NUL&COPY /Y "%PROG_FOLD
 FOR %%a in (Boot EFI\Boot EFI\Microsoft\Boot) DO (MD %EFI_LETTER%:\%%a>NUL 2>&1)
 IF EXIST "%BOOT_FOLDER%\boot.sdi" ECHO. Using boot.sdi located in folder, for efi image boot support.&&COPY /Y "%BOOT_FOLDER%\boot.sdi" "%EFI_LETTER%:\Boot">NUL
 IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" COPY /Y "%VDISK_LTR%:\Windows\Boot\DVD\EFI\boot.sdi" "%EFI_LETTER%:\Boot">NUL 2>&1
-IF NOT EXIST "%EFI_LETTER%:\Boot\boot.sdi" ECHO. %XLR2%ERROR:%#$% boot.sdi missing. Abort&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
+IF NOT EXIST "%EFI_LETTER%:\Boot\boot.sdi" ECHO. %XLR2%ERROR:%#$% boot.sdi missing. Abort.&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
 IF EXIST "%BOOT_FOLDER%\bootmgfw.efi" ECHO. Using bootmgfw.efi located in folder, for the efi bootloader.&&COPY /Y "%BOOT_FOLDER%\bootmgfw.efi" "%EFI_LETTER%:\EFI\Boot\bootx64.efi">NUL
 IF NOT EXIST "%BOOT_FOLDER%\bootmgfw.efi" COPY /Y "%VDISK_LTR%:\Windows\Boot\EFI\bootmgfw.efi" "%EFI_LETTER%:\EFI\Boot\bootx64.efi">NUL 2>&1
-IF NOT EXIST "%EFI_LETTER%:\EFI\Boot\bootx64.efi" ECHO. %XLR2%ERROR:%#$% bootmgfw.efi missing. Abort&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
+IF NOT EXIST "%EFI_LETTER%:\EFI\Boot\bootx64.efi" ECHO. %XLR2%ERROR:%#$% bootmgfw.efi missing. Abort.&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
 IF DEFINED PE_WALLPAPER IF EXIST "%CACHE_FOLDER%\%PE_WALLPAPER%" (ECHO. Using %PE_WALLPAPER% for the recovery wallpaper.
 TAKEOWN /F "%VDISK_LTR%:\Windows\System32\setup.bmp">NUL 2>&1
 ICACLS "%VDISK_LTR%:\Windows\System32\setup.bmp" /grant %USERNAME%:F>NUL 2>&1
@@ -2710,11 +2711,11 @@ COPY /Y "%VDISK_LTR%:\Windows\System32\config\ELAM" "%TEMP%\BCD">NUL 2>&1
 ::ECHO."%%SYSTEMDRIVE%%\$\%PROG_NAME%.CMD">"%VDISK_LTR%:\WINDOWS\SYSTEM32\STARTNET.CMD"
 (ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\%PROG_NAME%.cmd)>"%VDISK_LTR%:\Windows\System32\winpeshl.ini"
 SET "VHDX_SLOTZ=%VHDX_SLOT0%"&&SET "VHDX_SLOT0=%VHDX_SLOTX%"&&SET "HOST_X=%HOST_FOLDER%"&&CALL:BCD_CREATE>NUL 2>&1
-SET "VHDX_SLOT0=%VHDX_SLOTZ%"&&SET "VHDX_SLOTZ="&&IF NOT EXIST "%EFI_LETTER%:\EFI\Microsoft\Boot\BCD" ECHO. %XLR2%ERROR:%#$% BCD missing. Abort&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
+SET "VHDX_SLOT0=%VHDX_SLOTZ%"&&SET "VHDX_SLOTZ="&&IF NOT EXIST "%EFI_LETTER%:\EFI\Microsoft\Boot\BCD" ECHO. %XLR2%ERROR:%#$% BCD missing. Abort.&&SET "ERROR=1"&&GOTO:BOOT_CLEANUP
 ::DISM /IMAGE:"%VDISK_LTR%:" /SET-SCRATCHSPACE:512 >NUL 2>&1
 ECHO. Saving boot-media...&&DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%VDISK_LTR%:" /IMAGEFILE:"%PRI_LETTER%:\%HOST_FOLDER%\scratch\boot.wim" /COMPRESS:%COMPRESS% /NAME:"WindowsPE" /CheckIntegrity /Verify /Bootable&ECHO.
 SET "IMAGE_X=%PRI_LETTER%:\%HOST_FOLDER%\scratch\boot.wim"&&SET "INDEX_X=1"&&CALL:GET_WIMVER
-IF DEFINED ERROR ECHO. %XLR2%ERROR:%#$% File boot.sav is corrupt. Abort&&GOTO:BOOT_CLEANUP
+IF DEFINED ERROR ECHO. %XLR2%ERROR:%#$% File boot.sav is corrupt. Abort.&&GOTO:BOOT_CLEANUP
 SET "GET_SIZE=MB"&&SET "INPUT=%EFI_LETTER%:"&&SET "OUTPUT=EFI_FREE"&&CALL:GET_FREE
 IF NOT DEFINED ERROR SET "GET_SIZE=MB"&&SET "INPUT=%PRI_LETTER%:\%HOST_FOLDER%\scratch\boot.wim"&&SET "OUTPUT=BOOT_X"&&CALL:GET_FILESIZE
 IF NOT DEFINED ERROR SET /A "EFI_FREE+=%BOOT_X%"
