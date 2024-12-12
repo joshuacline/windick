@@ -123,7 +123,7 @@ BASE-GROUP
 [COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "NoLmHash" /t REG_DWORD /d "1" /f][REG][IA]
 [COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f][REG][IA]
 [COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "restrictanonymoussam" /t REG_DWORD /d "1" /f][REG][IA]
-[COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d "O:BAG:BAD:(A;;RC;;;BA)" /f][REG][IA]
+[COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d O:BAG:BAD:(A;;RC;;;BA) /f][REG][IA]
 [COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f][REG][IA]
 [GROUP][Security][UAC always prompt]
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "1" /f][REG][IA]
