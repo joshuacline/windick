@@ -156,7 +156,6 @@ IF "[%%$]"=="[*]" IF NOT DEFINED NO_ASTRK SET "$GO=1"
 IF "[%%$]"=="[ ]" IF NOT DEFINED NO_SPACE SET "$GO=1"
 IF "[%%a]"=="[%%$]" SET "$GO=1")
 IF NOT DEFINED $GO SET "ERROR=1")
-:CHECK_END
 FOR %%a in (CHECK INPUT OUTPUT CHECK_VAR CHECK_FLT NO_SPACE NO_ASTRK) DO (SET "%%a=")
 EXIT /B
 :CHAR_CHK
@@ -204,7 +203,7 @@ Reg.exe query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" SET "ERR_MSG=Right click and run as administrator."
 SET "LANG_PASS="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "LANG_PASS=1")
 IF NOT DEFINED LANG_PASS SET "ERR_MSG=Non-english host language/locale."
-IF "%PROG_FOLDER%"=="X:\$" IF "%SystemDrive%"=="X:" SET "WINPE_BOOT=1"
+IF "%SYSTEMDRIVE%"=="X:" IF EXIST "X:\$\HOST_TARGET" SET "WINPE_BOOT=1"
 EXIT /B
 :GET_ARGS
 FOR %%1 in (1 2 3 4 5 6 7 8 9) DO (IF DEFINED ARG%%1 SET "ARGZ=%%1"&&CALL SET "ARGX=%%ARG%%1%%"&&CALL:ARGUE)
@@ -352,6 +351,10 @@ EXIT /B
 FOR /F "TOKENS=3 DELIMS=:." %%a in ("%TIME%") DO (IF NOT "%%a"=="%TIMER_LAST%" SET "TIMER_LAST=%%a"&&SET /A "TIMER-=1"&&IF DEFINED TIMER_MSG CLS&&CALL ECHO.%TIMER_MSG%)
 IF NOT "%TIMER%"=="0" GOTO:TIMER
 SET "TIMER="&&SET "TIMER_LAST="&&SET "TIMER_MSG="&&EXIT /B
+:TIMER_POINT3
+FOR /F "TOKENS=1-9 DELIMS=:." %%a in ("%TIME%") DO (FOR /F "DELIMS=" %%G IN ('CMD.EXE /D /U /C CALL ECHO.%%d') DO (CALL SET "TIMER_X=%%G"))
+FOR %%a in (2 5 8) DO (IF "%TIMER_X%"=="%%a" SET "TIMER_X="&&EXIT /B)
+GOTO:TIMER_POINT3
 :CLEAN
 IF NOT EXIST "$*" EXIT /B
 IF EXIST "%PROG_SOURCE%\$TEMP.vhdx" CALL:VTEMP_DELETE>NUL 2>&1
@@ -393,8 +396,7 @@ EXIT /B
 CLS&&CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%&&SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"&&CALL ECHO.%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%&&ECHO.&&ECHO.                               %XLR0%WELCOME TO&&ECHO.&&ECHO.       %@1% ▄█     █▄   ▄█ ███▄▄▄▄   ███████▄   ▄█  ▄███████  ▄█   ▄█▄&&ECHO.       %@2%███     ███ ███ ███▀▀▀██▄ ███  ▀███ ███ ███   ███ ███ ▄███▀&&ECHO.       %@3%███     ███ ███ ███   ███ ███   ███ ███ ███   █▀  ███▐██▀&&ECHO.       %@4%███     ███ ███ ███   ███ ███   ███ ███ ███      ▄█████▀&&ECHO.       %@1%███     ███ ███ ███   ███ ███   ███ ███ ███   █▄  ███▐██▄&&ECHO.       %@2%███ ▄█▄ ███ ███ ███   ███ ███  ▄███ ███ ███   ███ ███ ▀███▄&&ECHO.       %@3% ▀███▀███▀  █▀   ▀█   █▀  ███████▀  █▀  ███████▀  ███   ▀█▀&&ECHO.&&ECHO.                          %XLR0%RECOVERY ENVIRONMENT&&ECHO.
 CALL ECHO.%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%&&SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
 CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%#$% &&SET "@1=%@4%"&SET "@2=%@1%"&SET "@3=%@2%"&SET "@4=%@3%"
-FOR %%a in (X) DO (SET "RND_SET=XXX"&&CALL:GET_RANDOM&&SET "XXX=")
-SET /A "XNTZ+=1"&&IF NOT "%XNTZ%"=="5" GOTO:LOGO_X
+CALL:TIMER_POINT3&SET /A "XNTZ+=1"&IF NOT "%XNTZ%"=="7" GOTO:LOGO_X
 EXIT /B
 :SETS_LIST
 SET SETS_LIST=PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SOURCE_TYPE WIM_SOURCE VHDX_SOURCE TARGET_TYPE WIM_TARGET WIM_INDEX VHDX_TARGET VHDX_SIZE SAFE_EXCLUDE HOST_HIDE HOST_SIZE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 HOTKEY_4 SHORT_4 HOTKEY_5 SHORT_5 RECOVERY_LOGO MENU_MODE MENU_LIST MENU_BANNER DISCLAIMER ALLOW_ENV APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP
@@ -1503,7 +1505,7 @@ IF NOT DEFINED FEAT_QRY IF EXIST "$FEAT" DEL /Q /F "$FEAT">NUL 2>&1
 IF NOT EXIST "$FEAT" SET "FEAT_QRY=1"&&ECHO.Getting feature listing...&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ('DISM /ENGLISH /%APPLY_TARGET% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (FOR %%X in (Enabled Disabled) DO (IF "%%b"=="%%X" SET "CAPS_SET=X1"&&SET "CAPS_VAR=%%a"&&SET "X2=%%b"&&CALL:CAPS_SET&&CALL:FILE_OUTPUT))
 IF "%LIST_ACTN%"=="ENABLE" ECHO.Enabling Feature %#@%%BASE_MEAT%%#$%... &&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
 IF "%LIST_ACTN%"=="DISABLE" ECHO.Disabling Feature %#@%%BASE_MEAT%%#$%... &&SET "CAPS_SET=BASE_MEAT"&&SET "CAPS_VAR=%BASE_MEAT%"&&CALL:CAPS_SET
-SET "FEAT="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=|" %%a in ($FEAT) DO (IF "%%a"=="%BASE_MEAT%" SET "FEAT=1"&&SET "X1=%%a"&&SET "X2=%%b")
+SET "FEAT="&&IF EXIST "$FEAT" FOR /F "TOKENS=1-9 SKIP=6 DELIMS=|" %%a in ($FEAT) DO (IF "%%a"=="%BASE_MEAT%" SET "FEAT=1"&&SET "X1=%%a"&&SET "X2=%%b")
 IF NOT DEFINED FEAT ECHO. %XLR4%Feature %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="ENABLE" IF "%X2%"=="Enabled" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="DISABLE" IF "%X2%"=="Disabled" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
