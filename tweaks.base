@@ -34,6 +34,11 @@ BASE-GROUP
 [GROUP][Advertisements][Spotlight Ads %COLOR2%Disable]
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "RotatingLockScreenOverlayEnabled" /t REG_DWORD /d "0" /f][REG][IA]
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled" /t REG_DWORD /d "0" /f][REG][IA]
+[GROUP][Advertisements][Bing Searchbox %COLOR2%Disable]
+[COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f][REG][IA]
+[GROUP][Advertisements][Bing Searchbox %COLOR5%Enable]
+[COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f][REG][IA]
+
 
 [GROUP][Appearence][Animations %COLOR2%Disable]
 [COMMAND][reg.exe add "%HIVE_USER%\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "0" /f][REG][IA]
@@ -44,6 +49,14 @@ BASE-GROUP
 [GROUP][Appearence][Use Dark mode]
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "0" /f][REG][IA]
 [COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "0" /f][REG][IA]
+
+[GROUP][Appearence][Taskbar Small]
+[COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "0" /f][REG][IA]
+[GROUP][Appearence][Taskbar Medium]
+[COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "1" /f][REG][IA]
+[GROUP][Appearence][Taskbar Large]
+[COMMAND][reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "2" /f][REG][IA]
+
 
 [GROUP][Startup][Boot Menu Timeout][%COLOR4%        * item will be scheduled for %COLOR7%SetupComplete]
 [$1][                   Enter the boot timeout in seconds:][VAR1]
@@ -304,6 +317,10 @@ BASE-GROUP
 [COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f][REG][IA]
 [COMMAND][reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f][REG][IA]
 
+[GROUP][Miscellaneous][Lockscreen %COLOR5%Enable]
+[COMMAND][reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "0" /f][REG][IA]
+[GROUP][Miscellaneous][Lockscreen %COLOR2%Disable]
+[COMMAND][reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "1" /f][REG][IA]
 
 [GROUP][Miscellaneous][Create new admin][%COLOR4%        * item will be scheduled for %COLOR7%SetupComplete]
 [#][Scheduling user creation...][7]

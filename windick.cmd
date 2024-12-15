@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1191 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1192 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -1529,7 +1529,7 @@ IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF "%%c"=="0x2" ECHO. %XLR5%The opera
 IF "%LIST_ACTN%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B)
 IF NOT DEFINED $GO ECHO. %XLR4%Service %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
-SET "$RAS=RATI"&&CALL:RASTI_CREATE
+SET "$RAS=RAS"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (
 IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF NOT "%%c"=="0x2" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="MANUAL" IF "%%a"=="Start" IF NOT "%%c"=="0x3" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
@@ -1542,7 +1542,7 @@ IF NOT "%LIST_ACTN%"=="DELETE" ECHO. %XLR4%ERROR:%#$% Task list action is not DE
 ECHO.Removing Task %#@%%BASE_MEAT%%#$%...&&CALL:IF_LIVE_EXT
 SET "TASKID="&&FOR /F "TOKENS=1-4 DELIMS={} " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /V Id 2^>NUL') DO (IF "%%a"=="Id" SET "TASKID=%%c")
 IF NOT DEFINED TASKID ECHO. %XLR4%Task %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
-SET "$RAS=RATI"&&CALL:RASTI_CREATE
+SET "$RAS=RAS"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "%HIVE_SOFTWARE%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%BASE_MEAT%" /V Id 2^>NUL') DO (IF "%%a"=="Id" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B)
 ECHO. %XLR5%The operation completed successfully.%#$%
 EXIT /B
