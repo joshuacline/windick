@@ -360,6 +360,7 @@ IF EXIST "%PROG_SOURCE%\$TEMP.vhdx" CALL:VTEMP_DELETE>NUL 2>&1
 IF EXIST "%PROG_SOURCE%\$TEMP.wim" DEL /Q /F "%PROG_SOURCE%\$TEMP.wim">NUL 2>&1
 FOR %%G in (HZ TMP LST DSK RUN) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL 2>&1)
 FOR %%G in (DRVR FEAT) DO (IF NOT DEFINED %%G_QRY IF EXIST "$%%G" DEL /Q /F "$%%G">NUL 2>&1)
+FOR %%G in (RAS RATI) DO (IF NOT DEFINED CURR_SESSION IF EXIST "$%%G.cmd" CALL:RASTI_CHECK&CALL:RAS_DELETE&DEL /Q /F "$%%G.cmd">NUL 2>&1)
 EXIT /B
 :FOLDER_DEL
 IF NOT DEFINED FOLDER_DEL EXIT /B
@@ -1288,7 +1289,7 @@ EXIT /B
 :RASTI_CREATE
 IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('REG QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="CMD /C START %PROG_FOLDER%\$RAS.cmd" reg.exe add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD /C START %PROG_FOLDER%\$RAS.cmd" /f)
 IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="CMD /C START "%PROG_FOLDER%\$RAS.cmd"" START=DEMAND>NUL 2>&1
-IF "%$RAS%"=="RATI" ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD.EXE /C START %PROG_FOLDER%\$RATI.cmd" /f^>NUL 2^>^&^1>"%PROG_FOLDER%\$RAS.cmd"
+IF "%$RAS%"=="RATI" ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD /C START %PROG_FOLDER%\$RATI.cmd" /f^>NUL 2^>^&^1>"%PROG_FOLDER%\$RAS.cmd"
 IF "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
 IF "%$RAS%"=="RATI" ECHO.NET START TrustedInstaller^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
 IF "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
@@ -1315,11 +1316,22 @@ IF "%WINPE_BOOT%"=="1" IF "%$RAS%"=="RATI" CALL CMD.EXE /C "%PROG_FOLDER%\$RAS.c
 SET /A "XNT+=1"&&FOR %%$ in (SERVICE TASK) DO (IF "%LIST_ITEM%"=="%%$" FOR %%a in (RAS RATI) DO (
 IF EXIST "%PROG_FOLDER%\$%%a.cmd" CALL:TIMER_POINT3
 IF EXIST "%PROG_FOLDER%\$%%a.cmd" IF "%XNT%"=="10" IF NOT DEFINED RETRY SET "RETRY=1"&&GOTO:RASTI_CREATE
-IF EXIST "%PROG_FOLDER%\$%%a.cmd" IF "%XNT%"=="10" IF DEFINED RETRY DEL /Q /F "%PROG_FOLDER%\$%%a.cmd">NUL 2>&1))
+IF EXIST "%PROG_FOLDER%\$%%a.cmd" IF "%XNT%"=="10" IF DEFINED RETRY CALL:RASTI_CHECK&DEL /Q /F "%PROG_FOLDER%\$%%a.cmd">NUL 2>&1))
 FOR %%a in (RAS RATI) DO (IF EXIST "%PROG_FOLDER%\$%%a.cmd" GOTO:$RASTI_WAIT)
 IF EXIST "%PROG_FOLDER%\$LOG" IF NOT "%LIST_ITEM%"=="SERVICE" IF NOT "%LIST_ITEM%"=="TASK" FOR /F "TOKENS=* DELIMS=" %%a in (%PROG_FOLDER%\$LOG) DO (ECHO.%%a)
 IF EXIST "%PROG_FOLDER%\$LOG" DEL /Q /F "%PROG_FOLDER%\$LOG">NUL 2>&1
 SET "RETRY="&&SET "XNT="&&EXIT /B
+:RASTI_CHECK
+SET "$GO="&&FOR /F "TOKENS=1-3* DELIMS= " %%a in ('REG QUERY "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" IF "%%c"=="CMD" SET "$GO=1")
+IF NOT DEFINED $GO EXIT /B
+IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('REG QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="CMD /C START %PROG_FOLDER%\$RAS.cmd" reg.exe add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "CMD /C START %PROG_FOLDER%\$RAS.cmd" /f)
+IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="CMD /C START "%PROG_FOLDER%\$RAS.cmd"" START=DEMAND>NUL 2>&1
+ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>"%PROG_FOLDER%\$RAS.cmd"
+ECHO.reg.exe add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%PROG_FOLDER%\$RAS.cmd"
+ECHO.DEL /Q /F "%PROG_FOLDER%\$RAS.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$RAS.cmd"
+IF NOT "%WINPE_BOOT%"=="1" NET START $RAS>NUL 2>&1
+IF "%WINPE_BOOT%"=="1" CALL CMD.EXE /C "%PROG_FOLDER%\$RAS.cmd"
+EXIT /B
 :RAS_DELETE
 IF "%WINPE_BOOT%"=="1" EXIT /B
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('REG QUERY "HKLM\SYSTEM\ControlSet001\SERVICES\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SC DELETE $RAS>NUL 2>&1)
@@ -1530,7 +1542,8 @@ IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF "%%c"=="0x2" ECHO. %XLR5%The opera
 IF "%LIST_ACTN%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" ECHO. %XLR5%The operation completed successfully.%#$%&&EXIT /B)
 IF NOT DEFINED $GO ECHO. %XLR4%Service %BASE_MEAT% doesn't exist.%#$%&&EXIT /B
-SET "$RAS=RAS"&&CALL:RASTI_CREATE
+IF "%LIST_ACTN%"=="DELETE" SET "$RAS=RATI"&&CALL:RASTI_CREATE
+IF NOT "%LIST_ACTN%"=="DELETE" SET "$RAS=RAS"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('REG QUERY "%HIVE_SYSTEM%\ControlSet001\Services\%BASE_MEAT%" /V Start 2^>NUL') DO (
 IF "%LIST_ACTN%"=="AUTO" IF "%%a"=="Start" IF NOT "%%c"=="0x2" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
 IF "%LIST_ACTN%"=="MANUAL" IF "%%a"=="Start" IF NOT "%%c"=="0x3" ECHO. %XLR2%The operation did not complete successfully.%#$%&&EXIT /B
