@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1192 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1193 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -2207,7 +2207,7 @@ CALL:PAUSED
 EXIT /B
 :FMGR_EXPLORE
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                       Enter the PATH to explore&&ECHO.&&ECHO.  %#@%AVAILABLE PATHs:%#$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\" ECHO. ^( %##%%%G%#$% ^) Volume %%G:)
-ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
+ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "CHECK=MOST"&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
 IF DEFINED SELECT FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF "%SELECT%"=="%%G" IF EXIST "%%G:\" SET "FMGR_SOURCE=%SELECT%:"&&EXIT /B)
 IF DEFINED SELECT SET "INPUT=%SELECT%"&&SET "OUTPUT=FMGR_SOURCE"&&CALL:SLASH
 EXIT /B
