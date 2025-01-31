@@ -1,7 +1,7 @@
 MULTI-LIST
 [GROUP][Export to program\cache folder][Generate unattend.xml]
-[$1][                 Enter Username: 0-9 A-Z - No Spaces][VAR1]
-[$2][       Enter an edition key - ex: 92NFX-8DJQP-P6BBQ-THF9C-7CG2H][VAR2]
+[PROMPT1][                 Enter Username: 0-9 A-Z - No Spaces][VAR1]
+[PROMPT2][       Enter an edition key - ex: 92NFX-8DJQP-P6BBQ-THF9C-7CG2H][VAR2]
 [COMMANDQ][ECHO. Generating unattend.xml, this may take a moment......][CMD][IA]
 [COMMANDQ][ECHO.%@%%{%?xml version="1.0" encoding="utf-8"?%@%%}%%}%"%CACHE_FOLDER%\unattend.xml"][CMD][IA]
 [COMMANDQ][ECHO.%@%%{%unattend xmlns="urn:schemas-microsoft-com:unattend"%@%%}%%}}%"%CACHE_FOLDER%\unattend.xml"][CMD][IA]

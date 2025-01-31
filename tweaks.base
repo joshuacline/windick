@@ -59,7 +59,7 @@ BASE-GROUP
 
 
 [GROUP][Startup][Boot Menu Timeout][%COLOR4%        * item will be scheduled for %COLOR7%SetupComplete]
-[$1][                   Enter the boot timeout in seconds:][VAR1]
+[PROMPT1][                   Enter the boot timeout in seconds:][VAR1]
 [COMMAND][bcdedit /timeout %VAR1%][CMD][SC]
 
 [GROUP][Startup][RunOnce initializes before desktop]
@@ -323,8 +323,7 @@ BASE-GROUP
 [COMMAND][reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "1" /f][REG][IA]
 
 [GROUP][Miscellaneous][Create new admin][%COLOR4%        * item will be scheduled for %COLOR7%SetupComplete]
-[#][Scheduling user creation...][7]
-[$2][               Enter the admin name 0-9 A-Z - No Spaces][VAR2]
+[PROMPT2][               Enter the admin name 0-9 A-Z - No Spaces][VAR2]
 [COMMAND][Net User %VAR2% /add][CMD][SC]
 [COMMAND][Net User %VAR2% /passwordreq:No][CMD][SC]
 [COMMAND][Net User %VAR2% /passwordchg:No][CMD][SC]
@@ -332,8 +331,7 @@ BASE-GROUP
 [COMMAND][WMIC USERACCOUNT WHERE Name="%VAR2%" SET PasswordExpires=FALSE][CMD][SC]
 [COMMAND][Net localgroup Administrators %VAR2% /add][CMD][SC]
 [GROUP][Miscellaneous][Create new user][%COLOR4%        * item will be scheduled for %COLOR7%SetupComplete]
-[#][Scheduling user creation...][7]
-[$2][                Enter the username 0-9 A-Z - No Spaces][VAR2]
+[PROMPT2][                Enter the username 0-9 A-Z - No Spaces][VAR2]
 [COMMAND][Net User %VAR2% /add][CMD][SC]
 [COMMAND][Net User %VAR2% /passwordreq:No][CMD][SC]
 [COMMAND][Net User %VAR2% /passwordchg:No][CMD][SC]

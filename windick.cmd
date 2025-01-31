@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1193 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1194 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -418,7 +418,7 @@ IF "%PROG_MODE%"=="RAMDISK" IF NOT "%DISK_TARGET%"=="%HOST_TARGET%" SET "HOST_GE
 IF DEFINED HOST_GET SET "HOST_GET="&&CALL:HOST_AUTO
 IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\%HOST_FOLDERX%" COPY /Y "settings.ini" "Z:\%HOST_FOLDERX%">NUL
 :SETS_MAIN
-SET ":=;"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
+SET ":=;"&&SET "LB=["&&SET "RB=]"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
 IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25000"
 IF NOT DEFINED PAD_BOX SET "PAD_BOX=ENABLED"
 IF NOT DEFINED PAD_SEQ SET "PAD_SEQ=6666600000"
@@ -1258,7 +1258,7 @@ SET "$RAS="&&FOR %%a in (COMMAND COMMANDQ DRIVER) DO (IF "%%a"=="%LIST_ITEM%" CA
 IF DEFINED $HALT IF NOT DEFINED $HALTX SET "$HALTX=1"&&ECHO. %XLR2%ERROR:%#$% HALTED.
 IF DEFINED $HALT EXIT /B
 FOR %%a in (LIST_ITEM BASE_MEAT LIST_ACTN) DO (IF NOT DEFINED %%a EXIT /B)
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%LIST_ITEM%"=="$%%a" SET "VAR%%a=%LIST_ACTN%"&&EXIT /B)
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%LIST_ITEM%"=="PROMPT%%a" SET "VAR%%a=%LIST_ACTN%"&&EXIT /B)
 IF "%LIST_ITEM%:%LIST_TIME%"=="COMMAND:IA" CALL:COMMAND_ITEM
 IF "%LIST_ITEM%:%LIST_TIME%"=="COMMANDQ:IA" CALL:COMMAND_ITEM
 IF "%LIST_ITEM%:%LIST_TIME%"=="APPX:IA" CALL:APPX_ITEM
@@ -1719,7 +1719,7 @@ CALL:MOUNT_REST
 EXIT /B
 :GROUP_WRITE
 IF NOT DEFINED WRITEX EXIT /B
-FOR %%a in ($0 $1 $2 $3 $4 $5 $6 $7 $8 $9) DO (IF "%%a"=="%$CLM1%" CALL:GROUP_WRITE_PROMPT)
+FOR %%a in (PROMPT0 PROMPT1 PROMPT2 PROMPT3 PROMPT4 PROMPT5 PROMPT6 PROMPT7 PROMPT8 PROMPT9) DO (IF "%%a"=="%$CLM1%" CALL:GROUP_WRITE_PROMPT)
 FOR /F "TOKENS=*" %%a in ("%GROUP_WRITE%") DO (ECHO.%%a>>"$LST2")
 EXIT /B
 :GROUP_WRITE_PROMPT
@@ -1736,13 +1736,13 @@ EXIT /B
 IF NOT DEFINED PROG_SOURCE EXIT /B
 SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PROG_SOURCE PKX_FOLDER APPLY_TARGET) DO (CALL SET "%%a_X=%%%%a%%"&&SET "%%a="
 SET "%%a=%%%%a%%")
-SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (: @ - + }} } {) DO (SET "%%a="
+SET "MOUNT_SAVE=%MOUNT%"&&SET "MOUNT="&&FOR %%a in (: LB RB @ - + }} } {) DO (SET "%%a="
 SET "%%a=%%%%a%%")
 EXIT /B
 :MOUNT_REST
 IF NOT DEFINED PROG_SOURCE_X EXIT /B
 SET "MOUNT=%MOUNT_SAVE%"&&SET "MOUNT_SAVE="&&FOR %%a in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PROG_SOURCE PKX_FOLDER APPLY_TARGET) DO (CALL SET "%%a=%%%%a_X%%"&&SET "%%a_X=")
-SET ":=;"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
+SET ":=;"&&SET "LB=["&&SET "RB=]"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
 EXIT /B
 :LIST_MISCELLANEOUS
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                             List Builder&&ECHO.&&ECHO. (%##%*%#$%) Create Source Base&&ECHO. (%##%.%#$%) Create Group Base&&ECHO.&&ECHO. (%##%1%#$%) Group Seperator Item&&ECHO. (%##%2%#$%) External Package Item&&ECHO. (%##%3%#$%) Command Operation Item&&ECHO. (%##%4%#$%) Prompt / Variable Item&&ECHO.&&ECHO. (%##%-%#$%) Difference Base Lists&&ECHO. (%##%+%#$%) Create Multi List&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
@@ -1776,8 +1776,8 @@ IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" EXIT /B
 IF "%SELECTY%"=="1" SET "COMMAND_ENTRY=COMMAND"
 IF "%SELECTY%"=="2" SET "COMMAND_ENTRY=COMMANDQ"
 CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&CALL:MOUNT_CLEAR
-ECHO.%XLR2%Important:%#$% Do not use any of these symbols directly [%XLR2% ^< ^> ^| [ ] ^& ^^ %#$%].&&ECHO.    These can cause the program to crash when the list is accessed.&&ECHO.   %XLR5%Substitutions:   %XLR2%^^%#$%=%XLR5%%@%   %XLR2%^<%#$%=%XLR5%%{%   %XLR2%^>%#$%=%XLR5%%}%   %XLR2%^>^>%#$%=%XLR5%%}}%   %XLR2%^|%#$%=%XLR5%%-%   %XLR2%^&%#$%=%XLR5%%+%%#$%
-ECHO.   To quiet command execution, put %XLR5%%}%NUL%#$% at the end of the command.&&ECHO.     If complex commands are required, create a scripted package.&&ECHO.&&ECHO.                          %#@%Built-in variables:%#$%&&ECHO.                      %%DRVTAR%% %%WINTAR%% %%USRTAR%%&&ECHO.              %%HIVE_SOFTWARE%% %%HIVE_SYSTEM%% %%HIVE_USER%%&&ECHO.      %%IMAGE_FOLDER%% %%LIST_FOLDER%% %%PACK_FOLDER%% %%CACHE_FOLDER%%&&ECHO.                      %%PROG_SOURCE%% %%PKX_FOLDER%%&&ECHO.&&ECHO.                             %#@%ENTER COMMAND:%#$%&&ECHO.
+ECHO.%XLR2%Important:%#$% Do not use any of these symbols directly [%XLR2% ^< ^> ^| [ ] ^& ^^ %#$%].&&ECHO.    These can cause the program to crash when the list is accessed.&&ECHO.%XLR5%Substitutions: %XLR2%^<%#$%=%XLR5%%{% %XLR2%^>%#$%=%XLR5%%}% %XLR2%^>^>%#$%=%XLR5%%}}% %XLR2%^|%#$%=%XLR5%%-% %XLR2%^[%#$%=%XLR5%%LB% %XLR2%^]%#$%=%XLR5%%RB% %XLR2%^&%#$%=%XLR5%%+% %XLR2%^^%#$%=%XLR5%%@%%#$%
+ECHO.   To quiet command execution, put %XLR5%%}%NUL%#$% at the end of the command.&&ECHO.    If complex commands are required, launch an additional script.&&ECHO.&&ECHO.                           %#@%Built-in variables:%#$%&&ECHO.                       %%DRVTAR%% %%WINTAR%% %%USRTAR%%&&ECHO.                %%HIVE_SOFTWARE%% %%HIVE_SYSTEM%% %%HIVE_USER%%&&ECHO.      %%IMAGE_FOLDER%% %%LIST_FOLDER%% %%PACK_FOLDER%% %%CACHE_FOLDER%%&&ECHO.               %%PROG_SOURCE%% %%PKX_FOLDER%% %%APPLY_TARGET%%&&ECHO.&&ECHO.                             %#@%ENTER COMMAND:%#$%&&ECHO.
 CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "CHECK=MOST"&&SET "VERBOSE=1"&&SET "PROMPT_SET=COMMANDX"&&SET "PROMPT_ANY=1"&&CALL:PROMPT_SET
 CALL:MOUNT_REST&&IF NOT DEFINED COMMANDX EXIT /B
 CALL:LIST_TIME
@@ -1832,7 +1832,7 @@ SET "$GO="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%VAR_XYZ%"=="%%a" SET "$GO=
 ECHO.&&IF NOT DEFINED $GO ECHO. %XLR2%ERROR%#$%&&EXIT /B
 SET "MENUT0=                             List Builder"&&SET "MENUT1= "&&SET "MENUT2=  %#@%AVAILABLE LISTs:%#$%"&&SET "MENUT3= "&&SET "MENUT4= ( %##%0%#$% ) Create new list"&&SET "MENUB0= "&&SET "PICK=LIST"&&CALL:FILE_PICK
 IF NOT DEFINED $PICK EXIT /B
-CALL:PAD_ADD&&ECHO.&&ECHO. %#@%$%VAR_XYZ%%#$% %PROMPT_XYZ% %##%VAR%VAR_XYZ%%#$%&&ECHO.[$%VAR_XYZ%][%PROMPT_XYZ%][VAR%VAR_XYZ%]>>"%$PICK%"
+CALL:PAD_ADD&&ECHO.&&ECHO. %#@%PROMPT%VAR_XYZ%%#$% %PROMPT_XYZ% %##%VAR%VAR_XYZ%%#$%&&ECHO.[PROMPT%VAR_XYZ%][%PROMPT_XYZ%][VAR%VAR_XYZ%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:PAUSED
 EXIT /B
 :LIST_PACK_CREATE
@@ -2000,7 +2000,7 @@ CALL:BOXB2&&CALL:PAD_LINE
 EXIT /B
 :LIST_ITEMS
 SET LIST_ITEMS1=APPX FEATURE COMPONENT CAPABILITY SERVICE TASK WINSXS DRIVER EXTPACKAGE COMMAND COMMANDQ PICK MOUNT UNMOUNT CONFIRM
-SET LIST_ITEMS2=# $0 $1 $2 $3 $4 $5 $6 $7 $8 $9 GROUP
+SET LIST_ITEMS2=PROMPT0 PROMPT1 PROMPT2 PROMPT3 PROMPT4 PROMPT5 PROMPT6 PROMPT7 PROMPT8 PROMPT9 GROUP
 EXIT /B
 :IF_LIVE_EXT
 IF DEFINED LIVE_APPLY CALL:MOUNT_INT
