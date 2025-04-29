@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1195 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1196 (C) Joshua Cline - All rights reserved
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 437>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -17,6 +17,7 @@ REG.EXE DELETE "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\MiniNT" /f>NUL 2
 :MAIN_MENU
 ::#########################################################################
 @ECHO OFF&&CLS&&SET "MOUNT="&&IF NOT DEFINED MENU_MODE SET "MENU_MODE=NORMAL"
+IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED NOGUI IF EXIST "%PROG_FOLDER%\windick.ps1" GOTO:GUI_LAUNCH
 IF "%MENU_MODE%"=="CUSTOM" GOTO:CUSTOM_MODE
 IF "%MENU_MODE%"=="BASIC" IF "%PROG_MODE%"=="RAMDISK" GOTO:BASIC_MODE
 IF "%MENU_MODE%"=="BASIC" IF "%PROG_MODE%"=="PORTABLE" GOTO:BASIC_CREATOR
@@ -402,7 +403,7 @@ EXIT /B
 SET SETS_LIST=PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SOURCE_TYPE WIM_SOURCE VHDX_SOURCE TARGET_TYPE WIM_TARGET WIM_INDEX VHDX_TARGET VHDX_SIZE SAFE_EXCLUDE HOST_HIDE HOST_SIZE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 HOTKEY_4 SHORT_4 HOTKEY_5 SHORT_5 RECOVERY_LOGO MENU_MODE MENU_LIST MENU_BANNER DISCLAIMER ALLOW_ENV APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP
 EXIT /B
 :SETS_LOAD
-IF EXIST "settings.ini" FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in (settings.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
+IF EXIST "windick.ini" FOR /F "eol=- TOKENS=1-2 DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 EXIT /B
 :SETS_CLEAR
 CALL:SETS_LIST
@@ -410,13 +411,13 @@ FOR %%a in (%SETS_LIST%) DO (SET %%a=)
 SET "SETS_LIST="&&EXIT /B
 :SETS_HANDLER
 IF NOT EXIST "%PROG_SOURCE%" SET "PROG_SOURCE=%PROG_FOLDER%"
-CD /D "%PROG_FOLDER%"&&IF EXIST "settings.ini" IF NOT DEFINED $ETS SET "$ETS=1"&&CALL:SETS_LOAD
-CALL:SETS_LIST&&ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings>"settings.ini"
-FOR %%a in (%SETS_LIST%) DO (CALL ECHO.%%a=%%%%a%%>>"settings.ini")
+CD /D "%PROG_FOLDER%"&&IF EXIST "windick.ini" IF NOT DEFINED $ETS SET "$ETS=1"&&CALL:SETS_LOAD
+CALL:SETS_LIST&&ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings>"windick.ini"
+FOR %%a in (%SETS_LIST%) DO (CALL ECHO.%%a=%%%%a%%>>"windick.ini")
 SET "SETS_LIST="&&IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="X:\$" SET "HOST_GET=1"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT "%DISK_TARGET%"=="%HOST_TARGET%" SET "HOST_GET=1"
 IF DEFINED HOST_GET SET "HOST_GET="&&CALL:HOST_AUTO
-IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\%HOST_FOLDERX%" COPY /Y "settings.ini" "Z:\%HOST_FOLDERX%">NUL
+IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\%HOST_FOLDERX%" COPY /Y "windick.ini" "Z:\%HOST_FOLDERX%">NUL
 :SETS_MAIN
 SET ":=;"&&SET "LB=["&&SET "RB=]"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
 IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25000"
@@ -604,6 +605,8 @@ GOTO:QUIT
 IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF NOT EXIST "%IMAGE_FOLDER%\%ARG3%" ECHO. %XLR4%ERROR:%#$% WIM %IMAGE_FOLDER%\%ARG3% doesn't exist&&EXIT /B
 IF "%ARG2%"=="-VHDX" IF DEFINED ARG3 IF NOT EXIST "%IMAGE_FOLDER%\%ARG3%" ECHO. %XLR4%ERROR:%#$% VHDX %IMAGE_FOLDER%\%ARG3% doesn't exist&&EXIT /B
 IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-VHDX" IF DEFINED ARG7 IF "%ARG8%"=="-SIZE" IF DEFINED ARG9 SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX"&&SET "WIM_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "VHDX_TARGET=%ARG7%"&&SET "VHDX_SIZE=%ARG9%"&&CALL:IMAGEPROC_START
+SET "$IDX="&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25) DO (IF "%ARG5%"=="%%a" SET "$IDX=X")
+FOR %%$ in (WIM VHDX) DO (IF "%ARG2%"=="-%%$" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF NOT DEFINED $IDX ECHO. %XLR4%ERROR:%#$% Invalid index, trying index 1.&&SET "ARG5=1")
 IF "%ARG2%"=="-VHDX" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-WIM" IF DEFINED ARG7 IF "%ARG8%"=="-XLVL" IF DEFINED ARG9 SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"&&SET "VHDX_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "WIM_TARGET=%ARG7%"&&SET "COMPRESS=%ARG9%"&&CALL:IMAGEPROC_START
 EXIT /B
 :COMMAND_IMAGEMGR
@@ -710,6 +713,11 @@ ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&SET "PROMPT_SET=ACCEPTX"&&CALL:PROMPT_SET
 IF "%ACCEPTX%"=="Y" SET "DISCLAIMER=ACCEPTED"
 IF NOT "%DISCLAIMER%"=="ACCEPTED" CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.     The ( %##%@%#$% ) %##%Current Environment%#$% option ^& disk management area&&ECHO.         are the 'caution zones' and can be avoided if unsure.&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
+:GUI_LAUNCH
+CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                %XLR5%windick.ps1 detected.%#$%. Launch GUI?&&ECHO.&&ECHO.                         Press (%##%X%#$%) to proceed&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=SELECTX"&&CALL:PROMPT_SET
+IF NOT "%SELECTX%"=="X" SET "NOGUI=1"&&GOTO:MAIN_MENU
+START powershell -WindowStyle Hidden -executionpolicy bypass "%PROG_FOLDER%\windick.ps1"
+GOTO:QUIT
 ::#########################################################################
 :SETTINGS_MENU
 ::#########################################################################
@@ -745,7 +753,7 @@ IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" EXIT /B
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.&&ECHO.                         Enter name of new .LIST&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "PROMPT_SET=NEW_NAME"&&SET "PROMPT_ANY=1"&&SET "NO_ASTRK=1"&&CALL:PROMPT_SET
 IF NOT DEFINED NEW_NAME EXIT /B
 SET "$PICK=%LIST_FOLDER%\%NEW_NAME%.list"&&SET "$CHOICE=%NEW_NAME%.list"
-IF "%SELECTX%"=="1" (ECHO.MULTI-LIST&&ECHO.This is an example of a custom menu for recovery.&&ECHO.Set a custom banner in settings.ini.&&ECHO.&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\active_xyz.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25000][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Backup a vhdx to wim]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\backup_xyz.wim" ECHO.Deleting backup_xyz.wim...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\backup_xyz.wim"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -vhdx "active_xyz.vhdx" -index 1 -wim "backup_xyz.wim" -xlvl fast][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx with name prompt]&&ECHO.[PROMPT1][               Enter new vhdx name: 0-9 A-Z - No Spaces][VAR1]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\%%VAR1%%.vhdx" ECHO.Deleting %%VAR1%%.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\%%VAR1%%.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "%%VAR1%%.vhdx" -size 25000][CMD][IA]&&ECHO.&&ECHO.[GROUP][Open an app Example][Notepad]&&ECHO.[COMMAND][start notepad.exe][CMD][IA]&&ECHO.[GROUP][Open an app Example][Regedit]&&ECHO.[COMMAND][start regedit.exe][CMD][IA])>"%$PICK%"
+IF "%SELECTX%"=="1" (ECHO.MULTI-LIST&&ECHO.This is an example of a custom menu for recovery.&&ECHO.Set a custom banner in windick.ini.&&ECHO.&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\active_xyz.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25000][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Backup a vhdx to wim]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\backup_xyz.wim" ECHO.Deleting backup_xyz.wim...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\backup_xyz.wim"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -vhdx "active_xyz.vhdx" -index 1 -wim "backup_xyz.wim" -xlvl fast][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx with name prompt]&&ECHO.[PROMPT1][               Enter new vhdx name: 0-9 A-Z - No Spaces][VAR1]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\%%VAR1%%.vhdx" ECHO.Deleting %%VAR1%%.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\%%VAR1%%.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "%%VAR1%%.vhdx" -size 25000][CMD][IA]&&ECHO.&&ECHO.[GROUP][Open an app Example][Notepad]&&ECHO.[COMMAND][start notepad.exe][CMD][IA]&&ECHO.[GROUP][Open an app Example][Regedit]&&ECHO.[COMMAND][start regedit.exe][CMD][IA])>"%$PICK%"
 IF "%SELECTX%"=="2" (ECHO.EXEC-LIST&&ECHO.This is an example of an execution list for recovery. A reboot to restore scenerio.&&ECHO.[COMMANDQ][IF EXIST "Z:\$\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /f "Z:\$\active_xyz.vhdx"][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25000][CMD][IA]&&ECHO.[COMMANDQ][REM %%PROG_SOURCE%%\windick.cmd -nextboot -vhdx][CMD][IA]&&ECHO.[COMMANDQ][PAUSE][CMD][IA])>"%$PICK%"
 START NOTEPAD.EXE "%$PICK%"
 EXIT /B
@@ -826,7 +834,7 @@ IF "%BOOTSVC%"=="INSTALL" ECHO. Recovery switcher service is installed.&&SC CREA
 IF "%BOOTSVC%"=="REMOVE" ECHO.Recovery switcher service is removed.&&SC DELETE AutoBoot>NUL 2>&1
 SET "BOOTSVC="&&EXIT /B
 :UPDATE_RECOVERY
-SET "PROG_NAME=windick"&&CLS&&CALL:SETS_HANDLER&&CALL:GET_SPACE&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                           Recovery Update&&ECHO.&&ECHO. (%##%1%#$%) Program  (%##%*%#$%) Test&&ECHO. (%##%2%#$%) Recovery Wallpaper&&ECHO. (%##%3%#$%) Recovery Password&&ECHO. (%##%4%#$%) Boot Media&&ECHO. (%##%5%#$%) Host Folder&&ECHO. (%##%6%#$%) EFI Files&&ECHO. (%##%7%#$%) Settings.ini&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+SET "PROG_NAME=windick"&&CLS&&CALL:SETS_HANDLER&&CALL:GET_SPACE&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                           Recovery Update&&ECHO.&&ECHO. (%##%1%#$%) Program  (%##%*%#$%) Test&&ECHO. (%##%2%#$%) Recovery Wallpaper&&ECHO. (%##%3%#$%) Recovery Password&&ECHO. (%##%4%#$%) Boot Media&&ECHO. (%##%5%#$%) Host Folder&&ECHO. (%##%6%#$%) EFI Files&&ECHO. (%##%7%#$%) windick.ini&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:SETTINGS_MENU
 IF "%SELECT%"=="*" IF EXIST "%PROG_SOURCE%\%PROG_NAME%.cmd" SET "VER_GET=%PROG_SOURCE%\%PROG_NAME%.cmd"&&CALL:GET_PROGVER&&COPY /Y "%PROG_SOURCE%\%PROG_NAME%.cmd" "%PROG_FOLDER%"&GOTO:MAIN_MENU
@@ -840,11 +848,11 @@ IF "%SELECT%"=="4" SET "UPDATE_TYPE=BOOT"
 IF "%SELECT%"=="5" SET "UPDATE_TYPE=HOST"
 IF "%SELECT%"=="6" SET "UPDATE_TYPE=EFI"
 IF "%SELECT%"=="7" SET "UPDATE_TYPE=SETS"
-IF "%UPDATE_TYPE%"=="SETS" CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                           Default Settings&&ECHO.&&ECHO. (%##%1%#$%) Replace settings.ini&&ECHO. (%##%2%#$%) Remove settings.ini&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+IF "%UPDATE_TYPE%"=="SETS" CLS&&CALL:PAD_LINE&&CALL:BOXT1&&ECHO.                           Default Settings&&ECHO.&&ECHO. (%##%1%#$%) Replace windick.ini&&ECHO. (%##%2%#$%) Remove windick.ini&&ECHO.&&CALL:BOXB1&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF "%UPDATE_TYPE%"=="SETS" IF NOT "%SELECT%"=="1" IF NOT "%SELECT%"=="2" GOTO:UPDATE_RECOVERY
 IF "%UPDATE_TYPE%"=="SETS" IF "%SELECT%"=="1" SET "UPDATE_TYPE=CONFIG"
 IF "%UPDATE_TYPE%"=="SETS" IF "%SELECT%"=="2" SET "UPDATE_TYPE=DEL_CONFIG"
-IF "%UPDATE_TYPE%"=="CONFIG" IF NOT EXIST "%PROG_SOURCE%\settings.ini" ECHO. %XLR4%ERROR:%#$% File settings.ini is not located in folder. Abort.&&SET "ERROR=1"&&CALL:PAUSED&GOTO:UPDATE_END
+IF "%UPDATE_TYPE%"=="CONFIG" IF NOT EXIST "%PROG_SOURCE%\windick.ini" ECHO. %XLR4%ERROR:%#$% File windick.ini is not located in folder. Abort.&&SET "ERROR=1"&&CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="EFI" IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" IF NOT EXIST "%BOOT_FOLDER%\bootmgfw.efi" ECHO. %XLR4%ERROR:%#$% Files boot.sdi and bootmgfw.efi are not located in folder. Abort.&&SET "ERROR=1"&&CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="BOOT" IF NOT EXIST "%BOOT_FOLDER%\boot.sav" ECHO. %XLR4%ERROR:%#$% File boot.sav is not located in folder. Abort.&&SET "ERROR=1"&&CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="PROG" IF NOT EXIST "%PROG_SOURCE%\%PROG_NAME%.cmd" ECHO. %XLR4%ERROR:%#$% File %PROG_NAME%.cmd is not located in folder. Abort.&&SET "ERROR=1"&&CALL:PAUSED&GOTO:UPDATE_END
@@ -869,8 +877,8 @@ IF "%UPDATE_TYPE%"=="BOOT" SET "IMAGE_X=%BOOT_FOLDER%\$BOOT.wim"&&SET "INDEX_X=%
 IF "%UPDATE_TYPE%"=="BOOT" MOVE /Y "%BOOT_FOLDER%\$BOOT.wim" "%BOOT_FOLDER%\boot.sav">NUL
 IF "%UPDATE_TYPE%"=="BOOT" IF DEFINED ERROR ECHO. %XLR2%ERROR:%#$% File boot.sav is corrupt. Abort.&&CALL:PAUSED&GOTO:UPDATE_END
 CALL:PAD_LINE&&CALL:BOXT1&&ECHO.
-IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO.           This will remove the default settings.ini file.
-IF "%UPDATE_TYPE%"=="CONFIG" ECHO.           This will replace the default settings.ini file.
+IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO.           This will remove the default windick.ini file.
+IF "%UPDATE_TYPE%"=="CONFIG" ECHO.           This will replace the default windick.ini file.
 IF "%UPDATE_TYPE%"=="EFI" ECHO.             This will replace the current EFI boot files.
 IF "%UPDATE_TYPE%"=="BOOT" ECHO.        This will replace %#@%v%$PATHVER%%#$% with %#@%v%$IMGVER%%#$%
 IF "%UPDATE_TYPE%"=="PROG" ECHO.                  This will replace %#@%v%VER_Y%%#$% with %#@%v%VER_X%%#$%.
@@ -915,8 +923,8 @@ IF "%UPDATE_TYPE%"=="BOOT" IF EXIST "%VDISK_LTR%:\setup.exe" DEL /Q /F "\\?\%VDI
 ::IF "%UPDATE_TYPE%"=="BOOT" COPY /Y "%VDISK_LTR%:\Windows\Boot\EFI\bootmgfw.efi" "%EFI_LETTER%:\EFI\Boot\bootx64.efi">NUL 2>&1
 IF "%UPDATE_TYPE%"=="BOOT" (ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\%PROG_NAME%.cmd)>"%VDISK_LTR%:\Windows\System32\winpeshl.ini"
 IF "%UPDATE_TYPE%"=="BOOT" ECHO. Updating boot media %#@%v%$PATHVER%%#$% to %#@%v%$IMGVER%%#$%.
-IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO. Removing the default settings.ini file.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\SETTINGS_INI">NUL 2>&1
-IF "%UPDATE_TYPE%"=="CONFIG" ECHO. Updating the default settings.ini file.&&COPY /Y "%PROG_SOURCE%\settings.ini" "%VDISK_LTR%:\$\SETTINGS_INI">NUL
+IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO. Removing the default windick.ini file.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\SETTINGS_INI">NUL 2>&1
+IF "%UPDATE_TYPE%"=="CONFIG" ECHO. Updating the default windick.ini file.&&COPY /Y "%PROG_SOURCE%\windick.ini" "%VDISK_LTR%:\$\SETTINGS_INI">NUL
 IF "%UPDATE_TYPE%"=="PROG" ECHO. Updating %PROG_NAME%.cmd %#@%v%VER_Y%%#$% to %#@%v%VER_X%%#$%.&&COPY /Y "%PROG_SOURCE%\%PROG_NAME%.cmd" "%VDISK_LTR%:\$">NUL
 IF "%UPDATE_TYPE%"=="PASS" IF DEFINED RECOVERY_LOCK ECHO. Recovery password will be changed to %#@%%RECOVERY_LOCK%%#$%.&&ECHO.%RECOVERY_LOCK%>"%VDISK_LTR%:\$\RECOVERY_LOCK"
 IF "%UPDATE_TYPE%"=="PASS" IF NOT DEFINED RECOVERY_LOCK ECHO. Recovery password will be cleared.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\RECOVERY_LOCK">NUL 2>&1
@@ -2546,8 +2554,8 @@ IF NOT DEFINED ARBIT_FLAG SET "QUERY_X=1"&&CALL:DISK_DETECT
 SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=Z"&&CALL:PART_ASSIGN
 IF EXIST "Z:\" IF NOT EXIST "Z:\%HOST_FOLDERX%" MD "Z:\%HOST_FOLDERX%">NUL 2>&1
 IF EXIST "Z:\%HOST_FOLDERX%" IF NOT EXIST "Z:\%HOST_FOLDERX%\%PROG_NAME%.cmd" COPY /Y "%PROG_FOLDER%\%PROG_NAME%.cmd" "Z:\%HOST_FOLDERX%">NUL 2>&1
-IF EXIST "Z:\%HOST_FOLDERX%\settings.ini" COPY /Y "Z:\%HOST_FOLDERX%\settings.ini" "%PROG_FOLDER%">NUL 2>&1
-IF NOT DEFINED $ETS IF EXIST "%PROG_FOLDER%\SETTINGS_INI" COPY /Y "%PROG_FOLDER%\SETTINGS_INI" "%PROG_FOLDER%\settings.ini">NUL 2>&1
+IF EXIST "Z:\%HOST_FOLDERX%\windick.ini" COPY /Y "Z:\%HOST_FOLDERX%\windick.ini" "%PROG_FOLDER%">NUL 2>&1
+IF NOT DEFINED $ETS IF EXIST "%PROG_FOLDER%\SETTINGS_INI" COPY /Y "%PROG_FOLDER%\SETTINGS_INI" "%PROG_FOLDER%\windick.ini">NUL 2>&1
 IF NOT EXIST "Z:\%HOST_FOLDERX%" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOST_AUTO
 SET "ARBIT_FLAG="&&IF EXIST "Z:\%HOST_FOLDERX%" SET "PROG_SOURCE=Z:\%HOST_FOLDERX%"&&SET "HOST_NUMBER=%DISK_DETECT%"
 IF NOT DEFINED DISK_DETECT SET "HOST_ERROR=1"&&SET "DISK_TARGET="
@@ -2761,7 +2769,7 @@ IF NOT EXIST "%VDISK_LTR%:\Windows" ECHO. %XLR2%ERROR:%#$% Files created with bo
 MD "%VDISK_LTR%:\$">NUL 2>&1
 ECHO.%DISK_TARGET%>"%VDISK_LTR%:\$\HOST_TARGET"
 ECHO.%HOST_FOLDER%>"%VDISK_LTR%:\$\HOST_FOLDER"
-COPY /Y "%PROG_FOLDER%\%PROG_NAME%.cmd" "%VDISK_LTR%:\$">NUL&COPY /Y "%PROG_FOLDER%\%PROG_NAME%.cmd" "%PRI_LETTER%:\%HOST_FOLDER%">NUL&COPY /Y "%PROG_SOURCE%\settings.ini" "%PRI_LETTER%:\%HOST_FOLDER%">NUL
+COPY /Y "%PROG_FOLDER%\%PROG_NAME%.cmd" "%VDISK_LTR%:\$">NUL&COPY /Y "%PROG_FOLDER%\%PROG_NAME%.cmd" "%PRI_LETTER%:\%HOST_FOLDER%">NUL&COPY /Y "%PROG_SOURCE%\windick.ini" "%PRI_LETTER%:\%HOST_FOLDER%">NUL
 FOR %%a in (Boot EFI\Boot EFI\Microsoft\Boot) DO (MD %EFI_LETTER%:\%%a>NUL 2>&1)
 IF EXIST "%BOOT_FOLDER%\boot.sdi" ECHO. Using boot.sdi located in folder, for efi image boot support.&&COPY /Y "%BOOT_FOLDER%\boot.sdi" "%EFI_LETTER%:\Boot">NUL
 IF NOT EXIST "%BOOT_FOLDER%\boot.sdi" COPY /Y "%VDISK_LTR%:\Windows\Boot\DVD\EFI\boot.sdi" "%EFI_LETTER%:\Boot">NUL 2>&1
