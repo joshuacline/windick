@@ -144,9 +144,9 @@ $this.Tag = 'Enable'
 if ($Button1_Main.Tag -eq 'Enable') {if ($DropBox1_Page1a.Tag -eq 'Enable') {$DropBox2_Page1a.Items.Clear()
 $ListView1_Page1a.Items.Clear()
 $command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$PSScriptRoot\$($DropBox1_Page1a.SelectedItem)"
-#$files = Get-ChildItem | Select-Object Name, Length, Extension
-#Get-Process | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
-#Invoke-Command -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
+#$files = Get-ChildItemNULL | Select-Object Name, Length, Extension
+#Get-ProcessNULL | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
+#Invoke-CommandNULL -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
 Foreach ($line in $command) {
 if ($line -match "Index :") {
 [void]$ListView1_Page1a.Items.Add($line)
@@ -331,7 +331,7 @@ if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\project1"
 Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$ListView1_Page3.Items.Add($_)}} else {$FilePath = "$PSScriptRoot"}}
 if ($Page -eq 'Page4') {
 $Page4.Visible = $true;$ListView1_Page4.Items.Clear()
-Get-ChildItem -Path "C:\" -Name | ForEach-Object {[void]$ListView1_Page4.Items.Add($_)}}
+Get-ChildItem -Path "$PSScriptRoot" -Name | ForEach-Object {[void]$ListView1_Page4.Items.Add($_)}}
 if ($Page -eq 'Page5') {
 $Page5.Visible = $true;$ListView1_Page5.Items.Clear();$ListView1_Page5.Items.Add("PLACEHOLDER")
 }
@@ -369,13 +369,13 @@ $form.Font = New-Object System.Drawing.Font('Segoe UI', 9)
 $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
 $form.MinimizeBox = $false
-#$form.FormBorderStyle = 'FixedDialog'
 #FixedDialog, FixedSingle
+#$form.FormBorderStyle = 'FixedDialog'
 $form.AutoScale = $true
-#GrowAndShrink (default), GrowOnly, and ShrinkOnly.
-$form.AutoScaleMode = 'DPI'
 $form.AutoSize = $true
-#$form.AutoSizeMode = 'GrowAndShrink'
+#GrowAndShrink (default), GrowOnly, and ShrinkOnly.
+$form.AutoSizeMode = 'GrowAndShrink'
+$form.AutoScaleMode = 'DPI'
 $WindowState = 'Normal'
 $PageMain = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $Page0 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
@@ -543,24 +543,36 @@ $DropBox3_Page1b = NewDropBox -X '255' -Y '310' -W '180' -H '25' -C '0' -Display
 $TextBox1_Page1b = NewTextBox -X '15' -Y '310' -W '180' -H '25' -Text 'Value OverWritten'
 $Page = 'Page2'
 $Label0_Page2 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Image Management'
-#$Button1_Page2 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Edit' -Hover_Text 'Edit' -Add_Click {
-#$Button2_Page2 = NewButton -X '225' -Y '350' -W '180' -H '35' -Text 'Go!' -Hover_Text 'Go!' -Add_Click {$form.Visible = $false;PickFile;$form.Visible = $true}
+$Button1_Page2 = NewButton -X '255' -Y '350' -W '180' -H '35' -Text 'List Execute' -Hover_Text 'List Execute' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal -imagemgr ""run"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+$Button2_Page2 = NewButton -X '15' -Y '350' -W '180' -H '35' -Text 'List Builder' -Hover_Text 'List Builder' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal -imagemgr ""new"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+$Button3_Page2 = NewButton -X '15' -Y '300' -W '180' -H '35' -Text 'Edit List' -Hover_Text 'Edit List' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal -imagemgr ""edit"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
 $Page = 'Page3'
 $Label0_Page3 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Package Creator'
-$Button1_Page3 = NewButton -X '15' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFile;$form.Visible = $true}
-$Button2_Page3 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Button1_Page3 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Package Creator' -Hover_Text 'Package Creator' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-packcreator"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+#$Button2_Page3 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
 $Page = 'Page4'
 $Label0_Page4 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'File Management' 
-$Button1_Page4 = NewButton -X '15' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFile;$form.Visible = $true}
-$Button2_Page4 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Button1_Page4 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'File Management' -Hover_Text 'File Management' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-filemgr"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
 $Page = 'Page5'
 $Label0_Page5 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Disk Management' 
-$Button1_Page5 = NewButton -X '15' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {
-$form.Visible = $false;PickFile;$form.Visible = $true}
-$Button2_Page5 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Button1_Page5 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Disk Management' -Hover_Text 'Disk Management' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-diskmgr"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+#$Button2_Page5 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
 $Page = 'Page6'
 $Label0_Page6 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Settings Configuration' 
-$Button1_Page6 = NewButton -X '15' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {
-$form.Visible = $false;PickFile;$form.Visible = $true}
-$Button2_Page6 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Settings' -Hover_Text 'Settings' -Add_Click {
+$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-settings"""
+Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+#$Button2_Page6 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
 $result = $form.ShowDialog()
