@@ -1,7 +1,43 @@
-# Windows Deployment Image Customization Kit (c) github.com/joshuacline
-[VOID][System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+  # Windows Deployment Image Customization Kit (c) github.com/joshuacline
+[VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
 [VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Drawing')
 [VOID][System.Windows.Forms.Application]::EnableVisualStyles()
+[VOID][System.Text.Encoding]::Unicode
+Add-Type -MemberDefinition @"
+[DllImport("Kernel32.dll")] public static extern IntPtr GetConsoleWindow();
+[DllImport("user32.dll")] public static extern bool SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+[DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+"@ -Name "Win32" -Namespace "API"
+$definition = @"
+using System;
+using System.Runtime.InteropServices;
+public class ConsoleFont
+{
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct CONSOLE_FONT_INFOEX
+    {
+        public uint cbSize;
+        public uint nFont;
+        public COORD dwFontSize;
+        public int FontFamily;
+        public int FontWeight;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string FaceName;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct COORD
+    {
+        public short X;
+        public short Y;
+    }
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFOEX lpConsoleCurrentFontEx);
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern IntPtr GetStdHandle(int nStdHandle);
+    public const int STD_OUTPUT_HANDLE = -11;
+}
+"@
+Add-Type -TypeDefinition $definition
 function NewPanel {param (
 [int]$X,
 [int]$Y,
@@ -14,10 +50,6 @@ $panel.Location = New-Object Drawing.Point($X, $Y)
 $panel.Size = New-Object Drawing.Size($W, $H)
 $form.Controls.Add($panel)
 return $panel}
-# bring element to front
-#$TextBox.BringToFront()
-#$imageListSmall = New-Object System.Windows.Forms.ImageList
-#$listView1.SmallImageList = $imageListSmall
 function NewRichTextBox {param (
 [int]$X,
 [int]$Y,
@@ -27,12 +59,12 @@ function NewRichTextBox {param (
 $richTextBox = New-Object System.Windows.Forms.RichTextBox
 $richTextBox.Size = New-Object System.Drawing.Size($W, $H)
 $richTextBox.Location = New-Object System.Drawing.Point($X, $Y)
-$richTextBox= richTextBox1
-$richTextBox.Dock = DockStyle.Fill
+#$richTextBox.Dock = DockStyle.Fill
 #$richTextBox.LoadFile("C:\\MyDocument.rtf")
-$richTextBox.Find("Text")
-$richTextBox.SelectionColor = Color.Red
-$richTextBox.SaveFile("C:\\MyDocument.rtf")
+#$richTextBox.Find("Text")
+#$richTextBox.SelectionColor = Color.Red
+#$richTextBox.SaveFile("C:\\MyDocument.rtf")
+$richTextBox.Visible = $true
 return $richTextBox}
 function NewTextBox {param (
 [int]$X,
@@ -53,6 +85,7 @@ $textbox.Visible = $true
 #$textBox.ScrollBars = "Vertical"
 #$textBox.Dock = "Fill"
 #$textBox.ReadOnly = $true
+#$textBox.AppendText = "Option X"
 if ($Page -eq 'Page0') {$Page0.Controls.Add($textbox)}
 if ($Page -eq 'Page1a') {$Page1a.Controls.Add($textbox)}
 if ($Page -eq 'Page1b') {$Page1b.Controls.Add($textbox)}
@@ -61,6 +94,7 @@ if ($Page -eq 'Page3') {$Page3.Controls.Add($textbox)}
 if ($Page -eq 'Page4') {$Page4.Controls.Add($textbox)}
 if ($Page -eq 'Page5') {$Page5.Controls.Add($textbox)}
 if ($Page -eq 'Page6') {$Page6.Controls.Add($textbox)}
+if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($textbox)}
 return $textbox}
 function NewListView {param (
 [int]$X,
@@ -84,6 +118,8 @@ $listview.Columns[0].Width = -2
 #$listview.FullRowSelect = true
 #$listview.GridLines = true
 #$listview.Sorting = SortOrder.Ascending
+#$imageListSmall = New-Object System.Windows.Forms.ImageList
+#$listView1.SmallImageList = $imageListSmall
 if ($Page -eq 'Page1b') {$Page1b.Controls.Add($listview)}
 #Write-Host "Selected Page: $Page"
 return $listview}
@@ -246,6 +282,8 @@ if ($Page -eq 'Page3') {$Page3.Controls.Add($button)}
 if ($Page -eq 'Page4') {$Page4.Controls.Add($button)}
 if ($Page -eq 'Page5') {$Page5.Controls.Add($button)}
 if ($Page -eq 'Page6') {$Page6.Controls.Add($button)}
+if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($button)}
+if ($Page -eq 'PageConsoleX') {$PageConsoleX.Controls.Add($button)}
 return $button}
 function NewPageButton {param (
 [int]$X,
@@ -279,6 +317,8 @@ $Page3.Visible = $false
 $Page4.Visible = $false
 $Page5.Visible = $false
 $Page6.Visible = $false
+$PageConsole.Visible = $false
+$PageConsoleX.Visible = $false
 $Button_Mode.Visible = $false
 if ($Button1_Main.Tag -eq 'Enable') {$Page = 'Page1a';$Button_Mode.Visible = $true}
 if ($Button2_Main.Tag -eq 'Enable') {$Page = 'Page2'}
@@ -343,7 +383,7 @@ Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_Page6
 #$dropdown.Items.Add("Option 1")
 $this.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)})
 $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)})
-$button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb(70, 70, 70)}else {$this.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)}})
+$button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb(70, 70, 70)} else {$this.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)}})
 $PageMain.Controls.Add($button)
 return $button}
 [string]$logojpgB64=@"
@@ -351,16 +391,6 @@ return $button}
 "@
 #############################################################################
 # Form and panels
-    Add-Type @"
-    using System;
-    using System.Runtime.InteropServices;
-    public static class NativeMethods
-    {
-        [DllImport("user32.dll")]
-        public static extern bool SetProcessDPIAware();
-    }
-"@
-    [NativeMethods]::SetProcessDPIAware()
 $form = New-Object Windows.Forms.Form
 $form.Text = 'Windows Deployment Image Customization Kit'
 $form.Size = New-Object Drawing.Size(600, 400)
@@ -368,7 +398,7 @@ $form.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 $form.Font = New-Object System.Drawing.Font('Segoe UI', 9)
 $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
-$form.MinimizeBox = $false
+$form.MinimizeBox = $true
 #FixedDialog, FixedSingle
 #$form.FormBorderStyle = 'FixedDialog'
 $form.AutoScale = $true
@@ -386,6 +416,8 @@ $Page3 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page4 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page5 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page6 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
+$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+$PageConsoleX = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $PageMain.Controls.Add($Page0)
 $PageMain.Controls.Add($Page1a)
 $PageMain.Controls.Add($Page1b)
@@ -394,6 +426,10 @@ $PageMain.Controls.Add($Page3)
 $PageMain.Controls.Add($Page4)
 $PageMain.Controls.Add($Page5)
 $PageMain.Controls.Add($Page6)
+$PageMain.Controls.Add($PageConsole)
+$PageMain.Controls.Add($PageConsoleX)
+$PageConsole.Visible = $false
+$PageConsoleX.Visible = $false
 $Page = 'Page1a';$Button_Mode = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing' 
 $Page = 'Page1a';$Button1_Main = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing'
 $Button_Mode.Visible = $false
@@ -495,6 +531,30 @@ $ListView1_Page6.HideSelection = $true
 $ListView1_Page6.Columns.Add("Available:")
 $ListView1_Page6.Columns[0].Width = -2
 $Page6.Controls.Add($ListView1_Page6)
+
+$hConsole = [ConsoleFont]::GetStdHandle([ConsoleFont]::STD_OUTPUT_HANDLE)
+$font = New-Object ConsoleFont+CONSOLE_FONT_INFOEX
+$font.cbSize = [System.Runtime.InteropServices.Marshal]::SizeOf($font)
+$font.nFont = 0
+$font.dwFontSize = New-Object ConsoleFont+COORD
+$font.dwFontSize.X = 5
+$font.dwFontSize.Y = 10
+$font.FontFamily = 54
+$font.FontWeight = 400
+$font.FaceName = "Consolas"
+[ConsoleFont]::SetCurrentConsoleFontEx($hConsole, $false, [ref]$font)
+$consoleHandle = [API.Win32]::GetConsoleWindow();$panelHandle = $PageConsoleX.Handle;[API.Win32]::SetParent($consoleHandle, $panelHandle)
+cls
+$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$PageConsole.Visible = $false}
+#$TextBox1_PageConsole = NewRichTextBox -X '15' -Y '15' -W '575' -H '335' -Text 'Value OverWritten'
+#$TextBox1_PageConsole.Font = New-Object System.Drawing.Font('Segoe UI', 7, [System.Drawing.FontStyle]::Regular)
+#$TextBox1_PageConsole.Multiline = $true
+#$PageConsole.Controls.Add($TextBox1_PageConsole)
+#$TextBox1_PageConsole.Dock = 'Fill'
+#$TextBox1_PageConsole.ScrollBars = "Vertical"
+#$TextBox1_PageConsole.Text = "Option X"
+#Foreach ($line in $command) {$TextBox1_PageConsole.AppendText("$line`r`n")}  
+#$PageConsole.Controls.Add($ListView1_PageConsole)
 #$explorer = New-Object -ComObject Shell.Explorer
 #$explorerControl = New-Object System.Windows.Forms.Control
 #$explorerControl.Handle = $explorer.HWND
@@ -570,9 +630,25 @@ $form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -inter
 Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
 #$Button2_Page5 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
 $Page = 'Page6'
-$Label0_Page6 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Settings Configuration' 
-$Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Settings' -Hover_Text 'Settings' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-settings"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
-#$Button2_Page6 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Label0_Page6 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Settings Configuration'
+$Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Settings' -Hover_Text 'Settings' -Add_Click {cls
+#[API.Win32]::MoveWindow($consoleHandle, -0, -0, $PageConsoleX.Width, $PageConsoleX.Height, $true)
+[API.Win32]::MoveWindow($consoleHandle, -10, -35, 620, 450, $true)
+$Page6.Visible = $false
+$PageConsoleX.Visible = $true
+$PageConsoleX.BringToFront()
+$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-settings"""
+Start-Process -Wait -NoNewWindow -FilePath "$env:comspec" -ArgumentList "$ArgumentX"
+[API.Win32]::MoveWindow($consoleHandle, -10, -35, 620, 400, $true)
+#Foreach ($line in $command) {Write-Host "$line"}         
+$Button1_PageConsoleX.Visible = $true
+$Button1_PageConsoleX.BringToFront()
+}
+
+$Page = 'PageConsoleX';$Button1_PageConsoleX = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$Button1_PageConsoleX.Visible = $false
+
+$Page6.Visible = $true
+$PageConsoleX.Visible = $false}
+$Button1_PageConsoleX.Visible = $false
 $result = $form.ShowDialog()
+       
