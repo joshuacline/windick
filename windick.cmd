@@ -1156,7 +1156,7 @@ EXIT /B
 ::#########################################################################
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                           Image Management&&ECHO.
 IF NOT DEFINED SAFE_EXCLUDE SET "SAFE_EXCLUDE=ENABLED"
-ECHO.  %@@%AVAILABLE PKXs/LISTs:%$$%&&ECHO.&&SET "$FOLD=%PACK_FOLDER%"&&SET "$FILT=*.PKX"&&CALL:FILE_LIST&&SET "$FOLD=%LIST_FOLDER%"&&SET "$FILT=*.LIST"&&SET "$APPEND=1"&&CALL:FILE_LIST&&ECHO.
+ECHO.  %@@%AVAILABLE PKXs/LISTs:%$$%&&ECHO.&&SET "$FOLD=%PACK_FOLDER%"&&SET "$FILT=*.PKX"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&SET "$FOLD=%LIST_FOLDER%"&&SET "$FILT=*.LIST"&&SET "$APPEND=1"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&ECHO.
 SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&ECHO. [%@@%LIST%$$%]    (%##%N%$$%)ew      (%##%E%$$%)dit     (%##%G%$$%)o^^!                    (%##%O%$$%)ptions&&CALL:PAD_LINE
 IF DEFINED ADV_IMGM ECHO. [%@@%OPTIONS%$$%] (%##%S%$$%)afe Exclude %@@%%SAFE_EXCLUDE%%$$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
