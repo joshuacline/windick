@@ -178,7 +178,8 @@ $DropBox2_Page1b.Tag = 'Disable'
 $DropBox3_Page1b.Tag = 'Disable'
 $this.Tag = 'Enable'
 if ($Button1_Main.Tag -eq 'Enable') {if ($DropBox1_Page1a.Tag -eq 'Enable') {$DropBox2_Page1a.Items.Clear()
-$ListView1_Page1a.Items.Clear()
+$ListView1_Page1a.Items.Clear();$DropBox2_Page1a.Text = 'Select index'
+#$DropBox2_Page1a.ResetText()
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 $command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_Page1a.SelectedItem)"
@@ -206,7 +207,8 @@ $column2 = $parts[1].Trim()
 }
 }}
 if ($Button_Mode.Tag -eq 'Enable') {if ($DropBox1_Page1b.Tag -eq 'Enable') {$DropBox2_Page1b.Items.Clear()
-$ListView1_Page1b.Items.Clear();$DropBox2_Page1b.ResetText()
+$ListView1_Page1b.Items.Clear();$DropBox2_Page1b.Text = 'Select index'
+#$DropBox2_Page1b.ResetText()
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 $command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_Page1b.SelectedItem)" /INDEX:1

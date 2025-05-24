@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1197 (C) Joshua Cline - All rights reserved
+::Windows Deployment Image Customization Kit v 1197 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
