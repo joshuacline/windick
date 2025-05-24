@@ -1,4 +1,4 @@
-  # Windows Deployment Image Customization Kit (c) github.com/joshuacline
+# Windows Deployment Image Customization Kit (c) github.com/joshuacline
 [VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
 [VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Drawing')
 [VOID][System.Windows.Forms.Application]::EnableVisualStyles()
@@ -179,7 +179,9 @@ $DropBox3_Page1b.Tag = 'Disable'
 $this.Tag = 'Enable'
 if ($Button1_Main.Tag -eq 'Enable') {if ($DropBox1_Page1a.Tag -eq 'Enable') {$DropBox2_Page1a.Items.Clear()
 $ListView1_Page1a.Items.Clear()
-$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$PSScriptRoot\$($DropBox1_Page1a.SelectedItem)"
+$PathCheck = "$PSScriptRoot\\image\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
+$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_Page1a.SelectedItem)"
 #$files = Get-ChildItemNULL | Select-Object Name, Length, Extension
 #Get-ProcessNULL | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
 #Invoke-CommandNULL -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
@@ -205,7 +207,9 @@ $column2 = $parts[1].Trim()
 }}
 if ($Button_Mode.Tag -eq 'Enable') {if ($DropBox1_Page1b.Tag -eq 'Enable') {$DropBox2_Page1b.Items.Clear()
 $ListView1_Page1b.Items.Clear();$DropBox2_Page1b.ResetText()
-$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$PSScriptRoot\$($DropBox1_Page1b.SelectedItem)" /INDEX:1
+$PathCheck = "$PSScriptRoot\\image\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
+$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_Page1b.SelectedItem)" /INDEX:1
 Foreach ($line in $command) {
 if ($line -match "Index :") {
 [void]$ListView1_Page1b.Items.Add($line)
