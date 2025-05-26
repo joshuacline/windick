@@ -1,43 +1,90 @@
 # Windows Deployment Image Customization Kit (c) github.com/joshuacline
 [VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
 [VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Drawing')
-[VOID][System.Windows.Forms.Application]::EnableVisualStyles()
 [VOID][System.Text.Encoding]::Unicode
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -TypeDefinition @"
+public class DPIAware
+{
+[System.Runtime.InteropServices.DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+}
+"@
+[VOID][System.Windows.Forms.Application]::EnableVisualStyles()
+[VOID][DPIAware]::SetProcessDPIAware()
 Add-Type -MemberDefinition @"
 [DllImport("Kernel32.dll")] public static extern IntPtr GetConsoleWindow();
 [DllImport("user32.dll")] public static extern bool SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 "@ -Name "Win32" -Namespace "API"
-$definition = @"
+Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
 public class ConsoleFont
 {
+    private const int STD_OUTPUT_HANDLE = -11;
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct CONSOLE_FONT_INFOEX
-    {
-        public uint cbSize;
-        public uint nFont;
-        public COORD dwFontSize;
-        public int FontFamily;
-        public int FontWeight;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string FaceName;
-    }
-    [StructLayout(LayoutKind.Sequential)]
-    public struct COORD
-    {
-        public short X;
-        public short Y;
-    }
-    [DllImport("kernel32.dll", SetLastError = true)]
-    public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFOEX lpConsoleCurrentFontEx);
-    [DllImport("kernel32.dll", SetLastError = true)]
-    public static extern IntPtr GetStdHandle(int nStdHandle);
-    public const int STD_OUTPUT_HANDLE = -11;
+    public struct CONSOLE_FONT_INFO_EX
+    {public uint cbSize;public uint nFont;public COORD dwFontSize;public int FontFamily;public int FontWeight;[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]public string FaceName;}
+    [StructLayout(LayoutKind.Sequential)] public struct COORD
+    {public short X;public short Y;}
+    [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
+    [DllImport("kernel32.dll", SetLastError = true)] public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+    [DllImport("kernel32.dll", SetLastError = true)] public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+    public static bool SetConsoleFont(string fontName, short fontSize)
+    {IntPtr consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        if (consoleOutputHandle == IntPtr.Zero)
+        {return false;}
+        CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
+        fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);}
 }
 "@
-Add-Type -TypeDefinition $definition
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+$DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
+$DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+$DimensionVX = [System.Windows.Forms.SystemInformation]::VirtualScreen.Width
+$DimensionVY = [System.Windows.Forms.SystemInformation]::VirtualScreen.Height
+$RawUIMAX = $host.UI.RawUI.MaxWindowSize
+#Write-Host "DX: $DimensionX DY: $DimensionY DVX: $DimensionVX DVY: $DimensionVY RawUIMax: $RawUIMax"
+#Write-Host "SX: $DimScaleX SY: $DimScaleY SF: $ScaleFactor"
+$RefX = 1920;$RefY = 1080
+$DimScaleX = $DimensionX / $RefX
+$DimScaleY = $DimensionY / $RefY
+if ($DimensionX -ge $DimensionY) {$ScaleRef = $DimScaleY}
+if ($DimensionY -ge $DimensionX) {$ScaleRef = $DimScaleX}
+if ($ScaleRef -ge '0.11') {if ($ScaleRef -le '0.21') {$ScaleFont = 12}}
+if ($ScaleRef -ge '0.22') {if ($ScaleRef -le '0.32') {$ScaleFont = 12}}
+if ($ScaleRef -ge '0.33') {if ($ScaleRef -le '0.43') {$ScaleFont = 12}}
+if ($ScaleRef -ge '0.44') {if ($ScaleRef -le '0.54') {$ScaleFont = 13}}
+if ($ScaleRef -ge '0.55') {if ($ScaleRef -le '0.65') {$ScaleFont = 13}}
+if ($ScaleRef -ge '0.66') {if ($ScaleRef -le '0.76') {$ScaleFont = 14}}
+if ($ScaleRef -ge '0.77') {if ($ScaleRef -le '0.87') {$ScaleFont = 14}}
+if ($ScaleRef -ge '0.88') {if ($ScaleRef -le '0.98') {$ScaleFont = 16}}
+if ($ScaleRef -ge '0.99') {if ($ScaleRef -le '1.09') {$ScaleFont = 16}}
+if ($ScaleRef -ge '1.10') {if ($ScaleRef -le '1.29') {$ScaleFont = 16}}
+if ($ScaleRef -ge '1.30') {if ($ScaleRef -le '1.75') {$ScaleFont = 18}}
+if ($ScaleRef -ge '1.76') {if ($ScaleRef -le '2.00') {$ScaleFont = 18}}
+[ConsoleFont]::SetConsoleFont("Consolas", $ScaleFont)
+#Write-Host "ScaleRef: $ScaleRef  ScaleFont: $ScaleFont";
+$ScaleFactor = 2;
+#$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(100, 1000)
+#$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
+$ZX = 640 / $RefX;$ZY = 480 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "640x480    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 800 / $RefX;$ZY = 600 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "800x600    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 1280 / $RefX;$ZY = 720 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "1280x720    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 1280 / $RefX;$ZY = 800 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "1280x800    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 1920 / $RefX;$ZY = 1080 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "1920x1080    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 2560 / $RefX;$ZY = 1440 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "2560x1440    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 4096 / $RefX;$ZY = 2160 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "4096x2160    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+$ZX = 3440 / $RefX;$ZY = 1440 / $RefY;$ZZ = $ZX * $ZY
+#Write-Host "3440x1440    ZX: $ZX ZY: $ZY ZZ: $ZZ"
 function NewPanel {param (
 [int]$X,
 [int]$Y,
@@ -45,9 +92,15 @@ function NewPanel {param (
 [int]$W,
 [int]$C)
 $panel = New-Object System.Windows.Forms.Panel
+#$panel.Font = New-Object System.Drawing.Font("",16,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
 $panel.BackColor = [System.Drawing.Color]::FromArgb($C, $C, $C)
-$panel.Location = New-Object Drawing.Point($X, $Y)
-$panel.Size = New-Object Drawing.Size($W, $H)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$panel.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$panel.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+#$panel.Dock = 'Fill'
 $form.Controls.Add($panel)
 return $panel}
 function NewRichTextBox {param (
@@ -57,8 +110,12 @@ function NewRichTextBox {param (
 [int]$W,
 [string]$Text)
 $richTextBox = New-Object System.Windows.Forms.RichTextBox
-$richTextBox.Size = New-Object System.Drawing.Size($W, $H)
-$richTextBox.Location = New-Object System.Drawing.Point($X, $Y)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$richTextBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$richTextBox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 #$richTextBox.Dock = DockStyle.Fill
 #$richTextBox.LoadFile("C:\\MyDocument.rtf")
 #$richTextBox.Find("Text")
@@ -72,11 +129,14 @@ function NewTextBox {param (
 [int]$H,
 [int]$W,
 [string]$Text)
-#$form.Size = New-Object System.Drawing.Size(800, 600)
 #$textbox.Bounds = New-Object System.Drawing.Rectangle(10, 10, 760, 540)
 $textbox = New-Object System.Windows.Forms.TextBox
-$textbox.Size = New-Object System.Drawing.Size($W, $H)
-$textbox.Location = New-Object System.Drawing.Point($X, $Y)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$textbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$textbox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $textbox.Text = "$Text"
 $textbox.Visible = $true
 #$textbox.SelectionColor = 'White'
@@ -103,8 +163,12 @@ function NewListView {param (
 [int]$W,
 [string]$Text)
 $listview = New-Object System.Windows.Forms.ListView
-$listview.Size = New-Object Drawing.Size($W, $H)
-$listview.Location = New-Object Drawing.Point($X, $Y)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$listview.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$listview.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $listview.View = "List"
 $listview.View = "Details"
 $listview.Visible = $true
@@ -166,8 +230,12 @@ function NewDropBox {param (
 [string]$Text,
 [string]$DisplayMember)
 $dropbox = New-Object System.Windows.Forms.ComboBox
-$dropbox.Location = New-Object Drawing.Point($X, $Y)
-$dropbox.Size = New-Object Drawing.Size($W, $H)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$dropbox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $dropbox.DisplayMember = $DisplayMember
 $dropbox.Text = "$Text"
 $dropbox.Add_SelectedIndexChanged({
@@ -246,10 +314,15 @@ function NewLabel {param (
 [string]$Text,
 [string]$TextSize)
 $label = New-Object Windows.Forms.Label
-$label.Font = New-Object System.Drawing.Font('Segoe UI', $TextSize, [System.Drawing.FontStyle]::Bold)
+#$label.Font = New-Object System.Drawing.Font('Segoe UI', $TextSize, [System.Drawing.FontStyle]::Bold)
+#$label.Font = New-Object System.Drawing.Font("",$TextSize,([System.Drawing.FontStyle]::Bold),[System.Drawing.GraphicsUnit]::Pixel)
 $label.ForeColor = 'White'
-$label.Location = New-Object Drawing.Point($X, $Y)
-$label.Size = New-Object Drawing.Size($W, $H)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$label.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$label.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $label.Text = $Text
 if ($Page -eq 'Page0') {$Page0.Controls.Add($label)}
 if ($Page -eq 'Page1a') {$Page1a.Controls.Add($label)}
@@ -269,8 +342,12 @@ function NewButton {param (
 [string]$Hover_Text,
 [scriptblock]$Add_Click)
 $button = New-Object Windows.Forms.Button
-$button.Location = New-Object Drawing.Point($X, $Y)
-$button.Size = New-Object Drawing.Size($W, $H)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$button.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$button.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $button.Add_Click($Add_Click)
 $button.Text = $Text
 $button.Cursor = 'Hand'
@@ -298,9 +375,14 @@ function NewPageButton {param (
 [int]$W,
 [string]$Text)
 $button = New-Object Windows.Forms.Button
-$button.Location = New-Object Drawing.Point($X, $Y)
-$button.Size = New-Object Drawing.Size($W, $H)
-$button.Font = New-Object System.Drawing.Font('Segoe UI', 8)
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+$button.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$button.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+#$button.Font = New-Object System.Drawing.Font('Segoe UI', 8)
+#$button.Font = New-Object System.Drawing.Font("",12,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
 $button.Text = $Text
 $button.Cursor = 'Hand'
 $button.ForeColor = 'White'
@@ -398,20 +480,30 @@ return $button}
 #############################################################################
 # Form and panels
 $form = New-Object Windows.Forms.Form
+$form.SuspendLayout()
 $form.Text = 'Windows Deployment Image Customization Kit'
-$form.Size = New-Object Drawing.Size(600, 400)
+#$form.Size = New-Object Drawing.Size(600, 400)
+$WSIZ = [int]($RefX * $DimScaleX * $ScaleFactor)
+$YSIZ = [int]($RefY * $DimScaleY * $ScaleFactor)
+$form.ClientSize = New-Object System.Drawing.Size($WSIZ,$YSIZ)
 $form.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$form.Font = New-Object System.Drawing.Font('Segoe UI', 9)
+#$form.Font = New-Object System.Drawing.Font('Segoe UI', 9)
+#$form.Font = New-Object System.Drawing.Font("",14,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
 $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
-#FixedDialog, FixedSingle
-#$form.FormBorderStyle = 'FixedDialog'
-$form.AutoScale = $true
+#FixedDialog, FixedSingle, Fixed3D
+$form.FormBorderStyle = 'FixedDialog'
 $form.AutoSize = $true
-#GrowAndShrink (default), GrowOnly, and ShrinkOnly.
+#GrowAndShrink, GrowOnly, and ShrinkOnly.
 $form.AutoSizeMode = 'GrowAndShrink'
-$form.AutoScaleMode = 'DPI'
+$form.Add_Resize({Scale-GUI})
+$form.AutoScale = $true
+#$form.AutoScaleDimensions =  New-Object System.Drawing.SizeF(96, 96)
+$form.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
+#$form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+#DPI, Font, and None.
+#$form.AutoScaleMode = 'DPI'
 $WindowState = 'Normal'
 $PageMain = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $Page0 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
@@ -424,6 +516,7 @@ $Page5 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page6 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $PageConsoleX = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+#$PageConsoleX.Add_Resize({[API.Win32]::MoveWindow($consoleHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
 $PageMain.Controls.Add($Page0)
 $PageMain.Controls.Add($Page1a)
 $PageMain.Controls.Add($Page1b)
@@ -447,18 +540,28 @@ $Page = 'Page6';$Button6_Main = NewPageButton -X '7' -Y '330' -W '135' -H '40' -
 # Page Configuration
 $pictureBox = New-Object System.Windows.Forms.PictureBox
 $imagejpg = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($logojpgB64))
-$pictureBox.Location = New-Object Drawing.Point(0, 75)
-$pictureBox.Size = New-Object Drawing.Size(450, 250)
+$WSIZ = [int](450 * $DimScaleX * $ScaleFactor)
+$YSIZ = [int](250 * $DimScaleY * $ScaleFactor)
+$XLOC = [int](0 * $DimScaleX * $ScaleFactor)
+$YLOC = [int](75 * $DimScaleY * $ScaleFactor)
+$pictureBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$pictureBox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $pictureBox.Image = $imagejpg
 # Normal, StretchImage, AutoSize, CenterImage, Zoom
 $pictureBox.SizeMode = 'StretchImage'
 $pictureBox.Visible = $true
 $Page0.Controls.Add($pictureBox)
+
+#List Viewers Configuration
+$WSIZ = [int](420 * $DimScaleX * $ScaleFactor)
+$YSIZ = [int](200 * $DimScaleY * $ScaleFactor)
+$XLOC = [int](15 * $DimScaleX * $ScaleFactor)
+$YLOC = [int](55 * $DimScaleY * $ScaleFactor)
 #$ListView1_Page1a = NewListView -X '10' -Y '20' -W '400' -H '200'
 #$ListView1_Page6 = NewListView -X '100' -Y '20' -W '400' -H '200'
 $ListView1_Page1a = New-Object System.Windows.Forms.ListView
-$ListView1_Page1a.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page1a.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page1a.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page1a.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page1a.View = "List"
 $ListView1_Page1a.View = "Details"
 $ListView1_Page1a.Visible = $true
@@ -470,8 +573,8 @@ $ListView1_Page1a.Columns[0].Width = -2
 #$ListView1_Page1a.Columns[1].Width = -2
 $Page1a.Controls.Add($ListView1_Page1a)
 $ListView1_Page1b = New-Object System.Windows.Forms.ListView
-$ListView1_Page1b.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page1b.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page1b.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page1b.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page1b.View = "List"
 $ListView1_Page1b.View = "Details"
 $ListView1_Page1b.Visible = $true
@@ -483,8 +586,8 @@ $ListView1_Page1b.Columns[0].Width = -2
 #$ListView1_Page1b.Columns[1].Width = -2
 $Page1b.Controls.Add($ListView1_Page1b)
 $ListView1_Page2 = New-Object System.Windows.Forms.ListView
-$ListView1_Page2.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page2.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page2.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page2.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page2.View = "List"
 $ListView1_Page2.View = "Details"
 $ListView1_Page2.Visible = $true
@@ -494,8 +597,8 @@ $ListView1_Page2.Columns.Add("Available:")
 $ListView1_Page2.Columns[0].Width = -2
 $Page2.Controls.Add($ListView1_Page2)
 $ListView1_Page3 = New-Object System.Windows.Forms.ListView
-$ListView1_Page3.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page3.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page3.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page3.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page3.View = "List"
 $ListView1_Page3.View = "Details"
 $ListView1_Page3.Visible = $true
@@ -505,8 +608,8 @@ $ListView1_Page3.Columns.Add("Available:")
 $ListView1_Page3.Columns[0].Width = -2
 $Page3.Controls.Add($ListView1_Page3)
 $ListView1_Page4 = New-Object System.Windows.Forms.ListView
-$ListView1_Page4.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page4.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page4.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page4.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page4.View = "List"
 $ListView1_Page4.View = "Details"
 $ListView1_Page4.Visible = $true
@@ -516,8 +619,8 @@ $ListView1_Page4.Columns.Add("Available:")
 $ListView1_Page4.Columns[0].Width = -2
 $Page4.Controls.Add($ListView1_Page4)
 $ListView1_Page5 = New-Object System.Windows.Forms.ListView
-$ListView1_Page5.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page5.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page5.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page5.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page5.View = "List"
 $ListView1_Page5.View = "Details"
 $ListView1_Page5.Visible = $true
@@ -527,8 +630,8 @@ $ListView1_Page5.Columns.Add("Available:")
 $ListView1_Page5.Columns[0].Width = -2
 $Page5.Controls.Add($ListView1_Page5)
 $ListView1_Page6 = New-Object System.Windows.Forms.ListView
-$ListView1_Page6.Size = New-Object Drawing.Size(420, 200)
-$ListView1_Page6.Location = New-Object Drawing.Point(15, 55)
+$ListView1_Page6.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListView1_Page6.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
 $ListView1_Page6.View = "List"
 $ListView1_Page6.View = "Details"
 $ListView1_Page6.Visible = $true
@@ -537,20 +640,9 @@ $ListView1_Page6.HideSelection = $true
 $ListView1_Page6.Columns.Add("Available:")
 $ListView1_Page6.Columns[0].Width = -2
 $Page6.Controls.Add($ListView1_Page6)
-
-$hConsole = [ConsoleFont]::GetStdHandle([ConsoleFont]::STD_OUTPUT_HANDLE)
-$font = New-Object ConsoleFont+CONSOLE_FONT_INFOEX
-$font.cbSize = [System.Runtime.InteropServices.Marshal]::SizeOf($font)
-$font.nFont = 0
-$font.dwFontSize = New-Object ConsoleFont+COORD
-$font.dwFontSize.X = 5
-$font.dwFontSize.Y = 10
-$font.FontFamily = 54
-$font.FontWeight = 400
-$font.FaceName = "Consolas"
-[ConsoleFont]::SetCurrentConsoleFontEx($hConsole, $false, [ref]$font)
-$consoleHandle = [API.Win32]::GetConsoleWindow();$panelHandle = $PageConsoleX.Handle;[API.Win32]::SetParent($consoleHandle, $panelHandle)
 cls
+$consoleHandle = [API.Win32]::GetConsoleWindow();$panelHandle = $PageConsoleX.Handle;[API.Win32]::SetParent($consoleHandle, $panelHandle)
+
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$PageConsole.Visible = $false}
 #$TextBox1_PageConsole = NewRichTextBox -X '15' -Y '15' -W '575' -H '335' -Text 'Value OverWritten'
 #$TextBox1_PageConsole.Font = New-Object System.Drawing.Font('Segoe UI', 7, [System.Drawing.FontStyle]::Regular)
@@ -638,23 +730,27 @@ Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Vi
 $Page = 'Page6'
 $Label0_Page6 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Settings Configuration'
 $Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Settings' -Hover_Text 'Settings' -Add_Click {cls
-#[API.Win32]::MoveWindow($consoleHandle, -0, -0, $PageConsoleX.Width, $PageConsoleX.Height, $true)
-[API.Win32]::MoveWindow($consoleHandle, -10, -35, 620, 450, $true)
+$WSIZ = [int](620 * $DimScaleX * $ScaleFactor)
+$YSIZ = [int](450 * $DimScaleY * $ScaleFactor)
+$XLOC = [int](-10 * $DimScaleX * $ScaleFactor)
+$YLOC = [int](-35 * $DimScaleY * $ScaleFactor)
+[API.Win32]::MoveWindow($consoleHandle, $XLOC, $YLOC, $WSIZ, $YSIZ, $true)
+$consoleHandle = [API.Win32]::GetConsoleWindow();$panelHandle = $PageConsoleX.Handle;[API.Win32]::SetParent($consoleHandle, $panelHandle)
 $Page6.Visible = $false
 $PageConsoleX.Visible = $true
 $PageConsoleX.BringToFront()
 $ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-settings"""
 Start-Process -Wait -NoNewWindow -FilePath "$env:comspec" -ArgumentList "$ArgumentX"
-[API.Win32]::MoveWindow($consoleHandle, -10, -35, 620, 400, $true)
+$WSIZ = [int](620 * $DimScaleX * $ScaleFactor)
+$YSIZ = [int](400 * $DimScaleY * $ScaleFactor)
+[API.Win32]::MoveWindow($consoleHandle, $XLOC, $YLOC, $WSIZ, $YSIZ, $true)
 #Foreach ($line in $command) {Write-Host "$line"}         
 $Button1_PageConsoleX.Visible = $true
 $Button1_PageConsoleX.BringToFront()
 }
 
-$Page = 'PageConsoleX';$Button1_PageConsoleX = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$Button1_PageConsoleX.Visible = $false
-
-$Page6.Visible = $true
-$PageConsoleX.Visible = $false}
+$Page = 'PageConsoleX';$Button1_PageConsoleX = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$Button1_PageConsoleX.Visible = $false;$Page6.Visible = $true;$PageConsoleX.Visible = $false}
 $Button1_PageConsoleX.Visible = $false
+$form.ResumeLayout()
 $result = $form.ShowDialog()
        
