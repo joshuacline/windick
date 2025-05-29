@@ -1,21 +1,39 @@
-# Windows Deployment Image Customization Kit (c) github.com/joshuacline
-[VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
-[VOID][System.Reflection.Assembly]::LoadWithPartialName('System.Drawing')
-[VOID][System.Text.Encoding]::Unicode
+# Windows Deployment Image Customization Kit v 1198 (c) github.com/joshuacline
 Add-Type -AssemblyName System.Windows.Forms
-Add-Type -TypeDefinition @"
-public class DPIAware
-{
-[System.Runtime.InteropServices.DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
-}
-"@
 [VOID][System.Windows.Forms.Application]::EnableVisualStyles()
-[VOID][DPIAware]::SetProcessDPIAware()
+[VOID][System.Text.Encoding]::Unicode
+Add-Type -MemberDefinition @"
+[DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+"@ -Name "DPIEnable" -Namespace "WindowManager"
+[WindowManager.DPIEnable]::SetProcessDPIAware()
+Add-Type -MemberDefinition @"
+[DllImport("user32.dll")] public static extern bool DestroyWindow(IntPtr hWnd);
+"@ -Name "Destroy" -Namespace "WindowManager"
+Add-Type -MemberDefinition @"
+[DllImport("kernel32.dll", SetLastError = true)] public static extern bool CloseHandle(IntPtr handle);
+"@ -Name "Close" -Namespace "WindowManager"
+Add-Type -MemberDefinition @"             
+[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+"@ -Name "WindowMinMax" -Namespace "WindowManager"
+#[WindowManager.WindowMinMax]::ShowWindowAsync($WindowHandle, 3)
+Add-Type -MemberDefinition @"
+[DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
+[StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
+public const int STD_OUTPUT_HANDLE = -11;
+"@ -Name "GetHand" -Namespace "WindowManager"
+$STDOutputHandle = [WindowManager.GetHand]::GetStdHandle([WindowManager.GetHand]::STD_OUTPUT_HANDLE)
+Write-Host "$STDOutputHandle"
 Add-Type -MemberDefinition @"
 [DllImport("Kernel32.dll")] public static extern IntPtr GetConsoleWindow();
 [DllImport("user32.dll")] public static extern bool SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 "@ -Name "Win32" -Namespace "API"
+Add-Type -MemberDefinition  @"
+[DllImport("kernel32.dll")] public static extern IntPtr GetConsoleWindow();
+"@ -Name "GetConsole" -Namespace "WindowManager" -PassThru
+$PSHandle = [WindowManager.GetConsole]::GetConsoleWindow()
+#Write-Host "PS handle: $($PSHandle.ToInt32())"
+Write-Host "PS Handle: $PSHandle"
 Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
@@ -38,53 +56,129 @@ public class ConsoleFont
         fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);}
 }
 "@
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
 $DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
 $DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
 $DimensionVX = [System.Windows.Forms.SystemInformation]::VirtualScreen.Width
 $DimensionVY = [System.Windows.Forms.SystemInformation]::VirtualScreen.Height
 $RawUIMAX = $host.UI.RawUI.MaxWindowSize
-#Write-Host "DX: $DimensionX DY: $DimensionY DVX: $DimensionVX DVY: $DimensionVY RawUIMax: $RawUIMax"
-#Write-Host "SX: $DimScaleX SY: $DimScaleY SF: $ScaleFactor"
 $RefX = 1920;$RefY = 1080
 $DimScaleX = $DimensionX / $RefX
 $DimScaleY = $DimensionY / $RefY
-if ($DimensionX -ge $DimensionY) {$ScaleRef = $DimScaleY}
-if ($DimensionY -ge $DimensionX) {$ScaleRef = $DimScaleX}
-if ($ScaleRef -ge '0.11') {if ($ScaleRef -le '0.21') {$ScaleFont = 12}}
-if ($ScaleRef -ge '0.22') {if ($ScaleRef -le '0.32') {$ScaleFont = 12}}
-if ($ScaleRef -ge '0.33') {if ($ScaleRef -le '0.43') {$ScaleFont = 12}}
-if ($ScaleRef -ge '0.44') {if ($ScaleRef -le '0.54') {$ScaleFont = 13}}
-if ($ScaleRef -ge '0.55') {if ($ScaleRef -le '0.65') {$ScaleFont = 13}}
-if ($ScaleRef -ge '0.66') {if ($ScaleRef -le '0.76') {$ScaleFont = 14}}
-if ($ScaleRef -ge '0.77') {if ($ScaleRef -le '0.87') {$ScaleFont = 14}}
-if ($ScaleRef -ge '0.88') {if ($ScaleRef -le '0.98') {$ScaleFont = 16}}
-if ($ScaleRef -ge '0.99') {if ($ScaleRef -le '1.09') {$ScaleFont = 16}}
-if ($ScaleRef -ge '1.10') {if ($ScaleRef -le '1.29') {$ScaleFont = 16}}
-if ($ScaleRef -ge '1.30') {if ($ScaleRef -le '1.75') {$ScaleFont = 18}}
-if ($ScaleRef -ge '1.76') {if ($ScaleRef -le '2.00') {$ScaleFont = 18}}
+if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
+if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
+if ($ScaleRef -ge 0.10) {if ($ScaleRef -le 0.29) {$ScaleFont = 12}}
+if ($ScaleRef -ge 0.30) {if ($ScaleRef -le 0.39) {$ScaleFont = 12}}
+if ($ScaleRef -ge 0.40) {if ($ScaleRef -le 0.49) {$ScaleFont = 12}}
+if ($ScaleRef -ge 0.50) {if ($ScaleRef -le 0.59) {$ScaleFont = 13}}
+if ($ScaleRef -ge 0.60) {if ($ScaleRef -le 0.69) {$ScaleFont = 14}}
+if ($ScaleRef -ge 0.70) {if ($ScaleRef -le 0.79) {$ScaleFont = 14}}
+if ($ScaleRef -ge 0.80) {if ($ScaleRef -le 0.89) {$ScaleFont = 16}}
+if ($ScaleRef -ge 0.90) {if ($ScaleRef -le 0.99) {$ScaleFont = 16}}
+if ($ScaleRef -ge 1.00) {if ($ScaleRef -le 1.29) {$ScaleFont = 16}}
+if ($ScaleRef -ge 1.30) {if ($ScaleRef -le 1.75) {$ScaleFont = 18}}
+if ($ScaleRef -ge 1.76) {if ($ScaleRef -le 2.00) {$ScaleFont = 18}}
+#Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  $DimScaleX x $DimScaleY  Font:$ScaleFont"
+#REG ADD "HKCU\Console" /V "FontSize" /T REG_DWORD /D "$ScaleFont" /F
+#Set-ItemProperty -Path "HKCU:\Console" -Name "FontSize" -Value "$ScaleFont"
 [ConsoleFont]::SetConsoleFont("Consolas", $ScaleFont)
-#Write-Host "ScaleRef: $ScaleRef  ScaleFont: $ScaleFont";
-$ScaleFactor = 2;
 #$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(100, 1000)
 #$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
-$ZX = 640 / $RefX;$ZY = 480 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "640x480    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 800 / $RefX;$ZY = 600 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "800x600    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 1280 / $RefX;$ZY = 720 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "1280x720    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 1280 / $RefX;$ZY = 800 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "1280x800    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 1920 / $RefX;$ZY = 1080 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "1920x1080    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 2560 / $RefX;$ZY = 1440 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "2560x1440    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 4096 / $RefX;$ZY = 2160 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "4096x2160    ZX: $ZX ZY: $ZY ZZ: $ZZ"
-$ZX = 3440 / $RefX;$ZY = 1440 / $RefY;$ZZ = $ZX * $ZY
-#Write-Host "3440x1440    ZX: $ZX ZY: $ZY ZZ: $ZZ"
+#Write-Error "Error code: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
+######################
+# Master Scale Control
+$ScaleFactor = 2;
+######################
+# Launch-CMD Type - Embed, Spawn
+$CMDType = 'Embed'
+######################
+#Remove-Item -Path "$env:TEMP\`$ARG" -Recurse
+$PathCheck = "$env:TEMP\\`$ARG"
+if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:TEMP\`$ARG" -Force}
+function Launch-CMD {param (
+[int]$X,
+[int]$Y,
+[int]$H,
+[int]$W)
+$Button1_PageCMD.Visible = $false
+$PageBlank.Visible = $true;$PageBlank.BringToFront()
+$WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$XLOC = [int]($X * $DimScaleX * $ScaleFactor)
+$YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
+if ($CMDType -eq 'Spawn') {$PageCMD.Visible = $true;
+$form.Visible = $false
+$ArgumentX = """$PSScriptRoot\windick.cmd"" -EXTERNAL ""-ARG"""
+Start-Process -Wait -FilePath "PowerShell" -ArgumentList "$ArgumentX"
+$Button1_PageCMD.Visible = $true
+$form.Visible = $true}
+if ($CMDType -eq 'Embed') {
+$CMDWindow = Start-Process "PowerShell"  -PassThru -ArgumentList "-WindowStyle", "Maximized", "-Command", {
+Add-Type -AssemblyName System.Windows.Forms
+[VOID][System.Text.Encoding]::Unicode
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public class ConsoleFont
+{
+    private const int STD_OUTPUT_HANDLE = -11;
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct CONSOLE_FONT_INFO_EX
+    {public uint cbSize;public uint nFont;public COORD dwFontSize;public int FontFamily;public int FontWeight;[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]public string FaceName;}
+    [StructLayout(LayoutKind.Sequential)] public struct COORD
+    {public short X;public short Y;}
+    [DllImport(\"kernel32.dll\", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
+    [DllImport(\"kernel32.dll\", SetLastError = true)] public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+    [DllImport(\"kernel32.dll\", SetLastError = true)] public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+    public static bool SetConsoleFont(string fontName, short fontSize)
+    {IntPtr consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        if (consoleOutputHandle == IntPtr.Zero)
+        {return false;}
+        CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
+        fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);}
+}
+'@
+[ConsoleFont]::SetConsoleFont('Consolas', 1)
+$DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
+$DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+$RefX = 1920;$RefY = 1080;$ScaleFactor = 2;
+$DimScaleX = $DimensionX / $RefX
+$DimScaleY = $DimensionY / $RefY
+if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
+if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
+if ($ScaleRef -ge 0.10) {if ($ScaleRef -le 0.29) {$ScaleFont = 12}}
+if ($ScaleRef -ge 0.30) {if ($ScaleRef -le 0.39) {$ScaleFont = 12}}
+if ($ScaleRef -ge 0.40) {if ($ScaleRef -le 0.49) {$ScaleFont = 12}}
+if ($ScaleRef -ge 0.50) {if ($ScaleRef -le 0.59) {$ScaleFont = 14}}
+if ($ScaleRef -ge 0.60) {if ($ScaleRef -le 0.69) {$ScaleFont = 16}}
+if ($ScaleRef -ge 0.70) {if ($ScaleRef -le 0.79) {$ScaleFont = 20}}
+if ($ScaleRef -ge 0.80) {if ($ScaleRef -le 0.89) {$ScaleFont = 20}}
+if ($ScaleRef -ge 0.90) {if ($ScaleRef -le 0.99) {$ScaleFont = 20}}
+if ($ScaleRef -ge 1.00) {if ($ScaleRef -le 1.29) {$ScaleFont = 20}}
+if ($ScaleRef -ge 1.30) {if ($ScaleRef -le 1.75) {$ScaleFont = 20}}
+if ($ScaleRef -ge 1.76) {if ($ScaleRef -le 2.00) {$ScaleFont = 20}}
+CLS
+#$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" ""-ARG"""
+#Start-Process -Wait -NoNewWindow -FilePath "$env:comspec" -ArgumentList "$ArgumentX"
+$PSScriptRoot = Get-Content -Path "$env:temp\\`$ARG" -TotalCount 1
+[ConsoleFont]::SetConsoleFont('Consolas', $ScaleFont)
+CLS
+Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  $DimScaleX x $DimScaleY  Font:$ScaleFont"
+Start-Process "$env:comspec" -Wait -NoNewWindow -ArgumentList "/c", "$PSScriptRoot\windick.cmd", "-EXTERNAL"
+pause}
+$CMDHandle = $CMDWindow.MainWindowHandle
+if ($CMDHandle -eq 0) {Start-Sleep -Seconds 1;$CMDHandle = $CMDWindow.MainWindowHandle}
+if ($CMDHandle -eq 0) {Start-Sleep -Seconds 1;$CMDHandle = $CMDWindow.MainWindowHandle}
+if ($CMDHandle -eq 0) {Start-Sleep -Seconds 3;$CMDHandle = $CMDWindow.MainWindowHandle}
+Write-Host "CMD Handle: $CMDHandle PS Handle: $PSHandle"
+$PanelHandle = $PageCMD.Handle;
+$Button1_PageCMD.Visible = $true;$PageCMD.Visible = $true
+[API.Win32]::SetParent($CMDHandle, $PanelHandle)
+[API.Win32]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
+Start-Sleep -Seconds 1
+[API.Win32]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
+Start-Sleep -Seconds 1
+[API.Win32]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
+$PageBlank.Visible = $false}
 function NewPanel {param (
 [int]$X,
 [int]$Y,
@@ -95,11 +189,11 @@ $panel = New-Object System.Windows.Forms.Panel
 #$panel.Font = New-Object System.Drawing.Font("",16,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
 $panel.BackColor = [System.Drawing.Color]::FromArgb($C, $C, $C)
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $panel.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$panel.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$panel.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 #$panel.Dock = 'Fill'
 $form.Controls.Add($panel)
 return $panel}
@@ -111,11 +205,11 @@ function NewRichTextBox {param (
 [string]$Text)
 $richTextBox = New-Object System.Windows.Forms.RichTextBox
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $richTextBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$richTextBox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$richTextBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 #$richTextBox.Dock = DockStyle.Fill
 #$richTextBox.LoadFile("C:\\MyDocument.rtf")
 #$richTextBox.Find("Text")
@@ -132,11 +226,11 @@ function NewTextBox {param (
 #$textbox.Bounds = New-Object System.Drawing.Rectangle(10, 10, 760, 540)
 $textbox = New-Object System.Windows.Forms.TextBox
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $textbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$textbox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$textbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $textbox.Text = "$Text"
 $textbox.Visible = $true
 #$textbox.SelectionColor = 'White'
@@ -154,7 +248,7 @@ if ($Page -eq 'Page3') {$Page3.Controls.Add($textbox)}
 if ($Page -eq 'Page4') {$Page4.Controls.Add($textbox)}
 if ($Page -eq 'Page5') {$Page5.Controls.Add($textbox)}
 if ($Page -eq 'Page6') {$Page6.Controls.Add($textbox)}
-if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($textbox)}
+if ($Page -eq 'PageCMD') {$PageCMD.Controls.Add($textbox)}
 return $textbox}
 function NewListView {param (
 [int]$X,
@@ -164,11 +258,11 @@ function NewListView {param (
 [string]$Text)
 $listview = New-Object System.Windows.Forms.ListView
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $listview.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$listview.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$listview.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $listview.View = "List"
 $listview.View = "Details"
 $listview.Visible = $true
@@ -200,6 +294,7 @@ Write-Host "Selected file: $Pick"}
 #If ([string]::IsNullOrEmpty($InitialDirectory) -eq $False) { $FolderBrowserDialog.SelectedPath = $InitialDirectory }
 #If ($FolderBrowserDialog.ShowDialog($MainForm) -eq [System.Windows.Forms.DialogResult]::OK) { $return = $($FolderBrowserDialog.SelectedPath) }
 #Try { $FolderBrowserDialog.Dispose() } Catch {}
+#$CurDir =  $PWD.Path
 function PickFolderx {
 $shell = New-Object -ComObject Shell.Application
 $FolderPicker = $shell.BrowseForFolder(0, "Select a folder:", 0, $null)
@@ -231,11 +326,11 @@ function NewDropBox {param (
 [string]$DisplayMember)
 $dropbox = New-Object System.Windows.Forms.ComboBox
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$dropbox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$dropbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $dropbox.DisplayMember = $DisplayMember
 $dropbox.Text = "$Text"
 $dropbox.Add_SelectedIndexChanged({
@@ -245,7 +340,7 @@ $DropBox1_Page1b.Tag = 'Disable'
 $DropBox2_Page1b.Tag = 'Disable'
 $DropBox3_Page1b.Tag = 'Disable'
 $this.Tag = 'Enable'
-if ($Button1_Main.Tag -eq 'Enable') {if ($DropBox1_Page1a.Tag -eq 'Enable') {$DropBox2_Page1a.Items.Clear()
+if ($Button1a_Main.Tag -eq 'Enable') {if ($DropBox1_Page1a.Tag -eq 'Enable') {$DropBox2_Page1a.Items.Clear()
 $ListView1_Page1a.Items.Clear();$DropBox2_Page1a.Text = 'Select index'
 #$DropBox2_Page1a.ResetText()
 $PathCheck = "$PSScriptRoot\\image\\*"
@@ -274,7 +369,7 @@ $column2 = $parts[1].Trim()
 }
 }
 }}
-if ($Button_Mode.Tag -eq 'Enable') {if ($DropBox1_Page1b.Tag -eq 'Enable') {$DropBox2_Page1b.Items.Clear()
+if ($Button1b_Main.Tag -eq 'Enable') {if ($DropBox1_Page1b.Tag -eq 'Enable') {$DropBox2_Page1b.Items.Clear()
 $ListView1_Page1b.Items.Clear();$DropBox2_Page1b.Text = 'Select index'
 #$DropBox2_Page1b.ResetText()
 $PathCheck = "$PSScriptRoot\\image\\*"
@@ -315,14 +410,14 @@ function NewLabel {param (
 [string]$TextSize)
 $label = New-Object Windows.Forms.Label
 #$label.Font = New-Object System.Drawing.Font('Segoe UI', $TextSize, [System.Drawing.FontStyle]::Bold)
-#$label.Font = New-Object System.Drawing.Font("",$TextSize,([System.Drawing.FontStyle]::Bold),[System.Drawing.GraphicsUnit]::Pixel)
+$label.Font = New-Object System.Drawing.Font("",$TextSize,([System.Drawing.FontStyle]::Bold),[System.Drawing.GraphicsUnit]::Pixel)
 $label.ForeColor = 'White'
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $label.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$label.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$label.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $label.Text = $Text
 if ($Page -eq 'Page0') {$Page0.Controls.Add($label)}
 if ($Page -eq 'Page1a') {$Page1a.Controls.Add($label)}
@@ -343,11 +438,11 @@ function NewButton {param (
 [scriptblock]$Add_Click)
 $button = New-Object Windows.Forms.Button
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $button.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$button.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$button.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $button.Add_Click($Add_Click)
 $button.Text = $Text
 $button.Cursor = 'Hand'
@@ -365,8 +460,8 @@ if ($Page -eq 'Page3') {$Page3.Controls.Add($button)}
 if ($Page -eq 'Page4') {$Page4.Controls.Add($button)}
 if ($Page -eq 'Page5') {$Page5.Controls.Add($button)}
 if ($Page -eq 'Page6') {$Page6.Controls.Add($button)}
-if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($button)}
-if ($Page -eq 'PageConsoleX') {$PageConsoleX.Controls.Add($button)}
+if ($Page -eq 'PageCMD') {$PageCMD.Controls.Add($button)}
+if ($Page -eq 'PagePS') {$PagePS.Controls.Add($button)}
 return $button}
 function NewPageButton {param (
 [int]$X,
@@ -376,11 +471,11 @@ function NewPageButton {param (
 [string]$Text)
 $button = New-Object Windows.Forms.Button
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($H * $DimScaleY * $ScaleFactor)
+$HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
 $button.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$button.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$button.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 #$button.Font = New-Object System.Drawing.Font('Segoe UI', 8)
 #$button.Font = New-Object System.Drawing.Font("",12,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
 $button.Text = $Text
@@ -388,14 +483,13 @@ $button.Cursor = 'Hand'
 $button.ForeColor = 'White'
 $button.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $button.Add_Click({
-$Button_Mode.Tag = 'Disable'
-$Button1_Main.Tag = 'Disable'
+$Button1b_Main.Tag = 'Disable'
+$Button1a_Main.Tag = 'Disable'
 $Button2_Main.Tag = 'Disable'
 $Button3_Main.Tag = 'Disable'
 $Button4_Main.Tag = 'Disable'
 $Button5_Main.Tag = 'Disable'
 $Button6_Main.Tag = 'Disable'
-$Active_Page = $Page
 $this.Tag = 'Enable'
 $Page0.Visible = $false
 $Page1a.Visible = $false
@@ -405,18 +499,20 @@ $Page3.Visible = $false
 $Page4.Visible = $false
 $Page5.Visible = $false
 $Page6.Visible = $false
-$PageConsole.Visible = $false
-$PageConsoleX.Visible = $false
-$Button_Mode.Visible = $false
-if ($Button1_Main.Tag -eq 'Enable') {$Page = 'Page1a';$Button_Mode.Visible = $true}
+$PageCMD.Visible = $false
+$PagePS.Visible = $false
+$PageBlank.Visible = $false
+$PageNull.Visible = $false
+$Button1b_Main.Visible = $false
+if ($Button1a_Main.Tag -eq 'Enable') {$Page = 'Page1a';$Button1b_Main.Visible = $true}
 if ($Button2_Main.Tag -eq 'Enable') {$Page = 'Page2'}
 if ($Button3_Main.Tag -eq 'Enable') {$Page = 'Page3'}
 if ($Button4_Main.Tag -eq 'Enable') {$Page = 'Page4'}
 if ($Button5_Main.Tag -eq 'Enable') {$Page = 'Page5'}
 if ($Button6_Main.Tag -eq 'Enable') {$Page = 'Page6'}
-if ($Button_Mode.Tag -eq 'Enable') {$Page = 'Page1b'}
+if ($Button1b_Main.Tag -eq 'Enable') {$Page = 'Page1b'}
 if ($Page -eq 'Page1a') {$Page1a.Visible = $true
-$Button_Mode.Visible = $true
+$Button1b_Main.Visible = $true
 $ListView1_Page1a.Items.Clear()
 $DropBox1_Page1a.ResetText()
 $DropBox2_Page1a.ResetText()
@@ -484,8 +580,8 @@ $form.SuspendLayout()
 $form.Text = 'Windows Deployment Image Customization Kit'
 #$form.Size = New-Object Drawing.Size(600, 400)
 $WSIZ = [int]($RefX * $DimScaleX * $ScaleFactor)
-$YSIZ = [int]($RefY * $DimScaleY * $ScaleFactor)
-$form.ClientSize = New-Object System.Drawing.Size($WSIZ,$YSIZ)
+$HSIZ = [int]($RefY * $DimScaleY * $ScaleFactor)
+$form.ClientSize = New-Object System.Drawing.Size($WSIZ,$HSIZ)
 $form.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 #$form.Font = New-Object System.Drawing.Font('Segoe UI', 9)
 #$form.Font = New-Object System.Drawing.Font("",14,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
@@ -497,7 +593,7 @@ $form.FormBorderStyle = 'FixedDialog'
 $form.AutoSize = $true
 #GrowAndShrink, GrowOnly, and ShrinkOnly.
 $form.AutoSizeMode = 'GrowAndShrink'
-$form.Add_Resize({Scale-GUI})
+#$form.Add_Resize({Scale-GUI})
 $form.AutoScale = $true
 #$form.AutoScaleDimensions =  New-Object System.Drawing.SizeF(96, 96)
 $form.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
@@ -506,6 +602,8 @@ $form.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
 #$form.AutoScaleMode = 'DPI'
 $WindowState = 'Normal'
 $PageMain = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+$PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+$PageNull = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $Page0 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page1a = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page1b = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
@@ -514,9 +612,10 @@ $Page3 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page4 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page5 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page6 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
-$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
-$PageConsoleX = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
-#$PageConsoleX.Add_Resize({[API.Win32]::MoveWindow($consoleHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
+$PageCMD = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+$PagePS = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+#$PagePS.Add_Resize({[API.Win32]::MoveWindow($PSHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
+$PSHandle = [API.Win32]::GetConsoleWindow();$PanelHandle = $PageNull.Handle;[API.Win32]::SetParent($PSHandle, $PanelHandle)
 $PageMain.Controls.Add($Page0)
 $PageMain.Controls.Add($Page1a)
 $PageMain.Controls.Add($Page1b)
@@ -525,13 +624,13 @@ $PageMain.Controls.Add($Page3)
 $PageMain.Controls.Add($Page4)
 $PageMain.Controls.Add($Page5)
 $PageMain.Controls.Add($Page6)
-$PageMain.Controls.Add($PageConsole)
-$PageMain.Controls.Add($PageConsoleX)
-$PageConsole.Visible = $false
-$PageConsoleX.Visible = $false
-$Page = 'Page1a';$Button_Mode = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing' 
-$Page = 'Page1a';$Button1_Main = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing'
-$Button_Mode.Visible = $false
+$PageMain.Controls.Add($PageCMD)
+$PageMain.Controls.Add($PagePS)
+$PageCMD.Visible = $false
+$PagePS.Visible = $false
+$Page = 'Page1a';$Button1b_Main = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing'
+$Page = 'Page1a';$Button1a_Main = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing'
+$Button1b_Main.Visible = $false
 $Page = 'Page2';$Button2_Main = NewPageButton -X '7' -Y '90' -W '135' -H '40' -C '0' -Text 'Image Management'
 $Page = 'Page3';$Button3_Main = NewPageButton -X '7' -Y '150' -W '135' -H '40' -C '0' -Text 'Package Creator' 
 $Page = 'Page4';$Button4_Main = NewPageButton -X '7' -Y '210' -W '135' -H '40' -C '0' -Text 'File Management'
@@ -541,11 +640,11 @@ $Page = 'Page6';$Button6_Main = NewPageButton -X '7' -Y '330' -W '135' -H '40' -
 $pictureBox = New-Object System.Windows.Forms.PictureBox
 $imagejpg = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($logojpgB64))
 $WSIZ = [int](450 * $DimScaleX * $ScaleFactor)
-$YSIZ = [int](250 * $DimScaleY * $ScaleFactor)
+$HSIZ = [int](250 * $DimScaleY * $ScaleFactor)
 $XLOC = [int](0 * $DimScaleX * $ScaleFactor)
 $YLOC = [int](75 * $DimScaleY * $ScaleFactor)
 $pictureBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$pictureBox.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$pictureBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $pictureBox.Image = $imagejpg
 # Normal, StretchImage, AutoSize, CenterImage, Zoom
 $pictureBox.SizeMode = 'StretchImage'
@@ -554,14 +653,14 @@ $Page0.Controls.Add($pictureBox)
 
 #List Viewers Configuration
 $WSIZ = [int](420 * $DimScaleX * $ScaleFactor)
-$YSIZ = [int](200 * $DimScaleY * $ScaleFactor)
+$HSIZ = [int](200 * $DimScaleY * $ScaleFactor)
 $XLOC = [int](15 * $DimScaleX * $ScaleFactor)
 $YLOC = [int](55 * $DimScaleY * $ScaleFactor)
 #$ListView1_Page1a = NewListView -X '10' -Y '20' -W '400' -H '200'
 #$ListView1_Page6 = NewListView -X '100' -Y '20' -W '400' -H '200'
 $ListView1_Page1a = New-Object System.Windows.Forms.ListView
 $ListView1_Page1a.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page1a.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page1a.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page1a.View = "List"
 $ListView1_Page1a.View = "Details"
 $ListView1_Page1a.Visible = $true
@@ -574,7 +673,7 @@ $ListView1_Page1a.Columns[0].Width = -2
 $Page1a.Controls.Add($ListView1_Page1a)
 $ListView1_Page1b = New-Object System.Windows.Forms.ListView
 $ListView1_Page1b.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page1b.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page1b.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page1b.View = "List"
 $ListView1_Page1b.View = "Details"
 $ListView1_Page1b.Visible = $true
@@ -587,7 +686,7 @@ $ListView1_Page1b.Columns[0].Width = -2
 $Page1b.Controls.Add($ListView1_Page1b)
 $ListView1_Page2 = New-Object System.Windows.Forms.ListView
 $ListView1_Page2.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page2.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page2.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page2.View = "List"
 $ListView1_Page2.View = "Details"
 $ListView1_Page2.Visible = $true
@@ -598,7 +697,7 @@ $ListView1_Page2.Columns[0].Width = -2
 $Page2.Controls.Add($ListView1_Page2)
 $ListView1_Page3 = New-Object System.Windows.Forms.ListView
 $ListView1_Page3.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page3.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page3.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page3.View = "List"
 $ListView1_Page3.View = "Details"
 $ListView1_Page3.Visible = $true
@@ -609,7 +708,7 @@ $ListView1_Page3.Columns[0].Width = -2
 $Page3.Controls.Add($ListView1_Page3)
 $ListView1_Page4 = New-Object System.Windows.Forms.ListView
 $ListView1_Page4.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page4.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page4.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page4.View = "List"
 $ListView1_Page4.View = "Details"
 $ListView1_Page4.Visible = $true
@@ -620,7 +719,7 @@ $ListView1_Page4.Columns[0].Width = -2
 $Page4.Controls.Add($ListView1_Page4)
 $ListView1_Page5 = New-Object System.Windows.Forms.ListView
 $ListView1_Page5.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page5.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page5.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page5.View = "List"
 $ListView1_Page5.View = "Details"
 $ListView1_Page5.Visible = $true
@@ -631,7 +730,7 @@ $ListView1_Page5.Columns[0].Width = -2
 $Page5.Controls.Add($ListView1_Page5)
 $ListView1_Page6 = New-Object System.Windows.Forms.ListView
 $ListView1_Page6.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_Page6.Size = New-Object Drawing.Size($WSIZ, $YSIZ)
+$ListView1_Page6.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page6.View = "List"
 $ListView1_Page6.View = "Details"
 $ListView1_Page6.Visible = $true
@@ -640,19 +739,15 @@ $ListView1_Page6.HideSelection = $true
 $ListView1_Page6.Columns.Add("Available:")
 $ListView1_Page6.Columns[0].Width = -2
 $Page6.Controls.Add($ListView1_Page6)
-cls
-$consoleHandle = [API.Win32]::GetConsoleWindow();$panelHandle = $PageConsoleX.Handle;[API.Win32]::SetParent($consoleHandle, $panelHandle)
-
-$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$PageConsole.Visible = $false}
-#$TextBox1_PageConsole = NewRichTextBox -X '15' -Y '15' -W '575' -H '335' -Text 'Value OverWritten'
-#$TextBox1_PageConsole.Font = New-Object System.Drawing.Font('Segoe UI', 7, [System.Drawing.FontStyle]::Regular)
-#$TextBox1_PageConsole.Multiline = $true
-#$PageConsole.Controls.Add($TextBox1_PageConsole)
-#$TextBox1_PageConsole.Dock = 'Fill'
-#$TextBox1_PageConsole.ScrollBars = "Vertical"
-#$TextBox1_PageConsole.Text = "Option X"
-#Foreach ($line in $command) {$TextBox1_PageConsole.AppendText("$line`r`n")}  
-#$PageConsole.Controls.Add($ListView1_PageConsole)
+#$TextBox1_PageCMD = NewRichTextBox -X '15' -Y '15' -W '575' -H '335' -Text 'Value OverWritten'
+#$TextBox1_PageCMD.Font = New-Object System.Drawing.Font('Segoe UI', 7, [System.Drawing.FontStyle]::Regular)
+#$TextBox1_PageCMD.Multiline = $true
+#$PageCMD.Controls.Add($TextBox1_PageCMD)
+#$TextBox1_PageCMD.Dock = 'Fill'
+#$TextBox1_PageCMD.ScrollBars = "Vertical"
+#$TextBox1_PageCMD.Text = "Option X"
+#Foreach ($line in $command) {$TextBox1_PageCMD.AppendText("$line`r`n")}  
+#$PageCMD.Controls.Add($ListView1_PageCMD)
 #$explorer = New-Object -ComObject Shell.Explorer
 #$explorerControl = New-Object System.Windows.Forms.Control
 #$explorerControl.Handle = $explorer.HWND
@@ -664,93 +759,119 @@ $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '210' -Y '355' -W '180
 #$explorer.Navigate("C:\") # Specify the initial directory
 #$Page4.Add_Shown({$explorerControl.Activate()})
 $Page = 'Page0'
-$Label0_Page0 = NewLabel -X '10' -Y '10' -W '375' -H '25' -TextSize '12' -Text 'Welcome to GUI v0.1'
-$Button1_Page0 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'About' -Hover_Text 'PLACEHOLDER' -Add_Click {
-$form.Visible = $true;$NULL = [System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Message Box", 0);$form.Visible = $true}
+$Label0_Page0 = NewLabel -X '10' -Y '10' -W '375' -H '25' -TextSize '24' -Text 'Welcome to GUI v0.1'
+$Button1_Page0 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'About' -Hover_Text 'PLACEHOLDER' -Add_Click {[System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Message Box", 0)}
 #$Button2_Page0 = NewButton -X '225' -Y '275' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;$form.Visible = $true}
 $Page = 'Page1a'
-$Label0_Page1a = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Image Processing'
-$Button1_Page1a = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Go!' -Hover_Text 'PLACEHOLDER' -Add_Click {
-$form.Visible = $false;
-$TextValue1 = $TextBox1_Page1a.Text
-$TextValue2 = $TextBox2_Page1a.Text
-#start cmd.exe -wait -a "/c $PSScriptRoot\hello.cmd /y /j"
-#$command = "start cmd.exe /c $PSScriptRoot\hello.cmd"
-#$command = "/c ""$PSScriptRoot\windick.cmd"" -imageproc -wim ""$PSScriptRoot\$($DropBox1_Page1a.SelectedItem)"" -index ""$($DropBox2_Page1a.SelectedItem)"" -vhdx ""$TextValue1"" -size ""$TextValue2"" "
-#Foreach ($line in $command) {Write-Host "$line"}
-$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -imageproc -wim ""$($DropBox1_Page1a.SelectedItem)"" -index ""$($DropBox2_Page1a.SelectedItem)"" -vhdx ""$TextValue1"" -size ""$TextValue2"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX" 
-$form.Visible = $true}
-#$Button2_Page1a = NewButton -X '225' -Y '350' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFile;$form.Visible = $true}
+$Label0_Page1a = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'Image Processing'
+$Button1_Page1a = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Go!' -Hover_Text 'Start Image Conversion' -Add_Click {
+$Page1a.Visible = $false;$Button1b_Main.Visible = $false
+$TextValue1 = $TextBox1_Page1a.Text;$TextValue2 = $TextBox2_Page1a.Text
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-WIM" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG3=$($DropBox1_Page1a.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG4=-INDEX" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG5=$($DropBox2_Page1a.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG6=-VHDX" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG7=$TextValue1" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG8=-SIZE" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG9=$TextValue2" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $DropBox1_Page1a = NewDropBox -X '15' -Y '270' -W '180' -H '25' -C '0' -DisplayMember 'Name' -Text 'Page 1'
 $DropBox2_Page1a = NewDropBox -X '255' -Y '270' -W '180' -H '25' -C '0' -DisplayMember 'Description'
 $TextBox1_Page1a = NewTextBox -X '15' -Y '310' -W '180' -H '25' -Text 'Value OverWritten'
 $TextBox2_Page1a = NewTextBox -X '255' -Y '310' -W '180' -H '25' -Text 'Value OverWritten'
 $Page = 'Page1b'
-$Label0_Page1b = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Image Processing'
-$Button1_Page1b = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Go!' -Hover_Text 'PLACEHOLDER' -Add_Click {
-$form.Visible = $false
-$TextValue1 = $TextBox1_Page1b.Text
-$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -imageproc -vhdx ""$($DropBox1_Page1b.SelectedItem)"" -index ""$($DropBox2_Page1b.SelectedItem)"" -wim ""$TextValue1"" -xlvl ""$($DropBox3_Page1b.SelectedItem)"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX"
-$form.Visible = $true}
+$Label0_Page1b = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'Image Processing'
+$Button1_Page1b = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Go!' -Hover_Text 'Start Image Conversion' -Add_Click {
+$Page1b.Visible = $false;$TextValue1 = $TextBox1_Page1b.Text
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-VHDX" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG3=$($DropBox1_Page1b.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG4=-INDEX" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG5=$($DropBox2_Page1b.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG6=-WIM" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG7=$TextValue1" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG8=-XLVL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG9=$($DropBox3_Page1b.SelectedItem)" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 #$Button2_Page1b = NewButton -X '255' -Y '355' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFile;$form.Visible = $true}
 $DropBox1_Page1b = NewDropBox -X '15' -Y '270' -W '180' -H '25' -C '0' -DisplayMember 'Name' -Text 'Page 1'
 $DropBox2_Page1b = NewDropBox -X '255' -Y '270' -W '180' -H '25' -C '0' -DisplayMember 'Description'
 $DropBox3_Page1b = NewDropBox -X '255' -Y '310' -W '180' -H '25' -C '0' -DisplayMember 'Description'
 $TextBox1_Page1b = NewTextBox -X '15' -Y '310' -W '180' -H '25' -Text 'Value OverWritten'
 $Page = 'Page2'
-$Label0_Page2 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Image Management'
+$Label0_Page2 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'Image Management'
 $Button1_Page2 = NewButton -X '255' -Y '350' -W '180' -H '35' -Text 'List Execute' -Hover_Text 'List Execute' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal -imagemgr ""run"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+$Page2.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG3=-RUN" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $Button2_Page2 = NewButton -X '15' -Y '350' -W '180' -H '35' -Text 'List Builder' -Hover_Text 'List Builder' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal -imagemgr ""new"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+$Page2.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG3=-NEW" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $Button3_Page2 = NewButton -X '15' -Y '300' -W '180' -H '35' -Text 'Edit List' -Hover_Text 'Edit List' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal -imagemgr ""edit"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+$Page2.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG3=-EDIT" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $Page = 'Page3'
-$Label0_Page3 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Package Creator'
+$Label0_Page3 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'Package Creator'
 $Button1_Page3 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Package Creator' -Hover_Text 'Package Creator' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-packcreator"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
-#$Button2_Page3 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Page3.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $Page = 'Page4'
-$Label0_Page4 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'File Management' 
+$Label0_Page4 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'File Management' 
 $Button1_Page4 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'File Management' -Hover_Text 'File Management' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-filemgr"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
+$Page4.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-FILEMGR" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $Page = 'Page5'
-$Label0_Page5 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Disk Management' 
+$Label0_Page5 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'Disk Management' 
 $Button1_Page5 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Disk Management' -Hover_Text 'Disk Management' -Add_Click {
-$form.Visible = $false;$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-diskmgr"""
-Start-Process -wait -FilePath "$env:comspec" -ArgumentList "$ArgumentX";$form.Visible = $true}
-#$Button2_Page5 = NewButton -X '255' -Y '270' -W '180' -H '35' -Text 'PLACEHOLDER' -Hover_Text 'PLACEHOLDER' -Add_Click {$form.Visible = $false;PickFolder;$form.Visible = $true}
+$Page5.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-DISKMGR" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 $Page = 'Page6'
-$Label0_Page6 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '14' -Text 'Settings Configuration'
-$Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Settings' -Hover_Text 'Settings' -Add_Click {cls
-$WSIZ = [int](620 * $DimScaleX * $ScaleFactor)
-$YSIZ = [int](450 * $DimScaleY * $ScaleFactor)
-$XLOC = [int](-10 * $DimScaleX * $ScaleFactor)
-$YLOC = [int](-35 * $DimScaleY * $ScaleFactor)
-[API.Win32]::MoveWindow($consoleHandle, $XLOC, $YLOC, $WSIZ, $YSIZ, $true)
-$consoleHandle = [API.Win32]::GetConsoleWindow();$panelHandle = $PageConsoleX.Handle;[API.Win32]::SetParent($consoleHandle, $panelHandle)
+$Label0_Page6 = NewLabel -X '10' -Y '10' -W '350' -H '30' -TextSize '24' -Text 'Settings Configuration'
+$Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Settings' -Hover_Text 'Settings' -Add_Click {
 $Page6.Visible = $false
-$PageConsoleX.Visible = $true
-$PageConsoleX.BringToFront()
-$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" -internal ""-settings"""
-Start-Process -Wait -NoNewWindow -FilePath "$env:comspec" -ArgumentList "$ArgumentX"
-$WSIZ = [int](620 * $DimScaleX * $ScaleFactor)
-$YSIZ = [int](400 * $DimScaleY * $ScaleFactor)
-[API.Win32]::MoveWindow($consoleHandle, $XLOC, $YLOC, $WSIZ, $YSIZ, $true)
-#Foreach ($line in $command) {Write-Host "$line"}         
-$Button1_PageConsoleX.Visible = $true
-$Button1_PageConsoleX.BringToFront()
-}
-
-$Page = 'PageConsoleX';$Button1_PageConsoleX = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$Button1_PageConsoleX.Visible = $false;$Page6.Visible = $true;$PageConsoleX.Visible = $false}
-$Button1_PageConsoleX.Visible = $false
+Add-Content -Path "$env:TEMP\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-SETTINGS" -Encoding UTF8
+#$ArgumentX = """$PSScriptRoot\windick.cmd"" -INTERNAL ""-ARG"""
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
+$Page = 'PageCMD';$Button1_PageCMD = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Back' -Hover_Text 'Ok' -Add_Click {$Button1_PageCMD.Visible = $false;$PageCMD.Visible = $false
+if ($Button1b_Main.Tag -eq 'Enable') {$Page1b.Visible = $true;$Button1a_Main.Visible = $true;}
+if ($Button1a_Main.Tag -eq 'Enable') {$Page1a.Visible = $true;$Button1b_Main.Visible = $true;}
+if ($Button2_Main.Tag -eq 'Enable') {$Page2.Visible = $true;}
+if ($Button3_Main.Tag -eq 'Enable') {$Page3.Visible = $true;}
+if ($Button4_Main.Tag -eq 'Enable') {$Page4.Visible = $true;}
+if ($Button5_Main.Tag -eq 'Enable') {$Page5.Visible = $true;}
+if ($Button6_Main.Tag -eq 'Enable') {$Page6.Visible = $true;}}
+$Page = 'PagePS';$Button1_PagePS = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$Button1_PagePS.Visible = $false;$Page6.Visible = $true;$PagePS.Visible = $false}
 $form.ResumeLayout()
 $result = $form.ShowDialog()
-       
+#$TextPath = "$env:TEMP\`$ARG"
+#$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8)
+#$TextWrite.WriteLine("x")
+#$TextWrite.Close()
+#$Button1_PageCMD.BringToFront()
+#$PageCMD.BringToFront()
