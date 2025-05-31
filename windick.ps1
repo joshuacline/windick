@@ -1,43 +1,33 @@
-# Windows Deployment Image Customization Kit v 1198 (c) github.com/joshuacline
+# Windows Deployment Image Customization Kit v 1199 (c) github.com/joshuacline
 Add-Type -AssemblyName System.Windows.Forms
-[VOID][System.Windows.Forms.Application]::EnableVisualStyles()
 [VOID][System.Text.Encoding]::Unicode
-Add-Type -MemberDefinition @"
-[DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
-"@ -Name "DPIEnable" -Namespace "WindowManager"
-[WindowManager.DPIEnable]::SetProcessDPIAware()
-Add-Type -MemberDefinition @"
-[DllImport("user32.dll")] public static extern bool DestroyWindow(IntPtr hWnd);
-"@ -Name "Destroy" -Namespace "WindowManager"
-Add-Type -MemberDefinition @"
-[DllImport("kernel32.dll", SetLastError = true)] public static extern bool CloseHandle(IntPtr handle);
-"@ -Name "Close" -Namespace "WindowManager"
-Add-Type -MemberDefinition @"             
-[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-"@ -Name "WindowMinMax" -Namespace "WindowManager"
-#[WindowManager.WindowMinMax]::ShowWindowAsync($WindowHandle, 3)
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
 public const int STD_OUTPUT_HANDLE = -11;
-"@ -Name "GetHand" -Namespace "WindowManager"
-$STDOutputHandle = [WindowManager.GetHand]::GetStdHandle([WindowManager.GetHand]::STD_OUTPUT_HANDLE)
-Write-Host "$STDOutputHandle"
-Add-Type -MemberDefinition @"
+[DllImport("kernel32.dll", SetLastError = true)] public static extern bool CloseHandle(IntPtr handle);
 [DllImport("Kernel32.dll")] public static extern IntPtr GetConsoleWindow();
+[DllImport("user32.dll")] public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+[DllImport("user32.dll")] public static extern bool GetParent(IntPtr hWndChild);
 [DllImport("user32.dll")] public static extern bool SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-"@ -Name "Win32" -Namespace "API"
-Add-Type -MemberDefinition  @"
-[DllImport("kernel32.dll")] public static extern IntPtr GetConsoleWindow();
-"@ -Name "GetConsole" -Namespace "WindowManager" -PassThru
-$PSHandle = [WindowManager.GetConsole]::GetConsoleWindow()
+[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+[DllImport("user32.dll", SetLastError = true)] public static extern bool DestroyWindow(IntPtr hWnd);
+[DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+"@ -Name "Functions" -Namespace "WinMekanix" -PassThru
+#[WinMekanix.Functions]::GetParent($CMDProcessId)
+#[WinMekanix.Functions]::ShowWindowAsync($WindowHandle, 3)
+[VOID][System.Windows.Forms.Application]::EnableVisualStyles()
+$STDOutputHandle = [WinMekanix.Functions]::GetStdHandle([WinMekanix.Functions]::STD_OUTPUT_HANDLE)
+$PSHandle = [WinMekanix.Functions]::GetConsoleWindow()
+[WinMekanix.Functions]::SetProcessDPIAware()
 #Write-Host "PS handle: $($PSHandle.ToInt32())"
+Write-Host "STDOut Handle:$STDOutputHandle"
 Write-Host "PS Handle: $PSHandle"
 Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
-public class ConsoleFont
+public class WinMekanix
 {
     private const int STD_OUTPUT_HANDLE = -11;
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -80,7 +70,7 @@ if ($ScaleRef -ge 1.76) {if ($ScaleRef -le 2.00) {$ScaleFont = 18}}
 #Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  $DimScaleX x $DimScaleY  Font:$ScaleFont"
 #REG ADD "HKCU\Console" /V "FontSize" /T REG_DWORD /D "$ScaleFont" /F
 #Set-ItemProperty -Path "HKCU:\Console" -Name "FontSize" -Value "$ScaleFont"
-[ConsoleFont]::SetConsoleFont("Consolas", $ScaleFont)
+[WinMekanix]::SetConsoleFont("Consolas", $ScaleFont)
 #$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(100, 1000)
 #$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
 #Write-Error "Error code: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
@@ -94,31 +84,34 @@ $CMDType = 'Embed'
 #Remove-Item -Path "$env:TEMP\`$ARG" -Recurse
 $PathCheck = "$env:TEMP\\`$ARG"
 if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:TEMP\`$ARG" -Force}
+function Get-ChildProcesses ($ParentProcessId) {$filter = "parentprocessid = '$($ParentProcessId)'"
+Get-CIMInstance -ClassName win32_process -filter $filter | Foreach-Object {$_
+if ($_.ParentProcessId -ne $_.ProcessId) {Get-ChildProcesses $_.ProcessId}}}
 function Launch-CMD {param (
 [int]$X,
 [int]$Y,
 [int]$H,
 [int]$W)
-$Button1_PageCMD.Visible = $false
+$Button1_PageConsole.Visible = $false
 $PageBlank.Visible = $true;$PageBlank.BringToFront()
 $WSIZ = [int]($W * $DimScaleX * $ScaleFactor)
 $HSIZ = [int]($H * $DimScaleY * $ScaleFactor)
 $XLOC = [int]($X * $DimScaleX * $ScaleFactor)
 $YLOC = [int]($Y * $DimScaleY * $ScaleFactor)
-if ($CMDType -eq 'Spawn') {$PageCMD.Visible = $true;
+if ($CMDType -eq 'Spawn') {$PageConsole.Visible = $true;
 $form.Visible = $false
 $ArgumentX = """$PSScriptRoot\windick.cmd"" -EXTERNAL ""-ARG"""
 Start-Process -Wait -FilePath "PowerShell" -ArgumentList "$ArgumentX"
-$Button1_PageCMD.Visible = $true
+$Button1_PageConsole.Visible = $true
 $form.Visible = $true}
 if ($CMDType -eq 'Embed') {
-$CMDWindow = Start-Process "PowerShell"  -PassThru -ArgumentList "-WindowStyle", "Maximized", "-Command", {
+$CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-WindowStyle", "Maximized", "-Command", {
 Add-Type -AssemblyName System.Windows.Forms
 [VOID][System.Text.Encoding]::Unicode
 Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
-public class ConsoleFont
+public class WinMekanix
 {
     private const int STD_OUTPUT_HANDLE = -11;
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -137,7 +130,7 @@ public class ConsoleFont
         fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);}
 }
 '@
-[ConsoleFont]::SetConsoleFont('Consolas', 1)
+[WinMekanix]::SetConsoleFont('Consolas', 1)
 $DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
 $DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
 $RefX = 1920;$RefY = 1080;$ScaleFactor = 2;
@@ -160,24 +153,28 @@ CLS
 #$ArgumentX = """/c"" ""$PSScriptRoot\windick.cmd"" ""-ARG"""
 #Start-Process -Wait -NoNewWindow -FilePath "$env:comspec" -ArgumentList "$ArgumentX"
 $PSScriptRoot = Get-Content -Path "$env:temp\\`$ARG" -TotalCount 1
-[ConsoleFont]::SetConsoleFont('Consolas', $ScaleFont)
+[WinMekanix]::SetConsoleFont('Consolas', $ScaleFont)
 CLS
 Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  $DimScaleX x $DimScaleY  Font:$ScaleFont"
 Start-Process "$env:comspec" -Wait -NoNewWindow -ArgumentList "/c", "$PSScriptRoot\windick.cmd", "-EXTERNAL"
 pause}
-$CMDHandle = $CMDWindow.MainWindowHandle
+$CMDHandle = $CMDWindow.MainWindowHandle;#$CMDHandle = $CMDWindow.Handle;
 if ($CMDHandle -eq 0) {Start-Sleep -Seconds 1;$CMDHandle = $CMDWindow.MainWindowHandle}
 if ($CMDHandle -eq 0) {Start-Sleep -Seconds 1;$CMDHandle = $CMDWindow.MainWindowHandle}
 if ($CMDHandle -eq 0) {Start-Sleep -Seconds 3;$CMDHandle = $CMDWindow.MainWindowHandle}
-Write-Host "CMD Handle: $CMDHandle PS Handle: $PSHandle"
-$PanelHandle = $PageCMD.Handle;
-$Button1_PageCMD.Visible = $true;$PageCMD.Visible = $true
-[API.Win32]::SetParent($CMDHandle, $PanelHandle)
-[API.Win32]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
+$Button1_PageConsole.Visible = $true;$PageConsole.Visible = $true
+$global:CMDProcessId = $CMDWindow.Id;$PanelHandle = $PageConsole.Handle
+#if ($CMDWindow) {$CMDHandle = $CMDWindow.MainWindowHandle;$processId = 0;$threadId = [WinMekanix.Functions]::GetWindowThreadProcessId($CMDHandle, [ref]$processId)
+#if ($processId -gt 0) {Write-Host "ProcessId:" $processId} else {Write-Host "ERROR1"}} else {Write-Host "ERROR2"}
+$getproc = Get-ChildProcesses $CMDProcessId | Select ProcessId, Name, ParentProcessId
+$part1, $part2, $part3 = $getproc -split ";";$part4 = $part1 -split ";";$global:SubProcessId = $part4 -Split "@{ProcessId="
+Write-Host "CMDHandle: $CMDHandle ProcessId: $CMDProcessId SubProcessId:$SubProcessId"
+[WinMekanix.Functions]::SetParent($CMDHandle, $PanelHandle)
+[WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
 Start-Sleep -Seconds 1
-[API.Win32]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
+[WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
 Start-Sleep -Seconds 1
-[API.Win32]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
+[WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
 $PageBlank.Visible = $false}
 function NewPanel {param (
 [int]$X,
@@ -248,7 +245,7 @@ if ($Page -eq 'Page3') {$Page3.Controls.Add($textbox)}
 if ($Page -eq 'Page4') {$Page4.Controls.Add($textbox)}
 if ($Page -eq 'Page5') {$Page5.Controls.Add($textbox)}
 if ($Page -eq 'Page6') {$Page6.Controls.Add($textbox)}
-if ($Page -eq 'PageCMD') {$PageCMD.Controls.Add($textbox)}
+if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($textbox)}
 return $textbox}
 function NewListView {param (
 [int]$X,
@@ -460,8 +457,7 @@ if ($Page -eq 'Page3') {$Page3.Controls.Add($button)}
 if ($Page -eq 'Page4') {$Page4.Controls.Add($button)}
 if ($Page -eq 'Page5') {$Page5.Controls.Add($button)}
 if ($Page -eq 'Page6') {$Page6.Controls.Add($button)}
-if ($Page -eq 'PageCMD') {$PageCMD.Controls.Add($button)}
-if ($Page -eq 'PagePS') {$PagePS.Controls.Add($button)}
+if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($button)}
 return $button}
 function NewPageButton {param (
 [int]$X,
@@ -499,10 +495,9 @@ $Page3.Visible = $false
 $Page4.Visible = $false
 $Page5.Visible = $false
 $Page6.Visible = $false
-$PageCMD.Visible = $false
-$PagePS.Visible = $false
+$PageConsole.Visible = $false
 $PageBlank.Visible = $false
-$PageNull.Visible = $false
+$PageDebug.Visible = $false
 $Button1b_Main.Visible = $false
 if ($Button1a_Main.Tag -eq 'Enable') {$Page = 'Page1a';$Button1b_Main.Visible = $true}
 if ($Button2_Main.Tag -eq 'Enable') {$Page = 'Page2'}
@@ -603,7 +598,7 @@ $form.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
 $WindowState = 'Normal'
 $PageMain = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
-$PageNull = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+$PageDebug = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
 $Page0 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page1a = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page1b = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
@@ -612,10 +607,9 @@ $Page3 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page4 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page5 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
 $Page6 = NewPanel -C '51' -X '150' -Y '0' -W '450' -H '400'
-$PageCMD = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
-$PagePS = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
-#$PagePS.Add_Resize({[API.Win32]::MoveWindow($PSHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
-$PSHandle = [API.Win32]::GetConsoleWindow();$PanelHandle = $PageNull.Handle;[API.Win32]::SetParent($PSHandle, $PanelHandle)
+$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '600' -H '400'
+#$PageConsole.Add_Resize({[WinMekanix.Functions]::MoveWindow($PanelHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
+$PSHandle = [WinMekanix.Functions]::GetConsoleWindow();$PanelHandle = $PageDebug.Handle;[WinMekanix.Functions]::SetParent($PSHandle, $PanelHandle)
 $PageMain.Controls.Add($Page0)
 $PageMain.Controls.Add($Page1a)
 $PageMain.Controls.Add($Page1b)
@@ -624,10 +618,10 @@ $PageMain.Controls.Add($Page3)
 $PageMain.Controls.Add($Page4)
 $PageMain.Controls.Add($Page5)
 $PageMain.Controls.Add($Page6)
-$PageMain.Controls.Add($PageCMD)
-$PageMain.Controls.Add($PagePS)
-$PageCMD.Visible = $false
-$PagePS.Visible = $false
+$PageMain.Controls.Add($PageConsole)
+$PageMain.Controls.Add($PageDebug)
+$PageConsole.Visible = $false
+$PageDebug.Visible = $false
 $Page = 'Page1a';$Button1b_Main = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing'
 $Page = 'Page1a';$Button1a_Main = NewPageButton -X '7' -Y '30' -W '135' -H '40' -C '0' -Text 'Image Processing'
 $Button1b_Main.Visible = $false
@@ -739,15 +733,15 @@ $ListView1_Page6.HideSelection = $true
 $ListView1_Page6.Columns.Add("Available:")
 $ListView1_Page6.Columns[0].Width = -2
 $Page6.Controls.Add($ListView1_Page6)
-#$TextBox1_PageCMD = NewRichTextBox -X '15' -Y '15' -W '575' -H '335' -Text 'Value OverWritten'
-#$TextBox1_PageCMD.Font = New-Object System.Drawing.Font('Segoe UI', 7, [System.Drawing.FontStyle]::Regular)
-#$TextBox1_PageCMD.Multiline = $true
-#$PageCMD.Controls.Add($TextBox1_PageCMD)
-#$TextBox1_PageCMD.Dock = 'Fill'
-#$TextBox1_PageCMD.ScrollBars = "Vertical"
-#$TextBox1_PageCMD.Text = "Option X"
-#Foreach ($line in $command) {$TextBox1_PageCMD.AppendText("$line`r`n")}  
-#$PageCMD.Controls.Add($ListView1_PageCMD)
+#$TextBox1_PageConsole = NewRichTextBox -X '15' -Y '15' -W '575' -H '335' -Text 'Value OverWritten'
+#$TextBox1_PageConsole.Font = New-Object System.Drawing.Font('Segoe UI', 7, [System.Drawing.FontStyle]::Regular)
+#$TextBox1_PageConsole.Multiline = $true
+#$PageConsole.Controls.Add($TextBox1_PageConsole)
+#$TextBox1_PageConsole.Dock = 'Fill'
+#$TextBox1_PageConsole.ScrollBars = "Vertical"
+#$TextBox1_PageConsole.Text = "Option X"
+#Foreach ($line in $command) {$TextBox1_PageConsole.AppendText("$line`r`n")}  
+#$PageConsole.Controls.Add($ListView1_PageConsole)
 #$explorer = New-Object -ComObject Shell.Explorer
 #$explorerControl = New-Object System.Windows.Forms.Control
 #$explorerControl.Handle = $explorer.HWND
@@ -858,20 +852,20 @@ Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$env:TEMP\`$ARG" -Value "ARG2=-SETTINGS" -Encoding UTF8
 #$ArgumentX = """$PSScriptRoot\windick.cmd"" -INTERNAL ""-ARG"""
 Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
-$Page = 'PageCMD';$Button1_PageCMD = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Back' -Hover_Text 'Ok' -Add_Click {$Button1_PageCMD.Visible = $false;$PageCMD.Visible = $false
+$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Back' -Hover_Text 'Back' -Add_Click {$Button1_PageConsole.Visible = $false;$PageConsole.Visible = $false
 if ($Button1b_Main.Tag -eq 'Enable') {$Page1b.Visible = $true;$Button1a_Main.Visible = $true;}
 if ($Button1a_Main.Tag -eq 'Enable') {$Page1a.Visible = $true;$Button1b_Main.Visible = $true;}
 if ($Button2_Main.Tag -eq 'Enable') {$Page2.Visible = $true;}
 if ($Button3_Main.Tag -eq 'Enable') {$Page3.Visible = $true;}
 if ($Button4_Main.Tag -eq 'Enable') {$Page4.Visible = $true;}
 if ($Button5_Main.Tag -eq 'Enable') {$Page5.Visible = $true;}
-if ($Button6_Main.Tag -eq 'Enable') {$Page6.Visible = $true;}}
-$Page = 'PagePS';$Button1_PagePS = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Ok' -Hover_Text 'Ok' -Add_Click {$Button1_PagePS.Visible = $false;$Page6.Visible = $true;$PagePS.Visible = $false}
+if ($Button6_Main.Tag -eq 'Enable') {$Page6.Visible = $true;}
+Stop-Process -Id $SubProcessId -Force;Stop-Process -Id $CMDProcessId -Force}
 $form.ResumeLayout()
 $result = $form.ShowDialog()
 #$TextPath = "$env:TEMP\`$ARG"
 #$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8)
 #$TextWrite.WriteLine("x")
 #$TextWrite.Close()
-#$Button1_PageCMD.BringToFront()
-#$PageCMD.BringToFront()
+#$Button1_PageConsole.BringToFront()
+#$PageConsole.BringToFront()
