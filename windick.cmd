@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1198 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1199 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -182,7 +182,7 @@ IF NOT "%RECOVERY_PROMPT%"=="%RECOVERY_LOCK%" SET "LOCKOUT=1"
 SET "RECOVERY_PROMPT="&&SET "RECOVERY_LOCK="
 EXIT /B
 :GET_INIT
-SET "ERR_MSG="&&FOR /F "TOKENS=*" %%a in ("%CD%") DO (SET "CAPS_SET=PROG_FOLDER"&&SET "CAPS_VAR=%%a"&&CALL:CAPS_SET)
+SET "ERR_MSG="&&SET "GUI="&&FOR /F "TOKENS=*" %%a in ("%CD%") DO (SET "CAPS_SET=PROG_FOLDER"&&SET "CAPS_VAR=%%a"&&CALL:CAPS_SET)
 FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%PROG_FOLDER%") DO (SET "CHAR_STR=%%b"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&IF "%%b"=="\" SET "PROG_FOLDER=%%a:")
 IF DEFINED CHAR_FLG SET "ERR_MSG=Remove the space from the path or folder name, then launch again."
 IF NOT EXIST "%PROG_FOLDER%" SET "ERR_MSG=Invalid path or folder name. Relocate, then launch again."
@@ -532,9 +532,9 @@ EXIT /B
 ::#########################################################################
 :COMMAND_MODE
 ::#########################################################################
-IF "%ARG1%"=="-EXTERNAL" SET "ARG1=-INTERNAL"&&SET "ARG2=-ARG"
+IF "%ARG1%"=="-EXTERNAL" SET "ARG1=-INTERNAL"&&SET "ARG2=-ARG"&&SET "GUI=1"
 SET "$INTX="&&IF DEFINED ARG1 IF NOT "%ARG1%"=="/?" IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-INTERNAL" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" ECHO. Type windick.cmd -help for more options.&&GOTO:QUIT
-SET "MOUNT="&&SET "ERROR="&&SET "PROG_SOURCE=%PROG_FOLDER%"&&CALL:SETS_MAIN&&SET "PAD_TYPE=0"&&CALL:GET_SPACE
+SET "MOUNT="&&SET "ERROR="&&SET "PROG_SOURCE=%PROG_FOLDER%"&&CALL:SETS_MAIN&&CALL:GET_SPACE&&IF NOT DEFINED GUI SET "PAD_TYPE=0"
 IF "%ARG1%"=="/?" SET "ARG1=-HELP"
 IF "%ARG1%"=="-HELP" CALL:COMMAND_HELP
 IF "%ARG1%"=="-INTERNAL" SET "$INTX=1"&&GOTO:COMMAND_INTERNAL
@@ -683,7 +683,7 @@ IF "%GUI_LAUNCH%"=="DISABLED" GOTO:MAIN_MENU
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                %XLR5%windick.ps1 detected.%$$%. Launch GUI?&&ECHO.     Note: Most Features are unavailable and currenty shimmed in.&&ECHO.    If unfamilier, push enter to open the non-GUI, and then (%##%*%$$%).&&ECHO.  The option to launch the GUI can be changed in the settings menu.&&ECHO.&&ECHO.                         Press (%##%X%$$%) to proceed&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
 IF NOT "%SELECTX%"=="X" SET "GUI_LAUNCH=DISABLED"&&GOTO:MAIN_MENU
 ::START powershell -WindowStyle Hidden -executionpolicy bypass "%PROG_FOLDER%\windick.ps1"
-START powershell -executionpolicy bypass "%PROG_FOLDER%\windick.ps1"
+START powershell -WindowStyle Minimized -executionpolicy bypass "%PROG_FOLDER%\windick.ps1"
 GOTO:QUIT
 ::#########################################################################
 :SETTINGS_MENU
