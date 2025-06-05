@@ -82,6 +82,8 @@ $textbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $textbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $textbox.Text = "$Text"
 $textbox.Visible = $true
+$textbox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$textbox.ForeColor = 'White'
 #$textbox.SelectionColor = 'White'
 #$textbox.ReadOnly = $true
 #$textBox.Multiline = $true
@@ -112,6 +114,8 @@ $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
 $richTextBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $richTextBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+$richTextBox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$richTextBox.ForeColor = 'White'
 #$richTextBox.Dock = DockStyle.Fill
 #$richTextBox.LoadFile("C:\\MyDocument.rtf")
 #$richTextBox.Find("Text")
@@ -147,6 +151,8 @@ $listview.Columns[0].Width = -2
 #$listview.Sorting = SortOrder.Ascending
 #$imageListSmall = New-Object System.Windows.Forms.ImageList
 #$listview.SmallImageList = $imageListSmall
+$listview.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$listview.ForeColor = 'White'
 if ($Page -eq 'Page1a') {$Page1b.Controls.Add($listview)}
 return $listview}
 function PickFolder {
@@ -270,6 +276,8 @@ $dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $dropbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $dropbox.DisplayMember = $DisplayMember
 $dropbox.Text = "$Text"
+$dropbox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$dropbox.ForeColor = 'White'
 $dropbox.Add_SelectedIndexChanged({
 $DropBox1_Page1a.Tag = 'Disable'
 $DropBox2_Page1a.Tag = 'Disable'
@@ -438,75 +446,19 @@ $PageBlank.Visible = $false
 $PageDebug.Visible = $false
 $Button1b_Main.Visible = $false
 if ($Button1a_Main.Tag -eq 'Enable') {$Page = 'Page1a';$Button1b_Main.Visible = $true}
+if ($Button1b_Main.Tag -eq 'Enable') {$Page = 'Page1b';$Button1a_Main.Visible = $true}
 if ($Button2_Main.Tag -eq 'Enable') {$Page = 'Page2'}
 if ($Button3_Main.Tag -eq 'Enable') {$Page = 'Page3'}
 if ($Button4_Main.Tag -eq 'Enable') {$Page = 'Page4'}
 if ($Button5_Main.Tag -eq 'Enable') {$Page = 'Page5'}
 if ($Button6_Main.Tag -eq 'Enable') {$Page = 'Page6'}
-if ($Button1b_Main.Tag -eq 'Enable') {$Page = 'Page1b'}
-if ($Page -eq 'Page1a') {$Page1a.Visible = $true
-$Button1b_Main.Visible = $true
-$ListView1_Page1a.Items.Clear()
-$DropBox1_Page1a.ResetText()
-$DropBox2_Page1a.ResetText()
-$DropBox1_Page1a.Items.Clear()
-$DropBox2_Page1a.Items.Clear()
-$TextBox1_Page1a.Text = 'NewFile.vhdx'
-$TextBox2_Page1a.Text = 'Enter vhdx size in MB'
-$DropBox1_Page1a.Text = 'Select .wim'
-$DropBox2_Page1a.Text = 'Select index'
-$PathCheck = "$PSScriptRoot\\image\\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_Page1a.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_Page1a.Items.Add($_)}}
-if ($Page -eq 'Page1b') {$Page1b.Visible = $true
-$ListView1_Page1b.Items.Clear()
-$DropBox1_Page1b.ResetText()
-$DropBox2_Page1b.ResetText()
-$DropBox3_Page1b.ResetText()
-$DropBox1_Page1b.Items.Clear()
-$DropBox1_Page1b.Text = 'Select .vhdx'
-$DropBox3_Page1b.Items.Clear()
-$DropBox3_Page1b.Text = 'Select compression'
-$DropBox3_Page1b.Items.Add("Fast")
-$DropBox3_Page1b.Items.Add("Max")
-$TextBox1_Page1b.Text = 'NewFile.wim'
-$DropBox2_Page1b.Text = 'Select index'
-$PathCheck = "$PSScriptRoot\\image\\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_Page1b.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_Page1b.Items.Add($_)}}
-if ($Page -eq 'Page2') {$Page2.Visible = $true;$ListView1_Page2.Items.Clear()
-$PathCheck = "$PSScriptRoot\\list\\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
-#Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$DropBox1_Page2.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_Page2.Items.Add($_)}}
-if ($Page -eq 'Page3') {$Page3.Visible = $true;$ListView1_Page3.Items.Clear()
-$PathCheck = "$PSScriptRoot\\project1"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\project1"
-#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_Page3.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$ListView1_Page3.Items.Add($_)}} else {$FilePath = "$PSScriptRoot"}}
-if ($Page -eq 'Page4') {
-$Page4.Visible = $true;$ListView1_Page4.Items.Clear()
-Get-ChildItem -Path "$PSScriptRoot" -Name | ForEach-Object {[void]$ListView1_Page4.Items.Add($_)}}
-if ($Page -eq 'Page5') {$Page5.Visible = $true;$ListView1_Page5.Items.Clear();$ListView1_Page5.Items.Add("PLACEHOLDER")}
-if ($Page -eq 'Page6') {#$ListView1_Page6.Items.Clear();$ListView1_Page6.Items.Add("PLACEHOLDER")
-#Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_Page6.Items.Add($_)}
-#Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_Page6.Items.Add($_)}
-$DropBox1_Page6.ResetText()
-$DropBox1_Page6.Items.Clear()
-$DropBox1_Page6.Text = "Select Font"
-#$DropBox1_Page6.Items.Add("Consolas")
-#$DropBox1_Page6.Items.Add("Courier New")
-#$DropBox1_Page6.Items.Add("Lucida Console")
-$DropBox2_Page6.ResetText()
-$DropBox2_Page6.Items.Clear()
-$DropBox2_Page6.Text = "Select Size"
-$DropBox2_Page6.Items.Add("Auto");$DropBox2_Page6.Items.Add("2");$DropBox2_Page6.Items.Add("4");$DropBox2_Page6.Items.Add("6");$DropBox2_Page6.Items.Add("8");;$DropBox2_Page6.Items.Add("10");$DropBox2_Page6.Items.Add("12");$DropBox2_Page6.Items.Add("14");$DropBox2_Page6.Items.Add("16");$DropBox2_Page6.Items.Add("18");$DropBox2_Page6.Items.Add("20");$DropBox2_Page6.Items.Add("22");$DropBox2_Page6.Items.Add("24");$DropBox2_Page6.Items.Add("26");$DropBox2_Page6.Items.Add("28");$DropBox2_Page6.Items.Add("30");$DropBox2_Page6.Items.Add("32");$DropBox2_Page6.Items.Add("36");$DropBox2_Page6.Items.Add("40");$DropBox2_Page6.Items.Add("44");$DropBox2_Page6.Items.Add("48");$DropBox2_Page6.Items.Add("52");$DropBox2_Page6.Items.Add("56");$DropBox2_Page6.Items.Add("60");$DropBox2_Page6.Items.Add("64");$DropBox2_Page6.Items.Add("68");$DropBox2_Page6.Items.Add("72");
-$key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont"
-#$key.GetValueNames() | ForEach-Object {[void]$DropBox1_Page6.Items.Add($_)}
-$key.GetValueNames() | ForEach-Object {$key.GetValue($_) | ForEach-Object {[void]$DropBox1_Page6.Items.Add($_)}}
-$Page6.Visible = $true;}
+if ($Page -eq 'Page1a') {Page1a_Refresh;$Page1a.Visible = $true}
+if ($Page -eq 'Page1b') {Page1b_Refresh;$Page1b.Visible = $true}
+if ($Page -eq 'Page2') {Page2_Refresh;$Page2.Visible = $true}
+if ($Page -eq 'Page3') {Page3_Refresh;$Page3.Visible = $true}
+if ($Page -eq 'Page4') {Page4_Refresh;$Page4.Visible = $true}
+if ($Page -eq 'Page5') {Page5_Refresh;$Page5.Visible = $true}
+if ($Page -eq 'Page6') {Page6_Refresh;$Page6.Visible = $true}
 #ForEach ($i in Get-Content "c:\$\test.txt") {[void]$listview.Items.Add($i)}
 #ForEach ($line in $command) {$textBox.AppendText("$line`r`n")}  
 #ForEach ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
@@ -534,6 +486,69 @@ Foreach ($line in $command) {[void]$ListView.Items.Add($line)}}
 function Get-ChildProcesses ($ParentProcessId) {$filter = "parentprocessid = '$($ParentProcessId)'"
 Get-CIMInstance -ClassName win32_process -filter $filter | Foreach-Object {$_
 if ($_.ParentProcessId -ne $_.ProcessId) {Get-ChildProcesses $_.ProcessId}}}
+function Page1a_Refresh {
+$ListView1_Page1a.Items.Clear()
+$DropBox1_Page1a.ResetText()
+$DropBox2_Page1a.ResetText()
+$DropBox1_Page1a.Items.Clear()
+$DropBox2_Page1a.Items.Clear()
+$TextBox1_Page1a.Text = 'NewFile.vhdx'
+$TextBox2_Page1a.Text = 'Enter vhdx size in MB'
+$DropBox1_Page1a.Text = 'Select .wim'
+$DropBox2_Page1a.Text = 'Select index'
+$PathCheck = "$PSScriptRoot\\image\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
+Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_Page1a.Items.Add($_)}
+Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_Page1a.Items.Add($_)}}
+function Page1b_Refresh {
+$ListView1_Page1b.Items.Clear()
+$DropBox1_Page1b.ResetText()
+$DropBox2_Page1b.ResetText()
+$DropBox3_Page1b.ResetText()
+$DropBox1_Page1b.Items.Clear()
+$DropBox1_Page1b.Text = 'Select .vhdx'
+$DropBox3_Page1b.Items.Clear()
+$DropBox3_Page1b.Text = 'Select compression'
+$DropBox3_Page1b.Items.Add("Fast")
+$DropBox3_Page1b.Items.Add("Max")
+$TextBox1_Page1b.Text = 'NewFile.wim'
+$DropBox2_Page1b.Text = 'Select index'
+$PathCheck = "$PSScriptRoot\\image\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
+Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_Page1b.Items.Add($_)}
+Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_Page1b.Items.Add($_)}}
+function Page2_Refresh {
+$ListView1_Page2.Items.Clear()
+$PathCheck = "$PSScriptRoot\\list\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
+#Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$DropBox1_Page2.Items.Add($_)}
+Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_Page2.Items.Add($_)}}
+function Page3_Refresh {
+$ListView1_Page3.Items.Clear()
+$PathCheck = "$PSScriptRoot\\project1"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\project1"
+#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_Page3.Items.Add($_)}
+Get-ChildItem -Path "$FilePath" -Name | ForEach-Object {[void]$ListView1_Page3.Items.Add($_)}} else {$FilePath = "$PSScriptRoot"}}
+function Page4_Refresh {$ListView1_Page4.Items.Clear();$ListView1_Page4.Items.Add("PLACEHOLDER")}
+#Get-ChildItem -Path "$PSScriptRoot" -Name | ForEach-Object {[void]$ListView1_Page4.Items.Add($_)}
+function Page5_Refresh {$ListView1_Page5.Items.Clear();$ListView1_Page5.Items.Add("PLACEHOLDER")}
+function Page6_Refresh {
+#$ListView1_Page6.Items.Clear();$ListView1_Page6.Items.Add("PLACEHOLDER")
+#Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_Page6.Items.Add($_)}
+#Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_Page6.Items.Add($_)}
+$DropBox1_Page6.ResetText()
+$DropBox1_Page6.Items.Clear()
+$DropBox1_Page6.Text = "Select Font"
+#$DropBox1_Page6.Items.Add("Consolas")
+#$DropBox1_Page6.Items.Add("Courier New")
+#$DropBox1_Page6.Items.Add("Lucida Console")
+$DropBox2_Page6.ResetText()
+$DropBox2_Page6.Items.Clear()
+$DropBox2_Page6.Text = "Select Size"
+$DropBox2_Page6.Items.Add("Auto");$DropBox2_Page6.Items.Add("2");$DropBox2_Page6.Items.Add("4");$DropBox2_Page6.Items.Add("6");$DropBox2_Page6.Items.Add("8");;$DropBox2_Page6.Items.Add("10");$DropBox2_Page6.Items.Add("12");$DropBox2_Page6.Items.Add("14");$DropBox2_Page6.Items.Add("16");$DropBox2_Page6.Items.Add("18");$DropBox2_Page6.Items.Add("20");$DropBox2_Page6.Items.Add("22");$DropBox2_Page6.Items.Add("24");$DropBox2_Page6.Items.Add("26");$DropBox2_Page6.Items.Add("28");$DropBox2_Page6.Items.Add("30");$DropBox2_Page6.Items.Add("32");$DropBox2_Page6.Items.Add("36");$DropBox2_Page6.Items.Add("40");$DropBox2_Page6.Items.Add("44");$DropBox2_Page6.Items.Add("48");$DropBox2_Page6.Items.Add("52");$DropBox2_Page6.Items.Add("56");$DropBox2_Page6.Items.Add("60");$DropBox2_Page6.Items.Add("64");$DropBox2_Page6.Items.Add("68");$DropBox2_Page6.Items.Add("72");
+$key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont"
+#$key.GetValueNames() | ForEach-Object {[void]$DropBox1_Page6.Items.Add($_)}
+$key.GetValueNames() | ForEach-Object {$key.GetValue($_) | ForEach-Object {[void]$DropBox1_Page6.Items.Add($_)}}}
 function Launch-CMD {param (
 [int]$X,
 [int]$Y,
@@ -547,7 +562,6 @@ $PageBlank.Visible = $true;$PageBlank.BringToFront()
 if ($ButtonRadio1_Group1.Checked -eq $true) {$CMDType = 'Embed'} else {$CMDType = 'Spawn'}
 Add-Content -Path "$env:temp\`$CON1" -Value "$($DropBox1_Page6.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$env:temp\`$CON2" -Value "$($DropBox2_Page6.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$env:temp\`$CON3" -Value "$($ButtonRadio1_Group1.Checked)" -Encoding UTF8
 $CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-WindowStyle", "Hidden", "-Command", {
 Add-Type -TypeDefinition @'
 using System;using System.Runtime.InteropServices;public class WinMekanix {
@@ -569,8 +583,6 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
 Add-Type -AssemblyName System.Windows.Forms
 [VOID][System.Text.Encoding]::Unicode;CLS
 [WinMekanix]::SetConsoleFont('Consolas', 1)
-$CMDTypeX = Get-Content -Path \"$env:temp\\`$CON3\" -TotalCount 1;Remove-Item -Path \"$env:temp\`$CON3\" -Force
-if ($CMDTypeX -eq 'True') {$CMDType = 'Embed'} else {$CMDType = 'Spawn'}
 $DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
 $DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
 $RefX = 1000;$DimScaleX = $DimensionX / $RefX
@@ -578,7 +590,6 @@ $RefY = 1000;$DimScaleY = $DimensionY / $RefY
 if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
 if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
 $ScaleFactor = 2;$ScaleFont = 16 * $ScaleRef * $ScaleFactor
-#if ($CMDType -eq 'Spawn') {$ScaleFontX = $ScaleFont * 1.111;$ScaleFont = $ScaleFontX}
 $ScaleFontX = [Math]::Floor($ScaleFont);$ScaleFont = $ScaleFontX
 CLS;$PSScriptRoot = Get-Content -Path \"$env:temp\\`$ARG\" -TotalCount 1
 $ConsoleFont = Get-Content -Path \"$env:temp\\`$CON1\" -TotalCount 1;Remove-Item -Path \"$env:temp\`$CON1\" -Force
@@ -659,10 +670,10 @@ $form.StartPosition = 'CenterScreen'
 #$form.ControlBox = $False
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
-$form.add_FormClosing({$eventArgs = $_
-$result = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to close?", "Confirm Close", [System.Windows.Forms.MessageBoxButtons]::YesNo)
-if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$eventArgs.Cancel = $true}
-if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}})
+$form.add_FormClosing({$action = $_
+if (-not ($NoExitPrompt)) {$result = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to close?", "Confirm Close", [System.Windows.Forms.MessageBoxButtons]::YesNo)
+if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$action.Cancel = $true}
+if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}}})
 $form.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
 $form.AutoSize = $true
 $form.AutoSizeMode = 'GrowAndShrink';#AutoSizeMode: GrowAndShrink, GrowOnly, and ShrinkOnly.
@@ -723,12 +734,17 @@ $ListView1_Page1a.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $ListView1_Page1a.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page1a.View = "List"
 $ListView1_Page1a.View = "Details"
+$ListView1_Page1a.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$ListView1_Page1a.UseItemStyleForSubItems = $true
+$ListView1_Page1a.ForeColor = 'White'
+#$ListView1_Page1a.OwnerDraw = $true
 $ListView1_Page1a.Visible = $true
 $ListView1_Page1a.MultiSelect = $false
 $ListView1_Page1a.HideSelection = $true
 $ListView1_Page1a.Columns.Add("Available:")
-#$ListView1_Page1a.Columns.Add("Column2:")
+$ListView1_Page1a.HeaderStyle = 'None'
 $ListView1_Page1a.Columns[0].Width = -2
+#$ListView1_Page1a.Columns.Add("Column2:")
 #$ListView1_Page1a.Columns[1].Width = -2
 $Page1a.Controls.Add($ListView1_Page1a)
 $ListView1_Page1b = New-Object System.Windows.Forms.ListView
@@ -736,10 +752,13 @@ $ListView1_Page1b.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $ListView1_Page1b.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page1b.View = "List"
 $ListView1_Page1b.View = "Details"
+$ListView1_Page1b.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$ListView1_Page1b.ForeColor = 'White'
 $ListView1_Page1b.Visible = $true
 $ListView1_Page1b.MultiSelect = $false
 $ListView1_Page1b.HideSelection = $true
 $ListView1_Page1b.Columns.Add("Available:")
+$ListView1_Page1b.HeaderStyle = 'None'
 #$ListView1_Page1b.Columns.Add("Column2:")
 $ListView1_Page1b.Columns[0].Width = -2
 #$ListView1_Page1b.Columns[1].Width = -2
@@ -749,10 +768,13 @@ $ListView1_Page2.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $ListView1_Page2.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page2.View = "List"
 $ListView1_Page2.View = "Details"
+$ListView1_Page2.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$ListView1_Page2.ForeColor = 'White'
 $ListView1_Page2.Visible = $true
 $ListView1_Page2.MultiSelect = $false
 $ListView1_Page2.HideSelection = $true
 $ListView1_Page2.Columns.Add("Available:")
+$ListView1_Page2.HeaderStyle = 'None'
 $ListView1_Page2.Columns[0].Width = -2
 $Page2.Controls.Add($ListView1_Page2)
 $ListView1_Page3 = New-Object System.Windows.Forms.ListView
@@ -760,10 +782,13 @@ $ListView1_Page3.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $ListView1_Page3.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page3.View = "List"
 $ListView1_Page3.View = "Details"
+$ListView1_Page3.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$ListView1_Page3.ForeColor = 'White'
 $ListView1_Page3.Visible = $true
 $ListView1_Page3.MultiSelect = $false
 $ListView1_Page3.HideSelection = $true
 $ListView1_Page3.Columns.Add("Available:")
+$ListView1_Page3.HeaderStyle = 'None'
 $ListView1_Page3.Columns[0].Width = -2
 $Page3.Controls.Add($ListView1_Page3)
 $ListView1_Page4 = New-Object System.Windows.Forms.ListView
@@ -771,10 +796,13 @@ $ListView1_Page4.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $ListView1_Page4.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page4.View = "List"
 $ListView1_Page4.View = "Details"
+$ListView1_Page4.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$ListView1_Page4.ForeColor = 'White'
 $ListView1_Page4.Visible = $true
 $ListView1_Page4.MultiSelect = $false
 $ListView1_Page4.HideSelection = $true
 $ListView1_Page4.Columns.Add("Available:")
+$ListView1_Page4.HeaderStyle = 'None'
 $ListView1_Page4.Columns[0].Width = -2
 $Page4.Controls.Add($ListView1_Page4)
 $ListView1_Page5 = New-Object System.Windows.Forms.ListView
@@ -782,10 +810,13 @@ $ListView1_Page5.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $ListView1_Page5.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListView1_Page5.View = "List"
 $ListView1_Page5.View = "Details"
+$ListView1_Page5.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$ListView1_Page5.ForeColor = 'White'
 $ListView1_Page5.Visible = $true
 $ListView1_Page5.MultiSelect = $false
 $ListView1_Page5.HideSelection = $true
 $ListView1_Page5.Columns.Add("Available:")
+$ListView1_Page5.HeaderStyle = 'None'
 $ListView1_Page5.Columns[0].Width = -2
 $Page5.Controls.Add($ListView1_Page5)
 #$explorer = New-Object -ComObject Shell.Explorer
@@ -800,8 +831,11 @@ $Page5.Controls.Add($ListView1_Page5)
 #$Page4.Add_Shown({$explorerControl.Activate()})
 
 $Page = 'Page0';$Label0_Page0 = NewLabel -X '10' -Y '10' -W '375' -H '30' -Bold 'True' -TextSize '24' -Text 'Welcome to GUI v0.2'
-$Button1_Page0 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'About' -Hover_Text 'PLACEHOLDER' -Add_Click {[System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Message Box", 0)}
-
+$Button1_Page0 = NewButton -X '255' -Y '350' -W '180' -H '35' -Text 'About' -Hover_Text 'PLACEHOLDER' -Add_Click {[System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Message Box", 0)}
+$Button2_Page0 = NewButton -X '15' -Y '350' -W '180' -H '35' -Text 'Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LAUNCH=DISABLED" -Encoding UTF8
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 $Page = 'Page1a';$Label0_Page1a = NewLabel -X '10' -Y '10' -W '375' -H '30' -Bold 'True' -TextSize '24' -Text 'Image Processing'
 $Button1_Page1a = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Go!' -Hover_Text 'Start Image Conversion' -Add_Click {
 $Page1a.Visible = $false
@@ -875,39 +909,98 @@ Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-EDIT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 
 $Page = 'Page3';$Label0_Page3 = NewLabel -X '10' -Y '10' -W '375' -H '30' -Bold 'True' -TextSize '24' -Text 'Package Creator'
-$Button1_Page3 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Package Creator' -Hover_Text 'Package Creator' -Add_Click {
+$Button1_Page3 = NewButton -X '15' -Y '350' -W '75' -H '35' -Text 'New' -Hover_Text 'New' -Add_Click {
+$result = [System.Windows.Forms.MessageBox]::Show("This will empty the contents of the project folder. Are you sure?", "Confirm Delete", [System.Windows.Forms.MessageBoxButtons]::YesNo)
+if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
+if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
 $Page3.Visible = $false
 Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "MENU_SKIP=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "EDIT_SKIP=1" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-NEW" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}}
+$Button2_Page3 = NewButton -X '95' -Y '350' -W '75' -H '35' -Text 'Restore' -Hover_Text 'Restore' -Add_Click {
+$result = [System.Windows.Forms.MessageBox]::Show("This will empty the contents of the project folder. Are you sure?", "Confirm Delete", [System.Windows.Forms.MessageBoxButtons]::YesNo)
+if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
+if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+$Page3.Visible = $false
+Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "MENU_SKIP=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-RESTORE" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}}
+$Button3_Page3 = NewButton -X '175' -Y '350' -W '75' -H '35' -Text 'Create' -Hover_Text 'Create' -Add_Click {
+$Page3.Visible = $false
+Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "MENU_SKIP=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "EDIT_SKIP=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-CREATE" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
+$Button4_Page3 = NewButton -X '255' -Y '350' -W '75' -H '35' -Text 'Edit' -Hover_Text 'Edit' -Add_Click {
+$Page3.Visible = $false
+Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-EDIT" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
+$Button5_Page3 = NewButton -X '335' -Y '350' -W '100' -H '35' -Text 'Export Drivers' -Hover_Text 'Export Drivers' -Add_Click {
+$Page3.Visible = $false
+Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "MENU_SKIP=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-EXPORT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 
 $Page = 'Page4';$Label0_Page4 = NewLabel -X '10' -Y '10' -W '375' -H '30' -Bold 'True' -TextSize '24' -Text 'File Management' 
 $Button1_Page4 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'File Management' -Hover_Text 'File Management' -Add_Click {
 $Page4.Visible = $false
 Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-FILEMGR" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 
 $Page = 'Page5';$Label0_Page5 = NewLabel -X '10' -Y '10' -W '375' -H '30' -Bold 'True' -TextSize '24' -Text 'Disk Management' 
-$Button1_Page5 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Disk Management' -Hover_Text 'Disk Management' -Add_Click {
+$Button1_Page5 = NewButton -X '255' -Y '350' -W '180' -H '35' -Text 'Disk Management' -Hover_Text 'Disk Management' -Add_Click {
 $Page5.Visible = $false
 Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-DISKMGR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-DISKMGR" -Encoding UTF8
+Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
+
+$Button2_Page5 = NewButton -X '15' -Y '350' -W '180' -H '35' -Text 'Boot Creator' -Hover_Text 'Boot Creator' -Add_Click {
+$Page5.Visible = $false
+Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-DISKMGR" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "ARG3=-BOOTMAKER" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 
 $Page = 'Page6';$Label0_Page6 = NewLabel -X '10' -Y '10' -W '375' -H '30' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
-$Button1_Page6 = NewButton -X '135' -Y '350' -W '180' -H '35' -Text 'Console Settings' -Hover_Text 'Console Settings' -Add_Click {
+$Button1_Page6 = NewButton -X '15' -Y '350' -W '180' -H '35' -Text 'Console Settings' -Hover_Text 'Console Settings' -Add_Click {
 $Page6.Visible = $false
 Add-Content -Path "$env:temp\`$ARG" -Value "$PSScriptRoot" -Encoding UTF8
+Add-Content -Path "$env:temp\`$ARG" -Value "SETTINGS=1" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$env:temp\`$ARG" -Value "ARG2=-SETTINGS" -Encoding UTF8
 #$TextPath = "$env:temp\`$ARG";$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8);#$TextWrite.WriteLine("x");$TextWrite.Close()
 Launch-CMD -X '-0' -Y '-0' -W '600' -H '400'}
 
-$Button2_Page6 = NewButton -X '135' -Y '300' -W '180' -H '35' -Text 'Debug' -Hover_Text 'Debug' -Add_Click {
+$Button2_Page6 = NewButton -X '255' -Y '350' -W '180' -H '35' -Text 'Debug' -Hover_Text 'Debug' -Add_Click {
 $WSIZ = [int](600 * $ScaleRef * $ScaleFactor);$HSIZ = [int](345 * $ScaleRef * $ScaleFactor)
 $XLOC = [int](0 * $ScaleRef * $ScaleFactor);$YLOC = [int](0 * $ScaleRef * $ScaleFactor)
 $Page6.Visible = $false;$PageDebug.Visible = $true;$Button1_PageDebug.BringToFront()
@@ -941,13 +1034,13 @@ $DropBox2_Page6 = NewDropBox -X '20' -Y '170' -W '100' -H '25' -C '0' -Text "$Co
 #$Toggle1_Page6 = NewToggle -X '20' -Y '230' -W '100' -H '25' -Text "$Toggle1_Page6Text"
 
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageConsole.Visible = $false
-if ($Button1b_Main.Tag -eq 'Enable') {$Page1b.Visible = $true;$Button1a_Main.Visible = $true;}
-if ($Button1a_Main.Tag -eq 'Enable') {$Page1a.Visible = $true;$Button1b_Main.Visible = $true;}
-if ($Button2_Main.Tag -eq 'Enable') {$Page2.Visible = $true;}
-if ($Button3_Main.Tag -eq 'Enable') {$Page3.Visible = $true;}
-if ($Button4_Main.Tag -eq 'Enable') {$Page4.Visible = $true;}
-if ($Button5_Main.Tag -eq 'Enable') {$Page5.Visible = $true;}
-if ($Button6_Main.Tag -eq 'Enable') {$Page6.Visible = $true;}
+if ($Button1b_Main.Tag -eq 'Enable') {Page1b_Refresh;$Page1b.Visible = $true;$Button1a_Main.Visible = $true;}
+if ($Button1a_Main.Tag -eq 'Enable') {Page1a_Refresh;$Page1a.Visible = $true;$Button1b_Main.Visible = $true;}
+if ($Button2_Main.Tag -eq 'Enable') {Page2_Refresh;$Page2.Visible = $true;}
+if ($Button3_Main.Tag -eq 'Enable') {Page3_Refresh;$Page3.Visible = $true;}
+if ($Button4_Main.Tag -eq 'Enable') {Page4_Refresh;$Page4.Visible = $true;}
+if ($Button5_Main.Tag -eq 'Enable') {Page5_Refresh;$Page5.Visible = $true;}
+if ($Button6_Main.Tag -eq 'Enable') {Page6_Refresh;$Page6.Visible = $true;}
 Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
 
 $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '210' -Y '355' -W '180' -H '35' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false;$Page6.Visible = $true;$Button1_PageDebug.BringToFront()}
