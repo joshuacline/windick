@@ -693,12 +693,12 @@ EXIT /B
 CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                        Settings Configuration&&ECHO.
 ECHO. (%##%1%$$%) Appearance&&ECHO. (%##%2%$$%) Shortcuts&&ECHO. (%##%3%$$%) Compression          %@@%%COMPRESS%%$$%&&ECHO. (%##%4%$$%) Folder Layout        %@@%%FOLDER_MODE%%$$%&&ECHO. (%##%5%$$%) Current Environment  %@@%%ALLOW_ENV%%$$%&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##%6%$$%) Host Hide            %@@%%HOST_HIDE%%$$%&&ECHO. (%##%7%$$%) Update
 ECHO. (%##%@%$$%) Clear Settings
-ECHO. (%##%*%$$%) %XLR2%Enable Custom Menu%$$%
+IF NOT DEFINED SETTINGS ECHO. (%##%*%$$%) %XLR2%Enable Custom Menu%$$%
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
-IF "%SELECT%"=="*" GOTO:MENU_LIST
+IF "%SELECT%"=="*" IF NOT DEFINED SETTINGS GOTO:MENU_LIST
 IF "%SELECT%"=="@" CALL:SETS_CLEAR&SET "SELECT="
 IF "%SELECT%"=="1" GOTO:APPEARANCE
 IF "%SELECT%"=="2" GOTO:SHORTCUTS
