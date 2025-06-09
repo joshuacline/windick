@@ -1,9 +1,9 @@
-# Windows Deployment Image Customization Kit v 1200 (c) github.com/joshuacline
+# Windows Deployment Image Customization Kit v 1201 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
 public const int STD_OUTPUT_HANDLE = -11;
-[DllImport("kernel32.dll", SetLastError = true)] public static extern bool CloseHandle(IntPtr handle);
+[DllImport("kernel32.dll")] public static extern bool CloseHandle(IntPtr handle);
 [DllImport("Kernel32.dll")] public static extern IntPtr GetConsoleWindow();
 [DllImport("user32.dll")] public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 [DllImport("user32.dll")] public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
@@ -11,7 +11,7 @@ public const int STD_OUTPUT_HANDLE = -11;
 [DllImport("user32.dll")] public static extern bool SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-[DllImport("user32.dll", SetLastError = true)] public static extern bool DestroyWindow(IntPtr hWnd);
+[DllImport("user32.dll")] public static extern bool DestroyWindow(IntPtr hWnd);
 [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
 "@ -Name "Functions" -Namespace "WinMekanix" -PassThru
 Add-Type -TypeDefinition @"
@@ -31,12 +31,8 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
         CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
         fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 "@
-function NewPanel {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[int]$C)
+function NewPanel {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[int]$C)
 $panel = New-Object System.Windows.Forms.Panel
 $panel.BackColor = [System.Drawing.Color]::FromArgb($C, $C, $C)
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
@@ -48,11 +44,8 @@ $panel.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 #$panel.Dock = 'Fill'
 $form.Controls.Add($panel)
 return $panel}
-function NewPictureBox {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W)
+function NewPictureBox {
+param([int]$X,[int]$Y,[int]$H,[int]$W)
 $pictureBox = New-Object System.Windows.Forms.PictureBox
 $pictureDecrypt = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($pictureBase64))
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
@@ -66,12 +59,8 @@ $pictureBox.SizeMode = 'StretchImage';#Normal, StretchImage, AutoSize, CenterIma
 $pictureBox.Visible = $true
 $PageSplash.Controls.Add($pictureBox)
 return $pictureBox}
-function NewTextBox {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text)
+function NewTextBox {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $textbox = New-Object System.Windows.Forms.TextBox
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -91,21 +80,10 @@ $textbox.ForeColor = 'White'
 #$textBox.Dock = "Fill"
 #$textBox.ReadOnly = $true
 #$textBox.AppendText = "Option X"
-if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($textbox)}
-if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($textbox)}
-if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($textbox)}
-if ($Page -eq 'PageIM') {$PageIM.Controls.Add($textbox)}
-if ($Page -eq 'PagePC') {$PagePC.Controls.Add($textbox)}
-if ($Page -eq 'PageBC') {$PageBC.Controls.Add($textbox)}
-if ($Page -eq 'PageSC') {$PageSC.Controls.Add($textbox)}
-if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($textbox)}
+$element = $textbox;AddElement
 return $textbox}
-function NewRichTextBox {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text)
+function NewRichTextBox {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $richTextBox = New-Object System.Windows.Forms.RichTextBox
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -121,13 +99,10 @@ $richTextBox.ForeColor = 'White'
 #$richTextBox.SelectionColor = Color.Red
 #$richTextBox.SaveFile("C:\\MyDocument.rtf")
 $richTextBox.Visible = $true
+$element = $richTextBox;AddElement
 return $richTextBox}
-function NewListView {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text)
+function NewListView {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $listview = New-Object System.Windows.Forms.ListView
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -152,7 +127,7 @@ $listview.Columns[0].Width = -2
 #$listview.SmallImageList = $imageListSmall
 $listview.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 $listview.ForeColor = 'White'
-if ($Page -eq 'PageIPW2V') {$PageIPV2W.Controls.Add($listview)}
+$element = $listview;AddElement
 return $listview}
 function PickFolder {
 Add-Type -AssemblyName System.Windows.Forms
@@ -187,13 +162,8 @@ if ($FileFilt -eq 'vhdx') {$OpenFileDialog.Filter = "VHDX files (*.vhdx)|*.vhdx"
 $OpenFileDialog.ShowDialog() | Out-Null
 $global:Pick = $OpenFileDialog.FileName
 Write-Host "Selected file: $Pick"}
-function NewRadioButton {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text,
-[string]$GroupName)
+function NewRadioButton {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$GroupName)
 $radio = New-Object System.Windows.Forms.RadioButton
 $radio.ForeColor = 'White'
 $radio.Text = "$Text"
@@ -208,13 +178,8 @@ $radio.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 if ($GroupName -eq 'Group1') {$GroupBox1_PageSC.Controls.Add($radio)}
 if ($GroupName -eq 'Group2') {$GroupBox2_PageSC.Controls.Add($radio)}
 return $radio}
-function NewGroupBox {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text,
-[string]$Checked)
+function NewGroupBox {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$Checked)
 $groupBox = New-Object System.Windows.Forms.GroupBox
 $groupBox.ForeColor = 'White'
 $groupBox.Text = "$Text"
@@ -225,20 +190,10 @@ $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
 $groupBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $groupBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($groupBox)}
-if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($groupBox)}
-if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($groupBox)}
-if ($Page -eq 'PageIM') {$PageIM.Controls.Add($groupBox)}
-if ($Page -eq 'PagePC') {$PagePC.Controls.Add($groupBox)}
-if ($Page -eq 'PageBC') {$PageBC.Controls.Add($groupBox)}
-if ($Page -eq 'PageSC') {$PageSC.Controls.Add($groupBox)}
+$element = $groupBox;AddElement
 return $groupBox}
-function NewSlider {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text)
+function NewSlider {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $slider = New-Object System.Windows.Forms.TrackBar
 $slider.Minimum = 0
 $slider.Maximum = 100
@@ -252,13 +207,10 @@ $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
 $slider.Width = $WSIZ
 $slider.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $slider.Add_Scroll({$Add_Scroll})
+$element = $slider;AddElement
 return $slider}
-function NewToggle {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text)
+function NewToggle {
+param ([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $toggle = New-Object System.Windows.Forms.CheckBox
 $toggle.ForeColor = 'White'
 $toggle.Text = "$Text"
@@ -269,22 +221,10 @@ $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
 $toggle.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $toggle.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($toggle)}
-if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($toggle)}
-if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($toggle)}
-if ($Page -eq 'PageIM') {$PageIM.Controls.Add($toggle)}
-if ($Page -eq 'PagePC') {$PagePC.Controls.Add($toggle)}
-if ($Page -eq 'PageBC') {$PageBC.Controls.Add($toggle)}
-if ($Page -eq 'PageSC') {$PageSC.Controls.Add($toggle)}
+$element = $toggle;AddElement
 return $toggle}
-function NewDropBox {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[int]$C,
-[string]$Text,
-[string]$DisplayMember)
+function NewDropBox {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[int]$C,[string]$Text,[string]$DisplayMember)
 $dropbox = New-Object System.Windows.Forms.ComboBox
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -296,6 +236,7 @@ $dropbox.DisplayMember = $DisplayMember
 $dropbox.Text = "$Text"
 $dropbox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 $dropbox.ForeColor = 'White'
+#$dropbox.Items.Add("Option 1")
 $dropbox.Add_SelectedIndexChanged({
 $DropBox1_PageIPW2V.Tag = 'Disable'
 $DropBox2_PageIPW2V.Tag = 'Disable'
@@ -307,71 +248,16 @@ $DropBox2_PageBC.Tag = 'Disable'
 $DropBox1_PageSC.Tag = 'Disable'
 $DropBox2_PageSC.Tag = 'Disable'
 $this.Tag = 'Enable'
-if ($Button_IPW2V.Tag -eq 'Enable') {if ($DropBox1_PageIPW2V.Tag -eq 'Enable') {$DropBox2_PageIPW2V.Items.Clear()
-$ListView1_PageIPW2V.Items.Clear();$DropBox2_PageIPW2V.Text = 'Select index'
-$PathCheck = "$PSScriptRoot\\image\\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
-$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageIPW2V.SelectedItem)"
-#$files = Get-ChildItemNULL | Select-Object Name, Length, Extension
-#Get-ProcessNULL | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
-#Invoke-CommandNULL -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
-Foreach ($line in $command) {
-if ($line -match "Index :") {
-[void]$ListView1_PageIPW2V.Items.Add($line)
-$parts = $line.Split(":", 9)
-$column2 = $parts[1].Trim()
-[void]$DropBox2_PageIPW2V.Items.Add($column2)}
-if ($line -match "Name :") {
-$parts = $line.Split(":", 9)
-$column1 = $parts[0].Trim()
-$column2 = $parts[1].Trim()
-#$item = New-Object System.Windows.Forms.ListViewItem
-#$item.Text = $file.Name
-#$item.SubItems.Add($file.Length)
-#$item.SubItems.Add($file.Extension)
-#$listView.Items.Add($item)
-[void]$ListView1_PageIPW2V.Items.Add($column2)
-}}}}
-if ($Button_IPV2W.Tag -eq 'Enable') {if ($DropBox1_PageIPV2W.Tag -eq 'Enable') {$DropBox2_PageIPV2W.Items.Clear()
-$ListView1_PageIPV2W.Items.Clear();$DropBox2_PageIPV2W.Text = 'Select index'
-$PathCheck = "$PSScriptRoot\\image\\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
-$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageIPV2W.SelectedItem)" /INDEX:1
-Foreach ($line in $command) {
-if ($line -match "Index :") {
-[void]$ListView1_PageIPV2W.Items.Add($line)
-$parts = $line.Split(":", 9)
-$column2 = $parts[1].Trim()
-[void]$DropBox2_PageIPV2W.Items.Add($column2)}
-if ($line -match "Name :") {
-$parts = $line.Split(":", 9)
-$column1 = $parts[0].Trim()
-$column2 = $parts[1].Trim()
-[void]$ListView1_PageIPV2W.Items.Add($column2)
-}}}}
-if ($Button_BC.Tag -eq 'Enable') {if ($DropBox1_PageBC.Tag -eq 'Enable') {$null}}
-if ($Button_SC.Tag -eq 'Enable') {
-if ($DropBox1_PageSC.Tag -eq 'Enable') {$ConsoleFont = "$($DropBox1_PageSC.SelectedItem)";[WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
-if ($DropBox2_PageSC.Tag -eq 'Enable') {$ConsoleFontSize = "$($DropBox2_PageSC.SelectedItem)"
-if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
-[WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}}
+if ($DropBox1_PageIPW2V.Tag -eq 'Enable') {DropboxIPW2V}
+if ($DropBox1_PageIPV2W.Tag -eq 'Enable') {DropboxIPV2W}
+if ($DropBox1_PageBC.Tag -eq 'Enable') {$null}
+if ($DropBox1_PageSC.Tag -eq 'Enable') {Dropbox1SC}
+if ($DropBox2_PageSC.Tag -eq 'Enable') {DropBox2SC}
 })
-if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($dropbox)}
-if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($dropbox)}
-if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($dropbox)}
-if ($Page -eq 'PageIM') {$PageIM.Controls.Add($dropbox)}
-if ($Page -eq 'PagePC') {$PagePC.Controls.Add($dropbox)}
-if ($Page -eq 'PageBC') {$PageBC.Controls.Add($dropbox)}
-if ($Page -eq 'PageSC') {$PageSC.Controls.Add($dropbox)}
+$element = $dropbox;AddElement
 return $dropbox}
-function NewLabel {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Bold,
-[string]$TextSize,
-[string]$Text)
+function NewLabel {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Bold,[string]$TextSize,[string]$Text)
 $label = New-Object Windows.Forms.Label
 if ($Bold -eq 'True') {$label.Font = "Consolas, $TextSize pt, style=Bold"}
 #$label.Font = New-Object System.Drawing.Font("Consolas", $TextSize)
@@ -385,22 +271,10 @@ $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
 $label.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $label.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $label.Text = $Text
-if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($label)}
-if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($label)}
-if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($label)}
-if ($Page -eq 'PageIM') {$PageIM.Controls.Add($label)}
-if ($Page -eq 'PagePC') {$PagePC.Controls.Add($label)}
-if ($Page -eq 'PageBC') {$PageBC.Controls.Add($label)}
-if ($Page -eq 'PageSC') {$PageSC.Controls.Add($label)}
+$element = $label;AddElement
 return $label}
-function NewButton {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text,
-[string]$Hover_Text,
-[scriptblock]$Add_Click)
+function NewButton {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$Hover_Text,[scriptblock]$Add_Click)
 $button = New-Object Windows.Forms.Button
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -417,22 +291,10 @@ $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb(90, 9
 $button.Add_MouseLeave({$this.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)})
 $hovertext = New-Object System.Windows.Forms.ToolTip
 $hovertext.SetToolTip($button, $Hover_Text)
-if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($button)}
-if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($button)}
-if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($button)}
-if ($Page -eq 'PageIM') {$PageIM.Controls.Add($button)}
-if ($Page -eq 'PagePC') {$PagePC.Controls.Add($button)}
-if ($Page -eq 'PageBC') {$PageBC.Controls.Add($button)}
-if ($Page -eq 'PageSC') {$PageSC.Controls.Add($button)}
-if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($button)}
-if ($Page -eq 'PageDebug') {$PageDebug.Controls.Add($button)}
+$element = $button;AddElement
 return $button}
-function NewPageButton {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W,
-[string]$Text)
+function NewPageButton {
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $button = New-Object Windows.Forms.Button
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -452,33 +314,12 @@ $Button_PC.Tag = 'Disable'
 $Button_BC.Tag = 'Disable'
 $Button_SC.Tag = 'Disable'
 $this.Tag = 'Enable'
-$PageSplash.Visible = $false
-$PageIPW2V.Visible = $false
-$PageIPV2W.Visible = $false
-$PageIM.Visible = $false
-$PagePC.Visible = $false
-$PageBC.Visible = $false
-$PageSC.Visible = $false
-$PageConsole.Visible = $false
-$PageBlank.Visible = $false
-$PageDebug.Visible = $false
-$Button_IPV2W.Visible = $false
-if ($Button_IPW2V.Tag -eq 'Enable') {$Page = 'PageIPW2V';$Button_IPV2W.Visible = $true}
-if ($Button_IPV2W.Tag -eq 'Enable') {$Page = 'PageIPV2W';$Button_IPW2V.Visible = $true}
-if ($Button_IM.Tag -eq 'Enable') {$Page = 'PageIM'}
-if ($Button_PC.Tag -eq 'Enable') {$Page = 'PagePC'}
-if ($Button_BC.Tag -eq 'Enable') {$Page = 'PageBC'}
-if ($Button_SC.Tag -eq 'Enable') {$Page = 'PageSC'}
-if ($Page -eq 'PageIPW2V') {PageIPW2V_Refresh;$PageIPW2V.Visible = $true}
-if ($Page -eq 'PageIPV2W') {PageIPV2W_Refresh;$PageIPV2W.Visible = $true}
-if ($Page -eq 'PageIM') {PageIM_Refresh;$PageIM.Visible = $true}
-if ($Page -eq 'PagePC') {PagePC_Refresh;$PagePC.Visible = $true}
-if ($Page -eq 'PageBC') {PageBC_Refresh;$PageBC.Visible = $true}
-if ($Page -eq 'PageSC') {PageSC_Refresh;$PageSC.Visible = $true}
-#ForEach ($i in Get-Content "c:\$\test.txt") {[void]$listview.Items.Add($i)}
-#ForEach ($line in $command) {$textBox.AppendText("$line`r`n")}  
-#ForEach ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
-#$dropdown.Items.Add("Option 1")
+if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.BringToFront();$Button_IPV2W.BringToFront()}
+if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.BringToFront();$Button_IPW2V.BringToFront()}
+if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.BringToFront()}
+if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.BringToFront()}
+if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.BringToFront()}
+if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.BringToFront()}
 $Button_IPW2V.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_IPV2W.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_IM.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
@@ -501,7 +342,7 @@ Foreach ($line in $command) {[void]$ListView.Items.Add($line)}}
 function Get-ChildProcesses ($ParentProcessId) {$filter = "parentprocessid = '$($ParentProcessId)'"
 Get-CIMInstance -ClassName win32_process -filter $filter | Foreach-Object {$_
 if ($_.ParentProcessId -ne $_.ProcessId) {Get-ChildProcesses $_.ProcessId}}}
-function PageIPW2V_Refresh {
+function Button_PageIPW2V {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageIPW2V.SelectedItem)) {$null} else {$DropBox1_PageIPW2V.SelectedItem = $null}
@@ -511,9 +352,9 @@ $DropBox2_PageIPW2V.ResetText();$DropBox2_PageIPW2V.Items.Clear();$DropBox2_Page
 Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_PageIPW2V.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_PageIPW2V.Items.Add($_)}}
 if ($($TextBox1_PageIPW2V.Text)) {$null} else {$TextBox1_PageIPW2V.Text = 'NewFile.vhdx'}
-if ($($TextBox2_PageIPW2V.Text)) {$null} else {$TextBox2_PageIPW2V.Text = 'Enter vhdx size in MB'}
+if ($($TextBox2_PageIPW2V.Text)) {$null} else {$TextBox2_PageIPW2V.Text = '25000'}
 }
-function PageIPV2W_Refresh {
+function Button_PageIPV2W {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageIPV2W.SelectedItem)) {$null} else {$DropBox1_PageIPV2W.SelectedItem = $null}
@@ -523,23 +364,22 @@ $DropBox2_PageIPV2W.ResetText();$DropBox2_PageIPV2W.Items.Clear();$DropBox2_Page
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageIPV2W.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageIPV2W.Items.Add($_)}}
 if ($($TextBox1_PageIPV2W.Text)) {$null} else {$TextBox1_PageIPV2W.Text = 'NewFile.wim'}
-if ($($DropBox3_PageIPV2W.SelectedItem)) {$null} else {$DropBox3_PageIPV2W.Items.Clear();$DropBox3_PageIPV2W.Text = 'Select compression';$DropBox3_PageIPV2W.Items.Add("Fast");$DropBox3_PageIPV2W.Items.Add("Max")}
+if ($($DropBox3_PageIPV2W.SelectedItem)) {$null} else {$DropBox3_PageIPV2W.Items.Clear();$DropBox3_PageIPV2W.Text = 'Fast';$DropBox3_PageIPV2W.Items.Add("Fast");$DropBox3_PageIPV2W.Items.Add("Max")}
 }
-function PageIM_Refresh {
+function Button_PageIM {
 $ListView1_PageIM.Items.Clear()
 $PathCheck = "$PSScriptRoot\\list\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
 #Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$DropBox1_PageIM.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageIM.Items.Add($_)}
 }
-function PagePC_Refresh {
+function Button_PagePC {
 $ListView1_PagePC.Items.Clear()
 $PathCheck = "$PSScriptRoot\\project1"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\project1"
-#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePC.Items.Add($_)}
 Get-ChildItem -Path "$FilePath" -Name | ForEach-Object {[void]$ListView1_PagePC.Items.Add($_)}} else {$FilePath = "$PSScriptRoot"}
 }
-function PageBC_Refresh {
+function Button_PageBC {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageBC.SelectedItem)) {$null} else {$DropBox1_PageBC.SelectedItem = $null}
@@ -555,10 +395,7 @@ $DropBox2_PageBC.ResetText();$DropBox2_PageBC.Items.Clear();$DropBox2_PageBC.Tex
 Get-ChildItem -Path "$FilePath\*.jpg" -Name | ForEach-Object {[void]$DropBox2_PageBC.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.png" -Name | ForEach-Object {[void]$DropBox2_PageBC.Items.Add($_)}}
 }
-#Get-ChildItem -Path "$PSScriptRoot" -Name | ForEach-Object {[void]$ListView1_PageBC.Items.Add($_)}
-function PageSC_Refresh {
-#Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
-#Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
+function Button_PageSC {
 if ($($DropBox1_PageSC.SelectedItem)) {$null} else {$DropBox1_PageSC.ResetText();$DropBox1_PageSC.Items.Clear();$DropBox1_PageSC.Text = "$ConsoleFont"}
 if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();$DropBox2_PageSC.Text = "$ConsoleFontSize"}
 #$DropBox1_PageSC.Items.Add("Consolas");$DropBox1_PageSC.Items.Add("Courier New");$DropBox1_PageSC.Items.Add("Lucida Console")
@@ -566,6 +403,72 @@ $DropBox2_PageSC.Items.Add("Auto");$DropBox2_PageSC.Items.Add("2");$DropBox2_Pag
 $key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont"
 #$key.GetValueNames() | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
 $key.GetValueNames() | ForEach-Object {$key.GetValue($_) | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}}}
+function DropboxIPW2V {
+$DropBox2_PageIPW2V.Items.Clear()
+$ListView1_PageIPW2V.Items.Clear();$DropBox2_PageIPW2V.Text = 'Select index'
+$PathCheck = "$PSScriptRoot\\image\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
+$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageIPW2V.SelectedItem)"
+Foreach ($line in $command) {
+if ($line -match "Index :") {
+[void]$ListView1_PageIPW2V.Items.Add($line)
+$parts = $line.Split(":", 9)
+$column2 = $parts[1].Trim()
+[void]$DropBox2_PageIPW2V.Items.Add($column2)}
+if ($line -match "Name :") {
+$parts = $line.Split(":", 9)
+$column1 = $parts[0].Trim()
+$column2 = $parts[1].Trim()
+#$item = New-Object System.Windows.Forms.ListViewItem
+#$item.Text = $file.Name
+#$item.SubItems.Add($file.Length)
+#$item.SubItems.Add($file.Extension)
+#$listView.Items.Add($item)
+[void]$ListView1_PageIPW2V.Items.Add($column2)
+}}}
+function DropboxIPV2W {
+$DropBox2_PageIPV2W.Items.Clear()
+$ListView1_PageIPV2W.Items.Clear();$DropBox2_PageIPV2W.Text = 'Select index'
+$PathCheck = "$PSScriptRoot\\image\\*"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
+$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageIPV2W.SelectedItem)" /INDEX:1
+Foreach ($line in $command) {
+if ($line -match "Index :") {
+[void]$ListView1_PageIPV2W.Items.Add($line)
+$parts = $line.Split(":", 9)
+$column2 = $parts[1].Trim()
+[void]$DropBox2_PageIPV2W.Items.Add($column2)}
+if ($line -match "Name :") {
+$parts = $line.Split(":", 9)
+$column1 = $parts[0].Trim()
+$column2 = $parts[1].Trim()
+[void]$ListView1_PageIPV2W.Items.Add($column2)
+}}}
+function Dropbox1SC {
+$ConsoleFont = "$($DropBox1_PageSC.SelectedItem)";[WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
+function Dropbox2SC {
+$ConsoleFontSize = "$($DropBox2_PageSC.SelectedItem)"
+if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
+[WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
+#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePC.Items.Add($_)}
+#Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
+#Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
+#Get-ChildItemNULL | Select-Object Name, Length, Extension
+#Get-ProcessNULL | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
+#Invoke-CommandNULL -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
+#ForEach ($i in Get-Content "c:\$\test.txt") {[void]$listview.Items.Add($i)}
+#ForEach ($line in $command) {$textBox.AppendText("$line`r`n")}  
+#ForEach ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
+function AddElement {
+if ($Page -eq 'PageIPW2V') {$PageIPW2V.Controls.Add($element)}
+if ($Page -eq 'PageIPV2W') {$PageIPV2W.Controls.Add($element)}
+if ($Page -eq 'PageIM') {$PageIM.Controls.Add($element)}
+if ($Page -eq 'PagePC') {$PagePC.Controls.Add($element)}
+if ($Page -eq 'PageBC') {$PageBC.Controls.Add($element)}
+if ($Page -eq 'PageSC') {$PageSC.Controls.Add($element)}
+if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($element)}
+if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($element)}
+if ($Page -eq 'PageDebug') {$PageDebug.Controls.Add($element)}}
 function LoadSettings {
 $LoadINI = Get-Content -Path "$PSScriptRoot\\windick.ini" | Select-Object -Skip 1
 $Settings = $LoadINI | ConvertFrom-StringData
@@ -573,11 +476,8 @@ $global:ScaleFactor = $Settings.GUI_SCALE
 $global:ConsoleFont = $Settings.GUI_CONFONT
 $global:ConsoleType = $Settings.GUI_CONTYPE
 $global:ConsoleFontSize = $Settings.GUI_CONFONTSIZE}
-function Launch-CMD {param (
-[int]$X,
-[int]$Y,
-[int]$H,
-[int]$W)
+function Launch-CMD {
+param([int]$X,[int]$Y,[int]$H,[int]$W)
 $PageBlank.Visible = $true;$PageBlank.BringToFront()
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -634,7 +534,6 @@ CLS;Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  FontSize:$ConsoleFontS
 Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", \"$PSScriptRoot\windick.cmd\", "-EXTERNAL"
 $PathCheck = \"$env:temp\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$env:temp\`$CON\" -Force}
 if ($PAUSE_END -eq '1') {pause}}
-###############################
 #$process = Get-Process xyz.exe;Wait-Process -Id $process.Id
 $CMDHandle = $CMDWindow.MainWindowHandle;#$CMDHandleX = $CMDWindow.Handle;
 do {$CMDHandle = $CMDWindow.MainWindowHandle;Start-Sleep -Milliseconds 100} until ($CMDHandle -ne 0)
@@ -647,8 +546,8 @@ Write-Host "Starting ProcessId: $CMDProcessId SubProcessId:$SubProcessId."
 if ($ConsoleType -eq 'Embed') {[WinMekanix.Functions]::SetParent($CMDHandle, $PanelHandle)}
 #do {Start-Sleep -Milliseconds 100} until (Test-Path -Path "$env:temp\\`$CON")
 do {Start-Sleep -Milliseconds 100} until (-not (Test-Path -Path "$env:temp\\`$CON"))
-$PageBlank.Visible = $false;$PageConsole.Visible = $true
 if ($ConsoleType -eq 'Embed') {[WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 1);[WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
+$PageBlank.Visible = $false;$PageConsole.Visible = $true;$PageConsole.BringToFront()
 [WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 3);}
 #############################################################################
 Add-Type -AssemblyName System.Windows.Forms
@@ -681,13 +580,15 @@ if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$Console
 #$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(100, 1000)
 #$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
 #Write-Error "ERROR: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
-#Remove-Item -Path "$env:temp\`$ARG" -Recurse
+#Remove-Item -Path "$env:temp\`$CON" -Recurse
 $PathCheck = "$env:temp\\`$CON";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:temp\`$CON" -Force}
 ######################
 #Form and panels
 $form = New-Object Windows.Forms.Form
 $form.SuspendLayout()
-#$form.Text = 'Windows Deployment Image Customization Kit'
+$version = Get-Content -Path "$PSScriptRoot\\windick.ps1" -TotalCount 1;
+$part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
+$form.Text = "Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($RefY * $ScaleRef * $ScaleFactor)
 #$form.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
@@ -713,46 +614,37 @@ $form.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
 $WindowState = 'Normal'
 #$form.Add_Resize({[WinMekanix.Functions]::MoveWindow($PanelHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
 $PageMain = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666'
-$PageSplash = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PageIPW2V = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PageIPV2W = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PageIM = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PagePC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PageBC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PageSC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666'
-$PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666'
-$PageDebug = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666'
-$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666'
+$PageSplash = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageSplash)
+$PageIPW2V = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageIPW2V)
+$PageIPV2W = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageIPV2W)
+$PageIM = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageIM)
+$PagePC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PagePC)
+$PageBC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageBC)
+$PageSC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageSC)
+$PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$PageMain.Controls.Add($PageBlank)
+$PageDebug = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$PageMain.Controls.Add($PageDebug)
+$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$PageMain.Controls.Add($PageConsole)
+$PageDebug.Visible = $false;$PageConsole.Visible = $false;$PageBlank.Visible = $false
 $WSIZ = [int](1000 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](666 * $ScaleRef * $ScaleFactor)
 $XLOC = [int](0 * $ScaleRef * $ScaleFactor)
 $YLOC = [int](0 * $ScaleRef * $ScaleFactor)
 $PSHandle = [WinMekanix.Functions]::GetConsoleWindow();$PanelHandle = $PageDebug.Handle;[WinMekanix.Functions]::SetParent($PSHandle, $PanelHandle);[WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);[WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
-$PageMain.Controls.Add($PageSplash)
-$PageMain.Controls.Add($PageIPW2V)
-$PageMain.Controls.Add($PageIPV2W)
-$PageMain.Controls.Add($PageIM)
-$PageMain.Controls.Add($PagePC)
-$PageMain.Controls.Add($PageBC)
-$PageMain.Controls.Add($PageSC)
-$PageMain.Controls.Add($PageConsole)
-$PageMain.Controls.Add($PageDebug)
-$PageConsole.Visible = $false
-$PageDebug.Visible = $false
-$Page = 'PageIPW2V';$Button_IPV2W = NewPageButton -X '10' -Y '60' -W '230' -H '65' -C '0' -Text 'Image Processing'
-$Page = 'PageIPW2V';$Button_IPW2V = NewPageButton -X '10' -Y '60' -W '230' -H '65' -C '0' -Text 'Image Processing'
-$Button_IPV2W.Visible = $false
-$Page = 'PageIM';$Button_IM = NewPageButton -X '10' -Y '180' -W '230' -H '65' -C '0' -Text 'Image Management'
-$Page = 'PagePC';$Button_PC = NewPageButton -X '10' -Y '300' -W '230' -H '65' -C '0' -Text 'Package Creator' 
-$Page = 'PageBC';$Button_BC = NewPageButton -X '10' -Y '420' -W '230' -H '65' -C '0' -Text 'Boot Creator'
-$Page = 'PageSC';$Button_SC = NewPageButton -X '10' -Y '540' -W '230' -H '65' -C '0' -Text 'Settings'
+
+$Button_IPV2W = NewPageButton -X '10' -Y '60' -W '230' -H '65' -C '0' -Text 'Image Processing'
+$Button_IPW2V = NewPageButton -X '10' -Y '60' -W '230' -H '65' -C '0' -Text 'Image Processing'
+$Button_IPW2V.BringToFront()
+$Button_IM = NewPageButton -X '10' -Y '180' -W '230' -H '65' -C '0' -Text 'Image Management'
+$Button_PC = NewPageButton -X '10' -Y '300' -W '230' -H '65' -C '0' -Text 'Package Creator' 
+$Button_BC = NewPageButton -X '10' -Y '420' -W '230' -H '65' -C '0' -Text 'Boot Creator'
+$Button_SC = NewPageButton -X '10' -Y '540' -W '230' -H '65' -C '0' -Text 'Settings'
 
 #List Viewers Configuration
 $WSIZ = [int](700 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](333 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](325 * $ScaleRef * $ScaleFactor)
 $XLOC = [int](25 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](90 * $ScaleRef * $ScaleFactor)
-#$ListView1_PageIPW2V = NewListView -X '10' -Y '20' -W '1000' -H '200'
+$YLOC = [int](85 * $ScaleRef * $ScaleFactor)
+#$ListView1_PageIPW2V = NewListView -X '25' -Y '90' -W '700' -H '333'
 #$ListView1_PageSC = NewListView -X '100' -Y '20' -W '1000' -H '200'
 $ListView1_PageIPW2V = New-Object System.Windows.Forms.ListView
 $ListView1_PageIPW2V.Location = New-Object Drawing.Point($XLOC, $YLOC)
@@ -830,6 +722,7 @@ $ListView1_PageBC.Columns.Add("Available:")
 $ListView1_PageBC.HeaderStyle = 'None'
 $ListView1_PageBC.Columns[0].Width = -2
 $PageBC.Controls.Add($ListView1_PageBC)
+
 #$explorer = New-Object -ComObject Shell.Explorer
 #$explorerControl = New-Object System.Windows.Forms.Control
 #$explorerControl.Handle = $explorer.HWND
@@ -861,7 +754,7 @@ $objFolder = $objShell.NameSpace($target)
 $objFolder.CopyHere($source)
 Dismount-DiskImage -DevicePath $Image.DevicePath
 } else {$null}}
-#$Button3_PageSplash.Visible = $false
+
 $Button4_PageSplash = NewButton -X '425' -Y '30' -W '300' -H '60' -Text 'Import Boot Media' -Hover_Text 'Import Boot Media' -Add_Click {
 $PathCheck = "$PSScriptRoot\\boot";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\boot"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "MessageBox", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
@@ -883,65 +776,64 @@ $PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$null} els
 
 $Page = 'PageIPW2V';$Label0_PageIPW2V = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Processing'
 $Button1_PageIPW2V = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {
-$PageIPW2V.Visible = $false
-$Button_IPV2W.Visible = $false
-$TextValue1 = $TextBox1_PageIPW2V.Text;$TextValue2 = $TextBox2_PageIPW2V.Text
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "PAUSE_END=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-WIM" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=$($DropBox1_PageIPW2V.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-INDEX" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPW2V.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$TextValue1" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageIPW2V.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-SIZE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$TextValue2" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($TextBox2_PageIPW2V.Text)" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$DropBox1_PageIPW2V = NewDropBox -X '25' -Y '450' -W '300' -H '40' -C '0' -DisplayMember 'Name' -Text 'Page 1'
-$DropBox2_PageIPW2V = NewDropBox -X '425' -Y '450' -W '300' -H '40' -C '0' -DisplayMember 'Description'
-$TextBox1_PageIPW2V = NewTextBox -X '25' -Y '515' -W '300' -H '40'
-$TextBox2_PageIPW2V = NewTextBox -X '425' -Y '515' -W '300' -H '40'
+
+$Label1_PageIPW2V = NewLabel -X '100' -Y '420' -W '175' -H '30' -Text 'Source Image'
+$DropBox1_PageIPW2V = NewDropBox -X '25' -Y '455' -W '300' -H '40' -C '0' -DisplayMember 'Name' -Text 'Page 1'
+$Label2_PageIPW2V = NewLabel -X '500' -Y '420' -W '175' -H '30' -Text 'Source Index'
+$DropBox2_PageIPW2V = NewDropBox -X '425' -Y '455' -W '300' -H '40' -C '0' -DisplayMember 'Description'
+$Label3_PageIPW2V = NewLabel -X '100' -Y '500' -W '175' -H '30' -Text 'Target Image'
+$TextBox1_PageIPW2V = NewTextBox -X '25' -Y '535' -W '300' -H '40'
+$Label4_PageIPW2V = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text 'VHDX Size (MB)'
+$TextBox2_PageIPW2V = NewTextBox -X '425' -Y '535' -W '300' -H '40'
 
 $Page = 'PageIPV2W';$Label0_PageIPV2W = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Processing'
 $Button1_PageIPV2W = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {
-$PageIPV2W.Visible = $false
-$TextValue1 = $TextBox1_PageIPV2W.Text
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "PAUSE_END=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-VHDX" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=$($DropBox1_PageIPV2W.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-INDEX" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPV2W.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-WIM" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$TextValue1" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageIPV2W.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-XLVL" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($DropBox3_PageIPV2W.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($DropBox3_PageIPV2W.Text)" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$DropBox1_PageIPV2W = NewDropBox -X '25' -Y '450' -W '300' -H '40' -C '0' -DisplayMember 'Name' -Text 'Page 1'
-$DropBox2_PageIPV2W = NewDropBox -X '425' -Y '450' -W '300' -H '40' -C '0' -DisplayMember 'Description'
-$DropBox3_PageIPV2W = NewDropBox -X '425' -Y '515' -W '300' -H '40' -C '0' -DisplayMember 'Description'
-$TextBox1_PageIPV2W = NewTextBox -X '25' -Y '515' -W '300' -H '40'
+
+$Label1_PageIPV2W = NewLabel -X '100' -Y '420' -W '175' -H '30' -Text 'Source Image'
+$DropBox1_PageIPV2W = NewDropBox -X '25' -Y '455' -W '300' -H '40' -C '0' -DisplayMember 'Name'
+$Label2_PageIPV2W = NewLabel -X '500' -Y '420' -W '175' -H '30' -Text 'Source Index'
+$DropBox2_PageIPV2W = NewDropBox -X '425' -Y '455' -W '300' -H '40' -DisplayMember 'Description'
+$Label3_PageIPV2W = NewLabel -X '100' -Y '500' -W '175' -H '30' -Text 'Target Image'
+$TextBox1_PageIPV2W = NewTextBox -X '25' -Y '535' -W '300' -H '40'
+$Label4_PageIPV2W = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text '   Compression'
+$DropBox3_PageIPV2W = NewDropBox -X '425' -Y '535' -W '300' -H '40' -C '0' -DisplayMember 'Description'
 
 $Page = 'PageIM';$Label0_PageIM = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Management'
-$Button1_PageIM = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'List Execute' -Hover_Text 'List Execute' -Add_Click {
-$PageIM.Visible = $false
+$Button1_PageIM = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'List Execute' -Hover_Text 'List Execute' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "PAUSE_END=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-RUN" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$Button2_PageIM = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'List Builder' -Hover_Text 'List Builder' -Add_Click {
-$PageIM.Visible = $false
+$Button2_PageIM = NewButton -X '25' -Y '500' -W '300' -H '60' -Text 'List Builder' -Hover_Text 'List Builder' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-NEW" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$Button3_PageIM = NewButton -X '25' -Y '500' -W '300' -H '60' -Text 'Edit List' -Hover_Text 'Edit List' -Add_Click {
-$PageIM.Visible = $false
+$Button3_PageIM = NewButton -X '425' -Y '500' -W '300' -H '60' -Text 'Edit List' -Hover_Text 'Edit List' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
@@ -949,11 +841,10 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EDIT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
 $Page = 'PagePC';$Label0_PagePC = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Package Creator'
-$Button1_PagePC = NewButton -X '25' -Y '585' -W '125' -H '60' -Text 'New' -Hover_Text 'New' -Add_Click {
+$Button1_PagePC = NewButton -X '315' -Y '420' -W '125' -H '60' -Text 'New' -Hover_Text 'New' -Add_Click {
 $result = [System.Windows.Forms.MessageBox]::Show("This will empty the contents of the project folder. Are you sure?", "Confirm Delete", [System.Windows.Forms.MessageBoxButtons]::YesNo)
 if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
 if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
-$PagePC.Visible = $false
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "EDIT_SKIP=1" -Encoding UTF8
@@ -961,19 +852,17 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding 
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-NEW" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
-$Button2_PagePC = NewButton -X '160' -Y '585' -W '125' -H '60' -Text 'Restore' -Hover_Text 'Restore' -Add_Click {
+$Button2_PagePC = NewButton -X '90' -Y '510' -W '125' -H '60' -Text 'Restore' -Hover_Text 'Restore' -Add_Click {
 $result = [System.Windows.Forms.MessageBox]::Show("This will empty the contents of the project folder. Are you sure?", "Confirm Delete", [System.Windows.Forms.MessageBoxButtons]::YesNo)
 if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
 if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
-$PagePC.Visible = $false
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-RESTORE" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
-$Button3_PagePC = NewButton -X '295' -Y '585' -W '125' -H '60' -Text 'Create' -Hover_Text 'Create' -Add_Click {
-$PagePC.Visible = $false
+$Button3_PagePC = NewButton -X '315' -Y '600' -W '125' -H '60' -Text 'Create' -Hover_Text 'Create' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "EDIT_SKIP=1" -Encoding UTF8
@@ -981,15 +870,13 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding 
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-CREATE" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$Button4_PagePC = NewButton -X '430' -Y '585' -W '125' -H '60' -Text 'Edit' -Hover_Text 'Edit' -Add_Click {
-$PagePC.Visible = $false
+$Button4_PagePC = NewButton -X '535' -Y '510' -W '125' -H '60' -Text 'Edit' -Hover_Text 'Edit' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EDIT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$Button5_PagePC = NewButton -X '565' -Y '585' -W '160' -H '60' -Text 'Export Drivers' -Hover_Text 'Export Drivers' -Add_Click {
-$PagePC.Visible = $false
+$Button5_PagePC = NewButton -X '275' -Y '510' -W '200' -H '60' -Text 'Export Drivers' -Hover_Text 'Export Drivers' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
@@ -998,9 +885,7 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EXPORT" -Encoding UT
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
 $Page = 'PageBC';$Label0_PageBC = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Boot Creator' 
-
 $Button1_PageBC = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Start' -Hover_Text 'Start Boot Disk Creation' -Add_Click {
-$PageBC.Visible = $false
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-BOOTMAKER" -Encoding UTF8
@@ -1008,12 +893,13 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "VHDX_SLOTX=$($DropBox1_Pag
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
-$DropBox1_PageBC = NewDropBox -X '25' -Y '450' -W '300' -H '40' -C '0' -DisplayMember 'Name'
-$DropBox2_PageBC = NewDropBox -X '425' -Y '450' -W '300' -H '40' -C '0' -DisplayMember 'Description'
+$Label1_PageBC = NewLabel -X '100' -Y '460' -W '175' -H '30' -Text 'Active VHDX'
+$DropBox1_PageBC = NewDropBox -X '25' -Y '495' -W '300' -H '40' -C '0' -DisplayMember 'Name'
+$Label2_PageBC = NewLabel -X '500' -Y '460' -W '210' -H '30' -Text 'PE Wallpaper'
+$DropBox2_PageBC = NewDropBox -X '425' -Y '495' -W '300' -H '40' -DisplayMember 'Description'
 
 $Page = 'PageSC';$Label0_PageSC = NewLabel -X '15' -Y '15' -W '725' -H '60' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
 $Button1_PageSC = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'Console Settings' -Hover_Text 'Console Settings' -Add_Click {
-$PageSC.Visible = $false
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-SETTINGS" -Encoding UTF8
@@ -1023,7 +909,7 @@ Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 $Button2_PageSC = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'Debug' -Hover_Text 'Debug' -Add_Click {
 $WSIZ = [int](1000 * $ScaleRef * $ScaleFactor);$HSIZ = [int](575 * $ScaleRef * $ScaleFactor)
 $XLOC = [int](0 * $ScaleRef * $ScaleFactor);$YLOC = [int](0 * $ScaleRef * $ScaleFactor)
-$PageSC.Visible = $false;$PageDebug.Visible = $true;$Button1_PageDebug.BringToFront()
+$PageDebug.Visible = $true;$PageDebug.BringToFront()
 [WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);[WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true);}
 
 $GroupName = 'Group1';$GroupBox1_PageSC = NewGroupBox -X '15' -Y '85' -W '260' -H '75' -Text 'Console Window'
@@ -1041,7 +927,6 @@ $DropBox1_PageSC = NewDropBox -X '25' -Y '200' -W '165' -H '40' -C '0' -Text "$C
 $Label3_PageSC = NewLabel -X '25' -Y '250' -W '585' -H '35' -Text 'Console FontSize'
 $DropBox2_PageSC = NewDropBox -X '25' -Y '285' -W '165' -H '40' -C '0' -Text "$ConsoleFontSize"
 #$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$ConsoleType = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$ConsoleType = 'Embed';$Toggle1_PageSC.Text = "";}}
-#$Toggle1_PageSC = NewToggle -X '20' -Y '230' -W '100' -H '25' -Text "$Toggle1_PageSCText"
 
 $GroupName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '15' -Y '335' -W '260' -H '75' -Text 'GUI Scale Factor'
 $Add_CheckedChanged = {if ($ButtonRadio1_Group2.Checked) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.00" -Encoding UTF8;}}
@@ -1052,16 +937,9 @@ if ($ScaleFactor) {$null} else {$ScaleFactor = 1.25}
 if ($ScaleFactor -eq '1.25') {$ButtonRadio2_Group2.Checked = $true}
 if ($ScaleFactor -eq '1.00') {$ButtonRadio1_Group2.Checked = $true}
 
-$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageConsole.Visible = $false
-if ($Button_IPV2W.Tag -eq 'Enable') {PageIPV2W_Refresh;$PageIPV2W.Visible = $true;$Button_IPW2V.Visible = $true;}
-if ($Button_IPW2V.Tag -eq 'Enable') {PageIPW2V_Refresh;$PageIPW2V.Visible = $true;$Button_IPV2W.Visible = $true;}
-if ($Button_IM.Tag -eq 'Enable') {PageIM_Refresh;$PageIM.Visible = $true;}
-if ($Button_PC.Tag -eq 'Enable') {PagePC_Refresh;$PagePC.Visible = $true;}
-if ($Button_BC.Tag -eq 'Enable') {PageBC_Refresh;$PageBC.Visible = $true;}
-if ($Button_SC.Tag -eq 'Enable') {PageSC_Refresh;$PageSC.Visible = $true;}
-Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
+$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageConsole.Visible = $false;Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
 
-$Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false;$PageSC.Visible = $true;$Button1_PageDebug.BringToFront()}
+$Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false}
 
 #$FilePath = "C:\gif.gif";$FileContent = Get-Content -Path "$FilePath" -Encoding Byte;$Base64Out = [System.Convert]::ToBase64String($FileContent);Write-Host "$Base64Out"#Convert
 [string]$logo2=@"
