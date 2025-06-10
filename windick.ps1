@@ -478,11 +478,17 @@ $global:ConsoleType = $Settings.GUI_CONTYPE
 $global:ConsoleFontSize = $Settings.GUI_CONFONTSIZE}
 function Launch-CMD {
 param([int]$X,[int]$Y,[int]$H,[int]$W)
-$PageBlank.Visible = $true;$PageBlank.BringToFront()
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
 $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
+if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.Visible = $false;}
+if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.Visible = $false;}
+if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.Visible = $false;}
+if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.Visible = $false;}
+if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.Visible = $false;}
+if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.Visible = $false;}
+$PageBlank.Visible = $true;$PageBlank.BringToFront()
 $PathCheck = "$env:temp\\`$CON";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:temp\`$CON" -Force}
 Add-Content -Path "$env:temp\`$CON" -Value "$PSScriptRoot" -Encoding UTF8
 Add-Content -Path "$env:temp\`$CON" -Value "ConsoleFont=$($DropBox1_PageSC.Text)" -Encoding UTF8
@@ -938,11 +944,14 @@ if ($ScaleFactor -eq '1.25') {$ButtonRadio2_Group2.Checked = $true}
 if ($ScaleFactor -eq '1.00') {$ButtonRadio1_Group2.Checked = $true}
 
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
-if ($Button_PC.Tag -eq 'Enable') {Button_PagePC}
-if ($Button_IM.Tag -eq 'Enable') {Button_PageIM}
-if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W}
-if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V}
-$PageConsole.Visible = $false;Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
+$PageConsole.Visible = $false;
+if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.Visible = $true;}
+if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.Visible = $true;}
+if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.Visible = $true;}
+if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.Visible = $true;}
+if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.Visible = $true;}
+if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.Visible = $true;}
+Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
 
 $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false}
 
