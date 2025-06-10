@@ -937,7 +937,12 @@ if ($ScaleFactor) {$null} else {$ScaleFactor = 1.25}
 if ($ScaleFactor -eq '1.25') {$ButtonRadio2_Group2.Checked = $true}
 if ($ScaleFactor -eq '1.00') {$ButtonRadio1_Group2.Checked = $true}
 
-$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageConsole.Visible = $false;Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
+$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+if ($Button_PC.Tag -eq 'Enable') {Button_PagePC}
+if ($Button_IM.Tag -eq 'Enable') {Button_PageIM}
+if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W}
+if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V}
+$PageConsole.Visible = $false;Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
 
 $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false}
 
