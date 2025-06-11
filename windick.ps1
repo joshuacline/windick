@@ -314,12 +314,19 @@ $Button_PC.Tag = 'Disable'
 $Button_BC.Tag = 'Disable'
 $Button_SC.Tag = 'Disable'
 $this.Tag = 'Enable'
-if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.BringToFront();$Button_IPV2W.BringToFront()}
-if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.BringToFront();$Button_IPW2V.BringToFront()}
-if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.BringToFront()}
-if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.BringToFront()}
-if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.BringToFront()}
-if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.BringToFront()}
+if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.Visible = $true;$PageIPW2V.BringToFront();$Button_IPV2W.BringToFront()}
+if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.Visible = $true;$PageIPV2W.BringToFront();$Button_IPW2V.BringToFront()}
+if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.Visible = $true;$PageIM.BringToFront()}
+if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.Visible = $true;$PagePC.BringToFront()}
+if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.Visible = $true;$PageBC.BringToFront()}
+if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.Visible = $true;$PageSC.BringToFront()}
+if ($Button_IPW2V.Tag -ne 'Enable') {$PageIPW2V.Visible = $false}
+if ($Button_IPV2W.Tag -ne 'Enable') {$PageIPV2W.Visible = $false}
+if ($Button_IM.Tag -ne 'Enable') {$PageIM.Visible = $false}
+if ($Button_PC.Tag -ne 'Enable') {$PagePC.Visible = $false}
+if ($Button_BC.Tag -ne 'Enable') {$PageBC.Visible = $false}
+if ($Button_SC.Tag -ne 'Enable') {$PageSC.Visible = $false}
+$PageSplash.Visible = $false
 $Button_IPW2V.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_IPV2W.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_IM.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
@@ -482,13 +489,7 @@ $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
 $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
-if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.Visible = $false;}
-if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.Visible = $false;}
-if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.Visible = $false;}
-if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.Visible = $false;}
-if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.Visible = $false;}
-if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.Visible = $false;}
-$PageBlank.Visible = $true;$PageBlank.BringToFront()
+$PageMain.Visible = $false;$PageBlank.Visible = $true;$PageBlank.BringToFront()
 $PathCheck = "$env:temp\\`$CON";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:temp\`$CON" -Force}
 Add-Content -Path "$env:temp\`$CON" -Value "$PSScriptRoot" -Encoding UTF8
 Add-Content -Path "$env:temp\`$CON" -Value "ConsoleFont=$($DropBox1_PageSC.Text)" -Encoding UTF8
@@ -553,6 +554,7 @@ if ($ConsoleType -eq 'Embed') {[WinMekanix.Functions]::SetParent($CMDHandle, $Pa
 #do {Start-Sleep -Milliseconds 100} until (Test-Path -Path "$env:temp\\`$CON")
 do {Start-Sleep -Milliseconds 100} until (-not (Test-Path -Path "$env:temp\\`$CON"))
 if ($ConsoleType -eq 'Embed') {[WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 1);[WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
+#$PageBlank.Visible = $false;
 $PageBlank.Visible = $false;$PageConsole.Visible = $true;$PageConsole.BringToFront()
 [WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 3);}
 #############################################################################
@@ -627,9 +629,9 @@ $PageIM = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.
 $PagePC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PagePC)
 $PageBC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageBC)
 $PageSC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageSC)
-$PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$PageMain.Controls.Add($PageBlank)
-$PageDebug = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$PageMain.Controls.Add($PageDebug)
-$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$PageMain.Controls.Add($PageConsole)
+$PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageBlank)
+$PageDebug = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageDebug)
+$PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageConsole)
 $PageDebug.Visible = $false;$PageConsole.Visible = $false;$PageBlank.Visible = $false
 $WSIZ = [int](1000 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](666 * $ScaleRef * $ScaleFactor)
@@ -944,13 +946,7 @@ if ($ScaleFactor -eq '1.25') {$ButtonRadio2_Group2.Checked = $true}
 if ($ScaleFactor -eq '1.00') {$ButtonRadio1_Group2.Checked = $true}
 
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
-$PageConsole.Visible = $false;
-if ($Button_IM.Tag -eq 'Enable') {Button_PageIM;$PageIM.Visible = $true;}
-if ($Button_PC.Tag -eq 'Enable') {Button_PagePC;$PagePC.Visible = $true;}
-if ($Button_BC.Tag -eq 'Enable') {Button_PageBC;$PageBC.Visible = $true;}
-if ($Button_SC.Tag -eq 'Enable') {Button_PageSC;$PageSC.Visible = $true;}
-if ($Button_IPV2W.Tag -eq 'Enable') {Button_PageIPV2W;$PageIPV2W.Visible = $true;}
-if ($Button_IPW2V.Tag -eq 'Enable') {Button_PageIPW2V;$PageIPW2V.Visible = $true;}
+$PageConsole.Visible = $false;$PageMain.Visible = $true;
 Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
 
 $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false}
