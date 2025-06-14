@@ -1,4 +1,4 @@
-# Windows Deployment Image Customization Kit v 1201 (c) github.com/joshuacline
+# Windows Deployment Image Customization Kit v 1202 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -245,12 +245,13 @@ $DropBox2_PageIPV2W.Tag = 'Disable'
 $DropBox3_PageIPV2W.Tag = 'Disable'
 $DropBox1_PageBC.Tag = 'Disable'
 $DropBox2_PageBC.Tag = 'Disable'
+$DropBox3_PageBC.Tag = 'Disable'
 $DropBox1_PageSC.Tag = 'Disable'
 $DropBox2_PageSC.Tag = 'Disable'
 $this.Tag = 'Enable'
 if ($DropBox1_PageIPW2V.Tag -eq 'Enable') {DropboxIPW2V}
 if ($DropBox1_PageIPV2W.Tag -eq 'Enable') {DropboxIPV2W}
-if ($DropBox1_PageBC.Tag -eq 'Enable') {$null}
+if ($DropBox3_PageBC.Tag -eq 'Enable') {if ($DropBox3_PageBC.Text -eq 'Refresh') {Dropbox3BC}}
 if ($DropBox1_PageSC.Tag -eq 'Enable') {Dropbox1SC}
 if ($DropBox2_PageSC.Tag -eq 'Enable') {DropBox2SC}
 })
@@ -387,12 +388,13 @@ if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\project1"
 Get-ChildItem -Path "$FilePath" -Name | ForEach-Object {[void]$ListView1_PagePC.Items.Add($_)}} else {$FilePath = "$PSScriptRoot"}
 }
 function Button_PageBC {
+$DropBox3_PageBC.Items.Clear();$DropBox3_PageBC.Items.Add("Refresh");$DropBox3_PageBC.Text = "Select Disk"
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageBC.SelectedItem)) {$null} else {$DropBox1_PageBC.SelectedItem = $null}
+$ListView1_PageBC.Items.Clear();Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageBC.Items.Add($_)}
 if ($($DropBox1_PageBC.SelectedItem)) {$null} else {
 $DropBox1_PageBC.ResetText();$DropBox1_PageBC.Items.Clear();$DropBox1_PageBC.Text = "Select .vhdx"
-$ListView1_PageBC.Items.Clear();Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageBC.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageBC.Items.Add($_)}}
 $PathCheck = "$PSScriptRoot\\cache\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\cache"} else {$FilePath = "$PSScriptRoot"}
@@ -406,13 +408,41 @@ function Button_PageSC {
 if ($($DropBox1_PageSC.SelectedItem)) {$null} else {$DropBox1_PageSC.ResetText();$DropBox1_PageSC.Items.Clear();$DropBox1_PageSC.Text = "$ConsoleFont"}
 if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();$DropBox2_PageSC.Text = "$ConsoleFontSize"}
 #$DropBox1_PageSC.Items.Add("Consolas");$DropBox1_PageSC.Items.Add("Courier New");$DropBox1_PageSC.Items.Add("Lucida Console")
-$DropBox2_PageSC.Items.Add("Auto");$DropBox2_PageSC.Items.Add("2");$DropBox2_PageSC.Items.Add("4");$DropBox2_PageSC.Items.Add("6");$DropBox2_PageSC.Items.Add("8");;$DropBox2_PageSC.Items.Add("10");$DropBox2_PageSC.Items.Add("12");$DropBox2_PageSC.Items.Add("14");$DropBox2_PageSC.Items.Add("16");$DropBox2_PageSC.Items.Add("18");$DropBox2_PageSC.Items.Add("20");$DropBox2_PageSC.Items.Add("22");$DropBox2_PageSC.Items.Add("24");$DropBox2_PageSC.Items.Add("26");$DropBox2_PageSC.Items.Add("28");$DropBox2_PageSC.Items.Add("30");$DropBox2_PageSC.Items.Add("32");$DropBox2_PageSC.Items.Add("36");$DropBox2_PageSC.Items.Add("40");$DropBox2_PageSC.Items.Add("44");$DropBox2_PageSC.Items.Add("48");$DropBox2_PageSC.Items.Add("52");$DropBox2_PageSC.Items.Add("56");$DropBox2_PageSC.Items.Add("60");$DropBox2_PageSC.Items.Add("64");$DropBox2_PageSC.Items.Add("68");$DropBox2_PageSC.Items.Add("72");
+$DropBox2_PageSC.Items.Add("Auto");$DropBox2_PageSC.Items.Add("2");$DropBox2_PageSC.Items.Add("4");$DropBox2_PageSC.Items.Add("6");$DropBox2_PageSC.Items.Add("8");$DropBox2_PageSC.Items.Add("10");$DropBox2_PageSC.Items.Add("12");$DropBox2_PageSC.Items.Add("14");$DropBox2_PageSC.Items.Add("16");$DropBox2_PageSC.Items.Add("18");$DropBox2_PageSC.Items.Add("20");$DropBox2_PageSC.Items.Add("22");$DropBox2_PageSC.Items.Add("24");$DropBox2_PageSC.Items.Add("26");$DropBox2_PageSC.Items.Add("28");$DropBox2_PageSC.Items.Add("30");$DropBox2_PageSC.Items.Add("32");$DropBox2_PageSC.Items.Add("36");$DropBox2_PageSC.Items.Add("40");$DropBox2_PageSC.Items.Add("44");$DropBox2_PageSC.Items.Add("48");$DropBox2_PageSC.Items.Add("52");$DropBox2_PageSC.Items.Add("56");$DropBox2_PageSC.Items.Add("60");$DropBox2_PageSC.Items.Add("64");$DropBox2_PageSC.Items.Add("68");$DropBox2_PageSC.Items.Add("72");
 $key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont"
 #$key.GetValueNames() | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
 $key.GetValueNames() | ForEach-Object {$key.GetValue($_) | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}}}
+function Dropbox3BC {
+$ListView1_PageBC.Items.Clear();$ListView1_PageBC.Items.Add("Querying disks...")
+$DropBox3_PageBC.Items.Clear();$DropBox3_PageBC.Text = "Select Disk";$DropBox3_PageBC.Items.Add("Refresh");$DropBox3_PageBC.Text = "Select Disk";
+$disks = Get-Disk | Sort-Object -Property Number
+$ListView1_PageBC.Items.Clear();foreach ($disk in $disks) {
+#$diskModel = $disk.Model;#$diskID = $disk.UniqueID;#$diskSerialNumber = $disk.SerialNumber
+$diskNumber = $disk.Number;$diskSize = $disk.Size / 1024000000;$diskSize = [Math]::Floor($diskSize)
+Add-Content -Path "$PSScriptRoot\`$DSK" -Value "select disk $diskNumber" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\`$DSK" -Value "detail disk" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\`$DSK" -Value "exit" -Encoding UTF8
+$diskpart = DISKPART /S "$PSScriptRoot\`$DSK";Remove-Item -Path "$PSScriptRoot\`$DSK" -Force
+$ltr = $null;$vols = $null;$pagefile = 0;$sysdrive = 0;$progdrive = 0;$diskreason = $null;
+Foreach ($line in $diskpart) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn = $line -split '[{}:. 	 ]'
+if ($start -eq 'y') {$name = $line;$start = $null};if ($start -eq 'x') {$start = 'y'};if ($partg -eq 'disk') {$start = 'x'}
+if ($parta -eq 'Disk') {if ($partb -eq 'ID') {if ($parte) {$diskid = $parte} else {$diskid = $partd}}}
+if ($parta -eq 'Pagefile') {if ($partb -eq 'Disk') {if ($partf -eq 'Yes') {$pagefile = 1}}}
+if ($partc -eq 'Volume') {if (-not ($partd -eq '###')) {
+if ($parti -eq '') {$vols = "*, $vols"};if ($parti -eq $null) {$vols = "*, $vols"}
+if ($parti -ne $null) {if ($parti -ne '') {$vols = "$parti, $vols"}}
+if ($parti -eq "$sysltr") {$sysdrive = 1}
+if ($parti -eq "$progltr") {$progdrive = 1}
+}}}
+if ($pagefile -eq '1') {$diskreason = "$diskreason PageFile"}
+if ($sysdrive -eq '1') {$diskreason = "$diskreason SysDrive"}
+if ($progdrive -eq '1') {$diskreason = "$diskreason ProgDrive"}
+if ($diskreason) {$diskreason = "`|$diskreason"} else {$DropBox3_PageBC.Items.Add("Disk $diskNumber `| $name `| $vols`| $diskSize GB")}
+$ListView1_PageBC.Items.Add("Disk $diskNumber `| $name `| $vols`| $diskSize GB $diskreason")}
+$DropBox3_PageBC.Text = "Select Disk"}
 function DropboxIPW2V {
 $DropBox2_PageIPW2V.Items.Clear()
-$ListView1_PageIPW2V.Items.Clear();$DropBox2_PageIPW2V.Text = 'Select index'
+$ListView1_PageIPW2V.Items.Clear();$DropBox2_PageIPW2V.Text = '1'
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 $command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageIPW2V.SelectedItem)"
@@ -435,7 +465,7 @@ $column2 = $parts[1].Trim()
 }}}
 function DropboxIPV2W {
 $DropBox2_PageIPV2W.Items.Clear()
-$ListView1_PageIPV2W.Items.Clear();$DropBox2_PageIPV2W.Text = 'Select index'
+$ListView1_PageIPV2W.Items.Clear();$DropBox2_PageIPV2W.Text = '1'
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 $command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageIPV2W.SelectedItem)" /INDEX:1
@@ -563,6 +593,7 @@ Add-Type -AssemblyName System.Drawing
 [VOID][System.Windows.Forms.Application]::EnableVisualStyles()
 [VOID][System.Text.Encoding]::Unicode;LoadSettings
 [WinMekanix.Functions]::SetProcessDPIAware();#[WinMekanix.Functions]::GetParent($PSProcessId)
+$sysltr, $nullx = $env:SystemDrive -split '[:]';$progltr, $nullx = $PSScriptRoot -split '[:]'
 $PSHandle = [WinMekanix.Functions]::GetConsoleWindow();[WinMekanix.Functions]::ShowWindowAsync($PSHandle, 2);
 $STDOutputHandle = [WinMekanix.Functions]::GetStdHandle([WinMekanix.Functions]::STD_OUTPUT_HANDLE)
 Write-Host "ProcessId: $PID Handle: $PSHandle STDOut:$STDOutputHandle";#Write-Host "PS handle: $($PSHandle.ToInt32())"
@@ -742,7 +773,7 @@ $PageBC.Controls.Add($ListView1_PageBC)
 #$PageBC.Add_Shown({$explorerControl.Activate()})
 
 $Page = 'PageSplash';$Label0_PageSplash = NewLabel -X '220' -Y '90' -W '400' -H '30' -Bold 'True' -TextSize '14' -Text 'Welcome to GUI v0.3'
-$Button1_PageSplash = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {[System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Message Box", 0)}
+$Button1_PageSplash = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {[System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Documentation", 0)}
 $Button2_PageSplash = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LAUNCH=DISABLED" -Encoding UTF8
@@ -764,7 +795,7 @@ Dismount-DiskImage -DevicePath $Image.DevicePath
 
 $Button4_PageSplash = NewButton -X '425' -Y '30' -W '300' -H '60' -Text 'Import Boot Media' -Hover_Text 'Import Boot Media' -Add_Click {
 $PathCheck = "$PSScriptRoot\\boot";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\boot"} else {$FilePath = "$PSScriptRoot"}
-$PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "MessageBox", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
+$PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
 $FileFilt = 'iso';PickFile;if ($Pick) {
 $Image = Mount-DiskImage -ImagePath "$Pick" -PassThru
 $drvLetter = ($Image | Get-Volume).DriveLetter
@@ -782,18 +813,20 @@ $PathCheck = "$PSScriptRoot\\boot";if (Test-Path -Path $PathCheck) {$FilePath = 
 $PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$null} else {$Button4_PageSplash.BackColor = [System.Drawing.Color]::FromArgb(22, 22, 22)}
 
 $Page = 'PageIPW2V';$Label0_PageIPW2V = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Processing'
-$Button1_PageIPW2V = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {
+$Button1_PageIPW2V = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
+if ($($DropBox1_PageIPW2V.Text) -eq 'Select .wim') {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No wim selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($halt -ne '1') {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-WIM" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=$($DropBox1_PageIPW2V.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-INDEX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPW2V.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPW2V.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-VHDX" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageIPW2V.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-SIZE" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($TextBox2_PageIPW2V.Text)" -Encoding UTF8
-Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
+Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageIPW2V = NewLabel -X '100' -Y '420' -W '175' -H '30' -Text 'Source Image'
 $DropBox1_PageIPW2V = NewDropBox -X '25' -Y '455' -W '300' -H '40' -C '0' -DisplayMember 'Name' -Text 'Page 1'
@@ -805,18 +838,20 @@ $Label4_PageIPW2V = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text 'VHDX Size
 $TextBox2_PageIPW2V = NewTextBox -X '425' -Y '535' -W '300' -H '40'
 
 $Page = 'PageIPV2W';$Label0_PageIPV2W = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Processing'
-$Button1_PageIPV2W = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {
+$Button1_PageIPV2W = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
+if ($($DropBox1_PageIPV2W.Text) -eq 'Select .vhdx') {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No vhdx selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($halt -ne '1') {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-VHDX" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=$($DropBox1_PageIPV2W.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-INDEX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPV2W.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPV2W.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-WIM" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageIPV2W.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-XLVL" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($DropBox3_PageIPV2W.Text)" -Encoding UTF8
-Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
+Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageIPV2W = NewLabel -X '100' -Y '420' -W '175' -H '30' -Text 'Source Image'
 $DropBox1_PageIPV2W = NewDropBox -X '25' -Y '455' -W '300' -H '40' -C '0' -DisplayMember 'Name'
@@ -892,18 +927,29 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EXPORT" -Encoding UT
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
 $Page = 'PageBC';$Label0_PageBC = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Boot Creator' 
-$Button1_PageBC = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Start' -Hover_Text 'Start Boot Disk Creation' -Add_Click {
+$Button1_PageBC = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Start' -Hover_Text 'Start Boot Disk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.Text) -split '[| ]'
+if ($($DropBox1_PageBC.Text) -eq 'Select .vhdx') {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No vhdx selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($disknum -eq 'Disk') {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No disk selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($disknum -eq $null) {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No disk selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($halt -ne '1') {$result = [System.Windows.Forms.MessageBox]::Show("This will erase the contents of Disk $disknum. If you've inserted or removed any disks, refresh before proceeding. Are you sure?", "Confirm Erase", [System.Windows.Forms.MessageBoxButtons]::YesNo)
+if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
+if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-BOOTMAKER" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "VHDX_SLOTX=$($DropBox1_PageBC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-BOOTMAKER" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-CREATE" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-DISK" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=$disknum" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-VHDX" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=$($DropBox1_PageBC.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)" -Encoding UTF8
-Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
+Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}}
 
-$Label1_PageBC = NewLabel -X '100' -Y '460' -W '175' -H '30' -Text 'Active VHDX'
-$DropBox1_PageBC = NewDropBox -X '25' -Y '495' -W '300' -H '40' -C '0' -DisplayMember 'Name'
-$Label2_PageBC = NewLabel -X '500' -Y '460' -W '210' -H '30' -Text 'PE Wallpaper'
-$DropBox2_PageBC = NewDropBox -X '425' -Y '495' -W '300' -H '40' -DisplayMember 'Description'
+$Label1_PageBC = NewLabel -X '100' -Y '420' -W '175' -H '30' -Text 'Active VHDX'
+$DropBox1_PageBC = NewDropBox -X '25' -Y '455' -W '300' -H '40' -C '0' -DisplayMember 'Name'
+$Label2_PageBC = NewLabel -X '500' -Y '420' -W '210' -H '30' -Text 'PE Wallpaper'
+$DropBox2_PageBC = NewDropBox -X '425' -Y '455' -W '300' -H '40' -DisplayMember 'Description'
+$Label3_PageBC = NewLabel -X '315' -Y '500' -W '175' -H '30' -Text 'Target Disk'
+$DropBox3_PageBC = NewDropBox -X '25' -Y '535' -W '700' -H '40' -Text 'Select Disk'
 
 $Page = 'PageSC';$Label0_PageSC = NewLabel -X '15' -Y '15' -W '725' -H '60' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
 $Button1_PageSC = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'Console Settings' -Hover_Text 'Console Settings' -Add_Click {
