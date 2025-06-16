@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1202 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1203 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -2351,7 +2351,7 @@ FOR %%a in (DISK_X PART_X LETT_X) DO (IF NOT DEFINED %%a EXIT /B)
 SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 :PART_DELETE
 FOR %%a in (DISK_X PART_X) DO (IF NOT DEFINED %%a EXIT /B)
-(ECHO.select disk %DISK_X%&&ECHO.select partition %PART_X%&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK"
+(ECHO.select disk %DISK_X%&&ECHO.select partition %PART_X%&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 :PART_FORMAT
 FOR %%a in (DISK_X PART_X) DO (IF NOT DEFINED %%a EXIT /B)
@@ -2373,14 +2373,9 @@ SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /
 FOR %%a in (DISK_X PART_X) DO (IF NOT DEFINED %%a EXIT /B)
 (ECHO.select disk %DISK_X%&&ECHO.select partition %PART_X%&&ECHO.set id=ebd0a0a2-b9e5-4433-87c0-68b6b72699c7 override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
-:PART_PRIMARY
-FOR %%a in (DISK_X) DO (IF NOT DEFINED %%a EXIT /B)
-IF DEFINED SIZE_X SET "SIZE_X= size=%SIZE_X%"
-(ECHO.select disk %DISK_X%&&ECHO.create partition primary%SIZE_X%&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-SET "DISK_X="&&SET "PART_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 :DISK_CLEAN
 FOR %%a in (DISK_X) DO (IF NOT DEFINED %%a EXIT /B)
-(ECHO.select disk %DISK_X%&&ECHO.clean&&ECHO.convert gpt&&ECHO.select partition 1&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL
+(ECHO.select disk %DISK_X%&&ECHO.attributes disk clear readonly&&ECHO.clean&&ECHO.convert gpt&&ECHO.select partition 1&&ECHO.delete partition override&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 :DEL_DSK
 IF EXIST "$DSK" DEL /Q /F "$DSK">NUL
@@ -2417,7 +2412,10 @@ EXIT /B
 IF DEFINED ERROR EXIT /B
 IF "%PART_SIZE%"=="0" SET "PART_SIZE="
 ECHO.Creating partition on disk %DISK_NUMBER%.
-SET "DISK_X=%DISK_NUMBER%"&&SET "SIZE_X=%PART_SIZE%"&&CALL:PART_PRIMARY
+SET "DISK_X=%DISK_NUMBER%"&&SET "SIZE_X=%PART_SIZE%"
+IF DEFINED SIZE_X SET "SIZE_X= size=%SIZE_X%"
+(ECHO.select disk %DISK_X%&&ECHO.create partition primary%SIZE_X%&&ECHO.format quick fs=ntfs&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+SET "DISK_X="&&SET "PART_X="&&SET "SIZE_X="&&CALL:DEL_DSK&&EXIT /B
 EXIT /B
 :DISKMGR_DELETE
 IF DEFINED ERROR EXIT /B
@@ -2715,34 +2713,26 @@ CALL:CONFIRM
 IF NOT "%CONFIRM%"=="X" EXIT /B
 IF DEFINED DISK_NUMBER IF DEFINED DISK_TARGET CALL:BOOT_CREATOR_START
 EXIT /B
-:PART_EFI1
-FOR %%a in (DISK_X) DO (IF NOT DEFINED %%a EXIT /B)
-IF NOT DEFINED EFI_SIZE SET "EFI_SIZE=1024"
-(ECHO.select disk %DISK_X%&&ECHO.create partition EFI size=%EFI_SIZE%&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-SET "PART_X=1"&&SET "LETT_X=%EFI_LETTER%"&&CALL:PART_ASSIGN
-IF NOT EXIST "%EFI_LETTER%:\" SET "EFI=2"
-SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&CALL:DEL_DSK&&EXIT /B
-:PART_EFI2
-FOR %%a in (DISK_X) DO (IF NOT DEFINED %%a EXIT /B)
-IF NOT DEFINED EFI_SIZE SET "EFI_SIZE=1024"
-(ECHO.select disk %DISK_X%&&ECHO.create partition primary size=%EFI_SIZE%&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-SET "PART_X=1"&&SET "LETT_X=%EFI_LETTER%"&&CALL:PART_ASSIGN
-SET "DISK_X="&&SET "PART_X="&&SET "LETT_X="&&CALL:DEL_DSK&&EXIT /B
 :PART_CREATE
-SET "SIZE_X="&&IF NOT DEFINED EFI SET "EFI=1"
-IF "%EFI%"=="1" CALL:DISKMGR_ERASE&&SET "DISK_X=%DISK_NUMBER%"&&CALL:PART_EFI1
-IF "%EFI%"=="2" CALL:DISKMGR_ERASE&&SET "DISK_X=%DISK_NUMBER%"&&CALL:PART_EFI2
-IF EXIST "%EFI_LETTER%:\" (IF DEFINED HOST_SIZE SET "CHECK_VAR=%HOST_SIZE%"&&SET "$CHECK=NUM"&&CALL:CHECK>NUL 2>&1
-IF DEFINED HOST_SIZE IF DEFINED ERROR SET "ERROR="&&IF NOT DEFINED RETRY_PART1 IF NOT DEFINED RETRY_PART2 IF NOT DEFINED RETRY_PART3 ECHO. %XLR4%ERROR:%$$% Invalid host partition size, using available free space.&&SET "HOST_SIZE="
-IF DEFINED HOST_SIZE SET "SIZE_X=%HOST_SIZE%"
-SET "DISK_X=%DISK_NUMBER%"&&CALL:PART_PRIMARY
-SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=2"&&SET "LETT_X=%PRI_LETTER%"&&CALL:PART_ASSIGN
-IF DEFINED HOST_SIZE IF EXIST "%PRI_LETTER%:\" SET "DISK_X=%DISK_NUMBER%"&&CALL:PART_PRIMARY
-IF DEFINED HOST_SIZE IF EXIST "%PRI_LETTER%:\" SET "DISK_X=%DISK_NUMBER%"&&SET "PART_X=3"&&SET "LETT_X=%TST_LETTER%"&&CALL:PART_ASSIGN)
-IF EXIST "%EFI_LETTER%:\" IF EXIST "%PRI_LETTER%:\" SET "RETRY_PART1="&&SET "RETRY_PART2="&&SET "RETRY_PART3="&&SET "EFI="&&EXIT /B
-FOR %%a in (1 2 3) DO (IF NOT DEFINED RETRY_PART%%a SET "RETRY_PART%%a=1"&&SET "EFI="&&GOTO:PART_CREATE)
+CALL:DISKMGR_ERASE
+IF NOT DEFINED EFI SET "EFI=efi"
+IF NOT DEFINED EFI_SIZE SET "EFI_SIZE=1024"
+(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition %EFI% size=%EFI_SIZE%&&ECHO.select partition 1&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=%EFI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+SET "TIMER=3"&&CALL:TIMER
+IF NOT EXIST "%EFI_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=%EFI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+SET "TIMER=3"&&CALL:TIMER
+IF NOT EXIST "%EFI_LETTER%:\" FOR %%a in (1 2 3) DO (IF NOT DEFINED RETRY_PART%%a SET "RETRY_PART%%a=1"&&SET "EFI=primary"&&GOTO:PART_CREATE)
+IF DEFINED HOST_SIZE SET "CHECK_VAR=%HOST_SIZE%"&&SET "$CHECK=NUM"&&CALL:CHECK>NUL 2>&1
+IF DEFINED HOST_SIZE IF DEFINED ERROR SET "ERROR="&&ECHO. %XLR4%ERROR:%$$% Invalid host partition size, using available free space.&&SET "HOST_SIZE="
+IF DEFINED HOST_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=%HOST_SIZE%&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.create partition primary&&ECHO.select partition 3&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%TST_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+IF NOT DEFINED HOST_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+SET "TIMER=3"&&CALL:TIMER
+IF NOT EXIST "%PRI_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+SET "TIMER=3"&&CALL:TIMER&&DEL /Q /F "$DSK*">NUL 2>&1
+SET "RETRY_PART1="&&SET "RETRY_PART2="&&SET "RETRY_PART3="
+IF EXIST "%EFI_LETTER%:\" IF EXIST "%PRI_LETTER%:\" SET "EFI="&&EXIT /B
 ECHO.                     %XLR2%The disk is currently in use.%$$%&&ECHO.     A malfunctioning disk, or if a program located on the disk&&ECHO.            is currently in use can also cause an error.&&ECHO.  For best results it is recommended to use an external nvme drive.&&ECHO.    Unplug the USB disk and/or reboot if this continues to occur.&&ECHO.
-SET "RETRY_PART1="&&SET "RETRY_PART2="&&SET "RETRY_PART3="&&SET "EFI="&&ECHO.&&SET "ERROR=1"&&EXIT /B
+SET "EFI="&&ECHO.&&SET "ERROR=1"&&EXIT /B
 ::#########################################################################
 :BOOT_CREATOR_START
 ::#########################################################################
