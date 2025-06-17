@@ -67,8 +67,7 @@ IF NOT DEFINED BTN_COLOR SET "BTN_COLOR=7"
 IF NOT DEFINED TXT_COLOR SET "TXT_COLOR=0"
 IF NOT DEFINED PAD_SIZE SET "PAD_SIZE=LARGE"
 IF NOT DEFINED PAD_SEQ SET "PAD_SEQ=6666600000"
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
-FOR %%a in (1 2 3 4 5 6 7 8) DO (IF "%PAD_TYPE%"=="%%a" CHCP 65001 >NUL)
+FOR %%a in (1 2 3 4 5 6 7 8) DO (IF "%PAD_TYPE%"=="%%a" CHCP 65001>NUL)
 IF "%PAD_TYPE%"=="0" SET "PADX= "
 IF "%PAD_TYPE%"=="1" SET "PADX=◌"
 IF "%PAD_TYPE%"=="2" SET "PADX=○"
@@ -81,20 +80,19 @@ IF "%PAD_TYPE%"=="8" SET "PADX=▓"
 IF "%PAD_TYPE%"=="9" SET "PADX=~"
 IF "%PAD_TYPE%"=="10" SET "PADX=="
 IF "%PAD_TYPE%"=="11" SET "PADX=#"
-CALL SET "@@=%%XLR%ACC_COLOR%%%"&&CALL SET "##=%%XLR%BTN_COLOR%%%"&&CALL SET "$$=%%XLR%TXT_COLOR%%%"&&IF "%PAD_TYPE%"=="0" ECHO.%$$%&&EXIT /B
+IF "%PAD_TYPE%"=="0" ECHO.%$$%&&EXIT /B
 SET "PAD_SEQX=%PAD_SEQ%"&&IF NOT "%PAD_SEQ%X"=="%PAD_SEQX%X" SET "XNTX=0"&&SET "XLRX="&&FOR /F "DELIMS=" %%G IN ('CMD.EXE /D /U /C ECHO.%PAD_SEQ%^| FIND /V ""') do (CALL SET "XLRX=%%G"&&CALL:COLOR_ASSIGN&&CALL SET /A XNTX+=1)
 IF "%PAD_SIZE%"=="LARGE" SET "PAD_BLK=%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%%PADX%"
 IF "%PAD_SIZE%"=="SMALL" SET "PAD_BLK=%#0%%PADX%%#1%%PADX%%#2%%PADX%%#3%%PADX%%#4%%PADX%%#5%%PADX%%#6%%PADX%%#7%%PADX%%#8%%PADX%%#9%%PADX%"
 IF "%PAD_SIZE%"=="LARGE" ECHO.%#0%%PAD_BLK%%#1%%PAD_BLK%%#2%%PAD_BLK%%#3%%PAD_BLK%%#4%%PAD_BLK%%#5%%PAD_BLK%%#6%%PAD_BLK%%$$%
 IF "%PAD_SIZE%"=="SMALL" ECHO.%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%PAD_BLK%%$$%
-SET "#Z=%$$%"&&SET "#0=%#1%"&SET "#1=%#2%"&SET "#2=%#3%"&SET "#3=%#4%"&SET "#4=%#5%"&SET "#5=%#6%"&SET "#6=%#7%"&SET "#7=%#8%"&SET "#8=%#9%"&SET "#9=%#0%"&&SET "PAD_BLK="&&SET "PADX="&&SET "XLRX=%$$%"&&FOR %%a in (1 2 3 4 5 6 7 8) DO (IF "%PAD_TYPE%"=="%%a" CHCP %CHCP_OLD% >NUL)
+SET "#Z=%$$%"&&SET "#0=%#1%"&SET "#1=%#2%"&SET "#2=%#3%"&SET "#3=%#4%"&SET "#4=%#5%"&SET "#5=%#6%"&SET "#6=%#7%"&SET "#7=%#8%"&SET "#8=%#9%"&SET "#9=%#0%"&&SET "PAD_BLK="&&SET "PADX="&&SET "XLRX=%$$%"
 EXIT /B
 :COLOR_ASSIGN
 IF DEFINED XNTX CALL SET "#%XNTX%=%%XLR%XLRX%%%"
 EXIT /B
 :PAD_WRITE
-IF NOT DEFINED CHCP_TMP FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_TMP=%%a"
-CHCP 65001 >NUL&&ECHO.■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■&&CHCP %CHCP_TMP% >NUL
+CHCP 65001>NUL&&ECHO.■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ::ECHO.>>"TXT.TXT" 2>&1
 EXIT /B
 :BOX_DISP
@@ -385,12 +383,11 @@ EXIT /B
 :LOGO
 IF "%RECOVERY_LOGO%"=="DISABLED" EXIT /B
 IF NOT DEFINED RECOVERY_LOGO SET "RECOVERY_LOGO=DISABLED"
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
 CHCP 65001>NUL
 SET "ROW_X=%%@1%%█%%@2%%█%%@3%%█%%@4%%█%%@1%%█%%@2%%█%%@3%%█%%@4%%█"&&SET "ROW_T=%%@1%% %%@2%%▀%%@3%%█%%@4%%█%%@1%%█%%@2%%█%%@3%%▀%%@4%% "&&SET "ROW_B=%%@1%% %%@2%%▄%%@3%%█%%@4%%█%%@1%%█%%@2%%█%%@3%%▄%%@4%% "
 SET "RND_SET=@1"&&CALL:GET_RANDOM&&SET "RND_SET=@2"&&CALL:GET_RANDOM&&SET "RND_SET=@3"&&CALL:GET_RANDOM&&SET "RND_SET=@4"&&CALL:GET_RANDOM
 CALL SET "@1=%%XLR%@1%%%"&&CALL SET "@2=%%XLR%@2%%%"&&CALL SET "@3=%%XLR%@3%%%"&&CALL SET "@4=%%XLR%@4%%%"
-SET "LOGOX="&&SET "XNTZ="&&CALL:LOGO_X&&CLS&&CHCP %CHCP_OLD% >NUL
+SET "LOGOX="&&SET "XNTZ="&&CALL:LOGO_X&&CLS
 FOR %%a in (@1 @2 @3 @4 @5 @6 @7 @8 @9 ROW_X ROW_T ROW_B) DO (SET "%%a=")
 EXIT /B
 :LOGO_X
@@ -423,6 +420,11 @@ IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\%HOST_FOLDERX%" COPY /Y "windick.ini" "
 IF NOT "%PROG_MODE%"=="RAMDISK" SET "PROG_SOURCE=%PROG_FOLDER%"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%PROG_SOURCE%" SET "PROG_SOURCE=%PROG_FOLDER%"
 SET ":=;"&&SET "LB=["&&SET "RB=]"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
+IF NOT DEFINED PAD_TYPE SET "PAD_TYPE=1"
+IF NOT DEFINED ACC_COLOR SET "ACC_COLOR=6"
+IF NOT DEFINED BTN_COLOR SET "BTN_COLOR=7"
+IF NOT DEFINED TXT_COLOR SET "TXT_COLOR=0"
+IF NOT DEFINED PAD_SIZE SET "PAD_SIZE=LARGE"
 IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25000"
 IF NOT DEFINED PAD_BOX SET "PAD_BOX=ENABLED"
 IF NOT DEFINED PAD_SEQ SET "PAD_SEQ=6666600000"
@@ -442,6 +444,7 @@ IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
 IF NOT DEFINED XLR0 SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"&&CALL:PAD_LINE>NUL 2>&1
 IF NOT DEFINED COLOR0 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a="&&SET "COLOR%%a=%%XLR%%a%%")
+CALL SET "@@=%%XLR%ACC_COLOR%%%"&&CALL SET "##=%%XLR%BTN_COLOR%%%"&&CALL SET "$$=%%XLR%TXT_COLOR%%%"
 FOR %%a in (SELECTX SELECTY SELECTZ $VHDX ERROR LIVE_APPLY $HALT $HALTX VDISK VDISK_LTR VDISK_ATTACHED VDISK_FLAG DUAL_SESSION PKX_SESSION LST_SESSION CURR_SESSION LAST_SESSION FEAT_QRY DRVR_QRY) DO (SET "%%a=")
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
 FOR %%a in (MENU_LIST) DO (SET "OBJ_FLD=%LIST_FOLDER%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
@@ -539,7 +542,7 @@ EXIT /B
 ::#########################################################################
 :COMMAND_MODE
 ::#########################################################################
-IF DEFINED GUI_ACTIVE SET "PROG_MODE=GUI"&&CALL:SETS_HANDLER&CLS
+IF DEFINED GUI_ACTIVE SET "PROG_MODE=GUI"&&CALL:SETS_HANDLER&CLS&call:PAD_LINE>NUL
 IF NOT "%PROG_MODE%"=="GUI" SET "PAD_TYPE=0"&&CALL:SETS_MAIN
 SET "MOUNT="&&SET "ERROR="&&IF NOT "%ARG1%"=="/?" IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-INTERNAL" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" ECHO. Type windick.cmd -help for more options.&&GOTO:QUIT
 IF "%ARG1%"=="/?" SET "ARG1=-HELP"
@@ -752,10 +755,7 @@ IF "%SELECT%"=="7" IF "%PAD_BOX%"=="DISABLED" SET "PAD_BOX=ENABLED"&SET "SELECT=
 IF "%SELECT%"=="7" IF "%PAD_BOX%"=="ENABLED" SET "PAD_BOX=DISABLED"&SET "SELECT="
 GOTO:APPEARANCE
 :PAD_TYPE
-IF NOT DEFINED CHCP_OLD FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO SET "CHCP_OLD=%%a"
-CHCP 65001 >NUL
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                           Choose a pad type&&ECHO.&&ECHO.   (%##%0%$$%)None (%##%1%$$%)◌ (%##%2%$$%)○ (%##%3%$$%)● (%##%4%$$%)□ (%##%5%$$%)■ (%##%6%$$%)░ (%##%7%$$%)▒ (%##%8%$$%)▓ (%##%9%$$%)~ (%##%10%$$%)= (%##%11%$$%)#&&CHCP %CHCP_OLD% >NUL
-ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                           Choose a pad type&&ECHO.&&ECHO.   (%##%0%$$%)None (%##%1%$$%)◌ (%##%2%$$%)○ (%##%3%$$%)● (%##%4%$$%)□ (%##%5%$$%)■ (%##%6%$$%)░ (%##%7%$$%)▒ (%##%8%$$%)▓ (%##%9%$$%)~ (%##%10%$$%)= (%##%11%$$%)#&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
 FOR %%a in (0 1 2 3 4 5 6 7 8 9 10 11) DO (IF "%SELECTX%"=="%%a" SET "PAD_TYPE=%SELECTX%")
 EXIT /B
 :COLOR_CHOICE
