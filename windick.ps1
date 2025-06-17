@@ -129,6 +129,139 @@ $listview.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 $listview.ForeColor = 'White'
 $element = $listview;AddElement
 return $listview}
+function MessageBox {
+param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxText)
+$formbox = New-Object System.Windows.Forms.Form
+$formbox.SuspendLayout()
+if ($MessageBoxTitle) {$formbox.Text = "$MessageBoxTitle"}
+#$formbox.ForeColor = 'White'
+$formbox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$formbox.StartPosition = "CenterScreen"
+$formbox.FormBorderStyle = 'FixedDialog'
+$formbox.MaximizeBox = $false
+$formbox.MinimizeBox = $true
+$formbox.ControlBox = $False
+$formbox.AutoSizeMode = 'GrowAndShrink'
+$formbox.AutoScale = $true
+$formbox.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
+$WindowState = 'Normal'
+$WSIZ = [int](350 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](275 * $ScaleRef * $ScaleFactor)
+$formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
+$formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
+$labelbox = New-Object System.Windows.Forms.Label
+$labelbox.Text = "$MessageBoxText"
+$labelbox.ForeColor = 'White'
+$labelbox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+#$labelbox.AutoSize = $true
+if ($MessageBoxType -eq 'YesNo') {
+$okButton = New-Object System.Windows.Forms.Button
+$WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](15 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](140 * $ScaleRef * $ScaleFactor)
+$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okButton.Cursor = 'Hand'
+$okButton.ForeColor = 'White'
+$okButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
+$okButton.DialogResult = "OK"
+$okButton.Text = "Yes"
+$cancelButton = New-Object System.Windows.Forms.Button
+$cancelButton.Text = "No"
+$WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](175 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](140 * $ScaleRef * $ScaleFactor)
+$cancelButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$cancelButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$cancelButton.Cursor = 'Hand'
+$cancelButton.ForeColor = 'White'
+$cancelButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
+$cancelButton.DialogResult = "CANCEL"
+$WSIZ = [int](325 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](115 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](10 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](20 * $ScaleRef * $ScaleFactor)
+$labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+$formbox.AcceptButton = $okButton
+$formbox.Controls.Add($cancelButton)
+$formbox.Controls.Add($okButton)}
+if ($MessageBoxType -eq 'Info') {
+$okButton = New-Object System.Windows.Forms.Button
+$WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](95 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](140 * $ScaleRef * $ScaleFactor)
+$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okButton.Cursor = 'Hand'
+$okButton.ForeColor = 'White'
+$okButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
+$okButton.DialogResult = "OK"
+$okButton.Text = "OK"
+$WSIZ = [int](325 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](110 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](10 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](25 * $ScaleRef * $ScaleFactor)
+$labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+$formbox.AcceptButton = $okButton
+$formbox.Controls.Add($okButton)}
+if ($MessageBoxType -eq 'Prompt') {
+$WSIZ = [int](300 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](40 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](10 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](95 * $ScaleRef * $ScaleFactor)
+$inputbox = New-Object System.Windows.Forms.TextBox
+$inputbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$inputbox.Size = New-Object System.Drawing.Size($WSIZ,$HSIZ)
+$inputbox.ForeColor = 'White'
+$inputbox.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
+$okButton = New-Object System.Windows.Forms.Button
+$okButton.Text = "OK"
+$WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](15 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](140 * $ScaleRef * $ScaleFactor)
+$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okButton.Cursor = 'Hand'
+$okButton.ForeColor = 'White'
+$okButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
+$okButton.DialogResult = "OK"
+$cancelButton = New-Object System.Windows.Forms.Button
+$cancelButton.Text = "Cancel"
+$WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](175 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](140 * $ScaleRef * $ScaleFactor)
+$cancelButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$cancelButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$cancelButton.Cursor = 'Hand'
+$cancelButton.ForeColor = 'White'
+$cancelButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
+$cancelButton.DialogResult = "CANCEL"
+$WSIZ = [int](325 * $ScaleRef * $ScaleFactor)
+$HSIZ = [int](75 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](10 * $ScaleRef * $ScaleFactor)
+$YLOC = [int](20 * $ScaleRef * $ScaleFactor)
+$labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+$formbox.AcceptButton = $okButton
+$formbox.Controls.Add($okButton)
+$formbox.Controls.Add($cancelButton)
+$formbox.Controls.Add($inputbox)}
+
+$formbox.Controls.Add($labelbox)
+$formbox.ResumeLayout()
+$global:boxresult = $formbox.ShowDialog()
+if ($boxresult -eq "OK") {
+$messagebox = $inputbox.Text
+Write-Host "InputBox: $messagebox"} else {$messagebox = $null}
+$formbox.Dispose()}
 function PickFolder {
 Add-Type -AssemblyName System.Windows.Forms
 $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
@@ -268,7 +401,6 @@ return $dropbox}
 function NewLabel {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Bold,[string]$TextSize,[string]$Text)
 $label = New-Object Windows.Forms.Label
-if ($Bold -eq 'True') {$label.Font = "Consolas, $TextSize pt, style=Bold"}
 #$label.Font = New-Object System.Drawing.Font("Consolas", $TextSize)
 #$label.Font = New-Object System.Drawing.Font("Consolas", $TextSize,[System.Drawing.FontStyle]::Bold)
 #$label.Font = New-Object System.Drawing.Font("",$TextSize,([System.Drawing.FontStyle]::Regular),[System.Drawing.GraphicsUnit]::Pixel)
@@ -277,9 +409,13 @@ $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
 $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
+$fontX = [int](1 * $TextSize * $ScaleFactor)
+$fontX = [Math]::Floor($fontX);
+if ($Bold -eq 'True') {$label.Font = "Consolas, $fontX pt, style=Bold"}
 $label.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$label.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$label.Text = $Text
+#$label.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+$label.AutoSize = $true
+$label.Text = "$Text"
 $element = $label;AddElement
 return $label}
 function NewButton {
@@ -590,8 +726,9 @@ $PathCheck = "$env:temp\\`$CON";if (Test-Path -Path $PathCheck) {Remove-Item -Pa
 Add-Content -Path "$env:temp\`$CON" -Value "$PSScriptRoot" -Encoding UTF8
 Add-Content -Path "$env:temp\`$CON" -Value "ConsoleFont=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$env:temp\`$CON" -Value "ConsoleFontSize=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8
-if ($ButtonRadio1_Group2.Checked) {Add-Content -Path "$env:temp\`$CON" -Value "ScaleFactor=1.00" -Encoding UTF8}
-if ($ButtonRadio2_Group2.Checked) {Add-Content -Path "$env:temp\`$CON" -Value "ScaleFactor=1.25" -Encoding UTF8}
+if ($ButtonRadio1_Group2.Checked) {Add-Content -Path "$env:temp\`$CON" -Value "ScaleFactor=0.75" -Encoding UTF8}
+if ($ButtonRadio2_Group2.Checked) {Add-Content -Path "$env:temp\`$CON" -Value "ScaleFactor=1.00" -Encoding UTF8}
+if ($ButtonRadio3_Group2.Checked) {Add-Content -Path "$env:temp\`$CON" -Value "ScaleFactor=1.25" -Encoding UTF8}
 if ($ButtonRadio1_Group1.Checked -eq $true) {$ConsoleType = 'Embed'} else {$ConsoleType = 'Spawn'}
 $CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-WindowStyle", "Hidden", "-Command", {
 Add-Type -TypeDefinition @'
@@ -626,7 +763,7 @@ $RefX = 1000;$DimScaleX = $DimensionX / $RefX
 $RefY = 1000;$DimScaleY = $DimensionY / $RefY
 if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
 if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
-if ($ScaleFactor) {$null} else {$ScaleFactor = 1.25}
+if ($ScaleFactor) {$null} else {$ScaleFactor = 1.00}
 $ScaleFont = 28 * $ScaleRef * $ScaleFactor
 $ScaleFontX = [Math]::Floor($ScaleFont);$ScaleFont = $ScaleFontX
 if ($ConsoleFont) {$null} else {$ConsoleFont = 'Consolas'}
@@ -668,7 +805,7 @@ $DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
 $DimensionVX = [System.Windows.Forms.SystemInformation]::VirtualScreen.Width
 $DimensionVY = [System.Windows.Forms.SystemInformation]::VirtualScreen.Height
 $RawUIMAX = $host.UI.RawUI.MaxWindowSize
-if ($ScaleFactor) {$null} else {$ScaleFactor = 1.25}
+if ($ScaleFactor) {$null} else {$ScaleFactor = 1.00}
 $RefX = 1000;$DimScaleX = $DimensionX / $RefX
 $RefY = 1000;$DimScaleY = $DimensionY / $RefY
 if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
@@ -698,8 +835,10 @@ $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
 $form.Text = "Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($RefY * $ScaleRef * $ScaleFactor)
+$fontX = [int](9.5 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
+
+$form.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 #$form.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$form.Font = New-Object System.Drawing.Font("", 11,[System.Drawing.FontStyle]::Regular)
 $form.ClientSize = New-Object System.Drawing.Size($WSIZ,$HSIZ)
 $form.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 $form.StartPosition = 'CenterScreen'
@@ -707,9 +846,9 @@ $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
 $form.add_FormClosing({$action = $_
-if (-not ($NoExitPrompt)) {$result = [System.Windows.Forms.MessageBox]::Show("Are you sure you want to close?", "Confirm Close", [System.Windows.Forms.MessageBoxButtons]::YesNo)
-if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$action.Cancel = $true}
-if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}}})
+if (-not ($NoExitPrompt)) {MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Close' -MessageBoxText 'Are you sure you want to close?'
+if ($boxresult -ne "OK") {$action.Cancel = $true}
+if ($boxresult -eq "OK") {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}}})
 $form.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
 $form.AutoSize = $true
 $form.AutoSizeMode = 'GrowAndShrink';#AutoSizeMode: GrowAndShrink, GrowOnly, and ShrinkOnly.
@@ -840,17 +979,16 @@ $PageBC.Controls.Add($ListView1_PageBC)
 #$explorer.Navigate("C:\") # Specify the initial directory
 #$PageBC.Add_Shown({$explorerControl.Activate()})
 
-$Page = 'PageSplash';$Label0_PageSplash = NewLabel -X '100' -Y '35' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Welcome to GUI v0.4'
-$Button1_PageSplash = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {[System.Windows.Forms.MessageBox]::Show("github.com/joshuacline", "Documentation", 0)}
+$Page = 'PageSplash';$Label0_PageSplash = NewLabel -X '75' -Y '35' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Welcome to GUI v0.4'
+$Button1_PageSplash = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Documentation' -MessageBoxText '     github.com/joshuacline'}
 $Button2_PageSplash = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LAUNCH=DISABLED" -Encoding UTF8
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 
-
-$Page = 'PageIPW2V';$Label0_PageIPW2V = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Processing'
+$Page = 'PageIPW2V';$Label0_PageIPW2V = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Processing'
 $Button1_PageIPW2V = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
-if ($($DropBox1_PageIPW2V.SelectedItem) -eq $null) {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No wim selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($($DropBox1_PageIPW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
 $nullz = [int]$($TextBox2_PageIPW2V.Text);$nullx = [int]($nullz * 1025);[Math]::Floor($nullx)
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
@@ -874,9 +1012,9 @@ $TextBox1_PageIPW2V = NewTextBox -X '25' -Y '535' -W '300' -H '40'
 $Label4_PageIPW2V = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text 'VHDX Size (GB)'
 $TextBox2_PageIPW2V = NewTextBox -X '425' -Y '535' -W '300' -H '40'
 
-$Page = 'PageIPV2W';$Label0_PageIPV2W = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Processing'
+$Page = 'PageIPV2W';$Label0_PageIPV2W = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Processing'
 $Button1_PageIPV2W = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
-if ($($DropBox1_PageIPV2W.SelectedItem) -eq $null) {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No vhdx selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
+if ($($DropBox1_PageIPV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
 if ($halt -ne '1') {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
@@ -899,7 +1037,7 @@ $TextBox1_PageIPV2W = NewTextBox -X '25' -Y '535' -W '300' -H '40'
 $Label4_PageIPV2W = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text '   Compression'
 $DropBox3_PageIPV2W = NewDropBox -X '425' -Y '535' -W '300' -H '40' -C '0' -DisplayMember 'Description'
 
-$Page = 'PageIM';$Label0_PageIM = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Image Management'
+$Page = 'PageIM';$Label0_PageIM = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Management'
 $Button1_PageIM = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'List Execute' -Hover_Text 'List Execute' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
@@ -919,11 +1057,11 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-IMAGEMGR" -Encoding 
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EDIT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
-$Page = 'PagePC';$Label0_PagePC = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Package Creator'
+$Page = 'PagePC';$Label0_PagePC = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Package Creator'
 $Button1_PagePC = NewButton -X '315' -Y '420' -W '125' -H '60' -Text 'New' -Hover_Text 'New' -Add_Click {
-$result = [System.Windows.Forms.MessageBox]::Show("This will empty the contents of the project folder. Are you sure?", "Confirm Delete", [System.Windows.Forms.MessageBoxButtons]::YesNo)
-if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
-if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
+if ($boxresult -ne "OK") {$null}
+if ($boxresult  -eq "OK") {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "EDIT_SKIP=1" -Encoding UTF8
@@ -932,9 +1070,9 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encodi
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-NEW" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 $Button2_PagePC = NewButton -X '90' -Y '510' -W '125' -H '60' -Text 'Restore' -Hover_Text 'Restore' -Add_Click {
-$result = [System.Windows.Forms.MessageBox]::Show("This will empty the contents of the project folder. Are you sure?", "Confirm Delete", [System.Windows.Forms.MessageBoxButtons]::YesNo)
-if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
-if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
+if ($boxresult -ne "OK") {$null}
+if ($boxresult  -eq "OK") {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
@@ -963,17 +1101,18 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encodi
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EXPORT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
-$Page = 'PageBC';$Label0_PageBC = NewLabel -X '15' -Y '15' -W '625' -H '60' -Bold 'True' -TextSize '24' -Text 'Boot Creator' 
+$Page = 'PageBC';$Label0_PageBC = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Boot Creator' 
 $Button1_PageBC = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Start' -Hover_Text 'Start Boot Disk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
 $PathCheck = "$PSScriptRoot\\boot";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\boot"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (-not (Test-Path -Path $PathCheckX)) {ImportBoot}
-if (-not (Test-Path -Path $PathCheckX)) {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No boot media.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
-if ($($DropBox1_PageBC.SelectedItem) -eq $null) {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No vhdx selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
-if ($disknum -eq 'Disk') {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No disk selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
-if ($disknum -eq $null) {$halt = 1;$result = [System.Windows.Forms.MessageBox]::Show("No disk selected.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)}
-if ($halt -ne '1') {$result = [System.Windows.Forms.MessageBox]::Show("This will erase the contents of Disk $disknum. If you've inserted or removed any disks, refresh before proceeding. Are you sure?", "Confirm Erase", [System.Windows.Forms.MessageBoxButtons]::YesNo)
-if ($result -ne [System.Windows.Forms.DialogResult]::Yes) {$null}
-if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+if (-not (Test-Path -Path $PathCheckX)) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No boot media.'}
+if ($($DropBox1_PageBC.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
+if ($disknum -eq 'Disk') {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No disk selected.'}
+if ($disknum -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No disk selected.'}
+if ($halt -ne '1') {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Erase' -MessageBoxText "This will erase Disk $disknum. If you've inserted or removed any disks, refresh before proceeding. Are you sure?"
+if ($boxresult -ne "OK") {$null}
+if ($boxresult  -eq "OK") {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-BOOTMAKER" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-CREATE" -Encoding UTF8
@@ -991,7 +1130,7 @@ $DropBox2_PageBC = NewDropBox -X '425' -Y '455' -W '300' -H '40' -DisplayMember 
 $Label3_PageBC = NewLabel -X '315' -Y '500' -W '175' -H '30' -Text 'Target Disk'
 $DropBox3_PageBC = NewDropBox -X '25' -Y '535' -W '700' -H '40' -Text 'Select Disk'
 
-$Page = 'PageSC';$Label0_PageSC = NewLabel -X '15' -Y '15' -W '725' -H '60' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
+$Page = 'PageSC';$Label0_PageSC = NewLabel -X '15' -Y '15' -W '725' -H '50' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
 $Button1_PageSC = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'Console Settings' -Hover_Text 'Console Settings' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
@@ -1021,14 +1160,24 @@ $Label3_PageSC = NewLabel -X '25' -Y '250' -W '585' -H '35' -Text 'Console FontS
 $DropBox2_PageSC = NewDropBox -X '25' -Y '285' -W '165' -H '40' -C '0' -Text "$ConsoleFontSize"
 #$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$ConsoleType = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$ConsoleType = 'Embed';$Toggle1_PageSC.Text = "";}}
 
-$GroupName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '15' -Y '335' -W '260' -H '75' -Text 'GUI Scale Factor'
-$Add_CheckedChanged = {if ($ButtonRadio1_Group2.Checked) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.00" -Encoding UTF8;}}
-$ButtonRadio1_Group2 = NewRadioButton -X '15' -Y '30' -W '120' -H '35' -Text '1.00' -GroupName 'Group2'
-$Add_CheckedChanged = {if ($ButtonRadio2_Group2.Checked) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.25" -Encoding UTF8;}}
-$ButtonRadio2_Group2 = NewRadioButton -X '135' -Y '30' -W '120' -H '35' -Text '1.25' -GroupName 'Group2'
-if ($ScaleFactor) {$null} else {$ScaleFactor = 1.25}
-if ($ScaleFactor -eq '1.25') {$ButtonRadio2_Group2.Checked = $true}
-if ($ScaleFactor -eq '1.00') {$ButtonRadio1_Group2.Checked = $true}
+$GroupName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '15' -Y '335' -W '325' -H '75' -Text 'GUI Scale Factor'
+$Add_CheckedChanged = {if ($ButtonRadio1_Group2.Checked) {
+if ($Button_SC.Tag -eq 'Enable') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for scaling changes to take effect.'}
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=0.75" -Encoding UTF8;}}
+$ButtonRadio1_Group2 = NewRadioButton -X '15' -Y '30' -W '100' -H '35' -Text '0.75' -GroupName 'Group2'
+$Add_CheckedChanged = {if ($ButtonRadio2_Group2.Checked) {
+if ($Button_SC.Tag -eq 'Enable') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for scaling changes to take effect.'}
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.00" -Encoding UTF8;}}
+$ButtonRadio2_Group2 = NewRadioButton -X '115' -Y '30' -W '100' -H '35' -Text '1.00' -GroupName 'Group2'
+$Add_CheckedChanged = {if ($ButtonRadio3_Group2.Checked) {
+if ($Button_SC.Tag -eq 'Enable') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for scaling changes to take effect.'}
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.25" -Encoding UTF8;}}
+$ButtonRadio3_Group2 = NewRadioButton -X '215' -Y '30' -W '100' -H '35' -Text '1.25' -GroupName 'Group2'
+
+if ($ScaleFactor) {$null} else {$ScaleFactor = 1.00}
+if ($ScaleFactor -eq '1.25') {$ButtonRadio3_Group2.Checked = $true}
+if ($ScaleFactor -eq '1.00') {$ButtonRadio2_Group2.Checked = $true}
+if ($ScaleFactor -eq '0.75') {$ButtonRadio1_Group2.Checked = $true}
 
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
 $PageConsole.Visible = $false;$PageMain.Visible = $true;
