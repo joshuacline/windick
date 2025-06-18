@@ -400,7 +400,7 @@ CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%$$% &&
 CALL:TIMER_POINT3&SET /A "XNTZ+=1"&IF NOT "%XNTZ%"=="7" GOTO:LOGO_X
 EXIT /B
 :SETS_LIST
-SET SETS_LIST=GUI_LAUNCH GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE HOST_SIZE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 HOTKEY_4 SHORT_4 HOTKEY_5 SHORT_5 RECOVERY_LOGO MENU_MODE MENU_LIST MENU_BANNER DISCLAIMER ALLOW_ENV APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
+SET SETS_LIST=GUI_LAUNCH GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 HOTKEY_4 SHORT_4 HOTKEY_5 SHORT_5 RECOVERY_LOGO MENU_MODE MENU_LIST MENU_BANNER DISCLAIMER ALLOW_ENV APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
 EXIT /B
 :SETS_LOAD
 IF EXIST "windick.ini" FOR /F "TOKENS=1-1* DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
@@ -621,10 +621,7 @@ IF "%ARG2%"=="-CREATE" IF NOT EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO. %XLR4%ERROR:%
 IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "DISK_TARGET=%ARG4%"&&CALL:DISK_DETECT>NUL 2>&1
 IF DEFINED ARG2 IF "%ARG3%"=="-DISKUID" IF DEFINED ARG4 SET "ARG3=-DISK"&&SET "ARG4=%DISK_DETECT%"
 IF DEFINED ARG2 IF "%ARG3%"=="-DISK" IF "%DISK_TARGET%"=="00000000" ECHO. %XLR4%ERROR:%$$% Disk uid 00000000 can not addressed by uid. Convert to GPT first (erase).&&EXIT /B
-IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"
-IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 IF "%ARG7%"=="-SIZE" IF DEFINED ARG8 SET "HOST_SIZE=%ARG8%"&&SET "$CHECK=NUM"&&SET "CHECK_VAR=%ARG8%"&&CALL:CHECK
-IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 IF "%ARG7%"=="-SIZE" IF DEFINED ARG8 IF DEFINED ERROR ECHO. %XLR4%ERROR:%$$% Invalid host partition size.&&EXIT /B
-IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 IF DEFINED ARG6 SET "VHDX_SLOTX=%ARG6%"&&CALL:BOOT_CREATOR_START
+IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF DEFINED ARG6 SET "VHDX_SLOTX=%ARG6%"&&CALL:BOOT_CREATOR_START
 EXIT /B
 :COMMAND_HELP
 ECHO. Command Line Parameters:
@@ -669,10 +666,10 @@ ECHO.   %@@%-diskmgr -mount -disk 0 -part 1 -letter e%$$%
 ECHO.   %@@%-diskmgr -unmount -letter e%$$%
 ECHO.   %##%Boot Creator%$$%
 ECHO.   -bootmaker -create -disk %@@%#%$$% -vhdx %@@%x.vhdx%$$%                         Erase specified disk and make bootable
-ECHO.   -bootmaker -create -diskuid %@@%uid%$$% -vhdx %@@%x.vhdx%$$% -size %@@%GB%$$%           Erase specified disk and make bootable + set host partition size
+ECHO.   -bootmaker -create -diskuid %@@%uid%$$% -vhdx %@@%x.vhdx%$$%                    Erase specified disk and make bootable
 ECHO. Examples-
-ECHO.   %@@%-bootmaker -create -disk 0 -vhdx x.vhdx%$$%                         Default is the entire disk when size is not specified
-ECHO.   %@@%-bootmaker -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx -size 100%$$%
+ECHO.   %@@%-bootmaker -create -disk 0 -vhdx x.vhdx%$$%
+ECHO.   %@@%-bootmaker -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx
 ECHO.
 EXIT /B
 :DISCLAIMER
@@ -2643,16 +2640,14 @@ EXIT /B
 :BOOT_CREATOR
 ::#########################################################################
 CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             Boot Creator&&ECHO.
-IF NOT DEFINED HOST_SIZE (SET "EMBEE=") ELSE (SET "EMBEE=MB")
 ECHO.  %@@%AVAILABLE VHDXs:%$$%&&ECHO.&&SET "$FOLD=%IMAGE_FOLDER%"&&SET "$FILT=*.VHDX"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&ECHO.
 SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&ECHO. (%##%O%$$%)ptions                       (%##%G%$$%)o^^!         (%##%V%$$%)HDX %@@%%VHDX_SLOTX%%$$%&&CALL:PAD_LINE
-IF DEFINED ADV_BOOT ECHO. [%@@%OPTIONS%$$%]  (%##%A%$$%)dd File  (%##%E%$$%)xport EFI  (%##%H%$$%)ost Size %@@%%HOST_SIZE%%EMBEE%%$$% (%##%W%$$%)allpaper %@@%%PE_WALLPAPER%%$$%&&CALL:PAD_LINE
+IF DEFINED ADV_BOOT ECHO. [%@@%OPTIONS%$$%]   (%##%A%$$%)dd File      (%##%E%$$%)xport EFI      (%##%W%$$%)allpaper %@@%%PE_WALLPAPER%%$$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:DISK_MANAGEMENT
 IF "%SELECT%"=="E" CALL:EFI_FETCH
-IF "%SELECT%"=="H" CALL:HOST_SIZE
 IF "%SELECT%"=="V" SET "$VHDX=X"&&CALL:VHDX_CHECK
 IF "%SELECT%"=="O" IF DEFINED ADV_BOOT SET "ADV_BOOT="&SET "SELECT="
 IF "%SELECT%"=="O" IF NOT DEFINED ADV_BOOT SET "ADV_BOOT=1"&SET "SELECT="
@@ -2679,14 +2674,6 @@ IF "%SELECTX%"=="4" SET "ADDFILEZ=cache"&&CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CAL
 IF "%SELECTX%"=="5" SET "ADDFILEZ=main"&&CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                               Add File&&ECHO.&&ECHO.  %@@%AVAILABLE MAIN FILEs:%$$%&&ECHO.&&SET "$FOLD=%PROG_SOURCE%"&&SET "$FILT=*.*"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF DEFINED ADDFILEZ IF DEFINED $PICK IF EXIST "%$PICK%" IF NOT EXIST "%$PICK%\*" SET "ADDFILE_%ADDFILEX%=%ADDFILEZ%\%$CHOICE%"
 IF DEFINED ADDFILEZ IF NOT DEFINED $PICK SET "ADDFILE_%ADDFILEX%=SELECT"
-EXIT /B
-:HOST_SIZE
-CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.  Creates 3 partition disk, remaining space allocated to partition 3.&&ECHO.    One benefit is having an additional drive letter when used in &&ECHO.     conjunction with the hide host partition option in settings.&&ECHO. Should be larger than the combined maximum filled size of all VHDX's.&&ECHO.&&ECHO.                 Enter VHDX host partition size in GB&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=NUM"&&SET "$SELECT=SELECTX"&&SET "NO_ASTRK=1"&&SET "NO_SPACE=1"&&CALL:MENU_SELECT
-IF DEFINED ERROR SET "HOST_SIZE="&&EXIT /B
-IF %SELECTX% LSS 1 SET "ERROR=HOST_SIZE"&&CALL:DEBUG
-IF %SELECTX% GTR 9999 SET "ERROR=HOST_SIZE"&&CALL:DEBUG
-IF NOT DEFINED ERROR SET "HOST_SIZE=%SELECTX%000"
-IF DEFINED ERROR SET "HOST_SIZE="
 EXIT /B
 :EFI_FETCH
 CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.        EFI boot files will be extracted from the boot media.&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:CONFIRM
@@ -2722,10 +2709,7 @@ SET "TIMER=3"&&CALL:TIMER
 IF NOT EXIST "%EFI_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 1&&ECHO.format quick fs=fat32 label="ESP"&&ECHO.assign letter=%EFI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "TIMER=3"&&CALL:TIMER
 IF NOT EXIST "%EFI_LETTER%:\" FOR %%a in (1 2 3) DO (IF NOT DEFINED RETRY_PART%%a SET "RETRY_PART%%a=1"&&SET "EFI=primary"&&GOTO:PART_CREATE)
-IF DEFINED HOST_SIZE SET "CHECK_VAR=%HOST_SIZE%"&&SET "$CHECK=NUM"&&CALL:CHECK>NUL 2>&1
-IF DEFINED HOST_SIZE IF DEFINED ERROR SET "ERROR="&&ECHO. %XLR4%ERROR:%$$% Invalid host partition size, using available free space.&&SET "HOST_SIZE="
-IF DEFINED HOST_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary size=%HOST_SIZE%&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.create partition primary&&ECHO.select partition 3&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%TST_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
-IF NOT DEFINED HOST_SIZE (ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
+(ECHO.select disk %DISK_NUMBER%&&ECHO.create partition primary&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "TIMER=3"&&CALL:TIMER
 IF NOT EXIST "%PRI_LETTER%:\" (ECHO.select disk %DISK_NUMBER%&&ECHO.select partition 2&&ECHO.format quick fs=ntfs&&ECHO.assign letter=%PRI_LETTER% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "TIMER=3"&&CALL:TIMER&&DEL /Q /F "$DSK*">NUL 2>&1
