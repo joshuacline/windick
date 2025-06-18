@@ -498,12 +498,12 @@ function Button_PageIPW2V {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageIPW2V.SelectedItem)) {$null} else {$DropBox1_PageIPW2V.SelectedItem = $null}
-if ($($DropBox1_PageIPW2V.SelectedItem)) {$null} else {$ListView1_PageIPW2V.Items.Clear()
-$DropBox1_PageIPW2V.ResetText();$DropBox1_PageIPW2V.Items.Clear();#$DropBox1_PageIPW2V.Text = "Select .wim"
-$DropBox2_PageIPW2V.ResetText();$DropBox2_PageIPW2V.Items.Clear();#$DropBox2_PageIPW2V.Text = 'Select index'
+$ListView1_PageIPW2V.Items.Clear()
+$DropBox1_PageIPW2V.ResetText();$DropBox1_PageIPW2V.Items.Clear()
+$DropBox2_PageIPW2V.ResetText();$DropBox2_PageIPW2V.Items.Clear()
 [void]$DropBox1_PageIPW2V.Items.Add("Import Installation Media")
 Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_PageIPW2V.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_PageIPW2V.Items.Add($_)}}
+Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_PageIPW2V.Items.Add($_)}
 if ($($TextBox1_PageIPW2V.Text)) {$null} else {$TextBox1_PageIPW2V.Text = 'NewFile.vhdx'}
 if ($($TextBox2_PageIPW2V.Text)) {$null} else {$TextBox2_PageIPW2V.Text = '25'}
 }
@@ -511,11 +511,11 @@ function Button_PageIPV2W {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageIPV2W.SelectedItem)) {$null} else {$DropBox1_PageIPV2W.SelectedItem = $null}
-if ($($DropBox1_PageIPV2W.SelectedItem)) {$null} else {$ListView1_PageIPV2W.Items.Clear()
-$DropBox1_PageIPV2W.ResetText();$DropBox1_PageIPV2W.Items.Clear();$DropBox1_PageIPV2W.Text = "Select .vhdx"
-$DropBox2_PageIPV2W.ResetText();$DropBox2_PageIPV2W.Items.Clear();$DropBox2_PageIPV2W.Text = 'Select index'
+$ListView1_PageIPV2W.Items.Clear()
+$DropBox1_PageIPV2W.ResetText();$DropBox1_PageIPV2W.Items.Clear()
+$DropBox2_PageIPV2W.ResetText();$DropBox2_PageIPV2W.Items.Clear()
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageIPV2W.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageIPV2W.Items.Add($_)}}
+Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageIPV2W.Items.Add($_)}
 if ($($TextBox1_PageIPV2W.Text)) {$null} else {$TextBox1_PageIPV2W.Text = 'NewFile.wim'}
 if ($($DropBox3_PageIPV2W.SelectedItem)) {$null} else {$DropBox3_PageIPV2W.Items.Clear();$DropBox3_PageIPV2W.Items.Add("Fast");$DropBox3_PageIPV2W.Items.Add("Max");$DropBox3_PageIPV2W.SelectedItem = "Fast";}
 }
