@@ -428,7 +428,7 @@ IF NOT DEFINED ACC_COLOR SET "ACC_COLOR=6"
 IF NOT DEFINED BTN_COLOR SET "BTN_COLOR=7"
 IF NOT DEFINED TXT_COLOR SET "TXT_COLOR=0"
 IF NOT DEFINED PAD_SIZE SET "PAD_SIZE=LARGE"
-IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25000"
+IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25"
 IF NOT DEFINED PAD_BOX SET "PAD_BOX=ENABLED"
 IF NOT DEFINED PAD_SEQ SET "PAD_SEQ=6666600000"
 IF NOT DEFINED HOST_FOLDER SET "HOST_FOLDER=$"
@@ -635,10 +635,10 @@ ECHO.   -nextboot -recovery                                             Schedule
 ECHO.   -autoboot -install                                              Install reboot to recovery switcher service
 ECHO.   -autoboot -remove                                               Remove reboot to recovery switcher service
 ECHO.   %##%Image Processing%$$%
-ECHO.   -imageproc -wim %@@%x.wim%$$% -index %@@%#%$$% -vhdx %@@%x.vhdx%$$% -size %@@%MB%$$%            WIM to VHDX Conversion
+ECHO.   -imageproc -wim %@@%x.wim%$$% -index %@@%#%$$% -vhdx %@@%x.vhdx%$$% -size %@@%GB%$$%            WIM to VHDX Conversion
 ECHO.   -imageproc -vhdx %@@%x.vhdx%$$% -index %@@%#%$$% -wim %@@%x.wim%$$% -xlvl %@@%fast/max%$$%      VHDX to WIM Conversion
 ECHO. Examples-
-ECHO.   %@@%-imageproc -wim x.wim -index 1 -vhdx x.vhdx -size 25000%$$%
+ECHO.   %@@%-imageproc -wim x.wim -index 1 -vhdx x.vhdx -size 25%$$%
 ECHO.   %@@%-imageproc -vhdx x.vhdx -index 1 -wim x.wim -xlvl fast%$$%
 ECHO.   %##%Image Management%$$%
 ECHO.   -imagemgr -run -list %@@%x.list%$$% -live /or/ -vhdx %@@%x.vhdx%$$%             Run list
@@ -656,7 +656,7 @@ ECHO.   %##%Disk Management%$$%
 ECHO.   -diskmgr -list                                                  Condensed list of disks
 ECHO.   -diskmgr -inspect -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$%                     DiskPart inquiry on specified disk
 ECHO.   -diskmgr -erase -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$%                       Delete all partitions on specified disk
-ECHO.   -diskmgr -create -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% -size %@@%MB%$$%             Create NTFS partition on specified disk
+ECHO.   -diskmgr -create -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% -size %@@%GB%$$%             Create NTFS partition on specified disk
 ECHO.   -diskmgr -format -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% -part %@@%#%$$%              Format partition w/NTFS on specified disk
 ECHO.   -diskmgr -delete -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% -part %@@%#%$$%              Delete partition on specified disk
 ECHO.   -diskmgr -changeuid -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% %@@%new-uid%$$%           Change disk uid of specified disk
@@ -664,15 +664,15 @@ ECHO.   -diskmgr -mount -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% -part %@@%#%$$
 ECHO.   -diskmgr -unmount -letter %@@%letter%$$%                                         Remove drive letter
 ECHO.   -diskmgr -mount -vhdx %@@%x.vhdx%$$% -letter %@@%letter%$$%                              Mount virtual disk
 ECHO. Examples-
-ECHO.   %@@%-diskmgr -create -disk 0 -size 25000%$$%
+ECHO.   %@@%-diskmgr -create -disk 0 -size 25%$$%
 ECHO.   %@@%-diskmgr -mount -disk 0 -part 1 -letter e%$$%
 ECHO.   %@@%-diskmgr -unmount -letter e%$$%
 ECHO.   %##%Boot Creator%$$%
 ECHO.   -bootmaker -create -disk %@@%#%$$% -vhdx %@@%x.vhdx%$$%                         Erase specified disk and make bootable
-ECHO.   -bootmaker -create -diskuid %@@%uid%$$% -vhdx %@@%x.vhdx%$$% -size %@@%MB%$$%           Erase specified disk and make bootable + set host partition size
+ECHO.   -bootmaker -create -diskuid %@@%uid%$$% -vhdx %@@%x.vhdx%$$% -size %@@%GB%$$%           Erase specified disk and make bootable + set host partition size
 ECHO. Examples-
 ECHO.   %@@%-bootmaker -create -disk 0 -vhdx x.vhdx%$$%                         Default is the entire disk when size is not specified
-ECHO.   %@@%-bootmaker -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx -size 100000%$$%
+ECHO.   %@@%-bootmaker -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx -size 100%$$%
 ECHO.
 EXIT /B
 :DISCLAIMER
@@ -1034,7 +1034,7 @@ IF NOT EXIST "%IMAGE_FOLDER%\*.WIM" ECHO.        %@@%Insert a Windows Disc/ISO t
 IF NOT EXIST "%BOOT_FOLDER%\BOOT.SAV" ECHO.            %@@%Insert a Windows Disc/ISO to import boot media%$$%&&ECHO.
 ::IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" SET "IMAGE_X=%IMAGE_FOLDER%\%WIM_SOURCE%"&&SET "INDEX_X=%WIM_INDEX%"&&CALL:GET_IMAGEINFO&SET "ERROR="
 IF "%SOURCE_TYPE%"=="WIM" IF "%WIM_SOURCE%"=="SELECT" SET "WIM_INDEX=1"&&SET "$IMGEDIT="
-IF NOT DEFINED $IMGEDIT SET "WIM_INDEX=1"
+IF NOT DEFINED $IMGEDIT SET "$IMGEDIT=SELECT"&&SET "WIM_INDEX=1"
 FOR %%G in (%SOURCE_TYPE% %TARGET_TYPE%) DO (IF "%%G"=="VHDX" SET "PROC_DISPLAY=1")
 FOR %%G in (%SOURCE_TYPE% %TARGET_TYPE%) DO (IF "%%G"=="PATH" SET "PROC_DISPLAY=2")
 IF "%PROC_DISPLAY%"=="1" ECHO.  %@@%AVAILABLE %@@%%SOURCE_TYPE%s%$$% (%##%X%$$%) %@@%%TARGET_TYPE%s%$$%:%$$%&&ECHO.&&SET "$FOLD=%IMAGE_FOLDER%"&&SET "$FILT=*.WIM"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&SET "$FOLD=%IMAGE_FOLDER%"&&SET "$FILT=*.VHDX"&&SET "$APPEND=1"&&SET "$DISP=BAS"&&CALL:FILE_LIST
@@ -1044,7 +1044,7 @@ ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="PATH" ECHO. [%@@%PATH%$$%] (%##%S%$$%)ource %@@%%PATH_SOURCE%%$$%&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="VHDX" ECHO. [%@@%VHDX%$$%] (%##%S%$$%)ource %@@%%VHDX_SOURCE%%$$%&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="WIM" ECHO. [%@@%WIM%$$%] (%##%S%$$%)ource %@@%%WIM_SOURCE%%$$%   (%##%I%$$%)ndex %@@%%WIM_INDEX%%$$%   Edition: %@@%%$IMGEDIT%%$$%&&CALL:PAD_LINE
-IF "%TARGET_TYPE%"=="VHDX" ECHO. [%@@%VHDX%$$%] (%##%T%$$%)arget %@@%%VHDX_TARGET%%$$%          (%##%G%$$%)o^^!      (%##%V%$$%)disk Size %@@%%VHDX_SIZE%MB%$$%&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="VHDX" ECHO. [%@@%VHDX%$$%] (%##%T%$$%)arget %@@%%VHDX_TARGET%%$$%          (%##%G%$$%)o^^!      (%##%V%$$%)disk Size %@@%%VHDX_SIZE%GB%$$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="WIM" ECHO. [%@@%WIM%$$%] (%##%T%$$%)arget %@@%%WIM_TARGET%%$$%            (%##%G%$$%)o^^!&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="PATH" ECHO. [%@@%PATH%$$%] (%##%T%$$%)arget %@@%%PATH_TARGET%%$$%          (%##%G%$$%)o^^!&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
@@ -1060,7 +1060,7 @@ IF "%SELECT%"=="+" IF DEFINED SOURCE_LOCATION CALL:SOURCE_IMPORT&SET "SELECT="
 IF "%SELECT%"=="-" IF DEFINED SOURCE_LOCATION CALL:BOOT_IMPORT&SET "SELECT="
 GOTO:IMAGE_PROCESSING
 :IMAGEPROC_START
-SET "SOURCE_X="&&SET "TARGET_X="&&SET "VHDX_MB=%VHDX_SIZE%"&&IF NOT "%PROG_MODE%"=="COMMAND" CLS
+SET "SOURCE_X="&&SET "TARGET_X="&&IF NOT "%PROG_MODE%"=="COMMAND" CLS
 SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.         %@@%IMAGE PROCESSING START:%$$%  %DATE%  %TIME%
 CALL SET "SOURCE_X=%%%SOURCE_TYPE%_SOURCE%%%"
 CALL SET "TARGET_X=%%%TARGET_TYPE%_TARGET%%%"
@@ -1073,7 +1073,7 @@ IF "%TARGET_TYPE%"=="WIM" IF EXIST "%IMAGE_FOLDER%\%WIM_TARGET%" ECHO.&&ECHO. %X
 IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" ECHO.&&ECHO.                    File %@@%%VHDX_TARGET%%$$% already exists.&&ECHO.  %XLR2%Note:%$$% Updating may cause errors. Try a new vhdx if having issues.&&ECHO.&&ECHO.                        Press (%##%X%$$%) to overwrite.&&ECHO.&&CALL:PAD_PREV&&CALL SET "$SELECT=CONFIRM"&&CALL:MENU_SELECT
 IF "%TARGET_TYPE%"=="VHDX" IF EXIST "%IMAGE_FOLDER%\%VHDX_TARGET%" IF NOT "%CONFIRM%"=="X" ECHO.&&ECHO. %##%Abort.%$$%&&GOTO:IMAGEPROC_END
 IF NOT DEFINED WIM_INDEX SET "WIM_INDEX=1"
-IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25000"
+IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25"
 IF "%SOURCE_TYPE%"=="WIM" IF "%TARGET_TYPE%"=="VHDX" CALL:WIM2VHDX
 IF "%SOURCE_TYPE%"=="VHDX" IF "%TARGET_TYPE%"=="WIM" CALL:VHDX2WIM
 IF "%SOURCE_TYPE%"=="PATH" IF "%TARGET_TYPE%"=="WIM" SET "PATH_X=%PATH_SOURCE%"&&CALL:GET_PATHINFO
@@ -1119,7 +1119,7 @@ IF %SELECTX% LSS 1 SET "ERROR=IMAGEPROC_VSIZE"
 IF %SELECTX% GTR 9999 SET "ERROR=IMAGEPROC_VSIZE"
 IF NOT DEFINED ERROR IF %SELECTX% LSS 25 CALL:CONFIRM
 IF NOT DEFINED ERROR IF %SELECTX% LSS 25 IF NOT "%CONFIRM%"=="X" SET "ERROR=IMAGEPROC_VSIZE"
-IF NOT DEFINED ERROR SET "VHDX_SIZE=%SELECTX%000"
+IF NOT DEFINED ERROR SET "VHDX_SIZE=%SELECTX%"
 EXIT /B
 :IMAGEPROC_TARGET
 IF "%TARGET_TYPE%"=="PATH" CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                         Enter the target PATH &&ECHO.&&ECHO.  %@@%AVAILABLE PATHs:%$$%&&ECHO.&&FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (IF EXIST "%%G:\" ECHO. ^( %##%%%G%$$% ^) Volume %%G:)
@@ -2326,7 +2326,7 @@ IF %SELECTX% LSS 1 SET "ERROR=VHDX_NEW_PROMPT"&&CALL:DEBUG
 IF %SELECTX% GTR 9999 SET "ERROR=VHDX_NEW_PROMPT"&&CALL:DEBUG
 IF NOT DEFINED ERROR IF %SELECTX% LSS 25 CALL:CONFIRM
 IF NOT DEFINED ERROR IF %SELECTX% LSS 25 IF NOT "%CONFIRM%"=="X" SET "ERROR=VHDX_NEW_PROMPT"&&CALL:DEBUG
-IF NOT DEFINED ERROR SET "VHDX_MB=%SELECTX%000"
+IF NOT DEFINED ERROR SET "VHDX_SIZE=%SELECTX%"
 IF DEFINED ERROR EXIT /B
 SET "VDISK=%IMAGE_FOLDER%\%VHDX_NAME%"&&SET "VDISK_LTR=ANY"&&CALL:VDISK_CREATE
 SET "VHDX_NAME="&&EXIT /B
@@ -2433,7 +2433,9 @@ IF NOT DEFINED VDISK_LTR SET "VDISK_LTR=ANY"
 IF "%VDISK_LTR%"=="ANY" SET "$GET=VDISK_LTR"&&CALL:LETTER_ANY
 FOR %%G in ("%VDISK%") DO (SET "VHDX_123=%%~nG%%~xG")
 ECHO. Mounting vdisk %VHDX_123% letter %VDISK_LTR%...&&SET "VHDX_123="
-IF NOT DEFINED VHDX_MB SET "VHDX_MB=25000"
+IF NOT DEFINED VHDX_SIZE SET "VHDX_SIZE=25"
+SET "VHDX_MB=%VHDX_SIZE%"
+SET /A "VHDX_MB*=1025"
 (ECHO.create vdisk file="%VDISK%" maximum=%VHDX_MB% type=expandable&&ECHO.select vdisk file="%VDISK%"&&ECHO.attach vdisk&&ECHO.create partition primary&&ECHO.select partition 1&&ECHO.format fs=ntfs quick&&ECHO.assign letter=%VDISK_LTR% noerr&&ECHO.Exit)>"$DSK"&&DISKPART /s "$DSK">NUL 2>&1
 SET "VHDX_MB="&&IF EXIST "$DSK*" DEL /Q /F "$DSK*">NUL 2>&1
 IF EXIST "%VDISK_LTR%:\" SET "VDISK_ATTACHED=1"
