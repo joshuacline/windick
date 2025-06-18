@@ -990,7 +990,6 @@ $Page = 'PageIPW2V';$Label0_PageIPW2V = NewLabel -X '15' -Y '15' -W '625' -H '50
 $Button1_PageIPW2V = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageIPW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
-$nullz = [int]$($TextBox2_PageIPW2V.Text);$nullx = [int]($nullz * 1025);[Math]::Floor($nullx)
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-WIM" -Encoding UTF8
@@ -1000,7 +999,7 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageIPW2V
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-VHDX" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageIPW2V.Text)" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-SIZE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$nullx" -Encoding UTF8
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($TextBox2_PageIPW2V.Text)" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageIPW2V = NewLabel -X '100' -Y '420' -W '175' -H '30' -Text 'Source Image'
