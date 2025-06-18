@@ -1,4 +1,4 @@
-# Windows Deployment Image Customization Kit v 1203 (c) github.com/joshuacline
+# Windows Deployment Image Customization Kit v 1204 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
