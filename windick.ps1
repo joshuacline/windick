@@ -502,9 +502,9 @@ if (Test-Path -Path $FilePath\$($DropBox1_PageW2V.SelectedItem)) {$null} else {$
 $ListView1_PageW2V.Items.Clear()
 $DropBox1_PageW2V.ResetText();$DropBox1_PageW2V.Items.Clear()
 $DropBox2_PageW2V.ResetText();$DropBox2_PageW2V.Items.Clear()
-[void]$DropBox1_PageW2V.Items.Add("Import Installation Media")
 Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_PageW2V.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_PageW2V.Items.Add($_)}
+[void]$DropBox1_PageW2V.Items.Add("Import Installation Media")
 if ($($TextBox1_PageW2V.Text)) {$null} else {$TextBox1_PageW2V.Text = 'NewFile.vhdx'}
 if ($($TextBox2_PageW2V.Text)) {$null} else {$TextBox2_PageW2V.Text = '25'}
 }
@@ -552,10 +552,9 @@ if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\cache"} else {$File
 if (Test-Path -Path $FilePath\$($DropBox2_PageBC.SelectedItem)) {$null} else {$DropBox2_PageBC.SelectedItem = $null}
 if ($($DropBox2_PageBC.SelectedItem)) {$null} else {$empty = $true;
 $DropBox2_PageBC.ResetText();$DropBox2_PageBC.Items.Clear()
-[void]$DropBox2_PageBC.Items.Add("Import Wallpaper")
 Get-ChildItem -Path "$FilePath\*.jpg" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.png" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}}
-}
+[void]$DropBox2_PageBC.Items.Add("Import Wallpaper")}
 function Button_PageSC {
 if ($($DropBox1_PageSC.SelectedItem)) {$null} else {$DropBox1_PageSC.ResetText();$DropBox1_PageSC.Items.Clear();
 $key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont"
@@ -613,7 +612,7 @@ Button_PageBC
 }
 function Dropbox3BC {
 $ListView1_PageBC.Items.Clear();$ListView1_PageBC.Items.Add("Querying disks...")
-$DropBox3_PageBC.Items.Clear();$DropBox3_PageBC.Items.Add("Refresh");
+$DropBox3_PageBC.Items.Clear();
 $disks = Get-Disk | Sort-Object -Property Number
 $ListView1_PageBC.Items.Clear();foreach ($disk in $disks) {
 #$diskModel = $disk.Model;#$diskID = $disk.UniqueID;#$diskSerialNumber = $disk.SerialNumber
@@ -639,7 +638,7 @@ if ($sysdrive -eq '1') {$diskreason = "$diskreason SysDrive"}
 if ($progdrive -eq '1') {$diskreason = "$diskreason ProgDrive"}
 if ($diskreason) {$diskreason = "`|$diskreason"} else {$DropBox3_PageBC.Items.Add("Disk $diskNumber `| $name `| $vols`| $diskSize GB")}
 $ListView1_PageBC.Items.Add("Disk $diskNumber `| $name `| $vols`| $diskSize GB $diskreason")}
-}
+$DropBox3_PageBC.Items.Add("Refresh");}
 function Dropbox1W2V {
 if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {
 $DropBox2_PageW2V.Items.Clear()
@@ -690,9 +689,9 @@ if ($column2) {$null} else {$DropBox2_PageV2W.Items.Add("1");[void]$ListView1_Pa
 $DropBox2_PageV2W.SelectedItem = "1"
 }
 function Dropbox1SC {
-$ConsoleFont = "$($DropBox1_PageSC.SelectedItem)";[WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
+$global:ConsoleFont = "$($DropBox1_PageSC.SelectedItem)";[WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
 function Dropbox2SC {
-$ConsoleFontSize = "$($DropBox2_PageSC.SelectedItem)"
+$global:ConsoleFontSize = "$($DropBox2_PageSC.SelectedItem)"
 if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
 [WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
 #Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
