@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1204 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1205 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -447,7 +447,6 @@ IF EXIST "%PROG_SOURCE%\CACHE" IF EXIST "%PROG_SOURCE%\IMAGE" IF EXIST "%PROG_SO
 IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%\%%a")
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (CACHE IMAGE PACK LIST BOOT) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
 IF NOT DEFINED XLR0 SET "XLR0=[97m"&&SET "XLR1=[31m"&&SET "XLR2=[91m"&&SET "XLR3=[33m"&&SET "XLR4=[93m"&&SET "XLR5=[92m"&&SET "XLR6=[96m"&&SET "XLR7=[94m"&&SET "XLR8=[34m"&&SET "XLR9=[95m"
-IF NOT DEFINED COLOR0 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a="&&SET "COLOR%%a=%%XLR%%a%%")
 CALL SET "@@=%%XLR%ACC_COLOR%%%"&&CALL SET "##=%%XLR%BTN_COLOR%%%"&&CALL SET "$$=%%XLR%TXT_COLOR%%%"
 FOR %%a in (MOUNT SELECTX SELECTY SELECTZ $VHDX ERROR LIVE_APPLY $HALT $HALTX VDISK VDISK_LTR VDISK_ATTACHED VDISK_FLAG DUAL_SESSION PKX_SESSION LST_SESSION CURR_SESSION LAST_SESSION CUSTOM_SESSION DELETE_DONE FEAT_QRY DRVR_QRY) DO (SET "%%a=")
 IF "%PROG_MODE%"=="COMMAND" EXIT /B
@@ -509,8 +508,6 @@ IF "%$DISP%"=="BAS" FOR /F "TOKENS=*" %%# in ("%$CLM$%") DO (ECHO.   %$LCLR1%%%#
 EXIT /B
 :LIST_FILE
 SET "$XNT="&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99) DO (IF DEFINED $ITEM%%a SET "$ITEM%%a=")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=%%COLOR%%a%%")
 IF NOT EXIST "%$LIST%" GOTO:LIST_ERROR
 SET "HEAD_EXT=%LIST_TYPE%"&&SET "HEAD_CHECK=%$LIST%"&&CALL:GET_HEADER
 IF DEFINED ERROR CALL:PAUSED&GOTO:LIST_ERROR
@@ -521,7 +518,6 @@ FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF DEFINED MENUB%%a CALL ECHO.%%MENUB%%a%%&
 IF EXIST "$HZ" DEL /F "$HZ">NUL 2>&1
 :LIST_ERROR
 FOR %%a in ($LIST $CLM1 $CLM2 $CLM3 $CLM1_LST $CLM2_LST $CLM3_LST EXT LIST_TYPE ONLY1 ONLY2 ONLY3 $XNT) DO (SET "%%a=")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=")
 EXIT /B
 :LIST_FILEX
 IF DEFINED ONLY1 IF NOT "%$CLM1%"=="%ONLY1%" EXIT /B
@@ -538,11 +534,8 @@ IF DEFINED ONLY1 IF NOT DEFINED ONLY2 IF "%$CLM2%"=="%$CLM2_LST%" EXIT /B
 SET "$CLM1_LST=%$CLM1%"&&SET "$CLM2_LST=%$CLM2%"&&SET "$CLM3_LST=%$CLM3%"
 CALL SET /A "$XNT+=1"
 CALL SET "$ITEM%$XNT%=[%$CLM1%][%$CLM2%][%$CLM3%]"
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "COLOR%%a=%%XLR%%a%%")
-IF DEFINED ONLY1 IF DEFINED ONLY2 CALL ECHO. %$$%( %##%%$XNT%%$$% ) %$CLM3%%$$%&&IF NOT "%$CLM4%"=="" CALL ECHO.%$$%%$CLM4%%$$%
+IF DEFINED ONLY1 IF DEFINED ONLY2 CALL ECHO. %$$%( %##%%$XNT%%$$% ) %$CLM3%%$$%
 IF DEFINED ONLY1 IF NOT DEFINED ONLY2 CALL ECHO. %$$%( %##%%$XNT%%$$% ) %$CLM2%%$$%
-IF DEFINED ONLY1 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=")
-IF DEFINED ONLY2 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=%%COLOR%%a%%")
 EXIT /B
 ::#########################################################################
 :COMMAND_MODE
@@ -1192,7 +1185,7 @@ CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                         
 IF "%SELECT%"=="." SET "FILE_TYPE=PKXLIST"&&CALL:BASIC_FILE&EXIT /B
 IF NOT DEFINED $CHOICE EXIT /B
 SET "IMAGEMGR_EXT="&&FOR %%G in ("%$CHOICE%") DO (SET "CAPS_SET=IMAGEMGR_EXT"&&SET "CAPS_VAR=%%~xG"&&CALL:CAPS_SET)
-IF "%IMAGEMGR_EXT%"==".PKX" SET "PKX_PACK=%PACK_FOLDER%\%$CHOICE%
+IF "%IMAGEMGR_EXT%"==".PKX" SET "PKX_PACK=%PACK_FOLDER%\%$CHOICE%"
 IF "%IMAGEMGR_EXT%"==".LIST" SET "$RUN=%LIST_FOLDER%\%$CHOICE%"&&SET "HEAD_EXT=LIST"&&SET "HEAD_CHECK=%LIST_FOLDER%\%$CHOICE%"&&CALL:GET_HEADER
 IF "%IMAGEMGR_EXT%"==".LIST" IF "%$HEAD%"=="MULTI-LIST" SET "LIST_TYPE_TMP=LIST"&&SET "MENUT0=                             List Execute"&&SET "MENUT1= "&&CALL:LIST_GROUP_VIEW&EXIT /B
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             List Execute&&ECHO.&&ECHO.  %@@%AVAILABLE VHDXs:%$$%&&ECHO.&&ECHO. ( %##%@%$$% ) %##%Current Environment%$$%&&SET "$FOLD=%IMAGE_FOLDER%"&&SET "$FILT=*.VHDX "&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
@@ -1565,6 +1558,7 @@ ECHO. %XLR5%The operation completed successfully.%$$%
 EXIT /B
 :WINSXS_REMOVE
 IF NOT "%LIST_ACTN%"=="DELETE" EXIT /B
+IF DEFINED LIVE_APPLY ECHO. ERROR: OFFLINE IMAGE ONLY&&EXIT /B
 CALL:IF_LIVE_EXT
 IF NOT DEFINED SXS_SKIP SET "SXS_SKIP=amd64_microsoft-windows-s..cingstack.resources amd64_microsoft-windows-servicingstack amd64_microsoft.vc80.crt amd64_microsoft.vc90.crt amd64_microsoft.windows.c..-controls.resources amd64_microsoft.windows.common-controls amd64_microsoft.windows.gdiplus x86_microsoft.vc80.crt x86_microsoft.vc90.crt x86_microsoft.windows.c..-controls.resources x86_microsoft.windows.common-controls x86_microsoft.windows.gdiplus"
 ECHO.&&ECHO.Removing %@@%WinSxS folder%$$%...&&SET "SUBZ="&&SET "SUBXNT="&&FOR /F "TOKENS=1-2* DELIMS=_" %%a IN ('DIR "%WINTAR%\WinSxS" /A: /B /O:GN') DO (IF NOT "%%a"=="" SET "QUERYX=%%a_%%b"&&SET "SUBX=%%c"&&SET /A "SUBXNT+=1"&&CALL:LATERS_WINSXS)
@@ -1740,8 +1734,6 @@ EXIT /B
 :VAR_CLEAR
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "VAR%%a=")
 FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "VAR%%a=%%VAR%%a%%")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=%%COLOR%%a%%")
 EXIT /B
 :MOUNT_CLEAR
 IF NOT DEFINED PROG_SOURCE EXIT /B
@@ -1997,7 +1989,6 @@ IF NOT "%%a"=="" IF NOT "%%b"=="" IF NOT "%%c"=="" IF NOT "%%d"=="" IF NOT "%%e"
 IF NOT "%%a"=="EXEC-LIST" IF NOT "%%a"=="MULTI-LIST" IF NOT "%%a"=="BASE-LIST" IF NOT "%%a"=="BASE-GROUP" ECHO.  %@@%%%a%$$% %%b %@@%%%c%$$% %##%%%d%$$% %##%%%e%$$%)
 IF EXIST "$LST2" ECHO.
 COPY /Y "$LST3" "%$LST1%">NUL
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "COLOR%%a=")
 CALL:MOUNT_REST&&SET "$LST1="&&SET "$LST2="&&SET "$LST3="&&IF EXIST "$LST*" DEL /F "$LST*">NUL
 EXIT /B
 :LIST_WRITE

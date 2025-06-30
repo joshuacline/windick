@@ -1,4 +1,4 @@
-# Windows Deployment Image Customization Kit v 1204 (c) github.com/joshuacline
+# Windows Deployment Image Customization Kit v 1205 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -102,7 +102,7 @@ $richTextBox.Visible = $true
 $element = $richTextBox;AddElement
 return $richTextBox}
 function NewListView {
-param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Headers,[string]$Text)
 $listview = New-Object System.Windows.Forms.ListView
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -110,14 +110,13 @@ $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
 $listview.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $listview.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$listview.View = "List"
-$listview.View = "Details"
-$listview.Visible = $true
+#$listview.View = [System.Windows.Forms.View]::Details # Set to Details view for columns
+$listview.View = "Details";#$listview.View = "List"
 $listview.MultiSelect = $false
 $listview.HideSelection = $true
-$listview.Columns.Add("Available:")
-#$listview.Columns.Add("Column2:")
-$listview.Columns[0].Width = -2
+#$listview.HeaderStyle = 'Clickable';#NonClickable;#None
+if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle = 'None'}
+#$listview.Columns[0].Width = -2
 #$listview.Columns[1].Width = -2
 #$listview.CheckBoxes = true
 #$listview.FullRowSelect = true
@@ -128,6 +127,10 @@ $listview.Columns[0].Width = -2
 $listview.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
 $listview.ForeColor = 'White'
 $element = $listview;AddElement
+$listview.Visible = $true
+#$listViewSelect = $listView.SelectedItems
+#$listViewFocused = $listView.FocusedItem
+#Write-Host "sel:$listViewSelect  foc:$listViewFocused"
 return $listview}
 function MessageBox {
 param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxText)
@@ -452,7 +455,6 @@ $PageSplash.Visible = $false
 $Button_V2W.Tag = 'Disable'
 $Button_W2V.Tag = 'Disable'
 $Button_LB.Tag = 'Disable'
-$Button_X.Tag = 'Disable'
 $Button_PB.Tag = 'Disable'
 $Button_BC.Tag = 'Disable'
 $Button_SC.Tag = 'Disable'
@@ -474,7 +476,6 @@ if ($Button_SC.Tag -ne 'Enable') {$PageSC.Visible = $false}
 $Button_W2V.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_V2W.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_LB.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
-$Button_X.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_PB.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_BC.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $Button_SC.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
@@ -484,8 +485,8 @@ $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb(90, 9
 $button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)} else {$this.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)}
 if ($Button_V2W.Tag -eq 'Enable') {$Button_W2V.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)}
 if ($Button_W2V.Tag -eq 'Enable') {$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)}
-if ($Button_LB.Tag -eq 'Enable') {$Button_X.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)}
-if ($Button_X.Tag -eq 'Enable') {$Button_LB.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)}
+if ($Button_LB.Tag -eq 'Enable') {$Button_PB.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)}
+if ($Button_PB.Tag -eq 'Enable') {$Button_LB.BackColor = [System.Drawing.Color]::FromArgb(90, 90, 90)}
 })
 $PageMain.Controls.Add($button)
 return $button}
@@ -499,7 +500,7 @@ function Button_PageW2V {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageW2V.SelectedItem)) {$null} else {$DropBox1_PageW2V.SelectedItem = $null}
-$ListView1_PageW2V.Items.Clear()
+$ListView1_PageW2V.Items.Clear();#$ListView1_PageW2V.Columns[0].Width = -2
 $DropBox1_PageW2V.ResetText();$DropBox1_PageW2V.Items.Clear()
 $DropBox2_PageW2V.ResetText();$DropBox2_PageW2V.Items.Clear()
 Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_PageW2V.Items.Add($_)}
@@ -512,7 +513,7 @@ function Button_PageV2W {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageV2W.SelectedItem)) {$null} else {$DropBox1_PageV2W.SelectedItem = $null}
-$ListView1_PageV2W.Items.Clear()
+$ListView1_PageV2W.Items.Clear();#$ListView1_PageW2V.Columns[0].Width = -2
 $DropBox1_PageV2W.ResetText();$DropBox1_PageV2W.Items.Clear()
 $DropBox2_PageV2W.ResetText();$DropBox2_PageV2W.Items.Clear()
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageV2W.Items.Add($_)}
@@ -694,12 +695,91 @@ function Dropbox2SC {
 $global:ConsoleFontSize = "$($DropBox2_PageSC.SelectedItem)"
 if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
 [WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
-#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
+function LBX_Stage1 {$global:LBX_Stage = 1;
+$ListView1_PageLBX.GridLines = $false
+$ListView1_PageLBX.CheckBoxes = $false # Enable checkboxes
+$ListView1_PageLBX.FullRowSelect = $true # Select the entire row when an item is selected
+$ListView1_PageLBX.Items.Clear();
+# Add columns to the ListView1_PageLBX
+# Add items to the ListView1_PageLBX
+$item1 = New-Object System.Windows.Forms.ListViewItem("Misc")
+#$item1.SubItems.Add("Description for Misc")
+$ListView1_PageLBX.Items.Add($item1)
+$PathCheck = "$PSScriptRoot\\list"
+if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
+Get-ChildItem -Path "$FilePath\*.base" -Name | ForEach-Object {[void]$ListView1_PageLBX.Items.Add($_)}
+#$listViewSelect = $listView.SelectedItems
+#$listViewFocused = $listView.FocusedItem
+#Write-Host "sel:$listViewSelect  foc:$listViewFocused"
+}
+function LBX_Stage2 {$global:LBX_Stage = 2;
+$GRP = $null;if ($marked -ne $null) {$global:listViewSelectS2 = $marked} else {$global:listViewSelectS2 = $ListView1_PageLBX.FocusedItem}
+if ($listViewSelectS2 -eq 'Misc') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Selected misc.'}
+if ($listViewSelectS2 -ne 'Misc') {
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
+$parta, $global:BaseFile, $partc = $listViewSelectS2 -split '[{}]'
+$ListView1_PageLBX.Items.Clear();Get-Content "$FilePath\$BaseFile" | ForEach-Object {
+$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh = $_ -split "[][]"
+if ($partXb -eq 'GROUP') {if (-not ($partXd -eq $GRP)) {
+$GRP = "$partXd"
+$item1 = New-Object System.Windows.Forms.ListViewItem("$partXd")
+#$item1.SubItems.Add("$partXf")
+$ListView1_PageLBX.Items.Add($item1)}}}
+}
+$ListView1_PageLBX.GridLines = $false
+$ListView1_PageLBX.CheckBoxes = $false # Enable checkboxes
+$ListView1_PageLBX.FullRowSelect = $true # Select the entire row when an item is selected
+}
+function LBX_Stage3 {$global:LBX_Stage = 3;
+if ($marked -ne $null) {$global:listViewSelectS3 = $marked} else {$global:listViewSelectS3 = $ListView1_PageLBX.FocusedItem}
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
+$parta, $global:listViewFocus, $partc = $listViewSelectS3 -split '[{}]'
+$ListView1_PageLBX.Items.Clear();Get-Content "$FilePath\$BaseFile" | ForEach-Object {
+$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[][]"
+if ($partXb -eq 'GROUP') {
+if ($partXd -eq $listViewFocus) {
+$item1 = New-Object System.Windows.Forms.ListViewItem("$partXf");$item1.SubItems.Add("$partXg");$ListView1_PageLBX.Items.Add($item1)}}}
+$ListView1_PageLBX.GridLines = $false;$ListView1_PageLBX.CheckBoxes = $true;$ListView1_PageLBX.FullRowSelect = $true
+}
+function LBX_Stage4 {$global:LBX_Stage = 4;
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LSTZ"} else {$FilePathLST = "$PSScriptRoot\`$LSTZ"}
+$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
+#$checkedItems = $ListView1_PageLBX.CheckedItems | ForEach-Object { $_.Text }
+#[System.Windows.Forms.MessageBox]::Show(("Checked Items: " + ($checkedItems -join ", ")), "Checked Items")
+$global:checkedItems = $ListView1_PageLBX.CheckedItems | ForEach-Object {$listWrite = 0
+$parta, $listViewChecked, $partc = $_ -split '[{}]'
+Get-Content "$FilePath\$BaseFile" | ForEach-Object {
+$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[][]"
+if ($partXb -eq 'GROUP') {if ($partXd -ne $listViewFocus) {$listWrite = 0}}
+if ($partXb -eq 'GROUP') {if ($partXf -ne $listViewChecked) {$listWrite = 0}}
+if ($partXb -eq 'GROUP') {if ($partXd -eq $listViewFocus) {if ($partXf -eq $listViewChecked) {$listWrite = 1}}}
+if ($listWrite -eq '1') {Add-Content -Path "$FilePathLST" -Value "$_" -Encoding UTF8}}}
+$ListView1_PageLBX.CheckBoxes = $false;$ListView1_PageLBX.Items.Clear();$ListView1_PageLBX.Items.Add("Create New List")
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
+Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBX.Items.Add($_)}
+}
+function LBX_Stage5 {
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
+$listViewSelectS5 = $ListView1_PageLBX.FocusedItem
+$parta, $partb, $partc = $listViewSelectS5 -split '[{}]'
+if ($partb -eq 'Create New List') {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($boxresult -ne "OK") {$ListName = "$null";}
+if ($boxresult -eq "OK") {$ListName = "$promptout.list";$ListTarget = "$FilePath\$promptout.list";if (Test-Path -Path $ListTarget) {$null} else {Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}}
+}
+if ($partb -ne 'Create New List') {$ListName = "$partb";$ListTarget = "$FilePath\$partb"}
+Get-Content "$FilePath\`$LSTZ" | ForEach-Object {Add-Content -Path "$ListTarget" -Value "$_" -Encoding UTF8}
+$PathCheck = "$FilePath\`$LSTZ";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePath\`$LSTZ" -Force}
+
+if ($ListName -ne "$null") {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName"}
+$global:LBX_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBX.Visible = $false
+}
 #Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
 #Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
-#Get-ChildItemNULL | Select-Object Name, Length, Extension
-#Get-ProcessNULL | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
-#Invoke-CommandNULL -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
+#Get-ChildItem | Select-Object Name, Length, Extension
+#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
+#GetProcess | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
+#InvokeCommand -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
 #ForEach ($i in Get-Content "c:\$\test.txt") {[void]$listview.Items.Add($i)}
 #ForEach ($line in $command) {$textBox.AppendText("$line`r`n")}  
 #ForEach ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
@@ -713,6 +793,7 @@ if ($Page -eq 'PageSC') {$PageSC.Controls.Add($element)}
 if ($Page -eq 'PageSplash') {$PageSplash.Controls.Add($element)}
 if ($Page -eq 'PageConsole') {$PageConsole.Controls.Add($element)}
 if ($Page -eq 'PageDebug') {$PageDebug.Controls.Add($element)}
+if ($Page -eq 'PageLBX') {$PageLBX.Controls.Add($element)}
 if ($Page -eq 'PageMain') {$PageMain.Controls.Add($element)}}
 function LoadSettings {
 $LoadINI = Get-Content -Path "$PSScriptRoot\\windick.ini" | Select-Object -Skip 1
@@ -828,7 +909,8 @@ if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$Console
 #$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
 #Write-Error "ERROR: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
 #Remove-Item -Path "$env:temp\`$CON" -Recurse
-
+$PathCheck = "$PSScriptRoot\\`$LSTZ";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$LSTZ" -Force}
+$PathCheck = "$PSScriptRoot\\list\\`$LSTZ";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\list\`$LSTZ" -Force}
 $PathCheck = "$PSScriptRoot\\`$DSK";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$DSK" -Force}
 $PathCheck = "$env:temp\\`$CON";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:temp\`$CON" -Force}
 ######################
@@ -872,6 +954,7 @@ $PageLB = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.
 $PagePB = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PagePB);$PagePB.Visible = $false
 $PageBC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageBC);$PageBC.Visible = $false
 $PageSC = NewPanel -C '51' -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageSC);$PageSC.Visible = $false
+$PageLBX = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageLBX);$PageLBX.Visible = $false;
 $PageBlank = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageBlank);$PageBlank.Visible = $false
 $PageDebug = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageDebug);$PageDebug.Visible = $false;
 $PageConsole = NewPanel -C '25' -X '0' -Y '0' -W '1000' -H '666';$form.Controls.Add($PageConsole);$PageConsole.Visible = $false;
@@ -884,143 +967,9 @@ $PSHandle = [WinMekanix.Functions]::GetConsoleWindow();$PanelHandle = $PageDebug
 $Button_V2W = NewPageButton -X '10' -Y '60' -W '230' -H '65' -C '0' -Text 'Image Processing';$Button_V2W.Visible = $false
 $Button_W2V = NewPageButton -X '10' -Y '60' -W '230' -H '65' -C '0' -Text 'Image Processing'
 $Button_LB = NewPageButton -X '10' -Y '180' -W '230' -H '65' -C '0' -Text 'Image Management'
-$Button_X = NewPageButton -X '10' -Y '180' -W '230' -H '65' -C '0' -Text 'Image Management';$Button_X.Visible = $false
 $Button_PB = NewPageButton -X '10' -Y '180' -W '230' -H '65' -C '0' -Text 'Image Management';$Button_PB.Visible = $false
 $Button_BC = NewPageButton -X '10' -Y '420' -W '230' -H '65' -C '0' -Text 'Boot Creator'
 $Button_SC = NewPageButton -X '10' -Y '540' -W '230' -H '65' -C '0' -Text 'Settings'
-
-#List Viewers Configuration
-$WSIZ = [int](335 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](400 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](25 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](85 * $ScaleRef * $ScaleFactor)
-$ListView1_PageLB = New-Object System.Windows.Forms.ListView
-$ListView1_PageLB.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_PageLB.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView1_PageLB.View = "List"
-$ListView1_PageLB.View = "Details"
-$ListView1_PageLB.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$ListView1_PageLB.ForeColor = 'White'
-$ListView1_PageLB.Visible = $true
-$ListView1_PageLB.MultiSelect = $false
-$ListView1_PageLB.HideSelection = $true
-$ListView1_PageLB.Columns.Add("Available:")
-$ListView1_PageLB.HeaderStyle = 'None'
-$ListView1_PageLB.Columns[0].Width = -2
-$PageLB.Controls.Add($ListView1_PageLB)
-
-$WSIZ = [int](335 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](400 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](390 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](85 * $ScaleRef * $ScaleFactor)
-$ListView2_PageLB = New-Object System.Windows.Forms.ListView
-$ListView2_PageLB.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView2_PageLB.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView2_PageLB.View = "List"
-$ListView2_PageLB.View = "Details"
-$ListView2_PageLB.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$ListView2_PageLB.ForeColor = 'White'
-$ListView2_PageLB.Visible = $true
-$ListView2_PageLB.MultiSelect = $false
-$ListView2_PageLB.HideSelection = $true
-$ListView2_PageLB.Columns.Add("Available:")
-$ListView2_PageLB.HeaderStyle = 'None'
-$ListView2_PageLB.Columns[0].Width = -2
-$PageLB.Controls.Add($ListView2_PageLB)
-
-$WSIZ = [int](335 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](400 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](25 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](85 * $ScaleRef * $ScaleFactor)
-$ListView1_PagePB = New-Object System.Windows.Forms.ListView
-$ListView1_PagePB.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_PagePB.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView1_PagePB.View = "List"
-$ListView1_PagePB.View = "Details"
-$ListView1_PagePB.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$ListView1_PagePB.ForeColor = 'White'
-$ListView1_PagePB.Visible = $true
-$ListView1_PagePB.MultiSelect = $false
-$ListView1_PagePB.HideSelection = $true
-$ListView1_PagePB.Columns.Add("Available:")
-$ListView1_PagePB.HeaderStyle = 'None'
-$ListView1_PagePB.Columns[0].Width = -2
-$PagePB.Controls.Add($ListView1_PagePB)
-
-$WSIZ = [int](335 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](400 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](390 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](85 * $ScaleRef * $ScaleFactor)
-$ListView2_PagePB = New-Object System.Windows.Forms.ListView
-$ListView2_PagePB.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView2_PagePB.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView2_PagePB.View = "List"
-$ListView2_PagePB.View = "Details"
-$ListView2_PagePB.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$ListView2_PagePB.ForeColor = 'White'
-$ListView2_PagePB.Visible = $true
-$ListView2_PagePB.MultiSelect = $false
-$ListView2_PagePB.HideSelection = $true
-$ListView2_PagePB.Columns.Add("Available:")
-$ListView2_PagePB.HeaderStyle = 'None'
-$ListView2_PagePB.Columns[0].Width = -2
-$PagePB.Controls.Add($ListView2_PagePB)
-
-$WSIZ = [int](700 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](325 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](25 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](85 * $ScaleRef * $ScaleFactor)
-#$ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '333'
-#$ListView1_PageSC = NewListView -X '100' -Y '20' -W '1000' -H '200'
-$ListView1_PageW2V = New-Object System.Windows.Forms.ListView
-$ListView1_PageW2V.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_PageW2V.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView1_PageW2V.View = "List"
-$ListView1_PageW2V.View = "Details"
-$ListView1_PageW2V.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-#$ListView1_PageW2V.UseItemStyleForSubItems = $true
-$ListView1_PageW2V.ForeColor = 'White'
-#$ListView1_PageW2V.OwnerDraw = $true
-$ListView1_PageW2V.Visible = $true
-$ListView1_PageW2V.MultiSelect = $false
-$ListView1_PageW2V.HideSelection = $true
-$ListView1_PageW2V.Columns.Add("Available:")
-$ListView1_PageW2V.HeaderStyle = 'None'
-$ListView1_PageW2V.Columns[0].Width = -2
-#$ListView1_PageW2V.Columns.Add("Column2:")
-#$ListView1_PageW2V.Columns[1].Width = -2
-$PageW2V.Controls.Add($ListView1_PageW2V)
-$ListView1_PageV2W = New-Object System.Windows.Forms.ListView
-$ListView1_PageV2W.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_PageV2W.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView1_PageV2W.View = "List"
-$ListView1_PageV2W.View = "Details"
-$ListView1_PageV2W.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$ListView1_PageV2W.ForeColor = 'White'
-$ListView1_PageV2W.Visible = $true
-$ListView1_PageV2W.MultiSelect = $false
-$ListView1_PageV2W.HideSelection = $true
-$ListView1_PageV2W.Columns.Add("Available:")
-$ListView1_PageV2W.HeaderStyle = 'None'
-#$ListView1_PageV2W.Columns.Add("Column2:")
-$ListView1_PageV2W.Columns[0].Width = -2
-#$ListView1_PageV2W.Columns[1].Width = -2
-$PageV2W.Controls.Add($ListView1_PageV2W)
-
-$ListView1_PageBC = New-Object System.Windows.Forms.ListView
-$ListView1_PageBC.Location = New-Object Drawing.Point($XLOC, $YLOC)
-$ListView1_PageBC.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$ListView1_PageBC.View = "List"
-$ListView1_PageBC.View = "Details"
-$ListView1_PageBC.BackColor = [System.Drawing.Color]::FromArgb(33, 33, 33)
-$ListView1_PageBC.ForeColor = 'White'
-$ListView1_PageBC.Visible = $true
-$ListView1_PageBC.MultiSelect = $false
-$ListView1_PageBC.HideSelection = $true
-$ListView1_PageBC.Columns.Add("Available:")
-$ListView1_PageBC.HeaderStyle = 'None'
-$ListView1_PageBC.Columns[0].Width = -2
-$PageBC.Controls.Add($ListView1_PageBC)
 
 #$explorer = New-Object -ComObject Shell.Explorer
 #$explorerControl = New-Object System.Windows.Forms.Control
@@ -1040,7 +989,8 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LAUNCH=DISABLED" -Encoding UTF8
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 
-$Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Processing'
+$Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '15' -Y '10' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Processing'
+$ListView1_PageW2V = NewListView -X '25' -Y '85' -W '700' -H '325';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageW2V.Columns.Add("X", $WSIZ)
 $Button1_PageW2V = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
@@ -1065,7 +1015,8 @@ $TextBox1_PageW2V = NewTextBox -X '25' -Y '535' -W '300' -H '40'
 $Label4_PageW2V = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text 'VHDX Size (GB)'
 $TextBox2_PageW2V = NewTextBox -X '425' -Y '535' -W '300' -H '40'
 
-$Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Processing'
+$Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '15' -Y '10' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Processing'
+$ListView1_PageV2W = NewListView -X '25' -Y '85' -W '700' -H '325';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageV2W.Columns.Add("X", $WSIZ)
 $Button1_PageV2W = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
 if ($halt -ne '1') {
@@ -1090,7 +1041,9 @@ $TextBox1_PageV2W = NewTextBox -X '25' -Y '535' -W '300' -H '40'
 $Label4_PageV2W = NewLabel -X '485' -Y '500' -W '205' -H '30' -Text '   Compression'
 $DropBox3_PageV2W = NewDropBox -X '425' -Y '535' -W '300' -H '40' -C '0' -DisplayMember 'Description'
 
-$Page = 'PageLB';$Label0_PageLB = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Management'
+$Page = 'PageLB';$Label0_PageLB = NewLabel -X '15' -Y '10' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Management'
+$ListView1_PageLB = NewListView -X '25' -Y '85' -W '335' -H '400';$WSIZ = [int](330 * $ScaleRef * $ScaleFactor);$ListView1_PageLB.Columns.Add("X", $WSIZ)
+$ListView2_PageLB = NewListView -X '390' -Y '85' -W '335' -H '400';$WSIZ = [int](330 * $ScaleRef * $ScaleFactor);$ListView2_PageLB.Columns.Add("X", $WSIZ)
 $Button1_PageLB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text 'List Execute' -Hover_Text 'List Execute' -Add_Click {
 #$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 #$FileFilt = "List files (*.list)|*.list";PickFile;if ($Pick) {
@@ -1106,27 +1059,16 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding 
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-RUN" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-$Button2_PageLB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text 'List Builder' -Hover_Text 'List Builder' -Add_Click {
-#$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-#$FileFilt = "Base files (*.base)|*.Base";PickFile;if ($Pick) {
-#Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-#Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-#Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-RUNEXT" -Encoding UTF8
-#Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-LIST" -Encoding UTF8
-#Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=$Pick" -Encoding UTF8
-#Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8
-#Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-NEW" -Encoding UTF8
-Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
+$Button2_PageLB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text 'List Builder' -Hover_Text 'List Builder' -Add_Click {LBX_Stage1;$PageLBX.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLBX.BringToFront()}
+
 $Button3_PageLB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text 'Edit List' -Hover_Text 'Edit List' -Add_Click {
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $FileFilt = "List files (*.list;*.base)|*.list;*.base";PickFile
 if ($Pick) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$Pick"}}
 
-$Page = 'PagePB';$Label0_PagePB = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Management'
+$Page = 'PagePB';$Label0_PagePB = NewLabel -X '15' -Y '10' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Image Management'
+$ListView1_PagePB = NewListView -X '25' -Y '85' -W '335' -H '400';$WSIZ = [int](330 * $ScaleRef * $ScaleFactor);$ListView1_PagePB.Columns.Add("X", $WSIZ)
+$ListView2_PagePB = NewListView -X '390' -Y '85' -W '335' -H '400';$WSIZ = [int](330 * $ScaleRef * $ScaleFactor);$ListView2_PagePB.Columns.Add("X", $WSIZ)
 $Button0_PagePB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text 'Pack Execute' -Hover_Text 'Pack Execute' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
@@ -1171,9 +1113,7 @@ Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][$command][CMD][IA]" -Encodin
 Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%][CMD][IA]" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}}
-$Button3_PagePB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text 'Build Pack' -Hover_Text 'Build Pack' -Add_Click {
-
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Package' -MessageBoxText 'Enter new .pkx package name'
+$Button3_PagePB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text 'Build Pack' -Hover_Text 'Build Pack' -Add_Click {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Package' -MessageBoxText 'Enter new .pkx package name'
 if ($boxresult -ne "OK") {$action.Cancel = $true}
 if ($boxresult -eq "OK") {
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LSTZ"} else {$FilePathLST = "$PSScriptRoot\`$LSTZ"}
@@ -1207,7 +1147,8 @@ Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encodi
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-EXPORT" -Encoding UTF8
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
-$Page = 'PageBC';$Label0_PageBC = NewLabel -X '15' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Boot Creator' 
+$Page = 'PageBC';$Label0_PageBC = NewLabel -X '15' -Y '10' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'Boot Creator'
+$ListView1_PageBC = NewListView -X '25' -Y '85' -W '700' -H '325';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageBC.Columns.Add("X", $WSIZ)
 $Button1_PageBC = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'Start' -Hover_Text 'Start Boot Disk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
 $PathCheck = "$PSScriptRoot\\boot";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\boot"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (-not (Test-Path -Path $PathCheckX)) {ImportBoot}
@@ -1236,7 +1177,7 @@ $DropBox2_PageBC = NewDropBox -X '425' -Y '455' -W '300' -H '40' -DisplayMember 
 $Label3_PageBC = NewLabel -X '315' -Y '500' -W '175' -H '30' -Text 'Target Disk'
 $DropBox3_PageBC = NewDropBox -X '25' -Y '535' -W '700' -H '40' -Text 'Select Disk'
 
-$Page = 'PageSC';$Label0_PageSC = NewLabel -X '15' -Y '15' -W '725' -H '50' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
+$Page = 'PageSC';$Label0_PageSC = NewLabel -X '15' -Y '10' -W '725' -H '50' -Bold 'True' -TextSize '24' -Text 'Settings Configuration'
 $Button1_PageSC = NewButton -X '25' -Y '585' -W '300' -H '60' -Text 'Console Settings' -Hover_Text 'Console Settings' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
@@ -1247,7 +1188,7 @@ Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 $Button2_PageSC = NewButton -X '425' -Y '585' -W '300' -H '60' -Text 'Debug' -Hover_Text 'Debug' -Add_Click {
 $WSIZ = [int](1000 * $ScaleRef * $ScaleFactor);$HSIZ = [int](575 * $ScaleRef * $ScaleFactor)
 $XLOC = [int](0 * $ScaleRef * $ScaleFactor);$YLOC = [int](0 * $ScaleRef * $ScaleFactor)
-$PageDebug.Visible = $true;$PageDebug.BringToFront()
+$PageDebug.Visible = $true;$PageMain.Visible = $false;$PageSC.Visible = $false;$PageDebug.BringToFront()
 [WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);[WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true);}
 
 $GroupName = 'Group1';$GroupBox1_PageSC = NewGroupBox -X '15' -Y '85' -W '260' -H '75' -Text 'Console Window'
@@ -1286,7 +1227,7 @@ if ($ScaleFactor -eq '1.00') {$ButtonRadio2_Group2.Checked = $true}
 if ($ScaleFactor -eq '0.75') {$ButtonRadio1_Group2.Checked = $true}
 
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
-$PageConsole.Visible = $false;$PageMain.Visible = $true;
+$PageMain.Visible = $true;$PageConsole.Visible = $false;
 if ($Button_LB.Tag -eq 'Enable') {Button_PageLB}
 if ($Button_PB.Tag -eq 'Enable') {Button_PagePB}
 if ($Button_BC.Tag -eq 'Enable') {Button_PageBC}
@@ -1295,8 +1236,22 @@ if ($Button_V2W.Tag -eq 'Enable') {Button_PageV2W}
 if ($Button_W2V.Tag -eq 'Enable') {Button_PageW2V}
 Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
 
-$Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageDebug.Visible = $false}
+$Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageMain.Visible = $true;$PageSC.Visible = $true;$PageDebug.Visible = $false}
 
+$Page = 'PageLBX';$Label1_PageLBX = NewLabel -X '325' -Y '15' -W '625' -H '50' -Bold 'True' -TextSize '24' -Text 'List Builder'
+$Button1_PageLBX = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+if ($LBX_Stage -eq '1') {$global:LBX_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBX.Visible = $false}
+if ($LBX_Stage -eq '2') {LBX_Stage1}
+if ($LBX_Stage -eq '3') {$global:marked = $listViewSelectS2;LBX_Stage2}
+if ($LBX_Stage -eq '4') {$global:marked = $listViewSelectS3;LBX_Stage3}
+if ($LBX_Stage -eq '5') {LBX_Stage4}}
+$Button2_PageLBX = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
+if ($LBX_Stage -eq '4') {if ($ListView1_PageLBX.SelectedItems) {$global:marked = $null;LBX_Stage5} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
+if ($LBX_Stage -eq '3') {if ($ListView1_PageLBX.CheckedItems) {$global:marked = $null;LBX_Stage4} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
+if ($LBX_Stage -eq '2') {if ($ListView1_PageLBX.SelectedItems) {$global:marked = $null;LBX_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
+if ($LBX_Stage -eq '1') {if ($ListView1_PageLBX.SelectedItems) {$global:marked = $null;LBX_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
+$ListView1_PageLBX = NewListView -X '25' -Y '90' -W '950' -H '475';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PageLBX.Columns.Add("Item Name", $WSIZ);#$ListView1_PageLBX.Columns.Add("Description", $WSIZ)
+$WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PageLBX.Columns.Add("X", $WSIZ)
 #$FilePath = "C:\gif.gif";$FileContent = Get-Content -Path "$FilePath" -Encoding Byte;$Base64Out = [System.Convert]::ToBase64String($FileContent);Write-Host "$Base64Out"#Convert
 [string]$logomain=@"
 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
@@ -1313,7 +1268,7 @@ R0lGODlhDAAMAPcAAAsKBgsMBB0CARMSCBIRDBkYCBsaDwYKFBsYFC0FAiQMAzoJBCEfDSQnFygmHzAq
 "@
 $Page = 'PageMain';$pictureBase64 = $logo3;$PictureBox2_PageMain = NewPictureBox -X '15' -Y '260' -W '220' -H '145'
 $Page = 'PageMain';$pictureBase64 = $logomain;$PictureBox1_PageMain = NewPictureBox -X '15' -Y '260' -W '220' -H '145'
-$bgimage = Get-Random -Minimum 1 -Maximum 31;if ($bgimage -le 29) {$PictureBox1_PageMain.BringToFront()};if ($bgimage -ge 30) {$PictureBox2_PageMain.BringToFront()}
+$bgimage = Get-Random -Minimum 1 -Maximum 100;if ($bgimage -le 99) {$PictureBox1_PageMain.BringToFront()};if ($bgimage -eq 100) {$PictureBox2_PageMain.BringToFront()}
 $Page = 'PageSplash';$pictureBase64 = $logojpgB64;$PictureBox1_PageSplash = NewPictureBox -X '2' -Y '125' -W '750' -H '420'
 $pictureBase64 = $logo2;$PictureBox2_PageSplash = NewPictureBox -X '320' -Y '385' -W '20' -H '20';$PictureBox2_PageSplash.BringToFront()
 $form.ResumeLayout()
