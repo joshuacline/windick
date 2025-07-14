@@ -1869,7 +1869,7 @@ SET "$LST1="&&SET "$LST2="&&IF EXIST "$LST*" DEL /F $LST*>NUL
 CALL:PAUSED
 EXIT /B
 :LIST_BASE_CREATE
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                         	    %UNI01% List Builder&&ECHO.&&ECHO. (%##%*%$$%) All base list items&&ECHO. (%##%1%$$%) Appx&&ECHO. (%##%2%$$%) Feature&&ECHO. (%##%3%$$%) Component&&ECHO. (%##%4%$$%) Capability
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            %UNI01% List Builder&&ECHO.&&ECHO. (%##%*%$$%) All base list items&&ECHO. (%##%1%$$%) Appx&&ECHO. (%##%2%$$%) Feature&&ECHO. (%##%3%$$%) Component&&ECHO. (%##%4%$$%) Capability
 ECHO. (%##%5%$$%) Service&&ECHO. (%##%6%$$%) Task&&ECHO. (%##%7%$$%) Driver&&ECHO.&&ECHO.                         Multiples OK ( %##%1 2 3%$$% )&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=BASE_CHOICE"&&SET "$CASE=ANY"&&CALL:MENU_SELECT
 IF "%BASE_CHOICE%"=="*" SET "BASE_CHOICE=1 4 2 5 6 7 3"
 SET "$GO="&&FOR /F "TOKENS=1" %%a IN ("%BASE_CHOICE%") DO (FOR %%1 IN (1 2 3 4 5 6 7) DO (IF "%%a"=="%%1" SET "$GO=1"))
