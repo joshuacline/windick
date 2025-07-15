@@ -1135,7 +1135,7 @@ Add-Content -Path "$ListTarget" -Value "[GROUP][🪛 Basic Option][✅ Basic Sub
 Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.✅ Basic SubOption Enable was picked.][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[GROUP][🪛 Basic Option][❎ Basic SubOption Disable]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.❎ Basic SubOption Disable was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[GROUP][🛠  Advanced Option][🛠  Advanced SubOption][✅ Advanced SubOption Enable,❎ Advanced SubOption Disable][VolaTILE]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[GROUP][🛠️ Advanced Option][🛠️ Advanced SubOption][✅ Advanced SubOption Enable,❎ Advanced SubOption Disable][VolaTILE]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.✅ Advanced SubOption Enable was picked.][CMD][IA][1]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.❎ Advanced SubOption Disable was picked.][CMD][IA][2]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.List items without a tag always execute.][CMD][IA]" -Encoding UTF8

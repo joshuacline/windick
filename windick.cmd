@@ -727,7 +727,7 @@ IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" EXIT /B
 CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                         Enter name of new .LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=NEW_NAME"&&SET "$CASE=ANY"&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
 IF NOT DEFINED NEW_NAME EXIT /B
 SET "$PICK=%LIST_FOLDER%\%NEW_NAME%.list"&&SET "$CHOICE=%NEW_NAME%.list"
-IF "%SELECTX%"=="1" (ECHO.MULTI-LIST&&ECHO.This is an example of a custom menu for recovery.&&ECHO.Set a custom banner in windick.ini.&&ECHO.&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\active_xyz.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Backup a vhdx to wim]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\backup_xyz.wim" ECHO.Deleting backup_xyz.wim...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\backup_xyz.wim"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -vhdx "active_xyz.vhdx" -index 1 -wim "backup_xyz.wim" -xlvl fast][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx with name prompt]&&ECHO.[PROMPT1][               Enter new vhdx name: 0-9 A-Z - No Spaces][VAR1]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\%%VAR1%%.vhdx" ECHO.Deleting %%VAR1%%.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\%%VAR1%%.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "%%VAR1%%.vhdx" -size 25][CMD][IA]&&ECHO.&&ECHO.[GROUP][Open an app Example][Notepad]&&ECHO.[COMMAND][start notepad.exe][CMD][IA]&&ECHO.[GROUP][Open an app Example][Regedit]&&ECHO.[COMMAND][start regedit.exe][CMD][IA])>"%$PICK%"
+IF "%SELECTX%"=="1" (ECHO.MULTI-LIST&&ECHO.This is an example of a custom menu for recovery.&&ECHO.Set a custom banner in windick.ini.&&ECHO.&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\active_xyz.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Backup a vhdx to wim]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\backup_xyz.wim" ECHO.Deleting backup_xyz.wim...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\backup_xyz.wim"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -vhdx "active_xyz.vhdx" -index 1 -wim "backup_xyz.wim" -xlvl fast][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx with name prompt]&&ECHO.[PROMPT1][               Enter new vhdx name: 0-9 A-Z - No Spaces][VolaTILE]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\%%PROMPT1%%.vhdx" ECHO.Deleting %%PROMPT1%%.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\%%PROMPT1%%.vhdx"%%}%%NUL][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "%%PROMPT1%%.vhdx" -size 25][CMD][IA]&&ECHO.&&ECHO.[GROUP][Open an app Example][Notepad]&&ECHO.[COMMAND][start notepad.exe][CMD][IA]&&ECHO.[GROUP][Open an app Example][Regedit]&&ECHO.[COMMAND][start regedit.exe][CMD][IA])>"%$PICK%"
 IF "%SELECTX%"=="2" (ECHO.EXEC-LIST&&ECHO.This is an example of an execution list for recovery. A reboot to restore scenerio.&&ECHO.[COMMANDQ][IF EXIST "Z:\$\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /f "Z:\$\active_xyz.vhdx"][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][IA]&&ECHO.[COMMANDQ][REM %%PROG_SOURCE%%\windick.cmd -nextboot -vhdx][CMD][IA]&&ECHO.[COMMANDQ][PAUSE][CMD][IA])>"%$PICK%"
 START NOTEPAD.EXE "%$PICK%"
 EXIT /B
@@ -1209,7 +1209,7 @@ FOR %%a in (LIST_ITEM BASE_MEAT LIST_ACTN) DO (IF NOT DEFINED %%a EXIT /B)
 FOR /F "TOKENS=*" %%a in ("%LIST_ITEM%") DO (IF "%%a"=="GROUP" CALL SET "LIST_CATCH=%LIST_MARK%")
 IF DEFINED LIST_MARK IF NOT DEFINED LIST_CATCH EXIT /B
 IF NOT "%LIST_CATCH%"=="" IF NOT "%LIST_MARK%"=="" IF NOT "%LIST_CATCH%"=="%LIST_MARK%" EXIT /B
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%LIST_ITEM%"=="PROMPT%%a" SET "VAR%%a=%LIST_ACTN%"&&EXIT /B)
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%LIST_ITEM%"=="PROMPT%%a" SET "PROMPT%%a=%LIST_ACTN%"&&EXIT /B)
 IF "%LIST_ITEM%:%LIST_TIME%"=="COMMAND:IA" CALL:COMMAND_ITEM
 IF "%LIST_ITEM%:%LIST_TIME%"=="COMMANDQ:IA" CALL:COMMAND_ITEM
 IF "%LIST_ITEM%:%LIST_TIME%"=="APPX:IA" CALL:APPX_ITEM
@@ -1545,16 +1545,16 @@ IF NOT DEFINED %LIST_TIME%_PREPARE SET "%LIST_TIME%_PREPARE=1"&&CALL:SC_RO_PREPA
 IF NOT DEFINED BASE_MEAT EXIT /B
 IF "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Copying Package %@@%%BASE_MEAT% for %##%%SCRO%%$$%...
 IF "%LIST_ITEM%"=="EXTPACKAGE" IF NOT EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO. %XLR4%%PACK_FOLDER%\%BASE_MEAT% doesn't exist.%$$%&&EXIT /B
-IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%APPLYDIR_MASTER%\$">NUL
-IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO.[EXTPACKAGE][%BASE_MEAT%][INSTALL][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.list"
+IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" COPY /Y "%PACK_FOLDER%\%BASE_MEAT%" "%DRVTAR%\$">NUL
+IF "%LIST_ITEM%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%BASE_MEAT%" ECHO.[EXTPACKAGE][%BASE_MEAT%][INSTALL][IA]>>"%DRVTAR%\$\%SCRO%.list"
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" CALL:MOUNT_CLEAR
-IF NOT "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Scheduling %@@%%LIST_ITEM%%$$% %BASE_MEAT% %@@%%LIST_ACTN%%$$% for %##%%SCRO%%$$%.&&ECHO.[%LIST_ITEM%][%BASE_MEAT%][%LIST_ACTN%][IA]>>"%APPLYDIR_MASTER%\$\%SCRO%.list"
+IF NOT "%LIST_ITEM%"=="EXTPACKAGE" ECHO.Scheduling %@@%%LIST_ITEM%%$$% %BASE_MEAT% %@@%%LIST_ACTN%%$$% for %##%%SCRO%%$$%.&&ECHO.[%LIST_ITEM%][%BASE_MEAT%][%LIST_ACTN%][IA]>>"%DRVTAR%\$\%SCRO%.list"
 IF NOT "%LIST_ITEM%"=="EXTPACKAGE" CALL:MOUNT_REST
 SET "BASE_MEAT="&&EXIT /B
 :SC_RO_PREPARE
-IF NOT EXIST "%APPLYDIR_MASTER%\$" MD "%APPLYDIR_MASTER%\$">NUL 2>&1
-COPY /Y "%PROG_FOLDER%\windick.cmd" "%APPLYDIR_MASTER%\$">NUL 2>&1
-IF NOT EXIST "%APPLYDIR_MASTER%\$\%SCRO%.LIST" ECHO.EXEC-LIST>"%APPLYDIR_MASTER%\$\%SCRO%.list"
+IF NOT EXIST "%DRVTAR%\$" MD "%DRVTAR%\$">NUL 2>&1
+COPY /Y "%PROG_FOLDER%\windick.cmd" "%DRVTAR%\$">NUL 2>&1
+IF NOT EXIST "%DRVTAR%\$\%SCRO%.LIST" ECHO.EXEC-LIST>"%DRVTAR%\$\%SCRO%.list"
 IF "%SCRO%"=="RunOnce" Reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\RunOnce" /v "Runonce" /t REG_EXPAND_SZ /d "%%WINDIR%%\Setup\Scripts\RunOnce.cmd" /f>NUL 2>&1
 IF NOT EXIST "%WINTAR%\Setup\Scripts" MD "%WINTAR%\Setup\Scripts">NUL 2>&1
 ECHO.%%SYSTEMDRIVE%%\$\windick.cmd -imagemgr -run -list %SCRO%.list -live>"%WINTAR%\Setup\Scripts\%SCRO%.cmd"
@@ -1729,8 +1729,8 @@ EXIT /B
 FOR /F "TOKENS=*" %%$ in ("%CHOICE_DISP%") DO (ECHO. ^( %##%%$XNT%%$$% ^) %%$)
 EXIT /B
 :VAR_CLEAR
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "VAR%%a=")
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "VAR%%a=%%VAR%%a%%")
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "PROMPT%%a=")
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "PROMPT%%a=%%PROMPT%%a%%")
 EXIT /B
 :MOUNT_CLEAR
 IF NOT DEFINED PROG_SOURCE EXIT /B
@@ -2008,38 +2008,39 @@ EXIT /B
 :MOUNT_INT
 FOR /F "TOKENS=1 DELIMS=\" %%X in ('REG QUERY "HKLM\$SOFTWARE" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "MOUNT=")
 IF "%MOUNT%"=="INT" EXIT /B
-SET "HIVE_USER=HKCU"&&REG UNLOAD HKU\$ALLUSER>NUL 2>&1
-SET "HIVE_SOFTWARE=HKLM\SOFTWARE"&&REG UNLOAD HKLM\$SOFTWARE>NUL 2>&1
-SET "HIVE_SYSTEM=HKLM\SYSTEM"&&REG UNLOAD HKLM\$SYSTEM>NUL 2>&1
-SET "MOUNT=INT"&&SET "APPLYDIR_MASTER=%SYSTEMDRIVE%"&&SET "CAPTUREDIR_MASTER=%SYSTEMDRIVE%"
-SET "APPLY_TARGET=ONLINE"&&SET "DRVTAR=%SYSTEMDRIVE%"&&SET "WINTAR=%WINDIR%"&&SET "USRTAR=%USERPROFILE%"
+SET "MOUNT=INT"&&SET "HIVE_USER=HKCU"&&SET "HIVE_SOFTWARE=HKLM\SOFTWARE"&&SET "HIVE_SYSTEM=HKLM\SYSTEM"&&SET "APPLY_TARGET=ONLINE"&&SET "DRVTAR=%SYSTEMDRIVE%"&&SET "WINTAR=%WINDIR%"&&SET "USRTAR=%USERPROFILE%"
 IF DEFINED CUR_SID SET "HIVE_USER=HKU\%CUR_SID%"
+REG UNLOAD HKU\$ALLUSER>NUL 2>&1
+REG UNLOAD HKLM\$SOFTWARE>NUL 2>&1
+REG UNLOAD HKLM\$SYSTEM>NUL 2>&1
 EXIT /B
 :MOUNT_USR
+SET "$GO="&&FOR /F "TOKENS=1 DELIMS=\" %%X in ('REG QUERY "HKU\$ALLUSER" /VE 2^>NUL') DO (IF "%%X"=="HKEY_USERS" SET "$GO=1")
+IF NOT DEFINED $GO SET "MOUNT="
 IF "%MOUNT%"=="USR" EXIT /B
-SET "MOUNT=USR"&&SET "HIVE_USER=HKU\$ALLUSER"&&REG UNLOAD HKU\$ALLUSER>NUL 2>&1
-SET "USRTAR=%SYSTEMDRIVE%\Users\Default"&&REG LOAD HKU\$ALLUSER "%SYSTEMDRIVE%\Users\Default\Ntuser.dat">NUL 2>&1
+SET "MOUNT=USR"&&SET "HIVE_USER=HKU\$ALLUSER"&&SET "USRTAR=%DRVTAR%\Users\Default"
+REG UNLOAD HKU\$ALLUSER>NUL 2>&1
+REG LOAD HKU\$ALLUSER "%DRVTAR%\Users\Default\Ntuser.dat">NUL 2>&1
 EXIT /B
 :MOUNT_EXT
 SET "$GO="&&FOR /F "TOKENS=1 DELIMS=\" %%X in ('REG QUERY "HKLM\$SOFTWARE" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "$GO=1")
 IF NOT DEFINED $GO SET "MOUNT="
 IF "%MOUNT%"=="EXT" EXIT /B
-SET "MOUNT=EXT"&&REG UNLOAD HKU\$ALLUSER>NUL 2>&1
-SET "APPLYDIR_MASTER=%VDISK_LTR%:"&&REG UNLOAD HKLM\$SOFTWARE>NUL 2>&1
-SET "CAPTUREDIR_MASTER=%VDISK_LTR%:"&&REG UNLOAD HKLM\$SYSTEM>NUL 2>&1
-SET "APPLY_TARGET=IMAGE:%VDISK_LTR%:"&&SET "DRVTAR=%VDISK_LTR%:"&&SET "WINTAR=%VDISK_LTR%:\Windows"&&SET "USRTAR=%VDISK_LTR%:\Users\Default"
-SET "HIVE_USER=HKU\$ALLUSER"&&REG LOAD HKU\$ALLUSER "%VDISK_LTR%:\Users\Default\Ntuser.dat">NUL 2>&1
-SET "HIVE_SOFTWARE=HKLM\$SOFTWARE"&&REG LOAD HKLM\$SOFTWARE "%VDISK_LTR%:\WINDOWS\SYSTEM32\Config\SOFTWARE">NUL 2>&1
-SET "HIVE_SYSTEM=HKLM\$SYSTEM"&&REG LOAD HKLM\$SYSTEM "%VDISK_LTR%:\WINDOWS\SYSTEM32\Config\SYSTEM">NUL 2>&1
+SET "MOUNT=EXT"&&SET "HIVE_USER=HKU\$ALLUSER"&&SET "HIVE_SOFTWARE=HKLM\$SOFTWARE"&&SET "HIVE_SYSTEM=HKLM\$SYSTEM"&&SET "APPLY_TARGET=IMAGE:%VDISK_LTR%:"&&SET "DRVTAR=%VDISK_LTR%:"&&SET "WINTAR=%VDISK_LTR%:\Windows"&&SET "USRTAR=%VDISK_LTR%:\Users\Default"
+REG UNLOAD HKU\$ALLUSER>NUL 2>&1
+REG UNLOAD HKLM\$SOFTWARE>NUL 2>&1
+REG UNLOAD HKLM\$SYSTEM>NUL 2>&1
+REG LOAD HKU\$ALLUSER "%VDISK_LTR%:\Users\Default\Ntuser.dat">NUL 2>&1
+REG LOAD HKLM\$SOFTWARE "%VDISK_LTR%:\WINDOWS\SYSTEM32\Config\SOFTWARE">NUL 2>&1
+REG LOAD HKLM\$SYSTEM "%VDISK_LTR%:\WINDOWS\SYSTEM32\Config\SYSTEM">NUL 2>&1
 EXIT /B
 :MOUNT_MIX
 FOR /F "TOKENS=1 DELIMS=\" %%X in ('REG QUERY "HKLM\$SOFTWARE" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "MOUNT=")
 IF "%MOUNT%"=="MIX" EXIT /B
-SET "HIVE_USER=HKCU"&&REG UNLOAD HKU\$ALLUSER>NUL 2>&1
-SET "HIVE_SOFTWARE=HKLM\SOFTWARE"&&REG UNLOAD HKLM\$SOFTWARE>NUL 2>&1
-SET "HIVE_SYSTEM=HKLM\SYSTEM"&&REG UNLOAD HKLM\$SYSTEM>NUL 2>&1
-SET "MOUNT=MIX"&&SET "APPLYDIR_MASTER=%VDISK_LTR%:"&&SET "CAPTUREDIR_MASTER=%VDISK_LTR%:"
-SET "APPLY_TARGET=IMAGE:%VDISK_LTR%:"&&SET "DRVTAR=%VDISK_LTR%:"&&SET "WINTAR=%VDISK_LTR%:\Windows"&&SET "USRTAR=%VDISK_LTR%:\Users\Default"
+SET "MOUNT=MIX"&&SET "HIVE_USER=HKCU"&&SET "HIVE_SOFTWARE=HKLM\SOFTWARE"&&SET "HIVE_SYSTEM=HKLM\SYSTEM"&&SET "APPLY_TARGET=IMAGE:%VDISK_LTR%:"&&SET "DRVTAR=%VDISK_LTR%:"&&SET "WINTAR=%VDISK_LTR%:\Windows"&&SET "USRTAR=%VDISK_LTR%:\Users\Default"
+REG UNLOAD HKU\$ALLUSER>NUL 2>&1
+REG UNLOAD HKLM\$SOFTWARE>NUL 2>&1
+REG UNLOAD HKLM\$SYSTEM>NUL 2>&1
 EXIT /B
 ::#########################################################################
 :PACKAGE_MANAGEMENT
