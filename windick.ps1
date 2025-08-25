@@ -1,4 +1,4 @@
-﻿# Windows Deployment Image Customization Kit v 1205 (c) github.com/joshuacline
+﻿# Windows Deployment Image Customization Kit v 1206 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -102,7 +102,7 @@ $richTextBox.Visible = $true
 $element = $richTextBox;AddElement
 return $richTextBox}
 function NewListView {
-param([int]$X,[int]$Y,[int]$H,[int]$W,[int]$ListFontSize,[string]$Headers,[string]$Text)
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Headers,[string]$Text)
 $listview = New-Object System.Windows.Forms.ListView
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
@@ -114,7 +114,7 @@ $listview.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $listview.View = "Details";#$listview.View = "List"
 $listview.MultiSelect = $false
 $listview.HideSelection = $true
-if ($ListFontSize) {$fontX = [int]($ListFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)
+if ($ListViewFontSize -ne 'Auto') {$fontX = [int]($ListViewFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)
 $listview.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)}
 #$listview.HeaderStyle = 'Clickable';#NonClickable;#None
 if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle = 'None'}
@@ -176,7 +176,7 @@ $WindowState = 'Normal'
 $WSIZ = [int](350 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](275 * $ScaleRef * $ScaleFactor)
 $formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
+$fontX = [int](8.5 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
 $formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $labelbox = New-Object System.Windows.Forms.Label
 $labelbox.Text = "$MessageBoxText"
@@ -504,6 +504,7 @@ $DropBox2_PageBC.Tag = 'Disable'
 $DropBox3_PageBC.Tag = 'Disable'
 $DropBox1_PageSC.Tag = 'Disable'
 $DropBox2_PageSC.Tag = 'Disable'
+$DropBox3_PageSC.Tag = 'Disable'
 $this.Tag = 'Enable'
 if ($DropBox1_PageW2V.Tag -eq 'Enable') {if ($DropBox1_PageW2V.SelectedItem -eq 'Import Installation Media') {ImportWim}
 if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {Dropbox1W2V}}}
@@ -512,6 +513,7 @@ if ($DropBox3_PageBC.Tag -eq 'Enable') {if ($DropBox3_PageBC.SelectedItem -eq 'R
 if ($DropBox1_PageV2W.Tag -eq 'Enable') {Dropbox1V2W}
 if ($DropBox1_PageSC.Tag -eq 'Enable') {Dropbox1SC}
 if ($DropBox2_PageSC.Tag -eq 'Enable') {DropBox2SC}
+if ($DropBox3_PageSC.Tag -eq 'Enable') {DropBox3SC}
 })
 $element = $dropbox;AddElement
 return $dropbox}
@@ -663,6 +665,10 @@ $DropBox1_PageSC.SelectedItem = "$ConsoleFont"}
 if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();
 $DropBox2_PageSC.Items.Add("Auto");$DropBox2_PageSC.Items.Add("2");$DropBox2_PageSC.Items.Add("4");$DropBox2_PageSC.Items.Add("6");$DropBox2_PageSC.Items.Add("8");$DropBox2_PageSC.Items.Add("10");$DropBox2_PageSC.Items.Add("12");$DropBox2_PageSC.Items.Add("14");$DropBox2_PageSC.Items.Add("16");$DropBox2_PageSC.Items.Add("18");$DropBox2_PageSC.Items.Add("20");$DropBox2_PageSC.Items.Add("22");$DropBox2_PageSC.Items.Add("24");$DropBox2_PageSC.Items.Add("26");$DropBox2_PageSC.Items.Add("28");$DropBox2_PageSC.Items.Add("30");$DropBox2_PageSC.Items.Add("32");$DropBox2_PageSC.Items.Add("36");$DropBox2_PageSC.Items.Add("40");$DropBox2_PageSC.Items.Add("44");$DropBox2_PageSC.Items.Add("48");$DropBox2_PageSC.Items.Add("52");$DropBox2_PageSC.Items.Add("56");$DropBox2_PageSC.Items.Add("60");$DropBox2_PageSC.Items.Add("64");$DropBox2_PageSC.Items.Add("68");$DropBox2_PageSC.Items.Add("72");}
 $DropBox2_PageSC.SelectedItem = "$ConsoleFontSize"
+
+if ($($DropBox3_PageSC.SelectedItem)) {$null} else {$DropBox3_PageSC.ResetText();$DropBox3_PageSC.Items.Clear();
+$DropBox3_PageSC.Items.Add("Auto");$DropBox3_PageSC.Items.Add("2");$DropBox3_PageSC.Items.Add("4");$DropBox3_PageSC.Items.Add("6");$DropBox3_PageSC.Items.Add("8");$DropBox3_PageSC.Items.Add("10");$DropBox3_PageSC.Items.Add("12");$DropBox3_PageSC.Items.Add("14");$DropBox3_PageSC.Items.Add("16");$DropBox3_PageSC.Items.Add("18");$DropBox3_PageSC.Items.Add("20");$DropBox3_PageSC.Items.Add("22");$DropBox3_PageSC.Items.Add("24");}
+$DropBox3_PageSC.SelectedItem = "$ListViewFontSize"
 }
 function ImportBoot {
 $PathCheck = "$PSScriptRoot\\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
@@ -791,6 +797,12 @@ function Dropbox2SC {
 $global:ConsoleFontSize = "$($DropBox2_PageSC.SelectedItem)"
 if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
 [WinMekanix]::SetConsoleFont("$ConsoleFont", "$ConsoleFontSizeX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
+
+function Dropbox3SC {
+$global:ListViewFontSize = "$($DropBox3_PageSC.SelectedItem)"
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
+if ($DropBoxChanged -eq '1') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for listview font size changes to take effect.'}
+$global:DropBoxChanged = '1';}
 
 function PBWiz_Stage1 {$global:PBWiz_Stage = 1;
 $Label1_PagePBWiz.Text = "🗳 Pack Builder"
@@ -1141,7 +1153,7 @@ Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.❎ Advanced SubOption Di
 Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.List items without a tag always execute.][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][DIR /B %DRVTAR%\][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][reg.exe query HKCU][REG][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMAND][reg.exe query %HIVE_USER%][REG][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.COMMANDQ items don't make an announcement on the log.][CMD][IA]" -Encoding UTF8
 
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}}
@@ -1399,7 +1411,8 @@ $global:Allow_ENV = $Settings.ALLOW_ENV
 $global:ScaleFactor = $Settings.GUI_SCALE
 $global:ConsoleFont = $Settings.GUI_CONFONT
 $global:ConsoleType = $Settings.GUI_CONTYPE
-$global:ConsoleFontSize = $Settings.GUI_CONFONTSIZE}
+$global:ConsoleFontSize = $Settings.GUI_CONFONTSIZE
+$global:ListViewFontSize = $Settings.GUI_LVFONTSIZE}
 function Launch-CMD {
 param([int]$X,[int]$Y,[int]$H,[int]$W)
 $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
@@ -1498,6 +1511,7 @@ if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
 $ScaleFont = 0 * $ScaleRef * $ScaleFactor
 $ScaleFontX = [Math]::Floor($ScaleFont);$ScaleFont = $ScaleFontX
 if ($ConsoleFont) {$null} else {$ConsoleFont = 'Consolas'}
+if ($ListViewFontSize) {$null} else {$ListViewFontSize = 'Auto'}
 if ($ConsoleFontSize) {$null} else {$ConsoleFontSize = 'Auto'}
 if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
 #Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  FontSize:$ConsoleFontSizeX"
@@ -1738,6 +1752,11 @@ $Label2_PageSC = NewLabel -X '25' -Y '165' -W '585' -H '35' -Text 'Console Font'
 $DropBox1_PageSC = NewDropBox -X '25' -Y '200' -W '190' -H '40' -C '0' -Text "$ConsoleFont"
 $Label3_PageSC = NewLabel -X '25' -Y '250' -W '585' -H '35' -Text 'Console FontSize'
 $DropBox2_PageSC = NewDropBox -X '25' -Y '285' -W '190' -H '40' -C '0' -Text "$ConsoleFontSize"
+
+$Label4_PageSC = NewLabel -X '25' -Y '335' -W '585' -H '35' -Text 'ListView FontSize'
+
+$DropBox3_PageSC = NewDropBox -X '25' -Y '370' -W '190' -H '40' -C '0' -Text "$ListViewFontSize"
+
 #$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$ConsoleType = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$ConsoleType = 'Embed';$Toggle1_PageSC.Text = "";}}
 
 $GroupBoxName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '325' -Y '85' -W '325' -H '75' -Text 'GUI Scale Factor'
@@ -1803,7 +1822,7 @@ if ($LBWiz_Stage -eq '3') {if ($ListView1_PageLBWiz.SelectedItems) {$global:mark
 if ($LBWiz_Stage -eq '2') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage3SRC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 if ($LBWiz_Stage -eq '1') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
-$ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425' -ListFontSize '12';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PageLBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PageLBWiz.Columns.Add("Description", $WSIZ)
+$ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PageLBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PageLBWiz.Columns.Add("Description", $WSIZ)
 $WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PageLBWiz.Columns.Add("X", $WSIZ)
 #############################################################
 $Page = 'PageLEWiz';$Label1_PageLEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🧾 List Execute" -TextAlign 'X'
@@ -1818,7 +1837,7 @@ if ($LEWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LEWiz_Stage3}
 $Button2_PageLEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
 if ($LEWiz_Stage -eq '2') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LEWiz_Stage -eq '1') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-$ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425' -ListFontSize '12';$WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PageLEWiz.Columns.Add("X", $WSIZ)
+$ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PageLEWiz.Columns.Add("X", $WSIZ)
 #############################################################
 $Page = 'PagePBWiz';$Label1_PagePBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text '' -TextAlign 'X'
 $Label2_PagePBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '16' -Text "" -TextAlign 'X'
@@ -1832,7 +1851,7 @@ if ($PBWiz_Stage -eq '3') {if ($ListView1_PagePBWiz.SelectedItems) {$global:mark
 if ($PBWiz_Stage -eq '2') {if ($ListView1_PagePBWiz.SelectedItems) {$global:marked = $null;PBWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($PBWiz_Stage -eq '1') {if ($ListView1_PagePBWiz.SelectedItems) {$global:marked = $null;PBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
-$ListView1_PagePBWiz = NewListView -X '25' -Y '135' -W '950' -H '425' -ListFontSize '12';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PagePBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PagePBWiz.Columns.Add("Description", $WSIZ)
+$ListView1_PagePBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PagePBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PagePBWiz.Columns.Add("Description", $WSIZ)
 $WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PagePBWiz.Columns.Add("X", $WSIZ)
 #############################################################
 $Page = 'PagePEWiz';$Label1_PagePEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🗳 Pack Execute" -TextAlign 'X'
@@ -1846,7 +1865,7 @@ if ($PEWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;PEWiz_Stage2}}
 $Button2_PagePEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
 if ($PEWiz_Stage -eq '2') {if ($ListView1_PagePEWiz.SelectedItems) {$global:marked = $null;PEWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($PEWiz_Stage -eq '1') {if ($ListView1_PagePEWiz.SelectedItems) {$global:marked = $null;PEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-$ListView1_PagePEWiz = NewListView -X '25' -Y '135' -W '950' -H '425' -ListFontSize '12';$WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PagePEWiz.Columns.Add("X", $WSIZ)
+$ListView1_PagePEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PagePEWiz.Columns.Add("X", $WSIZ)
 #############################################################
 #$FilePath = "C:\gif.gif";$FileContent = Get-Content -Path "$FilePath" -Encoding Byte;$Base64Out = [System.Convert]::ToBase64String($FileContent);Write-Host "$Base64Out"#Convert
 #77u/RVhFQy1MSVNU

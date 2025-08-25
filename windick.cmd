@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1205 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1206 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -401,7 +401,7 @@ CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%$$% &&
 CALL:TIMER_POINT3&SET /A "XNTZ+=1"&IF NOT "%XNTZ%"=="7" GOTO:LOGO_X
 EXIT /B
 :SETS_LIST
-SET SETS_LIST=GUI_LAUNCH GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 HOTKEY_4 SHORT_4 HOTKEY_5 SHORT_5 RECOVERY_LOGO MENU_MODE MENU_LIST MENU_BANNER DISCLAIMER ALLOW_ENV APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
+SET SETS_LIST=GUI_LAUNCH GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE GUI_LVFONTSIZE PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 VHDX_SLOT6 VHDX_SLOT7 VHDX_SLOT8 VHDX_SLOT9 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 HOTKEY_4 SHORT_4 HOTKEY_5 SHORT_5 RECOVERY_LOGO MENU_MODE MENU_LIST MENU_BANNER DISCLAIMER ALLOW_ENV APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
 EXIT /B
 :SETS_LOAD
 IF EXIST "windick.ini" FOR /F "TOKENS=1-1* DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
@@ -1764,7 +1764,7 @@ EXIT /B
 :LIST_GROUP_TEMPLATE
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.              This creates an empty group base template.&&ECHO.   Note: %UNI17% Unicode is not compatible with template created here.&&ECHO.       Create the template in the GUI for unicode BOM support.&&ECHO.&&ECHO.                         Enter new .base name&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=NEW_NAME"&&SET "$CASE=ANY"&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
 IF NOT DEFINED NEW_NAME EXIT /B
-(ECHO.BASE-GROUP&&ECHO.[GROUP][%UNI08% Basic Option][%UNI15% Basic SubOption Enable]&&ECHO.[COMMAND][ECHO.%UNI15% Basic SubOption Enable was picked.][CMD][IA]&&ECHO.[GROUP][%UNI08% Basic Option][%UNI16% Basic SubOption Disable]&&ECHO.[COMMAND][ECHO.%UNI16% Basic SubOption Disable was picked.][CMD][IA]&&ECHO.[GROUP][%UNI03% Advanced Option][%UNI03% Advanced SubOption][%UNI15% Advanced SubOption Enable,%UNI16% Advanced SubOption Disable][VolaTILE]&&ECHO.[COMMAND][ECHO.%UNI15% Advanced SubOption Enable was picked.][CMD][IA][1]&&ECHO.[COMMAND][ECHO.%UNI16% Advanced SubOption Disable was picked.][CMD][IA][2]&&ECHO.[COMMAND][ECHO.List items without a tag always execute.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][IA]&&ECHO.[COMMAND][reg.exe query HKCU][REG][IA]&&ECHO.[COMMANDQ][ECHO.COMMANDQ items don't make an announcement on the log.][CMD][IA])>"%LIST_FOLDER%\%NEW_NAME%.base"
+(ECHO.BASE-GROUP&&ECHO.[GROUP][%UNI08% Basic Option][%UNI15% Basic SubOption Enable]&&ECHO.[COMMAND][ECHO.%UNI15% Basic SubOption Enable was picked.][CMD][IA]&&ECHO.[GROUP][%UNI08% Basic Option][%UNI16% Basic SubOption Disable]&&ECHO.[COMMAND][ECHO.%UNI16% Basic SubOption Disable was picked.][CMD][IA]&&ECHO.[GROUP][%UNI03% Advanced Option][%UNI03% Advanced SubOption][%UNI15% Advanced SubOption Enable,%UNI16% Advanced SubOption Disable][VolaTILE]&&ECHO.[COMMAND][ECHO.%UNI15% Advanced SubOption Enable was picked.][CMD][IA][1]&&ECHO.[COMMAND][ECHO.%UNI16% Advanced SubOption Disable was picked.][CMD][IA][2]&&ECHO.[COMMAND][ECHO.List items without a tag always execute.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][IA]&&ECHO.[COMMAND][reg.exe query %%HIVE_USER%%][REG][IA]&&ECHO.[COMMANDQ][ECHO.COMMANDQ items don't make an announcement on the log.][CMD][IA])>"%LIST_FOLDER%\%NEW_NAME%.base"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.base"
 EXIT /B
 :LIST_COMMAND_CREATE
