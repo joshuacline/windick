@@ -645,16 +645,15 @@ $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox1_PageBC.SelectedItem)) {$null} else {$DropBox1_PageBC.SelectedItem = $null}
 $ListView1_PageBC.Items.Clear();Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageBC.Items.Add($_)}
-if ($($DropBox1_PageBC.SelectedItem)) {$null} else {
 $DropBox1_PageBC.ResetText();$DropBox1_PageBC.Items.Clear();$DropBox1_PageBC.Text = "Select .vhdx"
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageBC.Items.Add($_)}}
+Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageBC.Items.Add($_)}
 $PathCheck = "$PSScriptRoot\\cache\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\cache"} else {$FilePath = "$PSScriptRoot"}
 if (Test-Path -Path $FilePath\$($DropBox2_PageBC.SelectedItem)) {$null} else {$DropBox2_PageBC.SelectedItem = $null}
-if ($($DropBox2_PageBC.SelectedItem)) {$null} else {$empty = $true;
+$empty = $true;
 $DropBox2_PageBC.ResetText();$DropBox2_PageBC.Items.Clear()
 Get-ChildItem -Path "$FilePath\*.jpg" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.png" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}}
+Get-ChildItem -Path "$FilePath\*.png" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
 [void]$DropBox2_PageBC.Items.Add("Import Wallpaper")}
 function Button_PageSC {
 if ($($DropBox1_PageSC.SelectedItem)) {$null} else {$DropBox1_PageSC.ResetText();$DropBox1_PageSC.Items.Clear();
@@ -1379,15 +1378,15 @@ if ($Show_ENV -eq $true) {$global:Show_ENV = $null;$ListView1_PageLBWiz.Items.Ad
 $PathCheck = "$PSScriptRoot\\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 }
-#Get-Content "$PSScriptRoot\windick.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
-#Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
-#Get-ChildItem | Select-Object Name, Length, Extension
-#Get-ChildItem -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
-#GetProcess | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
-#InvokeCommand -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
-#ForEach ($i in Get-Content "c:\$\test.txt") {[void]$listview.Items.Add($i)}
-#ForEach ($line in $command) {$textBox.AppendText("$line`r`n")}  
-#ForEach ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
+#Get-ContentNull "$PSScriptRoot\ini.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
+#Get-ItemNull -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
+#Get-ChildItemNull | Select-Object Name, Length, Extension
+#Get-ChildItemNull -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
+#GetProcessNull | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
+#InvokeCommandNull -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
+#ForEachNull ($i in Get-Content "c:\txt.txt") {[void]$listview.Items.Add($i)}
+#ForEachNull ($line in $command) {$textBox.AppendText("$line`r`n")}  
+#ForEachNull ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
 #$Rnd = Get-Random -Minimum 1 -Maximum 100
 function AddElement {
 if ($Page -eq 'PageW2V') {$PageW2V.Controls.Add($element)}
@@ -1599,7 +1598,7 @@ $Button_SC = NewPageButton -X '10' -Y '535' -W '230' -H '70' -C '0' -Text 'Setti
 #$explorer.Navigate("C:\") # Specify the initial directory
 #$PageBC.Add_Shown({$explorerControl.Activate()})
 #############################################################
-$Page = 'PageSP';$Label0_PageSP = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text 'Welcome to GUI v0.6' -TextAlign 'X'
+$Page = 'PageSP';$Label0_PageSP = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text 'Welcome to GUI v0.7' -TextAlign 'X'
 
 $Button2_PageSP = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBoxAbout}
 #############################################################
@@ -1632,7 +1631,6 @@ $TextBox2_PageW2V = NewTextBox -X '425' -Y '525' -W '300' -H '40'
 $Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🔄 Image Processing|VHD" -TextAlign 'X'
 
 $ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageV2W.Columns.Add("X", $WSIZ)
-
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
 if ($halt -ne '1') {
@@ -1660,11 +1658,8 @@ $DropBox3_PageV2W = NewDropBox -X '425' -Y '525' -W '300' -H '40' -C '0' -Displa
 $Page = 'PageLB';$Label0_PageLB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🧾 Image Management" -TextAlign 'X'
 
 $ListView1_PageLB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView1_PageLB.Columns.Add("X", $WSIZ)
-
 $ListView2_PageLB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView2_PageLB.Columns.Add("X", $WSIZ)
-
 $Button1_PageLB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏁 List Execute' -Hover_Text 'List Execute' -Add_Click {LEWiz_Stage1;$PageLEWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLEWiz.BringToFront()}
-
 $Button2_PageLB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏗 List Builder' -Hover_Text 'List Builder' -Add_Click {LBWiz_Stage1;$PageLBWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLBWiz.BringToFront()}
 
 $Button3_PageLB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit List' -Hover_Text 'Edit List' -Add_Click {
@@ -1675,11 +1670,8 @@ if ($Pick) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -Argu
 $Page = 'PagePB';$Label0_PagePB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🗳 Image Management" -TextAlign 'X'
 
 $ListView1_PagePB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView1_PagePB.Columns.Add("X", $WSIZ)
-
 $ListView2_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView2_PagePB.Columns.Add("X", $WSIZ)
-
 $Button0_PagePB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏁 Pack Execute' -Hover_Text 'Pack Execute' -Add_Click {PEWiz_Stage1;$PagePEWiz.Visible = $true;$PageMain.Visible = $false;$PagePB.Visible = $false;$PagePEWiz.BringToFront()}
-
 $Button3_PagePB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏗 Pack Builder' -Hover_Text 'Pack Builder' -Add_Click {PBWiz_Stage1;$PagePBWiz.Visible = $true;$PageMain.Visible = $false;$PagePB.Visible = $false;$PagePBWiz.BringToFront()}
 
 $Button4_PagePB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit Pack' -Hover_Text 'Edit Pack' -Add_Click {
@@ -1689,7 +1681,6 @@ $PathCheck = "$PSScriptRoot\\project\package.cmd";if (Test-Path -Path $PathCheck
 $Page = 'PageBC';$Label0_PageBC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "💾 BootDisk Creator" -TextAlign 'X'
 
 $ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageBC.Columns.Add("X", $WSIZ)
-
 $Button1_PageBC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Create' -Hover_Text 'Start BootDisk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
 $PathCheck = "$PSScriptRoot\\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (-not (Test-Path -Path $PathCheckX)) {
@@ -1752,11 +1743,8 @@ $Label2_PageSC = NewLabel -X '25' -Y '165' -W '585' -H '35' -Text 'Console Font'
 $DropBox1_PageSC = NewDropBox -X '25' -Y '200' -W '190' -H '40' -C '0' -Text "$ConsoleFont"
 $Label3_PageSC = NewLabel -X '25' -Y '250' -W '585' -H '35' -Text 'Console FontSize'
 $DropBox2_PageSC = NewDropBox -X '25' -Y '285' -W '190' -H '40' -C '0' -Text "$ConsoleFontSize"
-
 $Label4_PageSC = NewLabel -X '25' -Y '335' -W '585' -H '35' -Text 'ListView FontSize'
-
 $DropBox3_PageSC = NewDropBox -X '25' -Y '370' -W '190' -H '40' -C '0' -Text "$ListViewFontSize"
-
 #$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$ConsoleType = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$ConsoleType = 'Embed';$Toggle1_PageSC.Text = "";}}
 
 $GroupBoxName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '325' -Y '85' -W '325' -H '75' -Text 'GUI Scale Factor'
@@ -1792,7 +1780,6 @@ $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H
 $Page = 'PageLBWiz';$Label1_PageLBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "" -TextAlign 'X'
 
 $Label2_PageLBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '16' -Text "" -TextAlign 'X'
-
 $Button1_PageLBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
 if ($LBWiz_Stage -eq '1') {$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 if ($LBWiz_Stage -eq '2') {LBWiz_Stage1}
