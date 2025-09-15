@@ -1,4 +1,4 @@
-﻿# Windows Deployment Image Customization Kit v 1206 (c) github.com/joshuacline
+﻿# Windows Deployment Image Customization Kit v 1207 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -252,7 +252,7 @@ $okButton = New-Object System.Windows.Forms.Button
 $okButton.Text = "OK"
 $WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](15 * $ScaleRef * $ScaleFactor)
+$XLOC = [int](95 * $ScaleRef * $ScaleFactor)
 $YLOC = [int](140 * $ScaleRef * $ScaleFactor)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
@@ -260,18 +260,6 @@ $okButton.Cursor = 'Hand'
 $okButton.ForeColor = 'White'
 $okButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $okButton.DialogResult = "OK"
-$cancelButton = New-Object System.Windows.Forms.Button
-$cancelButton.Text = "Cancel"
-$WSIZ = [int](135 * $ScaleRef * $ScaleFactor)
-$HSIZ = [int](45 * $ScaleRef * $ScaleFactor)
-$XLOC = [int](175 * $ScaleRef * $ScaleFactor)
-$YLOC = [int](140 * $ScaleRef * $ScaleFactor)
-$cancelButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$cancelButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
-$cancelButton.Cursor = 'Hand'
-$cancelButton.ForeColor = 'White'
-$cancelButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
-$cancelButton.DialogResult = "CANCEL"
 $WSIZ = [int](325 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](75 * $ScaleRef * $ScaleFactor)
 $XLOC = [int](10 * $ScaleRef * $ScaleFactor)
@@ -1143,17 +1131,22 @@ if ($boxresult -eq "OK") {$ListName = "$boxoutput.base";$ListTarget = "$FilePath
 if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 $EmptyListNew = [Convert]::FromBase64String($EmptyBaseGroup);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)
 Add-Content -Path "$ListTarget" -Value "[GROUP][🪛 Basic Option][✅ Basic SubOption Enable]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.✅ Basic SubOption Enable was picked.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.✅ Basic SubOption Enable was picked.][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[GROUP][🪛 Basic Option][❎ Basic SubOption Disable]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.❎ Basic SubOption Disable was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[GROUP][🛠️ Advanced Option][🛠️ Advanced SubOption][✅ Advanced SubOption Enable,❎ Advanced SubOption Disable][VolaTILE]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.✅ Advanced SubOption Enable was picked.][CMD][IA][1]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.❎ Advanced SubOption Disable was picked.][CMD][IA][2]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][ECHO.List items without a tag always execute.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.❎ Basic SubOption Disable was picked.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[GROUP][🛠️ Advanced Option][🛠️ Advanced SubOption]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[CHOICE1][Select an option][✅ Advanced SubOption Enable,❎ Advanced SubOption Disable][VolaTILE]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][IF %CHOICE1%==1 ECHO.✅ Advanced SubOption Enable was picked.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][IF %CHOICE1%==2 ECHO.❎ Advanced SubOption Disable was picked.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[STRING1][Select an option][String1,String2][VolaTILE]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.%STRING1% was picked.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.COMMAND list items without an IF CHOICE always execute.][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][DIR /B %DRVTAR%\][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][IA]" -Encoding UTF8
 Add-Content -Path "$ListTarget" -Value "[COMMAND][reg.exe query %HIVE_USER%][REG][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.COMMANDQ items don't make an announcement on the log.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.COMMANDQ mutes the command announcement on screen.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.NULL mutes the command execution on screen.][CMD][IA]" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "[COMMAND][reg.exe query %HIVE_USER% %NULL%][REG][IA]" -Encoding UTF8
 
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}}
 
@@ -1334,18 +1327,23 @@ if ($partXb -eq 'GROUP') {if ($partXd -ne $ListViewChoiceS3) {$listWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXf -ne $ListViewChecked) {$listWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXd -eq $ListViewChoiceS3) {if ($partXf -eq $ListViewChecked) {$listWrite = 1}}}
 
-if ($listWrite -eq '1') {$ListPrompt = $null
-if ($partXb -eq 'GROUP') {if ($partXh) {if ($partXj) {$ListPrompt = 2}}}
-
+if ($listWrite -eq '1') {$ListPrompt = $null;
+$Label1_PageLBWiz.Text = "$ListViewChoiceS3"
+$Label2_PageLBWiz.Text = "$ListViewChecked"
 if ($partXb -eq 'PROMPT0') {$ListPrompt = 1};if ($partXb -eq 'PROMPT1') {$ListPrompt = 1};if ($partXb -eq 'PROMPT2') {$ListPrompt = 1};if ($partXb -eq 'PROMPT3') {$ListPrompt = 1};if ($partXb -eq 'PROMPT4') {$ListPrompt = 1};if ($partXb -eq 'PROMPT5') {$ListPrompt = 1};if ($partXb -eq 'PROMPT6') {$ListPrompt = 1};if ($partXb -eq 'PROMPT7') {$ListPrompt = 1};if ($partXb -eq 'PROMPT8') {$ListPrompt = 1};if ($partXb -eq 'PROMPT9') {$ListPrompt = 1}
+if ($partXb -eq 'CHOICE0') {$ListPrompt = 2};if ($partXb -eq 'CHOICE1') {$ListPrompt = 2};if ($partXb -eq 'CHOICE2') {$ListPrompt = 2};if ($partXb -eq 'CHOICE3') {$ListPrompt = 2};if ($partXb -eq 'CHOICE4') {$ListPrompt = 2};if ($partXb -eq 'CHOICE5') {$ListPrompt = 2};if ($partXb -eq 'CHOICE6') {$ListPrompt = 2};if ($partXb -eq 'CHOICE7') {$ListPrompt = 2};if ($partXb -eq 'CHOICE8') {$ListPrompt = 2};if ($partXb -eq 'CHOICE9') {$ListPrompt = 2}
+if ($partXb -eq 'STRING0') {$ListPrompt = 3};if ($partXb -eq 'STRING1') {$ListPrompt = 3};if ($partXb -eq 'STRING2') {$ListPrompt = 3};if ($partXb -eq 'STRING3') {$ListPrompt = 3};if ($partXb -eq 'STRING4') {$ListPrompt = 3};if ($partXb -eq 'STRING5') {$ListPrompt = 3};if ($partXb -eq 'STRING6') {$ListPrompt = 3};if ($partXb -eq 'STRING7') {$ListPrompt = 3};if ($partXb -eq 'STRING8') {$ListPrompt = 3};if ($partXb -eq 'STRING9') {$ListPrompt = 3}
 if ($ListPrompt -eq $null) {Add-Content -Path "$FilePathLST" -Value "$_" -Encoding UTF8}
 if ($ListPrompt -eq '1') {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Prompt' -MessageBoxText "$partXd"
 if ($boxresult -eq "OK") {Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$boxoutput]" -Encoding UTF8} else {Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][ERROR]" -Encoding UTF8}}
-if ($ListPrompt -eq '2') {MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$partXd" -MessageBoxText "$partXf" -MessageBoxChoices "$partXh"
-$boxindexX = $boxindex + 1;Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$partXf][$partXh][$boxindexX]" -Encoding UTF8}
+if ($ListPrompt -eq '2') {MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXd" -MessageBoxChoices "$partXf"
+$boxindexX = $boxindex + 1;Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$partXf][$boxindexX]" -Encoding UTF8}
+if ($ListPrompt -eq '3') {MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXd" -MessageBoxChoices "$partXf"
+Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$partXf][$boxoutput]" -Encoding UTF8}
+
+}}}
 $Label1_PageLBWiz.Text = "💾 Append Items"
 $Label2_PageLBWiz.Text = "Select a List"
-}}}
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
