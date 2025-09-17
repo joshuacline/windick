@@ -176,7 +176,8 @@ $WindowState = 'Normal'
 $WSIZ = [int](350 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](275 * $ScaleRef * $ScaleFactor)
 $formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$fontX = [int](8.5 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
+if ($GUIFontSize -eq 'Auto') {$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);}
+if ($GUIFontSize -ne 'Auto') {$fontX = [int]($GUIFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)}
 $formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $labelbox = New-Object System.Windows.Forms.Label
 $labelbox.Text = "$MessageBoxText"
@@ -335,7 +336,8 @@ $WindowState = 'Normal'
 $WSIZ = [int](600 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](450 * $ScaleRef * $ScaleFactor)
 $formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
+if ($GUIFontSize -eq 'Auto') {$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);}
+if ($GUIFontSize -ne 'Auto') {$fontX = [int]($GUIFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)}
 $formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $labelbox = New-Object System.Windows.Forms.Label
 $labelbox.Text = "For documentation visit github.com/joshuacline"
@@ -493,6 +495,7 @@ $DropBox3_PageBC.Tag = 'Disable'
 $DropBox1_PageSC.Tag = 'Disable'
 $DropBox2_PageSC.Tag = 'Disable'
 $DropBox3_PageSC.Tag = 'Disable'
+$DropBox4_PageSC.Tag = 'Disable'
 $this.Tag = 'Enable'
 if ($DropBox1_PageW2V.Tag -eq 'Enable') {if ($DropBox1_PageW2V.SelectedItem -eq 'Import Installation Media') {ImportWim}
 if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {Dropbox1W2V}}}
@@ -502,6 +505,7 @@ if ($DropBox1_PageV2W.Tag -eq 'Enable') {Dropbox1V2W}
 if ($DropBox1_PageSC.Tag -eq 'Enable') {Dropbox1SC}
 if ($DropBox2_PageSC.Tag -eq 'Enable') {DropBox2SC}
 if ($DropBox3_PageSC.Tag -eq 'Enable') {DropBox3SC}
+if ($DropBox4_PageSC.Tag -eq 'Enable') {DropBox4SC}
 })
 $element = $dropbox;AddElement
 return $dropbox}
@@ -654,9 +658,14 @@ $DropBox2_PageSC.Items.Add("Auto");$DropBox2_PageSC.Items.Add("2");$DropBox2_Pag
 $DropBox2_PageSC.SelectedItem = "$ConsoleFontSize"
 
 if ($($DropBox3_PageSC.SelectedItem)) {$null} else {$DropBox3_PageSC.ResetText();$DropBox3_PageSC.Items.Clear();
-$DropBox3_PageSC.Items.Add("Auto");$DropBox3_PageSC.Items.Add("2");$DropBox3_PageSC.Items.Add("4");$DropBox3_PageSC.Items.Add("6");$DropBox3_PageSC.Items.Add("8");$DropBox3_PageSC.Items.Add("10");$DropBox3_PageSC.Items.Add("12");$DropBox3_PageSC.Items.Add("14");$DropBox3_PageSC.Items.Add("16");$DropBox3_PageSC.Items.Add("18");$DropBox3_PageSC.Items.Add("20");$DropBox3_PageSC.Items.Add("22");$DropBox3_PageSC.Items.Add("24");}
+$DropBox3_PageSC.Items.Add("Auto");$DropBox3_PageSC.Items.Add("2");$DropBox3_PageSC.Items.Add("4");$DropBox3_PageSC.Items.Add("6");$DropBox3_PageSC.Items.Add("8");$DropBox3_PageSC.Items.Add("10");$DropBox3_PageSC.Items.Add("12");$DropBox3_PageSC.Items.Add("14");$DropBox3_PageSC.Items.Add("16");$DropBox3_PageSC.Items.Add("18");$DropBox3_PageSC.Items.Add("20");$DropBox3_PageSC.Items.Add("22");$DropBox3_PageSC.Items.Add("24");$DropBox3_PageSC.Items.Add("26");$DropBox3_PageSC.Items.Add("28");$DropBox3_PageSC.Items.Add("30");$DropBox3_PageSC.Items.Add("32");$DropBox3_PageSC.Items.Add("36");$DropBox3_PageSC.Items.Add("40");$DropBox3_PageSC.Items.Add("44");$DropBox3_PageSC.Items.Add("48");$DropBox3_PageSC.Items.Add("52");$DropBox3_PageSC.Items.Add("56");$DropBox3_PageSC.Items.Add("60");$DropBox3_PageSC.Items.Add("64");$DropBox3_PageSC.Items.Add("68");$DropBox3_PageSC.Items.Add("72");}
 $DropBox3_PageSC.SelectedItem = "$ListViewFontSize"
+
+if ($($DropBox4_PageSC.SelectedItem)) {$null} else {$DropBox4_PageSC.ResetText();$DropBox4_PageSC.Items.Clear();
+$DropBox4_PageSC.Items.Add("Auto");$DropBox4_PageSC.Items.Add("2");$DropBox4_PageSC.Items.Add("4");$DropBox4_PageSC.Items.Add("6");$DropBox4_PageSC.Items.Add("8");$DropBox4_PageSC.Items.Add("10");$DropBox4_PageSC.Items.Add("12");$DropBox4_PageSC.Items.Add("14");$DropBox4_PageSC.Items.Add("16");$DropBox4_PageSC.Items.Add("18");$DropBox4_PageSC.Items.Add("20");$DropBox4_PageSC.Items.Add("22");$DropBox4_PageSC.Items.Add("24");$DropBox4_PageSC.Items.Add("26");$DropBox4_PageSC.Items.Add("28");$DropBox4_PageSC.Items.Add("30");$DropBox4_PageSC.Items.Add("32");$DropBox4_PageSC.Items.Add("36");$DropBox4_PageSC.Items.Add("40");$DropBox4_PageSC.Items.Add("44");$DropBox4_PageSC.Items.Add("48");$DropBox4_PageSC.Items.Add("52");$DropBox4_PageSC.Items.Add("56");$DropBox4_PageSC.Items.Add("60");$DropBox4_PageSC.Items.Add("64");$DropBox4_PageSC.Items.Add("68");$DropBox4_PageSC.Items.Add("72");}
+$DropBox4_PageSC.SelectedItem = "$GUIFontSize"
 }
+
 function ImportBoot {
 $PathCheck = "$PSScriptRoot\\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
@@ -788,8 +797,14 @@ if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$Console
 function Dropbox3SC {
 $global:ListViewFontSize = "$($DropBox3_PageSC.SelectedItem)"
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
-if ($DropBoxChanged -eq '1') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for listview font size changes to take effect.'}
-$global:DropBoxChanged = '1';}
+if ($DropBox3SCChanged -eq '1') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for listview font size changes to take effect.'}
+$global:DropBox3SCChanged = '1';}
+
+function Dropbox4SC {
+$global:GUIFontSize = "$($DropBox4_PageSC.SelectedItem)"
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
+if ($DropBox4SCChanged -eq '1') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for GUI font size changes to take effect.'}
+$global:DropBox4SCChanged = '1';}
 
 function PBWiz_Stage1 {$global:PBWiz_Stage = 1;
 $Label1_PagePBWiz.Text = "🗳 Pack Builder"
@@ -1408,6 +1423,7 @@ $global:Allow_ENV = $Settings.ALLOW_ENV
 $global:ScaleFactor = $Settings.GUI_SCALE
 $global:ConsoleFont = $Settings.GUI_CONFONT
 $global:ConsoleType = $Settings.GUI_CONTYPE
+$global:GUIFontSize = $Settings.GUI_FONTSIZE
 $global:ConsoleFontSize = $Settings.GUI_CONFONTSIZE
 $global:ListViewFontSize = $Settings.GUI_LVFONTSIZE}
 function Launch-CMD {
@@ -1508,6 +1524,7 @@ if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
 $ScaleFont = 0 * $ScaleRef * $ScaleFactor
 $ScaleFontX = [Math]::Floor($ScaleFont);$ScaleFont = $ScaleFontX
 if ($ConsoleFont) {$null} else {$ConsoleFont = 'Consolas'}
+if ($GUIFontSize) {$null} else {$GUIFontSize = 'Auto'}
 if ($ListViewFontSize) {$null} else {$ListViewFontSize = 'Auto'}
 if ($ConsoleFontSize) {$null} else {$ConsoleFontSize = 'Auto'}
 if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$ConsoleFontSizeX = $ConsoleFontSize}
@@ -1533,8 +1550,8 @@ $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
 $form.Text = "Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($RefY * $ScaleRef * $ScaleFactor)
-$fontX = [int](9.5 * $ScaleFactor);$fontX = [Math]::Floor($fontX);
-
+if ($GUIFontSize -eq 'Auto') {$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);}
+if ($GUIFontSize -ne 'Auto') {$fontX = [int]($GUIFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)}
 $form.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 #$form.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $form.ClientSize = New-Object System.Drawing.Size($WSIZ,$HSIZ)
@@ -1741,8 +1758,10 @@ $Label2_PageSC = NewLabel -X '25' -Y '165' -W '585' -H '35' -Text 'Console Font'
 $DropBox1_PageSC = NewDropBox -X '25' -Y '200' -W '190' -H '40' -C '0' -Text "$ConsoleFont"
 $Label3_PageSC = NewLabel -X '25' -Y '250' -W '585' -H '35' -Text 'Console FontSize'
 $DropBox2_PageSC = NewDropBox -X '25' -Y '285' -W '190' -H '40' -C '0' -Text "$ConsoleFontSize"
-$Label4_PageSC = NewLabel -X '25' -Y '335' -W '585' -H '35' -Text 'ListView FontSize'
-$DropBox3_PageSC = NewDropBox -X '25' -Y '370' -W '190' -H '40' -C '0' -Text "$ListViewFontSize"
+$Label4_PageSC = NewLabel -X '25' -Y '420' -W '585' -H '35' -Text 'ListView FontSize'
+$DropBox3_PageSC = NewDropBox -X '25' -Y '455' -W '190' -H '40' -C '0' -Text "$ListViewFontSize"
+$Label5_PageSC = NewLabel -X '25' -Y '335' -W '585' -H '35' -Text 'GUI FontSize'
+$DropBox4_PageSC = NewDropBox -X '25' -Y '370' -W '190' -H '40' -C '0' -Text "$GUIFontSize"
 #$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$ConsoleType = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$ConsoleType = 'Embed';$Toggle1_PageSC.Text = "";}}
 
 $GroupBoxName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '325' -Y '85' -W '325' -H '75' -Text 'GUI Scale Factor'
