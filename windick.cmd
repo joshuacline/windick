@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1207 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1208 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"

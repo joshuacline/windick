@@ -1,4 +1,4 @@
-﻿# Windows Deployment Image Customization Kit v 1207 (c) github.com/joshuacline
+﻿# Windows Deployment Image Customization Kit v 1208 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -114,8 +114,9 @@ $listview.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $listview.View = "Details";#$listview.View = "List"
 $listview.MultiSelect = $false
 $listview.HideSelection = $true
-if ($ListViewFontSize -ne 'Auto') {$fontX = [int]($ListViewFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)
-$listview.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)}
+if ($ListViewFontSize -eq 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($ListViewFontSize -ne 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * $ListViewFontSize * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+$listview.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 #$listview.HeaderStyle = 'Clickable';#NonClickable;#None
 if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle = 'None'}
 #$listview.Columns[0].Width = -2
@@ -141,8 +142,7 @@ $WSIZ = [int]($W * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($H * $ScaleRef * $ScaleFactor)
 $XLOC = [int]($X * $ScaleRef * $ScaleFactor)
 $YLOC = [int]($Y * $ScaleRef * $ScaleFactor)
-$fontX = [int](1 * $TextSize * $ScaleFactor)
-$fontX = [Math]::Floor($fontX);
+$fontX = [int]($ScaleFactor / $DpiCur * $TextSize * $ScaleRef);$fontX = [Math]::Floor($fontX);
 if ($Bold -eq 'True') {$FontStyle = 'Bold';$LabelFont = 'Consolas'} else {$FontStyle = 'Regular'}
 if ($TextSize) {$label.Font = New-Object System.Drawing.Font("$LabelFont", $fontX,[System.Drawing.FontStyle]::$FontStyle)}
 $label.Location = New-Object Drawing.Point($XLOC, $YLOC)
@@ -176,8 +176,8 @@ $WindowState = 'Normal'
 $WSIZ = [int](350 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](275 * $ScaleRef * $ScaleFactor)
 $formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-if ($GUIFontSize -eq 'Auto') {$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);}
-if ($GUIFontSize -ne 'Auto') {$fontX = [int]($GUIFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)}
+if ($GUIFontSize -eq 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUIFontSize -ne 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * $GUIFontSize * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $labelbox = New-Object System.Windows.Forms.Label
 $labelbox.Text = "$MessageBoxText"
@@ -336,8 +336,8 @@ $WindowState = 'Normal'
 $WSIZ = [int](600 * $ScaleRef * $ScaleFactor)
 $HSIZ = [int](450 * $ScaleRef * $ScaleFactor)
 $formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-if ($GUIFontSize -eq 'Auto') {$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);}
-if ($GUIFontSize -ne 'Auto') {$fontX = [int]($GUIFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)}
+if ($GUIFontSize -eq 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUIFontSize -ne 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * $GUIFontSize * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $labelbox = New-Object System.Windows.Forms.Label
 $labelbox.Text = "For documentation visit github.com/joshuacline"
@@ -796,14 +796,22 @@ if ($ConsoleFontSize -eq 'Auto') {$ConsoleFontSizeX = $ScaleFont} else {$Console
 
 function Dropbox3SC {
 $global:ListViewFontSize = "$($DropBox3_PageSC.SelectedItem)"
+if ($DropBox3SCChanged -eq '1') {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for listview font size changes to take effect. Reload now?'
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
-if ($DropBox3SCChanged -eq '1') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for listview font size changes to take effect.'}
+if ($boxresult -ne "OK") {$null}
+if ($boxresult -eq "OK") {
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox3SCChanged = '1';}
 
 function Dropbox4SC {
 $global:GUIFontSize = "$($DropBox4_PageSC.SelectedItem)"
+if ($DropBox4SCChanged -eq '1') {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for GUI font size changes to take effect. Reload now?'
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
-if ($DropBox4SCChanged -eq '1') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for GUI font size changes to take effect.'}
+if ($boxresult -ne "OK") {$null}
+if ($boxresult -eq "OK") {
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox4SCChanged = '1';}
 
 function PBWiz_Stage1 {$global:PBWiz_Stage = 1;
@@ -1511,11 +1519,13 @@ $sysltr, $nullx = $env:SystemDrive -split '[:]';$progltr, $nullx = $PSScriptRoot
 $PSHandle = [WinMekanix.Functions]::GetConsoleWindow();[WinMekanix.Functions]::ShowWindowAsync($PSHandle, 2);
 $STDOutputHandle = [WinMekanix.Functions]::GetStdHandle([WinMekanix.Functions]::STD_OUTPUT_HANDLE)
 Write-Host "ProcessId: $PID Handle: $PSHandle STDOut:$STDOutputHandle";#Write-Host "PS handle: $($PSHandle.ToInt32())"
+$RawUIMAX = $host.UI.RawUI.MaxWindowSize
 $DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
 $DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
 $DimensionVX = [System.Windows.Forms.SystemInformation]::VirtualScreen.Width
 $DimensionVY = [System.Windows.Forms.SystemInformation]::VirtualScreen.Height
-$RawUIMAX = $host.UI.RawUI.MaxWindowSize
+$GetCurDpi = [System.Drawing.Graphics]::FromHwnd(0)
+$DpiX = $GetCurDpi.DpiX;$DpiCur = $DpiX / 96
 if ($ScaleFactor) {$null} else {$ScaleFactor = 1.00}
 $RefX = 1000;$DimScaleX = $DimensionX / $RefX
 $RefY = 1000;$DimScaleY = $DimensionY / $RefY
@@ -1550,8 +1560,8 @@ $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
 $form.Text = "Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $ScaleFactor)
 $HSIZ = [int]($RefY * $ScaleRef * $ScaleFactor)
-if ($GUIFontSize -eq 'Auto') {$fontX = [int](9 * $ScaleFactor);$fontX = [Math]::Floor($fontX);}
-if ($GUIFontSize -ne 'Auto') {$fontX = [int]($GUIFontSize * $ScaleFactor);$fontX = [Math]::Floor($fontX)}
+if ($GUIFontSize -eq 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUIFontSize -ne 'Auto') {$fontX = [int]($ScaleFactor / $DpiCur * $GUIFontSize * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $form.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 #$form.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $form.ClientSize = New-Object System.Drawing.Size($WSIZ,$HSIZ)
@@ -1613,11 +1623,11 @@ $Button_SC = NewPageButton -X '10' -Y '535' -W '230' -H '70' -C '0' -Text 'Setti
 #$explorer.Navigate("C:\") # Specify the initial directory
 #$PageBC.Add_Shown({$explorerControl.Activate()})
 #############################################################
-$Page = 'PageSP';$Label0_PageSP = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text 'Welcome to GUI v0.7' -TextAlign 'X'
+$Page = 'PageSP';$Label0_PageSP = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text 'Welcome to GUI v0.7' -TextAlign 'X'
 
 $Button2_PageSP = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBoxAbout}
 #############################################################
-$Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
+$Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
 $ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageW2V.Columns.Add("X", $WSIZ)
 $Button1_PageW2V = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
@@ -1643,7 +1653,7 @@ $TextBox1_PageW2V = NewTextBox -X '25' -Y '525' -W '300' -H '40'
 $Label4_PageW2V = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text 'VHDX Size (GB)'
 $TextBox2_PageW2V = NewTextBox -X '425' -Y '525' -W '300' -H '40'
 #############################################################
-$Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🔄 Image Processing|VHD" -TextAlign 'X'
+$Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|VHD" -TextAlign 'X'
 
 $ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageV2W.Columns.Add("X", $WSIZ)
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
@@ -1670,7 +1680,7 @@ $TextBox1_PageV2W = NewTextBox -X '25' -Y '525' -W '300' -H '40'
 $Label4_PageV2W = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text '   Compression'
 $DropBox3_PageV2W = NewDropBox -X '425' -Y '525' -W '300' -H '40' -C '0' -DisplayMember 'Description'
 #############################################################
-$Page = 'PageLB';$Label0_PageLB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🧾 Image Management" -TextAlign 'X'
+$Page = 'PageLB';$Label0_PageLB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🧾 Image Management" -TextAlign 'X'
 
 $ListView1_PageLB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView1_PageLB.Columns.Add("X", $WSIZ)
 $ListView2_PageLB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView2_PageLB.Columns.Add("X", $WSIZ)
@@ -1682,7 +1692,7 @@ $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = 
 $FileFilt = "List files (*.list;*.base)|*.list;*.base";PickFile
 if ($Pick) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$Pick"}}
 #############################################################
-$Page = 'PagePB';$Label0_PagePB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🗳 Image Management" -TextAlign 'X'
+$Page = 'PagePB';$Label0_PagePB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🗳 Image Management" -TextAlign 'X'
 
 $ListView1_PagePB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView1_PagePB.Columns.Add("X", $WSIZ)
 $ListView2_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $ScaleFactor);$ListView2_PagePB.Columns.Add("X", $WSIZ)
@@ -1693,7 +1703,7 @@ $Button4_PagePB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit P
 $PathCheck = "$PSScriptRoot\\project\package.list";if (Test-Path -Path $PathCheck) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PathCheck"}
 $PathCheck = "$PSScriptRoot\\project\package.cmd";if (Test-Path -Path $PathCheck) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PathCheck"}}
 #############################################################
-$Page = 'PageBC';$Label0_PageBC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "💾 BootDisk Creator" -TextAlign 'X'
+$Page = 'PageBC';$Label0_PageBC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "💾 BootDisk Creator" -TextAlign 'X'
 
 $ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $ScaleFactor);$ListView1_PageBC.Columns.Add("X", $WSIZ)
 $Button1_PageBC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Create' -Hover_Text 'Start BootDisk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
@@ -1725,7 +1735,7 @@ $DropBox2_PageBC = NewDropBox -X '425' -Y '445' -W '300' -H '40' -DisplayMember 
 $Label3_PageBC = NewLabel -X '315' -Y '490' -W '175' -H '30' -Text 'Target Disk'
 $DropBox3_PageBC = NewDropBox -X '25' -Y '525' -W '700' -H '40' -Text 'Select Disk'
 #############################################################
-$Page = 'PageSC';$Label0_PageSC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🛠 Settings" -TextAlign 'X'
+$Page = 'PageSC';$Label0_PageSC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🛠 Settings" -TextAlign 'X'
 
 $Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
@@ -1766,16 +1776,32 @@ $DropBox4_PageSC = NewDropBox -X '25' -Y '370' -W '190' -H '40' -C '0' -Text "$G
 
 $GroupBoxName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '325' -Y '85' -W '325' -H '75' -Text 'GUI Scale Factor'
 $Add_CheckedChanged = {if ($ButtonRadio1_Group2.Checked) {
-if ($Button_SC.Tag -eq 'Enable') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for scaling changes to take effect.'}
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=0.75" -Encoding UTF8;}}
+if ($Button_SC.Tag -eq 'Enable') {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for scaling changes to take effect. Reload now?'
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=0.75" -Encoding UTF8;
+if ($boxresult -ne "OK") {$null}
+if ($boxresult -eq "OK") {
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}}
+
 $ButtonRadio1_Group2 = NewRadioButton -X '15' -Y '30' -W '100' -H '35' -Text '0.75' -GroupBoxName 'Group2'
 $Add_CheckedChanged = {if ($ButtonRadio2_Group2.Checked) {
-if ($Button_SC.Tag -eq 'Enable') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for scaling changes to take effect.'}
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.00" -Encoding UTF8;}}
+
+if ($Button_SC.Tag -eq 'Enable') {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for scaling changes to take effect. Reload now?'
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.00" -Encoding UTF8;
+if ($boxresult -ne "OK") {$null}
+if ($boxresult -eq "OK") {
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}}
+
 $ButtonRadio2_Group2 = NewRadioButton -X '115' -Y '30' -W '100' -H '35' -Text '1.00' -GroupBoxName 'Group2'
 $Add_CheckedChanged = {if ($ButtonRadio3_Group2.Checked) {
-if ($Button_SC.Tag -eq 'Enable') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Restart app for scaling changes to take effect.'}
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.25" -Encoding UTF8;}}
+if ($Button_SC.Tag -eq 'Enable') {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for scaling changes to take effect. Reload now?'
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.25" -Encoding UTF8;
+if ($boxresult -ne "OK") {$null}
+if ($boxresult -eq "OK") {
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}}
+
 $ButtonRadio3_Group2 = NewRadioButton -X '215' -Y '30' -W '100' -H '35' -Text '1.25' -GroupBoxName 'Group2'
 if ($ScaleFactor) {$null} else {$ScaleFactor = 1.00}
 if ($ScaleFactor -eq '1.25') {$ButtonRadio3_Group2.Checked = $true}
@@ -1794,9 +1820,9 @@ Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-
 #############################################################
 $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageMain.Visible = $true;$PageSC.Visible = $true;$PageDebug.Visible = $false}
 #############################################################
-$Page = 'PageLBWiz';$Label1_PageLBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "" -TextAlign 'X'
+$Page = 'PageLBWiz';$Label1_PageLBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "" -TextAlign 'X'
 
-$Label2_PageLBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '16' -Text "" -TextAlign 'X'
+$Label2_PageLBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 $Button1_PageLBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
 if ($LBWiz_Stage -eq '1') {$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 if ($LBWiz_Stage -eq '2') {LBWiz_Stage1}
@@ -1829,8 +1855,8 @@ if ($LBWiz_Stage -eq '1') {if ($ListView1_PageLBWiz.SelectedItems) {$global:mark
 $ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PageLBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PageLBWiz.Columns.Add("Description", $WSIZ)
 $WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PageLBWiz.Columns.Add("X", $WSIZ)
 #############################################################
-$Page = 'PageLEWiz';$Label1_PageLEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🧾 List Execute" -TextAlign 'X'
-$Label2_PageLEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '16' -Text "" -TextAlign 'X'
+$Page = 'PageLEWiz';$Label1_PageLEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🧾 List Execute" -TextAlign 'X'
+$Label2_PageLEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
 $Button1_PageLEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
 if ($LEWiz_Stage -eq '1') {$global:LEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLEWiz.Visible = $false;Button_PageLB}
@@ -1843,8 +1869,8 @@ if ($LEWiz_Stage -eq '2') {if ($ListView1_PageLEWiz.SelectedItems) {$global:mark
 if ($LEWiz_Stage -eq '1') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 $ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PageLEWiz.Columns.Add("X", $WSIZ)
 #############################################################
-$Page = 'PagePBWiz';$Label1_PagePBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text '' -TextAlign 'X'
-$Label2_PagePBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '16' -Text "" -TextAlign 'X'
+$Page = 'PagePBWiz';$Label1_PagePBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text '' -TextAlign 'X'
+$Label2_PagePBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
 $Button1_PagePBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
 if ($PBWiz_Stage -eq '1') {$global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB}
@@ -1858,8 +1884,8 @@ if ($PBWiz_Stage -eq '1') {if ($ListView1_PagePBWiz.SelectedItems) {$global:mark
 $ListView1_PagePBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $ScaleFactor);#$ListView1_PagePBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PagePBWiz.Columns.Add("Description", $WSIZ)
 $WSIZ = [int](940 * $ScaleRef * $ScaleFactor);$ListView1_PagePBWiz.Columns.Add("X", $WSIZ)
 #############################################################
-$Page = 'PagePEWiz';$Label1_PagePEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '24' -Text "🗳 Pack Execute" -TextAlign 'X'
-$Label2_PagePEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '16' -Text "" -TextAlign 'X'
+$Page = 'PagePEWiz';$Label1_PagePEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🗳 Pack Execute" -TextAlign 'X'
+$Label2_PagePEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
 $Button1_PagePEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
 if ($PEWiz_Stage -eq '1') {$global:PEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePEWiz.Visible = $false;Button_PagePB}
