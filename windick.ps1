@@ -1,4 +1,4 @@
-﻿# Windows Deployment Image Customization Kit v 1208 (c) github.com/joshuacline
+﻿# Windows Deployment Image Customization Kit v 1209 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -13,7 +13,7 @@ public const int STD_OUTPUT_HANDLE = -11;
 [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 [DllImport("user32.dll")] public static extern bool DestroyWindow(IntPtr hWnd);
 [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
-"@ -Name "Functions" -Namespace "WinMekanix" -PassThru
+"@ -Name "Functions" -Namespace "WinMekanix" -PassThru | Out-Null
 Add-Type -TypeDefinition @"
 using System;using System.Runtime.InteropServices;public class WinMekanix {
     private const int STD_OUTPUT_HANDLE = -11;
@@ -31,6 +31,7 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
         CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
         fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 "@
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewPanel {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$C)
 $panel = New-Object System.Windows.Forms.Panel
@@ -46,6 +47,7 @@ $panel.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $form.Controls.Add($panel)
 return $panel
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewPictureBox {
 param([int]$X,[int]$Y,[int]$H,[int]$W)
 $pictureBox = New-Object System.Windows.Forms.PictureBox
@@ -62,20 +64,36 @@ $pictureBox.Visible = $true
 $element = $pictureBox;AddElement
 return $pictureBox
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewTextBox {
-param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
+param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$Check)
 $textbox = New-Object System.Windows.Forms.TextBox
 $WSIZ = [int]($W * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($H * $ScaleRef * $GUI_SCALE)
 $XLOC = [int]($X * $ScaleRef * $GUI_SCALE)
 $YLOC = [int]($Y * $ScaleRef * $GUI_SCALE)
-#$textbox.Bounds = New-Object System.Drawing.Rectangle($XLOC, $YLOC, $WSIZ, $HSIZ)
 $textbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $textbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $textbox.Text = "$Text"
 $textbox.Visible = $true
 $textbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $textbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
+if ($Check -eq 'NUMBER') {$textbox.Add_TextChanged({$global:textX = "$($this.Text)"
+if (-not ($this.Text -notmatch "[^0-9]")) {$this.Text = "$textXlastNum"} else {$global:textXlastNum = "$textX"}})}
+if ($Check -eq 'LETTER') {$textbox.Add_TextChanged({$global:textX = "$($this.Text)"
+if (-not ($this.Text -notmatch "[^a-zA-Z]")) {$this.Text = "$textXlastLtr"} else {$global:textXlastLtr = "$textX"}})}
+if ($Check -eq 'ALPHA') {$textbox.Add_TextChanged({$global:textX = "$($this.Text)"
+if (-not ($this.Text -notmatch "[^a-zA-Z0-9._-]")) {$this.Text = "$textXlastAlp"} else {$global:textXlastAlp = "$textX"}})}
+if ($Check -eq 'PATH') {$textbox.Add_TextChanged({$global:textX = "$($this.Text)"
+if (-not ($this.Text -notmatch "[^a-zA-Z0-9._\\: -]")) {$this.Text = "$textXlastPath"} else {$global:textXlastPath = "$textX"}})}
+if ($Check -eq 'MENU') {$textbox.Add_TextChanged({$global:textX = "$($this.Text)"
+if (-not ($this.Text -notmatch "[^a-zA-Z0-9._@#$+=~*-]")) {$this.Text = "$textXlastMenu"} else {$global:textXlastMenu = "$textX"}})}
+if ($Check -eq 'MOST') {$textbox.Add_TextChanged({$global:textX = "$($this.Text)"
+if (-not ($this.Text -notmatch "[^a-zA-Z0-9._@#$+=~\\:`/(){}%* -]")) {$this.Text = "$textXlastMost"} else {$global:textXlastMost = "$textX"}})}
+$element = $textbox;AddElement
+#$textbox.Bounds = New-Object System.Drawing.Rectangle($XLOC, $YLOC, $WSIZ, $HSIZ)
+#$textX = $textX.Remove($textX.Length -1, 1)
+#$textX.Substring(0, $textX.Length -1)
 #$textbox.SelectionColor = 'White'
 #$textbox.ReadOnly = $true
 #$textBox.Multiline = $true
@@ -83,9 +101,9 @@ $textbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 #$textBox.Dock = "Fill"
 #$textBox.ReadOnly = $true
 #$textBox.AppendText = "Option X"
-$element = $textbox;AddElement
 return $textbox
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewRichTextBox {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $richTextBox = New-Object System.Windows.Forms.RichTextBox
@@ -97,15 +115,16 @@ $richTextBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $richTextBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $richTextBox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $richTextBox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-#$richTextBox.Dock = DockStyle.Fill
-#$richTextBox.LoadFile("C:\\MyDocument.rtf")
-#$richTextBox.Find("Text")
-#$richTextBox.SelectionColor = Color.Red
-#$richTextBox.SaveFile("C:\\MyDocument.rtf")
 $richTextBox.Visible = $true
 $element = $richTextBox;AddElement
+#$richTextBox.Dock = DockStyle.Fill
+#$richTextBox.LoadFile("C:\\xyz.rtf")
+#$richTextBox.Find("Text")
+#$richTextBox.SelectionColor = Color.Red
+#$richTextBox.SaveFile("C:\\xyz.rtf")
 return $richTextBox
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewListView {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Headers,[string]$Text)
 $listview = New-Object System.Windows.Forms.ListView
@@ -115,31 +134,32 @@ $XLOC = [int]($X * $ScaleRef * $GUI_SCALE)
 $YLOC = [int]($Y * $ScaleRef * $GUI_SCALE)
 $listview.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $listview.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
-#$listview.View = [System.Windows.Forms.View]::Details # Set to Details view for columns
+#$listview.View = [System.Windows.Forms.View]::Details
 $listview.View = "Details";#$listview.View = "List"
 $listview.MultiSelect = $false
 $listview.HideSelection = $true
 if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
 if ($GUI_LVFONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $listview.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
-#$listview.HeaderStyle = 'Clickable';#NonClickable;#None
 if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle = 'None'}
+$listview.Visible = $true
+$listview.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
+$listview.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$element = $listview;AddElement
 #$listview.Columns[0].Width = -2
 #$listview.Columns[1].Width = -2
 #$listview.CheckBoxes = true
 #$listview.FullRowSelect = true
 #$listview.GridLines = true
 #$listview.Sorting = SortOrder.Ascending
+#$listview.HeaderStyle = 'Clickable';#NonClickable;#None
 #$imageListSmall = New-Object System.Windows.Forms.ImageList
 #$listview.SmallImageList = $imageListSmall
-$listview.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
-$listview.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$element = $listview;AddElement
-$listview.Visible = $true
 #$ListViewSelect = $listView.SelectedItems
 #$ListViewFocused = $listView.FocusedItem
 return $listview
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewLabel {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Bold,[string]$LabelFont,[string]$TextSize,[string]$TextAlign,[string]$Text)
 $label = New-Object Windows.Forms.Label
@@ -155,16 +175,16 @@ $label.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $label.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $label.AutoSize = $true
 if ($TextAlign) {$label.AutoSize = $false
-#$label.Dock = "CenterScreen";#MiddleCenter, TopLeft, CenterScreen, Center, Fill
 $label.Dock = "None";#None, Top, Bottom, Left, Right, Fill
-#$label.TextAlign = "MiddleCenter"
+#$label.TextAlign = "CenterScreen";#MiddleCenter, TopLeft, CenterScreen, Center, Fill
 $label.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter}
 $label.Text = "$Text"
 $element = $label;AddElement
 return $label
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function MessageBox {
-param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxChoices,[string]$MessageBoxText)
+param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxChoices,[string]$MessageBoxText,[string]$Check)
 if ($MessageBoxChoices) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn, $parto = $MessageBoxChoices -split '[,]'}
 $formbox = New-Object System.Windows.Forms.Form
 $formbox.SuspendLayout()
@@ -181,7 +201,7 @@ $formbox.AutoSizeMode = 'GrowAndShrink'
 $formbox.AutoScale = $true
 $formbox.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
 $WindowState = 'Normal'
-$WSIZ = [int](350 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](500 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](275 * $ScaleRef * $GUI_SCALE)
 $formbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
@@ -198,8 +218,8 @@ if ($MessageBoxType -eq 'YesNo') {
 $okButton = New-Object System.Windows.Forms.Button
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](15 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](145 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](185 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](150 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
 $okButton.Cursor = 'Hand'
@@ -213,8 +233,8 @@ $cancelButton = New-Object System.Windows.Forms.Button
 $cancelButton.Text = "No"
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](175 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](145 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](325 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](150 * $ScaleRef * $GUI_SCALE)
 $cancelButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $cancelButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
 $cancelButton.Cursor = 'Hand'
@@ -223,10 +243,10 @@ $cancelButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $cancelButton.Add_MouseEnter({$cancelButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $cancelButton.Add_MouseLeave({$cancelButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
 $cancelButton.DialogResult = "CANCEL"
-$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE)
-$HSIZ = [int](115 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](475 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](100 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](5 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $formbox.AcceptButton = $okButton
@@ -236,8 +256,8 @@ if ($MessageBoxType -eq 'Info') {
 $okButton = New-Object System.Windows.Forms.Button
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](95 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](145 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](325 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](150 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
 $okButton.Cursor = 'Hand'
@@ -247,30 +267,43 @@ $okButton.DialogResult = "OK"
 $okButton.Text = "OK"
 $okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE)
-$HSIZ = [int](110 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](475 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](100 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](5 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $formbox.AcceptButton = $okButton
 $formbox.Controls.Add($okButton)}
 if ($MessageBoxType -eq 'Prompt') {
-$WSIZ = [int](300 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](430 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](40 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](10 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](95 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](25 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](85 * $ScaleRef * $GUI_SCALE)
 $inputbox = New-Object System.Windows.Forms.TextBox
 $inputbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $inputbox.Size = New-Object System.Drawing.Size($WSIZ,$HSIZ)
 $inputbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $inputbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$inputbox.Add_TextChanged({$charpass = $true
+ForEach ($i in @("NUMBER","LETTER","ALPHA","PATH","MENU","MOST")) {if ($Check -eq "$i") {#"[](){}<>!@#$%^&*|;:,.?_~=+-/``\\[]"
+if ($Check -eq 'NUMBER') {$allowed = "0-9"}
+if ($Check -eq 'LETTER') {$allowed = "a-zA-Z"}
+if ($Check -eq 'ALPHA') {$allowed = "a-zA-Z0-9._-"}
+if ($Check -eq 'PATH') {$allowed = "a-zA-Z0-9._\\: -"}
+if ($Check -eq 'MENU') {$allowed = "a-zA-Z0-9._@#$+=~*-"}
+if ($Check -eq 'MOST') {$allowed = "a-zA-Z0-9._@#$+=~\\:`/(){}%* -"}
+$global:textX = "$($this.Text)";if (-not ($this.Text -notmatch "[^$allowed]")) {$this.Text = "$textXlast"} else {$global:textXlast = "$textX"}}}
+if (-not ($inputbox.Text.Length -gt 0)) {$charpass = $false}
+if ($charpass -eq $true) {$okButton.Enabled = $true} else {$okButton.Enabled = $false}
+})
 $okButton = New-Object System.Windows.Forms.Button
 $okButton.Text = "OK"
+$okButton.Enabled = $false
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](95 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](145 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](325 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](150 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
 $okButton.Cursor = 'Hand'
@@ -279,10 +312,10 @@ $okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $okButton.DialogResult = "OK"
 $okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE)
-$HSIZ = [int](75 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](475 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](100 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](5 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 #$labelbox.AutoSize = $true
@@ -292,10 +325,10 @@ $formbox.Controls.Add($okButton)
 $formbox.Controls.Add($cancelButton)}
 if ($MessageBoxType -eq 'Choice') {
 $dropbox = New-Object System.Windows.Forms.ComboBox
-$WSIZ = [int](300 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](430 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](40 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](10 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](80 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](25 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](85 * $ScaleRef * $GUI_SCALE)
 $dropbox.DropDownStyle = 'DropDownList'
 $dropbox.FlatStyle = 'Flat'
 $dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
@@ -304,7 +337,7 @@ $dropbox.DisplayMember = "$DisplayMember"
 $dropbox.Text = "$Text"
 $dropbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $dropbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-if ($parta) {$dropbox.Items.Add("$parta")};if ($partb) {$dropbox.Items.Add("$partb")};if ($partc) {$dropbox.Items.Add("$partc")};if ($partd) {$dropbox.Items.Add("$partd")};if ($parte) {$dropbox.Items.Add("$parte")};if ($partf) {$dropbox.Items.Add("$partf")};if ($partg) {$dropbox.Items.Add("$partg")};if ($parth) {$dropbox.Items.Add("$parth")};if ($parti) {$dropbox.Items.Add("$parti")};if ($partj) {$dropbox.Items.Add("$partj")};if ($partk) {$dropbox.Items.Add("$partk")};if ($partl) {$dropbox.Items.Add("$partl")};if ($partm) {$dropbox.Items.Add("$partm")};if ($partn) {$dropbox.Items.Add("$partn")};if ($parto) {$dropbox.Items.Add("$parto")};if ($partp) {$dropbox.Items.Add("$partp")};if ($partq) {$dropbox.Items.Add("$partq")};if ($partr) {$dropbox.Items.Add("$partr")};if ($parts) {$dropbox.Items.Add("$parts")};if ($partt) {$dropbox.Items.Add("$partt")};if ($partu) {$dropbox.Items.Add("$partu")};if ($partv) {$dropbox.Items.Add("$partv")};if ($partw) {$dropbox.Items.Add("$partw")};if ($partx) {$dropbox.Items.Add("$partx")};if ($party) {$dropbox.Items.Add("$party")};if ($partz) {$dropbox.Items.Add("$partz")}
+ForEach ($i in @("$parta","$partb","$partc","$partd","$parte","$partf","$partg","$parth","$parti","$partj","$partk","$partl","$partm","$partn","$parto","$partp","$partq","$partr","$parts","$partt","$partu","$partv","$partw","$partx","$party","$partz")) {if ($i) {$dropbox.Items.Add($i)}}
 #$dropbox.Add_TextChanged({$dropbox.Text = "changed"})
 $dropbox.SelectedIndex = 0;#$dropbox.SelectedItem = "$parta"
 $dropbox.Add_SelectedIndexChanged({$null})
@@ -312,8 +345,8 @@ $okButton = New-Object System.Windows.Forms.Button
 $okButton.Text = "OK"
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
-$XLOC = [int](95 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](145 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](325 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](150 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
 $okButton.Cursor = 'Hand'
@@ -322,10 +355,10 @@ $okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
 $okButton.DialogResult = "OK"
-$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE)
-$HSIZ = [int](75 * $ScaleRef * $GUI_SCALE)
+$WSIZ = [int](475 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](100 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE)
-$YLOC = [int](5 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $formbox.AcceptButton = $okButton
@@ -338,6 +371,7 @@ if ($MessageBoxType -eq 'Prompt') {if ($inputbox.Text) {$global:boxoutput = $inp
 if ($MessageBoxType -eq 'Choice') {if ($dropbox.SelectedItem) {$global:boxoutput = $dropbox.SelectedItem;$global:boxindex = $dropbox.SelectedIndex} else {$global:boxresult = $null}}
 $formbox.Dispose()
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function MessageBoxAbout {
 param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxText)
 $formbox = New-Object System.Windows.Forms.Form
@@ -382,7 +416,6 @@ $YLOC = [int](290 * $ScaleRef * $GUI_SCALE)
 $labelbox.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $labelbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $labelbox.Dock = "None";#None, Top, Bottom, Left, Right, Fill
-#$label.TextAlign = "MiddleCenter"
 $labelbox.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
 $labelbox.Text = "For documentation visit github.com/joshuacline"
 $labelbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
@@ -395,6 +428,7 @@ $formbox.ResumeLayout()
 $formbox.ShowDialog()
 $formbox.Dispose()
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PickFolder {
 Add-Type -AssemblyName System.Windows.Forms
 $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
@@ -406,6 +440,7 @@ $FolderBrowserDialog.ShowDialog() | Out-Null
 $Pick = $FolderBrowserDialog.FileName
 Write-Host "Selected file: $Pick"
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PickFolderx {
 $shell = New-Object -ComObject Shell.Application
 $FolderPicker = $shell.BrowseForFolder(0, "Select a folder:", 0, $null)
@@ -416,21 +451,20 @@ Add-Type -AssemblyName System.Windows.Forms
 $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
 $OpenFileDialog.InitialDirectory = "$FilePath"
 $OpenFileDialog.RestoreDirectory = $true
-#$OpenFileDialog.Filter = "Text files (*.txt;*.zip)|*.txt;*.zip"
 $OpenFileDialog.Filter = $FileFilt
-#$OpenFileDialog.Filter = "WIM files (*.wim)|*.wim"
 $OpenFileDialog.ShowDialog() | Out-Null
 $global:Pick = $OpenFileDialog.FileName
 Write-Host "Selected file: $Pick"
+#$OpenFileDialog.Filter = "WIM files (*.wim)|*.wim"
+#$OpenFileDialog.Filter = "Text files (*.txt;*.zip)|*.txt;*.zip"
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewRadioButton {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$GroupName)
 $radio = New-Object System.Windows.Forms.RadioButton
 $radio.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-#$radio.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $radio.Text = "$Text"
 $radio.Add_CheckedChanged($Add_CheckedChanged)
-#$radio.Checked = "$false"
 $radio.AutoSize = $false
 $WSIZ = [int]($W * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($H * $ScaleRef * $GUI_SCALE)
@@ -440,15 +474,15 @@ $radio.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $radio.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 if ($GroupBoxName -eq 'Group1') {$GroupBox1_PageSC.Controls.Add($radio)}
 if ($GroupBoxName -eq 'Group2') {$GroupBox2_PageSC.Controls.Add($radio)}
+#$radio.Checked = "$false"
 return $radio
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewGroupBox {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$Checked)
 $groupBox = New-Object System.Windows.Forms.GroupBox
 $groupBox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-#$groupBox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $groupBox.Text = "$Text"
-#$groupBox.Checked = "$false"
 $WSIZ = [int]($W * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($H * $ScaleRef * $GUI_SCALE)
 $XLOC = [int]($X * $ScaleRef * $GUI_SCALE)
@@ -456,8 +490,10 @@ $YLOC = [int]($Y * $ScaleRef * $GUI_SCALE)
 $groupBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $groupBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $element = $groupBox;AddElement
+#$groupBox.Checked = "$false"
 return $groupBox
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewSlider {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $slider = New-Object System.Windows.Forms.TrackBar
@@ -476,6 +512,7 @@ $slider.Add_Scroll({$Add_Scroll})
 $element = $slider;AddElement
 return $slider
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewToggle {
 param ([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $toggle = New-Object System.Windows.Forms.CheckBox
@@ -492,6 +529,7 @@ $toggle.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $element = $toggle;AddElement
 return $toggle
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewDropBox {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[int]$C,[string]$Text,[string]$DisplayMember)
 $dropbox = New-Object System.Windows.Forms.ComboBox
@@ -508,11 +546,6 @@ $dropbox.DisplayMember = $DisplayMember
 $dropbox.Text = "$Text"
 $dropbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $dropbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-#$dropbox.Items.Add("Option 1")
-#$dropbox.Add_TextChanged({$dropbox.Text = "changed"})
-#$dropbox.SelectedIndex = 0#$dropbox.SelectedItem = "Option 1"#must be on list
-#$dropbox.IsEditable = $false
-#$dropbox.IsReadOnly = $true
 $dropbox.Add_SelectedIndexChanged({
 $DropBox1_PageW2V.Tag = 'Disable'
 $DropBox2_PageW2V.Tag = 'Disable'
@@ -529,19 +562,23 @@ $DropBox4_PageSC.Tag = 'Disable'
 $DropBox5_PageSC.Tag = 'Disable'
 $this.Tag = 'Enable'
 if ($DropBox1_PageW2V.Tag -eq 'Enable') {if ($DropBox1_PageW2V.SelectedItem -eq 'Import Installation Media') {ImportWim}
-if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {Dropbox1W2V}}}
+if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {DropBox1W2V}}}
 if ($DropBox2_PageBC.Tag -eq 'Enable') {if ($DropBox2_PageBC.SelectedItem -eq 'Import Wallpaper') {ImportWallpaper}}
-if ($DropBox3_PageBC.Tag -eq 'Enable') {if ($DropBox3_PageBC.SelectedItem -eq 'Refresh') {Dropbox3BC}}
-if ($DropBox1_PageV2W.Tag -eq 'Enable') {Dropbox1V2W}
-if ($DropBox1_PageSC.Tag -eq 'Enable') {Dropbox1SC}
+if ($DropBox3_PageBC.Tag -eq 'Enable') {if ($DropBox3_PageBC.SelectedItem -eq 'Refresh') {DropBox3BC}}
+if ($DropBox1_PageV2W.Tag -eq 'Enable') {DropBox1V2W}
+if ($DropBox1_PageSC.Tag -eq 'Enable') {DropBox1SC}
 if ($DropBox2_PageSC.Tag -eq 'Enable') {DropBox2SC}
 if ($DropBox3_PageSC.Tag -eq 'Enable') {DropBox3SC}
 if ($DropBox4_PageSC.Tag -eq 'Enable') {DropBox4SC}
 if ($DropBox5_PageSC.Tag -eq 'Enable') {DropBox5SC}
 })
 $element = $dropbox;AddElement
+#$dropbox.IsEditable = $false
+#$dropbox.IsReadOnly = $true
+#$dropbox.Add_TextChanged({Write-Host "X"})
 return $dropbox
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewButton {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text,[string]$Hover_Text,[scriptblock]$Add_Click)
 $button = New-Object Windows.Forms.Button
@@ -554,17 +591,20 @@ $button.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $button.Add_Click($Add_Click)
 $button.Text = $Text
 $button.Cursor = 'Hand'
-#$colorHex1 = [Convert]::ToInt32($GUI_BTN_COLOR.Substring(0, 2), 16)
-#$colorHex2 = [Convert]::ToInt32($GUI_BTN_COLOR.Substring(2, 2), 16)
 $button.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $button.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
 $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $button.Add_MouseLeave({$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
 $hovertext = New-Object System.Windows.Forms.ToolTip
 $hovertext.SetToolTip($button, $Hover_Text)
+#$button.FlatStyle = 'Flat'
+#$button.FlatAppearance.BorderSize = '3'
+#$paint = $button;$global:shape = 'Rectangle';Add_Paint
+#$colorHex1 = [Convert]::ToInt32($GUI_BTN_COLOR.Substring(0, 2), 16);#$colorHex2 = [Convert]::ToInt32($GUI_BTN_COLOR.Substring(2, 2), 16)
 $element = $button;AddElement
 return $button
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewPageButton {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$Text)
 $button = New-Object Windows.Forms.Button
@@ -576,6 +616,8 @@ $button.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $button.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $button.Text = $Text
 $button.Cursor = 'Hand'
+#$button.FlatStyle = 'Flat'
+#$button.FlatAppearance.BorderSize = '3'
 $button.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $button.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
 $button.Add_Click({
@@ -591,8 +633,6 @@ if ($Button_W2V.Tag -eq 'Enable') {$PageW2V.Visible = $true;Button_PageW2V;$Page
 if ($Button_V2W.Tag -eq 'Enable') {$PageV2W.Visible = $true;Button_PageV2W;$PageV2W.BringToFront();$Button_W2V.Visible = $true;$Button_V2W.Visible = $false}
 if ($Button_LB.Tag -eq 'Enable') {$PageLB.Visible = $true;Button_PageLB;$PageLB.BringToFront();$Button_PB.Visible = $true;$Button_LB.Visible = $false}
 if ($Button_PB.Tag -eq 'Enable') {$PagePB.Visible = $true;Button_PagePB;$PagePB.BringToFront();$Button_LB.Visible = $true;$Button_PB.Visible = $false}
-#if ($Button_PB.Tag -eq 'Enable') {$PagePB.Visible = $true;Button_PagePB;$PagePB.BringToFront()}
-#if ($Button_LB.Tag -eq 'Enable') {$PageLB.Visible = $true;Button_PageLB;$PageLB.BringToFront()}
 if ($Button_SP.Tag -eq 'Enable') {$PageSP.Visible = $true;$PageSP.BringToFront()}
 if ($Button_BC.Tag -eq 'Enable') {$PageBC.Visible = $true;Button_PageBC;$PageBC.BringToFront()}
 if ($Button_SC.Tag -eq 'Enable') {$PageSC.Visible = $true;Button_PageSC;$PageSC.BringToFront()}
@@ -603,7 +643,6 @@ if ($Button_PB.Tag -ne 'Enable') {$PagePB.Visible = $false}
 if ($Button_BC.Tag -ne 'Enable') {$PageBC.Visible = $false}
 if ($Button_SC.Tag -ne 'Enable') {$PageSC.Visible = $false}
 if ($Button_SP.Tag -ne 'Enable') {$PageSP.Visible = $false}
-
 $Button_W2V.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
 $Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
 $Button_LB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
@@ -622,9 +661,17 @@ if ($Button_PB.Tag -eq 'Enable') {$Button_LB.BackColor = [System.Drawing.Color]:
 $PageMain.Controls.Add($button)
 return $button
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+function Add_Paint {$paint.Add_Paint({param([object]$sender, [System.Windows.Forms.PaintEventArgs]$e);$graphics = $e.Graphics
+$pen = New-Object System.Drawing.Pen([System.Drawing.Color]::Red, 10);$brush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::Green);#$graphics.CloseFigure();#$graphics.AddEllipse($WSIZ, $HSIZ, $XLOC, $YLOC);#$graphics.FillRectangle($brush, $rectangle);#$graphics.AddLine($WSIZ, $HSIZ, $XLOC, $YLOC);
+if ($shape -eq 'Rectangle') {$drawX = New-Object System.Drawing.Rectangle($XLOC, $YLOC, $WSIZ, $HSIZ);$graphics.DrawRectangle($pen, $drawX)};if ($shape -eq 'Ellipse') {$drawX = New-Object System.Drawing.Ellipse($XLOC, $YLOC, $WSIZ, $HSIZ);$graphics.DrawEllipse($pen, $drawX)};if ($shape -eq 'Line') {$drawX = New-Object System.Drawing.Line($XLOC, $YLOC, $WSIZ, $HSIZ);$graphics.DrawLine($pen, $drawX)}
+$pen.Dispose();$brush.Dispose()})
+}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Get-ChildProcesses ($ParentProcessId) {$filter = "parentprocessid = '$($ParentProcessId)'"
 Get-CIMInstance -ClassName win32_process -filter $filter | Foreach-Object {$_
 if ($_.ParentProcessId -ne $_.ProcessId) {Get-ChildProcesses $_.ProcessId}}}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageW2V {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
@@ -638,6 +685,7 @@ Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_P
 if ($($TextBox1_PageW2V.Text)) {$null} else {$TextBox1_PageW2V.Text = 'NewFile.vhdx'}
 if ($($TextBox2_PageW2V.Text)) {$null} else {$TextBox2_PageW2V.Text = '25'}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageV2W {
 $PathCheck = "$PSScriptRoot\\image\\*"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\image"} else {$FilePath = "$PSScriptRoot"}
@@ -650,24 +698,25 @@ Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_
 if ($($TextBox1_PageV2W.Text)) {$null} else {$TextBox1_PageV2W.Text = 'NewFile.wim'}
 if ($($DropBox3_PageV2W.SelectedItem)) {$null} else {$DropBox3_PageV2W.Items.Clear();$DropBox3_PageV2W.Items.Add("Fast");$DropBox3_PageV2W.Items.Add("Max");$DropBox3_PageV2W.SelectedItem = "Fast";}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageLB {
-$ListView1_PageLB.Items.Clear()
-$ListView2_PageLB.Items.Clear()
+$ListView1_PageLB.Items.Clear();$ListView2_PageLB.Items.Clear()
 $PathCheck = "$PSScriptRoot\\list"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
 #Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLB.Items.Add($_)}
 Get-ChildItem -Path "$FilePath\*.base" -Name | ForEach-Object {[void]$ListView2_PageLB.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PagePB {
-$ListView1_PagePB.Items.Clear()
-$ListView2_PagePB.Items.Clear()
+$ListView1_PagePB.Items.Clear();$ListView2_PagePB.Items.Clear()
 $PathCheck = "$PSScriptRoot\\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePB.Items.Add($_)}
 $PathCheck = "$PSScriptRoot\\project"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\project"
 Get-ChildItem -Path "$FilePath" -Name | ForEach-Object {[void]$ListView2_PagePB.Items.Add($_)}}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageBC {
 $DropBox3_PageBC.Items.Clear();$DropBox3_PageBC.Items.Add("Refresh");$DropBox3_PageBC.Text = "Select Disk"
 $PathCheck = "$PSScriptRoot\\image\\*"
@@ -685,29 +734,25 @@ Get-ChildItem -Path "$FilePath\*.jpg" -Name | ForEach-Object {$empty = $false;[v
 Get-ChildItem -Path "$FilePath\*.png" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
 [void]$DropBox2_PageBC.Items.Add("Import Wallpaper")
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageSC {
 if ($($DropBox1_PageSC.SelectedItem)) {$null} else {$DropBox1_PageSC.ResetText();$DropBox1_PageSC.Items.Clear();
 $key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont"
 #$key.GetValueNames() | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
 $key.GetValueNames() | ForEach-Object {$key.GetValue($_) | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}}
 $DropBox1_PageSC.SelectedItem = "$GUI_CONFONT"}
-if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();
-$DropBox2_PageSC.Items.Add("Auto");$DropBox2_PageSC.Items.Add("2");$DropBox2_PageSC.Items.Add("4");$DropBox2_PageSC.Items.Add("6");$DropBox2_PageSC.Items.Add("8");$DropBox2_PageSC.Items.Add("10");$DropBox2_PageSC.Items.Add("12");$DropBox2_PageSC.Items.Add("14");$DropBox2_PageSC.Items.Add("16");$DropBox2_PageSC.Items.Add("18");$DropBox2_PageSC.Items.Add("20");$DropBox2_PageSC.Items.Add("22");$DropBox2_PageSC.Items.Add("24");$DropBox2_PageSC.Items.Add("26");$DropBox2_PageSC.Items.Add("28");$DropBox2_PageSC.Items.Add("30");$DropBox2_PageSC.Items.Add("32");$DropBox2_PageSC.Items.Add("36");$DropBox2_PageSC.Items.Add("40");$DropBox2_PageSC.Items.Add("44");$DropBox2_PageSC.Items.Add("48");$DropBox2_PageSC.Items.Add("52");$DropBox2_PageSC.Items.Add("56");$DropBox2_PageSC.Items.Add("60");$DropBox2_PageSC.Items.Add("64");$DropBox2_PageSC.Items.Add("68");$DropBox2_PageSC.Items.Add("72");}
-$DropBox2_PageSC.SelectedItem = "$GUI_CONFONTSIZE"
-
-if ($($DropBox3_PageSC.SelectedItem)) {$null} else {$DropBox3_PageSC.ResetText();$DropBox3_PageSC.Items.Clear();
-$DropBox3_PageSC.Items.Add("Auto");$DropBox3_PageSC.Items.Add("2");$DropBox3_PageSC.Items.Add("4");$DropBox3_PageSC.Items.Add("6");$DropBox3_PageSC.Items.Add("8");$DropBox3_PageSC.Items.Add("10");$DropBox3_PageSC.Items.Add("12");$DropBox3_PageSC.Items.Add("14");$DropBox3_PageSC.Items.Add("16");$DropBox3_PageSC.Items.Add("18");$DropBox3_PageSC.Items.Add("20");$DropBox3_PageSC.Items.Add("22");$DropBox3_PageSC.Items.Add("24");$DropBox3_PageSC.Items.Add("26");$DropBox3_PageSC.Items.Add("28");$DropBox3_PageSC.Items.Add("30");$DropBox3_PageSC.Items.Add("32");$DropBox3_PageSC.Items.Add("36");$DropBox3_PageSC.Items.Add("40");$DropBox3_PageSC.Items.Add("44");$DropBox3_PageSC.Items.Add("48");$DropBox3_PageSC.Items.Add("52");$DropBox3_PageSC.Items.Add("56");$DropBox3_PageSC.Items.Add("60");$DropBox3_PageSC.Items.Add("64");$DropBox3_PageSC.Items.Add("68");$DropBox3_PageSC.Items.Add("72");}
-$DropBox3_PageSC.SelectedItem = "$GUI_LVFONTSIZE"
-
-if ($($DropBox4_PageSC.SelectedItem)) {$null} else {$DropBox4_PageSC.ResetText();$DropBox4_PageSC.Items.Clear();
-$DropBox4_PageSC.Items.Add("Auto");$DropBox4_PageSC.Items.Add("2");$DropBox4_PageSC.Items.Add("4");$DropBox4_PageSC.Items.Add("6");$DropBox4_PageSC.Items.Add("8");$DropBox4_PageSC.Items.Add("10");$DropBox4_PageSC.Items.Add("12");$DropBox4_PageSC.Items.Add("14");$DropBox4_PageSC.Items.Add("16");$DropBox4_PageSC.Items.Add("18");$DropBox4_PageSC.Items.Add("20");$DropBox4_PageSC.Items.Add("22");$DropBox4_PageSC.Items.Add("24");$DropBox4_PageSC.Items.Add("26");$DropBox4_PageSC.Items.Add("28");$DropBox4_PageSC.Items.Add("30");$DropBox4_PageSC.Items.Add("32");$DropBox4_PageSC.Items.Add("36");$DropBox4_PageSC.Items.Add("40");$DropBox4_PageSC.Items.Add("44");$DropBox4_PageSC.Items.Add("48");$DropBox4_PageSC.Items.Add("52");$DropBox4_PageSC.Items.Add("56");$DropBox4_PageSC.Items.Add("60");$DropBox4_PageSC.Items.Add("64");$DropBox4_PageSC.Items.Add("68");$DropBox4_PageSC.Items.Add("72");}
-$DropBox4_PageSC.SelectedItem = "$GUI_FONTSIZE"
-
+if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();ForEach ($i in @('Auto','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36','40','44','48','52','56','60','64','68','72')) {$DropBox2_PageSC.Items.Add($i)}
+$DropBox2_PageSC.SelectedItem = "$GUI_CONFONTSIZE"}
+if ($($DropBox3_PageSC.SelectedItem)) {$null} else {$DropBox3_PageSC.ResetText();$DropBox3_PageSC.Items.Clear();ForEach ($i in @('Auto','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36','40','44','48','52','56','60','64','68','72')) {$DropBox3_PageSC.Items.Add($i)}
+$DropBox3_PageSC.SelectedItem = "$GUI_LVFONTSIZE"}
+if ($($DropBox4_PageSC.SelectedItem)) {$null} else {$DropBox4_PageSC.ResetText();$DropBox4_PageSC.Items.Clear();ForEach ($i in @('Auto','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36','40','44','48','52','56','60','64','68','72')) {$DropBox4_PageSC.Items.Add($i)}
+$DropBox4_PageSC.SelectedItem = "$GUI_FONTSIZE"}
 if ($($DropBox5_PageSC.SelectedItem)) {$null} else {
 $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
 $DropBox5_PageSC.Items.Add("🎨 Theme");$DropBox5_PageSC.Items.Add("Button");$DropBox5_PageSC.Items.Add("Highlight");$DropBox5_PageSC.Items.Add("Text Color");$DropBox5_PageSC.Items.Add("Text Canvas");$DropBox5_PageSC.Items.Add("Side Panel");$DropBox5_PageSC.Items.Add("Background")}
 $DropBox5_PageSC.SelectedItem = ""
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function ImportBoot {
 $PathCheck = "$PSScriptRoot\\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (Test-Path -Path $PathCheckX) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
@@ -723,8 +768,8 @@ $objFolder.CopyHere($source)
 Rename-Item -Path "$FilePath\boot.wim" -NewName "boot.sav"}
 Dismount-DiskImage -DevicePath $Image.DevicePath} else {$null}}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function ImportWim {
-$DropBox1_PageW2V.SelectedItem = $null;$DropBox2_PageW2V.SelectedItem = $null;$DropBox2_PageW2V.Items.Clear();$ListView1_PageW2V.Items.Clear();
 $FileFilt = "ISO files (*.iso)|*.iso";PickFile
 if ($Pick) {
 $Image = Mount-DiskImage -ImagePath "$Pick" -PassThru
@@ -738,6 +783,7 @@ $objFolder.CopyHere($source)
 Dismount-DiskImage -DevicePath $Image.DevicePath}
 Button_PageW2V
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function ImportWallpaper {
 $DropBox2_PageBC.SelectedItem = $null
 $FilePath = $HOME;$FileFilt = "Picture files (*.jpg;*.png)|*.jpg;*.png";PickFile
@@ -751,6 +797,7 @@ $objFolder.CopyHere($source)
 Dismount-DiskImage -DevicePath $Image.DevicePath}
 Button_PageBC
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Dropbox3BC {
 $ListView1_PageBC.Items.Clear();$ListView1_PageBC.Items.Add("Querying disks...")
 $DropBox3_PageBC.Items.Clear();
@@ -780,6 +827,7 @@ if ($progdrive -eq '1') {$diskreason = "$diskreason ProgDrive"}
 if ($diskreason) {$diskreason = "`|$diskreason"} else {$DropBox3_PageBC.Items.Add("Disk $diskNumber `| $name `| $vols`| $diskSize GB")}
 $ListView1_PageBC.Items.Add("Disk $diskNumber `| $name `| $vols`| $diskSize GB $diskreason")}
 $DropBox3_PageBC.Items.Add("Refresh");}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Dropbox1W2V {
 if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {
 $DropBox2_PageW2V.Items.Clear()
@@ -808,6 +856,7 @@ if ($column2) {$null} else {$DropBox2_PageW2V.Items.Add("1");[void]$ListView1_Pa
 $DropBox2_PageW2V.SelectedItem = "1"
 }}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Dropbox1V2W {
 $DropBox2_PageV2W.Items.Clear()
 $ListView1_PageV2W.Items.Clear();#$DropBox2_PageV2W.Text = '1'
@@ -829,41 +878,51 @@ $column2 = $parts[1].Trim()
 if ($column2) {$null} else {$DropBox2_PageV2W.Items.Add("1");[void]$ListView1_PageV2W.Items.Add("Index : 1");[void]$ListView1_PageV2W.Items.Add("<no information>")}
 $DropBox2_PageV2W.SelectedItem = "1"
 }
-function Dropbox1SC {
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+function DropBox1SC {
 if ($DropBox1SCChanged -eq '1') {
-$global:GUI_CONFONT = "$($DropBox1_PageSC.SelectedItem)";[WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$GUI_CONFONTSIZEX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
+$global:GUI_CONFONT = "$($DropBox1_PageSC.SelectedItem)";[VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox1SCChanged = '1';
 }
-function Dropbox2SC {
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+function DropBox2SC {
 if ($DropBox2SCChanged -eq '1') {
 $global:GUI_CONFONTSIZE = "$($DropBox2_PageSC.SelectedItem)"
-if ($GUI_CONFONTSIZE -eq 'Auto') {$GUI_CONFONTSIZEX = $ScaleFont} else {$GUI_CONFONTSIZEX = $GUI_CONFONTSIZE}
-[WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$GUI_CONFONTSIZEX");Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
+if ($GUI_CONFONTSIZE -eq 'Auto') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = $GUI_CONFONTSIZE}
+#$ScaleFont = $CFSIZE0 * $ScaleRef * $GUI_SCALE
+$ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
+$ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
+[VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
+Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox2SCChanged = '1';
 }
-function Dropbox3SC {
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+function DropBox3SC {
 #$global:GUI_LVFONTSIZE = "$($DropBox3_PageSC.SelectedItem)"
 if ($DropBox3SCChanged -eq '1') {
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox3SCChanged = '1';
 }
-function Dropbox4SC {
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+function DropBox4SC {
 #$global:GUI_FONTSIZE = "$($DropBox4_PageSC.SelectedItem)"
 if ($DropBox4SCChanged -eq '1') {
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox4SCChanged = '1';
 }
-function Dropbox5SC {
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+function DropBox5SC {
 if ($($DropBox5_PageSC.SelectedItem) -eq '🎨 Theme') {
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Select a theme' -MessageBoxChoices "Dark,DarkRed,DarkGreen,DarkBlue,Light,LightRed,LightGreen,LightBlue"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Theme' -MessageBoxText 'Select a theme' -MessageBoxChoices "Dark,DarkRed,DarkGreen,DarkBlue,Light,LightRed,LightGreen,LightBlue"
 if ($boxoutput -eq "Dark") {$GUI_TXT_FOREX = 'FFFFFFFF';$GUI_TXT_BACKX = 'FF151515';$GUI_BTN_COLORX = 'FF404040';$GUI_HLT_COLORX = 'FF777777';$GUI_BG_COLORX = 'FF252525';$GUI_PAG_COLORX = 'FF151515'}
 if ($boxoutput -eq "DarkRed") {$GUI_TXT_FOREX = 'FFFFFFFF';$GUI_TXT_BACKX = 'FF150000';$GUI_BTN_COLORX = 'FF400000';$GUI_HLT_COLORX = 'FF770000';$GUI_BG_COLORX = 'FF250000';$GUI_PAG_COLORX = 'FF150000'}
 if ($boxoutput -eq "DarkGreen") {$GUI_TXT_FOREX = 'FFFFFFFF';$GUI_TXT_BACKX = 'FF001500';$GUI_BTN_COLORX = 'FF004000';$GUI_HLT_COLORX = 'FF007700';$GUI_BG_COLORX = 'FF002500';$GUI_PAG_COLORX = 'FF001500'}
@@ -872,14 +931,8 @@ if ($boxoutput -eq "Light") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFFFF
 if ($boxoutput -eq "LightRed") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFFFD0D0';$GUI_BTN_COLORX = 'FFFF8888';$GUI_HLT_COLORX = 'FFFFACAC';$GUI_BG_COLORX = 'FFE06C6C';$GUI_PAG_COLORX = 'FF990000'}
 if ($boxoutput -eq "LightGreen") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFD0FFD0';$GUI_BTN_COLORX = 'FF88FF88';$GUI_HLT_COLORX = 'FFACFFAC';$GUI_BG_COLORX = 'FF6CE06C';$GUI_PAG_COLORX = 'FF009900'}
 if ($boxoutput -eq "LightBlue") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFD0D0FF';$GUI_BTN_COLORX = 'FF8888FF';$GUI_HLT_COLORX = 'FFACACFF';$GUI_BG_COLORX = 'FF6C6CE0';$GUI_PAG_COLORX = 'FF000099'}
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_TXT_FORE=$GUI_TXT_FOREX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_TXT_BACK=$GUI_TXT_BACKX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_BTN_COLOR=$GUI_BTN_COLORX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_HLT_COLOR=$GUI_HLT_COLORX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_BG_COLOR=$GUI_BG_COLORX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_PAG_COLOR=$GUI_PAG_COLORX" -Encoding UTF8
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
+ForEach ($i in @("","GUI_TXT_FORE=$GUI_TXT_FOREX","GUI_TXT_BACK=$GUI_TXT_BACKX","GUI_BTN_COLOR=$GUI_BTN_COLORX","GUI_HLT_COLOR=$GUI_HLT_COLORX","GUI_BG_COLOR=$GUI_BG_COLORX","GUI_PAG_COLOR=$GUI_PAG_COLORX")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -eq "OK") {
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 }
@@ -892,7 +945,7 @@ if ($($DropBox5_PageSC.SelectedItem) -eq 'Button') {Add-Content -Path "$PSScript
 if ($($DropBox5_PageSC.SelectedItem) -eq 'Highlight') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_HLT_COLOR=$colorHex" -Encoding UTF8}
 if ($($DropBox5_PageSC.SelectedItem) -eq 'Background') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_BG_COLOR=$colorHex" -Encoding UTF8}
 if ($($DropBox5_PageSC.SelectedItem) -eq 'Side Panel') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_PAG_COLOR=$colorHex" -Encoding UTF8}
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
@@ -900,12 +953,13 @@ Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$No
 $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
 $DropBox5_PageSC.Items.Add("🎨 Theme");$DropBox5_PageSC.Items.Add("Button");$DropBox5_PageSC.Items.Add("Highlight");$DropBox5_PageSC.Items.Add("Text Color");$DropBox5_PageSC.Items.Add("Text Canvas");$DropBox5_PageSC.Items.Add("Side Panel");$DropBox5_PageSC.Items.Add("Background")
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PBWiz_Stage1 {$global:PBWiz_Stage = 1;
 $Label1_PagePBWiz.Text = "🗳 Pack Builder"
 $Label2_PagePBWiz.Text = ""
 $ListView1_PagePBWiz.GridLines = $false
-$ListView1_PagePBWiz.CheckBoxes = $false # Enable checkboxes
-$ListView1_PagePBWiz.FullRowSelect = $true # Select the entire row when an item is selected
+$ListView1_PagePBWiz.CheckBoxes = $false
+$ListView1_PagePBWiz.FullRowSelect = $true
 $ListView1_PagePBWiz.Items.Clear();
 $item1 = New-Object System.Windows.Forms.ListViewItem("💾 Capture Project Folder")
 $ListView1_PagePBWiz.Items.Add($item1)
@@ -916,13 +970,14 @@ $ListView1_PagePBWiz.Items.Add($item1)
 $item1 = New-Object System.Windows.Forms.ListViewItem("🔄 Export Drivers")
 $ListView1_PagePBWiz.Items.Add($item1)
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PBWiz_Stage2 {$global:PBWiz_Stage = 2;
 if ($marked -ne $null) {$global:ListViewSelectS2 = $marked} else {$global:ListViewSelectS2 = $ListView1_PagePBWiz.FocusedItem}
 $ListView1_PagePBWiz.GridLines = $false;$ListView1_PagePBWiz.CheckBoxes = $false;$ListView1_PagePBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS2, $partc = $ListViewSelectS2 -split '[{}]'
 
 if ($ListViewChoiceS2 -eq "💾 Capture Project Folder") {
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Package' -MessageBoxText 'Enter new .pkx package name'
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Package' -MessageBoxText 'Enter new .pkx package name' -Check 'PATH'
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;}
 if ($boxresult -eq "OK") {$ListView1_PagePBWiz.Items.Clear();
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
@@ -931,32 +986,19 @@ $PathCheck = "$PSScriptRoot\\pack";if (Test-Path -Path $PathCheck) {$FilePathPKX
 $command = @"
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"$PSScriptRoot\project" /IMAGEFILE:"$FilePathPKX" /COMPRESS:Fast /NAME:"PKX" /CheckIntegrity /Verify
 "@
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-RUN" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-CUSTOM" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=`$LIST" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "EXEC-LIST" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%][CMD][IA]" -Encoding UTF8
-#Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][$command][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%][CMD][IA]" -Encoding UTF8
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("EXEC-LIST","[COMMANDQ][ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%][CMD][DX]","[COMMANDQ][$command][CMD][DX]","[COMMANDQ][ECHO.][CMD][DX]","[COMMANDQ][ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%][CMD][DX]")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 if ($ListViewChoiceS2 -eq "🗳 New Package Template") {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;}
-if ($boxresult -eq "OK") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "MENU_SKIP=1" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-PACKCREATOR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-NEW" -Encoding UTF8
-$global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
-Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
+if ($boxresult -eq "OK") {$PathCheck = "$PSScriptRoot\\project";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\project" -Recurse -Force}
+New-Item -ItemType Directory -Path "$PSScriptRoot\project\driver"
+ForEach ($i in @("EXEC-LIST","Delete the driver list entry below and driver folder if there are not drivers included in the package.",'[DRIVER]["%PKX_FOLDER%\driver"][INSTALL][DX]',"Delete the command list entry below and package.cmd if a script is not needed.",'[COMMAND][CMD /C "%PKX_FOLDER%\package.cmd"][CMD][DX]',"Manually add, copy and paste items, or replace this package.list with an existing execution list.","Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.")) {Add-Content -Path "$PSScriptRoot\project\package.list" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("::================================================","::These variables are built in and can help","::keep a script consistant throughout the entire","::process, whether applying to a vhdx or live.","::Add any files to package folder before creating.","::================================================","::Windows folder :    %WINTAR%","::Drive root :        %DRVTAR%","::User or defuser :   %USRTAR%","::HKLM\SOFTWARE :     %HIVE_SOFTWARE","::HKLM\SYSTEM :       %HIVE_SYSTEM%","::HKCU or defuser :   %HIVE_USER%","::DISM target :       %APPLY_TARGET%","::==================START OF PACK=================","","@ECHO OFF",'REM "%PKX_FOLDER%\example.msi" /quiet /noprompt',"","::===================END OF PACK==================")) {Add-Content -Path "$PSScriptRoot\project\package.cmd" -Value "$i" -Encoding UTF8}
+$global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB}}
 
 if ($ListViewChoiceS2 -eq "🗳 Restore Package") {
 $Label1_PagePBWiz.Text = "🗳 Restore Package"
@@ -973,19 +1015,15 @@ $global:Show_ENV = $null;$ListView1_PagePBWiz.Items.Add("🪟 Current Environmen
 $PathCheck = "$PSScriptRoot\\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PagePBWiz.Items.Add($_)}}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PBWiz_Stage3 {$global:PBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PagePBWiz.FocusedItem}
 $ListView1_PagePBWiz.GridLines = $false;$ListView1_PagePBWiz.CheckBoxes = $false;$ListView1_PagePBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
 if ($ListViewChoiceS2 -eq "🔄 Export Drivers") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-EXPORT" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-DRIVERS" -Encoding UTF8
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-EXPORT","ARG3=-DRIVERS")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 If ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$ListViewChoiceS3" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG4=-VHDX","ARG5=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
@@ -1001,20 +1039,12 @@ $PathCheck = "$PSScriptRoot\\pack";if (Test-Path -Path $PathCheck) {$FilePath = 
 $command = @"
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"$FilePath\$ListViewChoiceS3" /INDEX:1 /APPLYDIR:"$PSScriptRoot\project"
 "@
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-RUN" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-CUSTOM" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=`$LIST" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "EXEC-LIST" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][$command][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$FilePathLST" -Value "[COMMANDQ][ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%][CMD][IA]" -Encoding UTF8
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("EXEC-LIST","[COMMANDQ][ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%][CMD][DX]","[COMMANDQ][$command][CMD][DX]","[COMMANDQ][ECHO.][CMD][DX]","[COMMANDQ][ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%][CMD][DX]")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LEWiz_Stage1 {$global:LEWiz_Stage = 1;
 $Label1_PageLEWiz.Text = "🧾 List Execute"
 $Label2_PageLEWiz.Text = "Select a List"
@@ -1026,6 +1056,7 @@ $PathCheck = "$PSScriptRoot\\list"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LEWiz_Stage2 {$global:LEWiz_Stage = 2;
 $Label1_PageLEWiz.Text = "🧾 List Execute"
 $Label2_PageLEWiz.Text = "Select a Target"
@@ -1037,23 +1068,18 @@ if ($Allow_ENV -eq 'ENABLED') {$ListView1_PageLEWiz.Items.Add("🪟 Current Envi
 $PathCheck = "$PSScriptRoot\\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LEWiz_Stage3 {$global:LEWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLEWiz.FocusedItem}
 $ListView1_PageLEWiz.GridLines = $false;$ListView1_PageLEWiz.CheckBoxes = $false;$ListView1_PageLEWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-RUN" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-LIST" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=$ListViewChoiceS2" -Encoding UTF8
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-LIST","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
-
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=$ListViewChoiceS3" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:LEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLEWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PEWiz_Stage1 {$global:PEWiz_Stage = 1;
 $Label1_PagePEWiz.Text = "🗳 Pack Execute"
 $Label2_PagePEWiz.Text = "Select a Package"
@@ -1065,6 +1091,7 @@ $PathCheck = "$PSScriptRoot\\pack"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\pack"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePEWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PEWiz_Stage2 {$global:PEWiz_Stage = 2;
 $Label1_PagePEWiz.Text = "🗳 Pack Execute"
 $Label2_PagePEWiz.Text = "Select a Target"
@@ -1076,22 +1103,18 @@ if ($Allow_ENV -eq 'ENABLED') {$ListView1_PagePEWiz.Items.Add("🪟 Current Envi
 $PathCheck = "$PSScriptRoot\\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PagePEWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PEWiz_Stage3 {$global:PEWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PagePEWiz.FocusedItem}
 $ListView1_PagePEWiz.GridLines = $false;$ListView1_PagePEWiz.CheckBoxes = $false;$ListView1_PagePEWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-RUN" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-PKX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=$ListViewChoiceS2" -Encoding UTF8
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-PKX","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=$ListViewChoiceS3" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:PEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePEWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage1 {$global:LBWiz_Stage = 1;
 $Label1_PageLBWiz.Text = "🧾 List Builder"
 $Label2_PageLBWiz.Text = ""
@@ -1106,6 +1129,7 @@ $PathCheck = "$PSScriptRoot\\list"
 if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.base" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage2 {$global:LBWiz_Stage = 2;
 $GRP = $null;if ($marked -ne $null) {$global:ListViewSelectS2 = $marked} else {$global:ListViewSelectS2 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
@@ -1119,13 +1143,8 @@ $global:LBWiz_Type = Get-Content -Path "$FilePath\$BaseFile" -TotalCount 1}
 if ($LBWiz_Type -eq 'MISC') {
 $Label1_PageLBWiz.Text = "🧾 List Builder"
 $Label2_PageLBWiz.Text = "Miscellaneous"
-$ListView1_PageLBWiz.Items.Add("🧾 Create Source Base")
-$ListView1_PageLBWiz.Items.Add("🧾 Create Group Base")
-$ListView1_PageLBWiz.Items.Add("✒ Group Seperator Item")
-$ListView1_PageLBWiz.Items.Add("✒ External Package Item")
-$ListView1_PageLBWiz.Items.Add("✒ Command Operation Item")
-$ListView1_PageLBWiz.Items.Add("✒ Prompt / Variable Item")
-$ListView1_PageLBWiz.Items.Add("🧾 Create Multi List")}
+ForEach ($i in @("🧾 Create Source Base","🧾 Create Group Base","🪛 Group Seperator Item","🪛 Prompt TextBox Item","🪛 Choice Menu Item","✒ External Package Item","✒ Command Operation Item","🧾 Create Multi List")) {$ListView1_PageLBWiz.Items.Add("$i")}
+}
 if ($LBWiz_Type -eq 'BASE-GROUP') {
 $Label1_PageLBWiz.Text = "🧾 List Builder"
 $Label2_PageLBWiz.Text = "$BaseFile"
@@ -1151,6 +1170,7 @@ if ($partXb -eq 'COMPONENT') {$add_item = 'Component'}
 if ($partXb -eq 'DRIVER') {$add_item = 'Driver'}
 if ($add_item -ne $null) {$ListView1_PageLBWiz.Items.Add("$add_item")
 }}}}}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3MISC {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
 $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.FullRowSelect = $true
@@ -1160,18 +1180,12 @@ if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {
 $Label1_PageLBWiz.Text = "🧾 Miscellaneous"
 $Label2_PageLBWiz.Text = "Create Source Base"
 $ListView1_PageLBWiz.Items.Clear()
-$ListView1_PageLBWiz.Items.Add("All source items")
-$ListView1_PageLBWiz.Items.Add("AppX")
-$ListView1_PageLBWiz.Items.Add("Capability")
-$ListView1_PageLBWiz.Items.Add("Feature")
-$ListView1_PageLBWiz.Items.Add("Service")
-$ListView1_PageLBWiz.Items.Add("Task")
-$ListView1_PageLBWiz.Items.Add("Component")
-$ListView1_PageLBWiz.Items.Add("Driver")}
+ForEach ($i in @("All source items","AppX","Capability","Feature","Service","Task","Component","Driver")) {$ListView1_PageLBWiz.Items.Add("$i")}
+}
 
-if ($ListViewChoiceS3 -eq "✒ Group Seperator Item") {
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Group Seperator Item' -MessageBoxText 'Enter new group name'
-if ($boxresult -eq "OK") {$global:GroupName = "$boxoutput";MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Group Seperator Item' -MessageBoxText 'Enter new subgroup name'}
+if ($ListViewChoiceS3 -eq "🪛 Group Seperator Item") {
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Group Seperator Item' -MessageBoxText 'Enter new group name' -Check 'PATH'
+if ($boxresult -eq "OK") {$global:GroupName = "$boxoutput";MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Group Seperator Item' -MessageBoxText 'Enter new subgroup name' -Check 'PATH'}
 if ($boxresult -eq "OK") {$global:SubGroupName = "$boxoutput";
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
@@ -1190,17 +1204,41 @@ Get-ChildItem -Path "$FilePath\*.msu" -Name | ForEach-Object {[void]$ListView1_P
 Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 
 if ($ListViewChoiceS3 -eq "✒ Command Operation Item") {
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Command Operation Item' -MessageBoxText 'Enter new command.'
-if ($boxresult -eq "OK") {$global:CommandItem = "$boxoutput";
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Command Operation Item' -MessageBoxText 'Enter new command.' -Check 'MOST';$global:CommandItem = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Mount registry during execution?' -MessageBoxText 'Select the command type' -MessageBoxChoices "Normal Command,Registry Command"
+if ($boxoutput -eq "Normal Command") {$global:CommandTypeX = "CMD"} else {$global:CommandTypeX = "REG"}
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Run As' -MessageBoxText 'Select an elevation' -MessageBoxChoices "Run As User,Run As System❗,Run As TrustedInstaller❗"
+if ($boxoutput -eq "Run As User") {$global:RunAsX = ""}
+if ($boxoutput -eq "Run As System❗") {$global:RunAsX = "_RAS"}
+if ($boxoutput -eq "Run As TrustedInstaller❗") {$global:RunAsX = "_RATI"}
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Run As' -MessageBoxText 'Select an elevation' -MessageBoxChoices "Announcement Normal,Announcement Quiet"
+if ($boxoutput -eq "Announcement Normal") {$global:AnncType = "COMMAND"}
+if ($boxoutput -eq "Announcement Quiet") {$global:AnncType = "COMMANDQ"}
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Time of Action' -MessageBoxText 'Select a run time' -MessageBoxChoices "[DX] Default - Immediate execution,[SC] SetupComplete - Scheduled execution,[RO] RunOnce - Scheduled execution"
+if ($boxoutput -eq "[DX] Default - Immediate execution") {$global:ExecuteTime = "DX"}
+if ($boxoutput -eq "[SC] SetupComplete - Scheduled execution") {$global:ExecuteTime = "SC"}
+if ($boxoutput -eq "[RO] RunOnce - Scheduled execution") {$global:ExecuteTime = "RO"}
+if ($boxresult -eq "OK") {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
-if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}
-}
+if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
-if ($ListViewChoiceS3 -eq "✒ Prompt / Variable Item") {
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Prompt / Variable Item' -MessageBoxText 'Enter new text for the prompt.'
-if ($boxresult -eq "OK") {$global:PromptItem = "$boxoutput";
+if ($ListViewChoiceS3 -eq "🪛 Choice Menu Item") {
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Choice Item' -MessageBoxText 'Enter message for the choice prompt.' -Check 'PATH';$global:ChoiceMsg = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the choice number' -MessageBoxChoices "0,1,2,3,4,5,6,7,8,9";$global:ChoiceNum = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Choice prompt' -MessageBoxText 'Select the choice type. CHOICE saves the chosen index, STRING saves the string.' -MessageBoxChoices "CHOICE,STRING";$global:ChoiceTypeX = "$boxoutput"
+if ($boxresult -eq "OK") {
+$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
+$PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
+Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
+if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
+
+if ($ListViewChoiceS3 -eq "🪛 Prompt TextBox Item") {
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Prompt Item' -MessageBoxText 'Enter message for the prompt.' -Check 'PATH';$global:PromptMsg = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the prompt number' -MessageBoxChoices "0,1,2,3,4,5,6,7,8,9";$global:PromptNum = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the character filter type' -MessageBoxChoices "NONE,NUMBER,LETTER,ALPHA,MENU,PATH,MOST";$global:PromptFilt = "$boxoutput"
+if ($boxresult -eq "OK") {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
@@ -1208,62 +1246,29 @@ if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
 if ($ListViewChoiceS3 -eq "🧾 Create Multi List") {
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Multi List' -MessageBoxText 'Enter new .list name'
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Multi List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 2;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";
 if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 $EmptyListNew = [Convert]::FromBase64String($EmptyMultiList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)
-Add-Content -Path "$ListTarget" -Value "[GROUP][Mount and Unmount VHDX list items][EXAMPLE]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[MOUNT][                      Select the filesystem target][                           This is an example]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[CONFIRM][                    This is a confirmation prompt.][              If not confirmed, progress will be halted.]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.Recommended to put this at the top of any subgroup.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.Default target is the live system when this item is not used.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[UNMOUNT][Unmount VHDX][Detaches virtual disk if it was attached during this instance.]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.Recommended to put this at the bottomm of any subgroup.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.Target returns to the live system following the usage of this item.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[GROUP][Pick file][EXAMPLE]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[PICK][                             Select a file][                           This is an example][%%IMAGE_FOLDER%%\*.WIM]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO. `$PICK: %%`$PICK%%  `$CHOICE: %%`$CHOICE%%][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[PICK][                             Select a file][                           This is an example][%%LIST_FOLDER%%\*.BASE]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO. `$PICK: %%`$PICK%%  `$CHOICE: %%`$CHOICE%%][CMD][IA]" -Encoding UTF8
+ForEach ($i in @("[GROUP][Mount and Unmount VHDX list items][EXAMPLE]","[MOUNT][                      Select the filesystem target][                           This is an example]","[CONFIRM][                    This is a confirmation prompt.][              If not confirmed, progress will be halted.]","[COMMANDQ][ECHO.Recommended to put this at the top of any subgroup.][CMD][DX]","[COMMANDQ][ECHO.Default target is the live system when this item is not used.][CMD][DX]",'[COMMAND][DIR /B "%DRVTAR%\"][CMD][DX]','[COMMAND][REG QUERY "%HIVE_USER%"][REG][DX]',"[UNMOUNT][Unmount VHDX][Detaches virtual disk if it was attached during this instance.]","[COMMANDQ][ECHO.Recommended to put this at the bottomm of any subgroup.][CMD][DX]","[COMMANDQ][ECHO.Target returns to the live system following the usage of this item.][CMD][DX]",'[COMMAND][DIR /B "%DRVTAR%\"][CMD][DX]','[COMMAND][REG QUERY "%HIVE_USER%"][REG][DX]',"[GROUP][Pick file][EXAMPLE]","[PICK][                             Select a file][                           This is an example][%IMAGE_FOLDER%\*.WIM]","[COMMANDQ][ECHO. `$PICK: %`$PICK%  `$CHOICE: %`$CHOICE%][CMD][DX]","[PICK][                             Select a file][                           This is an example][%LIST_FOLDER%\*.BASE]","[COMMANDQ][ECHO. `$PICK: %`$PICK%  `$CHOICE: %`$CHOICE%][CMD][DX]")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
 
 if ($ListViewChoiceS3 -eq "🧾 Create Group Base") {
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Group Base' -MessageBoxText 'Enter new .base name'
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Group Base' -MessageBoxText 'Enter new .base name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 2;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.base";$ListTarget = "$FilePath\$boxoutput.base";
 if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 $EmptyListNew = [Convert]::FromBase64String($EmptyBaseGroup);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)
-Add-Content -Path "$ListTarget" -Value "[GROUP][🪛 Basic Option][✅ Basic SubOption Enable]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.✅ Basic SubOption Enable was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[GROUP][🪛 Basic Option][❎ Basic SubOption Disable]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.❎ Basic SubOption Disable was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[GROUP][🛠️ Advanced Option][🛠️ Advanced SubOption]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[CHOICE1][Select an option][✅ Advanced SubOption Enable,❎ Advanced SubOption Disable][VolaTILE]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][IF %CHOICE1%==1 ECHO.✅ Advanced SubOption Enable was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][IF %CHOICE1%==2 ECHO.❎ Advanced SubOption Disable was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[STRING1][Select an option][String1,String2][VolaTILE]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.%STRING1% was picked.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.COMMAND list items without an IF CHOICE always execute.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][DIR /B %DRVTAR%\][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][reg.exe query %HIVE_USER%][REG][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.COMMANDQ mutes the command announcement on screen.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMANDQ][ECHO.NULL mutes the command execution on screen.][CMD][IA]" -Encoding UTF8
-Add-Content -Path "$ListTarget" -Value "[COMMAND][reg.exe query %HIVE_USER% %NULL%][REG][IA]" -Encoding UTF8
-
+ForEach ($i in @("[GROUP][🪛 Basic Option][✅ Basic SubOption Enable]","[COMMANDQ][ECHO.✅ Basic SubOption Enable was picked.][CMD][DX]","[GROUP][🪛 Basic Option][❎ Basic SubOption Disable]","[COMMANDQ][ECHO.❎ Basic SubOption Disable was picked.][CMD][DX]","[GROUP][🛠️ Advanced Option][🛠️ Advanced SubOption]","[CHOICE1][Select an option][✅ Advanced SubOption Enable,❎ Advanced SubOption Disable][VolaTILE]",'[COMMANDQ][IF "%CHOICE1%"=="1" ECHO.✅ Advanced SubOption Enable was picked.][CMD][DX]','[COMMANDQ][IF "%CHOICE1%"=="2" ECHO.❎ Advanced SubOption Disable was picked.][CMD][DX]',"[STRING1][Select an option][String1,String2][VolaTILE]","[COMMANDQ][ECHO.%STRING1% was picked.][CMD][DX]","[COMMANDQ][ECHO.COMMAND list items without an IF CHOICE always execute.][CMD][DX]",'[COMMAND][DIR /B "%DRVTAR%\"][CMD][DX]',"[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][DX]",'[COMMAND][REG QUERY "%HIVE_USER%"][REG][DX]',"[COMMANDQ][ECHO.COMMANDQ mutes the command announcement on screen.][CMD][DX]","[COMMANDQ][ECHO.NULL mutes the command execution on screen.][CMD][DX]",'[COMMAND][REG QUERY "%HIVE_USER%" %NULL%][REG][DX]')) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage4MISC {$global:LBWiz_Stage = 4;
 if ($marked -ne $null) {$global:ListViewSelectS4 = $marked} else { $global:ListViewSelectS4 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $global:ListViewChoiceS4, $partc = $ListViewSelectS4 -split '[{}]'
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-
 if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {
 if ($ListViewChoiceS4 -eq 'All source items') {$global:ListViewBase = '1 4 2 5 6 7 3'}
 if ($ListViewChoiceS4 -eq 'AppX') {$global:ListViewBase = 1}
@@ -1273,7 +1278,7 @@ if ($ListViewChoiceS4 -eq 'Capability') {$global:ListViewBase = 4}
 if ($ListViewChoiceS4 -eq 'Service') {$global:ListViewBase = 5}
 if ($ListViewChoiceS4 -eq 'Task') {$global:ListViewBase = 6}
 if ($ListViewChoiceS4 -eq 'Driver') {$global:ListViewBase = 7}
-MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Source Base' -MessageBoxText 'Enter new .base name'
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Source Base' -MessageBoxText 'Enter new .base name' -Check 'PATH'
 if ($boxresult -ne "OK") {$global:ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$global:ListName = "$boxoutput.base";$ListTarget = "$FilePath\$boxoutput.base";if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 $Show_ENV = $true;PickEnvironment
@@ -1281,69 +1286,70 @@ $Label1_PageLBWiz.Text = "🧾 Create Source Base"
 $Label2_PageLBWiz.Text = "Select a Source"
 }}
 
-if ($ListViewChoiceS3 -eq "✒ Group Seperator Item") {
-if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($ListViewChoiceS3 -eq "🪛 Group Seperator Item") {
+if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}
-Add-Content -Path "$ListTarget" -Value "[GROUP][$GroupName][$SubGroupName]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
-if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"
-Add-Content -Path "$ListTarget" -Value "[GROUP][$GroupName][$SubGroupName]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
-}
+}}
+if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
+Add-Content -Path "$ListTarget" -Value "[Note: Place into a Group Base to begin using.]" -Encoding UTF8;Add-Content -Path "$ListTarget" -Value "[GROUP][$GroupName][$SubGroupName]" -Encoding UTF8
+MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";
+$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
+
 if ($ListViewChoiceS3 -eq "✒ External Package Item") {
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Time of Action' -MessageBoxText 'Select a run time' -MessageBoxChoices "[DX] Default - Immediate execution,[SC] SetupComplete - Scheduled execution,[RO] RunOnce - Scheduled execution"
+if ($boxoutput -eq "[DX] Default - Immediate execution") {$global:ExecuteTime = "DX"}
+if ($boxoutput -eq "[SC] SetupComplete - Scheduled execution") {$global:ExecuteTime = "SC"}
+if ($boxoutput -eq "[RO] RunOnce - Scheduled execution") {$global:ExecuteTime = "RO"}
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$Label1_PageLBWiz.Text = "💾 Append Items";$Label2_PageLBWiz.Text = "Select a List"
 $ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 if ($ListViewChoiceS3 -eq "✒ Command Operation Item") {
-if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($ListViewChoiceS4 -eq "🧾 Create New List") {
+MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
-if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}
-Add-Content -Path "$ListTarget" -Value "[GROUP][$GroupName][$SubGroupName]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
-if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"
-Add-Content -Path "$ListTarget" -Value "[COMMAND][$CommandItem][CMD][IA]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
-if ($ListViewChoiceS3 -eq "✒ Prompt / Variable Item") {
-if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}}}
+if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
+Add-Content -Path "$ListTarget" -Value "[$AnncType][$CommandItem][$CommandTypeX$RunAsX][$ExecuteTime]" -Encoding UTF8
+MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
+
+if ($ListViewChoiceS3 -eq "🪛 Choice Menu Item") {
+if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
-if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}
-Add-Content -Path "$ListTarget" -Value "[PROMPT1][$PromptItem][VolaTILE]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
-if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"
-Add-Content -Path "$ListTarget" -Value "[PROMPT1][$PromptItem][VolaTILE]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
+if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list"
+if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}}}
+if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
+ForEach ($i in @("[Note: Place into a Group Base to begin using.]","[$ChoiceTypeX$ChoiceNum][$ChoiceMsg][Option One,Option Two,Option Three][VolaTILE]","[COMMANDQ][ECHO.$ChoiceTypeX$ChoiceNum`: %$ChoiceTypeX$ChoiceNum%][CMD][DX]")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
+MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
+
+if ($ListViewChoiceS3 -eq "🪛 Prompt TextBox Item") {
+if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
+if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
+if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list"
+if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}}}
+if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
+ForEach ($i in @("[Note: Place into a Group Base to begin using.]","[PROMPT$PromptNum][$PromptMsg][$PromptFilt][VolaTILE]","[COMMANDQ][ECHO.PROMPT$PromptNum`: %PROMPT$PromptNum%][CMD][DX]")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
+MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5MISC {
 if ($marked -ne $null) {$global:ListViewSelectS5 = $marked} else { $global:ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $ListViewChoiceS5, $partc = $ListViewSelectS5 -split '[{}]'
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 
-if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEMGR" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-CREATE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-BASE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=$ListName" -Encoding UTF8
-if ($ListViewChoiceS5 -eq "🪟 Current Environment") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=$ListViewBase" -Encoding UTF8}
-if ($ListViewChoiceS5 -ne "🪟 Current Environment") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=$ListViewChoiceS5" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$ListViewBase" -Encoding UTF8}
+if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
+if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
-if ($ListViewChoiceS5 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($ListViewChoiceS5 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 4;}
-if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}
-Add-Content -Path "$ListTarget" -Value "[EXTPACKAGE][$ListViewChoiceS4][INSTALL][IA]" -Encoding UTF8
-MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
-if ($ListViewChoiceS5 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS5";$ListTarget = "$FilePath\$ListViewChoiceS5"
-Add-Content -Path "$ListTarget" -Value "[EXTPACKAGE][$ListViewChoiceS4][INSTALL][IA]" -Encoding UTF8
+if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}}}
+if ($ListViewChoiceS5 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS5";$ListTarget = "$FilePath\$ListViewChoiceS5"}
+Add-Content -Path "$ListTarget" -Value "[EXTPACKAGE][$ListViewChoiceS4][INSTALL][$ExecuteTime]" -Encoding UTF8
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
-}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3SRC {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
 $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.FullRowSelect = $true
@@ -1358,6 +1364,7 @@ if ($ListViewChoiceS3 -eq 'TASK') {$ListViewChoiceS3 = "Task";$Label2_PageLBWiz.
 if ($ListViewChoiceS3 -eq 'COMPONENT') {$ListViewChoiceS3 = "Component";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
 if ($ListViewChoiceS3 -eq 'DRIVER') {$ListViewChoiceS3 = "Driver";$ListViewChoiceS3 = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage4SRC {$global:LBWiz_Stage = 4;
 if ($marked -ne $null) {$global:ListViewSelectS4 = $marked} else {$global:ListViewSelectS4 = $ListView1_PageLBWiz.FocusedItem}
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
@@ -1372,26 +1379,27 @@ $item1 = New-Object System.Windows.Forms.ListViewItem("$partXd");$item1.SubItems
 }
 $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $true;$ListView1_PageLBWiz.FullRowSelect = $true
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5SRC {$global:LBWiz_Stage = 5;
 $Label1_PageLBWiz.Text = "💾 Append Items"
 $Label2_PageLBWiz.Text = "Select a List"
-
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
 $PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
 $global:checkedItems = $ListView1_PageLBWiz.CheckedItems | ForEach-Object {
 $parta, $ListViewChecked, $partc = $_ -split '[{}]';$ListViewFocusX = $ListViewChoiceS3.ToUpper()
-Add-Content -Path "$FilePathLST" -Value "[$ListViewFocusX][$ListViewChecked][$ListViewAction][IA]" -Encoding UTF8}
+Add-Content -Path "$FilePathLST" -Value "[$ListViewFocusX][$ListViewChecked][$ListViewAction][DX]" -Encoding UTF8}
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage6SRC {$global:LBWiz_Stage = 6;
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem
 $parta, $partb, $partc = $ListViewSelectS5 -split '[{}]'
 
-if ($partb -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($partb -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 5}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
@@ -1403,6 +1411,7 @@ $PathCheck = "$FilePath\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Pa
 if ($ListName -ne "$null") {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName"
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3GRP {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\\list"} else {$FilePath = "$PSScriptRoot"}
@@ -1415,6 +1424,7 @@ if ($partXd -eq $ListViewChoiceS3) {
 $item1 = New-Object System.Windows.Forms.ListViewItem("$partXf");$item1.SubItems.Add("$partXg");$ListView1_PageLBWiz.Items.Add($item1)}}}
 $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $true;$ListView1_PageLBWiz.FullRowSelect = $true
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage4GRP {$global:LBWiz_Stage = 4;
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
 $PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
@@ -1432,12 +1442,12 @@ if ($partXb -eq 'GROUP') {if ($partXd -eq $ListViewChoiceS3) {if ($partXf -eq $L
 if ($listWrite -eq '1') {$ListPrompt = $null;
 $Label1_PageLBWiz.Text = "$ListViewChoiceS3"
 $Label2_PageLBWiz.Text = "$ListViewChecked"
-if ($partXb -eq 'PROMPT0') {$ListPrompt = 1};if ($partXb -eq 'PROMPT1') {$ListPrompt = 1};if ($partXb -eq 'PROMPT2') {$ListPrompt = 1};if ($partXb -eq 'PROMPT3') {$ListPrompt = 1};if ($partXb -eq 'PROMPT4') {$ListPrompt = 1};if ($partXb -eq 'PROMPT5') {$ListPrompt = 1};if ($partXb -eq 'PROMPT6') {$ListPrompt = 1};if ($partXb -eq 'PROMPT7') {$ListPrompt = 1};if ($partXb -eq 'PROMPT8') {$ListPrompt = 1};if ($partXb -eq 'PROMPT9') {$ListPrompt = 1}
-if ($partXb -eq 'CHOICE0') {$ListPrompt = 2};if ($partXb -eq 'CHOICE1') {$ListPrompt = 2};if ($partXb -eq 'CHOICE2') {$ListPrompt = 2};if ($partXb -eq 'CHOICE3') {$ListPrompt = 2};if ($partXb -eq 'CHOICE4') {$ListPrompt = 2};if ($partXb -eq 'CHOICE5') {$ListPrompt = 2};if ($partXb -eq 'CHOICE6') {$ListPrompt = 2};if ($partXb -eq 'CHOICE7') {$ListPrompt = 2};if ($partXb -eq 'CHOICE8') {$ListPrompt = 2};if ($partXb -eq 'CHOICE9') {$ListPrompt = 2}
-if ($partXb -eq 'STRING0') {$ListPrompt = 3};if ($partXb -eq 'STRING1') {$ListPrompt = 3};if ($partXb -eq 'STRING2') {$ListPrompt = 3};if ($partXb -eq 'STRING3') {$ListPrompt = 3};if ($partXb -eq 'STRING4') {$ListPrompt = 3};if ($partXb -eq 'STRING5') {$ListPrompt = 3};if ($partXb -eq 'STRING6') {$ListPrompt = 3};if ($partXb -eq 'STRING7') {$ListPrompt = 3};if ($partXb -eq 'STRING8') {$ListPrompt = 3};if ($partXb -eq 'STRING9') {$ListPrompt = 3}
+ForEach ($i in @("PROMPT0","PROMPT1","PROMPT2","PROMPT3","PROMPT4","PROMPT5","PROMPT6","PROMPT7","PROMPT8","PROMPT9")) {if ($i -eq "$partXb") {$ListPrompt = 1}}
+ForEach ($i in @("CHOICE0","CHOICE1","CHOICE2","CHOICE3","CHOICE4","CHOICE5","CHOICE6","CHOICE7","CHOICE8","CHOICE9")) {if ($i -eq "$partXb") {$ListPrompt = 2}}
+ForEach ($i in @("STRING0","STRING1","STRING2","STRING3","STRING4","STRING5","STRING6","STRING7","STRING8","STRING9")) {if ($i -eq "$partXb") {$ListPrompt = 3}}
 if ($ListPrompt -eq $null) {Add-Content -Path "$FilePathLST" -Value "$_" -Encoding UTF8}
-if ($ListPrompt -eq '1') {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Prompt' -MessageBoxText "$partXd"
-if ($boxresult -eq "OK") {Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$boxoutput]" -Encoding UTF8} else {Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][ERROR]" -Encoding UTF8}}
+if ($ListPrompt -eq '1') {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXd" -Check "$partXf"
+if ($boxresult -eq "OK") {Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$partXf][$boxoutput]" -Encoding UTF8} else {Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$partXf][ERROR]" -Encoding UTF8}}
 if ($ListPrompt -eq '2') {MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXd" -MessageBoxChoices "$partXf"
 $boxindexX = $boxindex + 1;Add-Content -Path "$FilePathLST" -Value "[$partXb][$partXd][$partXf][$boxindexX]" -Encoding UTF8}
 if ($ListPrompt -eq '3') {MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXd" -MessageBoxChoices "$partXf"
@@ -1449,18 +1459,18 @@ $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$Lis
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5GRP {
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem
 $parta, $partb, $partc = $ListViewSelectS5 -split '[{}]'
 
-if ($partb -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name'
+if ($partb -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$EmptyListNew = [Convert]::FromBase64String($EmptyExecList);[System.IO.File]::WriteAllBytes($ListTarget, $EmptyListNew)}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
 if ($partb -ne "🧾 Create New List") {$ListName = "$partb";$ListTarget = "$FilePath\$partb"}
-
 Get-Content "$FilePath\`$LIST" | ForEach-Object {
 $partxxx, $partyyy, $partzzz = $_ -split '[][]';if ($partyyy -eq "GROUP") {Add-Content -Path "$ListTarget" -Value "" -Encoding UTF8}
 if ($_ -ne "") {Add-Content -Path "$ListTarget" -Value "$_" -Encoding UTF8}}
@@ -1469,12 +1479,14 @@ $PathCheck = "$FilePath\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Pa
 if ($ListName -ne "$null") {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options added to $ListName"
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PickEnvironment {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();
 if ($Show_ENV -eq $true) {$global:Show_ENV = $null;$ListView1_PageLBWiz.Items.Add("🪟 Current Environment")}
 $PathCheck = "$PSScriptRoot\\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function AddElement {
 if ($Page -eq 'PageW2V') {$PageW2V.Controls.Add($element)}
 if ($Page -eq 'PageV2W') {$PageV2W.Controls.Add($element)}
@@ -1491,6 +1503,7 @@ if ($Page -eq 'PageLBWiz') {$PageLBWiz.Controls.Add($element)}
 if ($Page -eq 'PageLEWiz') {$PageLEWiz.Controls.Add($element)}
 if ($Page -eq 'PageMain') {$PageMain.Controls.Add($element)}
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LoadSettings {
 $LoadINI = Get-Content -Path "$PSScriptRoot\\windick.ini" | Select-Object -Skip 1
 $Settings = $LoadINI | ConvertFrom-StringData
@@ -1508,6 +1521,7 @@ $global:GUI_PAG_COLOR = $Settings.GUI_PAG_COLOR
 $global:GUI_TXT_FORE = $Settings.GUI_TXT_FORE
 $global:GUI_TXT_BACK = $Settings.GUI_TXT_BACK
 }
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Launch-CMD {
 param([int]$X,[int]$Y,[int]$H,[int]$W)
 $WSIZ = [int]($W * $ScaleRef * $GUI_SCALE)
@@ -1543,7 +1557,7 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
 '@
 Add-Type -AssemblyName System.Windows.Forms
 [VOID][System.Text.Encoding]::Unicode;CLS
-[WinMekanix]::SetConsoleFont('Consolas', 1)
+[VOID][WinMekanix]::SetConsoleFont('Consolas', 1)
 $PSScriptRoot = Get-Content -Path \"$env:temp\\`$CON\" -TotalCount 1
 $LoadINI = Get-Content -Path \"$env:temp\\`$CON\" | Select-Object -Skip 1
 $Settings = $LoadINI | ConvertFrom-StringData
@@ -1559,63 +1573,63 @@ $RefY = 1000;$DimScaleY = $DimensionY / $RefY
 if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
 if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
 if ($GUI_SCALE) {$null} else {$GUI_SCALE = 1.00}
-#$ScaleFont = 28 * $ScaleRef * $GUI_SCALE
-$ScaleFont = $GUI_SCALE / $DpiCur * 28 * $ScaleRef
-$ScaleFontX = [Math]::Floor($ScaleFont);$ScaleFont = $ScaleFontX
 if ($GUI_CONFONT) {$null} else {$GUI_CONFONT = 'Consolas'}
 if ($GUI_CONFONTSIZE) {$null} else {$GUI_CONFONTSIZE = 'Auto'}
-if ($GUI_CONFONTSIZE -eq 'Auto') {$GUI_CONFONTSIZEX = $ScaleFont} else {$GUI_CONFONTSIZEX = $GUI_CONFONTSIZE}
-[WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$GUI_CONFONTSIZEX")
-CLS;Write-Host "$DimensionX x $DimensionY  Ref:$ScaleRef  FontSize:$GUI_CONFONTSIZEX"
+if ($GUI_CONFONTSIZE -eq 'Auto') {$CFSIZE0 = 28} else {$CFSIZE0 = $GUI_CONFONTSIZE}
+#$ScaleFont = $CFSIZE0 * $ScaleRef * $GUI_SCALE
+$ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
+$ScaleFontX = [Math]::Floor($ScaleFont);$CFSIZEX = $ScaleFontX
+[VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
+CLS;Write-Host "Console Virtual Dimension: $DimensionX x $DimensionY"
 Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", \"$PSScriptRoot\windick.cmd\", "-EXTERNAL"
 $PathCheck = \"$env:temp\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$env:temp\`$CON\" -Force}
 if ($PAUSE_END -eq '1') {pause}}
-#$process = Get-Process xyz.exe;Wait-Process -Id $process.Id
 $CMDHandle = $CMDWindow.MainWindowHandle;#$CMDHandleX = $CMDWindow.Handle;
 do {$CMDHandle = $CMDWindow.MainWindowHandle;Start-Sleep -Milliseconds 100} until ($CMDHandle -ne 0)
 $global:CMDProcessId = $CMDWindow.Id;$PanelHandle = $PageConsole.Handle
-#if ($CMDWindow) {$CMDHandle = $CMDWindow.MainWindowHandle;$processId = 0;$threadId = [WinMekanix.Functions]::GetWindowThreadProcessId($CMDHandle, [ref]$processId)
-#if ($processId -gt 0) {Write-Host "ProcessId:" $processId} else {Write-Host "ERROR1"}} else {Write-Host "ERROR2"}
 $getproc = Get-ChildProcesses $CMDProcessId | Select ProcessId, Name, ParentProcessId
 $part1, $part2, $part3 = $getproc -split ";";$part4 = $part1 -split ";";$global:SubProcessId = $part4 -Split "@{ProcessId="
-Write-Host "Starting ProcessId: $CMDProcessId SubProcessId:$SubProcessId."
-if ($GUI_CONTYPE -eq 'Embed') {[WinMekanix.Functions]::SetParent($CMDHandle, $PanelHandle)}
-#do {Start-Sleep -Milliseconds 100} until (Test-Path -Path "$env:temp\\`$CON")
+Write-Host "Starting console PID: $CMDProcessId conhost PID:$SubProcessId"
+if ($GUI_CONTYPE -eq 'Embed') {[VOID][WinMekanix.Functions]::SetParent($CMDHandle, $PanelHandle)}
 do {Start-Sleep -Milliseconds 100} until (-not (Test-Path -Path "$env:temp\\`$CON"))
-if ($GUI_CONTYPE -eq 'Embed') {[WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 1);[WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
+if ($GUI_CONTYPE -eq 'Embed') {[VOID][WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 1);[VOID][WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
 $PageBlank.Visible = $false;$PageConsole.Visible = $true;$PageConsole.BringToFront()
-[WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 3);}
-#REG ADD "HKCU\Console" /V "FontSize" /T REG_DWORD /D "$ScaleFont" /F
+[VOID][WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 3);}
+#if ($CMDWindow) {$CMDHandle = $CMDWindow.MainWindowHandle;$processId = 0;$threadId = [WinMekanix.Functions]::GetWindowThreadProcessId($CMDHandle, [ref]$processId)
+#$process.Handle = $explorer.HWND;#$CurDir =  $PWD.Path
+#if ($processId -gt 0) {$null} else {$null}} else {$null}
+#$process = Get-ProcessNull xyz.exe;Wait-Process -Id $process.Id
+#REGNull ADD "HKCU\Console" /V "FontSize" /T REG_DWORD /D "$ScaleFont" /F
 #Set-ItemProperty -Path "HKCU:\Console" -Name "FontSize" -Value "$ScaleFont"
 #$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(100, 1000)
 #$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
 #Write-Error "ERROR: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
-#Remove-Item -Path "$env:temp\`$CON" -Recurse
-#Get-ContentNull "$PSScriptRoot\ini.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
-#Get-ItemNull -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
-#Get-ChildItemNull | Select-Object Name, Length, Extension
-#Get-ChildItemNull -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
-#GetProcessNull | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
-#InvokeCommandNull -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
 #ForEachNull ($i in Get-Content "c:\txt.txt") {[void]$listview.Items.Add($i)}
 #ForEachNull ($line in $command) {$textBox.AppendText("$line`r`n")}  
-#ForEachNull ($i in @('a','b','c')) {[void]$listview.Items.Add($i)}
+#Get-ContentNull "$PSScriptRoot\ini.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
+#Get-ItemNull -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
+#Get-ItemNull | Select-Object Name, Length, Extension
+#Get-ItemNull -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
+#Remove-ItemNull -Path "$env:temp\`$CON" -Recurse
+#GetProcessNull | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
+#InvokeCommandNull -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
 #$Rnd = Get-Random -Minimum 1 -Maximum 100
 #If ([string]::IsNullOrEmpty($InitialDirectory) -eq $False) { $FolderBrowserDialog.SelectedPath = $InitialDirectory }
 #If ($FolderBrowserDialog.ShowDialog($MainForm) -eq [System.Windows.Forms.DialogResult]::OK) { $return = $($FolderBrowserDialog.SelectedPath) }
 #Try { $FolderBrowserDialog.Dispose() } Catch {}
-#$CurDir =  $PWD.Path
-#############################################################################
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [VOID][System.Windows.Forms.Application]::SetCompatibleTextRenderingDefault($false)
 [VOID][System.Windows.Forms.Application]::EnableVisualStyles()
 [VOID][System.Text.Encoding]::Unicode;LoadSettings
-[WinMekanix.Functions]::SetProcessDPIAware();#[WinMekanix.Functions]::GetParent($PSProcessId)
+[VOID][WinMekanix.Functions]::SetProcessDPIAware();#[WinMekanix.Functions]::GetParent($PSProcessId)
 $sysltr, $nullx = $env:SystemDrive -split '[:]';$progltr, $nullx = $PSScriptRoot -split '[:]'
-$PSHandle = [WinMekanix.Functions]::GetConsoleWindow();[WinMekanix.Functions]::ShowWindowAsync($PSHandle, 2);
+$PSHandle = [WinMekanix.Functions]::GetConsoleWindow();[VOID][WinMekanix.Functions]::ShowWindowAsync($PSHandle, 2);
 $STDOutputHandle = [WinMekanix.Functions]::GetStdHandle([WinMekanix.Functions]::STD_OUTPUT_HANDLE)
-Write-Host "ProcessId: $PID Handle: $PSHandle STDOut:$STDOutputHandle";#Write-Host "PS handle: $($PSHandle.ToInt32())"
+$getproc = Get-ChildProcesses $PID | Select ProcessId, Name, ParentProcessId
+$part1, $part2, $part3 = $getproc -split ";";$part4 = $part1 -split ";";$SubPSId = $part4 -Split "@{ProcessId="
+Write-Host "Main thread PID: $PID conhost PID:$SubPSId"
 $RawUIMAX = $host.UI.RawUI.MaxWindowSize
 $DimensionX = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
 $DimensionY = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
@@ -1627,28 +1641,28 @@ $RefX = 1000;$DimScaleX = $DimensionX / $RefX
 $RefY = 1000;$DimScaleY = $DimensionY / $RefY
 if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
 if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
-if ($GUI_SCALE) {$null} else {$GUI_SCALE = 1.00}
-$ScaleFont = 0 * $ScaleRef * $GUI_SCALE
-$ScaleFontX = [Math]::Floor($ScaleFont);$ScaleFont = $ScaleFontX
-if ($GUI_CONFONT) {$null} else {$GUI_CONFONT = 'Consolas'}
-if ($GUI_FONTSIZE) {$null} else {$GUI_FONTSIZE = 'Auto'}
-if ($GUI_LVFONTSIZE) {$null} else {$GUI_LVFONTSIZE = 'Auto'}
-if ($GUI_CONFONTSIZE) {$null} else {$GUI_CONFONTSIZE = 'Auto'}
-if ($GUI_CONFONTSIZE -eq 'Auto') {$GUI_CONFONTSIZEX = $ScaleFont} else {$GUI_CONFONTSIZEX = $GUI_CONFONTSIZE}
+if ($GUI_SCALE) {$null} else {$global:GUI_SCALE = 1.00}
+if ($GUI_CONFONT) {$null} else {$global:GUI_CONFONT = 'Consolas'}
+if ($GUI_FONTSIZE) {$null} else {$global:GUI_FONTSIZE = 'Auto'}
+if ($GUI_LVFONTSIZE) {$null} else {$global:GUI_LVFONTSIZE = 'Auto'}
+if ($GUI_CONFONTSIZE) {$null} else {$global:GUI_CONFONTSIZE = 'Auto'}
+if ($GUI_CONFONTSIZE -eq 'Auto') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = $GUI_CONFONTSIZE}
+#$ScaleFont = $CFSIZE0 * $ScaleRef * $GUI_SCALE
+$ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
+$ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
+[VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
 if ($GUI_BG_COLOR.Length -ne 8) {$GUI_BG_COLOR = 'FF252525'}
 if ($GUI_BTN_COLOR.Length -ne 8) {$GUI_BTN_COLOR = 'FF404040'}
 if ($GUI_HLT_COLOR.Length -ne 8) {$GUI_HLT_COLOR = 'FF777777'}
 if ($GUI_TXT_FORE.Length -ne 8) {$GUI_TXT_FORE = 'FFFFFFFF'}
 if ($GUI_TXT_BACK.Length -ne 8) {$GUI_TXT_BACK = 'FF151515'}
 if ($GUI_PAG_COLOR.Length -ne 8) {$GUI_PAG_COLOR = 'FF151515'}
-[WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$GUI_CONFONTSIZEX")
 if ($Allow_ENV) {$null} else {$Allow_ENV = $null}
 $PathCheck = "$PSScriptRoot\\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$LIST" -Force}
 $PathCheck = "$PSScriptRoot\\list\\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\list\`$LIST" -Force}
 $PathCheck = "$PSScriptRoot\\`$DSK";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$DSK" -Force}
 $PathCheck = "$env:temp\\`$CON";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$env:temp\`$CON" -Force}
-######################
-#Form and panels
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $form = New-Object Windows.Forms.Form
 $form.SuspendLayout()
 $version = Get-Content -Path "$PSScriptRoot\\windick.ps1" -TotalCount 1;
@@ -1659,11 +1673,9 @@ $HSIZ = [int]($RefY * $ScaleRef * $GUI_SCALE)
 if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
 if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $form.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
-#$form.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $form.ClientSize = New-Object System.Drawing.Size($WSIZ,$HSIZ)
 $form.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
 $form.StartPosition = 'CenterScreen'
-#$form.ControlBox = $False
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
 $form.add_FormClosing({$action = $_
@@ -1674,13 +1686,8 @@ $form.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
 $form.AutoSize = $true
 $form.AutoSizeMode = 'GrowAndShrink';#AutoSizeMode: GrowAndShrink, GrowOnly, and ShrinkOnly.
 $form.AutoScale = $true
-#$form.AutoScaleMode = 'DPI';#DPI, Font, and None.
-#$form.AutoScaleDimensions =  New-Object System.Drawing.SizeF(96, 96)
-#$form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.DPI
 $form.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
 $WindowState = 'Normal'
-#$form.UseLayoutRounding = $true
-#$form.Add_Resize({[WinMekanix.Functions]::MoveWindow($PanelHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
 $PageMain = NewPanel -X '0' -Y '0' -W '1000' -H '666' -C 'Yes'
 $PageSP = NewPanel -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageSP)
 $PageW2V = NewPanel -X '250' -Y '0' -W '750' -H '666';$PageMain.Controls.Add($PageW2V);$PageW2V.Visible = $false
@@ -1700,7 +1707,7 @@ $WSIZ = [int](1000 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](666 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
-$PSHandle = [WinMekanix.Functions]::GetConsoleWindow();$PanelHandle = $PageDebug.Handle;[WinMekanix.Functions]::SetParent($PSHandle, $PanelHandle);[WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);[WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
+$PSHandle = [WinMekanix.Functions]::GetConsoleWindow();$PanelHandle = $PageDebug.Handle;[VOID][WinMekanix.Functions]::SetParent($PSHandle, $PanelHandle);[VOID][WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);[VOID][WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)
 
 $Button_V2W = NewPageButton -X '10' -Y '70' -W '230' -H '70' -C '0' -Text 'Image Processing';$Button_V2W.Visible = $false
 $Button_W2V = NewPageButton -X '10' -Y '70' -W '230' -H '70' -C '0' -Text 'Image Processing'
@@ -1708,37 +1715,26 @@ $Button_LB = NewPageButton -X '10' -Y '225' -W '230' -H '70' -C '0' -Text 'Image
 $Button_PB = NewPageButton -X '10' -Y '225' -W '230' -H '70' -C '0' -Text 'Image Management';$Button_PB.Visible = $false
 $Button_BC = NewPageButton -X '10' -Y '380' -W '230' -H '70' -C '0' -Text 'BootDisk Creator'
 $Button_SC = NewPageButton -X '10' -Y '535' -W '230' -H '70' -C '0' -Text 'Settings'
-
-#$explorer = New-Object -ComObject Shell.Explorer
-#$explorerControl = New-Object System.Windows.Forms.Control
-#$explorerControl.Handle = $explorer.HWND
-#$explorerControl.Width = $PageBC.ClientSize.Width
-#$explorerControl.Height = $PageBC.ClientSize.Height
-#$explorerControl.Anchor = "Top,Bottom,Left,Right"
-#$PageBC.Controls.Add($explorer)
-#$PageBC.Controls.Add($explorerControl)
-#$explorer.Navigate("C:\") # Specify the initial directory
-#$PageBC.Add_Shown({$explorerControl.Activate()})
-#############################################################
+#$form.ControlBox = $False
+#$form.UseLayoutRounding = $true
+#$form.AutoScaleMode = 'DPI';#DPI, Font, and None.
+#$form.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+#$form.AutoScaleDimensions =  New-Object System.Drawing.SizeF(96, 96)
+#$form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.DPI
+#$form.Add_Resize({[WinMekanix.Functions]::MoveWindow($PanelHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageSP';$Label0_PageSP = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text 'Welcome to GUI v0.8' -TextAlign 'X'
 
 $Button2_PageSP = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBoxAbout}
-#############################################################
+#$ButtonTest_PageSP = NewButton -X '50' -Y '585' -W '150' -H '60' -Text 'TEST' -Hover_Text 'About' -Add_Click {$null}
+#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
-$ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$ListView1_PageW2V.Columns.Add("X", $WSIZ)
+$ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageW2V.Columns.Add("X", $WSIZ)
 $Button1_PageW2V = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-WIM" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=$($DropBox1_PageW2V.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-INDEX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageW2V.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageW2V.Text)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-SIZE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($TextBox2_PageW2V.Text)" -Encoding UTF8
+ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-WIM","ARG3=$($DropBox1_PageW2V.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageW2V.SelectedItem)","ARG6=-VHDX","ARG7=$($TextBox1_PageW2V.Text)","ARG8=-SIZE","ARG9=$($TextBox2_PageW2V.Text)")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageW2V = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Source Image'
@@ -1746,26 +1742,15 @@ $DropBox1_PageW2V = NewDropBox -X '25' -Y '445' -W '300' -H '40' -C '0' -Display
 $Label2_PageW2V = NewLabel -X '500' -Y '410' -W '175' -H '30' -Text 'Source Index'
 $DropBox2_PageW2V = NewDropBox -X '425' -Y '445' -W '300' -H '40' -C '0' -DisplayMember 'Description'
 $Label3_PageW2V = NewLabel -X '100' -Y '490' -W '175' -H '30' -Text 'Target Image'
-$TextBox1_PageW2V = NewTextBox -X '25' -Y '525' -W '300' -H '40'
+$TextBox1_PageW2V = NewTextBox -X '25' -Y '525' -W '300' -H '40' -Check 'PATH'
 $Label4_PageW2V = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text 'VHDX Size (GB)'
-$TextBox2_PageW2V = NewTextBox -X '425' -Y '525' -W '300' -H '40'
-#############################################################
+$TextBox2_PageW2V = NewTextBox -X '425' -Y '525' -W '300' -H '40' -Check 'NUMBER'
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|VHD" -TextAlign 'X'
-
-$ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$ListView1_PageV2W.Columns.Add("X", $WSIZ)
+$ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageV2W.Columns.Add("X", $WSIZ)
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
-if ($halt -ne '1') {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-IMAGEPROC" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=$($DropBox1_PageV2W.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-INDEX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=$($DropBox2_PageV2W.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=-WIM" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG7=$($TextBox1_PageV2W.Text)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG8=-XLVL" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG9=$($DropBox3_PageV2W.SelectedItem)" -Encoding UTF8
+if ($halt -ne '1') {ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-VHDX","ARG3=$($DropBox1_PageV2W.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageV2W.SelectedItem)","ARG6=-WIM","ARG7=$($TextBox1_PageV2W.Text)","ARG8=-XLVL","ARG9=$($DropBox3_PageV2W.SelectedItem)")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageV2W = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Source Image'
@@ -1773,14 +1758,13 @@ $DropBox1_PageV2W = NewDropBox -X '25' -Y '445' -W '300' -H '40' -C '0' -Display
 $Label2_PageV2W = NewLabel -X '500' -Y '410' -W '175' -H '30' -Text 'Source Index'
 $DropBox2_PageV2W = NewDropBox -X '425' -Y '445' -W '300' -H '40' -DisplayMember 'Description'
 $Label3_PageV2W = NewLabel -X '100' -Y '490' -W '175' -H '30' -Text 'Target Image'
-$TextBox1_PageV2W = NewTextBox -X '25' -Y '525' -W '300' -H '40'
+$TextBox1_PageV2W = NewTextBox -X '25' -Y '525' -W '300' -H '40' -Check 'PATH'
 $Label4_PageV2W = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text '   Compression'
 $DropBox3_PageV2W = NewDropBox -X '425' -Y '525' -W '300' -H '40' -C '0' -DisplayMember 'Description'
-#############################################################
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageLB';$Label0_PageLB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🧾 Image Management" -TextAlign 'X'
-
-$ListView1_PageLB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$ListView1_PageLB.Columns.Add("X", $WSIZ)
-$ListView2_PageLB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$ListView2_PageLB.Columns.Add("X", $WSIZ)
+$ListView1_PageLB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageLB.Columns.Add("X", $WSIZ)
+$ListView2_PageLB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView2_PageLB.Columns.Add("X", $WSIZ)
 $Button1_PageLB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏁 List Execute' -Hover_Text 'List Execute' -Add_Click {LEWiz_Stage1;$PageLEWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLEWiz.BringToFront()}
 $Button2_PageLB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏗 List Builder' -Hover_Text 'List Builder' -Add_Click {LBWiz_Stage1;$PageLBWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLBWiz.BringToFront()}
 
@@ -1788,21 +1772,19 @@ $Button3_PageLB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit L
 $PathCheck = "$PSScriptRoot\\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $FileFilt = "List files (*.list;*.base)|*.list;*.base";PickFile
 if ($Pick) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$Pick"}}
-#############################################################
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PagePB';$Label0_PagePB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🗳 Image Management" -TextAlign 'X'
-
-$ListView1_PagePB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$ListView1_PagePB.Columns.Add("X", $WSIZ)
-$ListView2_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$ListView2_PagePB.Columns.Add("X", $WSIZ)
+$ListView1_PagePB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PagePB.Columns.Add("X", $WSIZ)
+$ListView2_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView2_PagePB.Columns.Add("X", $WSIZ)
 $Button0_PagePB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏁 Pack Execute' -Hover_Text 'Pack Execute' -Add_Click {PEWiz_Stage1;$PagePEWiz.Visible = $true;$PageMain.Visible = $false;$PagePB.Visible = $false;$PagePEWiz.BringToFront()}
 $Button3_PagePB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏗 Pack Builder' -Hover_Text 'Pack Builder' -Add_Click {PBWiz_Stage1;$PagePBWiz.Visible = $true;$PageMain.Visible = $false;$PagePB.Visible = $false;$PagePBWiz.BringToFront()}
-
 $Button4_PagePB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit Pack' -Hover_Text 'Edit Pack' -Add_Click {
 $PathCheck = "$PSScriptRoot\\project\package.list";if (Test-Path -Path $PathCheck) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PathCheck"}
 $PathCheck = "$PSScriptRoot\\project\package.cmd";if (Test-Path -Path $PathCheck) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PathCheck"}}
-#############################################################
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageBC';$Label0_PageBC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "💾 BootDisk Creator" -TextAlign 'X'
 
-$ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$ListView1_PageBC.Columns.Add("X", $WSIZ)
+$ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageBC.Columns.Add("X", $WSIZ)
 $Button1_PageBC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Create' -Hover_Text 'Start BootDisk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
 $PathCheck = "$PSScriptRoot\\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
 $PathCheckX = "$FilePath\\boot.sav";if (-not (Test-Path -Path $PathCheckX)) {
@@ -1814,15 +1796,7 @@ if ($disknum -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBox
 if ($halt -ne '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Erase' -MessageBoxText "This will erase Disk $disknum. If you've inserted or removed any disks, refresh before proceeding. Are you sure?"
 if ($boxresult -ne "OK") {$null}
-if ($boxresult -eq "OK") {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-BOOTMAKER" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-CREATE" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG3=-DISK" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=$disknum" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-VHDX" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG6=$($DropBox1_PageBC.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)" -Encoding UTF8
+if ($boxresult -eq "OK") {ForEach ($i in @("","ARG1=-BOOTMAKER","ARG2=-CREATE","ARG3=-DISK","ARG4=$disknum","ARG5=-VHDX","ARG6=$($DropBox1_PageBC.SelectedItem)","PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}}
 
 $Label1_PageBC = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Active VHDX'
@@ -1831,35 +1805,29 @@ $Label2_PageBC = NewLabel -X '500' -Y '410' -W '210' -H '30' -Text 'PE Wallpaper
 $DropBox2_PageBC = NewDropBox -X '425' -Y '445' -W '300' -H '40' -DisplayMember 'Description'
 $Label3_PageBC = NewLabel -X '315' -Y '490' -W '175' -H '30' -Text 'Target Disk'
 $DropBox3_PageBC = NewDropBox -X '25' -Y '525' -W '700' -H '40' -Text 'Select Disk'
-#############################################################
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageSC';$Label0_PageSC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🛠 Settings" -TextAlign 'X'
 
-$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG1=-INTERNAL" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG2=-SETTINGS" -Encoding UTF8
+$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 #$TextPath = "$env:temp\`$CON";$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8);#$TextWrite.WriteLine("x");$TextWrite.Close()
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
-
 $Button2_PageSC = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🐜 Debug' -Hover_Text 'Debug' -Add_Click {
+[VOID][WinMekanix.Functions]::ShowWindowAsync($PSHandle, 2);[VOID][WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);
 $WSIZ = [int](1000 * $ScaleRef * $GUI_SCALE);$HSIZ = [int](575 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE);$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $PageDebug.Visible = $true;$PageMain.Visible = $false;$PageSC.Visible = $false;$PageDebug.BringToFront()
-[WinMekanix.Functions]::ShowWindowAsync($PSHandle, 1);[WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true);}
-
-$Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LAUNCH=DISABLED" -Encoding UTF8
+[VOID][WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
+$Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {ForEach ($i in @("","GUI_LAUNCH=DISABLED")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 
 $GroupBoxName = 'Group1';$GroupBox1_PageSC = NewGroupBox -X '20' -Y '85' -W '260' -H '75' -Text 'Console Window'
 #if ($Button_SC.Tag -eq 'Enable') 
-$Add_CheckedChanged = {
-if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio1_Group1.Checked) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONTYPE=Embed" -Encoding UTF8;}}
+$Add_CheckedChanged = {if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio1_Group1.Checked) {
+ForEach ($i in @("","GUI_CONTYPE=Embed")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}}
 $global:ButtonGroup1Changed = '1';}
 $ButtonRadio1_Group1 = NewRadioButton -X '15' -Y '30' -W '120' -H '35' -Text 'Embed' -GroupName 'Group1'
-$Add_CheckedChanged = {
-if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio2_Group1.Checked) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONTYPE=Spawn" -Encoding UTF8;}}
+$Add_CheckedChanged = {if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio2_Group1.Checked) {
+ForEach ($i in @("","GUI_CONTYPE=Spawn")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}}
 $global:ButtonGroup1Changed = '1';}
 $ButtonRadio2_Group1 = NewRadioButton -X '135' -Y '30' -W '120' -H '35' -Text 'Spawn' -GroupName 'Group1'
 if ($GUI_CONTYPE) {$null} else {$GUI_CONTYPE = 'Embed'}
@@ -1879,33 +1847,26 @@ $DropBox5_PageSC = NewDropBox -X '25' -Y '540' -W '190' -H '40' -C '0' -Text ""
 #$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$GUI_CONTYPE = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$GUI_CONTYPE = 'Embed';$Toggle1_PageSC.Text = "";}}
 
 $GroupBoxName = 'Group2';$GroupBox2_PageSC = NewGroupBox -X '310' -Y '85' -W '325' -H '75' -Text 'GUI Scale Factor'
-$Add_CheckedChanged = {
-if ($ButtonGroup2Changed -eq '1') {if ($ButtonRadio1_Group2.Checked) {
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=0.75" -Encoding UTF8;
+$Add_CheckedChanged = {if ($ButtonGroup2Changed -eq '1') {if ($ButtonRadio1_Group2.Checked) {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
+ForEach ($i in @("","GUI_SCALE=0.75")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 if ($boxresult -ne "OK") {$null}
-if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}
+if ($boxresult -eq "OK") {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}
 $global:ButtonGroup2Changed = '1';}
 
 $ButtonRadio1_Group2 = NewRadioButton -X '15' -Y '30' -W '100' -H '35' -Text '0.75' -GroupBoxName 'Group2'
-$Add_CheckedChanged = {
-if ($ButtonGroup2Changed -eq '1') {if ($ButtonRadio2_Group2.Checked) {
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.00" -Encoding UTF8;
+$Add_CheckedChanged = {if ($ButtonGroup2Changed -eq '1') {if ($ButtonRadio2_Group2.Checked) {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
+ForEach ($i in @("","GUI_SCALE=1.00")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 if ($boxresult -ne "OK") {$null}
-if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}
+if ($boxresult -eq "OK") {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}
 $global:ButtonGroup2Changed = '1';}
-
 $ButtonRadio2_Group2 = NewRadioButton -X '115' -Y '30' -W '100' -H '35' -Text '1.00' -GroupBoxName 'Group2'
-$Add_CheckedChanged = {
-if ($ButtonGroup2Changed -eq '1') {if ($ButtonRadio3_Group2.Checked) {
-MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload now?'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_SCALE=1.25" -Encoding UTF8;
+$Add_CheckedChanged = {if ($ButtonGroup2Changed -eq '1') {if ($ButtonRadio3_Group2.Checked) {
+MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
+ForEach ($i in @("","GUI_SCALE=1.25")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
 if ($boxresult -ne "OK") {$null}
-if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}
+if ($boxresult -eq "OK") {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}}
 $global:ButtonGroup2Changed = '1';}
 
 $ButtonRadio3_Group2 = NewRadioButton -X '215' -Y '30' -W '100' -H '35' -Text '1.25' -GroupBoxName 'Group2'
@@ -1913,8 +1874,8 @@ if ($GUI_SCALE) {$null} else {$GUI_SCALE = 1.00}
 if ($GUI_SCALE -eq '1.25') {$ButtonRadio3_Group2.Checked = $true}
 if ($GUI_SCALE -eq '1.00') {$ButtonRadio2_Group2.Checked = $true}
 if ($GUI_SCALE -eq '0.75') {$ButtonRadio1_Group2.Checked = $true}
-#############################################################
-$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+$Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 $PageMain.Visible = $true;$PageConsole.Visible = $false;
 if ($Button_LB.Tag -eq 'Enable') {Button_PageLB}
 if ($Button_PB.Tag -eq 'Enable') {Button_PagePB}
@@ -1922,14 +1883,14 @@ if ($Button_BC.Tag -eq 'Enable') {Button_PageBC}
 if ($Button_SC.Tag -eq 'Enable') {Button_PageSC}
 if ($Button_V2W.Tag -eq 'Enable') {Button_PageV2W}
 if ($Button_W2V.Tag -eq 'Enable') {Button_PageW2V}
-Write-Host "Stopping ProcessId: $CMDProcessId SubProcessId:$SubProcessId.";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
-#############################################################
-$Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {$PageMain.Visible = $true;$PageSC.Visible = $true;$PageDebug.Visible = $false}
-#############################################################
+Write-Host "Stopping console PID: $CMDProcessId conhost PID:$SubProcessId";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+$Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {$PageMain.Visible = $true;$PageSC.Visible = $true;$PageDebug.Visible = $false}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageLBWiz';$Label1_PageLBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "" -TextAlign 'X'
 
 $Label2_PageLBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
-$Button1_PageLBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+$Button1_PageLBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 if ($LBWiz_Stage -eq '1') {$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 if ($LBWiz_Stage -eq '2') {LBWiz_Stage1}
 if ($LBWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;LBWiz_Stage2}
@@ -1942,7 +1903,7 @@ if ($LBWiz_Stage -eq '5') {LBWiz_Stage4GRP}}
 if ($LBWiz_Type -eq 'MISC') {if ($LBWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC}
 if ($LBWiz_Stage -eq '5') {LBWiz_Stage4MISC}}}
 
-$Button2_PageLBWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
+$Button2_PageLBWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next ▶' -Hover_Text 'Next' -Add_Click {
 if ($LBWiz_Type -eq 'MISC') {
 if ($LBWiz_Stage -eq '4') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage5MISC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LBWiz_Stage -eq '3') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage4MISC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
@@ -1959,50 +1920,49 @@ if ($LBWiz_Stage -eq '2') {if ($ListView1_PageLBWiz.SelectedItems) {$global:mark
 if ($LBWiz_Stage -eq '1') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
 $ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $GUI_SCALE);#$ListView1_PageLBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PageLBWiz.Columns.Add("Description", $WSIZ)
-$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$ListView1_PageLBWiz.Columns.Add("X", $WSIZ)
-#############################################################
+$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageLBWiz.Columns.Add("X", $WSIZ)
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageLEWiz';$Label1_PageLEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🧾 List Execute" -TextAlign 'X'
 $Label2_PageLEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
-$Button1_PageLEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+$Button1_PageLEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 if ($LEWiz_Stage -eq '1') {$global:LEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLEWiz.Visible = $false;Button_PageLB}
 if ($LEWiz_Stage -eq '2') {LEWiz_Stage1}
 if ($LEWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;LEWiz_Stage2}
 if ($LEWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LEWiz_Stage3}
 }
-$Button2_PageLEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
+$Button2_PageLEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next ▶' -Hover_Text 'Next' -Add_Click {
 if ($LEWiz_Stage -eq '2') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LEWiz_Stage -eq '1') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-$ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$ListView1_PageLEWiz.Columns.Add("X", $WSIZ)
-#############################################################
+$ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageLEWiz.Columns.Add("X", $WSIZ)
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PagePBWiz';$Label1_PagePBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text '' -TextAlign 'X'
 $Label2_PagePBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
-$Button1_PagePBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+$Button1_PagePBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 if ($PBWiz_Stage -eq '1') {$global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB}
 if ($PBWiz_Stage -eq '2') {PBWiz_Stage1}
 if ($PBWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;PBWiz_Stage2}}
-$Button2_PagePBWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
+$Button2_PagePBWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next ▶' -Hover_Text 'Next' -Add_Click {
 if ($PBWiz_Stage -eq '3') {if ($ListView1_PagePBWiz.SelectedItems) {$global:marked = $null;PBWiz_Stage4} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($PBWiz_Stage -eq '2') {if ($ListView1_PagePBWiz.SelectedItems) {$global:marked = $null;PBWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($PBWiz_Stage -eq '1') {if ($ListView1_PagePBWiz.SelectedItems) {$global:marked = $null;PBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
 $ListView1_PagePBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $GUI_SCALE);#$ListView1_PagePBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PagePBWiz.Columns.Add("Description", $WSIZ)
-$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$ListView1_PagePBWiz.Columns.Add("X", $WSIZ)
-#############################################################
+$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PagePBWiz.Columns.Add("X", $WSIZ)
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PagePEWiz';$Label1_PagePEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🗳 Pack Execute" -TextAlign 'X'
 $Label2_PagePEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
-$Button1_PagePEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text 'Back' -Hover_Text 'Back' -Add_Click {
+$Button1_PagePEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 if ($PEWiz_Stage -eq '1') {$global:PEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePEWiz.Visible = $false;Button_PagePB}
 if ($PEWiz_Stage -eq '2') {PEWiz_Stage1}
 if ($PEWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;PEWiz_Stage2}}
 
-$Button2_PagePEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next' -Hover_Text 'Next' -Add_Click {
+$Button2_PagePEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next ▶' -Hover_Text 'Next' -Add_Click {
 if ($PEWiz_Stage -eq '2') {if ($ListView1_PagePEWiz.SelectedItems) {$global:marked = $null;PEWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($PEWiz_Stage -eq '1') {if ($ListView1_PagePEWiz.SelectedItems) {$global:marked = $null;PEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-$ListView1_PagePEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$ListView1_PagePEWiz.Columns.Add("X", $WSIZ)
-#############################################################
+$ListView1_PagePEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PagePEWiz.Columns.Add("X", $WSIZ)
 #$FilePath = "C:\gif.gif";$FileContent = Get-Content -Path "$FilePath" -Encoding Byte;$Base64Out = [System.Convert]::ToBase64String($FileContent);Write-Host "$Base64Out"#Convert
 #77u/RVhFQy1MSVNU
 [string]$EmptyExecList=@"
@@ -2036,4 +1996,4 @@ $form.Add_Shown({$form.Activate()})
 $form.ShowDialog()
 $form.Dispose()
 #$form.Refresh()
-#🗃\🗂\🧾\💾\🗳\🏗\🛠\🪛\✂\🗜\✒\✏\🥾\🪟\🛜\🔄\🌐\🛡\🪪\✅\❎\🚫\⏳\🏁\🎨\❗\🛳\🚽\💥\🚥\🚦\🕸\🐜🛤\🏞\🌕\🌑#
+#🗃\🗂\🧾\💾\🗳\🏗\🛠\🪛\✂\🗜\✒\✏\🥾\🪟\🛜\🔄\🌐\🛡\🪪\✅\❎\🚫\⏳\🏁\🎨\❗\🛳\🚽\💥\🚥\🚦\🕸\🐜\🛤\🏞\🌕\🌑\◀\▶#

@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1208 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1209 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&CHCP 65001>NUL
 SET "VER_GET=%0"&&CALL:GET_PROGVER&&SET "ARG0=%*"
@@ -142,18 +142,22 @@ SET "CAPS_SET="&&SET "CAPS_VAR="&&SET "$CASE="
 EXIT /B
 :CHECK
 IF NOT DEFINED CHECK_VAR SET "ERROR=CHECK"
-IF "%$CHECK%"=="NUMBER" SET "CHECK_FLT=0 1 2 3 4 5 6 7 8 9 ^""
-IF "%$CHECK%"=="LETTER" SET "CHECK_FLT=A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z ^""
-IF "%$CHECK%"=="ALPHA" SET "CHECK_FLT=0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z ^""
-IF "%$CHECK%"=="MENU" SET "CHECK_FLT=0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z @ # $ . - _ + = ~ ^* ^""
-IF "%$CHECK%"=="MOST" SET "CHECK_FLT=0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z @ # $ ^\ ^/ ^: ^( ^) ^[ ^] ^{ ^} ^. ^- ^_ ^+ ^= ^~ ^* ^%% ^""
+IF "%$CHECK%"=="NONE" GOTO:CHECK_END
+SET "NUMBERS=0 1 2 3 4 5 6 7 8 9"&&SET "LETTERS=A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z"
+IF "%$CHECK%"=="NUMBER" SET "CHECK_FLT=%NUMBERS% ^""
+IF "%$CHECK%"=="LETTER" SET "CHECK_FLT=%LETTERS% ^""
+IF "%$CHECK%"=="ALPHA" SET "CHECK_FLT=%NUMBERS% %LETTERS% . - _ ^""
+IF "%$CHECK%"=="PATH" SET "CHECK_FLT=%NUMBERS% %LETTERS% . - _ ^\ ^: ^""
+IF "%$CHECK%"=="MENU" SET "CHECK_FLT=%NUMBERS% %LETTERS% @ # $ . - _ + = ~ ^* ^""
+IF "%$CHECK%"=="MOST" SET "CHECK_FLT=%NUMBERS% %LETTERS% @ # $ ^\ ^/ ^: ^( ^) ^[ ^] ^{ ^} ^. ^- ^_ ^+ ^= ^~ ^* ^%% ^""
 IF NOT DEFINED ERROR FOR /F "DELIMS=" %%$ in ('CMD.EXE /D /U /C ECHO."%CHECK_VAR%"^| FIND /V ""') do (SET "$GO="&&FOR %%a in (%CHECK_FLT%) DO (
 IF "[%%$]"=="[*]" IF NOT DEFINED NO_ASTRK SET "$GO=1"
 IF "[%%$]"=="[ ]" IF NOT DEFINED NO_SPACE SET "$GO=1"
 IF "[%%a]"=="[%%$]" SET "$GO=1")
 IF NOT DEFINED $GO SET "ERROR=CHECK")
+:CHECK_END
+FOR %%a in ($CHECK CHECK_VAR CHECK_FLT NUMBERS LETTERS NO_SPACE NO_ASTRK) DO (SET "%%a=")
 IF DEFINED ERROR CALL:DEBUG
-FOR %%a in ($CHECK CHECK_VAR CHECK_FLT NO_SPACE NO_ASTRK) DO (SET "%%a=")
 EXIT /B
 :CHAR_CHK
 FOR %%a in (CHAR_STR CHAR_CHK) DO (IF NOT DEFINED %%a EXIT /B)
@@ -545,7 +549,7 @@ IF NOT "%PROG_MODE%"=="GUI" SET "PAD_TYPE=0"&&CALL:SETS_MAIN
 SET "MOUNT="&&IF NOT "%ARG1%"=="/?" IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-INTERNAL" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" ECHO. Type windick.cmd -help for more options.&&GOTO:QUIT
 IF "%ARG1%"=="/?" SET "ARG1=-HELP"
 IF "%ARG1%"=="-HELP" CALL:COMMAND_HELP
-IF "%ARG1%"=="-INTERNAL" GOTO:COMMAND_INTERNAL
+IF "%ARG1%"=="-INTERNAL" IF "%ARG2%"=="-SETTINGS" SET "MENU_EXIT=1"&&GOTO:SETTINGS_MENU
 IF "%ARG1%"=="-FILEMGR" IF NOT "%ARG2%"=="-GRANT" ECHO. Valid options are -grant
 IF "%ARG1%"=="-FILEMGR" IF "%ARG2%"=="-GRANT" IF NOT EXIST "%ARG3%" ECHO. %XLR4%ERROR:%$$% %ARG3% doesn't exist
 IF "%ARG1%"=="-FILEMGR" IF "%ARG2%"=="-GRANT" IF DEFINED ARG3 IF EXIST "%ARG3%" SET "$PICK=%ARG3%"&&CALL:FMGR_OWN
@@ -560,11 +564,6 @@ IF "%ARG1%"=="-BOOTMAKER" CALL:COMMAND_BOOTMAKER
 IF "%ARG1%"=="-DISKMGR" CALL:COMMAND_DISKMGR
 IF "%ARG1%"=="-IMAGEMGR" CALL:COMMAND_IMAGEMGR
 IF "%ARG1%"=="-IMAGEPROC" CALL:COMMAND_IMAGEPROC
-GOTO:QUIT
-:COMMAND_INTERNAL
-IF "%ARG2%"=="-PACKCREATOR" IF "%ARG3%"=="-NEW" CALL:PROJ_NEW
-IF "%ARG2%"=="-SETTINGS" SET "MENU_EXIT=1"&&GOTO:SETTINGS_MENU
-:COMMAND_INTERNAL_END
 GOTO:QUIT
 :COMMAND_IMAGEPROC
 IF "%ARG2%"=="-WIM" IF DEFINED ARG3 IF NOT EXIST "%IMAGE_FOLDER%\%ARG3%" ECHO. %XLR4%ERROR:%$$% WIM %IMAGE_FOLDER%\%ARG3% doesn't exist&&EXIT /B
@@ -644,7 +643,7 @@ ECHO.   -imagemgr -create -base %@@%x.base%$$% -live /or/ -vhdx %@@%x.vhdx%$$%  
 ECHO. Examples-
 ECHO.   %@@%-imagemgr -run -list "x y z.list" -live%$$%
 ECHO.   %@@%-imagemgr -run -pkx x.pkx -vhdx x.vhdx%$$%
-ECHO.   %@@%-imagemgr -run -item "[EXTPACKAGE][x y z.appx][INSTALL][IA]" -vhdx x.vhdx%$$%
+ECHO.   %@@%-imagemgr -run -item "[EXTPACKAGE][x y z.appx][INSTALL][DX]" -vhdx x.vhdx%$$%
 ECHO.   %@@%-imagemgr -create -base x.base -live "1 2 3 4 5 6 7"                        Create source base-list%$$%
 ECHO.   %@@%-imagemgr -create -base x.base -vhdx x.vhdx "1 2 3 4 5 6 7"                 Create source base-list%$$%
 ECHO.   %##%File Management%$$%
@@ -697,7 +696,7 @@ ECHO. (%##%5%$$%) %UNI06% Current Environment  %@@%%ALLOW_ENV%%$$%&&IF "%PROG_MO
 ECHO. (%##%#%$$%) %UNI17% Clear Settings
 IF NOT "%PROG_MODE%"=="GUI" ECHO. (%##%*%$$%) %UNI13% %XLR2%Enable Custom Menu%$$%
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
+IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:QUIT
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="~" IF NOT "%DEBUG%"=="ENABLED" SET "DEBUG=ENABLED"&SET "SELECT="
@@ -728,8 +727,8 @@ IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" EXIT /B
 CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                         Enter name of new .LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=NEW_NAME"&&SET "$CASE=ANY"&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
 IF NOT DEFINED NEW_NAME EXIT /B
 SET "$PICK=%LIST_FOLDER%\%NEW_NAME%.list"&&SET "$CHOICE=%NEW_NAME%.list"
-IF "%SELECTX%"=="1" (ECHO.MULTI-LIST&&ECHO.This is an example of a custom menu for recovery.&&ECHO.Set a custom banner in windick.ini.&&ECHO.&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\active_xyz.vhdx" %%NULL%%][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Backup a vhdx to wim]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\backup_xyz.wim" ECHO.Deleting backup_xyz.wim...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\backup_xyz.wim" %%NULL%%][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -vhdx "active_xyz.vhdx" -index 1 -wim "backup_xyz.wim" -xlvl fast][CMD][IA]&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx with name prompt]&&ECHO.[PROMPT1][               Enter new vhdx name: 0-9 A-Z - No Spaces][VolaTILE]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\%%PROMPT1%%.vhdx" ECHO.Deleting %%PROMPT1%%.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\%%PROMPT1%%.vhdx" %%NULL%%][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "%%PROMPT1%%.vhdx" -size 25][CMD][IA]&&ECHO.&&ECHO.[GROUP][Open an app Example][Notepad]&&ECHO.[COMMAND][start notepad.exe][CMD][IA]&&ECHO.[GROUP][Open an app Example][Regedit]&&ECHO.[COMMAND][start regedit.exe][CMD][IA])>"%$PICK%"
-IF "%SELECTX%"=="2" (ECHO.EXEC-LIST&&ECHO.This is an example of an execution list for recovery. A reboot to restore scenerio.&&ECHO.[COMMANDQ][IF EXIST "Z:\$\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /f "Z:\$\active_xyz.vhdx"][CMD][IA]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][IA]&&ECHO.[COMMANDQ][REM %%PROG_SOURCE%%\windick.cmd -nextboot -vhdx][CMD][IA]&&ECHO.[COMMANDQ][PAUSE][CMD][IA])>"%$PICK%"
+IF "%SELECTX%"=="1" (ECHO.MULTI-LIST&&ECHO.This is an example of a custom menu for recovery.&&ECHO.Set a custom banner in windick.ini.&&ECHO.&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\active_xyz.vhdx" %%NULL%%][CMD][DX]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][DX]&&ECHO.[GROUP][Recovery Operation Example][Backup a vhdx to wim]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\backup_xyz.wim" ECHO.Deleting backup_xyz.wim...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\backup_xyz.wim" %%NULL%%][CMD][DX]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -vhdx "active_xyz.vhdx" -index 1 -wim "backup_xyz.wim" -xlvl fast][CMD][DX]&&ECHO.[GROUP][Recovery Operation Example][Restore a wim to vhdx with name prompt]&&ECHO.[PROMPT1][               Enter new vhdx name: 0-9 A-Z - No Spaces][ALPHA][VolaTILE]&&ECHO.[COMMANDQ][IF EXIST "%%IMAGE_FOLDER%%\%%PROMPT1%%.vhdx" ECHO.Deleting %%PROMPT1%%.vhdx...%%+%%DEL /Q /F "%%IMAGE_FOLDER%%\%%PROMPT1%%.vhdx" %%NULL%%][CMD][DX]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "%%PROMPT1%%.vhdx" -size 25][CMD][DX]&&ECHO.&&ECHO.[GROUP][Open an app Example][Notepad]&&ECHO.[COMMAND][start notepad.exe][CMD][DX]&&ECHO.[GROUP][Open an app Example][Regedit]&&ECHO.[COMMAND][start regedit.exe][CMD][DX])>"%$PICK%"
+IF "%SELECTX%"=="2" (ECHO.EXEC-LIST&&ECHO.This is an example of an execution list for recovery. A reboot to restore scenerio.&&ECHO.[COMMANDQ][IF EXIST "Z:\$\active_xyz.vhdx" ECHO.Deleting active_xyz.vhdx...%%+%%DEL /f "Z:\$\active_xyz.vhdx"][CMD][DX]&&ECHO.[COMMAND][%%PROG_SOURCE%%\windick.cmd -imageproc -wim "backup_xyz.wim" -index 1 -vhdx "active_xyz.vhdx" -size 25][CMD][DX]&&ECHO.[COMMANDQ][REM %%PROG_SOURCE%%\windick.cmd -nextboot -vhdx][CMD][DX]&&ECHO.[COMMANDQ][PAUSE][CMD][DX])>"%$PICK%"
 START NOTEPAD.EXE "%$PICK%"
 EXIT /B
 :APPEARANCE
@@ -1207,17 +1206,17 @@ FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (
 IF "%LIST_CLM1%"=="PROMPT%%a" SET "PROMPT%%a=%LIST_CLM3%"&&EXIT /B
 IF "%LIST_CLM1%"=="CHOICE%%a" SET "CHOICE%%a=%LIST_CLM4%"&&EXIT /B
 IF "%LIST_CLM1%"=="STRING%%a" SET "STRING%%a=%LIST_CLM4%"&&EXIT /B)
-IF "%LIST_CLM1%:%LIST_CLM4%"=="COMMAND:IA" CALL:COMMAND_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="COMMANDQ:IA" CALL:COMMAND_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="APPX:IA" CALL:APPX_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="CAPABILITY:IA" CALL:CAP_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="COMPONENT:IA" CALL:COMP_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="DRIVER:IA" CALL:DRVR_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="FEATURE:IA" CALL:FEAT_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="SERVICE:IA" CALL:SVC_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="TASK:IA" CALL:TASK_ITEM
-IF "%LIST_CLM1%:%LIST_CLM4%"=="WINSXS:IA" CALL:WINSXS_REMOVE
-IF "%LIST_CLM1%:%LIST_CLM4%"=="EXTPACKAGE:IA" CALL SET "EXTPACKAGE=%PACK_FOLDER%\%LIST_CLM2%"&&CALL:PACK_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="COMMAND:DX" CALL:COMMAND_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="COMMANDQ:DX" CALL:COMMAND_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="APPX:DX" CALL:APPX_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="CAPABILITY:DX" CALL:CAP_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="COMPONENT:DX" CALL:COMP_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="DRIVER:DX" CALL:DRVR_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="FEATURE:DX" CALL:FEAT_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="SERVICE:DX" CALL:SVC_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="TASK:DX" CALL:TASK_ITEM
+IF "%LIST_CLM1%:%LIST_CLM4%"=="WINSXS:DX" CALL:WINSXS_REMOVE
+IF "%LIST_CLM1%:%LIST_CLM4%"=="EXTPACKAGE:DX" CALL SET "EXTPACKAGE=%PACK_FOLDER%\%LIST_CLM2%"&&CALL:PACK_ITEM
 IF "%LIST_CLM1%"=="PICK" IF "%CURR_SESSION%"=="MULTI" CALL:PICK_ITEM
 IF "%LIST_CLM1%"=="MOUNT" IF "%CURR_SESSION%"=="MULTI" CALL:MOUNT_ITEM
 IF "%LIST_CLM1%"=="UNMOUNT" IF "%CURR_SESSION%"=="MULTI" CALL:UNMOUNT_ITEM
@@ -1440,8 +1439,8 @@ IF DEFINED DISMSG ECHO. %XLR5%%DISMSG%%$$%
 EXIT /B
 :DRVR_ITEM
 IF NOT "%LIST_CLM3%"=="DELETE" IF NOT "%LIST_CLM3%"=="INSTALL" ECHO. %XLR4%ERROR:%$$% Driver list action is not INSTALL or DELETE.&&EXIT /B
-IF "%LIST_CLM1%:%LIST_CLM3%:%LIST_CLM4%"=="DRIVER:INSTALL:IA" CALL:DRVR_INSTALL
-IF "%LIST_CLM1%:%LIST_CLM3%:%LIST_CLM4%"=="DRIVER:DELETE:IA" CALL:DRVR_REMOVE
+IF "%LIST_CLM1%:%LIST_CLM3%:%LIST_CLM4%"=="DRIVER:INSTALL:DX" CALL:DRVR_INSTALL
+IF "%LIST_CLM1%:%LIST_CLM3%:%LIST_CLM4%"=="DRIVER:DELETE:DX" CALL:DRVR_REMOVE
 EXIT /B
 :DRVR_INSTALL
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"&&CALL:IF_LIVE_MIX
@@ -1543,10 +1542,10 @@ IF NOT DEFINED LIST_CLM2 EXIT /B
 IF "%LIST_CLM1%"=="EXTPACKAGE" ECHO.Copying Package %@@%%LIST_CLM2% for %##%%SCRO%%$$%...
 IF "%LIST_CLM1%"=="EXTPACKAGE" IF NOT EXIST "%PACK_FOLDER%\%LIST_CLM2%" ECHO. %XLR4%%PACK_FOLDER%\%LIST_CLM2% doesn't exist.%$$%&&EXIT /B
 IF "%LIST_CLM1%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%LIST_CLM2%" COPY /Y "%PACK_FOLDER%\%LIST_CLM2%" "%DRVTAR%\$">NUL
-IF "%LIST_CLM1%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%LIST_CLM2%" ECHO.[EXTPACKAGE][%LIST_CLM2%][INSTALL][IA]>>"%DRVTAR%\$\%SCRO%.list"
+IF "%LIST_CLM1%"=="EXTPACKAGE" IF EXIST "%PACK_FOLDER%\%LIST_CLM2%" ECHO.[EXTPACKAGE][%LIST_CLM2%][INSTALL][DX]>>"%DRVTAR%\$\%SCRO%.list"
 IF NOT "%LIST_CLM1%"=="EXTPACKAGE" SET "DRVTAR0=%DRVTAR%"&&CALL:MOUNT_CLEAR
 IF NOT "%LIST_CLM1%"=="EXTPACKAGE" ECHO.Scheduling %@@%%LIST_CLM1%%$$% %LIST_CLM2% %@@%%LIST_CLM3%%$$% for %##%%SCRO%%$$%.
-IF NOT "%LIST_CLM1%"=="EXTPACKAGE" ECHO.[%LIST_CLM1%][%LIST_CLM2%][%LIST_CLM3%][IA]>>"%DRVTAR0%\$\%SCRO%.list"
+IF NOT "%LIST_CLM1%"=="EXTPACKAGE" ECHO.[%LIST_CLM1%][%LIST_CLM2%][%LIST_CLM3%][DX]>>"%DRVTAR0%\$\%SCRO%.list"
 IF NOT "%LIST_CLM1%"=="EXTPACKAGE" CALL:MOUNT_REST
 SET "LIST_CLM2="&&EXIT /B
 :SC_RO_PREPARE
@@ -1600,7 +1599,7 @@ CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&SET "MENUT0=                  
 IF DEFINED ERROR EXIT /B
 ECHO.                         Multiples OK ( %##%1 2 3%$$% )&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
-SET "LIST_CLM4=IA"&&FOR %%a in (%SELECT%) DO (IF NOT "%%a"=="" CALL SET "LIST_WRITE=[%%$ITEM%%a%%]"&&CALL:LIST_WRITE)
+SET "LIST_CLM4=DX"&&FOR %%a in (%SELECT%) DO (IF NOT "%%a"=="" CALL SET "LIST_WRITE=[%%$ITEM%%a%%]"&&CALL:LIST_WRITE)
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            %UNI01% List Builder&&ECHO.&&ECHO.  %@@%AVAILABLE LISTs:%$$%&&ECHO.&&ECHO. ( %##%0%$$% ) Create new list&&SET "$FOLD=%LIST_FOLDER%"&&SET "$FILT=*.LIST"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF "%SELECT%"=="0" CALL:LIST_MAKE
 IF NOT DEFINED $PICK EXIT /B
@@ -1705,9 +1704,11 @@ SET "$TSPACE=35"&&SET /A "$XNT/=2"
 SET /A "$TSPACE-=$XNT"
 SET "$CLMX="&&SET "$XNT="&&FOR %%1 in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35) DO (SET "$XNT=%%1"&&CALL:CENTER_TITLE)
 ECHO.%$CLMX%%$CLM2%
-ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&SET "$CASE=ANY"&&SET "$SELECT=CHOICE_IDX"&&CALL:MENU_SELECT
+SET "$CHECK=%$CLM3%"
+ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&SET "$CASE=ANY"&&SET "VERBOSE=1"&&SET "$SELECT=CHOICE_IDX"&&CALL:MENU_SELECT
+IF DEFINED ERROR GOTO:GROUP_WRITE_PROMPT
 IF NOT DEFINED CHOICE_IDX SET "CHOICE_IDX=ERROR"
-SET "GROUP_WRITE=[%$CLM1%][%$CLM2%][%CHOICE_IDX%]"
+SET "GROUP_WRITE=[%$CLM1%][%$CLM2%][%$CLM3%][%CHOICE_IDX%]"
 EXIT /B
 :CENTER_TITLE
 IF NOT DEFINED $TSPACE EXIT /B
@@ -1737,7 +1738,7 @@ IF NOT "%%h"=="" SET /A "$XNT+=1"&&SET "CHOICE_DISP=%%h"&&CALL:CHOICE_DISP
 IF NOT "%%i"=="" SET /A "$XNT+=1"&&SET "CHOICE_DISP=%%i"&&CALL:CHOICE_DISP)
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&SET "$CASE=ANY"&&SET "$SELECT=CHOICE_IDX"&&CALL:MENU_SELECT
 CALL SET "CHOICE_STR=%%CHOICE_%CHOICE_IDX%%%"
-IF NOT DEFINED CHOICE_STR SET "CHOICE_IDX=1"&&SET "CHOICE_STR=%CHOICE_1%"
+IF NOT DEFINED CHOICE_STR GOTO:GROUP_WRITE_MENU
 IF "%$TYPE%"=="CHOICE" SET "GROUP_WRITE=[%$CLM1%][%$CLM2%][%$CLM3%][%CHOICE_IDX%]"
 IF "%$TYPE%"=="STRING" SET "GROUP_WRITE=[%$CLM1%][%$CLM2%][%$CLM3%][%CHOICE_STR%]"
 EXIT /B
@@ -1762,26 +1763,27 @@ SET "MOUNT=%MOUNT_SAVE%"&&SET "MOUNT_SAVE="&&FOR %%a in (DRVTAR WINTAR USRTAR HI
 SET "NULL=^>NUL"&&SET ":=;"&&SET "LB=["&&SET "RB=]"&&SET "@=^^"&&SET "+=^&"&&SET "{=^<"&&SET "}=^>"&&SET "}}=^>^>"&&SET "-=^|"
 EXIT /B
 :LIST_MISCELLANEOUS
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            %UNI01% List Builder&&ECHO.&&ECHO. (%##%*%$$%) %UNI01% Create Source Base&&ECHO. (%##%.%$$%) %UNI01% Create Group Base&&ECHO.&&ECHO. (%##%1%$$%) %UNI10% Group Seperator Item&&ECHO. (%##%2%$$%) %UNI10% External Package Item&&ECHO. (%##%3%$$%) %UNI10% Command Operation Item&&ECHO. (%##%4%$$%) %UNI10% Prompt / Variable Item&&ECHO.&&ECHO. (%##%-%$$%) %UNI01% Difference Base Lists&&ECHO. (%##%+%$$%) %UNI01% Create Multi List&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            %UNI01% List Builder&&ECHO.&&ECHO. (%##%*%$$%) %UNI01% Create Source Base&&ECHO. (%##%.%$$%) %UNI01% Create Group Base&&ECHO.&&ECHO. (%##%1%$$%) %UNI08% Group Seperator Item&&ECHO. (%##%2%$$%) %UNI08% Prompt TextBox Item&&ECHO. (%##%3%$$%) %UNI08% Choice Menu Item&&ECHO. (%##%4%$$%) %UNI10% External Package Item&&ECHO. (%##%5%$$%) %UNI10% Command Operation Item&&ECHO.&&ECHO. (%##%-%$$%) %UNI01% Difference Base Lists&&ECHO. (%##%+%$$%) %UNI01% Create Multi List&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
 IF "%SELECTX%"=="*" CALL:LIST_BASE_CREATE
 IF "%SELECTX%"=="-" CALL:LIST_DIFFERENCER
 IF "%SELECTX%"=="+" CALL:LIST_MULTI_TEMPLATE
 IF "%SELECTX%"=="." CALL:LIST_GROUP_TEMPLATE
 IF "%SELECTX%"=="1" CALL:LIST_GROUP_BOUNDRY
-IF "%SELECTX%"=="2" CALL:LIST_PACK_CREATE
-IF "%SELECTX%"=="3" CALL:LIST_COMMAND_CREATE
-IF "%SELECTX%"=="4" CALL:LIST_PROMPT_CREATE
+IF "%SELECTX%"=="2" CALL:LIST_PROMPT_CREATE
+IF "%SELECTX%"=="3" CALL:LIST_CHOICE_CREATE
+IF "%SELECTX%"=="4" CALL:LIST_PACK_CREATE
+IF "%SELECTX%"=="5" CALL:LIST_COMMAND_CREATE
 EXIT /B
 :LIST_MULTI_TEMPLATE
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                 This is a feature for advanced users.&&ECHO.       It's a hybrid of a group base and execution list, with&&ECHO.    simple scripted tools in mind. A example list will be created.&&ECHO.&&ECHO.                          Enter new .list name&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=NEW_NAME"&&SET "$CASE=ANY"&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
 IF NOT DEFINED NEW_NAME EXIT /B
-(ECHO.MULTI-LIST&&ECHO.[GROUP][Mount and Unmount VHDX list items][EXAMPLE]&&ECHO.&&ECHO.[MOUNT][                      Select the filesystem target][                           This is an example]&&ECHO.&&ECHO.[CONFIRM][                    This is a confirmation prompt.][              If not confirmed, progress will be halted.]&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the top of any subgroup.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.Default target is the live system when this item is not used.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%][CMD][IA]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA]&&ECHO.&&ECHO.[UNMOUNT][Unmount VHDX][Detaches virtual disk if it was attached during this instance.]&&ECHO.&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the bottomm of any subgroup.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.Target returns to the live system following the usage of this item.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][IA]&&ECHO.&&ECHO.[GROUP][Pick file][EXAMPLE]&&ECHO.[PICK][                             Select a file][                           This is an example][%%IMAGE_FOLDER%%\*.WIM]&&ECHO.[COMMANDQ][ECHO. $PICK: %%$PICK%%  $CHOICE: %%$CHOICE%%][CMD][IA]&&ECHO.[PICK][                             Select a file][                           This is an example][%%LIST_FOLDER%%\*.BASE]&&ECHO.[COMMANDQ][ECHO. $PICK: %%$PICK%%  $CHOICE: %%$CHOICE%%][CMD][IA])>"%LIST_FOLDER%\%NEW_NAME%.list"
+(ECHO.MULTI-LIST&&ECHO.[GROUP][Mount and Unmount VHDX list items][EXAMPLE]&&ECHO.&&ECHO.[MOUNT][                      Select the filesystem target][                           This is an example]&&ECHO.&&ECHO.[CONFIRM][                    This is a confirmation prompt.][              If not confirmed, progress will be halted.]&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the top of any subgroup.][CMD][DX]&&ECHO.[COMMANDQ][ECHO.Default target is the live system when this item is not used.][CMD][DX]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%][CMD][DX]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][DX]&&ECHO.&&ECHO.[UNMOUNT][Unmount VHDX][Detaches virtual disk if it was attached during this instance.]&&ECHO.&&ECHO.[COMMANDQ][ECHO.Recommended to put this at the bottomm of any subgroup.][CMD][DX]&&ECHO.[COMMANDQ][ECHO.Target returns to the live system following the usage of this item.][CMD][DX]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][DX]&&ECHO.[COMMAND][REG QUERY %%HIVE_USER%%][REG][DX]&&ECHO.&&ECHO.[GROUP][Pick file][EXAMPLE]&&ECHO.[PICK][                             Select a file][                           This is an example][%%IMAGE_FOLDER%%\*.WIM]&&ECHO.[COMMANDQ][ECHO. $PICK: %%$PICK%%  $CHOICE: %%$CHOICE%%][CMD][DX]&&ECHO.[PICK][                             Select a file][                           This is an example][%%LIST_FOLDER%%\*.BASE]&&ECHO.[COMMANDQ][ECHO. $PICK: %%$PICK%%  $CHOICE: %%$CHOICE%%][CMD][DX])>"%LIST_FOLDER%\%NEW_NAME%.list"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.list"
 EXIT /B
 :LIST_GROUP_TEMPLATE
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.              This creates an empty group base template.&&ECHO.   Note: %UNI17% Unicode is not compatible with template created here.&&ECHO.       Create the template in the GUI for unicode BOM support.&&ECHO.&&ECHO.                         Enter new .base name&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=NEW_NAME"&&SET "$CASE=ANY"&&SET "NO_ASTRK=1"&&CALL:MENU_SELECT
 IF NOT DEFINED NEW_NAME EXIT /B
-(ECHO.BASE-GROUP&&ECHO.[GROUP][%UNI08% Basic Option][%UNI15% Basic SubOption Enable]&&ECHO.[COMMANDQ][ECHO.%UNI15% Basic SubOption Enable was picked.][CMD][IA]&&ECHO.[GROUP][%UNI08% Basic Option][%UNI16% Basic SubOption Disable]&&ECHO.[COMMANDQ][ECHO.%UNI16% Basic SubOption Disable was picked.][CMD][IA]&&ECHO.[GROUP][%UNI03% Advanced Option][%UNI03% Advanced SubOption]&&ECHO.[CHOICE1][Select an option][%UNI15% Enable,%UNI16% Disable][VolaTILE]&&ECHO.[COMMANDQ][IF "%%CHOICE1%%"=="1" ECHO.%UNI15% Advanced SubOption Enable was picked.][CMD][IA]&&ECHO.[COMMANDQ][IF "%%CHOICE1%%"=="2" ECHO.%UNI16% Advanced SubOption Disable was picked.][CMD][IA]&&ECHO.[STRING1][Select an option][String1,String2][VolaTILE]&&ECHO.[COMMANDQ][ECHO.%%STRING1%% was picked.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.COMMAND list items without an "IF CHOICE" always execute.][CMD][IA]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][IA]&&ECHO.[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][IA]&&ECHO.[COMMAND][reg.exe query %%HIVE_USER%%][REG][IA]&&ECHO.[COMMANDQ][ECHO.COMMANDQ mutes the command announcement on screen.][CMD][IA]&&ECHO.[COMMANDQ][ECHO.NULL mutes the command execution on screen.][CMD][IA]&&ECHO.[COMMAND][reg.exe query %%HIVE_USER%% %%NULL%%][REG][IA]][CMD][IA])>"%LIST_FOLDER%\%NEW_NAME%.base"
+(ECHO.BASE-GROUP&&ECHO.[GROUP][%UNI08% Basic Option][%UNI15% Basic SubOption Enable]&&ECHO.[COMMANDQ][ECHO.%UNI15% Basic SubOption Enable was picked.][CMD][DX]&&ECHO.[GROUP][%UNI08% Basic Option][%UNI16% Basic SubOption Disable]&&ECHO.[COMMANDQ][ECHO.%UNI16% Basic SubOption Disable was picked.][CMD][DX]&&ECHO.[GROUP][%UNI03% Advanced Option][%UNI03% Advanced SubOption]&&ECHO.[CHOICE1][Select an option][%UNI15% Enable,%UNI16% Disable][VolaTILE]&&ECHO.[COMMANDQ][IF "%%CHOICE1%%"=="1" ECHO.%UNI15% Advanced SubOption Enable was picked.][CMD][DX]&&ECHO.[COMMANDQ][IF "%%CHOICE1%%"=="2" ECHO.%UNI16% Advanced SubOption Disable was picked.][CMD][DX]&&ECHO.[STRING1][Select an option][String1,String2][VolaTILE]&&ECHO.[COMMANDQ][ECHO.%%STRING1%% was picked.][CMD][DX]&&ECHO.[COMMANDQ][ECHO.COMMAND list items without an "IF CHOICE" always execute.][CMD][DX]&&ECHO.[COMMAND][DIR /B %%DRVTAR%%\][CMD][DX]&&ECHO.[COMMANDQ][ECHO.The 'REG' command list option mounts the registry upon execution.][CMD][DX]&&ECHO.[COMMAND][reg.exe query %%HIVE_USER%%][REG][DX]&&ECHO.[COMMANDQ][ECHO.COMMANDQ mutes the command announcement on screen.][CMD][DX]&&ECHO.[COMMANDQ][ECHO.NULL mutes the command execution on screen.][CMD][DX]&&ECHO.[COMMAND][reg.exe query %%HIVE_USER%% %%NULL%%][REG][DX])>"%LIST_FOLDER%\%NEW_NAME%.base"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.base"
 EXIT /B
 :LIST_COMMAND_CREATE
@@ -1789,12 +1791,12 @@ CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                         
 IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" EXIT /B
 IF "%SELECTY%"=="1" SET "COMMAND_TYPE=CMD"
 IF "%SELECTY%"=="2" SET "COMMAND_TYPE=REG"
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                               Elevation&&ECHO.&&ECHO. (%##%1%$$%) Run as User&&ECHO. (%##%2%$$%) Run as System&&ECHO. (%##%3%$$%) Run as TrustedInstaller&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTZ"&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                               Elevation&&ECHO.&&ECHO. (%##%1%$$%) Run As User&&ECHO. (%##%2%$$%) Run As System%UNI13%&&ECHO. (%##%3%$$%) Run As TrustedInstaller%UNI13%&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTZ"&&CALL:MENU_SELECT
 IF NOT "%SELECTZ%"=="1" IF NOT "%SELECTZ%"=="2" IF NOT "%SELECTZ%"=="3" EXIT /B
 IF "%SELECTZ%"=="1" SET "COMMAND_TYPE=%COMMAND_TYPE%"
 IF "%SELECTZ%"=="2" SET "COMMAND_TYPE=%COMMAND_TYPE%_RAS"
 IF "%SELECTZ%"=="3" SET "COMMAND_TYPE=%COMMAND_TYPE%_RATI"
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                              Announcement&&ECHO.&&ECHO. (%##%1%$$%) Announcement normal&&ECHO. (%##%2%$$%) Announcement quiet&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTY"&&CALL:MENU_SELECT
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                              Announcement&&ECHO.&&ECHO. (%##%1%$$%) Announcement Normal&&ECHO. (%##%2%$$%) Announcement Quiet&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTY"&&CALL:MENU_SELECT
 IF NOT "%SELECTY%"=="1" IF NOT "%SELECTY%"=="2" EXIT /B
 IF "%SELECTY%"=="1" SET "COMMAND_ENTRY=COMMAND"
 IF "%SELECTY%"=="2" SET "COMMAND_ENTRY=COMMANDQ"
@@ -1822,20 +1824,55 @@ CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                         
 IF "%SELECT%"=="0" CALL:LIST_MAKE
 IF NOT DEFINED $PICK EXIT /B
 CALL:PAD_ADD&&ECHO.&&CALL ECHO. GROUP %GRP_NAME% %GRP_SUB%
+ECHO.[Note: Place into a Group Base to begin using.]>>"%$PICK%"
 ECHO.[GROUP][%GRP_NAME%][%GRP_SUB%]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:PAUSED
 EXIT /B
-:LIST_PROMPT_CREATE
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.            Enter the message for the prompt: [ %@@%A-Z 0-9%$$% ]&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CASE=ANY"&&SET "$SELECT=PROMPT_XYZ"&&CALL:MENU_SELECT
+:LIST_CHOICE_CREATE
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.              Enter message for the choice prompt [ %@@%A-Z 0-9%$$% ]&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CASE=ANY"&&SET "$SELECT=PROMPT_XYZ"&&CALL:MENU_SELECT
 IF NOT DEFINED PROMPT_XYZ EXIT /B
-CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                     Select a var number: [ %@@%0-9%$$% ]&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CASE=ANY"&&SET "$SELECT=VAR_XYZ"&&CALL:MENU_SELECT
+CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                   Select the choice number [ %@@%0-9%$$% ]&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CASE=ANY"&&SET "$SELECT=VAR_XYZ"&&CALL:MENU_SELECT
 IF NOT DEFINED VAR_XYZ EXIT /B
 SET "$GO="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%VAR_XYZ%"=="%%a" SET "$GO=1")
 ECHO.&&IF NOT DEFINED $GO ECHO. %XLR2%ERROR%$$%&&EXIT /B
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                        Select the choice type&&ECHO.&&ECHO.        CHOICE saves the chosen index, STRING saves the string.&&ECHO.&&ECHO. (%##%1%$$%) CHOICE&&ECHO. (%##%2%$$%) STRING&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=PROMPT_ABC"&&CALL:MENU_SELECT
+SET "$GO="&&FOR %%a in (1 2) DO (IF "%PROMPT_ABC%"=="%%a" SET "$GO=1")
+ECHO.&&IF NOT DEFINED $GO ECHO. %XLR2%ERROR%$$%&&EXIT /B
+IF "%PROMPT_ABC%"=="1" SET "PROMPT_ABC=CHOICE"
+IF "%PROMPT_ABC%"=="2" SET "PROMPT_ABC=STRING"
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            %UNI01% List Builder&&ECHO.&&ECHO.  %@@%AVAILABLE LISTs:%$$%&&ECHO.&&ECHO. ( %##%0%$$% ) Create new list&&SET "$FOLD=%LIST_FOLDER%"&&SET "$FILT=*.LIST"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
 IF "%SELECT%"=="0" CALL:LIST_MAKE
 IF NOT DEFINED $PICK EXIT /B
-CALL:PAD_ADD&&ECHO.&&ECHO. %@@%PROMPT%VAR_XYZ%%$$% %PROMPT_XYZ% %##%VAR%VAR_XYZ%%$$%&&ECHO.[PROMPT%VAR_XYZ%][%PROMPT_XYZ%][VAR%VAR_XYZ%]>>"%$PICK%"
+CALL:PAD_ADD&&ECHO.&&ECHO. %@@%%PROMPT_ABC%%VAR_XYZ%%$$% %PROMPT_XYZ% %##%Option One,Option Two,Option Three %$$%VolaTILE
+ECHO.[Note: Place into a Group Base to begin using.]>>"%$PICK%"
+ECHO.[%PROMPT_ABC%%VAR_XYZ%][%PROMPT_XYZ%][Option One,Option Two,Option Three][VolaTILE]>>"%$PICK%"
+ECHO.[COMMANDQ][ECHO.%PROMPT_ABC%%VAR_XYZ%: %%%PROMPT_ABC%%VAR_XYZ%%%][CMD][DX]>>"%$PICK%"
+ECHO.&&CALL:PAD_END&&CALL:PAUSED
+EXIT /B
+:LIST_PROMPT_CREATE
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.              Enter message for the prompt [ %@@%A-Z 0-9%$$% ]&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CASE=ANY"&&SET "$SELECT=PROMPT_XYZ"&&CALL:MENU_SELECT
+IF NOT DEFINED PROMPT_XYZ EXIT /B
+CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.                   Select the prompt number [ %@@%0-9%$$% ]&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CASE=ANY"&&SET "$SELECT=VAR_XYZ"&&CALL:MENU_SELECT
+IF NOT DEFINED VAR_XYZ EXIT /B
+SET "$GO="&&FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (IF "%VAR_XYZ%"=="%%a" SET "$GO=1")
+ECHO.&&IF NOT DEFINED $GO ECHO. %XLR2%ERROR%$$%&&EXIT /B
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                   Select the character filter type&&ECHO.&&ECHO. (%##%1%$$%) NONE&&ECHO. (%##%2%$$%) NUMBER&&ECHO. (%##%3%$$%) LETTER&&ECHO. (%##%4%$$%) ALPHA&&ECHO. (%##%5%$$%) MENU&&ECHO. (%##%6%$$%) PATH&&ECHO. (%##%7%$$%) MOST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=PROMPT_ABC"&&CALL:MENU_SELECT
+SET "$GO="&&FOR %%a in (1 2 3 4 5 6 7) DO (IF "%PROMPT_ABC%"=="%%a" SET "$GO=1")
+ECHO.&&IF NOT DEFINED $GO ECHO. %XLR2%ERROR%$$%&&EXIT /B
+IF "%PROMPT_ABC%"=="1" SET "PROMPT_ABC=NONE"
+IF "%PROMPT_ABC%"=="2" SET "PROMPT_ABC=NUMBER"
+IF "%PROMPT_ABC%"=="3" SET "PROMPT_ABC=LETTER"
+IF "%PROMPT_ABC%"=="4" SET "PROMPT_ABC=ALPHA"
+IF "%PROMPT_ABC%"=="5" SET "PROMPT_ABC=MENU"
+IF "%PROMPT_ABC%"=="6" SET "PROMPT_ABC=PATH"
+IF "%PROMPT_ABC%"=="7" SET "PROMPT_ABC=MOST"
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            %UNI01% List Builder&&ECHO.&&ECHO.  %@@%AVAILABLE LISTs:%$$%&&ECHO.&&ECHO. ( %##%0%$$% ) Create new list&&SET "$FOLD=%LIST_FOLDER%"&&SET "$FILT=*.LIST"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
+IF "%SELECT%"=="0" CALL:LIST_MAKE
+IF NOT DEFINED $PICK EXIT /B
+CALL:PAD_ADD&&ECHO.&&ECHO. %@@%PROMPT%VAR_XYZ%%$$% %PROMPT_XYZ% %##%%PROMPT_ABC% %$$%VolaTILE
+ECHO.[Note: Place into a Group Base to begin using.]>>"%$PICK%"
+ECHO.[PROMPT%VAR_XYZ%][%PROMPT_XYZ%][%PROMPT_ABC%][VolaTILE]>>"%$PICK%"
+ECHO.[COMMANDQ][ECHO.PROMPT%VAR_XYZ%: %%PROMPT%VAR_XYZ%%%][CMD][DX]>>"%$PICK%"
 ECHO.&&CALL:PAD_END&&CALL:PAUSED
 EXIT /B
 :LIST_PACK_CREATE
@@ -1853,8 +1890,8 @@ CALL:PAD_ADD&&SET "COMBINE_HEAD=EXEC-LIST"&&SET "$LST1=%$PICK%"&&CALL:LIST_COMBI
 CALL:PAD_END&&CALL:PAUSED
 EXIT /B
 :LIST_TIME
-SET "LIST_CLM4="&&CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            Time of Action&&ECHO.&&ECHO. (%##%1%$$%) Image Apply      %@@%IA%$$% - Action is immediate&&ECHO. (%##%2%$$%) Setup Complete   %@@%SC%$$% - Before user logon&&ECHO. (%##%3%$$%) Run Once         %@@%RO%$$% - Upon user logon&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTZ"&&CALL:MENU_SELECT
-IF "%SELECTZ%"=="1" SET "LIST_CLM4=IA"
+SET "LIST_CLM4="&&CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                            Time of Action&&ECHO.&&ECHO. (%##%1%$$%) Default           [%@@%DX%$$%] Immediate execution&&ECHO. (%##%2%$$%) SetupComplete     [%@@%SC%$$%] Scheduled execution&&ECHO. (%##%3%$$%) RunOnce           [%@@%RO%$$%] Scheduled execution&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$SELECT=SELECTZ"&&CALL:MENU_SELECT
+IF "%SELECTZ%"=="1" SET "LIST_CLM4=DX"
 IF "%SELECTZ%"=="2" SET "LIST_CLM4=SC"
 IF "%SELECTZ%"=="3" SET "LIST_CLM4=RO"
 EXIT /B
@@ -1874,14 +1911,14 @@ COPY /Y "%$LST1%" "$LST2">NUL
 COPY /Y "%$LST2%" "$LST1">NUL
 ECHO.EXEC-LIST>"%LIST_FOLDER%\%NEW_NAME%.list"
 FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%a in ($LST1) DO (SET "$X0$="&&FOR /F "TOKENS=1-9 SKIP=1 DELIMS=[]" %%1 in ($LST2) DO (IF "[%%1:%%2]"=="[%%a:%%b]" SET "$X0$=1")
-IF "%%a"=="APPX" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][IA]>>"%LIST_FOLDER%\%NEW_NAME%.list"
-IF "%%a"=="COMPONENT" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][IA]>>"%LIST_FOLDER%\%NEW_NAME%.list"
-IF "%%a"=="CAPABILITY" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][IA]>>"%LIST_FOLDER%\%NEW_NAME%.list"
-IF "%%a"=="FEATURE" IF DEFINED $X0$ CALL ECHO.[%%a][%%b][DISABLE][IA]>>"%LIST_FOLDER%\%NEW_NAME%.list"
+IF "%%a"=="APPX" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][DX]>>"%LIST_FOLDER%\%NEW_NAME%.list"
+IF "%%a"=="COMPONENT" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][DX]>>"%LIST_FOLDER%\%NEW_NAME%.list"
+IF "%%a"=="CAPABILITY" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][DX]>>"%LIST_FOLDER%\%NEW_NAME%.list"
+IF "%%a"=="FEATURE" IF DEFINED $X0$ CALL ECHO.[%%a][%%b][DISABLE][DX]>>"%LIST_FOLDER%\%NEW_NAME%.list"
 IF "%%a"=="FEATURE" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][ABSENT]>>"%LIST_FOLDER%\%NEW_NAME%.list"
-IF "%%a"=="SERVICE" IF DEFINED $X0$ CALL ECHO.[%%a][%%b][%%c][IA]>>"%LIST_FOLDER%\%NEW_NAME%.list"
-IF "%%a"=="SERVICE" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][IA]>>"%LIST_FOLDER%\%NEW_NAME%.list"
-IF "%%a"=="TASK" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][IA][RAS]>>"%LIST_FOLDER%\%NEW_NAME%.list")
+IF "%%a"=="SERVICE" IF DEFINED $X0$ CALL ECHO.[%%a][%%b][%%c][DX]>>"%LIST_FOLDER%\%NEW_NAME%.list"
+IF "%%a"=="SERVICE" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][DX]>>"%LIST_FOLDER%\%NEW_NAME%.list"
+IF "%%a"=="TASK" IF NOT DEFINED $X0$ CALL ECHO.[%%a][%%b][DELETE][DX][RAS]>>"%LIST_FOLDER%\%NEW_NAME%.list")
 SET "$LST1="&&SET "$LST2="&&IF EXIST "$LST*" DEL /F $LST*>NUL
 CALL:PAUSED
 EXIT /B
@@ -2065,7 +2102,6 @@ EXIT /B
 @ECHO OFF&&CLS&&SET "IMAGE_LAST=PACKAGE"&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                          %UNI05% Image Management&&ECHO.&&ECHO.  %@@%PACKAGE CONTENTS:%$$%&&ECHO.&&SET "$FOLD=%PROG_SOURCE%\project"&&SET "$FILT=*.*"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE
 ECHO. %@@%%UNI05%PACK%$$%(%##%X%$$%)LIST%UNI01%     (%##%B%$$%)uild Pack     (%##%E%$$%)dit Pack     (%##%R%$$%)un Pack&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
-IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="E" CALL:PROJ_EDIT&SET "SELECT="
@@ -2129,7 +2165,7 @@ CALL:NEW_PACKAGELIST&CALL:NEW_PACKAGECMD
 EXIT /B
 :NEW_PACKAGELIST
 SET "PKX_FOLDER="
-SET "PKX_FOLDER=%PKX_FOLDER%"&&(ECHO.EXEC-LIST&&ECHO.&&ECHO.Delete the driver list entry below and driver folder if there aren't drivers included in the package.&&ECHO.[DRIVER]["%%PKX_FOLDER%%\driver"][INSTALL][IA]&&ECHO.&&ECHO.Delete the command list entry below and package.cmd if a script is not needed.&&ECHO.[COMMAND][CMD /C "%%PKX_FOLDER%%\package.cmd"][CMD][IA]&&ECHO.&&ECHO.Manually add, copy and paste items, or replace this package.list with an existing execution list.&&ECHO.Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.)>"%PROG_SOURCE%\project\package.list"
+SET "PKX_FOLDER=%PKX_FOLDER%"&&(ECHO.EXEC-LIST&&ECHO.&&ECHO.Delete the driver list entry below and driver folder if there aren't drivers included in the package.&&ECHO.[DRIVER]["%%PKX_FOLDER%%\driver"][INSTALL][DX]&&ECHO.&&ECHO.Delete the command list entry below and package.cmd if a script is not needed.&&ECHO.[COMMAND][CMD /C "%%PKX_FOLDER%%\package.cmd"][CMD][DX]&&ECHO.&&ECHO.Manually add, copy and paste items, or replace this package.list with an existing execution list.&&ECHO.Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.)>"%PROG_SOURCE%\project\package.list"
 EXIT /B
 :NEW_PACKAGECMD
 SET "PKX_FOLDER="
@@ -2153,7 +2189,6 @@ IF NOT EXIST "%FMGR_SOURCE%\*" SET "FMGR_SOURCE=%PROG_SOURCE%"&&SET "FMGR_TARGET
 IF "%FMGR_DUAL%"=="ENABLED" ECHO.                           %@@%SOURCE%$$% (%##%S%$$%) %@@%TARGET%$$%&&ECHO.&&ECHO.  %@@%TARGET FOLDER:%$$% %FMGR_TARGET%&&ECHO.&&SET "$FOLD=%FMGR_TARGET%"&&SET "$FILT=*.*"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&ECHO.
 ECHO.  %@@%SOURCE FOLDER:%$$% %FMGR_SOURCE%&&ECHO.&&ECHO.  (%##%..%$$%)&&SET "$FOLD=%FMGR_SOURCE%"&&SET "$FILT=*.*"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE
 ECHO. %@@%%UNI02%FILE%$$%(%##%X%$$%)DISK%UNI04% (%##%*%$$%) (%##%N%$$%)ew (%##%O%$$%)pen (%##%C%$$%)opy (%##%M%$$%)ove (%##%R%$$%)en (%##%D%$$%)el (%##%#%$$%)Own (%##%V%$$%)&&CALL:PAD_LINE&&CALL:PAD_PREV&&CALL:MENU_SELECT
-IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="S" CALL:FMGR_SWAP&SET "SELECT="
@@ -2308,7 +2343,6 @@ EXIT /B
 ECHO. %@@%%UNI04%DISK%$$%(%##%X%$$%)FILE%UNI02%     (%##%I%$$%)nspect    (%##%E%$$%)rase                  (%##%O%$$%)ptions&&CALL:PAD_LINE&&ECHO. [%@@%PART%$$%] (%##%C%$$%)reate     (%##%D%$$%)elete     (%##%F%$$%)ormat     (%##%M%$$%)ount     (%##%U%$$%)nmount&&CALL:PAD_LINE
 IF DEFINED ADV_DISK ECHO. [%@@%IMAGE%$$%](%##%N%$$%)ew VHDX      (%##%V%$$%)HDX Mount     (%##%*%$$%)ISO Mount      (%##%U%$$%)nmount&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
-IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="X" GOTO:FILE_MANAGEMENT
@@ -2656,7 +2690,6 @@ EXIT /B
 CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                         %UNI04% BootDisk Creator&&ECHO.&&ECHO.  %@@%AVAILABLE VHDXs:%$$%&&ECHO.&&SET "$FOLD=%IMAGE_FOLDER%"&&SET "$FILT=*.VHDX"&&SET "$DISP=BAS"&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&ECHO. (%##%O%$$%)ptions                     (%##%C%$$%)reate        (%##%V%$$%)HDX %@@%%VHDX_SLOTX%%$$%&&CALL:PAD_LINE
 IF DEFINED ADV_BOOT ECHO. [%@@%OPTIONS%$$%]   (%##%A%$$%)dd File      (%##%E%$$%)xport EFI      (%##%W%$$%)allpaper %@@%%PE_WALLPAPER%%$$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&CALL:MENU_SELECT
-IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:COMMAND_INTERNAL_END
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
 IF "%SELECT%"=="E" CALL:EFI_FETCH
