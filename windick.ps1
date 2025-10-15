@@ -187,7 +187,7 @@ return $label
 function MessageBox {
 param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxChoices,[string]$MessageBoxText,[string]$Check,[string]$TextMin,[string]$TextMax)
 if ($MessageBoxType -eq 'Choice') {if ($MessageBoxChoices) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn, $parto = $MessageBoxChoices -split '[,]'}}
-if ($MessageBoxType -eq 'Picker') {if ($MessageBoxChoices) {$parta1, $partb1, $partc1 = $MessageBoxChoices -split '[*]'}}
+if ($MessageBoxType -eq 'Picker') {if ($MessageBoxChoices) {$parta1X, $partb1X, $partc1X = $MessageBoxChoices -split '[*]';$parta1 = $parta1X -replace "`"|'", "";$partb1 = $partb1X -replace "`"|'", ""}};#`"
 $formbox = New-Object System.Windows.Forms.Form
 $formbox.SuspendLayout()
 $WSIZ = [int](500 * $ScaleRef * $GUI_SCALE)
@@ -333,11 +333,11 @@ $dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $dropbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $dropbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $dropbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-if ($parta1 -eq '%LIST_FOLDER%\') {$PartMatch = 1;$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq '%IMAGE_FOLDER%\') {$PartMatch = 1;$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq '%PACK_FOLDER%\') {$PartMatch = 1;$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq '%CACHE_FOLDER%\') {$PartMatch = 1;$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq '%PROG_SOURCE%\') {$PartMatch = 1;$FilePath = "$PSScriptRoot"}
+if ($parta1 -eq "%LIST_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "%IMAGE_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "%PACK_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "%CACHE_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "%PROG_SOURCE%\") {$PartMatch = 1;$FilePath = "$PSScriptRoot"}
 if ($PartMatch -eq $null) {$PathCheck = "$parta1";if (Test-Path -Path $PathCheck) {$FilePath = "$parta1"} else {$FilePath = "$PSScriptRoot"}}
 Get-ChildItem -Path "$FilePath\*$partb1" -Name | ForEach-Object {[void]$dropbox.Items.Add($_)}
 $dropbox.Add_SelectedIndexChanged({$null})
@@ -680,6 +680,9 @@ if ($Button_V2W.Tag -eq 'Enable') {$Button_W2V.BackColor = [System.Drawing.Color
 if ($Button_W2V.Tag -eq 'Enable') {$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_LB.Tag -eq 'Enable') {$Button_PB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_PB.Tag -eq 'Enable') {$Button_LB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
+$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
+$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
+$PathCheck = "$PSScriptRoot\`$TEMP";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$TEMP" -Force}
 })
 $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")} else {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")}
@@ -1443,7 +1446,7 @@ $PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "
 $parta, $ListViewActionZ, $partc = $ListViewSelectS4 -split '[{}]';$parta, $ListViewActionX, $partc = $ListViewActionZ -split '[ ]';$global:ListViewAction = $ListViewActionX.ToUpper()
 $ListView1_PageLBWiz.Items.Clear();
 $Label1_PageLBWiz.Text = "🧾 $BaseFile"
-$Label2_PageLBWiz.Text = "$ListViewChoiceS3"
+$Label2_PageLBWiz.Text = "$ListViewChoiceS3 $ListViewActionX"
 Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]"
 if ($partXb -eq $ListViewChoiceS3) {
