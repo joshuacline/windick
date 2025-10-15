@@ -1150,6 +1150,7 @@ if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScr
 if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:PEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePEWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
+$PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage1 {$global:LBWiz_Stage = 1;$global:ListMode = 'Builder'
