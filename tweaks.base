@@ -5,209 +5,209 @@
 ❕PROMPT2❕Enter Computer Name: 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
 ❕CHOICE1❕Select an edition❕Bypass Initial Setup❕VolaTILE❕
 ❕CHOICE2❕Select a locale❕en-US❕VolaTILE❕
-❕COMMANDQ❕IF NOT EXIST "%WINTAR%\PANTHER" MD "%WINTAR%\PANTHER" %NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF NOT EXIST "%WINTAR%\PANTHER" MD "%WINTAR%\PANTHER" >NUL❕CMD❕DX❕
 ❕COMMANDQ❕IF EXIST "%WINTAR%\PANTHER\unattend.xml" ECHO. Overwriting existing unattend.xml❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%WINTAR%\PANTHER\unattend.xml" TAKEOWN /F "%WINTAR%\PANTHER\unattend.xml" %NULL%❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%WINTAR%\PANTHER\unattend.xml" ICACLS "%WINTAR%\PANTHER\unattend.xml" /grant %USERNAME%:F %NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%WINTAR%\PANTHER\unattend.xml" TAKEOWN /F "%WINTAR%\PANTHER\unattend.xml" >NUL❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%WINTAR%\PANTHER\unattend.xml" ICACLS "%WINTAR%\PANTHER\unattend.xml" /grant %USERNAME%:F >NUL❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Generating unattend.xml, 00 percent complete❕CMD❕DX❕
-❕COMMANDQ❕ECHO.%@%%{%?xml version="1.0" encoding="utf-8"?%@%%}%%}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.%@%%{%unattend xmlns="urn:schemas-microsoft-com:unattend"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.	%@%%{%settings pass="oobeSystem"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕IF "%STRING2%"=="en-US" ECHO.			%@%%{%InputLocale%@%%}%0409:00000409%@%%{%/InputLocale%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%SystemLocale%@%%}%%STRING2%%@%%{%/SystemLocale%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UILanguage%@%%}%%STRING2%%@%%{%/UILanguage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UILanguageFallback%@%%}%%STRING2%%@%%{%/UILanguageFallback%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UserLocale%@%%}%%STRING2%%@%%{%/UserLocale%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%/component%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%TimeZone%@%%}%Mountain Standard Time%@%%{%/TimeZone%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%AutoLogon%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%Enabled%@%%}%true%@%%{%/Enabled%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%LogonCount%@%%}%9999999%@%%{%/LogonCount%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%Username%@%%}%%PROMPT1%%@%%{%/Username%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%Password%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%PlainText%@%%}%true%@%%{%/PlainText%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%Value%@%%}%%@%%{%/Value%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%/Password%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/AutoLogon%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.^<?xml version="1.0" encoding="utf-8"?^>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.	^<settings pass="oobeSystem"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕IF "%STRING2%"=="en-US" ECHO.			^<InputLocale^>0409:00000409^</InputLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<SystemLocale^>%STRING2%^</SystemLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UILanguage^>%STRING2%^</UILanguage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UILanguageFallback^>%STRING2%^</UILanguageFallback^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UserLocale^>%STRING2%^</UserLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^</component^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<TimeZone^>Mountain Standard Time^</TimeZone^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<AutoLogon^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<Enabled^>true^</Enabled^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<LogonCount^>9999999^</LogonCount^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<Username^>%PROMPT1%^</Username^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<Password^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<PlainText^>true^</PlainText^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<Value^>^</Value^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^</Password^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</AutoLogon^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Generating unattend.xml, 25 percent complete.❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%OOBE%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%HideEULAPage%@%%}%true%@%%{%/HideEULAPage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%HideLocalAccountScreen%@%%}%true%@%%{%/HideLocalAccountScreen%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%HideOnlineAccountScreens%@%%}%true%@%%{%/HideOnlineAccountScreens%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%HideWirelessSetupInOOBE%@%%}%true%@%%{%/HideWirelessSetupInOOBE%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%NetworkLocation%@%%}%Other%@%%{%/NetworkLocation%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%ProtectYourPC%@%%}%3%@%%{%/ProtectYourPC%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%SkipMachineOOBE%@%%}%true%@%%{%/SkipMachineOOBE%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%SkipUserOOBE%@%%}%true%@%%{%/SkipUserOOBE%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/OOBE%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UserAccounts%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%LocalAccounts%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%LocalAccount wcm:action="add"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.						%@%%{%Group%@%%}%Administrators%@%%{%/Group%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.						%@%%{%Name%@%%}%%PROMPT1%%@%%{%/Name%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.						%@%%{%Password%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.							%@%%{%PlainText%@%%}%true%@%%{%/PlainText%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.							%@%%{%Value%@%%}%%@%%{%/Value%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.						%@%%{%/Password%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%/LocalAccount%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%/LocalAccounts%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/UserAccounts%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%/component%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.	%@%%{%/settings%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.	%@%%{%settings pass="specialize"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%SkipAutoActivation%@%%}%true%@%%{%/SkipAutoActivation%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<OOBE^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<HideEULAPage^>true^</HideEULAPage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<HideLocalAccountScreen^>true^</HideLocalAccountScreen^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<HideOnlineAccountScreens^>true^</HideOnlineAccountScreens^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<HideWirelessSetupInOOBE^>true^</HideWirelessSetupInOOBE^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<NetworkLocation^>Other^</NetworkLocation^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<ProtectYourPC^>3^</ProtectYourPC^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<SkipMachineOOBE^>true^</SkipMachineOOBE^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<SkipUserOOBE^>true^</SkipUserOOBE^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</OOBE^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UserAccounts^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<LocalAccounts^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<LocalAccount wcm:action="add"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.						^<Group^>Administrators^</Group^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.						^<Name^>%PROMPT1%^</Name^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.						^<Password^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.							^<PlainText^>true^</PlainText^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.							^<Value^>^</Value^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.						^</Password^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^</LocalAccount^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^</LocalAccounts^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</UserAccounts^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^</component^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.	^</settings^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.	^<settings pass="specialize"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<SkipAutoActivation^>true^</SkipAutoActivation^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Generating unattend.xml, 50 percent complete..❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%/component%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%ComputerName%@%%}%%PROMPT2%%@%%{%/ComputerName%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%CopyProfile%@%%}%false%@%%{%/CopyProfile%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.			%@%%{%ProductKey%@%%}%92NFX-8DJQP-P6BBQ-THF9C-7CG2H%@%%{%/ProductKey%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%/component%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.	%@%%{%/settings%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.	%@%%{%settings pass="windowsPE"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%InputLocale%@%%}%0409:00000409%@%%{%/InputLocale%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%SystemLocale%@%%}%%STRING2%%@%%{%/SystemLocale%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UILanguage%@%%}%%STRING2%%@%%{%/UILanguage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UILanguageFallback%@%%}%%STRING2%%@%%{%/UILanguageFallback%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UserLocale%@%%}%%STRING2%%@%%{%/UserLocale%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%SetupUILanguage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%UILanguage%@%%}%%STRING2%%@%%{%/UILanguage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/SetupUILanguage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%/component%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^</component^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<ComputerName^>%PROMPT2%^</ComputerName^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<CopyProfile^>false^</CopyProfile^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.			^<ProductKey^>92NFX-8DJQP-P6BBQ-THF9C-7CG2H^</ProductKey^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^</component^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.	^</settings^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.	^<settings pass="windowsPE"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<InputLocale^>0409:00000409^</InputLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<SystemLocale^>%STRING2%^</SystemLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UILanguage^>%STRING2%^</UILanguage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UILanguageFallback^>%STRING2%^</UILanguageFallback^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UserLocale^>%STRING2%^</UserLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<SetupUILanguage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<UILanguage^>%STRING2%^</UILanguage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</SetupUILanguage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^</component^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Generating unattend.xml, 75 percent complete...❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%Diagnostics%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%OptIn%@%%}%false%@%%{%/OptIn%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/Diagnostics%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%DynamicUpdate%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%Enable%@%%}%false%@%%{%/Enable%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%WillShowUI%@%%}%OnError%@%%{%/WillShowUI%@%%}%%}%%}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/DynamicUpdate%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%ImageInstall%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%OSImage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%Compact%@%%}%true%@%%{%/Compact%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%WillShowUI%@%%}%OnError%@%%{%/WillShowUI%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%InstallFrom%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.						%@%%{%MetaData wcm:action="add"%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.							%@%%{%Key%@%%}%/IMAGE/INDEX%@%%{%/Key%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.							%@%%{%Value%@%%}%1%@%%{%/Value%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.						%@%%{%/MetaData%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%/InstallFrom%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%/OSImage%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/ImageInstall%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%UserData%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%AcceptEula%@%%}%true%@%%{%/AcceptEula%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%ProductKey%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.					%@%%{%Key%@%%}%92NFX-8DJQP-P6BBQ-THF9C-7CG2H%@%%{%/Key%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.					%@%%{%WillShowUI%@%%}%OnError%@%%{%/WillShowUI%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.				%@%%{%/ProductKey%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			%@%%{%/UserData%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.		%@%%{%/component%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.	%@%%{%/settings%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.%@%%{%/unattend%@%%}%%}}%"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<Diagnostics^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<OptIn^>false^</OptIn^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</Diagnostics^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<DynamicUpdate^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<Enable^>false^</Enable^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<WillShowUI^>OnError^</WillShowUI^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</DynamicUpdate^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<ImageInstall^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<OSImage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<Compact^>true^</Compact^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<WillShowUI^>OnError^</WillShowUI^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<InstallFrom^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.						^<MetaData wcm:action="add"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.							^<Key^>/IMAGE/INDEX^</Key^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.							^<Value^>1^</Value^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.						^</MetaData^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^</InstallFrom^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^</OSImage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</ImageInstall^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^<UserData^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<AcceptEula^>true^</AcceptEula^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^<ProductKey^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.					^<Key^>92NFX-8DJQP-P6BBQ-THF9C-7CG2H^</Key^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.					^<WillShowUI^>OnError^</WillShowUI^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.				^</ProductKey^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.			^</UserData^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.		^</component^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.	^</settings^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕ECHO.^</unattend^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Generating unattend.xml, 100 percent complete....❕CMD❕DX❕
 ❕COMMANDQ❕IF EXIST "%WINTAR%\PANTHER\unattend.xml" ECHO. unattend.xml located at %WINTAR%\PANTHER.❕CMD❕DX❕
 ❕COMMANDQ❕IF NOT EXIST "%WINTAR%\PANTHER\unattend.xml" ECHO. ERROR: Unable to create unattend.xml at %WINTAR%\PANTHER.❕CMD❕DX❕
 
 ❕GROUP❕🪟 Initial Setup  ❕🪪 Create new admin  ❕
 ❕PROMPT2❕Enter the admin name 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
-❕COMMANDQ❕Net User %PROMPT2% /add %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net User %PROMPT2% /passwordreq:No %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net User %PROMPT2% /passwordchg:No %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net Accounts /maxpwage:unlimited %NULL%❕CMD❕SC❕
-❕COMMANDQ❕WMIC USERACCOUNT WHERE Name="%PROMPT2%" SET PasswordExpires=FALSE %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net localgroup Administrators %PROMPT2% /add %NULL%❕CMD❕SC❕
+❕COMMANDQ❕Net User %PROMPT2% /add >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net User %PROMPT2% /passwordreq:No >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net User %PROMPT2% /passwordchg:No >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net Accounts /maxpwage:unlimited >NUL❕CMD❕SC❕
+❕COMMANDQ❕WMIC USERACCOUNT WHERE Name="%PROMPT2%" SET PasswordExpires=FALSE >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net localgroup Administrators %PROMPT2% /add >NUL❕CMD❕SC❕
 
 ❕GROUP❕🪟 Initial Setup  ❕🪪 Create new user  ❕
 ❕PROMPT2❕Enter the username 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
-❕COMMANDQ❕Net User %PROMPT2% /add %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net User %PROMPT2% /passwordreq:No %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net User %PROMPT2% /passwordchg:No %NULL%❕CMD❕SC❕
-❕COMMANDQ❕Net Accounts /maxpwage:unlimited %NULL%❕CMD❕SC❕
-❕COMMANDQ❕WMIC USERACCOUNT WHERE Name="%PROMPT2%" SET PasswordExpires=FALSE %NULL%❕CMD❕SC❕
+❕COMMANDQ❕Net User %PROMPT2% /add >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net User %PROMPT2% /passwordreq:No >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net User %PROMPT2% /passwordchg:No >NUL❕CMD❕SC❕
+❕COMMANDQ❕Net Accounts /maxpwage:unlimited >NUL❕CMD❕SC❕
+❕COMMANDQ❕WMIC USERACCOUNT WHERE Name="%PROMPT2%" SET PasswordExpires=FALSE >NUL❕CMD❕SC❕
 
 ❕GROUP❕🪟 Initial Setup  ❕🪛 First Logon Waiting Screen  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 First Logon Waiting Screen ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 First Logon Waiting Screen ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪟 Initial Setup  ❕❎ Pagefile Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "DisablePagingExecutive" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_MULTI_SZ /d "" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "ExistingPageFiles" /t REG_MULTI_SZ /d "" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕powercfg.exe -h off %NULL%❕CMD❕SC❕
-❕COMMANDQ❕wmic pagefileset where name="C:\\pagefile.sys" delete %NULL%❕CMD❕SC❕
-❕COMMANDQ❕wmic pagefileset where name="D:\\pagefile.sys" delete %NULL%❕CMD❕SC❕
-❕COMMANDQ❕wmic pagefileset where name="E:\\pagefile.sys" delete %NULL%❕CMD❕SC❕
-❕COMMANDQ❕wmic pagefileset where name="F:\\pagefile.sys" delete %NULL%❕CMD❕SC❕
-❕COMMANDQ❕wmic pagefileset where name="G:\\pagefile.sys" delete %NULL%❕CMD❕SC❕
-❕COMMANDQ❕wmic pagefileset where name="H:\\pagefile.sys" delete %NULL%❕CMD❕SC❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "DisablePagingExecutive" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_MULTI_SZ /d "" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Session Manager\Memory Management" /v "ExistingPageFiles" /t REG_MULTI_SZ /d "" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕powercfg.exe -h off >NUL❕CMD❕SC❕
+❕COMMANDQ❕wmic pagefileset where name="C:\\pagefile.sys" delete >NUL❕CMD❕SC❕
+❕COMMANDQ❕wmic pagefileset where name="D:\\pagefile.sys" delete >NUL❕CMD❕SC❕
+❕COMMANDQ❕wmic pagefileset where name="E:\\pagefile.sys" delete >NUL❕CMD❕SC❕
+❕COMMANDQ❕wmic pagefileset where name="F:\\pagefile.sys" delete >NUL❕CMD❕SC❕
+❕COMMANDQ❕wmic pagefileset where name="G:\\pagefile.sys" delete >NUL❕CMD❕SC❕
+❕COMMANDQ❕wmic pagefileset where name="H:\\pagefile.sys" delete >NUL❕CMD❕SC❕
 ❕COMMANDQ❕ECHO.❎ Pagefile Disable applied.❕REG❕SC❕
 
 
 ❕GROUP❕🪛 Advertisements  ❕🪛 Copilot  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Copilot ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Copilot ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Advertisements  ❕🪛 Start Menu Ads  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Start Menu Ads ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Start Menu Ads ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Advertisements  ❕🪛 Spotlight Ads  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "RotatingLockScreenOverlayEnabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "RotatingLockScreenOverlayEnabled" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "RotatingLockScreenOverlayEnabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "RotatingLockScreenOverlayEnabled" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Spotlight Ads ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Spotlight Ads ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Advertisements  ❕🪛 Bing Searchbox  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Bing Searchbox ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Bing Searchbox ❎ Disable applied.❕REG❕DX❕
 
 
 ❕GROUP❕🎨 Appearance  ❕❎ Animations Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_USER%\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAnimations" /t REG_DWORD /d 0 /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_USER%\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAnimations" /t REG_DWORD /d 0 /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Animations Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🎨 Appearance  ❕🌕 Light / Dark mode  ❕
 ❕CHOICE1❕Select an option❕🌕 Light,🌑 Dark❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🌕 Light theme applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🌑 Dark theme applied.❕REG❕DX❕
 
 ❕GROUP❕🎨 Appearance  ❕🪛 Taskbar Size  ❕
 ❕CHOICE1❕Select an option❕🪛 Small,🪛 Medium,🪛 Large❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="3" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "2" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="3" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "2" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Taskbar Size Small applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Taskbar Size Medium applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="3" ECHO.🪛 Taskbar Size Large applied.❕REG❕DX❕
@@ -215,381 +215,381 @@
 
 ❕GROUP❕🪟 Startup  ❕⏳ Boot Menu Timeout  ❕
 ❕CHOICE1❕Select an option❕5,10,20,30,45,60,90,120,180❕VolaTILE❕
-❕COMMANDQ❕bcdedit /timeout %STRING1% %NULL%❕CMD❕RO❕
+❕COMMANDQ❕bcdedit /timeout %STRING1% >NUL❕CMD❕RO❕
 ❕COMMANDQ❕ECHO.⏳ Boot Menu Timeout %STRING1%s applied.❕CMD❕RO❕
 
 ❕GROUP❕🪟 Startup  ❕🪛 RunOnce initialization  ❕
 ❕CHOICE1❕Select an option❕🪛 RunOnce initializes first,🪛 Desktop initializes first❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 RunOnce initializes first applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Desktop initializes first applied.❕REG❕DX❕
 
 ❕GROUP❕🪟 Startup  ❕🪛 Skip preparing desktop  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Skip preparing desktop ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Skip preparing desktop ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪟 Startup  ❕🪛 WinLogon verbose output  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 WinLogon verbose output ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 WinLogon verbose output ❎ Disable applied.❕REG❕DX❕
 
 
 ❕GROUP❕🛜 Network  ❕❎ Online accounts Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Online accounts Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕❎ Cloud content Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /ve /t REG_SZ /d "" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /ve /t REG_SZ /d "" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /v "DisableSoftLanding" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsSpotlightFeatures" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Cloud content Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕❎ OneDrive Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v "SYSTEM.IsPinnedToNameSpaceTree" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe delete "%HIVE_SYSTEM%\ControlSet001\Services\OneSyncSvc" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Services\OneSyncSvc" /v "ImagePath" /t REG_EXPAND_SZ /d "NUL" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v "SYSTEM.IsPinnedToNameSpaceTree" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe delete "%HIVE_SYSTEM%\ControlSet001\Services\OneSyncSvc" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Services\OneSyncSvc" /v "ImagePath" /t REG_EXPAND_SZ /d "NUL" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ OneDrive Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕❎ Windows store Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Windows store Disable applied.❕REG❕DX❕
 
 
 ❕GROUP❕🛜 Network  ❕🛜 Bluetooth discovery  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\Browser" /v "AllowAddressBarDropdown" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SYSTEM" /v "AllowExperimentation" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\PolicyManager\current\device\SmartGlass" /v "BluetoothPolicy" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🛜 Bluetooth discovery ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🛜 Bluetooth discovery ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕🛜 Link layer topology discovery  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnDomain" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "AllowRspndrOnPublicNet" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\LLTD" /v "ProhibitRspndrOnPrivateNet" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🛜 Link layer topology discovery ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🛜 Link layer topology discovery ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕🪛 Network access for explorer.exe  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0" /v "NoOnlineAssist" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Network access for explorer.exe ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Network access for explorer.exe ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕🪛 Network access for driver search  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Network access for driver search ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Network access for driver search ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🛜 Network  ❕🪛 Prioritize Traffic  ❕
 ❕CHOICE1❕Select an option❕🪛 Ethernet,🪛 WiFi❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" NETSH interface ipv4 SET interface "Wi-Fi" metric=5 %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" NETSH interface ipv4 SET interface "Ethernet" metric=10 %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" NETSH interface ipv4 SET interface "Wi-Fi" metric=10 %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" NETSH interface ipv4 SET interface "Ethernet" metric=5 %NULL%❕CMD❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" NETSH interface ipv4 SET interface "Wi-Fi" metric=5 >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" NETSH interface ipv4 SET interface "Ethernet" metric=10 >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" NETSH interface ipv4 SET interface "Wi-Fi" metric=10 >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" NETSH interface ipv4 SET interface "Ethernet" metric=5 >NUL❕CMD❕RO❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Prioritize Traffic Ethernet applied.❕REG❕RO❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Prioritize Traffic WiFi applied.❕REG❕RO❕
 
 
 ❕GROUP❕🛡️ Security  ❕🪛 Strict rule set for LSA  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LsaCfgFlags" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LsaPid" /t REG_DWORD /d "632" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "ProductType" /t REG_DWORD /d "125" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "RunAsPPL" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "SubmitControl" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "disabledomaincreds" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "everyoneincludesanonymous" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "NoLmHash" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "restrictanonymoussam" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d O:BAG:BAD:(A;;RC;;;BA) /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LsaCfgFlags" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LsaPid" /t REG_DWORD /d "632" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "ProductType" /t REG_DWORD /d "125" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "RunAsPPL" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "SubmitControl" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "disabledomaincreds" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "everyoneincludesanonymous" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "forceguest" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "NoLmHash" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "restrictanonymous" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "restrictanonymoussam" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "RestrictRemoteSAM" /t REG_SZ /d O:BAG:BAD:(A;;RC;;;BA) /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa\MSV1_0" /v "allownullsessionfallback" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Strict rule set for LSA applied.❕REG❕DX❕
 
 ❕GROUP❕🛡️ Security  ❕🪛 UAC prompt  ❕
 ❕CHOICE1❕Select an option❕🛡️ UAC always prompt,❗ UAC never prompt❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "FilterAdministratorToken" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🛡️ UAC always prompt applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.❗ UAC never prompt applied.❕REG❕DX❕
 
 ❕GROUP❕🛡️ Security  ❕🪛 Virtualization based security  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\LSA" /v "LsaCfgFlags" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\LSA" /v "LsaCfgFlags" /t REG_DWORD /d "2" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\LSA" /v "LsaCfgFlags" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\LSA" /v "LsaCfgFlags" /t REG_DWORD /d "2" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Virtualization based security ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Virtualization based security ❎ Disable applied.❕REG❕DX❕
 
 
 ❕GROUP❕🪛 Consent Store  ❕❎ accessoryManager Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ accessoryManager Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ activity Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ activity Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ appDiagnostics Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ appDiagnostics Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ appointments Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ appointments Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ backgroundSpatialPerception Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ backgroundSpatialPerception Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ bluetooth Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ bluetooth Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ bluetoothSync Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ bluetoothSync Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ broadFileSystemAccess Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ broadFileSystemAccess Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ cellularData Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ cellularData Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ chat Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ chat Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ contacts Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ contacts Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ documentsLibrary Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ documentsLibrary Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ email Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ email Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ internetClient Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ internetClient Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ location Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ location Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ locationHistory Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ locationHistory Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ microphone Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ microphone Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ phoneCall Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ phoneCall Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ phoneCallHistory Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ phoneCallHistory Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ picturesLibrary Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ picturesLibrary Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ proximity Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ proximity Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ radios Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ radios Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ sms Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ sms Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ userAccountInformation Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ userAccountInformation Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ userDataTasks Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ userDataTasks Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ userNotificationListener Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ userNotificationListener Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ videosLibrary Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ videosLibrary Deny applied.❕REG❕DX❕
 ❕GROUP❕🪛 Consent Store  ❕❎ webcam Deny  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" /v "Value" /t REG_SZ /d "Deny" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" /v "Value" /t REG_SZ /d "Deny" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ webcam Deny applied.❕REG❕DX❕
 
 
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Boot / Shutdown Diagnostics Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\SecondaryLogonCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance" /v "DisableDiagnosticTracing" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Siuf\Rules" /v "PeriodInNanoSeconds" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Siuf\Rules" /v "NumberOfSIUFInPeriod" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\SecondaryLogonCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance" /v "DisableDiagnosticTracing" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Siuf\Rules" /v "PeriodInNanoSeconds" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Siuf\Rules" /v "NumberOfSIUFInPeriod" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ Boot / Shutdown Diagnostics Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Circular Kernel Context Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ Circular Kernel Context Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ CloudExperienceHostOobe Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ CloudExperienceHostOobe Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Component Based Servicing Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing" /v "EnableLog" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Component Based Servicing" /v "EnableLog" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ Component Based Servicing Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ DiagLog Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\DiagLog" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\DiagLog" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ DiagLog Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Diagtrack Listener Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ Diagtrack Listener Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ FaceTel Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\FaceTel" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\FaceTel" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ FaceTel Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Graphics RdpIdd Trace Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ Graphics RdpIdd Trace Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ HolographicDevice Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\HolographicDevice" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\HolographicDevice" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ HolographicDevice Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ LwtNetLog Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\LwtNetLog" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\LwtNetLog" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ LwtNetLog Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ NetCore Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\NetCore" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\NetCore" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ NetCore Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ NtfsLog Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\NtfsLog" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\NtfsLog" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ NtfsLog Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ RadioMgr Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\RadioMgr" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\RadioMgr" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ RadioMgr Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ ReadyBoot Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\ReadyBoot" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\ReadyBoot" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ ReadyBoot Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ ReFSLog Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\ReFSLog" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\ReFSLog" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ ReFSLog Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Spooler Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\SpoolerLogger" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\SpoolerLogger" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ Spooler Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ SQM Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\SQMLogger" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\SQMLogger" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ DiagLog Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ UBPM Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\UBPM" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\UBPM" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ UBPM Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ WdiContextLog Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\WdiContextLog" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\WdiContextLog" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ WdiContextLog Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ WiFiSession Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\WiFiSession" /v "Start" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\WMI\Autologger\WiFiSession" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ WiFiSession Disable applied.❕REG❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ WMI - WBEM Disable ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\WBEM\CIMOM" /v "Logging" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\WBEM\CIMOM" /v "Logging" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ WMI - WBEM Disable applied.❕REG❕DX❕
 
 
 ❕GROUP❕🚽 Telemetry  ❕❎ Data Collection Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowCommercialDataPipeline" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowDesktopAnalyticsProcessing" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowDeviceNameInTelemetry" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowUpdateComplianceProcessing" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowWUfBCloudProcessing" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "DisableEnterpriseAuthProxy" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "DisableOneSettingsDownloads" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "DoNotShowFeedbackNotifications" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowCommercialDataPipeline" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowDesktopAnalyticsProcessing" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowDeviceNameInTelemetry" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowUpdateComplianceProcessing" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowWUfBCloudProcessing" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "DisableEnterpriseAuthProxy" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "DisableOneSettingsDownloads" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "DoNotShowFeedbackNotifications" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Data Collection Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🚽 Telemetry  ❕❎ Error Reporting Disable  ❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "Disabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "DontSendAdditionalData" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "LoggingDisabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "Disabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "DontSendAdditionalData" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "LoggingDisabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Error Reporting Disable applied.❕REG❕DX❕
 
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Notification center  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Notification center ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Notification center ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Background applications  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Edge" /v "BackgroundModeEnabled" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Background applications ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Background applications ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 DCOM  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "Y" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "N" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "Y" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Microsoft\Ole" /v "EnableDCOM" /t REG_SZ /d "N" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 DCOM ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 DCOM ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Driver updates  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Driver updates ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Driver updates ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Wakelocks other  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Wakelocks other ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Wakelocks other ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Wakelocks network  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "DcSettingIndex" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Wakelocks network ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Wakelocks network ❎ Disable applied.❕REG❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Lockscreen  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "0" /f %NULL%❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "1" /f %NULL%❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Lockscreen ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Lockscreen ❎ Disable applied.❕REG❕DX❕
 
@@ -615,9 +615,9 @@
 ❕GROUP❕🛠️ DISM Operations  ❕❗Delete WinRE  ❕
 ❕COMMANDQ❕ECHO. Executing Delete WinRE folder...❕CMD❕DX❕
 ❕COMMANDQ❕IF NOT EXIST "%WINTAR%\SYSTEM32\Recovery" ECHO. WinRE does not exist.❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%WINTAR%\SYSTEM32\Recovery" TAKEOWN /F "%WINTAR%\SYSTEM32\Recovery" %NULL%❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%WINTAR%\SYSTEM32\Recovery" ICACLS "%WINTAR%\SYSTEM32\Recovery" /grant %USERNAME%:F %NULL%❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%WINTAR%\SYSTEM32\Recovery" RD /S /Q "\\?\%WINTAR%\SYSTEM32\Recovery" %NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%WINTAR%\SYSTEM32\Recovery" TAKEOWN /F "%WINTAR%\SYSTEM32\Recovery" >NUL❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%WINTAR%\SYSTEM32\Recovery" ICACLS "%WINTAR%\SYSTEM32\Recovery" /grant %USERNAME%:F >NUL❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%WINTAR%\SYSTEM32\Recovery" RD /S /Q "\\?\%WINTAR%\SYSTEM32\Recovery" >NUL❕CMD❕DX❕
 ❕GROUP❕🛠️ DISM Operations  ❕❗Delete WinSxS (Offline Image Only) Breaks Stuff❗  ❕
 ❕COMMANDQ❕ECHO. Executing Delete WinSxS folder...❕CMD❕DX❕
 ❕WINSXS❕Delete WinSxS folder❕DELETE❕DX❕
@@ -625,44 +625,44 @@
 
 ❕GROUP❕🔄 Export to program\cache folder  ❕🔄 Export appassociations.xml  ❕
 ❕COMMANDQ❕ECHO. Exporting appassociations.xml...❕CMD❕DX❕
-❕COMMANDQ❕DISM /ENGLISH /%APPLY_TARGET% /EXPORT-DefaultAppAssociations:"%CACHE_FOLDER%\appassociations.xml"%NULL%❕CMD❕DX❕
+❕COMMANDQ❕DISM /ENGLISH /%APPLY_TARGET% /EXPORT-DefaultAppAssociations:"%CACHE_FOLDER%\appassociations.xml">NUL❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Default application associations have been exported.❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Next, create an import app associations list entry.❕CMD❕DX❕
 
 ❕GROUP❕🔄 Export to program\cache folder  ❕🔄 Export firewallrules.xml  ❕
 ❕COMMANDQ❕ECHO. Exporting firewallrules.xml...❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\firewallrules.xml" DEL /F /Q "%CACHE_FOLDER%\firewallrules.xml" %NULL%❕CMD❕DX❕
-❕COMMANDQ❕NETSH advfirewall EXPORT "%CACHE_FOLDER%\firewallrules.xml" %NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\firewallrules.xml" DEL /F /Q "%CACHE_FOLDER%\firewallrules.xml" >NUL❕CMD❕DX❕
+❕COMMANDQ❕NETSH advfirewall EXPORT "%CACHE_FOLDER%\firewallrules.xml" >NUL❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Firewall rules have been exported.❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Next, create an import firewall rules list entry.❕CMD❕DX❕
 
 ❕GROUP❕🔄 Export to program\cache folder  ❕🔄 Export power schemes to xml  ❕
 ❕COMMANDQ❕ECHO. Exporting min, max, and balanced power schemes to xml...❕CMD❕DX❕
-❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_bal.xml" SCHEME_BALANCED %NULL%❕CMD❕DX❕
-❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_min.xml" SCHEME_MIN %NULL%❕CMD❕DX❕
-❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_max.xml" SCHEME_MAX %NULL%❕CMD❕DX❕
+❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_bal.xml" SCHEME_BALANCED >NUL❕CMD❕DX❕
+❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_min.xml" SCHEME_MIN >NUL❕CMD❕DX❕
+❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_max.xml" SCHEME_MAX >NUL❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Power scheme has been exported.❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Next, create a power scheme import list entry.❕CMD❕DX❕
 
 
 ❕GROUP❕🔄 Import from program\cache folder  ❕🔄 Import appassociations.xml  ❕
 ❕COMMANDQ❕ECHO. Importing appassociations.xml...❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\appassociations.xml" DISM /ENGLISH /%APPLY_TARGET% /IMPORT-DefaultAppAssociations:"%CACHE_FOLDER%\appassociations.xml" %NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\appassociations.xml" DISM /ENGLISH /%APPLY_TARGET% /IMPORT-DefaultAppAssociations:"%CACHE_FOLDER%\appassociations.xml" >NUL❕CMD❕DX❕
 ❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\appassociations.xml" ECHO. The operation completed successfully.❕CMD❕DX❕
 ❕COMMANDQ❕IF NOT EXIST "%CACHE_FOLDER%\appassociations.xml" ECHO. ERROR: appassociations.xml does not exist in folder.❕CMD❕DX❕
 
 ❕GROUP❕🔄 Import from program\cache folder  ❕🔄 Import firewallrules.xml  ❕
 ❕COMMANDQ❕ECHO. Importing firewallrules.xml...❕CMD❕RO❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\firewallrules.xml" NETSH advfirewall IMPORT "%CACHE_FOLDER%\firewallrules.xml" %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\firewallrules.xml" COPY /Y "%CACHE_FOLDER%\firewallrules.xml" "%DRVTAR%\$" %NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\firewallrules.xml" NETSH advfirewall IMPORT "%CACHE_FOLDER%\firewallrules.xml" >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\firewallrules.xml" COPY /Y "%CACHE_FOLDER%\firewallrules.xml" "%DRVTAR%\$" >NUL❕CMD❕DX❕
 ❕COMMANDQ❕IF NOT EXIST "%CACHE_FOLDER%\firewallrules.xml" ECHO. ERROR: firewallrules.xml does not exist in folder.❕CMD❕DX❕
 
 ❕GROUP❕🔄 Import from program\cache folder  ❕🔄 Import power schemes from xml  ❕
 ❕COMMANDQ❕ECHO. Importing power schemes from xml...❕CMD❕RO❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_bal.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_bal.xml" %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_min.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_min.xml" %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_max.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_max.xml" %NULL%❕CMD❕RO❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_bal.xml" COPY /Y "%CACHE_FOLDER%\power_bal.xml" "%DRVTAR%\$" %NULL%❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_min.xml" COPY /Y "%CACHE_FOLDER%\power_min.xml" "%DRVTAR%\$" %NULL%❕CMD❕DX❕
-❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_max.xml" COPY /Y "%CACHE_FOLDER%\power_max.xml" "%DRVTAR%\$"%NULL%❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_bal.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_bal.xml" >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_min.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_min.xml" >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_max.xml" POWERCFG /IMPORT "%CACHE_FOLDER%\power_max.xml" >NUL❕CMD❕RO❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_bal.xml" COPY /Y "%CACHE_FOLDER%\power_bal.xml" "%DRVTAR%\$" >NUL❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_min.xml" COPY /Y "%CACHE_FOLDER%\power_min.xml" "%DRVTAR%\$" >NUL❕CMD❕DX❕
+❕COMMANDQ❕IF EXIST "%CACHE_FOLDER%\power_max.xml" COPY /Y "%CACHE_FOLDER%\power_max.xml" "%DRVTAR%\$">NUL❕CMD❕DX❕
 ❕COMMANDQ❕IF NOT EXIST "%CACHE_FOLDER%\power_bal.xml" IF NOT EXIST "%CACHE_FOLDER%\power_min.xml" IF NOT EXIST "%CACHE_FOLDER%\power_max.xml" ECHO. ERROR: no power scheme xml files exist in folder.❕CMD❕DX❕
