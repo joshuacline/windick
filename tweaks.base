@@ -1,6 +1,6 @@
 ﻿BASE-GROUP
 
-❕GROUP❕🪟 Initial Setup  ❕🪪 Create unattend.xml (Skips initial setup)  ❕
+❕GROUP❕🪟 Initial Setup  ❕🪪 Create unattend.xml (Skips OOBE setup)  ❕
 ❕PROMPT1❕Enter Username: 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
 ❕PROMPT2❕Enter Computer Name: 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
 ❕CHOICE1❕Select an edition❕Bypass Initial Setup❕VolaTILE❕
@@ -69,7 +69,7 @@
 ❕COMMANDQ❕ECHO.	^</settings^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO.	^<settings pass="windowsPE"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO.		^<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
-❕COMMANDQ❕ECHO.			^<InputLocale^>0409:00000409^</InputLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
+❕COMMANDQ❕IF "%STRING2%"=="en-US" ECHO.			^<InputLocale^>0409:00000409^</InputLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO.			^<SystemLocale^>%STRING2%^</SystemLocale^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO.			^<UILanguage^>%STRING2%^</UILanguage^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
 ❕COMMANDQ❕ECHO.			^<UILanguageFallback^>%STRING2%^</UILanguageFallback^>>>"%WINTAR%\PANTHER\unattend.xml"❕CMD❕DX❕
@@ -149,7 +149,8 @@
 ❕COMMANDQ❕wmic pagefileset where name="F:\\pagefile.sys" delete >NUL❕CMD❕SC❕
 ❕COMMANDQ❕wmic pagefileset where name="G:\\pagefile.sys" delete >NUL❕CMD❕SC❕
 ❕COMMANDQ❕wmic pagefileset where name="H:\\pagefile.sys" delete >NUL❕CMD❕SC❕
-❕COMMANDQ❕ECHO.❎ Pagefile Disable applied.❕REG❕SC❕
+❕COMMANDQ❕ECHO.❎ Pagefile Disable applied.❕CMD❕SC❕
+
 
 
 ❕GROUP❕🪛 Advertisements  ❕🪛 Copilot  ❕
@@ -189,6 +190,7 @@
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Bing Searchbox ❎ Disable applied.❕REG❕DX❕
 
 
+
 ❕GROUP❕🎨 Appearance  ❕❎ Animations Disable  ❕
 ❕COMMANDQ❕reg.exe add "%HIVE_USER%\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAnimations" /t REG_DWORD /d 0 /f >NUL❕REG❕DX❕
@@ -196,21 +198,22 @@
 
 ❕GROUP❕🎨 Appearance  ❕🌕 Light / Dark mode  ❕
 ❕CHOICE1❕Select an option❕🌕 Light,🌑 Dark❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🌕 Light theme applied.❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🌑 Dark theme applied.❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "1" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "1" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "0" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t REG_DWORD /d "0" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🌕 Light theme applied.❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🌑 Dark theme applied.❕REG❕RO❕
 
 ❕GROUP❕🎨 Appearance  ❕🪛 Taskbar Size  ❕
 ❕CHOICE1❕Select an option❕🪛 Small,🪛 Medium,🪛 Large❕VolaTILE❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="3" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "2" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Taskbar Size Small applied.❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Taskbar Size Medium applied.❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="3" ECHO.🪛 Taskbar Size Large applied.❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "0" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "1" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="3" reg.exe add "%HIVE_USER%\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi" /t REG_DWORD /d "2" /f >NUL❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Taskbar Size Small applied.❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Taskbar Size Medium applied.❕REG❕RO❕
+❕COMMANDQ❕IF "%CHOICE1%"=="3" ECHO.🪛 Taskbar Size Large applied.❕REG❕RO❕
+
 
 
 ❕GROUP❕🪟 Startup  ❕⏳ Boot Menu Timeout  ❕
@@ -240,6 +243,7 @@
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 WinLogon verbose output ❎ Disable applied.❕REG❕DX❕
 
 
+
 ❕GROUP❕🛜 Network  ❕❎ Online accounts Disable  ❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "NoConnectedUser" /t REG_DWORD /d "3" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Online accounts Disable applied.❕REG❕DX❕
@@ -261,7 +265,6 @@
 ❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\WindowsStore" /v "RemoveWindowsStore" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕reg.exe add "%HIVE_USER%\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Windows store Disable applied.❕REG❕DX❕
-
 
 ❕GROUP❕🛜 Network  ❕🛜 Bluetooth discovery  ❕
 ❕CHOICE1❕Select an option❕✅ Enable,❎ Disable❕VolaTILE❕
@@ -315,6 +318,7 @@
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Prioritize Traffic WiFi applied.❕REG❕RO❕
 
 
+
 ❕GROUP❕🛡️ Security  ❕🪛 Strict rule set for LSA  ❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LimitBlankPasswordUse" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Lsa" /v "LsaCfgFlags" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
@@ -348,7 +352,7 @@
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "Locked" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
-❕COMMANDQ❕IF "%CHOICE1%"=="1" ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
+❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Locked" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\LSA" /v "LsaCfgFlags" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
@@ -359,6 +363,7 @@
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\LSA" /v "LsaCfgFlags" /t REG_DWORD /d "2" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="1" ECHO.🪛 Virtualization based security ✅ Enable applied.❕REG❕DX❕
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Virtualization based security ❎ Disable applied.❕REG❕DX❕
+
 
 
 ❕GROUP❕🪛 Consent Store  ❕❎ accessoryManager Deny  ❕
@@ -447,6 +452,7 @@
 ❕COMMANDQ❕ECHO.🪛 Consent Store ❎ webcam Deny applied.❕REG❕DX❕
 
 
+
 ❕GROUP❕🪛 Trackers / Loggers  ❕❎ Boot / Shutdown Diagnostics Disable ❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SYSTEM%\ControlSet001\Control\Diagnostics\Performance\SecondaryLogonCKCLSettings" /v "Start" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
@@ -517,6 +523,7 @@
 ❕COMMANDQ❕ECHO.🪛 Trackers / Loggers ❎ WMI - WBEM Disable applied.❕REG❕DX❕
 
 
+
 ❕GROUP❕🚽 Telemetry  ❕❎ Data Collection Disable  ❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowCommercialDataPipeline" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\DataCollection" /v "AllowDesktopAnalyticsProcessing" /t REG_DWORD /d "0" /f >NUL❕REG❕DX❕
@@ -534,6 +541,7 @@
 ❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "DontSendAdditionalData" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕reg.exe add "%HIVE_SOFTWARE%\Policies\Microsoft\Windows\Windows Error Reporting" /v "LoggingDisabled" /t REG_DWORD /d "1" /f >NUL❕REG❕DX❕
 ❕COMMANDQ❕ECHO.❎ Error Reporting Disable applied.❕REG❕DX❕
+
 
 
 ❕GROUP❕🪛 Miscellaneous  ❕🪛 Notification center  ❕
@@ -594,6 +602,7 @@
 ❕COMMANDQ❕IF "%CHOICE1%"=="2" ECHO.🪛 Lockscreen ❎ Disable applied.❕REG❕DX❕
 
 
+
 ❕GROUP❕🛠️ DISM Operations  ❕🪛 RestoreHealth  ❕
 ❕COMMANDQ❕ECHO. Executing DISM RestoreHealth...❕CMD❕DX❕
 ❕COMMAND❕DISM /ENGLISH /%APPLY_TARGET% /NORESTART /CLEANUP-IMAGE /RestoreHealth❕CMD❕DX❕
@@ -623,6 +632,7 @@
 ❕WINSXS❕Delete WinSxS folder❕DELETE❕DX❕
 
 
+
 ❕GROUP❕🔄 Export to program\cache folder  ❕🔄 Export appassociations.xml  ❕
 ❕COMMANDQ❕ECHO. Exporting appassociations.xml...❕CMD❕DX❕
 ❕COMMANDQ❕DISM /ENGLISH /%APPLY_TARGET% /EXPORT-DefaultAppAssociations:"%CACHE_FOLDER%\appassociations.xml">NUL❕CMD❕DX❕
@@ -643,7 +653,6 @@
 ❕COMMANDQ❕POWERCFG /EXPORT "%CACHE_FOLDER%\power_max.xml" SCHEME_MAX >NUL❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Power scheme has been exported.❕CMD❕DX❕
 ❕COMMANDQ❕ECHO. Next, create a power scheme import list entry.❕CMD❕DX❕
-
 
 ❕GROUP❕🔄 Import from program\cache folder  ❕🔄 Import appassociations.xml  ❕
 ❕COMMANDQ❕ECHO. Importing appassociations.xml...❕CMD❕DX❕
