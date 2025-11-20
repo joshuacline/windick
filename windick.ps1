@@ -1,4 +1,4 @@
-﻿# Windows Deployment Image Customization Kit v 1212 (c) github.com/joshuacline
+﻿# Windows Deployment Image Customization Kit v 1213 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -186,7 +186,7 @@ return $label
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function MessageBox {
 param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxChoices,[string]$MessageBoxText,[string]$Check,[string]$TextMin,[string]$TextMax)
-if ($MessageBoxType -eq 'Choice') {if ($MessageBoxChoices) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn, $parto = $MessageBoxChoices -split '[,]'}}
+if ($MessageBoxType -eq 'Choice') {if ($MessageBoxChoices) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn, $parto = $MessageBoxChoices -split '[❗]'}}
 if ($MessageBoxType -eq 'Picker') {if ($MessageBoxChoices) {$parta1X, $partb1X, $partc1X = $MessageBoxChoices -split '[*]';$parta1 = $parta1X -replace "`"|'", "";$partb1 = $partb1X -replace "`"|'", ""}};#`"
 $formbox = New-Object System.Windows.Forms.Form
 $formbox.SuspendLayout()
@@ -333,11 +333,11 @@ $dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $dropbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $dropbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $dropbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-if ($parta1 -eq "%LIST_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "%IMAGE_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "%PACK_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "%CACHE_FOLDER%\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "%PROG_SOURCE%\") {$PartMatch = 1;$FilePath = "$PSScriptRoot"}
+if ($parta1 -eq "◁LIST_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "◁IMAGE_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "◁PACK_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "◁CACHE_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "◁PROG_SOURCE▷\") {$PartMatch = 1;$FilePath = "$PSScriptRoot"}
 if ($PartMatch -eq $null) {$PathCheck = "$parta1";if (Test-Path -Path $PathCheck) {$FilePath = "$parta1"} else {$FilePath = "$PSScriptRoot"}}
 Get-ChildItem -Path "$FilePath\*$partb1" -Name | ForEach-Object {[void]$dropbox.Items.Add($_)}
 $dropbox.Add_SelectedIndexChanged({$null})
@@ -417,6 +417,85 @@ $formbox.Controls.Add($labelbox)
 $formbox.ResumeLayout()
 $formbox.ShowDialog()
 $formbox.Dispose()
+}
+function MessageBoxListView {
+param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxText)
+$formboxX = New-Object System.Windows.Forms.Form
+$formboxX.SuspendLayout()
+$WSIZ = [int](700 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](450 * $ScaleRef * $GUI_SCALE)
+$formboxX.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+if ($MessageBoxTitle) {$formboxX.Text = "$MessageBoxTitle"}
+$formboxX.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BG_COLOR")
+$formboxX.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$formboxX.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
+if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+$formboxX.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
+$formboxX.StartPosition = "CenterScreen"
+$formboxX.FormBorderStyle = 'FixedDialog'
+$formboxX.AutoSizeMode = 'GrowAndShrink'
+$formboxX.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
+$formboxX.MaximizeBox = $false
+$formboxX.MinimizeBox = $true
+$formboxX.ControlBox = $False
+$formboxX.AutoScale = $true
+$formboxX.WindowState = 'Normal'
+$WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](285 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](375 * $ScaleRef * $GUI_SCALE)
+$okButton = New-Object System.Windows.Forms.Button
+$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
+$okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
+$okButton.Add_Click({
+$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
+$global:checkedItemsX = $ListViewBox.CheckedItems | ForEach-Object {$ListWriteX = 0
+$partaa, $ListViewCheckedX, $partcc = $_ -split '[{}]'
+Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
+$partYa, $partYb, $partYc, $partYd, $partYe, $partYf, $partYg, $partYh, $partYi, $partYj, $partYk, $partYl, $partYm, $partYn = $_ -split "[❕]"
+if ($partYc -eq $ListViewCheckedX) {Add-Content -Path "$FilePathLST" -Value "$_" -Encoding UTF8;}}}})
+$okButton.DialogResult = "OK"
+$okButton.Cursor = 'Hand'
+$okButton.Text = "OK"
+$WSIZ = [int](645 * $ScaleRef * $GUI_SCALE)
+$HSIZ = [int](325 * $ScaleRef * $GUI_SCALE)
+$XLOC = [int](25 * $ScaleRef * $GUI_SCALE)
+$YLOC = [int](25 * $ScaleRef * $GUI_SCALE)
+$ListViewBox = New-Object System.Windows.Forms.ListView
+$ListViewBox.Location = New-Object Drawing.Point($XLOC, $YLOC)
+$ListViewBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
+#$listview.View = [System.Windows.Forms.View]::Details
+$ListViewBox.View = "Details";#$listview.View = "List"
+$ListViewBox.MultiSelect = $false
+$ListViewBox.HideSelection = $true
+if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_LVFONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+$ListViewBox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
+if ($Headers) {$ListViewBox.HeaderStyle = "$Headers"} else {$ListViewBox.HeaderStyle = 'None'}
+$ListViewBox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
+$ListViewBox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+#[void]$ListViewBox.Items.Add("helofrind")
+$ListViewBox.Visible = $true
+$WSIZ = [int](542 * $ScaleRef * $GUI_SCALE);[void]$ListViewBox.Columns.Add("X", $WSIZ);$formboxX.Controls.Add($ListViewBox)
+$ListViewBox.GridLines = $false;$ListViewBox.CheckBoxes = $true;$ListViewBox.FullRowSelect = $true
+$wtfbbq = Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
+$partZa, $partZb, $partZc, $partZd, $partZe, $partZf, $partZg, $partZh, $partZi, $partZj, $partZk, $partZl, $partZm, $partZn = $_ -split "[❕]"
+if ($partZb -eq 'GROUP') {if ($partZc -ne $ListViewChoiceS3) {$gogogo = 0}}
+if ($partZb -eq 'GROUP') {if ($partZd -ne $ListViewChecked) {$gogogo = 0}}
+if ($partZb -eq 'GROUP') {if ($partZc -eq $ListViewChoiceS3) {if ($partZd -eq $ListViewChecked) {$gogogo = 1}}}
+if ($gogogo -eq 1) {
+if ($partZb -ne 'GROUP') {if ($_ -ne "") {[void]$ListViewBox.Items.Add("$partZc")}}}}
+$formboxX.AcceptButton = $okButton
+$formboxX.Controls.Add($okButton)
+#$formboxX.Controls.Add($labelbox)
+$formboxX.ResumeLayout()
+$formboxX.ShowDialog()
+$formboxX.Dispose()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function GetTextInfo {
@@ -1003,7 +1082,7 @@ $global:DropBox4SCChanged = '1';
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function DropBox5SC {
 if ($($DropBox5_PageSC.SelectedItem) -eq '🎨 Theme') {
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Theme' -MessageBoxText 'Select a theme' -MessageBoxChoices "Dark,DarkRed,DarkGreen,DarkBlue,Light,LightRed,LightGreen,LightBlue"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Theme' -MessageBoxText 'Select a theme' -MessageBoxChoices "Dark❗DarkRed❗DarkGreen❗DarkBlue❗Light❗LightRed❗LightGreen❗LightBlue"
 if ($boxoutput -eq "Dark") {$GUI_TXT_FOREX = 'FFFFFFFF';$GUI_TXT_BACKX = 'FF151515';$GUI_BTN_COLORX = 'FF404040';$GUI_HLT_COLORX = 'FF777777';$GUI_BG_COLORX = 'FF252525';$GUI_PAG_COLORX = 'FF151515'}
 if ($boxoutput -eq "DarkRed") {$GUI_TXT_FOREX = 'FFFFFFFF';$GUI_TXT_BACKX = 'FF150000';$GUI_BTN_COLORX = 'FF400000';$GUI_HLT_COLORX = 'FF770000';$GUI_BG_COLORX = 'FF250000';$GUI_PAG_COLORX = 'FF150000'}
 if ($boxoutput -eq "DarkGreen") {$GUI_TXT_FOREX = 'FFFFFFFF';$GUI_TXT_BACKX = 'FF001500';$GUI_BTN_COLORX = 'FF004000';$GUI_HLT_COLORX = 'FF007700';$GUI_BG_COLORX = 'FF002500';$GUI_PAG_COLORX = 'FF001500'}
@@ -1070,7 +1149,7 @@ $command = @"
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"$PSScriptRoot\project" /IMAGEFILE:"$FilePathPKX" /COMPRESS:Fast /NAME:"PKX" /CheckIntegrity /Verify
 "@
 ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("EXEC-LIST","`❕COMMANDQ`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕CMD`❕DX`❕","`❕COMMANDQ`❕$command`❕CMD`❕DX`❕","`❕COMMANDQ`❕ECHO.`❕CMD`❕DX`❕","`❕COMMANDQ`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕CMD`❕DX`❕")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","`❕@COMMAND`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕@COMMAND`❕$command`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
@@ -1079,7 +1158,7 @@ MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBox
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;}
 if ($boxresult -eq "OK") {$PathCheck = "$PSScriptRoot\project";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\project" -Recurse -Force}
 New-Item -ItemType Directory -Path "$PSScriptRoot\project\driver"
-ForEach ($i in @("EXEC-LIST","Delete the driver list entry below and driver folder if there are not drivers included in the package.",'`❕DRIVER`❕"%PKX_FOLDER%\driver"`❕INSTALL`❕DX`❕',"Delete the command list entry below and package.cmd if a script is not needed.",'`❕COMMAND`❕CMD /C "%PKX_FOLDER%\package.cmd"`❕CMD`❕DX`❕',"Manually add, copy and paste items, or replace this package.list with an existing execution list.","Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.")) {Add-Content -Path "$PSScriptRoot\project\package.list" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","Delete the driver list entry below and driver folder if there are not drivers included in the package.",'❕DRIVER❕"◁PKX_FOLDER▷\driver"❕INSTALL❕DX❕',"Delete the command list entry below and package.cmd if a script is not needed.",'❕COMMAND❕CMD.EXE /C "◁PKX_FOLDER▷\package.cmd"❕NORMAL❕DX❕',"Manually add, copy and paste items, or replace this package.list with an existing execution list.","Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.")) {Add-Content -Path "$PSScriptRoot\project\package.list" -Value "$i" -Encoding UTF8}
 ForEach ($i in @("::================================================","::These variables are built in and can help","::keep a script consistant throughout the entire","::process, whether applying to a vhdx or live.","::Add any files to package folder before creating.","::================================================","::Windows folder :    %WINTAR%","::Drive root :        %DRVTAR%","::User or defuser :   %USRTAR%","::HKLM\SOFTWARE :     %HIVE_SOFTWARE","::HKLM\SYSTEM :       %HIVE_SYSTEM%","::HKCU or defuser :   %HIVE_USER%","::DISM target :       %APPLY_TARGET%","::==================START OF PACK=================","","@ECHO OFF",'REM "%PKX_FOLDER%\example.msi" /quiet /noprompt',"","::===================END OF PACK==================")) {Add-Content -Path "$PSScriptRoot\project\package.cmd" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB}}
 
@@ -1123,7 +1202,7 @@ $command = @"
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"$FilePath\$ListViewChoiceS3" /INDEX:1 /APPLYDIR:"$PSScriptRoot\project"
 "@
 ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("EXEC-LIST","`❕COMMANDQ`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕CMD`❕DX`❕","`❕COMMANDQ`❕$command`❕CMD`❕DX`❕","`❕COMMANDQ`❕ECHO.`❕CMD`❕DX`❕","`❕COMMANDQ`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕CMD`❕DX`❕")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","`❕@COMMAND`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕@COMMAND`❕$command`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 }
@@ -1146,12 +1225,17 @@ function LEWiz_Stage2 {$global:LEWiz_Stage = 2;$global:marked = $null;$global:bo
 $PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $global:ListViewSelectS2 = $ListView1_PageLEWiz.FocusedItem
 $parta, $global:ListViewChoiceS2, $partc = $ListViewSelectS2 -split '[{}]';
-$global:LBWiz_TypeX = Get-Content -Path "$FilePath\$ListViewChoiceS2" -TotalCount 1
-ForEach ($i in @("BASE-LIST","BASE-GROUP")) {if ($LBWiz_TypeX -eq "$i") {LBWiz_Stage2;$PageLBWiz.Visible = $true;$PageLEWiz.Visible = $false;$PageLBWiz.BringToFront()}}
+$LBWiz_TypeZ = Get-Content -Path "$FilePath\$ListViewChoiceS2" -TotalCount 1
+$global:LBWiz_TypeX, $partbxyz = $LBWiz_TypeZ -split '[ ]';
+
+if ($LBWiz_TypeX -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LEWiz_Stage1;$global:LBWiz_Stage = $null;$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront();return}
+$LBWiz_TypeEXT = [System.IO.Path]::GetExtension("$FilePath\$ListViewChoiceS2").ToUpper()
+
+if ($LBWiz_TypeEXT -eq ".BASE") {LBWiz_Stage2;$PageLBWiz.Visible = $true;$PageLEWiz.Visible = $false;$PageLBWiz.BringToFront()}
 $Label1_PageLEWiz.Text = "🧾 List Execute"
 $Label2_PageLEWiz.Text = "Select a target"
 $ListView1_PageLEWiz.GridLines = $false;$ListView1_PageLEWiz.CheckBoxes = $false;$ListView1_PageLEWiz.FullRowSelect = $true
-ForEach ($i in @("BASE-LIST","BASE-GROUP")) {if ($LBWiz_TypeX -eq "$i") {$global:ListViewChoiceS2 = "`$LIST"}}
+if ($LBWiz_TypeEXT -eq ".BASE") {$global:ListViewChoiceS2 = "`$LIST"}
 $ListView1_PageLEWiz.Items.Clear();
 if ($Allow_ENV -eq 'ENABLED') {[void]$ListView1_PageLEWiz.Items.Add("🪟 Current Environment")}
 $PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
@@ -1227,19 +1311,24 @@ function LBWiz_Stage2 {$global:LBWiz_Stage = 2;
 $GRP = $null;if ($marked -ne $null) {$global:ListViewSelectS2 = $marked} else {
 if ($ListMode -eq "Builder") {$global:ListViewSelectS2 = $ListView1_PageLBWiz.FocusedItem}}
 $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
+
+if ($BaseFile -eq "🧾 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
+if ($BaseFile -ne "🧾 Miscellaneous") {$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
+$LBWiz_TypeZ = Get-Content -Path "$FilePath\\$BaseFile" -TotalCount 1
+$global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]';"$FilePath\\$BaseFile"
+if ($LBWiz_Type -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LBWiz_Stage1;return}}
+
 $ListView1_PageLBWiz.Items.Clear()
 $ListView1_PageLBWiz.GridLines = $false
 $ListView1_PageLBWiz.CheckBoxes = $false
 $ListView1_PageLBWiz.FullRowSelect = $true
-if ($BaseFile -eq "🧾 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
-if ($BaseFile -ne "🧾 Miscellaneous") {$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-$global:LBWiz_Type = Get-Content -Path "$FilePath\\$BaseFile" -TotalCount 1}
+
 if ($LBWiz_Type -eq 'MISC') {
 $Label1_PageLBWiz.Text = "🧾 List $ListMode"
 $Label2_PageLBWiz.Text = "Miscellaneous"
 ForEach ($i in @("🧾 Create Source Base","🪛 Group Seperator Item","🪛 Prompt TextBox Item","🪛 Choice Menu Item","🪛 File Picker Item","✒ External Package Item","✒ Command Operation Item","🧾 Create Group Base")) {[void]$ListView1_PageLBWiz.Items.Add("$i")}
 }
-if ($LBWiz_Type -eq 'BASE-GROUP') {
+if ($LBWiz_Type -eq 'MENU-SCRIPT') {
 $Label1_PageLBWiz.Text = "🧾 List $ListMode"
 $Label2_PageLBWiz.Text = "$BaseFile"
 Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
@@ -1249,23 +1338,7 @@ if ($partXb -eq 'GROUP') {if (-not ($partXc -eq $GRP)) {
 $GRP = "$partXc";#$item1.SubItems.Add("$partXf")
 $item1 = New-Object System.Windows.Forms.ListViewItem("$partXc")
 [void]$ListView1_PageLBWiz.Items.Add($item1)}}}}
-
-if ($LBWiz_Type -eq 'BASE-LIST') {
-$Label1_PageLBWiz.Text = "🧾 List $ListMode"
-$Label2_PageLBWiz.Text = "$BaseFile"
-Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
-$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh = $_ -split "[❕]"
-
-if (-not ($partXb -eq $GRP)) {
-$GRP = "$partXb"
-if ($partXb -eq 'APPX') {[void]$ListView1_PageLBWiz.Items.Add("AppX")}
-if ($partXb -eq 'CAPABILITY') {[void]$ListView1_PageLBWiz.Items.Add("Capability")}
-if ($partXb -eq 'FEATURE') {[void]$ListView1_PageLBWiz.Items.Add("Feature")}
-if ($partXb -eq 'SERVICE') {[void]$ListView1_PageLBWiz.Items.Add("Service")}
-if ($partXb -eq 'TASK') {[void]$ListView1_PageLBWiz.Items.Add("Task")}
-if ($partXb -eq 'COMPONENT') {[void]$ListView1_PageLBWiz.Items.Add("Component")}
-if ($partXb -eq 'DRIVER') {[void]$ListView1_PageLBWiz.Items.Add("Driver")}
-}}}}
+}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3MISC {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
@@ -1301,16 +1374,16 @@ Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_P
 
 if ($ListViewChoiceS3 -eq "✒ Command Operation Item") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Command Operation Item' -MessageBoxText 'Enter new command.' -Check 'MOST';$global:CommandItem = "$boxoutput"
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Mount registry during execution?' -MessageBoxText 'Select the command type' -MessageBoxChoices "Normal Command,Registry Command"
-if ($boxoutput -eq "Normal Command") {$global:CommandTypeX = "CMD"} else {$global:CommandTypeX = "REG"}
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Run As' -MessageBoxText 'Select an elevation' -MessageBoxChoices "Run As User,Run As System❗,Run As TrustedInstaller❗"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Mount registry during execution?' -MessageBoxText 'Select the command type' -MessageBoxChoices "Normal Command❗Non-Registry Command (eg. DISM)"
+if ($boxoutput -eq "Normal Command") {$global:CommandTypeX = "NORMAL"} else {$global:CommandTypeX = "NOMOUNT"}
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Run As' -MessageBoxText 'Select an elevation' -MessageBoxChoices "Run As User❗Run As System❗Run As TrustedInstaller"
 if ($boxoutput -eq "Run As User") {$global:RunAsX = ""}
-if ($boxoutput -eq "Run As System❗") {$global:RunAsX = "_RAS"}
-if ($boxoutput -eq "Run As TrustedInstaller❗") {$global:RunAsX = "_RATI"}
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Run As' -MessageBoxText 'Select an elevation' -MessageBoxChoices "Announcement Normal,Announcement Quiet"
+if ($boxoutput -eq "Run As System") {$global:RunAsX = "❗RAS"}
+if ($boxoutput -eq "Run As TrustedInstaller") {$global:RunAsX = "❗RATI"}
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Run As' -MessageBoxText 'Select an elevation' -MessageBoxChoices "Announcement Normal❗Announcement Quiet"
 if ($boxoutput -eq "Announcement Normal") {$global:AnncType = "COMMAND"}
-if ($boxoutput -eq "Announcement Quiet") {$global:AnncType = "COMMANDQ"}
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Time of Action' -MessageBoxText 'Select a run time' -MessageBoxChoices "❕DX❕ Default - Immediate execution,❕SC❕ SetupComplete - Scheduled execution,❕RO❕ RunOnce - Scheduled execution"
+if ($boxoutput -eq "Announcement Quiet") {$global:AnncType = "@COMMAND"}
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Time of Action' -MessageBoxText 'Select a run time' -MessageBoxChoices "❕DX❕ Default - Immediate execution❗❕SC❕ SetupComplete - Scheduled execution❗❕RO❕ RunOnce - Scheduled execution"
 if ($boxoutput -eq "❕DX❕ Default - Immediate execution") {$global:ExecuteTime = "DX"}
 if ($boxoutput -eq "❕SC❕ SetupComplete - Scheduled execution") {$global:ExecuteTime = "SC"}
 if ($boxoutput -eq "❕RO❕ RunOnce - Scheduled execution") {$global:ExecuteTime = "RO"}
@@ -1322,7 +1395,7 @@ if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
 if ($ListViewChoiceS3 -eq "🪛 Choice Menu Item") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Choice Item' -MessageBoxText 'Enter message for the choice prompt.' -Check 'PATH';$global:ChoiceMsg = "$boxoutput"
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the choice number' -MessageBoxChoices "0,1,2,3,4,5,6,7,8,9";$global:ChoiceNum = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the choice number' -MessageBoxChoices "0❗1❗2❗3❗4❗5❗6❗7❗8❗9";$global:ChoiceNum = "$boxoutput"
 if ($boxresult -eq "OK") {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 $PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
@@ -1331,7 +1404,7 @@ if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
 if ($ListViewChoiceS3 -eq "🪛 File Picker Item") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'File Picker Item' -MessageBoxText 'Enter message for the picker prompt.' -Check 'PATH';$global:PickerMsg = "$boxoutput"
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'File Picker Item' -MessageBoxText 'Select the picker number' -MessageBoxChoices "0,1,2,3,4,5,6,7,8,9";$global:PickerNum = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'File Picker Item' -MessageBoxText 'Select the picker number' -MessageBoxChoices "0❗1❗2❗3❗4❗5❗6❗7❗8❗9";$global:PickerNum = "$boxoutput"
 
 if ($boxresult -eq "OK") {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
@@ -1341,8 +1414,8 @@ if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
 if ($ListViewChoiceS3 -eq "🪛 Prompt TextBox Item") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Prompt Item' -MessageBoxText 'Enter message for the prompt.' -Check 'PATH';$global:PromptMsg = "$boxoutput"
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the prompt number' -MessageBoxChoices "0,1,2,3,4,5,6,7,8,9";$global:PromptNum = "$boxoutput"
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the character filter type' -MessageBoxChoices "NONE,NUMBER,LETTER,ALPHA,MENU,PATH,MOST";$global:PromptFilt = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the prompt number' -MessageBoxChoices "0❗1❗2❗3❗4❗5❗6❗7❗8❗9";$global:PromptNum = "$boxoutput"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Select the character filter type' -MessageBoxChoices "NONE❗NUMBER❗LETTER❗ALPHA❗MENU❗PATH❗MOST";$global:PromptFilt = "$boxoutput"
 if ($PromptFilt -eq "NUMBER") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Enter the minimum number' -Check "NUMBER";$global:PromptMin = "$boxoutput"
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Character Filter' -MessageBoxText 'Enter the maximum number' -Check "NUMBER";$global:PromptMax = "$boxoutput"}
@@ -1389,15 +1462,15 @@ if ($ListViewChoiceS3 -eq "🪛 Group Seperator Item") {
 if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}
 }}
 if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
-Add-Content -Path "$ListTarget" -Value "`❕Note: Place into a Group Base to begin using.`❕" -Encoding UTF8;Add-Content -Path "$ListTarget" -Value "`❕GROUP`❕$GroupName`❕$SubGroupName`❕" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "`❕Note: Place into a Group Base to begin using.`❕" -Encoding UTF8;Add-Content -Path "$ListTarget" -Value "`❕GROUP`❕$GroupName`❕$SubGroupName`❕NORMAL❕" -Encoding UTF8
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 
 if ($ListViewChoiceS3 -eq "✒ External Package Item") {
-MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Time of Action' -MessageBoxText 'Select a run time' -MessageBoxChoices "❕DX❕ Default - Immediate execution,❕SC❕ SetupComplete - Scheduled execution,❕RO❕ RunOnce - Scheduled execution"
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle 'Time of Action' -MessageBoxText 'Select a run time' -MessageBoxChoices "❕DX❕ Default - Immediate execution❗❕SC❕ SetupComplete - Scheduled execution❗❕RO❕ RunOnce - Scheduled execution"
 if ($boxoutput -eq "❕DX❕ Default - Immediate execution") {$global:ExecuteTime = "DX"}
 if ($boxoutput -eq "❕SC❕ SetupComplete - Scheduled execution") {$global:ExecuteTime = "SC"}
 if ($boxoutput -eq "❕RO❕ RunOnce - Scheduled execution") {$global:ExecuteTime = "RO"}
@@ -1409,7 +1482,7 @@ if ($ListViewChoiceS4 -eq "🧾 Create New List") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8
 }}}
 if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
 Add-Content -Path "$ListTarget" -Value "`❕$AnncType`❕$CommandItem`❕$CommandTypeX$RunAsX`❕$ExecuteTime`❕" -Encoding UTF8
@@ -1420,9 +1493,9 @@ if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'P
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list"
 if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}}}
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
 if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
-ForEach ($i in @("`❕Note: Place into a Group Base to begin using.`❕","`❕CHOICE$ChoiceNum`❕$ChoiceMsg`❕Option One,Option Two,Option Three`❕VolaTILE`❕","`❕COMMANDQ`❕ECHO.CHOICE$ChoiceNum`: %CHOICE$ChoiceNum%  STRING$ChoiceNum`: %STRING$ChoiceNum%`❕CMD`❕DX`❕")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("`❕Note: Place into a Group Base to begin using.`❕","`❕CHOICE$ChoiceNum`❕$ChoiceMsg`❕Option One,Option Two,Option Three`❕VolaTILE`❕","`❕@COMMAND`❕ECHO.CHOICE$ChoiceNum`: ◁CHOICE$ChoiceNum[I]▷  STRING$ChoiceNum`: ◁CHOICE$ChoiceNum[S]▷`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 
 if ($ListViewChoiceS3 -eq "🪛 File Picker Item") {
@@ -1430,9 +1503,9 @@ if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'P
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list"
 if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}}}
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
 if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
-ForEach ($i in @("`❕Note: Place into a Group Base to begin using.`❕","`❕Picker accepts %PROG_SOURCE%,%IMAGE_FOLDER%,%LIST_FOLDER%,%PACK_FOLDER%,%CACHE_FOLDER%,%PKX_FOLDER%`❕","`❕PICKER$PickerNum`❕$PickerMsg`❕%LIST_FOLDER%\*.list`❕VolaTILE`❕","`❕COMMANDQ`❕ECHO.PICKER$PickerNum`: %PICKER$PickerNum%`❕CMD`❕DX`❕")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("`❕Note: Place into a Group Base to begin using.`❕","`❕Picker accepts ◁PROG_SOURCE▷,◁IMAGE_FOLDER▷,◁LIST_FOLDER▷,◁PACK_FOLDER▷,◁CACHE_FOLDER▷,◁PKX_FOLDER▷`❕","`❕PICKER$PickerNum`❕$PickerMsg`❕◁LIST_FOLDER▷\*.list`❕VolaTILE`❕","`❕@COMMAND`❕ECHO.PICKER$PickerNum`: ◁PICKER$PickerNum[S]▷`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 
 if ($ListViewChoiceS3 -eq "🪛 Prompt TextBox Item") {
@@ -1440,21 +1513,22 @@ if ($ListViewChoiceS4 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'P
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list"
 if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}}}
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
 if ($ListViewChoiceS4 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS4";$ListTarget = "$FilePath\$ListViewChoiceS4"}
-ForEach ($i in @("`❕Note: Place into a Group Base to begin using.`❕","`❕PROMPT$PromptNum`❕$PromptMsg`❕$PromptFilt`_$PromptMin`-$PromptMax`❕VolaTILE`❕","`❕COMMANDQ`❕ECHO.PROMPT$PromptNum`: %PROMPT$PromptNum%`❕CMD`❕DX`❕")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("`❕Note: Place into a Group Base to begin using.`❕","`❕PROMPT$PromptNum`❕$PromptMsg`❕$PromptFilt`_$PromptMin`-$PromptMax`❕VolaTILE`❕","`❕@COMMAND`❕ECHO.PROMPT$PromptNum`: ◁PROMPT$PromptNum[S]▷`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListTarget" -Value "$i" -Encoding UTF8}
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 
 if ($ListViewChoiceS3 -eq "🧾 Create Group Base") {$is_group = $null
+$LBWiz_TypeZ = Get-Content -Path "$FilePath\$ListViewChoiceS4" -TotalCount 1
+$LBWiz_TypeY, $partbxyz = $LBWiz_TypeZ -split '[ ]';
+
+if ($LBWiz_TypeY -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC;return}
 Get-Content "$FilePath\$ListViewChoiceS4" -Encoding UTF8 | ForEach-Object {$partXa, $partXb, $partXc = $_ -split "[❕]";if ($partXb -eq 'GROUP') {$is_group = 1}}
-if ($is_group -eq $null) {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText "List does not contain any groups."}
+if ($is_group -eq $null) {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText "List does not contain any groups.";$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC;return}
 if ($is_group -eq 1) {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Group Base' -MessageBoxText 'Enter new .base name' -Check 'PATH'
 $ListName = "$boxoutput.base";$ListTarget = "$FilePath\$boxoutput.base";
 if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
-$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "BASE-GROUP" -Encoding UTF8
-Get-Content "$FilePath\$ListViewChoiceS4" -Encoding UTF8 | ForEach-Object {if ($_ -ne "EXEC-LIST") {Add-Content -Path "$ListTarget" -Value "$_" -Encoding UTF8}}
-Add-Content -Path "$ListTarget" -Value "" -Encoding UTF8}
+Copy-Item -Path "$FilePath\$ListViewChoiceS4" -Destination "$FilePath\$boxoutput.base" -Force}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -1472,75 +1546,10 @@ return}
 if ($ListViewChoiceS5 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 4;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}}}
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
 if ($ListViewChoiceS5 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS5";$ListTarget = "$FilePath\$ListViewChoiceS5"}
 Add-Content -Path "$ListTarget" -Value "`❕EXTPACKAGE`❕$ListViewChoiceS4`❕INSTALL`❕$ExecuteTime`❕" -Encoding UTF8
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
-#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-function LBWiz_Stage3SRC {$global:LBWiz_Stage = 3;
-if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
-$ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.FullRowSelect = $true
-$parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-$ListView1_PageLBWiz.Items.Clear();$Label1_PageLBWiz.Text = "🧾 $BaseFile"
-
-if ($ListViewChoiceS3 -eq 'APPX') {$ListViewChoiceS3 = "AppX";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
-if ($ListViewChoiceS3 -eq 'CAPABILITY') {$ListViewChoiceS3 = "Capability";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
-if ($ListViewChoiceS3 -eq 'FEATURE') {$ListViewChoiceS3 = "Feature";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("✅ Enable");[void]$ListView1_PageLBWiz.Items.Add("❎ Disable")}
-if ($ListViewChoiceS3 -eq 'SERVICE') {$ListViewChoiceS3 = "Service";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("✅ Auto");[void]$ListView1_PageLBWiz.Items.Add("✅ Manual");[void]$ListView1_PageLBWiz.Items.Add("❎ Disable");[void]$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
-if ($ListViewChoiceS3 -eq 'TASK') {$ListViewChoiceS3 = "Task";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
-if ($ListViewChoiceS3 -eq 'COMPONENT') {$ListViewChoiceS3 = "Component";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
-if ($ListViewChoiceS3 -eq 'DRIVER') {$ListViewChoiceS3 = "Driver";$ListViewChoiceS3 = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewChoiceS3";[void]$ListView1_PageLBWiz.Items.Add("🚫 Delete")}
-}
-#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-function LBWiz_Stage4SRC {$global:LBWiz_Stage = 4;
-if ($marked -ne $null) {$global:ListViewSelectS4 = $marked} else {$global:ListViewSelectS4 = $ListView1_PageLBWiz.FocusedItem}
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-$parta, $ListViewActionZ, $partc = $ListViewSelectS4 -split '[{}]';$parta, $ListViewActionX, $partc = $ListViewActionZ -split '[ ]';$global:ListViewAction = $ListViewActionX.ToUpper()
-$ListView1_PageLBWiz.Items.Clear();
-$Label1_PageLBWiz.Text = "🧾 $BaseFile"
-$Label2_PageLBWiz.Text = "$ListViewChoiceS3 $ListViewActionX"
-Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
-$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]"
-if ($partXb -eq $ListViewChoiceS3) {
-$item1 = New-Object System.Windows.Forms.ListViewItem("$partXc");[void]$item1.SubItems.Add("$partXf");[void]$ListView1_PageLBWiz.Items.Add($item1)}}
-$ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $true;$ListView1_PageLBWiz.FullRowSelect = $true
-}
-#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-function LBWiz_Stage5SRC {$global:LBWiz_Stage = 5;
-$Label1_PageLBWiz.Text = "💾 Append Items"
-$Label2_PageLBWiz.Text = "Select a list"
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
-$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-if ($ListMode -eq 'Execute') {Add-Content -Path "$FilePathLST" -Value "EXEC-LIST" -Encoding UTF8}
-$global:checkedItems = $ListView1_PageLBWiz.CheckedItems | ForEach-Object {
-$parta, $ListViewChecked, $partc = $_ -split '[{}]';$ListViewFocusX = $ListViewChoiceS3.ToUpper()
-Add-Content -Path "$FilePathLST" -Value "`❕$ListViewFocusX`❕$ListViewChecked`❕$ListViewAction`❕DX`❕" -Encoding UTF8}
-if ($ListMode -eq 'Builder') {
-$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
-if ($ListMode -eq 'Execute') {$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront()}
-}
-#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-function LBWiz_Stage6SRC {$global:LBWiz_Stage = 6;
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-$ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem
-$parta, $partb, $partc = $ListViewSelectS5 -split '[{}]'
-
-if ($partb -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
-if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 5}
-if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}
-$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}}
-
-if ($partb -ne "🧾 Create New List") {$ListName = "$partb";$ListTarget = "$FilePath\$partb"}
-Get-Content "$FilePath\`$LIST" -Encoding UTF8 | ForEach-Object {Add-Content -Path "$ListTarget" -Value "$_" -Encoding UTF8}
-Add-Content -Path "$ListTarget" -Value "" -Encoding UTF8
-$PathCheck = "$FilePath\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePath\`$LIST" -Force}
-if ($ListName -ne "$null") {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName"
-$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
-}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3GRP {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
@@ -1559,7 +1568,7 @@ function LBWiz_Stage4GRP {$global:LBWiz_Stage = 4;
 $PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
 $PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
 $PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-if ($ListMode -eq 'Execute') {Add-Content -Path "$FilePathLST" -Value "EXEC-LIST" -Encoding UTF8}
+if ($ListMode -eq 'Execute') {Add-Content -Path "$FilePathLST" -Value "MENU-SCRIPT" -Encoding UTF8}
 #$checkedItems = $ListView1_PageLBWiz.CheckedItems | ForEach-Object { $_.Text }
 #[System.Windows.Forms.MessageBox]::Show(("Checked Items: " + ($checkedItems -join ", ")), "Checked Items")
 $global:checkedItems = $ListView1_PageLBWiz.CheckedItems | ForEach-Object {$ListWrite = 0
@@ -1569,7 +1578,10 @@ $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi,
 if ($partXb -eq 'GROUP') {if ($partXc -ne $ListViewChoiceS3) {$ListWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXd -ne $ListViewChecked) {$ListWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXc -eq $ListViewChoiceS3) {if ($partXd -eq $ListViewChecked) {$ListWrite = 1}}}
-
+if ($partXb -eq 'GROUP') {if ($partXe -eq "SCOPED") {if ($partXc -eq $ListViewChoiceS3) {if ($partXd -eq $ListViewChecked) {
+MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewCheckedX" -MessageBoxText "$partXf" -MessageBoxChoices "$partXg"
+Add-Content -Path "$FilePathLST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$partXe`❕$partXf`❕$partXg`❕$boxindex`❕" -Encoding UTF8
+$ListWrite = 0;MessageBoxListView;return}}}}
 if ($ListWrite -eq '1') {$ListPrompt = $null;
 $Label1_PageLBWiz.Text = "$ListViewChoiceS3"
 $Label2_PageLBWiz.Text = "$ListViewChecked"
@@ -1604,7 +1616,7 @@ if ($boxresult -ne "OK") {$ListName = "$null";}
 if ($boxresult -eq "OK") {
 $ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";
 if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
-Add-Content -Path "$ListTarget" -Value "EXEC-LIST" -Encoding UTF8}
+Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
 if ($partb -ne "🧾 Create New List") {$ListName = "$partb";$ListTarget = "$FilePath\$partb"}
@@ -1994,11 +2006,8 @@ if ($LBWiz_Stage -eq '2') {
 if ($ListMode -eq 'Builder') {LBWiz_Stage1}
 if ($ListMode -eq 'Execute') {LEWiz_Stage1;$global:LBWiz_Stage = $null;$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront();return}}
 if ($LBWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;LBWiz_Stage2}
-if ($LBWiz_Type -eq 'BASE-LIST') {if ($LBWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LBWiz_Stage3SRC}
-if ($LBWiz_Stage -eq '5') {LBWiz_Stage4SRC}
-if ($LBWiz_Stage -eq '6') {LBWiz_Stage5SRC}
-}
-if ($LBWiz_Type -eq 'BASE-GROUP') {if ($LBWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LBWiz_Stage3GRP}
+
+if ($LBWiz_Type -eq 'MENU-SCRIPT') {if ($LBWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LBWiz_Stage3GRP}
 if ($LBWiz_Stage -eq '5') {LBWiz_Stage4GRP}}
 if ($LBWiz_Type -eq 'MISC') {if ($LBWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC}
 if ($LBWiz_Stage -eq '5') {LBWiz_Stage4MISC}}}
@@ -2008,15 +2017,10 @@ if ($LBWiz_Type -eq 'MISC') {
 if ($LBWiz_Stage -eq '4') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage5MISC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LBWiz_Stage -eq '3') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage4MISC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LBWiz_Stage -eq '2') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage3MISC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-if ($LBWiz_Type -eq 'BASE-GROUP') {
+if ($LBWiz_Type -eq 'MENU-SCRIPT') {
 if ($LBWiz_Stage -eq '4') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage5GRP} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LBWiz_Stage -eq '3') {if ($ListView1_PageLBWiz.CheckedItems) {$global:marked = $null;LBWiz_Stage4GRP} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LBWiz_Stage -eq '2') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage3GRP} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-if ($LBWiz_Type -eq 'BASE-LIST') {
-if ($LBWiz_Stage -eq '5') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage6SRC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
-if ($LBWiz_Stage -eq '4') {if ($ListView1_PageLBWiz.CheckedItems) {$global:marked = $null;LBWiz_Stage5SRC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
-if ($LBWiz_Stage -eq '3') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage4SRC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
-if ($LBWiz_Stage -eq '2') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage3SRC} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 if ($LBWiz_Stage -eq '1') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
 $ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';
