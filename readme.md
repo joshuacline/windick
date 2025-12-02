@@ -11,6 +11,7 @@ A native command shell Windows image deployment tool.
 - "Now I know who they're competing with. Can't hide it forever, the thing is a total oven." -WindowsGuy
 - "It opened my eyes to the state of toolpocalypse. Stupidification isn't synonymous with easier, who knew?." -George
 - "You can do literally anything and everything. My experience with similar apps now has me fully dilated for this." -Belim
+- "Edmonton uses it for the groceries, but I'm like 'all rockets on deck tell me what's next.' thanks MenuScript." -Brint
 - "Where did all those hoops I've been jumping through go?!" -Carl
 
 # Mirrors
@@ -20,7 +21,6 @@ A native command shell Windows image deployment tool.
 
 # Documentation
 - https://github.com/joshuacline/documentation/blob/main/windick/readme.md
-
 - https://learn.microsoft.com/en-us/archive/technet-wiki/54560.windows-1011-how-to-implement-a-bootable-windows-pe-recovery-deployment-environment-in-command-shell
 
 - https://youtube.com/@windozedev
