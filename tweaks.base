@@ -246,10 +246,10 @@
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsSpotlightFeatures❗1❗DWORD❕CREATE❕DX❕
 ❕@COMMAND❕ECHO.❎ Cloud content Disable applied.❕NORMAL❕DX❕
 
-❕GROUP❕🛜 Network❕❎ OneDrive Disable❕NORMAL❕
-❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}❗SYSTEM.IsPinnedToNameSpaceTree❗0❗STRING❕CREATE❕DX❕
-❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Services\OneSyncSvc❕DELETE❕DX❕
-❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
+X❕GROUP❕🛜 Network❕❎ OneDrive Disable❕NORMAL❕
+X❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}❗SYSTEM.IsPinnedToNameSpaceTree❗0❗STRING❕CREATE❕DX❕
+X❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Services\OneSyncSvc❕DELETE❕DX❕
+X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 
 ❕GROUP❕🛜 Network❕❎ Windows store Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\WindowsStore❗RemoveWindowsStore❗1❗DWORD❕CREATE❕DX❕
@@ -583,7 +583,7 @@
 ❕GROUP❕🪛 Miscellaneous❕🪛 DCOM❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Y❗N❕
-❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Ole❗EnableDCOM❗XXX❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Ole❗EnableDCOM❗◁CHOICE1[S]▷❗STRING❕CREATE❕DX❕
 ❕@COMMAND❕ECHO.🪛 DCOM ◁CHOICE1[S]▷  applied.❕NORMAL❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Driver updates❕NORMAL❕
@@ -705,6 +705,29 @@
 ❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕NORMAL❕◁CONDIT3[2]▷❕
 ❕@COMMAND❕ECHO.◁SUBGROUP▷ scheduled for RunOnce.❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.◁SUBGROUP▷ applied.❕NORMAL❕RO❕
+
+❕ROUTINE1❕1 2 3 4 5❕XXX❕XXX❕
+❕ROUTINE1❕<>:❗0❗DIR *.*❕3❗EQ❗TEST.BASE❕COMMAND❕
+❕ROUTINE1❕◁CHOICE1[S]▷❕XXX❕STRING❕
+
+
+
+
+
+
+❕🛰  v1.2.1.4 will include '@REGISTRY' list item handling for ◁NULL▷ values & data❕
+
+❕GROUP❕👽❕Reset Widgets❕NORMAL❕
+❕@COMMAND❕powershell -Command "Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage​"❕NOMOUNT❕DX❕
+
+❕GROUP❕👽❕Copy As Path Context Menu❕NORMAL❕
+❕CHOICE1❕Select an option❕✅ Add❗❎ Remove❕VolaTILE❕
+❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕DX❗DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁NULL▷❗{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗STRING❕CREATE❕◁ARRAY1[1]▷❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❕DELETE❕◁ARRAY1[2]▷❕
+
+❕GROUP❕👽❕XXX❕XXX❕
+
 
 
 
