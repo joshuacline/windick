@@ -583,7 +583,7 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕GROUP❕🪛 Miscellaneous❕🪛 DCOM❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Y❗N❕
-❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Ole❗EnableDCOM❗◁CHOICE1[S]▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Ole❗EnableDCOM❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
 ❕@COMMAND❕ECHO.🪛 DCOM ◁CHOICE1[S]▷  applied.❕NORMAL❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Driver updates❕NORMAL❕
@@ -727,7 +727,6 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❕DELETE❕◁ARRAY1[2]▷❕
 
 ❕GROUP❕👽❕XXX❕XXX❕
-
 
 
 
