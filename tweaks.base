@@ -711,10 +711,6 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕ROUTINE1❕◁CHOICE1[S]▷❕XXX❕STRING❕
 
 
-
-
-
-
 ❕🛰  v1.2.1.4 will include '@REGISTRY' list item handling for ◁NULL▷ values & data❕
 
 ❕GROUP❕👽❕Reset Widgets❕NORMAL❕
@@ -726,7 +722,23 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁NULL▷❗{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗STRING❕CREATE❕◁ARRAY1[1]▷❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❕DELETE❕◁ARRAY1[2]▷❕
 
-❕GROUP❕👽❕XXX❕XXX❕
+❕GROUP❕👽❕Add_Open_PowerShell_window_here_context_menu❕NORMAL❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗◁NULL▷❗@shell32.dll,-8508❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗Extended❗◁NULL▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗NoWorkingDirectory❗◁NULL▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗DWORD❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath \"%%%%V\"❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗◁NULL▷❗@shell32.dll,-8508❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗Extended❗◁NULL▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗NoWorkingDirectory❗◁NULL▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗DWORD❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath '%%%%V'❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗◁NULL▷❗@shell32.dll,-8508❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗Extended❗◁NULL▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗NoWorkingDirectory❗◁NULL▷❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗DWORD❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath '%%%%V'❗STRING❕CREATE❕DX❕
 
+?❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\Drive\shell\Powershell❗XXX❗XXX❗XXX❕CREATE❕DX❕
 
 

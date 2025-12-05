@@ -1,4 +1,4 @@
-::Windows Deployment Image Customization Kit v 1213 (c) github.com/joshuacline
+::Windows Deployment Image Customization Kit v 1214 (c) github.com/joshuacline
 ::Build, administrate and backup your Windows in a native WinPE recovery environment.
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -1489,26 +1489,26 @@ FOR %%○ in (%LIST_ITEMS_EXECUTE%) DO (IF "%%○"=="%%●" SET "$ITEM_TYPE=EXEC
 FOR %%○ in (%LIST_ITEMS_BUILDER%) DO (IF "%%○"=="%%●" SET "$ITEM_TYPE=BUILDER"&&SET "$PASS=1"))
 IF NOT DEFINED $PASS EXIT /B
 IF NOT DEFINED $QCLM4$ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! one of the four columns is not specified.
-IF "%$QCLM1$%"=="GROUP" CALL:SESSION_CLEAR&&CALL:SCRO_QUEUE&&FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 in ("!$QCLM2$!%U01%!$QCLM3$!") DO (SET "GROUP=%%1"&&SET "SUBGROUP=%%2")
-IF "%$QCLM1$%"=="GROUP" IF DEFINED $QCLM7$ FOR /F "TOKENS=*" %%● IN ("!$QCLM7$!") DO (SET "CHOICE0[I]=%%●"
+IF "!$QCLM1$!"=="GROUP" CALL:SESSION_CLEAR&&CALL:SCRO_QUEUE&&FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 in ("!$QCLM2$!%U01%!$QCLM3$!") DO (SET "GROUP=%%1"&&SET "SUBGROUP=%%2")
+IF "!$QCLM1$!"=="GROUP" IF DEFINED $QCLM7$ FOR /F "TOKENS=*" %%● IN ("!$QCLM7$!") DO (SET "CHOICE0[I]=%%●"
 FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (IF "%%●"=="%%○" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM6$!") DO (SET "CHOICE0[S]=%%%$QCLM7$%"&&SET "CHOICE0[%%●]=%%%$QCLM7$%")))
-IF "%$QCLM1$%"=="GROUP" FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0[%%●] SET "CHOICE0[I]="&&SET "CHOICE0[S]=")
+IF "!$QCLM1$!"=="GROUP" FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0[%%●] SET "CHOICE0[I]="&&SET "CHOICE0[S]=")
 FOR %%● in (1 2 3 4 5 6 7 8 9) DO (
-IF "%$QCLM1$%"=="PICKER%%●" FOR %%○ in (1 I S) DO (SET "PICKER%%●[%%○]=")
-IF "%$QCLM1$%"=="PROMPT%%●" FOR %%○ in (1 I S) DO (SET "PROMPT%%●[%%○]=")
-IF "%$QCLM1$%"=="ARRAY%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "ARRAY%%●[%%○]=")
-IF "%$QCLM1$%"=="CONDIT%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "CONDIT%%●[%%○]=")
-IF "%$QCLM1$%"=="CHOICE%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "CHOICE%%●[%%○]=")
-FOR %%○ in (ARRAY CONDIT CHOICE PICKER PROMPT) DO (IF "%$QCLM1$%"=="%%○%%●" CALL:SCRO_QUEUE))
+IF "!$QCLM1$!"=="PICKER%%●" FOR %%○ in (1 I S) DO (SET "PICKER%%●[%%○]=")
+IF "!$QCLM1$!"=="PROMPT%%●" FOR %%○ in (1 I S) DO (SET "PROMPT%%●[%%○]=")
+IF "!$QCLM1$!"=="ARRAY%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "ARRAY%%●[%%○]=")
+IF "!$QCLM1$!"=="CONDIT%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "CONDIT%%●[%%○]=")
+IF "!$QCLM1$!"=="CHOICE%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "CHOICE%%●[%%○]=")
+FOR %%○ in (ARRAY CONDIT CHOICE PICKER PROMPT) DO (IF "!$QCLM1$!"=="%%○%%●" CALL:SCRO_QUEUE))
 IF NOT DEFINED $QCLM4$ EXIT /B
 FOR %%● in (1 2 3 4 5 6 7 8 9) DO (
-IF "%$QCLM1$%"=="ARRAY%%●" FOR /F "TOKENS=*" %%○ IN ("!$QCLM0!") DO (CALL:ARRAY_ITEM)
-IF "%$QCLM1$%"=="CONDIT%%●" FOR /F "TOKENS=*" %%○ IN ("!$QCLM0!") DO (CALL:CONDIT_ITEM)
-IF "%$QCLM1$%"=="PICKER%%●" FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "PICKER%%●[I]=1"&&SET "PICKER%%●[1]=%%○"&&SET "PICKER%%●[S]=%%○")
-IF "%$QCLM1$%"=="PROMPT%%●" FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "PROMPT%%●[I]=1"&&SET "PROMPT%%●[1]=%%○"&&SET "PROMPT%%●[S]=%%○")
-IF "%$QCLM1$%"=="CHOICE%%●" FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "CHOICE%%●[I]=%%○"
+IF "!$QCLM1$!"=="ARRAY%%●" CALL:ARRAY_ITEM
+IF "!$QCLM1$!"=="CONDIT%%●" CALL:CONDIT_ITEM
+IF "!$QCLM1$!"=="PICKER%%●" FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "PICKER%%●[I]=1"&&SET "PICKER%%●[1]=%%○"&&SET "PICKER%%●[S]=%%○")
+IF "!$QCLM1$!"=="PROMPT%%●" FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "PROMPT%%●[I]=1"&&SET "PROMPT%%●[1]=%%○"&&SET "PROMPT%%●[S]=%%○")
+IF "!$QCLM1$!"=="CHOICE%%●" FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "CHOICE%%●[I]=%%○"
 FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM3$!") DO (SET "CHOICE%%●[S]=%%%$QCLM4$%"&&SET "CHOICE%%●[%%◌]=%%%$QCLM4$%")))
-IF "%$QCLM1$%"=="CHOICE%%●" FOR %%○ in (S I) DO (IF NOT DEFINED CHOICE%%●[%%○] SET "CHOICE%%●[I]="&&SET "CHOICE%%●[S]="))
+IF "!$QCLM1$!"=="CHOICE%%●" FOR %%○ in (S I) DO (IF NOT DEFINED CHOICE%%●[%%○] SET "CHOICE%%●[I]="&&SET "CHOICE%%●[S]="))
 SET "$RAS="&&FOR /F "TOKENS=*" %%● in ("!$QCLM4$!") DO (FOR /F "TOKENS=*" %%○ in ("!$QCLM1$!") DO (
 IF "%%●"=="SC" CALL:SC_RO_CREATE
 IF "%%●"=="RO" CALL:SC_RO_CREATE
@@ -1544,15 +1544,13 @@ EXIT /B
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&SET "$NO_QUOTE=1"&&CALL:EXPANDOFLEX
 SET "@QUIET="&&FOR /F "TOKENS=* DELIMS=@" %%● IN ("!$QCLM1$!") DO (IF NOT "%%●"=="!$QCLM1$!" SET "@QUIET=1"&&SET "$QCLM1$=!$QCLM1$:@=!")
 IF DEFINED $QCLM4$ FOR /F "TOKENS=*" %%● in ("!$QCLM4$!") DO (
-IF "%%●"=="%%HALT%%" SET "$HALT=1"&&FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (SET "$QCLM%%○="&&SET "$QCLM%%○$="))
+IF "%%●"=="%U0L%HALT%U0R%" SET "$HALT=1"&&FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (SET "$QCLM%%○="&&SET "$QCLM%%○$="))
 EXIT /B
 :EXPANDOFLEX
 IF DEFINED $NO_QUOTE SET "$INPUT=!$INPUT:"=!"
-SET "$NO_QUOTE="&&SET "!$OUTPUT!0=!$INPUT!"&&SET "$OUTPUTX=!$INPUT:◁=%%!"
-SET "$OUTPUTX=!$OUTPUTX:▷=%%!"&&SET "$!$OUTPUT!0=!$OUTPUTX!"&&CALL SET "$!$OUTPUT!0$=!$OUTPUTX!"
-FOR /F "TOKENS=1-9 DELIMS=%DELIMS%" %%a in ("!$OUTPUTX!") DO (SET "PART1=%%a"&&SET "PART2=%%b"&&SET "PART3=%%c"&&SET "PART4=%%d"&&SET "PART5=%%e"&&SET "PART6=%%f"&&SET "PART7=%%g"&&SET "PART8=%%h"&&SET "PART9=%%i")
-FOR %%● in (1 2 3 4 5 6 7 8 9) DO (SET "$PART%%●="&&SET "!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●$="&&IF DEFINED PART%%● SET "!$OUTPUT!%%●=!PART%%●!"&&SET "$PART%%●=!PART%%●:◁=%%!"&&SET "$PART%%●=!$PART%%●:▷=%%!"&&SET "$!$OUTPUT!%%●=!$PART%%●!"&&CALL SET "$!$OUTPUT!%%●$=!$PART%%●!"
-IF DEFINED PART%%● IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=!$PART%%●!")
+SET "$NO_QUOTE="&&SET "!$OUTPUT!0=!$INPUT!"&&FOR /F "TOKENS=1-9 DELIMS=%DELIMS%" %%a in ("!$INPUT!") DO (SET "PART1=%%a"&&SET "PART2=%%b"&&SET "PART3=%%c"&&SET "PART4=%%d"&&SET "PART5=%%e"&&SET "PART6=%%f"&&SET "PART7=%%g"&&SET "PART8=%%h"&&SET "PART9=%%i")
+FOR %%● in (1 2 3 4 5 6 7 8 9) DO (SET "$PART%%●="&&SET "!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●$="&&IF DEFINED PART%%● SET "!$OUTPUT!%%●=!PART%%●!"&&SET "$PART%%●=!PART%%●:◁=%%!"&&SET "$PART%%●=!$PART%%●:▷=%%!"&&SET "$!$OUTPUT!%%●=!$PART%%●!"&&CALL SET "$!$OUTPUT!%%●$=!$PART%%●!"
+IF DEFINED PART%%● IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=!PART%%●!")
 EXIT /B
 :RASTI_CREATE
 IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %PROG_FOLDER%\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %PROG_FOLDER%\$RAS.cmd" /f)
@@ -1735,7 +1733,8 @@ SET "$REG_OBJ="&&SET "$PASS="&&FOR %%□ IN (CREATE DELETE CREATE%U01%RAS CREATE
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not CREATE, DELETE, CREATE%U01%RAS, CREATE%U01%RATI, DELETE%U01%RAS, or DELETE%U01%RATI.&&EXIT /B
 CALL:IF_LIVE_EXT
 FOR /F "TOKENS=1-2 DELIMS=%U01%" %%a in ("!$QCLM3$!") DO (SET "$QCLM3$=%%a"&&SET "$REG_OPER=%%a"&&SET "$RAS=%%b")
-FOR /F "TOKENS=1-4 DELIMS=%U01%" %%a in ("!$QCLM2$!") DO (SET "$REG_KEY=%%a"&&SET "$REG_VAL=%%b"&&SET "$REG_DAT=%%c"&&SET "$REG_TYPE=%%d")
+SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=REGP"&&CALL:EXPANDOFLEX
+SET "$REG_KEY=!$REGP1$!"&&SET "$REG_VAL=!$REGP2$!"&&SET "$REG_DAT=!$REGP3$!"&&SET "$REG_TYPE=!$REGP4$!
 IF "%$REG_OPER%"=="CREATE" IF DEFINED $REG_VAL IF NOT DEFINED $REG_DAT ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 3 "registry value data" is not specified.&&EXIT /B
 IF "%$REG_OPER%"=="CREATE" IF DEFINED $REG_VAL SET "$PASS="&&FOR %%□ IN (DWORD QWORD BINARY STRING EXPAND MULTI) DO (IF "!$REG_TYPE!"=="%%□" SET "$PASS=1")
 IF "%$REG_OPER%"=="CREATE" IF DEFINED $REG_VAL IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 4 "registry value type" is not DWORD, QWORD, BINARY, STRING, EXPAND, or MULTI.&&EXIT /B
@@ -1747,6 +1746,8 @@ IF "%$REG_TYPE%"=="BINARY" SET "$REG_TYPEX=REG_BINARY"
 IF "%$REG_TYPE%"=="STRING" SET "$REG_TYPEX=REG_SZ"
 IF "%$REG_TYPE%"=="EXPAND" SET "$REG_TYPEX=REG_EXPAND_SZ"
 IF "%$REG_TYPE%"=="MULTI" SET "$REG_TYPEX=REG_MULTI_SZ"
+IF "!$REG_DAT!"=="◁NULL▷" SET "$REG_DAT="
+IF "!$REG_VAL!"=="◁NULL▷" SET "$REG_VAL="&&SET "$REG_TYPE=REG_SZ"
 IF NOT DEFINED $RAS SET "RUN_AS=user"
 IF "!$RAS!"=="RAU" SET "RUN_AS=user"
 IF "!$RAS!"=="RAS" SET "RUN_AS=system"
@@ -1761,7 +1762,7 @@ IF "%$REG_OPER%"=="DELETE" IF "%$REG_OBJ%"=="KEY" IF DEFINED $RAS ECHO.%REG% DEL
 IF "%$REG_OPER%"=="DELETE" IF "%$REG_OBJ%"=="VAL" IF DEFINED $RAS ECHO.%REG% DELETE "!$REG_KEY!" /v "!$REG_VAL!" /f ^>NUL>"$LIST"
 IF "%$REG_OPER%"=="CREATE" IF "%$REG_OBJ%"=="KEY" IF DEFINED $RAS ECHO.%REG% ADD "!$REG_KEY!" /f ^>NUL>"$LIST"
 IF "%$REG_OPER%"=="CREATE" IF "%$REG_OBJ%"=="VAL" IF DEFINED $RAS ECHO.%REG% ADD "!$REG_KEY!" /v "!$REG_VAL!" /t "!$REG_TYPEX!" /d "!$REG_DAT!" /f ^>NUL>"$LIST"
-IF DEFINED $RAS SET "$QCLM1$=COMMAND"&&SET "$QCLM3$=REG"&&CALL:RASTI_CREATE
+IF DEFINED $RAS SET "$QCLM1$=COMMAND"&&SET "$QCLM3$=NORMAL"&&CALL:RASTI_CREATE
 EXIT /B
 :COMMAND_ITEM
 SET "$PASS="&&FOR %%□ IN (NORMAL NOMOUNT NORMAL%U01%RAS NORMAL%U01%RATI NOMOUNT%U01%RAS NOMOUNT%U01%RATI) DO (IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
