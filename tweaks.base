@@ -706,6 +706,9 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.◁SUBGROUP▷ scheduled for RunOnce.❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.◁SUBGROUP▷ applied.❕NORMAL❕RO❕
 
+❕SESSION❕-IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -vhdx "%$CHOICE%"❕DX❕
+❕STRING1❕A❗B❗C❗D❗E❕STRING❕XXX❕
+❕STRING1❕1❗2❗3❗4❗5❕INTEGER❕XXX❕
 ❕ROUTINE1❕1 2 3 4 5❕XXX❕XXX❕
 ❕ROUTINE1❕<>:❗0❗DIR *.*❕3❗EQ❗TEST.BASE❕COMMAND❕
 ❕ROUTINE1❕◁CHOICE1[S]▷❕XXX❕STRING❕
@@ -727,18 +730,27 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗Extended❗◁NULL▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗NoWorkingDirectory❗◁NULL▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗DWORD❕CREATE❕DX❕
-❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath \"%%%%V\"❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\Background\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗◁NULL▷❗@shell32.dll,-8508❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗Extended❗◁NULL▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗NoWorkingDirectory❗◁NULL▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗DWORD❕CREATE❕DX❕
-❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath '%%%%V'❗STRING❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Directory\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗◁NULL▷❗@shell32.dll,-8508❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗Extended❗◁NULL▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗NoWorkingDirectory❗◁NULL▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗DWORD❕CREATE❕DX❕
-❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath '%%%%V'❗STRING❕CREATE❕DX❕
-
+❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗STRING❕CREATE❕DX❕
 ?❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\Drive\shell\Powershell❗XXX❗XXX❗XXX❕CREATE❕DX❕
+
+
+
+
+❕GROUP❕TEST❕String and Math item test❕NORMAL❕
+❕STRING1❕1❗3❗5❗7❗9❕INTEGER❕3❕
+❕@COMMAND❕ECHO.000: STRING1-CHOSEN_STRING:◁STRING1[S]▷ STRING1-CHOSEN_INDEX:◁STRING1[I]▷ STRING1-1:◁STRING1[1]▷ STRING1-2:◁STRING1[2]▷ STRING1-3:◁STRING1[3]▷ STRING1-4:◁STRING1[4]▷ STRING1-5:◁STRING1[5]▷❕NORMAL❕DX❕
+
+❕MATH1❕◁STRING1[S]▷❕*❕3❕
+❕@COMMAND❕ECHO.MATH: MATH1-S:◁MATH1[S]▷ MATH1-I:◁MATH1[I]▷ MATH1-1:◁MATH1[1]▷❕NORMAL❕DX❕
 
 
