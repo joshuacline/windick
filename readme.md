@@ -11,6 +11,7 @@ A native command shell Windows image deployment tool.
 - "Now I know who they're competing with. Can't hide it forever, the thing is a total oven." -WindowsGuy
 - "It opened my eyes to the state of toolpocalypse. Stupidification isn't synonymous with easier, who knew?." -George
 - "You can do literally anything and everything. My experience with similar apps now has me fully dilated for this." -Belim
+- "I write code. Been watching the big dawgs poach your updates regularly, and underlying concepts for more than two years...even your slogan. Gross 🤮. Wish there was a way to donate." -MegaManX
 - "Edmonton uses it for the groceries, but I'm like 'all rockets on deck tell me what's next.' thanks MenuScript." -Brint
 - "Where did all those hoops I've been jumping through go?!" -Carl
 
