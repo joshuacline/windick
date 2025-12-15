@@ -27,3 +27,4 @@ A native command shell Windows image deployment tool.
 - https://youtube.com/@windozedev
 
 ![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/maingui.png "maingui")
+![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg "MenuScript")
