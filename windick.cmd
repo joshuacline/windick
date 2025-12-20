@@ -1024,8 +1024,8 @@ IF "%SELECTX%"=="1" SET "REC_LIST=base"
 IF "%SELECTX%"=="2" SET "REC_LIST=list"
 SET "$HEADERS= %U01% %U01% %U01% %U01%                        Enter name of new .%REC_LIST%%U01% %U01% %U01% "&&SET "$SELECT=NEW_NAME"&&SET "$CHECK=PATH"&&CALL:PROMPT_BOX
 IF DEFINED ERROR EXIT /B
-IF "%SELECTX%"=="1" (ECHO.MENU-SCRIPT&&ECHO.This is an example of a custom menu for recovery.&&ECHO.%U00%GROUP%U00%Recovery Operation Example%U00%Backup picked vhdx to backup.wim%U00%NORMAL%U00%&&ECHO.%U00%PICKER1%U00%Select a vhdx to backup%U00%"%U0L%PROG_SOURCE%U0R%\*.vhdx"%U00%VolaTILE%U00%&&ECHO.❕CONDIT1❕%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R%❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R% does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting backup.wim%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%IMAGE_FOLDER%U0R%\backup.wim"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%The %U0L%PROG_SOURCE%U0R% variable is important when using a custom menu list in Recovery%U00%&&ECHO.%U00%If "windick.cmd" is used instead of "%U0L%PROG_SOURCE%U0R%\windick.cmd" the process will terminate.%U00%&&ECHO.%U00%@COMMAND%U00%"%U0L%PROG_SOURCE%U0R%\windick.cmd" -imageproc -vhdx "%U0L%PICKER1[S]%U0R%" -index 1 -wim "backup.wim" -size 25%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%GROUP%U00%Recovery Operation Example%U00%Restore picked wim to current.vhdx%U00%NORMAL%U00%&&ECHO.%U00%PICKER1%U00%Select a wim to restore%U00%"%U0L%IMAGE_FOLDER%U0R%\*.wim"%U00%VolaTILE%U00%&&ECHO.❕CONDIT1❕%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R%❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%IMAGE_FOLDER%U0R%\%U0L%PICKER1[S]%U0R% does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting current.vhdx%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%PROG_SOURCE%U0R%\current.vhdx"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%The %U0L%PROG_SOURCE%U0R% variable is important when using a custom menu list in Recovery%U00%&&ECHO.%U00%If "windick.cmd" is used instead of "%U0L%PROG_SOURCE%U0R%\windick.cmd" the process will terminate.%U00%&&ECHO.%U00%@COMMAND%U00%"%U0L%PROG_SOURCE%U0R%\windick.cmd" -imageproc -wim "%U0L%PICKER1[S]%U0R%" -index 1 -vhdx "current.vhdx" -size 25%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%)>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
-IF "%SELECTX%"=="2" (ECHO.MENU-SCRIPT&&ECHO.Here is an example of a reboot to restore scenerio as an execution list.&&ECHO.❕CONDIT1❕%U0L%IMAGE_FOLDER%U0R%\backup.wim❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%IMAGE_FOLDER%U0R%\backup.wim does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting current.vhdx.%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%PROG_SOURCE%U0R%\current.vhdx"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%The %U0L%PROG_SOURCE%U0R% variable is important when using a custom menu list in Recovery%U00%&&ECHO.%U00%If "windick.cmd" is used instead of "%U0L%PROG_SOURCE%U0R%\windick.cmd" the process will terminate.%U00%&&ECHO.%U00%@COMMAND%U00%IF EXIST "%U0L%IMAGE_FOLDER%U0R%\backup.wim" "%U0L%PROG_SOURCE%U0R%\windick.cmd" -imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -size 25%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%PAUSE%U00%NORMAL%U00%DX%U00%)>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
+IF "%SELECTX%"=="1" (ECHO.MENU-SCRIPT&&ECHO.This is an example of a custom menu for recovery.&&ECHO.%U00%GROUP%U00%Recovery Operation Example%U00%Backup picked vhdx to backup.wim%U00%NORMAL%U00%&&ECHO.%U00%PICKER1%U00%Select a vhdx to backup%U00%"%U0L%PROG_SOURCE%U0R%\*.vhdx"%U00%VolaTILE%U00%&&ECHO.❕CONDIT1❕%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R%❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R% does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting backup.wim%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%IMAGE_FOLDER%U0R%\backup.wim"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.❕SESSION❕-imageproc -vhdx "%U0L%PICKER1[S]%U0R%" -index 1 -wim "backup.wim" -size 25❕◁NULL▷❕%U0L%CONDIT1[1]%U0R%❕&&ECHO.%U00%GROUP%U00%Recovery Operation Example%U00%Restore picked wim to current.vhdx%U00%NORMAL%U00%&&ECHO.%U00%PICKER1%U00%Select a wim to restore%U00%"%U0L%IMAGE_FOLDER%U0R%\*.wim"%U00%VolaTILE%U00%&&ECHO.❕CONDIT1❕%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R%❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%IMAGE_FOLDER%U0R%\%U0L%PICKER1[S]%U0R% does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting current.vhdx%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%PROG_SOURCE%U0R%\current.vhdx"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.❕SESSION❕-imageproc -wim "%U0L%PICKER1[S]%U0R%" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕%U0L%CONDIT1[1]%U0R%❕)>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
+IF "%SELECTX%"=="2" (ECHO.MENU-SCRIPT&&ECHO.Here is an example of a reboot to restore scenerio as an execution list.&&ECHO.❕CONDIT1❕%U0L%IMAGE_FOLDER%U0R%\backup.wim❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%IMAGE_FOLDER%U0R%\backup.wim does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting current.vhdx.%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%PROG_SOURCE%U0R%\current.vhdx"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.❕SESSION❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕%U0L%CONDIT1[1]%U0R%❕&&ECHO.%U00%@COMMAND%U00%PAUSE%U00%NORMAL%U00%DX%U00%)>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
 EXIT /B
 :APPEARANCE
@@ -1484,62 +1484,62 @@ EXIT /B
 :UNIFIED_PARSE_EXECUTE
 CALL:EXPAND_COLUMN
 FOR %%● in (QCLM1 QCLM2 QCLM3) DO (IF NOT DEFINED %%● EXIT /B)
-IF NOT DEFINED LIST_ITEMS_EXECUTE CALL:LIST_ITEMS
-SET "$PASS="&&FOR /F "TOKENS=*" %%● in ("!$QCLM1$!") DO (
-FOR %%○ in (%LIST_ITEMS_EXECUTE%) DO (IF "%%○"=="%%●" SET "$ITEM_TYPE=EXECUTE"&&SET "$PASS=1")
-FOR %%○ in (%LIST_ITEMS_BUILDER%) DO (IF "%%○"=="%%●" SET "$ITEM_TYPE=BUILDER"&&SET "$PASS=1"))
-IF NOT DEFINED $PASS EXIT /B
-IF NOT DEFINED $QCLM4$ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! one of the four columns is not specified.
-IF "!$QCLM1$!"=="GROUP" CALL:SESSION_CLEAR&&CALL:SCRO_QUEUE&&FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 in ("!$QCLM2$!%U01%!$QCLM3$!") DO (SET "GROUP=%%1"&&SET "SUBGROUP=%%2")
-IF "!$QCLM1$!"=="GROUP" IF DEFINED $QCLM7$ FOR /F "TOKENS=*" %%● IN ("!$QCLM7$!") DO (SET "CHOICE0[I]=%%●"
-FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (IF "%%●"=="%%○" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM6$!") DO (SET "CHOICE0[S]=%%%$QCLM7$%"&&SET "CHOICE0[%%●]=%%%$QCLM7$%")))
-IF "!$QCLM1$!"=="GROUP" FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0[%%●] SET "CHOICE0[I]="&&SET "CHOICE0[S]=")
-FOR %%● in (1 2 3 4 5 6 7 8 9) DO (
-IF "!$QCLM1$!"=="MATH%%●" FOR %%○ in (1 I S) DO (SET "MATH%%●[%%○]=")
-IF "!$QCLM1$!"=="PICKER%%●" FOR %%○ in (1 I S) DO (SET "PICKER%%●[%%○]=")
-IF "!$QCLM1$!"=="PROMPT%%●" FOR %%○ in (1 I S) DO (SET "PROMPT%%●[%%○]=")
-IF "!$QCLM1$!"=="ARRAY%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "ARRAY%%●[%%○]=")
-IF "!$QCLM1$!"=="CONDIT%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "CONDIT%%●[%%○]=")
-IF "!$QCLM1$!"=="CHOICE%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "CHOICE%%●[%%○]=")
-IF "!$QCLM1$!"=="STRING%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "STRING%%●[%%○]=")
-IF "!$QCLM1$!"=="ROUTINE%%●" FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "ROUTINE%%●[%%○]=")
-FOR %%○ in (ROUTINE MATH STRING ARRAY CONDIT CHOICE PICKER PROMPT) DO (IF "!$QCLM1$!"=="%%○%%●" CALL:SCRO_QUEUE))
-IF NOT DEFINED $QCLM4$ EXIT /B
-FOR %%● in (1 2 3 4 5 6 7 8 9) DO (
-IF "!$QCLM1$!"=="MATH%%●" CALL:MATH_ITEM
-IF "!$QCLM1$!"=="ARRAY%%●" CALL:ARRAY_ITEM
-IF "!$QCLM1$!"=="CONDIT%%●" CALL:CONDIT_ITEM
-IF "!$QCLM1$!"=="ROUTINE%%●" CALL:ROUTINE_ITEM
-IF "!$QCLM1$!"=="PICKER%%●" FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "PICKER%%●[I]=1"&&SET "PICKER%%●[1]=%%○"&&SET "PICKER%%●[S]=%%○")
-IF "!$QCLM1$!"=="PROMPT%%●" FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "PROMPT%%●[I]=1"&&SET "PROMPT%%●[1]=%%○"&&SET "PROMPT%%●[S]=%%○")
-IF "!$QCLM1$!"=="STRING%%●" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM2$!") DO (
-IF "!$QCLM3$!"=="STRING" IF NOT "%%1"=="" SET "STRING%%●[1]=%%1"&&IF NOT "%%2"=="" SET "STRING%%●[2]=%%2"&&IF NOT "%%3"=="" SET "STRING%%●[3]=%%3"&&IF NOT "%%4"=="" SET "STRING%%●[4]=%%4"&&IF NOT "%%5"=="" SET "STRING%%●[5]=%%5"&&IF NOT "%%6"=="" SET "STRING%%●[6]=%%6"&&IF NOT "%%7"=="" SET "STRING%%●[7]=%%7"&&IF NOT "%%8"=="" SET "STRING%%●[8]=%%8"&&IF NOT "%%9"=="" SET "STRING%%●[9]=%%9"
-IF "!$QCLM3$!"=="INTEGER" IF NOT "%%1"=="" SET /A "STRING%%●[1]=%%1"&&IF NOT "%%2"=="" SET /A "STRING%%●[2]=%%2"&&IF NOT "%%3"=="" SET /A "STRING%%●[3]=%%3"&&IF NOT "%%4"=="" SET /A "STRING%%●[4]=%%4"&&IF NOT "%%5"=="" SET /A "STRING%%●[5]=%%5"&&IF NOT "%%6"=="" SET /A "STRING%%●[6]=%%6"&&IF NOT "%%7"=="" SET /A "STRING%%●[7]=%%7"&&IF NOT "%%8"=="" SET /A "STRING%%●[8]=%%8"&&IF NOT "%%9"=="" SET /A "STRING%%●[9]=%%9")
-IF "!$QCLM1$!"=="STRING%%●" FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "STRING%%●[I]=%%○"
-FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM2$!") DO (
-IF "!$QCLM3$!"=="STRING" SET "STRING%%●[S]=%%%$QCLM4$%"
-IF "!$QCLM3$!"=="INTEGER" SET /A "STRING%%●[S]=%%%$QCLM4$%"
-)))
-IF "!$QCLM1$!"=="CHOICE%%●" FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "CHOICE%%●[I]=%%○"
-FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM3$!") DO (SET "CHOICE%%●[S]=%%%$QCLM4$%"&&SET "CHOICE%%●[%%◌]=%%%$QCLM4$%")))
-IF "!$QCLM1$!"=="CHOICE%%●" FOR %%○ in (S I) DO (IF NOT DEFINED CHOICE%%●[%%○] SET "CHOICE%%●[I]="&&SET "CHOICE%%●[S]=")
-IF "!$QCLM1$!"=="STRING%%●" FOR %%○ in (S I) DO (IF NOT DEFINED STRING%%●[%%○] SET "STRING%%●[I]="&&SET "STRING%%●[S]="))
-SET "$RAS="&&FOR /F "TOKENS=*" %%● in ("!$QCLM4$!") DO (FOR /F "TOKENS=*" %%○ in ("!$QCLM1$!") DO (
-IF "%%●"=="SC" CALL:SC_RO_CREATE
-IF "%%●"=="RO" CALL:SC_RO_CREATE
-IF "%%○_%%●"=="APPX_DX" CALL:APPX_ITEM
-IF "%%○_%%●"=="CAPABILITY_DX" CALL:CAP_ITEM
-IF "%%○_%%●"=="COMPONENT_DX" CALL:COMP_ITEM
-IF "%%○_%%●"=="DRIVER_DX" CALL:DRVR_ITEM
-IF "%%○_%%●"=="FEATURE_DX" CALL:FEAT_ITEM
-IF "%%○_%%●"=="SERVICE_DX" CALL:SVC_ITEM
-IF "%%○_%%●"=="TASK_DX" CALL:TASK_ITEM
-IF "%%○_%%●"=="EXTPACKAGE_DX" CALL:PACK_ITEM
-IF "%%○_%%●"=="WINSXS_DX" CALL:WINSXS_REMOVE
-IF "%%○_%%●"=="REGISTRY_DX" CALL:REGISTRY_ITEM
-IF "%%○_%%●"=="FILEOPER_DX" CALL:FILEOPER_ITEM
-IF "%%○_%%●"=="COMMAND_DX" CALL:COMMAND_ITEM))
+SET "$RAS="&&SET "$ITEM_TYPE="&&IF NOT DEFINED LIST_ITEMS_EXECUTE CALL:LIST_ITEMS
+FOR %%● in (%LIST_ITEMS_EXECUTE%) DO (IF "%%●"=="!$QCLM1$!" SET "$ITEM_TYPE=EXECUTE")
+FOR %%● in (%LIST_ITEMS_BUILDER%) DO (IF "%%●"=="!$QCLM1$!" SET "$ITEM_TYPE=BUILDER")
+IF NOT DEFINED $ITEM_TYPE EXIT /B
+IF "!$QCLM1$!"=="GROUP" CALL:SESSION_CLEAR
+IF NOT DEFINED $QCLM4$ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! one of the four columns is not specified.&&EXIT /B
+IF "!$ITEM_TYPE!"=="BUILDER" CALL:SCRO_QUEUE&&FOR %%○ in (1 2 3 4 5 6 7 8 9 I S) DO (SET "!$QCLM1$![%%○]=")
+IF "!$ITEM_TYPE!"=="BUILDER" FOR /F "TOKENS=1 DELIMS=123456789" %%● IN ("!$QCLM1$!") DO (CALL:%%●_ITEM)
+FOR %%● in (SC RO) DO (IF "!$QCLM4$!"=="%%●" CALL:SC_RO_CREATE)
+FOR /F "TOKENS=*" %%● in ("!$QCLM1$!") DO (
+IF "%%●_!$QCLM4$!"=="APPX_DX" CALL:APPX_ITEM
+IF "%%●_!$QCLM4$!"=="CAPABILITY_DX" CALL:CAP_ITEM
+IF "%%●_!$QCLM4$!"=="COMPONENT_DX" CALL:COMP_ITEM
+IF "%%●_!$QCLM4$!"=="DRIVER_DX" CALL:DRVR_ITEM
+IF "%%●_!$QCLM4$!"=="FEATURE_DX" CALL:FEAT_ITEM
+IF "%%●_!$QCLM4$!"=="SERVICE_DX" CALL:SVC_ITEM
+IF "%%●_!$QCLM4$!"=="TASK_DX" CALL:TASK_ITEM
+IF "%%●_!$QCLM4$!"=="EXTPACKAGE_DX" CALL:PACK_ITEM
+IF "%%●_!$QCLM4$!"=="WINSXS_DX" CALL:WINSXS_REMOVE
+IF "%%●_!$QCLM4$!"=="REGISTRY_DX" CALL:REGISTRY_ITEM
+IF "%%●_!$QCLM4$!"=="FILEOPER_DX" CALL:FILEOPER_ITEM
+IF "%%●_!$QCLM4$!"=="COMMAND_DX" CALL:COMMAND_ITEM
+IF "%%●_!$QCLM4$!"=="SESSION_DX" CALL:SESSION_ITEM)
 CD /D "%PROG_FOLDER%">NUL 2>&1
+EXIT /B
+:SESSION_ITEM
+SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
+CALL %CMD% /C ""%PROG_SOURCE%\windick.cmd" !$QCLM2$!"
+EXIT /B
+:GROUP_ITEM
+FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 in ("!$QCLM2$!%U01%!$QCLM3$!") DO (SET "GROUP=%%1"&&SET "SUBGROUP=%%2")
+IF DEFINED $QCLM7$ FOR /F "TOKENS=*" %%● IN ("!$QCLM7$!") DO (SET "CHOICE0[I]=%%●"
+FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (IF "%%●"=="%%○" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM6$!") DO (SET "CHOICE0[S]=%%%$QCLM7$%"&&SET "CHOICE0[%%●]=%%%$QCLM7$%")))
+FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0[%%●] SET "CHOICE0[I]="&&SET "CHOICE0[S]=")
+EXIT /B
+:PICKER_ITEM
+FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![1]=%%○"&&SET "!$QCLM1$![S]=%%○")
+EXIT /B
+:PROMPT_ITEM
+FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![1]=%%○"&&SET "!$QCLM1$![S]=%%○")
+EXIT /B
+:CHOICE_ITEM
+FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=%%○"
+FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM3$!") DO (SET "!$QCLM1$![S]=%%%$QCLM4$%"&&SET "!$QCLM1$![%%◌]=%%%$QCLM4$%")))
+FOR %%○ in (S I) DO (IF NOT DEFINED !$QCLM1$![%%○] SET "!$QCLM1$![I]="&&SET "!$QCLM1$![S]=")
+EXIT /B
+:STRING_ITEM
+FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM2$!") DO (
+IF "!$QCLM3$!"=="STRING" IF NOT "%%1"=="" SET "!$QCLM1$![1]=%%1"&&IF NOT "%%2"=="" SET "!$QCLM1$![2]=%%2"&&IF NOT "%%3"=="" SET "!$QCLM1$![3]=%%3"&&IF NOT "%%4"=="" SET "!$QCLM1$![4]=%%4"&&IF NOT "%%5"=="" SET "!$QCLM1$![5]=%%5"&&IF NOT "%%6"=="" SET "!$QCLM1$![6]=%%6"&&IF NOT "%%7"=="" SET "!$QCLM1$![7]=%%7"&&IF NOT "%%8"=="" SET "!$QCLM1$![8]=%%8"&&IF NOT "%%9"=="" SET "!$QCLM1$![9]=%%9"
+IF "!$QCLM3$!"=="INTEGER" IF NOT "%%1"=="" SET /A "!$QCLM1$![1]=%%1"&&IF NOT "%%2"=="" SET /A "!$QCLM1$![2]=%%2"&&IF NOT "%%3"=="" SET /A "!$QCLM1$![3]=%%3"&&IF NOT "%%4"=="" SET /A "!$QCLM1$![4]=%%4"&&IF NOT "%%5"=="" SET /A "!$QCLM1$![5]=%%5"&&IF NOT "%%6"=="" SET /A "!$QCLM1$![6]=%%6"&&IF NOT "%%7"=="" SET /A "!$QCLM1$![7]=%%7"&&IF NOT "%%8"=="" SET /A "!$QCLM1$![8]=%%8"&&IF NOT "%%9"=="" SET /A "!$QCLM1$![9]=%%9")
+FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=%%○"
+FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM2$!") DO (
+IF "!$QCLM3$!"=="STRING" SET "!$QCLM1$![S]=%%%$QCLM4$%"
+IF "!$QCLM3$!"=="INTEGER" SET /A "!$QCLM1$![S]=%%%$QCLM4$%"
+)))
+FOR %%○ in (S I) DO (IF NOT DEFINED !$QCLM1$![%%○] SET "!$QCLM1$![I]="&&SET "!$QCLM1$![S]=")
 EXIT /B
 :PKX_EXEC
 IF EXIST "%PROG_SOURCE%\$PKX" ECHO.%COLOR4%ERROR:%$$% A package is already in session. Delete the $PKX folder before proceeding.&&EXIT /B
@@ -1840,7 +1840,7 @@ FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ("!$COLUMN0!") DO (SET "$COLUMN2=%%b")
 IF NOT DEFINED @QUIET ECHO.Executing %@@%command%$$% as %##%%RUN_AS%%$$% !$COLUMN2!
 IF DEFINED $RAS ECHO.!$COLUMN2!>"$LIST"
 IF DEFINED $RAS CALL:RASTI_CREATE
-IF NOT DEFINED $RAS %CMD% /C CALL !$COLUMN2!
+IF NOT DEFINED $RAS %CMD% /C !$COLUMN2!
 SET "$COLUMN0="&&SET "$COLUMN2="
 EXIT /B
 :PACK_ITEM

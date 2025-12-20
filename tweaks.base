@@ -68,12 +68,12 @@
 ❕@COMMAND❕ECHO.		^<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.			^<ComputerName^>◁PROMPT2[S]▷^</ComputerName^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.			^<CopyProfile^>false^</CopyProfile^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
-❕@COMMAND❕ECHO.			^<ProductKey^>92NFX-8DJQP-P6BBQ-THF9C-7CG2H^</ProductKey^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕◁ARRAY2[1]▷❕
+❕@COMMAND❕ECHO.			^<ProductKey^>92NFX-8DJQP-P6BBQ-THF9C-7CG2H^</ProductKey^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕◁ARRAY1[1]▷❕
 ❕@COMMAND❕ECHO.		^</component^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.	^</settings^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.	^<settings pass="windowsPE"^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.		^<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
-❕@COMMAND❕ECHO.			^<InputLocale^>◁ARRAY1[S]▷^</InputLocale^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
+❕@COMMAND❕ECHO.			^<InputLocale^>◁ARRAY2[S]▷^</InputLocale^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.			^<SystemLocale^>◁CHOICE2[S]▷^</SystemLocale^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.			^<UILanguage^>◁CHOICE2[S]▷^</UILanguage^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
 ❕@COMMAND❕ECHO.			^<UILanguageFallback^>◁CHOICE2[S]▷^</UILanguageFallback^>>>"◁WINTAR▷\PANTHER\unattend.xml"❕NORMAL❕DX❕
@@ -737,16 +737,16 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 
 ❕GROUP❕TEST❕String and Math item test❕NORMAL❕
 ❕STRING1❕1❗3❗5❗7❗9❕INTEGER❕3❕
-❕@COMMAND❕ECHO.000: STRING1-CHOSEN_STRING:◁STRING1[S]▷ STRING1-CHOSEN_INDEX:◁STRING1[I]▷ STRING1-1:◁STRING1[1]▷ STRING1-2:◁STRING1[2]▷ STRING1-3:◁STRING1[3]▷ STRING1-4:◁STRING1[4]▷ STRING1-5:◁STRING1[5]▷❕NORMAL❕DX❕
+❕@COMMAND❕ECHO.STRING1-S:◁STRING1[S]▷ STRING1-I:◁STRING1[I]▷ STRING1-1:◁STRING1[1]▷ STRING1-2:◁STRING1[2]▷ STRING1-3:◁STRING1[3]▷ STRING1-4:◁STRING1[4]▷ STRING1-5:◁STRING1[5]▷❕NORMAL❕DX❕
 ❕MATH1❕◁STRING1[S]▷❕*❕3❕
 ❕@COMMAND❕ECHO.MATH: MATH1-S:◁MATH1[S]▷ MATH1-I:◁MATH1[I]▷ MATH1-1:◁MATH1[1]▷❕NORMAL❕DX❕
 
 ❕GROUP❕TEST❕Routine item test❕NORMAL❕
 X❕ROUTINE1❕<>:❗DIR /B C:\❕COMMAND❕1❕
 ❕ROUTINE1❕<>:❗DIR /B C:\❗1❗Program Files❕COMMAND❕1❕
-❕@COMMAND❕ECHO.ROUTINE1-CHOSEN_STRING:◁ROUTINE1[S]▷ ROUTINE1-CHOSEN_INDEX:◁ROUTINE1[I]▷  ROUTINE1-1:◁ROUTINE1[1]▷ ROUTINE1-2:◁ROUTINE1[2]▷ ROUTINE1-3:◁ROUTINE1[3]▷❕NORMAL❕DX❕
+❕@COMMAND❕ECHO.ROUTINE1-S:◁ROUTINE1[S]▷ ROUTINE1-I:◁ROUTINE1[I]▷  ROUTINE1-1:◁ROUTINE1[1]▷ ROUTINE1-2:◁ROUTINE1[2]▷ ROUTINE1-3:◁ROUTINE1[3]▷❕NORMAL❕DX❕
 
 X❕ROUTINE2❕:❗A:B:C❕SPLIT❕2❕
 ❕ROUTINE2❕:❗A:B:C❗3❗C❕SPLIT❕2❕
-❕@COMMAND❕ECHO.ROUTINE2-CHOSEN_STRING:◁ROUTINE2[S]▷ ROUTINE2-CHOSEN_INDEX:◁ROUTINE2[I]▷  ROUTINE2-1:◁ROUTINE2[1]▷ ROUTINE2-2:◁ROUTINE2[2]▷ ROUTINE2-3:◁ROUTINE2[3]▷❕NORMAL❕DX❕
-X❕SESSION❕-IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -vhdx "%$CHOICE%"❕DX❕
+❕@COMMAND❕ECHO.ROUTINE2-S:◁ROUTINE2[S]▷ ROUTINE2-I:◁ROUTINE2[I]▷  ROUTINE2-1:◁ROUTINE2[1]▷ ROUTINE2-2:◁ROUTINE2[2]▷ ROUTINE2-3:◁ROUTINE2[3]▷❕NORMAL❕DX❕
+X❕SESSION❕-IMAGEMGR -RUN -LIST "TEST.LIST" -LIVE❕◁NULL▷❕DX❕
