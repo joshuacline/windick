@@ -1138,9 +1138,11 @@ $ListView1_PagePBWiz.GridLines = $false;$ListView1_PagePBWiz.CheckBoxes = $false
 $parta, $global:ListViewChoiceS2, $partc = $ListViewSelectS2 -split '[{}]'
 
 if ($ListViewChoiceS2 -eq "💾 Capture Project Folder") {
+$Label1_PagePBWiz.Text = "🗳 Pack Builder"
+$Label2_PagePBWiz.Text = "Capture Project Folder"
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Package' -MessageBoxText 'Enter new .pkx package name' -Check 'PATH'
 
-if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;}
+if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;$Label1_PagePBWiz.Text = "🗳 Pack Builder";$Label2_PagePBWiz.Text = "Select an option"}
 if ($boxresult -eq "OK") {$ListView1_PagePBWiz.Items.Clear();
 $PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
 $PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
@@ -1154,13 +1156,14 @@ $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$Pa
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 if ($ListViewChoiceS2 -eq "🗳 New Package Template") {
+$Label1_PagePBWiz.Text = "🗳 Pack Builder"
+$Label2_PagePBWiz.Text = "New Package Template"
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
-if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;}
+if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;$Label1_PagePBWiz.Text = "🗳 Pack Builder";$Label2_PagePBWiz.Text = "Select an option"}
 if ($boxresult -eq "OK") {$PathCheck = "$PSScriptRoot\project";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\project" -Recurse -Force}
-New-Item -ItemType Directory -Path "$PSScriptRoot\project\driver"
-ForEach ($i in @("MENU-SCRIPT","Delete the driver list entry below and driver folder if there are not drivers included in the package.",'❕DRIVER❕"◁PKX_FOLDER▷\driver"❕INSTALL❕DX❕',"Delete the command list entry below and package.cmd if a script is not needed.",'❕COMMAND❕CMD.EXE /C "◁PKX_FOLDER▷\package.cmd"❕NORMAL❕DX❕',"Manually add, copy and paste items, or replace this package.list with an existing execution list.","Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.")) {Add-Content -Path "$PSScriptRoot\project\package.list" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("::================================================","::These variables are built in and can help","::keep a script consistant throughout the entire","::process, whether applying to a vhdx or live.","::Add any files to package folder before creating.","::================================================","::Windows folder :    %WINTAR%","::Drive root :        %DRVTAR%","::User or defuser :   %USRTAR%","::HKLM\SOFTWARE :     %HIVE_SOFTWARE","::HKLM\SYSTEM :       %HIVE_SYSTEM%","::HKCU or defuser :   %HIVE_USER%","::DISM target :       %APPLY_TARGET%","::==================START OF PACK=================","","@ECHO OFF",'REM "%PKX_FOLDER%\example.msi" /quiet /noprompt',"","::===================END OF PACK==================")) {Add-Content -Path "$PSScriptRoot\project\package.cmd" -Value "$i" -Encoding UTF8}
-$global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB}}
+ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-NEWPACK")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+$global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
+Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 if ($ListViewChoiceS2 -eq "🗳 Restore Package") {
 $Label1_PagePBWiz.Text = "🗳 Restore Package"
@@ -1364,7 +1367,7 @@ return}
 if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
 if ($ListViewChoiceS3 -eq "✒ External Package Item") {
-$Label1_PageLBWiz.Text = "🧾 List Builder";
+$Label1_PageLBWiz.Text = "🧾 Miscellaneous";
 $Label2_PageLBWiz.Text = "Select a package"
 $ListView1_PageLBWiz.Items.Clear();$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
 Get-ChildItem -Path "$FilePath\*.appx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}

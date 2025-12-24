@@ -94,9 +94,10 @@ FOR %%■ in (WIM VHDX) DO (IF "%ARG2%"=="-%%■" IF DEFINED ARG3 IF EXIST "%IMA
 IF "%ARG2%"=="-VHDX" IF DEFINED ARG3 IF EXIST "%IMAGE_FOLDER%\%ARG3%" IF "%ARG4%"=="-INDEX" IF DEFINED ARG5 IF "%ARG6%"=="-WIM" IF DEFINED ARG7 IF "%ARG8%"=="-XLVL" IF DEFINED ARG9 SET "SOURCE_TYPE=VHDX"&&SET "TARGET_TYPE=WIM"&&SET "VHDX_SOURCE=%ARG3%"&&SET "WIM_INDEX=%ARG5%"&&SET "WIM_TARGET=%ARG7%"&&SET "COMPRESS=%ARG9%"&&CALL:IMAGEPROC_START
 EXIT /B
 :COMMAND_IMAGEMGR
-SET "$PASS="&&SET "$LISTPACK="&&FOR %%▓ in (EXAMPLE EXPORT CREATE RUN) DO (IF "%ARG2%"=="-%%▓" SET "$PASS=1")
-IF NOT DEFINED $PASS ECHO.ERROR: ARG2 not -EXPORT, -EXAMPLE, -CREATE, or -RUN&&EXIT /B
-IF "%ARG2%"=="-EXAMPLE" IF DEFINED ARG3 CALL:MENU_EXAMPLE>"%LIST_FOLDER%\%ARG3%"
+SET "$PASS="&&SET "$LISTPACK="&&FOR %%▓ in (NEWPACK EXAMPLE EXPORT CREATE RUN) DO (IF "%ARG2%"=="-%%▓" SET "$PASS=1")
+IF NOT DEFINED $PASS ECHO.ERROR: ARG2 not -NEWPACK, -EXPORT, -EXAMPLE, -CREATE, or -RUN&&EXIT /B
+IF "%ARG2%"=="-NEWPACK" SET "MENU_SKIP=1"&&CALL:PROJ_NEW
+IF "%ARG2%"=="-EXAMPLE" IF DEFINED ARG3 SET "NEW_NAME=%ARG3%"&&SET "MENU_SKIP=1"&&CALL:BASE_TEMPLATE
 IF "%ARG2%"=="-EXPORT" IF "%ARG3%"=="-DRIVERS" IF "%ARG4%"=="-LIVE" SET "LIVE_APPLY=1"&&CALL:DRVR_EXPORT_SKIP
 IF "%ARG2%"=="-EXPORT" IF "%ARG3%"=="-DRIVERS" IF "%ARG4%"=="-VHDX" SET "LIVE_APPLY="&&IF DEFINED ARG5 IF EXIST "%IMAGE_FOLDER%\%ARG5%" SET "$PICK=%IMAGE_FOLDER%\%ARG5%"&&CALL:DRVR_EXPORT_SKIP
 IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-BASE" IF DEFINED ARG4 SET "NEW_NAME=%ARG4%"&&IF "%ARG5%"=="-LIVE" SET "LIVE_APPLY=1"&&SET "BASE_CHOICE=%ARG6%"&&CALL:LIST_BASE_CREATE_CMD
@@ -106,18 +107,20 @@ IF "%ARG2%"=="-RUNEXT" IF DEFINED ARG3 IF DEFINED ARG4 IF EXIST "%ARG4%" SET "IN
 IF "%ARG2%"=="-RUNEXT" IF "%ARG3%"=="-LIST" IF EXIST "%ARG4%" SET "ARG2=-RUN"&&SET "LIST_FOLDER=%$PATH_X%"&&SET "ARG4=%$FILE_X%%$EXT_X%"
 IF "%ARG2%"=="-RUNEXT" IF "%ARG3%"=="-PACK" IF EXIST "%ARG4%" SET "ARG2=-RUN"&&SET "PACK_FOLDER=%$PATH_X%"&&SET "ARG4=%$FILE_X%%$EXT_X%"
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-CUSTOM" SET "CUSTOM_SESSION=1"&&SET "DELETE_DONE=%ARG4%"&&SET "ARG3=-LIST"
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ARG4 IF NOT EXIST "%LIST_FOLDER%\%ARG4%" ECHO.%COLOR4%ERROR:%$$% %LIST_FOLDER%\%ARG4% doesn't exist&&EXIT /B
-IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-VHDX" IF DEFINED ARG6 IF NOT EXIST "%IMAGE_FOLDER%\%ARG6%" ECHO.%COLOR4%ERROR:%$$% %IMAGE_FOLDER%\%ARG6% doesn't exist&&EXIT /B
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-PACK" IF DEFINED ARG4 IF NOT EXIST "%PACK_FOLDER%\%ARG4%" ECHO.%COLOR4%ERROR:%$$% pack %PACK_FOLDER%\%ARG4% doesn't exist&&EXIT /B
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ARG4 IF NOT EXIST "%LIST_FOLDER%\%ARG4%" ECHO.%COLOR4%ERROR:%$$% list %LIST_FOLDER%\%ARG4% doesn't exist&&EXIT /B
+IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-VHDX" IF DEFINED ARG6 IF NOT EXIST "%IMAGE_FOLDER%\%ARG6%" ECHO.%COLOR4%ERROR:%$$% vhdx %IMAGE_FOLDER%\%ARG6% doesn't exist&&EXIT /B
+IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-PATH" IF DEFINED ARG6 IF NOT EXIST "%ARG6%\*" ECHO.%COLOR4%ERROR:%$$% path %ARG6% doesn't exist&&EXIT /B
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 SET "PARSE_X="&&FOR /F "TOKENS=1-9* DELIMS=%U00%" %%a in ('ECHO.%ARGS%') DO (IF "%%b"=="COMMAND" SET "PARSE_X=1"&&SET "ARG4=%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%"&&SET "ARGZ=5"&&CALL SET "ARGX=%%f"&&CALL:GET_ARGS)
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED PARSE_X FOR /F "TOKENS=1-6* DELIMS= " %%a in ('ECHO.%ARG5%') DO (SET "ARG5=%%a"&&SET "ARG6=%%b"&&SET "ARG7=%%c"&&SET "ARG8=%%d"&&SET "ARG9=%%e")
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED PARSE_X SET "PARSE_X="&&FOR %%a in (5 6 7 8 9) DO (SET "CAPS_SET=ARG%%a"&&CALL SET "CAPS_VAR=%%ARG%%a%%"&&CALL:CAPS_SET)
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 SET "DELETE_DONE=1"&&SET "ARG3=-LIST"&&SET "ARG4=$LIST"&&ECHO.MENU-SCRIPT>"%LIST_FOLDER%\$LIST"
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 ECHO.%ARG4%>"%LIST_FOLDER%\$LIST"
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-PACK" IF DEFINED ARG4 IF EXIST "%PACK_FOLDER%\%ARG4%" SET "$PACK_FILE=%ARG4%"&&SET "$LISTPACK=%ARG4%"
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ARG4 IF EXIST "%LIST_FOLDER%\%ARG4%" SET "$LIST_FILE=%ARG4%"&&SET "$LISTPACK=%ARG4%"
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-PACK" IF DEFINED ARG4 IF EXIST "%PACK_FOLDER%\%ARG4%" SET "$PACK_FILE=%PACK_FOLDER%\%ARG4%"&&SET "$LISTPACK=%ARG4%"
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ARG4 IF EXIST "%LIST_FOLDER%\%ARG4%" SET "$LIST_FILE=%LIST_FOLDER%\%ARG4%"&&SET "$LISTPACK=%ARG4%"
 IF NOT DEFINED $LISTPACK GOTO:COMMAND_IMAGEMGR_END
 IF "%ARG2%"=="-RUN" FOR %%G in ("%$LISTPACK%") DO (SET "CAPS_SET=IMAGEMGR_EXT"&&SET "CAPS_VAR=%%~xG"&&CALL:CAPS_SET)
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF "%IMAGEMGR_EXT%"==".BASE" SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"&SET "$LIST_FILE=$LIST"
+IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF "%IMAGEMGR_EXT%"==".BASE" SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"&SET "$LIST_FILE=%LIST_FOLDER%\$LIST"
 IF "%ARG2%"=="-RUN" IF DEFINED MENU_SESSION SET "ARG5=-MENU"
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-LIVE" SET "CURR_TARGET=LIVE_APPLY"&&CALL:IMAGEMGR_EXECUTE_COMMAND
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-MENU" SET "CURR_TARGET=LIVE_APPLY"&&SET "MENU_SESSION=1"&&CALL:IMAGEMGR_EXECUTE_COMMAND
@@ -223,6 +226,135 @@ ECHO. Examples-
 ECHO.   %@@%-bootcreator -create -disk 0 -vhdx x.vhdx%$$%
 ECHO.   %@@%-bootcreator -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx
 ECHO.
+EXIT /B
+:BASE_EXAMPLE
+ECHO.MENU-SCRIPT
+ECHO.❗BUILDER INTERACTIVE LIST ITEMS❗
+ECHO.
+ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Choice item❕NORMAL❕
+ECHO.❗Note: Choice Item. CHOICE1-9 are valid. Up to 9 choices seperated by '❗'❗
+ECHO.❕CHOICE1❕Select an option❕✅ Choice option 1 selected❗❎ Choice option 2 selected❗❎ Choice option 3 selected❕VolaTILE❕
+ECHO.❕@COMMAND❕ECHO.Choice1-S:◁CHOICE1[S]▷ Choice1-I:◁CHOICE1[I]▷ Choice1-1:◁CHOICE1[1]▷ Choice1-2:◁CHOICE1[2]▷ Choice1-3:◁CHOICE1[3]▷❕NORMAL❕DX❕
+ECHO.❕@COMMAND❕ECHO.Group:◁GROUP▷ SubGroup:◁SUBGROUP▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Prompt item❕NORMAL❕
+ECHO.❗Note: Prompt Item. PROMPT1-9 are valid. Prompt filter NUMBER, LETTER, ALPHA, MENU, MOST, and NONE are usable options. Minimum and maximum character limit are optional.❗
+ECHO.❕PROMPT1❕Enter text❕ALPHA_3-20❕VolaTILE❕
+ECHO.❕@COMMAND❕ECHO.Prompt1-S:◁PROMPT1[S]▷ Prompt1-I:◁PROMPT1[I]▷ Prompt1-1:◁PROMPT1[1]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Picker item❕NORMAL❕
+ECHO.❗Note: Picker Item. PICKER1-9 are valid. ◁IMAGE_FOLDER▷, ◁LIST_FOLDER▷, ◁PACK_FOLDER▷, ◁CACHE_FOLDER▷, and ◁PROG_SOURCE▷ are usable options.❗
+ECHO.❕PICKER1❕Select a file❕"◁IMAGE_FOLDER▷\*.*"❕VolaTILE❕
+ECHO.❕@COMMAND❕ECHO.Picker1-S:◁PICKER1[S]▷ Picker1-I:◁PICKER1[I]▷ Picker1-1:◁PICKER1[1]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❗BUILDER NON-INTERACTIVE LIST ITEMS❗
+ECHO.
+ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Condit item❕NORMAL❕
+ECHO.❗Note: Condit Item. CONDIT1-9 are valid. DEFINED, NDEFINED, EXIST, NEXIST, EQ, NE, GE, LE, LT, and GT are usable options. Enter ◁NULL▷ into the 4th column if 'else' is not needed.❗
+ECHO.❕CONDIT1❕◁WINTAR▷❗EXIST❕WinTar Exists❕◁NULL▷❕
+ECHO.❕CONDIT2❕◁CHOICE1[I]▷❗EQ❗1❕Choice 1 index equals 1❕Choice 1 index does not equal 1❕
+ECHO.❕@COMMAND❕ECHO.Condit1-S:◁CONDIT1[S]▷ Condit1-I:◁CONDIT1[I]▷ Condit1-1:◁CONDIT1[1]▷ Condit1-2:◁CONDIT1[2]▷❕NORMAL❕DX❕
+ECHO.❕@COMMAND❕ECHO.Condit2-S:◁CONDIT2[S]▷ Condit2-I:◁CONDIT2[I]▷ Condit2-1:◁CONDIT2[1]▷ Condit2-2:◁CONDIT2[2]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Array item❕NORMAL❕
+ECHO.❗Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th colum adds 'else' function.❗
+ECHO.❕ARRAY1❕a❕a❗b❗c❕✅ Array1  option 1 selected❗✅ Array1  option 2 selected❗✅ Array1  option 3 selected❕
+ECHO.❕ARRAY2❕1❕1❗2❗3❕✅ Array2  option 1 selected❗✅ Array2  option 2 selected❗✅ Array2  option 3 selected❕✅ Array2  option 1 else selected❗✅ Array2  option 2 else selected❗✅ Array2  option 3 else selected❕
+ECHO.❕@COMMAND❕ECHO.Array1-S:◁ARRAY1[S]▷ Array1-I:◁ARRAY1[I]▷ Array1-1:◁ARRAY1[1]▷ Array1-2:◁ARRAY1[2]▷ Array1-3:◁ARRAY1[3]▷❕NORMAL❕DX❕
+ECHO.❕@COMMAND❕ECHO.Array2-S:◁ARRAY2[S]▷ Array2-I:◁ARRAY2[I]▷ Array2-1:◁ARRAY2[1]▷ Array2-2:◁ARRAY2[2]▷ Array2-3:◁ARRAY2[3]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Math item❕NORMAL❕
+ECHO.❗Note: Math item. MATH1-9 are valid. +, -, /, and * are usable options.❗
+ECHO.❕MATH1❕1❕*❕5❕
+ECHO.❕@COMMAND❕ECHO.Math1-S:◁MATH1[S]▷ Math1-I:◁MATH1[I]▷ Math1-1:◁MATH1[1]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 String item❕NORMAL❕
+ECHO.❗Note: String item. STRING1-9 are valid. STRING and INTEGER are usable options.❗
+ECHO.❕STRING1❕10❗20❗30❗40❗50❕INTEGER❕3❕
+ECHO.❕STRING2❕A❗B❗C❗D❗E❕STRING❕2❕
+ECHO.❕@COMMAND❕ECHO.String1-S:◁STRING1[S]▷ String1-I:◁STRING1[I]▷ String1-1:◁STRING1[1]▷ String1-2:◁STRING1[2]▷ String1-3:◁STRING1[3]▷ String1-4:◁STRING1[4]▷ String1-5:◁STRING1[5]▷❕NORMAL❕DX❕
+ECHO.❕@COMMAND❕ECHO.String2-S:◁STRING2[S]▷ String2-I:◁STRING2[I]▷ String2-1:◁STRING2[1]▷ String2-2:◁STRING2[2]▷ String2-3:◁STRING2[3]▷ String2-4:◁STRING2[4]▷ String2-5:◁STRING2[5]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Routine item❕NORMAL❕
+ECHO.❗Note: Routine items are loop based. ROUTINE1-9 are valid. COMMAND and SPLIT are usable options. Optional column# match seperated by '❗'.❗
+ECHO.❕ROUTINE1❕^<^>:❗DIR /B C:\❗1❗Program Files❕COMMAND❕1❕
+ECHO.❕ROUTINE2❕:❗A:B:C❗3❗C❕SPLIT❕2❕
+ECHO.X❕ROUTINE1❕^<^>:❗DIR /B C:\❕COMMAND❕1❕
+ECHO.X❕ROUTINE2❕:❗A:B:C❕SPLIT❕2❕
+ECHO.❕@COMMAND❕ECHO.Routine1-S:◁ROUTINE1[S]▷ Routine1-I:◁ROUTINE1[I]▷  Routine1-1:◁ROUTINE1[1]▷ Routine1-2:◁ROUTINE1[2]▷ Routine1-3:◁ROUTINE1[3]▷❕NORMAL❕DX❕
+ECHO.❕@COMMAND❕ECHO.Routine2-S:◁ROUTINE2[S]▷ Routine2-I:◁ROUTINE2[I]▷  Routine2-1:◁ROUTINE2[1]▷ Routine2-2:◁ROUTINE2[2]▷ Routine2-3:◁ROUTINE2[3]▷❕NORMAL❕DX❕
+ECHO.
+ECHO.❗EXECUTION LIST ITEMS❗
+ECHO.
+ECHO.❕GROUP❕🪟 Execution items❕🪛 Command item❕NORMAL❕
+ECHO.❗Note: Command item. 'NORMAL', 'NOMOUNT', 'NORMAL❗RAU', 'NORMAL❗RAS', 'NORMAL❗RATI', 'NOMOUNT❗RAU', 'NOMOUNT❗RAS', or 'NOMOUNT❗RATI' are usable options.❗
+ECHO.❕@COMMAND❕ECHO.testing 1 2 3.❕NORMAL❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Execution items❕🪛 Registry create item❕NORMAL❕
+ECHO.❗Note: Registry item. 'CREATE', 'DELETE', 'CREATE❗RAU', 'CREATE❗RAS', 'CREATE❗RATI', 'DELETE❗RAU', 'DELETE❗RAS', or 'DELETE❗RATI' are usable options. DWORD, QWORD, BINARY, STRING, EXPAND, and MULTI are usable options.❗
+ECHO.
+ECHO.❗Note: Registry item create 'key'.❗
+ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❕CREATE❕DX❕
+ECHO.❗Note: Registry item create 'value'.❗
+ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗◁NULL▷❗TestData❗STRING❕CREATE❕DX❕
+ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗TestValue❗◁NULL▷❗STRING❕CREATE❕DX❕
+ECHO.❗Note: Registry item delete 'value'.❗
+ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗TestValue❕DELETE❕DX❕
+ECHO.❗Note: Registry item delete 'key'.❗
+ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❕DELETE❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Execution items❕🪛 FileOper item❕NORMAL❕
+ECHO.❗Note: FileOper item. CREATE, DELETE, RENAME, COPY, MOVE, and TAKEOWN are usable options.❗
+ECHO.❗Note: FileOper item create 'folder'.❗
+ECHO.❕@FILEOPER❕c:\test❕CREATE❕DX❕
+ECHO.❗Note: FileOper item move.❗
+ECHO.❕@TEXTHOST❕test❕FILE❗c:\testmove.txt❕DX❕
+ECHO.❕@FILEOPER❕testmove.txt❗c:\test❕MOVE❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Execution items❕🪛 Session item + TextHost item❕NORMAL❕
+ECHO.❕@TEXTHOST❕MENU-SCRIPT❕FILE❗◁LIST_FOLDER▷\testlist.list❕DX❕
+ECHO.❕@TEXTHOST❕◁U00▷@TEXTHOST◁U00▷testing 1 2 3◁U00▷SCREEN◁U00▷DX◁U00▷❕FILE❗◁LIST_FOLDER▷\testlist.list❕DX❕
+ECHO.❗Note: Using the '-PATH "◁DRVTAR▷"' parameter during an active session will reuse the active session's target.❗
+ECHO.❕SESSION❕-IMAGEMGR -RUN -LIST "testlist.list" -PATH "◁DRVTAR▷"❕◁NULL▷❕DX❕
+ECHO.❕@FILEOPER❕◁LIST_FOLDER▷\testlist.list❕DELETE❕DX❕
+ECHO.
+ECHO.❕GROUP❕🪟 Example❕Items being used in conjunction❕NORMAL❕
+ECHO.❕CHOICE1❕Select an option❕🪛 Choice A❗🪛 Choice B❗🪛 Choice C❗❕VolaTILE❕
+ECHO.❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❗3❕A❗B❗C❕
+ECHO.❕ARRAY2❕◁ARRAY1[S]▷❕A❗B❗C❕DX❗DX❗DX❕
+ECHO.❕@TEXTHOST❕Choice ◁ARRAY2[S]▷ picked.❕SCREEN❕◁ARRAY2[1]▷❕
+ECHO.❕@TEXTHOST❕Choice ◁ARRAY2[S]▷ picked.❕SCREEN❕◁ARRAY2[2]▷❕
+ECHO.❕@TEXTHOST❕Choice ◁ARRAY2[S]▷ picked.❕SCREEN❕◁ARRAY2[3]▷❕
+EXIT /B
+:MENU_EXAMPLE_BASE
+ECHO.MENU-SCRIPT
+ECHO.❗Note: This is an example of a custom menu for recovery.❗
+ECHO.
+ECHO.❕GROUP❕Recovery Operation Example❕Backup picked vhdx to backup.wim❕NORMAL❕
+ECHO.❕PICKER1❕Select a vhdx to backup❕"◁PROG_SOURCE▷\*.vhdx"❕VolaTILE❕
+ECHO.❕CONDIT1❕◁PROG_SOURCE▷\◁PICKER1[S]▷❗EXIST❕DX❕DX❕
+ECHO.❕@TEXTHOST❕◁PROG_SOURCE▷\◁PICKER1[S]▷ does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
+ECHO.❕@TEXTHOST❕Deleting backup.wim❕SCREEN❕◁CONDIT1[1]▷❕
+ECHO.❕@COMMAND❕DEL /Q /F "◁IMAGE_FOLDER▷\backup.wim"❕NORMAL❕◁CONDIT1[1]▷❕
+ECHO.❕SESSION❕-imageproc -vhdx "◁PICKER1[S]▷" -index 1 -wim "backup.wim" -size 25❕◁NULL▷❕◁CONDIT1[1]▷❕
+ECHO.❕GROUP❕Recovery Operation Example❕Restore picked wim to current.vhdx❕NORMAL❕
+ECHO.❕PICKER1❕Select a wim to restore❕"◁IMAGE_FOLDER▷\*.wim"❕VolaTILE❕
+ECHO.❕CONDIT1❕◁PROG_SOURCE▷\◁PICKER1[S]▷❗EXIST❕DX❕DX❕
+ECHO.❕@TEXTHOST❕◁IMAGE_FOLDER▷\◁PICKER1[S]▷ does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
+ECHO.❕@TEXTHOST❕Deleting current.vhdx❕SCREEN❕◁CONDIT1[1]▷❕
+ECHO.❕@COMMAND❕DEL /Q /F "◁PROG_SOURCE▷\current.vhdx"❕NORMAL❕◁CONDIT1[1]▷❕
+ECHO.❕SESSION❕-imageproc -wim "◁PICKER1[S]▷" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕◁CONDIT1[1]▷❕
+EXIT /B
+:MENU_EXAMPLE_EXEC
+ECHO.MENU-SCRIPT
+ECHO.❗Note: Here is an example of a reboot to restore scenerio as an execution list.❗
+ECHO.
+ECHO.❕CONDIT1❕◁IMAGE_FOLDER▷\backup.wim❗EXIST❕DX❕DX❕
+ECHO.❕@TEXTHOST❕ECHO.◁IMAGE_FOLDER▷\backup.wim does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
+ECHO.❕@COMMAND❕ECHO.Deleting current.vhdx.❕NORMAL❕◁CONDIT1[1]▷❕
+ECHO.❕@COMMAND❕DEL /Q /F "◁PROG_SOURCE▷\current.vhdx"❕NORMAL❕◁CONDIT1[1]▷❕
+ECHO.❕SESSION❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕◁CONDIT1[1]▷❕
+ECHO.❕@COMMAND❕PAUSE❕NORMAL❕DX❕
 EXIT /B
 :GET_INIT
 SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"
@@ -634,7 +766,7 @@ SET "FOLDER_MODE=UNIFIED"&&IF NOT "%COMPRESS%"=="FAST" IF NOT "%COMPRESS%"=="MAX
 IF EXIST "%PROG_SOURCE%\CACHE" IF EXIST "%PROG_SOURCE%\IMAGE" IF EXIST "%PROG_SOURCE%\PACK" IF EXIST "%PROG_SOURCE%\LIST" SET "FOLDER_MODE=ISOLATED"
 IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (CACHE IMAGE PACK LIST) DO (SET "%%a_FOLDER=%PROG_SOURCE%\%%a")
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (CACHE IMAGE PACK LIST) DO (SET "%%a_FOLDER=%PROG_SOURCE%")
-FOR %%a in (MOUNT PATH_APPLY LIVE_APPLY VDISK_APPLY ERROR $NO_MOUNT $HALT $ONLY1 $ONLY2 $ONLY3 $VERBOSE $VHDX VDISK VDISK_LTR MENU_SESSION CUSTOM_SESSION DELETE_DONE FEAT_QRY DRVR_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
+FOR %%a in (MOUNT PATH_APPLY LIVE_APPLY VDISK_APPLY ERROR $NO_MOUNT $HALT $ONLY1 $ONLY2 $ONLY3 $VERBOSE $VHDX VDISK VDISK_LTR MENU_SESSION CUSTOM_SESSION MENU_SKIP DELETE_DONE FEAT_QRY DRVR_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
 CHCP 65001>NUL&IF NOT DEFINED U00 SET "U00=❕"&&SET "U01=❗"&&SET "U02=🗂 "&&SET "U03=🛠️"&&SET "U04=💾"&&SET "U05=🗳 "&&SET "U06=🪟"&&SET "U07=🔄"&&SET "U08=🪛"&&SET "U09=🥾"&&SET "U10=✒ "&&SET "U11=🗃 "&&SET "U12=🎨"&&SET "U13=🧾"&&SET "U14=⏳"&&SET "U15=✅"&&SET "U16=❎"&&SET "U17=🚫"&&SET "U18=🗜 "&&SET "U19=🛡 "&&SET "U0L=◁"&&SET "U0R=▷"&&SET "COLOR0=[97m"&&SET "COLOR1=[31m"&&SET "COLOR2=[91m"&&SET "COLOR3=[33m"&&SET "COLOR4=[93m"&&SET "COLOR5=[92m"&&SET "COLOR6=[96m"&&SET "COLOR7=[94m"&&SET "COLOR8=[34m"&&SET "COLOR9=[95m"
 CALL SET "@@=%%COLOR%ACC_COLOR%%%"&&CALL SET "##=%%COLOR%BTN_COLOR%%%"&&CALL SET "$$=%%COLOR%TXT_COLOR%%%"
 SET "COLORA=%@@%"&&SET "COLORB=%##%"&&SET "COLORT=%$$%"
@@ -770,7 +902,6 @@ SET "$XNT="&&FOR %%a in (1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 2
 IF NOT EXIST "%$LIST_FILE%" GOTO:LIST_FILE_SKIP
 SET "$HEAD_CHECK=%$LIST_FILE%"&&CALL:GET_HEADER
 IF DEFINED ERROR GOTO:LIST_FILE_SKIP
-::CALL SET "$ITEMSTOP=%$ITEMSTOP%"&&CALL SET "$ITEMSBTM=%$ITEMSBTM%"
 IF DEFINED $ITEMSTOP CALL:ITEMSTOP
 COPY /Y "%$LIST_FILE%" "$TEMP">NUL 2>&1
 SET "$VCLM2_LAST="&&IF EXIST "$TEMP" FOR /F "TOKENS=1-9 SKIP=1 DELIMS=%U00%" %%1 in ($TEMP) DO (SET "$LIST_FILEX=1"
@@ -1027,8 +1158,8 @@ IF "%SELECTX%"=="1" SET "REC_LIST=base"
 IF "%SELECTX%"=="2" SET "REC_LIST=list"
 SET "$HEADERS= %U01% %U01% %U01% %U01%                        Enter name of new .%REC_LIST%%U01% %U01% %U01% "&&SET "$SELECT=NEW_NAME"&&SET "$CHECK=PATH"&&CALL:PROMPT_BOX
 IF DEFINED ERROR EXIT /B
-IF "%SELECTX%"=="1" (ECHO.MENU-SCRIPT MENU&&ECHO.This is an example of a custom menu for recovery.&&ECHO.%U00%GROUP%U00%Recovery Operation Example%U00%Backup picked vhdx to backup.wim%U00%NORMAL%U00%&&ECHO.%U00%PICKER1%U00%Select a vhdx to backup%U00%"%U0L%PROG_SOURCE%U0R%\*.vhdx"%U00%VolaTILE%U00%&&ECHO.❕CONDIT1❕%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R%❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R% does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting backup.wim%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%IMAGE_FOLDER%U0R%\backup.wim"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.❕SESSION❕-imageproc -vhdx "%U0L%PICKER1[S]%U0R%" -index 1 -wim "backup.wim" -size 25❕◁NULL▷❕%U0L%CONDIT1[1]%U0R%❕&&ECHO.%U00%GROUP%U00%Recovery Operation Example%U00%Restore picked wim to current.vhdx%U00%NORMAL%U00%&&ECHO.%U00%PICKER1%U00%Select a wim to restore%U00%"%U0L%IMAGE_FOLDER%U0R%\*.wim"%U00%VolaTILE%U00%&&ECHO.❕CONDIT1❕%U0L%PROG_SOURCE%U0R%\%U0L%PICKER1[S]%U0R%❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%IMAGE_FOLDER%U0R%\%U0L%PICKER1[S]%U0R% does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting current.vhdx%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%PROG_SOURCE%U0R%\current.vhdx"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.❕SESSION❕-imageproc -wim "%U0L%PICKER1[S]%U0R%" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕%U0L%CONDIT1[1]%U0R%❕)>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
-IF "%SELECTX%"=="2" (ECHO.MENU-SCRIPT MENU&&ECHO.Here is an example of a reboot to restore scenerio as an execution list.&&ECHO.❕CONDIT1❕%U0L%IMAGE_FOLDER%U0R%\backup.wim❗EXIST❕DX❕DX❕&&ECHO.%U00%@COMMAND%U00%ECHO.%U0L%IMAGE_FOLDER%U0R%\backup.wim does not exist.%U00%NORMAL%U00%%U0L%CONDIT1[2]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%ECHO.Deleting current.vhdx.%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.%U00%@COMMAND%U00%DEL /Q /F "%U0L%PROG_SOURCE%U0R%\current.vhdx"%U00%NORMAL%U00%%U0L%CONDIT1[1]%U0R%%U00%&&ECHO.❕SESSION❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕%U0L%CONDIT1[1]%U0R%❕&&ECHO.%U00%@COMMAND%U00%PAUSE%U00%NORMAL%U00%DX%U00%)>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
+IF "%SELECTX%"=="1" CALL:MENU_EXAMPLE_BASE>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
+IF "%SELECTX%"=="2" CALL:MENU_EXAMPLE_EXEC>"%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
 START NOTEPAD.EXE "%LIST_FOLDER%\%NEW_NAME%.%REC_LIST%"
 EXIT /B
 :APPEARANCE
@@ -1431,7 +1562,7 @@ IF "%SELECT%"=="0" IF "%IMAGEMGR_TYPE%"=="PACK" SET "FILE_TYPE=PKX"&&CALL:BASIC_
 IF "%SELECT%"=="0" IF "%IMAGEMGR_TYPE%"=="LIST" SET "FILE_TYPE=LISTS"&&CALL:BASIC_FILE&EXIT /B
 IF NOT DEFINED $PICK EXIT /B
 SET "$LISTPACK=%$CHOICE%"&&FOR %%G in ("%$PICK%") DO (SET "CAPS_SET=IMAGEMGR_EXT"&&SET "CAPS_VAR=%%~xG"&&CALL:CAPS_SET)
-IF "%IMAGEMGR_EXT%"==".BASE" SET "$LIST_FILE=%$CHOICE%"&SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"
+IF "%IMAGEMGR_EXT%"==".BASE" SET "$LIST_FILE=%$PICK%"&SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"
 IF DEFINED ERROR EXIT /B
 IF DEFINED MENU_SESSION CLS&&CALL %CMD% /C ""%PROG_SOURCE%\windick.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -MENU"&CALL:PAUSED&EXIT /B
 IF "%IMAGEMGR_EXT%"==".PKX" SET "$IMGMGRX=                           %U05% Pack Execute"
@@ -1500,32 +1631,45 @@ IF "!$ITEM_TYPE!"=="EXECUTE" FOR /F "TOKENS=*" %%● in ("!$QCLM4$!") DO (IF "%%
 FOR %%○ in (SC RO) DO (IF "%%●"=="%%○" CALL:SC_RO_CREATE))
 CD /D "%PROG_FOLDER%">NUL 2>&1
 EXIT /B
-:TEXTFILE_ITEM
+:TEXTHOST_ITEM
+CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
-FOR /F "TOKENS=* DELIMS=" %%● in ("!$QCLM2$!") DO (ECHO.%%●>>!$QCLM3$!)
+SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=ZCLM"&&CALL:EXPANDOFLEX
+SET "$PASS="&&FOR %%□ IN (FILE SCREEN) DO (IF "!$ZCLM1$!"=="%%□" SET "$PASS=1")
+IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not valid. Example: 'SCREEN' or 'FILE❗C:\TEXT.TXT'&&EXIT /B
+IF "!$ZCLM1$!"=="FILE" IF EXIST "!$ZCLM2$!\*" ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not valid. Textfile target is a folder.&&EXIT /B
+IF NOT DEFINED @QUIET ECHO.Executing %@@%texthost%$$% to !$ZCLM1$!
+IF "!$ZCLM1$!"=="FILE" FOR /F "TOKENS=* DELIMS=" %%● in ("!$QCLM2$!") DO (ECHO.%%●>>"!$ZCLM2$!")
+IF "!$ZCLM1$!"=="SCREEN" FOR /F "TOKENS=* DELIMS=" %%● in ("!$QCLM2$!") DO (ECHO.%%●)
 EXIT /B
 :SESSION_ITEM
+CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 CALL %CMD% /C ""%PROG_SOURCE%\windick.cmd" !$QCLM2$!"
 EXIT /B
 :GROUP_ITEM
+CALL:IF_LIVE_EXT
 FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 in ("!$QCLM2$!%U01%!$QCLM3$!") DO (SET "GROUP=%%1"&&SET "SUBGROUP=%%2")
 IF DEFINED $QCLM7$ FOR /F "TOKENS=*" %%● IN ("!$QCLM7$!") DO (SET "CHOICE0[I]=%%●"
 FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (IF "%%●"=="%%○" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM6$!") DO (SET "CHOICE0[S]=%%%$QCLM7$%"&&SET "CHOICE0[%%●]=%%%$QCLM7$%")))
 FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0[%%●] SET "CHOICE0[I]="&&SET "CHOICE0[S]=")
 EXIT /B
 :PICKER_ITEM
+CALL:IF_LIVE_EXT
 FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![1]=%%○"&&SET "!$QCLM1$![S]=%%○")
 EXIT /B
 :PROMPT_ITEM
+CALL:IF_LIVE_EXT
 FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![1]=%%○"&&SET "!$QCLM1$![S]=%%○")
 EXIT /B
 :CHOICE_ITEM
+CALL:IF_LIVE_EXT
 FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=%%○"
 FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM3$!") DO (SET "!$QCLM1$![S]=%%%$QCLM4$%"&&SET "!$QCLM1$![%%◌]=%%%$QCLM4$%")))
 FOR %%○ in (S I) DO (IF NOT DEFINED !$QCLM1$![%%○] SET "!$QCLM1$![I]="&&SET "!$QCLM1$![S]=")
 EXIT /B
 :STRING_ITEM
+CALL:IF_LIVE_EXT
 FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM2$!") DO (
 IF "!$QCLM3$!"=="STRING" IF NOT "%%1"=="" SET "!$QCLM1$![1]=%%1"&&IF NOT "%%2"=="" SET "!$QCLM1$![2]=%%2"&&IF NOT "%%3"=="" SET "!$QCLM1$![3]=%%3"&&IF NOT "%%4"=="" SET "!$QCLM1$![4]=%%4"&&IF NOT "%%5"=="" SET "!$QCLM1$![5]=%%5"&&IF NOT "%%6"=="" SET "!$QCLM1$![6]=%%6"&&IF NOT "%%7"=="" SET "!$QCLM1$![7]=%%7"&&IF NOT "%%8"=="" SET "!$QCLM1$![8]=%%8"&&IF NOT "%%9"=="" SET "!$QCLM1$![9]=%%9"
 IF "!$QCLM3$!"=="INTEGER" IF NOT "%%1"=="" SET /A "!$QCLM1$![1]=%%1"&&IF NOT "%%2"=="" SET /A "!$QCLM1$![2]=%%2"&&IF NOT "%%3"=="" SET /A "!$QCLM1$![3]=%%3"&&IF NOT "%%4"=="" SET /A "!$QCLM1$![4]=%%4"&&IF NOT "%%5"=="" SET /A "!$QCLM1$![5]=%%5"&&IF NOT "%%6"=="" SET /A "!$QCLM1$![6]=%%6"&&IF NOT "%%7"=="" SET /A "!$QCLM1$![7]=%%7"&&IF NOT "%%8"=="" SET /A "!$QCLM1$![8]=%%8"&&IF NOT "%%9"=="" SET /A "!$QCLM1$![9]=%%9")
@@ -1540,11 +1684,13 @@ EXIT /B
 IF EXIST "%PROG_SOURCE%\$PKX" ECHO.%COLOR4%ERROR:%$$% A package is already in session. Delete the $PKX folder before proceeding.&&EXIT /B
 FOR %%G in ("%$PACK_FILE%") DO (SET "PKX_NAME=%%~nG%%~xG")
 SET "PKX_FOLDER=%PROG_SOURCE%\$PKX"&&MD "%PROG_SOURCE%\$PKX">NUL 2>&1
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%PKX_NAME%") DO (ECHO.Extracting %@@%%%□%$$%...)
-SET "LAST_SESSION=%CURR_SESSION%"&&SET "LIST_FOLDER_Z=%LIST_FOLDER%"&&SET "PACK_FOLDER_Z=%PACK_FOLDER%"&&SET "CACHE_FOLDER_Z=%CACHE_FOLDER%"&&%DISM% /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PACK_FILE%" /INDEX:1 /APPLYDIR:"%PROG_SOURCE%\$PKX">NUL 2>&1
+FOR /F "TOKENS=*" %%□ IN ("%PKX_NAME%") DO (ECHO.Extracting %@@%%%□%$$%...)
+::SET "LAST_SESSION=%CURR_SESSION%"&&SET "LIST_FOLDER_Z=%LIST_FOLDER%"&&SET "PACK_FOLDER_Z=%PACK_FOLDER%"&&SET "CACHE_FOLDER_Z=%CACHE_FOLDER%"
+%DISM% /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PACK_FILE%" /INDEX:1 /APPLYDIR:"%PROG_SOURCE%\$PKX">NUL 2>&1
 IF NOT EXIST "%PROG_SOURCE%\$PKX\package.list" ECHO.%COLOR2%ERROR:%$$% Package is either missing package.list or unable to extract.
 SET "LIST_FOLDER=%PROG_SOURCE%\$PKX"&&SET "PACK_FOLDER=%PROG_SOURCE%\$PKX"&&SET "CACHE_FOLDER=%PROG_SOURCE%\$PKX"&&IF EXIST "%PROG_SOURCE%\$PKX\package.list" SET "$LIST_FILE=%PROG_SOURCE%\$PKX\package.list"&&CALL:LIST_EXEC
-SET "CURR_SESSION=%LAST_SESSION%"&&SET "LIST_FOLDER=%LIST_FOLDER_Z%"&&SET "PACK_FOLDER=%PACK_FOLDER_Z%"&&SET "CACHE_FOLDER=%CACHE_FOLDER_Z%"&&CD /D "%PROG_FOLDER%">NUL
+::SET "CURR_SESSION=%LAST_SESSION%"&&SET "LIST_FOLDER=%LIST_FOLDER_Z%"&&SET "PACK_FOLDER=%PACK_FOLDER_Z%"&&SET "CACHE_FOLDER=%CACHE_FOLDER_Z%"
+CD /D "%PROG_FOLDER%">NUL
 FOR %%a in (LIST_FOLDER_Z PACK_FOLDER_Z CACHE_FOLDER_Z $PACK_FILE PKX_FOLDER PKX_NAME) DO (SET "%%a=")
 IF EXIST "%PROG_SOURCE%\$PKX" SET "FOLDER_DEL=%PROG_SOURCE%\$PKX"&&CALL:FOLDER_DEL
 IF EXIST "%PROG_SOURCE%\$PKX" ECHO.%COLOR4%ERROR:%$$% Unable to complete package cleanup as the package is still active. Do not spawn commands asynchronously.
@@ -1573,7 +1719,7 @@ IF "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedIn
 IF "%$RAS%"=="RATI" ECHO.DEL /Q /F "%PROG_FOLDER%\$RAS.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$RAS.cmd"
 ECHO.@ECHO OFF^&CD /D "%PROG_FOLDER%">"%PROG_FOLDER%\$%$RAS%.cmd"
 IF NOT DEFINED VAR_ITEMS CALL:VAR_ITEMS
-FOR %%■ in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER PROG_SOURCE IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PKX_FOLDER APPLY_TARGET %VAR_ITEMS%) DO (IF DEFINED %%■ CALL ECHO.SET "%%■=!%%■!">>"%PROG_FOLDER%\$%$RAS%.cmd")
+FOR %%■ in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER PROG_SOURCE IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PKX_FOLDER APPLY_TARGET %VAR_ITEMS%) DO (IF DEFINED %%■ ECHO.SET "%%■=!%%■!">>"%PROG_FOLDER%\$%$RAS%.cmd")
 ECHO.CALL:ROUTINE^>"%PROG_FOLDER%\$LOG">>"%PROG_FOLDER%\$%$RAS%.cmd"
 ECHO.DEL /Q /F "%PROG_FOLDER%\$%$RAS%.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$%$RAS%.cmd"
 ECHO.:ROUTINE>>"%PROG_FOLDER%\$%$RAS%.cmd"
@@ -1615,6 +1761,7 @@ FOR /F "TOKENS=1 DELIMS= " %%a IN ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\SERVI
 EXIT /B
 :ARRAY_ITEM
 SET "$IFELSE="
+CALL:IF_LIVE_EXT
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM4!"&&SET "$OUTPUT=ACTN"&&CALL:EXPANDOFLEX
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=MATCH"&&CALL:EXPANDOFLEX
 IF NOT "!ACTN1!"=="◁NULL▷" IF "!$QCLM2$!"=="!$MATCH1$!" SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![S]=!$ACTN1$!"&&SET "!$QCLM1$![1]=!$ACTN1$!"&&SET "$IFELSE=1"
@@ -1639,7 +1786,7 @@ IF NOT "!ELSE8!"=="◁NULL▷" IF NOT "!$QCLM2$!"=="!$MATCH8$!" SET "!$QCLM1$![8
 IF NOT "!ELSE9!"=="◁NULL▷" IF NOT "!$QCLM2$!"=="!$MATCH9$!" SET "!$QCLM1$![9]=!$ELSE9$!"&&IF "!$IFELSE!"=="9" SET "!$QCLM1$![S]=!$ELSE9$!"
 EXIT /B
 :ROUTINE_ITEM
-SET "$FILE_OBJ="&&SET "$PASS="&&FOR %%□ IN (SPLIT COMMAND) DO (IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
+SET "$PASS="&&FOR %%□ IN (SPLIT COMMAND) DO (IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not SPLIT or COMMAND.&&EXIT /B
 CALL:IF_LIVE_EXT
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=ROUT"&&CALL:EXPANDOFLEX
@@ -1657,9 +1804,11 @@ EXIT /B
 SET "$PASS="&&FOR %%□ IN (+ - /) DO (IF "!$QCLM3$!"=="*" SET "$PASS=1"
 IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 OPERATION is not *, /, +, or -.&&EXIT /B
+CALL:IF_LIVE_EXT
 SET /A "!$QCLM1$![I]=1"&&SET /A "!$QCLM1$![S]=!$QCLM2$!"&&SET /A "!$QCLM1$![S]!$QCLM3$!=!$QCLM4$!"&&SET /A "!$QCLM1$![1]=!$QCLM1$![S]!"
 EXIT /B
 :CONDIT_ITEM
+CALL:IF_LIVE_EXT
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=COND"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (EXIST NEXIST DEFINED NDEFINED EQ NE LE GE GT LT) DO (IF "!$COND2$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 CONDITION is not EQ, NE, LE, GE, GT, LT, EXIST, NEXIST, DEFINED or NDEFINED. Example: 'c:\❗EXIST' or '1❗EQ❗1' or 'CHOICE1❗DEFINED'&&EXIT /B
@@ -1691,17 +1840,14 @@ EXIT /B
 SET "$FILE_OBJ="&&SET "$PASS="&&FOR %%□ IN (CREATE DELETE RENAME COPY MOVE TAKEOWN) DO (IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not CREATE, DELETE, RENAME, COPY, MOVE, or TAKEOWN.&&EXIT /B
 CALL:IF_LIVE_MIX
-FOR /F "TOKENS=*" %%a in ("!$QCLM3$!") DO (SET "$FILEOPER=%%a")
+FOR /F "TOKENS=*" %%a in ("!$QCLM3$!") DO (SET "$FILEOPER=%%a"&&SET "$RAS=%%b")
 FOR /F "TOKENS=1-4 DELIMS=%U01%" %%a in ("!$QCLM2$!") DO (SET "$OBJONE=%%a"&&SET "$OBJTWO=%%b")
 IF "%$FILEOPER%"=="COPY" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
 IF "%$FILEOPER%"=="MOVE" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
 IF "%$FILEOPER%"=="RENAME" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
-IF "%$FILEOPER%"=="CREATE" IF EXIST "!$OBJONE!" ECHO.%COLOR4%ERROR:%$$% !$OBJONE! already exists.&&EXIT /B
-IF "%$FILEOPER%"=="TAKEOWN" IF NOT EXIST "!$OBJONE!" ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.&&EXIT /B
-IF "%$FILEOPER%"=="DELETE" IF NOT EXIST "!$OBJONE!" ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.&&EXIT /B
-IF "%$FILEOPER%"=="RENAME" IF NOT EXIST "!$OBJONE!" ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.&&EXIT /B
-IF "%$FILEOPER%"=="COPY" IF NOT EXIST "!$OBJONE!" ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.&&EXIT /B
-IF "%$FILEOPER%"=="MOVE" IF NOT EXIST "!$OBJONE!" ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.&&EXIT /B
+SET "$EXIT="&&FOR %%□ IN (DELETE RENAME COPY MOVE TAKEOWN) DO (IF "%$FILEOPER%"=="%%□" IF NOT EXIST "!$OBJONE!" SET "$EXIT=1"&&IF NOT DEFINED @QUIET ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.)
+IF "%$FILEOPER%"=="CREATE" IF EXIST "!$OBJONE!" SET "$EXIT=1"&&IF NOT DEFINED @QUIET ECHO.%COLOR4%ERROR:%$$% !$OBJONE! already exists.
+IF DEFINED $EXIT EXIT /B
 IF EXIST "!$OBJONE!\*" SET "$FILE_OBJ=FOLD"
 IF NOT EXIST "!$OBJONE!\*" SET "$FILE_OBJ=FILE"
 IF "%$FILEOPER%"=="CREATE" SET "$FILE_OBJ=FOLD"
@@ -1741,7 +1887,7 @@ IF "%$REG_TYPE%"=="MULTI" SET "$REG_TYPEX=REG_MULTI_SZ"
 IF "!$REG_DAT!"=="◁NULL▷" SET "$REG_DAT="
 IF "!$REG_VAL!"=="◁NULL▷" SET "$REG_VAL="&&SET "$REG_TYPEX=REG_SZ"
 IF NOT DEFINED $RAS SET "RUN_AS=user"
-IF "!$RAS!"=="RAU" SET "RUN_AS=user"
+IF "!$RAS!"=="RAU" SET "RUN_AS=user"&&SET "$RAS="
 IF "!$RAS!"=="RAS" SET "RUN_AS=system"
 IF "!$RAS!"=="RATI" SET "RUN_AS=trustedinstaller"
 IF NOT DEFINED @QUIET IF "%$REG_OBJ%"=="KEY" ECHO.Executing %@@%registry%$$% !$REG_OPER! as %##%%RUN_AS%%$$% key !$REG_KEY!
@@ -1759,9 +1905,9 @@ EXIT /B
 :COMMAND_ITEM
 SET "$PASS="&&FOR %%□ IN (NORMAL NOMOUNT NORMAL%U01%RAU NORMAL%U01%RAS NORMAL%U01%RATI NOMOUNT%U01%RAU NOMOUNT%U01%RAS NOMOUNT%U01%RATI) DO (IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not NORMAL, NOMOUNT, NORMAL%U01%RAU, NORMAL%U01%RAS, NORMAL%U01%RATI, NOMOUNT%U01%RAU, NOMOUNT%U01%RAS, or NOMOUNT%U01%RATI.&&EXIT /B
-FOR /F "TOKENS=1-2 DELIMS=%U01%" %%a in ("!$QCLM3$!") DO (SET "$QCLM3$=%%a"&&SET "$RAS=%%b")
 IF "!$QCLM3$!"=="NOMOUNT" CALL:IF_LIVE_MIX
 IF "!$QCLM3$!"=="NORMAL" CALL:IF_LIVE_EXT
+FOR /F "TOKENS=1-2 DELIMS=%U01%" %%a in ("!$QCLM3$!") DO (SET "$QCLM3$=%%a"&&SET "$RAS=%%b")
 IF NOT DEFINED $RAS SET "RUN_AS=user"
 IF "!$RAS!"=="RAU" SET "RUN_AS=user"&&SET "$RAS="
 IF "!$RAS!"=="RAS" SET "RUN_AS=system"
@@ -1782,7 +1928,7 @@ IF NOT EXIST "%PACK_FOLDER%\%%□" ECHO.%COLOR4%ERROR:%$$% %PACK_FOLDER%\%%□ d
 SET "PACK_GOOD=The operation completed successfully"
 FOR %%G in ("%EXTPACKAGE%") DO (SET "PACKFULL=%%~nG%%~xG"&&SET "PACKEXT=%%~xG")
 FOR %%G in (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z) DO (CALL SET "PACKEXT=%%PACKEXT:%%G=%%G%%")
-IF "%PACKEXT%"==".PKX" SET "$PACK_FILE=%EXTPACKAGE%"&&GOTO:PKX_EXEC
+IF "%PACKEXT%"==".PKX" CALL %CMD% /C ""%PROG_SOURCE%\windick.cmd" -IMAGEMGR -RUN -PACK "%$QCLM2$%" -path "%DRVTAR%""&EXIT /B
 FOR %%G in (APPXBUNDLE MSIXBUNDLE) DO (IF "%PACKEXT%"==".%%G" SET "PACKEXT=.APPX")
 IF NOT DEFINED @QUIET ECHO.Installing %@@%%PACKFULL%%$$%...
 CALL:IF_LIVE_MIX
@@ -2012,6 +2158,7 @@ IF "%$QCLM4$%"=="SC" SET "SCRO=SetupComplete"
 IF "%$QCLM4$%"=="RO" SET "SCRO=RunOnce"
 IF NOT DEFINED %$QCLM4$%_PREPARE SET "%$QCLM4$%_PREPARE=1"&&CALL:SC_RO_PREPARE
 IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("!$QCLM2$!") DO (ECHO.Scheduling %@@%%%□%$$% for %@@%%SCRO%%$$%...)
+CALL:SCRO_DISPATCH
 IF NOT "!$QCLM1$!"=="EXTPACKAGE" GOTO:SC_RO_CREATE_SKIP
 FOR /F "TOKENS=*" %%░ in ("!$QCLM2$!") DO (
 IF EXIST "%PACK_FOLDER%\%%░" IF NOT DEFINED @QUIET ECHO.Copying Package %@@%%%░ for %##%%SCRO%%$$%...
@@ -2020,7 +2167,6 @@ IF EXIST "%PACK_FOLDER%\%%░" ECHO.%U00%EXTPACKAGE%U00%%%░%U00%INSTALL%U00%DX
 IF NOT EXIST "%PACK_FOLDER%\%%░" ECHO.%COLOR4%ERROR:%$$% %PACK_FOLDER%\%%░ doesn't exist.)
 EXIT /B
 :SC_RO_CREATE_SKIP
-CALL:SCRO_DISPATCH
 FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ("!COLUMN0!") DO (ECHO.%U00%%%a%U00%%%b%U00%%%c%U00%DX%U00%>>"%DRVTAR%\$\%SCRO%.list")
 EXIT /B
 :SC_RO_PREPARE
@@ -2071,112 +2217,17 @@ SET "$CHECK=NUMBER_0-4"&&SET "$VERBOSE=1"&&SET "$SELECT=SELECTX"&&CALL:MENU_SELE
 IF NOT DEFINED SELECTX EXIT /B
 IF "%SELECTX%"=="0" CALL:LIST_DIFFERENCER
 IF "%SELECTX%"=="1" CALL:LIST_BASE_CREATE
-IF "%SELECTX%"=="2" CALL:MENU_TEMPLATE2
+IF "%SELECTX%"=="2" CALL:BASE_TEMPLATE
 IF "%SELECTX%"=="3" CALL:LIST_CONVERT
 IF "%SELECTX%"=="4" CALL:LIST_PACK_CREATE
 GOTO:LIST_MISCELLANEOUS
-:MENU_TEMPLATE2
-SET "$HEADERS= %U01% %U01% %U01% %U01%                        Enter name of new .base%U01% %U01% %U01% "&&SET "$SELECT=NEW_NAME"&&SET "$CHECK=PATH"&&CALL:PROMPT_BOX
+:BASE_TEMPLATE
+IF NOT DEFINED MENU_SKIP SET "$HEADERS= %U01% %U01% %U01% %U01%                        Enter name of new .base%U01% %U01% %U01% "&&SET "$SELECT=NEW_NAME"&&SET "$CHECK=PATH"&&CALL:PROMPT_BOX
 IF DEFINED ERROR EXIT /B
-CALL:MENU_EXAMPLE>"%LIST_FOLDER%\%NEW_NAME%.base"
-EXIT /B
-:MENU_EXAMPLE
-ECHO.MENU-SCRIPT
-ECHO.❗BUILDER INTERACTIVE LIST ITEMS❗
-ECHO.
-ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Choice item❕NORMAL❕
-ECHO.❗Note: Choice Item. CHOICE1-9 are valid. Up to 9 choices seperated by '❗'❗
-ECHO.❕CHOICE1❕Select an option❕✅ Choice option 1 selected❗❎ Choice option 2 selected❗❎ Choice option 3 selected❕VolaTILE❕
-ECHO.❕@COMMAND❕ECHO.Choice1-S:◁CHOICE1[S]▷ Choice1-I:◁CHOICE1[I]▷ Choice1-1:◁CHOICE1[1]▷ Choice1-2:◁CHOICE1[2]▷ Choice1-3:◁CHOICE1[3]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Group:◁GROUP▷ SubGroup:◁SUBGROUP▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Prompt item❕NORMAL❕
-ECHO.❗Note: Prompt Item. PROMPT1-9 are valid. Prompt filter NUMBER, LETTER, ALPHA, MENU, MOST, and NONE are usable options. Minimum and maximum character limit are optional.❗
-ECHO.❕PROMPT1❕Enter text❕ALPHA_3-20❕VolaTILE❕
-ECHO.❕@COMMAND❕ECHO.Prompt1-S:◁PROMPT1[S]▷ Prompt1-I:◁PROMPT1[I]▷ Prompt1-1:◁PROMPT1[1]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Picker item❕NORMAL❕
-ECHO.❗Note: Picker Item. PICKER1-9 are valid. ◁IMAGE_FOLDER▷, ◁LIST_FOLDER▷, ◁PACK_FOLDER▷, ◁CACHE_FOLDER▷, and ◁PROG_SOURCE▷ are usable options.❗
-ECHO.❕PICKER1❕Select a file❕"◁IMAGE_FOLDER▷\*.*"❕VolaTILE❕
-ECHO.❕@COMMAND❕ECHO.Picker1-S:◁PICKER1[S]▷ Picker1-I:◁PICKER1[I]▷ Picker1-1:◁PICKER1[1]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❗BUILDER NON-INTERACTIVE LIST ITEMS❗
-ECHO.
-ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Condit item❕NORMAL❕
-ECHO.❗Note: Condit Item. CONDIT1-9 are valid. DEFINED, NDEFINED, EXIST, NEXIST, EQ, NE, GE, LE, LT, and GT are usable options. Enter ◁NULL▷ into the 4th column if 'else' is not needed.❗
-ECHO.❕CONDIT1❕◁WINTAR▷❗EXIST❕WinTar Exists❕◁NULL▷❕
-ECHO.❕CONDIT2❕◁CHOICE1[I]▷❗EQ❗1❕Choice 1 index equals 1❕Choice 1 index does not equal 1❕
-ECHO.❕@COMMAND❕ECHO.Condit1-S:◁CONDIT1[S]▷ Condit1-I:◁CONDIT1[I]▷ Condit1-1:◁CONDIT1[1]▷ Condit1-2:◁CONDIT1[2]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Condit2-S:◁CONDIT2[S]▷ Condit2-I:◁CONDIT2[I]▷ Condit2-1:◁CONDIT2[1]▷ Condit2-2:◁CONDIT2[2]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Array item❕NORMAL❕
-ECHO.❗Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th colum adds 'else' function.❗
-ECHO.❕ARRAY1❕a❕a❗b❗c❕✅ Array1  option 1 selected❗✅ Array1  option 2 selected❗✅ Array1  option 3 selected❕
-ECHO.❕ARRAY2❕1❕1❗2❗3❕✅ Array2  option 1 selected❗✅ Array2  option 2 selected❗✅ Array2  option 3 selected❕✅ Array2  option 1 else selected❗✅ Array2  option 2 else selected❗✅ Array2  option 3 else selected❕
-ECHO.❕@COMMAND❕ECHO.Array1-S:◁ARRAY1[S]▷ Array1-I:◁ARRAY1[I]▷ Array1-1:◁ARRAY1[1]▷ Array1-2:◁ARRAY1[2]▷ Array1-3:◁ARRAY1[3]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Array2-S:◁ARRAY2[S]▷ Array2-I:◁ARRAY2[I]▷ Array2-1:◁ARRAY2[1]▷ Array2-2:◁ARRAY2[2]▷ Array2-3:◁ARRAY2[3]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Math item❕NORMAL❕
-ECHO.❗Note: Math item. MATH1-9 are valid. +, -, /, and * are usable options.❗
-ECHO.❕MATH1❕1❕*❕5❕
-ECHO.❕@COMMAND❕ECHO.Math1-S:◁MATH1[S]▷ Math1-I:◁MATH1[I]▷ Math1-1:◁MATH1[1]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 String item❕NORMAL❕
-ECHO.❗Note: String item. STRING1-9 are valid. STRING and INTEGER are usable options.❗
-ECHO.❕STRING1❕10❗20❗30❗40❗50❕INTEGER❕3❕
-ECHO.❕STRING2❕A❗B❗C❗D❗E❕STRING❕2❕
-ECHO.❕@COMMAND❕ECHO.String1-S:◁STRING1[S]▷ String1-I:◁STRING1[I]▷ String1-1:◁STRING1[1]▷ String1-2:◁STRING1[2]▷ String1-3:◁STRING1[3]▷ String1-4:◁STRING1[4]▷ String1-5:◁STRING1[5]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.String2-S:◁STRING2[S]▷ String2-I:◁STRING2[I]▷ String2-1:◁STRING2[1]▷ String2-2:◁STRING2[2]▷ String2-3:◁STRING2[3]▷ String2-4:◁STRING2[4]▷ String2-5:◁STRING2[5]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Routine item❕NORMAL❕
-ECHO.❗Note: Routine items are loop based. ROUTINE1-9 are valid. COMMAND and SPLIT are usable options. Optional column# match seperated by '❗'.❗
-ECHO.❕ROUTINE1❕^<^>:❗DIR /B C:\❗1❗Program Files❕COMMAND❕1❕
-ECHO.❕ROUTINE2❕:❗A:B:C❗3❗C❕SPLIT❕2❕
-ECHO.X❕ROUTINE1❕^<^>:❗DIR /B C:\❕COMMAND❕1❕
-ECHO.X❕ROUTINE2❕:❗A:B:C❕SPLIT❕2❕
-ECHO.❕@COMMAND❕ECHO.Routine1-S:◁ROUTINE1[S]▷ Routine1-I:◁ROUTINE1[I]▷  Routine1-1:◁ROUTINE1[1]▷ Routine1-2:◁ROUTINE1[2]▷ Routine1-3:◁ROUTINE1[3]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Routine2-S:◁ROUTINE2[S]▷ Routine2-I:◁ROUTINE2[I]▷  Routine2-1:◁ROUTINE2[1]▷ Routine2-2:◁ROUTINE2[2]▷ Routine2-3:◁ROUTINE2[3]▷❕NORMAL❕DX❕
-ECHO.
-ECHO.❗EXECUTION LIST ITEMS❗
-ECHO.
-ECHO.❕GROUP❕🪟 Execution items❕🪛 Command item❕NORMAL❕
-ECHO.❗Note: Command item. 'NORMAL', 'NOMOUNT', 'NORMAL❗RAU', 'NORMAL❗RAS', 'NORMAL❗RATI', 'NOMOUNT❗RAU', 'NOMOUNT❗RAS', or 'NOMOUNT❗RATI' are usable options.❗
-ECHO.❕@COMMAND❕ECHO.testing 1 2 3.❕NORMAL❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Execution items❕🪛 Registry create item❕NORMAL❕
-ECHO.❗Note: Registry item. 'CREATE', 'DELETE', 'CREATE❗RAU', 'CREATE❗RAS', 'CREATE❗RATI', 'DELETE❗RAU', 'DELETE❗RAS', or 'DELETE❗RATI' are usable options. DWORD, QWORD, BINARY, STRING, EXPAND, and MULTI are usable options.❗
-ECHO.
-ECHO.❗Note: Registry item create 'key'.❗
-ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❕CREATE❕DX❕
-ECHO.❗Note: Registry item create 'value'.❗
-ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗◁NULL▷❗TestData❗STRING❕CREATE❕DX❕
-ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗TestValue❗◁NULL▷❗STRING❕CREATE❕DX❕
-ECHO.❕Note: Registry item delete 'key'.❕
-ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❕DELETE❕DX❕
-ECHO.❕Note: Registry item delete 'value'.❕
-ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗TestValue❕DELETE❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Execution items❕🪛 FileOper item❕NORMAL❕
-ECHO.❕Note: FileOper item. CREATE, DELETE, RENAME, COPY, MOVE, and TAKEOWN are usable options.❕
-ECHO.❗Note: FileOper item create 'folder'.❗
-ECHO.❕@FILEOPER❕c:\test❕CREATE❕DX❕
-ECHO.❗Note: FileOper item move.❗
-ECHO.❕@COMMAND❕ECHO.test^>testmove.txt❕NORMAL❕DX❕
-ECHO.❕@FILEOPER❕testmove.txt❗c:\test❕MOVE❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Execution items❕🪛 Session item + TextFile item❕NORMAL❕
-ECHO.❕@FILEOPER❕◁LIST_FOLDER▷\testlist.list❕DELETE❕DX❕
-ECHO.❕TEXTFILE❕MENU-SCRIPT❕◁LIST_FOLDER▷\testlist.list❕DX❕
-ECHO.❕TEXTFILE❕◁U00▷@COMMAND◁U00▷ECHO.testing 1 2 3◁U00▷NORMAL◁U00▷DX◁U00▷❕◁LIST_FOLDER▷\testlist.list❕DX❕
-ECHO.❕SESSION❕-IMAGEMGR -RUN -LIST "testlist.LIST" -LIVE❕◁NULL▷❕DX❕
-ECHO.
-ECHO.❕GROUP❕🪟 Example❕Items being used in conjunction❕NORMAL❕
-ECHO.❕CHOICE1❕Select an option❕🪛 Choice A❗🪛 Choice B❗🪛 Choice C❗❕VolaTILE❕
-ECHO.❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❗3❕A❗B❗C❕
-ECHO.❕ARRAY2❕◁ARRAY1[S]▷❕A❗B❗C❕DX❗DX❗DX❕
-ECHO.❕@COMMAND❕ECHO.Choice ◁ARRAY2[S]▷ picked.❕NORMAL❕◁ARRAY2[1]▷❕
-ECHO.❕@COMMAND❕ECHO.Choice ◁ARRAY2[S]▷ picked.❕NORMAL❕◁ARRAY2[2]▷❕
-ECHO.❕@COMMAND❕ECHO.Choice ◁ARRAY2[S]▷ picked.❕NORMAL❕◁ARRAY2[3]▷❕
+IF NOT "%PROG_MODE%"=="COMMAND" CLS
+SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%EXAMPLE-BASE START:%$$%  %DATE%  %TIME%&&ECHO.&&ECHO.&&CALL:BASE_EXAMPLE>"%LIST_FOLDER%\%NEW_NAME%"
+ECHO.                   Example base created successfully.&&ECHO.&&ECHO.&&ECHO.            %@@%EXAMPLE-BASE END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :LIST_PACK_CREATE
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                           %U13% Miscellaneous&&ECHO.&&ECHO.                         External Package Item&&ECHO.&&ECHO.  %@@%AVAILABLE *.PKX *.CAB *.MSU *.APPX *.APPXBUNDLE *.MSIXBUNDLEs:%$$%&&ECHO.&&SET "$FOLD=%PACK_FOLDER%"&&SET "$FILT=*.PKX *.CAB *.MSU *.APPX *.APPXBUNDLE *.MSIXBUNDLE"&&CALL:FILE_LIST&&ECHO.&&ECHO.                        Multiples OK ( %##%1 2 3%$$% )&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=PATH"&&CALL:MENU_SELECT
@@ -2259,6 +2310,8 @@ IF "%EXT_UPPER%"==".BASE" SET "NEW_NAME=%$FILE_X%"
 SET "$BCLM1="&&SET "$BCLM3="&&CLS&&SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.       %@@%BASE-LIST CREATION START:%$$%  %DATE%  %TIME%&&ECHO.&&CALL:VAR_ESCAPE
 IF NOT DEFINED LIVE_APPLY SET "$VDISK_FILE=%$PICK%"&&SET "VDISK_LTR=ANY"&&CALL:VDISK_ATTACH
 IF NOT DEFINED LIVE_APPLY IF NOT EXIST "%VDISK_LTR%:\WINDOWS" ECHO.&&ECHO.             %##%Vdisk error or Windows not installed on Vdisk.%$$%&&ECHO.&&CALL:VDISK_DETACH&&GOTO:LIST_BASE_CLEANUP
+IF NOT DEFINED LIVE_APPLY SET "TARGET_PATH=%VDISK_LTR%:"
+IF DEFINED LIVE_APPLY SET "TARGET_PATH=%SYSTEMDRIVE%"
 ECHO. %@@%GETTING VERSION%$$%..&&ECHO.&&CALL:IF_LIVE_MIX
 SET "INFO_E="&&SET "INFO_V="&&ECHO.MENU-SCRIPT>"%LIST_FOLDER%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-9 DELIMS=: " %%a in ('%DISM% /ENGLISH /%APPLY_TARGET% /GET-CURRENTEDITION 2^>NUL') DO (
@@ -2378,7 +2431,7 @@ EXIT /B
 IF "%$LIST_FILE%"=="%$PICK%" CALL:PAD_LINE&&ECHO.%@@%%$LIST_FILE%%$$% and %@@%%$PICK%%$$% are the same...&&CALL:PAD_LINE&&CALL:PAUSED
 EXIT /B
 :LIST_ITEMS
-SET LIST_ITEMS_EXECUTE=APPX FEATURE COMPONENT CAPABILITY SERVICE TASK WINSXS DRIVER EXTPACKAGE COMMAND SESSION REGISTRY FILEOPER TEXTFILE
+SET LIST_ITEMS_EXECUTE=APPX FEATURE COMPONENT CAPABILITY SERVICE TASK WINSXS DRIVER EXTPACKAGE COMMAND SESSION REGISTRY FILEOPER TEXTHOST
 SET LIST_ITEMS_BUILDER=ARRAY0 ARRAY1 ARRAY2 ARRAY3 ARRAY4 ARRAY5 ARRAY6 ARRAY7 ARRAY8 ARRAY9 MATH1 MATH2 MATH3 MATH4 MATH5 MATH6 MATH7 MATH8 MATH9 STRING1 STRING2 STRING3 STRING4 STRING5 STRING6 STRING7 STRING8 STRING9 CONDIT1 CONDIT2 CONDIT3 CONDIT4 CONDIT5 CONDIT6 CONDIT7 CONDIT8 CONDIT9 PROMPT1 PROMPT2 PROMPT3 PROMPT4 PROMPT5 PROMPT6 PROMPT7 PROMPT8 PROMPT9 CHOICE1 CHOICE2 CHOICE3 CHOICE4 CHOICE5 CHOICE6 CHOICE7 CHOICE8 CHOICE9 PICKER1 PICKER2 PICKER3 PICKER4 PICKER5 PICKER6 PICKER7 PICKER8 PICKER9 ROUTINE1 ROUTINE2 ROUTINE3 ROUTINE4 ROUTINE5 ROUTINE6 ROUTINE7 ROUTINE8 ROUTINE9 GROUP
 EXIT /B
 :VAR_ITEMS
@@ -2478,16 +2531,20 @@ SET "$HEADERS=                             Driver Export%U01% %U01%             
 IF "%SELECT%"=="0" SET "LIVE_APPLY=1"
 :DRVR_EXPORT_SKIP
 IF NOT DEFINED LIVE_APPLY IF NOT DEFINED $PICK EXIT /B
-CLS&&SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%DRIVER-EXPORT START:%$$%  %DATE%  %TIME%&&ECHO.
+IF NOT "%PROG_MODE%"=="COMMAND" CLS
+SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%DRIVER-EXPORT START:%$$%  %DATE%  %TIME%&&ECHO.
 IF DEFINED LIVE_APPLY ECHO.Using live system for driver export.
 IF NOT DEFINED LIVE_APPLY SET "$VDISK_FILE=%$PICK%"&&CALL:VDISK_ATTACH
+IF NOT DEFINED LIVE_APPLY SET "TARGET_PATH=%VDISK_LTR%:"
+IF DEFINED LIVE_APPLY SET "TARGET_PATH=%SYSTEMDRIVE%"
 CALL:IF_LIVE_MIX
 IF NOT EXIST "%PROG_SOURCE%\project\driver" MD "%PROG_SOURCE%\project\driver">NUL 2>&1
 IF EXIST "%PROG_SOURCE%\project\driver" ECHO.Exporting drivers to %PROG_SOURCE%\project\driver...
 IF EXIST "%PROG_SOURCE%\project\driver" %DISM% /ENGLISH /%APPLY_TARGET% /EXPORT-DRIVER /destination:"%PROG_SOURCE%\project\driver"
 FOR %%a in (CMD LIST) DO (IF NOT EXIST "%PROG_SOURCE%\project\PACKAGE.%%a" CALL:NEW_PACKAGE%%a)
 IF NOT DEFINED LIVE_APPLY CALL:VDISK_DETACH
-ECHO.&&ECHO.            %@@%DRIVER-EXPORT END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP&&CALL:PAUSED
+ECHO.&&ECHO.            %@@%DRIVER-EXPORT END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :PROJ_EDIT
 FOR %%a in (package.cmd package.list) DO (IF EXIST "%PROG_SOURCE%\project\%%a" START NOTEPAD.EXE "%PROG_SOURCE%\project\%%a")
@@ -2504,18 +2561,25 @@ IF NOT EXIST "%PROG_SOURCE%\project\package.list" ECHO.%COLOR2%ERROR:%$$% Packag
 ECHO.&&ECHO.           %@@%PACKAGE RESTORE END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP&&CALL:PAUSED
 EXIT /B
 :PROJ_CREATE
-IF NOT EXIST "%PROG_SOURCE%\project\*" ECHO.&&ECHO.%COLOR4%ERROR:%$$% Package folder is empty.&&ECHO.&CALL:PAUSED&EXIT /B
+IF NOT EXIST "%PROG_SOURCE%\project\*" ECHO.&&ECHO.%COLOR4%ERROR:%$$% Package folder is empty.&&ECHO.&IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
+IF NOT EXIST "%PROG_SOURCE%\project\*" EXIT /B
 SET "$HEADERS=                           %U05% Pack Builder%U01% %U01%                        Capture Project Folder%U01% %U01% %U01% %U01%                      Enter new .PKX package name%U01% %U01% "&&SET "$CHECK=PATH"&&SET "$VERBOSE=1"&&SET "$SELECT=PACKNAME"&&CALL:PROMPT_BOX
 IF NOT DEFINED PACKNAME EXIT /B
-CLS&&SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%PACKAGE CREATE START:%$$%  %DATE%  %TIME%
+IF NOT "%PROG_MODE%"=="COMMAND" CLS
+SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%PACKAGE CREATE START:%$$%  %DATE%  %TIME%
 %DISM% /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"%PROG_SOURCE%\project" /IMAGEFILE:"%PACK_FOLDER%\%PACKNAME%.pkx" /COMPRESS:%COMPRESS% /NAME:"PKX" /CheckIntegrity /Verify
-ECHO.&&ECHO.            %@@%PACKAGE CREATE END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP&&CALL:PAUSED
+ECHO.&&ECHO.            %@@%PACKAGE CREATE END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :PROJ_NEW
+IF NOT "%PROG_MODE%"=="COMMAND" CLS
+SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%PACK-TEMPLATE START:%$$%  %DATE%  %TIME%&&ECHO.&&ECHO.
 CALL:PROJ_CLEAR
 IF DEFINED ERROR EXIT /B
 IF NOT EXIST "%PROG_SOURCE%\project\driver" MD "%PROG_SOURCE%\project\driver">NUL 2>&1
 CALL:NEW_PACKAGELIST&CALL:NEW_PACKAGECMD
+ECHO.               New package template created successfully.&&ECHO.&&ECHO.&&ECHO.            %@@%PACK-TEMPLATE END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP
+IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :NEW_PACKAGELIST
 SET "PKX_FOLDER="

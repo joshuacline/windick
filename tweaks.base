@@ -10,114 +10,114 @@
 ❕CONDIT1❕◁WINTAR▷\PANTHER❗NEXIST❕DX❕◁NULL▷❕
 ❕@COMMAND❕MD "◁WINTAR▷\PANTHER" >NUL❕NORMAL❕◁CONDIT1[1]▷❕
 ❕CONDIT1❕◁WINTAR▷\PANTHER\unattend.xml❗EXIST❕DX❕◁NULL▷❕
-❕@COMMAND❕ECHO. Overwriting existing unattend.xml❕NORMAL❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕Overwriting existing unattend.xml❕SCREEN❕◁CONDIT1[1]▷❕
 ❕@COMMAND❕TAKEOWN /F "◁WINTAR▷\PANTHER\unattend.xml" >NUL❕NORMAL❕◁CONDIT1[1]▷❕
 ❕@COMMAND❕ICACLS "◁WINTAR▷\PANTHER\unattend.xml" /grant ◁USERNAME▷:F >NUL❕NORMAL❕◁CONDIT1[1]▷❕
-❕@COMMAND❕ECHO. Generating unattend.xml, 00 percent complete❕NORMAL❕DX❕
+❕@TEXTHOST❕Generating unattend.xml, 00 percent complete❕SCREEN❕DX❕
 ❕@FILEOPER❕◁WINTAR▷\PANTHER\unattend.xml❕DELETE❕◁CONDIT1[1]▷❕
-❕TEXTFILE❕<?xml version="1.0" encoding="utf-8"?>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕<unattend xmlns="urn:schemas-microsoft-com:unattend">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕	<settings pass="oobeSystem">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<InputLocale>◁ARRAY2[S]▷</InputLocale>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<SystemLocale>◁CHOICE2[S]▷</SystemLocale>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UILanguage>◁CHOICE2[S]▷</UILanguage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UILanguageFallback>◁CHOICE2[S]▷</UILanguageFallback>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UserLocale>◁CHOICE2[S]▷</UserLocale>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		</component>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<TimeZone>Mountain Standard Time</TimeZone>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<AutoLogon>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<Enabled>true</Enabled>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<LogonCount>9999999</LogonCount>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<Username>◁PROMPT1[S]▷</Username>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<Password>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<PlainText>true</PlainText>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<Value></Value>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				</Password>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</AutoLogon>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕@COMMAND❕ECHO. Generating unattend.xml, 25 percent complete.❕NORMAL❕DX❕
-❕TEXTFILE❕			<OOBE>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<HideEULAPage>true</HideEULAPage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<HideLocalAccountScreen>true</HideLocalAccountScreen>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<HideOnlineAccountScreens>true</HideOnlineAccountScreens>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<NetworkLocation>Other</NetworkLocation>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<ProtectYourPC>3</ProtectYourPC>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<SkipMachineOOBE>true</SkipMachineOOBE>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<SkipUserOOBE>true</SkipUserOOBE>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</OOBE>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UserAccounts>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<LocalAccounts>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<LocalAccount wcm:action="add">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕						<Group>Administrators</Group>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕						<Name>◁PROMPT1[S]▷</Name>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕						<Password>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕							<PlainText>true</PlainText>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕							<Value></Value>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕						</Password>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					</LocalAccount>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				</LocalAccounts>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</UserAccounts>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		</component>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕	</settings>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕	<settings pass="specialize">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		<component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<SkipAutoActivation>true</SkipAutoActivation>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕@COMMAND❕ECHO. Generating unattend.xml, 50 percent complete..❕NORMAL❕DX❕
-❕TEXTFILE❕		</component>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<ComputerName>◁PROMPT2[S]▷</ComputerName>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<CopyProfile>false</CopyProfile>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<ProductKey>92NFX-8DJQP-P6BBQ-THF9C-7CG2H</ProductKey>❕◁WINTAR▷\PANTHER\unattend.xml❕◁ARRAY1[1]▷❕
-❕TEXTFILE❕		</component>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕	</settings>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕	<settings pass="windowsPE">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<InputLocale>◁ARRAY2[S]▷</InputLocale>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<SystemLocale>◁CHOICE2[S]▷</SystemLocale>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UILanguage>◁CHOICE2[S]▷</UILanguage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UILanguageFallback>◁CHOICE2[S]▷</UILanguageFallback>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UserLocale>◁CHOICE2[S]▷</UserLocale>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<SetupUILanguage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<UILanguage>◁CHOICE2[S]▷</UILanguage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</SetupUILanguage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		</component>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕@COMMAND❕ECHO. Generating unattend.xml, 75 percent complete...❕NORMAL❕DX❕
-❕TEXTFILE❕			<Diagnostics>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<OptIn>false</OptIn>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</Diagnostics>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<DynamicUpdate>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<Enable>false</Enable>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<WillShowUI>OnError</WillShowUI>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</DynamicUpdate>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<ImageInstall>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<OSImage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<Compact>true</Compact>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<WillShowUI>OnError</WillShowUI>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<InstallFrom>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕						<MetaData wcm:action="add">❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕							<Key>/IMAGE/INDEX</Key>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕							<Value>1</Value>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕						</MetaData>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					</InstallFrom>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				</OSImage>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</ImageInstall>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			<UserData>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<AcceptEula>true</AcceptEula>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				<ProductKey>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕					<Key>92NFX-8DJQP-P6BBQ-THF9C-7CG2H</Key>❕◁WINTAR▷\PANTHER\unattend.xml❕◁ARRAY1[1]▷❕
-❕TEXTFILE❕					<WillShowUI>OnError</WillShowUI>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕				</ProductKey>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕			</UserData>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕		</component>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕	</settings>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕TEXTFILE❕</unattend>❕◁WINTAR▷\PANTHER\unattend.xml❕DX❕
-❕@COMMAND❕ECHO. Generating unattend.xml, 100 percent complete....❕NORMAL❕DX❕
+❕@TEXTHOST❕<?xml version="1.0" encoding="utf-8"?>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕<unattend xmlns="urn:schemas-microsoft-com:unattend">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕	<settings pass="oobeSystem">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<InputLocale>◁ARRAY2[S]▷</InputLocale>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<SystemLocale>◁CHOICE2[S]▷</SystemLocale>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UILanguage>◁CHOICE2[S]▷</UILanguage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UILanguageFallback>◁CHOICE2[S]▷</UILanguageFallback>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UserLocale>◁CHOICE2[S]▷</UserLocale>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		</component>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<TimeZone>Mountain Standard Time</TimeZone>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<AutoLogon>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<Enabled>true</Enabled>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<LogonCount>9999999</LogonCount>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<Username>◁PROMPT1[S]▷</Username>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<Password>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<PlainText>true</PlainText>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<Value></Value>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				</Password>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</AutoLogon>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕Generating unattend.xml, 25 percent complete.❕SCREEN❕DX❕
+❕@TEXTHOST❕			<OOBE>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<HideEULAPage>true</HideEULAPage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<HideLocalAccountScreen>true</HideLocalAccountScreen>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<HideOnlineAccountScreens>true</HideOnlineAccountScreens>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<NetworkLocation>Other</NetworkLocation>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<ProtectYourPC>3</ProtectYourPC>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<SkipMachineOOBE>true</SkipMachineOOBE>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<SkipUserOOBE>true</SkipUserOOBE>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</OOBE>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UserAccounts>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<LocalAccounts>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<LocalAccount wcm:action="add">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕						<Group>Administrators</Group>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕						<Name>◁PROMPT1[S]▷</Name>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕						<Password>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕							<PlainText>true</PlainText>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕							<Value></Value>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕						</Password>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					</LocalAccount>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				</LocalAccounts>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</UserAccounts>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		</component>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕	</settings>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕	<settings pass="specialize">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		<component name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<SkipAutoActivation>true</SkipAutoActivation>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕Generating unattend.xml, 50 percent complete..❕SCREEN❕DX❕
+❕@TEXTHOST❕		</component>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<ComputerName>◁PROMPT2[S]▷</ComputerName>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<CopyProfile>false</CopyProfile>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<ProductKey>92NFX-8DJQP-P6BBQ-THF9C-7CG2H</ProductKey>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕◁ARRAY1[1]▷❕
+❕@TEXTHOST❕		</component>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕	</settings>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕	<settings pass="windowsPE">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<InputLocale>◁ARRAY2[S]▷</InputLocale>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<SystemLocale>◁CHOICE2[S]▷</SystemLocale>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UILanguage>◁CHOICE2[S]▷</UILanguage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UILanguageFallback>◁CHOICE2[S]▷</UILanguageFallback>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UserLocale>◁CHOICE2[S]▷</UserLocale>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<SetupUILanguage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<UILanguage>◁CHOICE2[S]▷</UILanguage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</SetupUILanguage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		</component>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕Generating unattend.xml, 75 percent complete...❕SCREEN❕DX❕
+❕@TEXTHOST❕			<Diagnostics>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<OptIn>false</OptIn>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</Diagnostics>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<DynamicUpdate>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<Enable>false</Enable>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<WillShowUI>OnError</WillShowUI>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</DynamicUpdate>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<ImageInstall>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<OSImage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<Compact>true</Compact>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<WillShowUI>OnError</WillShowUI>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<InstallFrom>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕						<MetaData wcm:action="add">❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕							<Key>/IMAGE/INDEX</Key>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕							<Value>1</Value>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕						</MetaData>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					</InstallFrom>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				</OSImage>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</ImageInstall>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			<UserData>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<AcceptEula>true</AcceptEula>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				<ProductKey>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕					<Key>92NFX-8DJQP-P6BBQ-THF9C-7CG2H</Key>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕◁ARRAY1[1]▷❕
+❕@TEXTHOST❕					<WillShowUI>OnError</WillShowUI>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕				</ProductKey>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕			</UserData>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕		</component>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕	</settings>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕</unattend>❕FILE❗◁WINTAR▷\PANTHER\unattend.xml❕DX❕
+❕@TEXTHOST❕Generating unattend.xml, 100 percent complete...❕SCREEN❕DX❕
 ❕CONDIT1❕◁WINTAR▷\PANTHER\unattend.xml❗EXIST❕DX❕DX❕
-❕@COMMAND❕ECHO. unattend.xml located at ◁WINTAR▷\PANTHER.❕NORMAL❕◁CONDIT1[1]▷❕
-❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ Unable to create unattend.xml at ◁WINTAR▷\PANTHER.❕NORMAL❕◁CONDIT1[2]▷❕
+❕@TEXTHOST❕unattend.xml located at ◁WINTAR▷\PANTHER.❕SCREEN❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕◁COLOR4▷ERROR:◁COLORT▷ Unable to create unattend.xml at ◁WINTAR▷\PANTHER.❕SCREEN❕◁CONDIT1[2]▷❕
 
 
 ❕GROUP❕🪟 Initial Setup❕🪪 Create new admin❕NORMAL❕
@@ -128,7 +128,7 @@
 ❕@COMMAND❕Net Accounts /maxpwage:unlimited >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕WMIC USERACCOUNT WHERE Name="◁PROMPT1[S]▷" SET PasswordExpires=FALSE >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕Net localgroup Administrators ◁PROMPT1[S]▷ /add >NUL❕NORMAL❕SC❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ scheduled for SetupComplete.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁SUBGROUP▷ scheduled for SetupComplete.❕SCREEN❕DX❕
 
 ❕GROUP❕🪟 Initial Setup❕🪪 Create new user❕NORMAL❕
 ❕PROMPT1❕Enter the username 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
@@ -137,13 +137,13 @@
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /passwordchg:No >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕Net Accounts /maxpwage:unlimited >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕WMIC USERACCOUNT WHERE Name="◁PROMPT1[S]▷" SET PasswordExpires=FALSE >NUL❕NORMAL❕SC❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ scheduled for SetupComplete.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁SUBGROUP▷ scheduled for SetupComplete.❕SCREEN❕DX❕
 
 ❕GROUP❕🪟 Initial Setup❕🪛 First Logon Waiting Screen❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗EnableFirstLogonAnimation❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 First Logon Waiting Screen ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 First Logon Waiting Screen ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪟 Initial Setup❕❎ Pagefile Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Session Manager\Memory Management❗ClearPageFileAtShutdown❗1❗DWORD❕CREATE❕DX❕
@@ -157,8 +157,8 @@
 ❕@COMMAND❕wmic pagefileset where name="F:\\pagefile.sys" delete >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕wmic pagefileset where name="G:\\pagefile.sys" delete >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕wmic pagefileset where name="H:\\pagefile.sys" delete >NUL❕NORMAL❕SC❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ scheduled for SetupComplete.❕NORMAL❕DX❕
-❕@COMMAND❕ECHO.❎ Pagefile Disable applied.❕NORMAL❕SC❕
+❕@TEXTHOST❕◁SUBGROUP▷ scheduled for SetupComplete.❕SCREEN❕DX❕
+❕@TEXTHOST❕❎ Pagefile Disable applied.❕SCREEN❕SC❕
 
 ❕GROUP❕🪛 Advertisements❕🪛 Copilot❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
@@ -169,94 +169,94 @@
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Copilot ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Copilot ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Advertisements❕🪛 Start Menu Ads❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Start Menu Ads ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Start Menu Ads ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Advertisements❕🪛 Spotlight Ads❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Spotlight Ads ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Spotlight Ads ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Advertisements❕🪛 Bing Searchbox❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Bing Searchbox ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Bing Searchbox ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🎨 Appearance❕❎ Animations Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_USER▷\Control Panel\Desktop\WindowMetrics❗MinAnimate❗0❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🎨 Appearance❕🌕 Light / Dark theme❕NORMAL❕
 ❕CHOICE1❕Select an option❕🌕 Light theme❗🌑 Dark theme❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁ARRAY1[S]▷❗DWORD❕CREATE❕RO❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁ARRAY1[S]▷❗DWORD❕CREATE❕RO❕
-❕@COMMAND❕ECHO.◁CHOICE1[S]▷ scheduled for RunOnce.❕NORMAL❕DX❕
-❕@COMMAND❕ECHO.◁CHOICE1[S]▷ applied.❕NORMAL❕RO❕
+❕@TEXTHOST❕◁CHOICE1[S]▷ scheduled for RunOnce.❕SCREEN❕DX❕
+❕@TEXTHOST❕◁CHOICE1[S]▷ applied.❕SCREEN❕RO❕
 
 ❕GROUP❕🎨 Appearance❕🪛 Taskbar Size❕NORMAL❕
 ❕CHOICE1❕Select an option❕🪛 Taskbar Small❗🪛 Taskbar Medium❗🪛 Taskbar Large❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❗3❕0❗1❗2❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.◁CHOICE1[S]▷ scheduled for RunOnce.❕NORMAL❕DX❕
-❕@COMMAND❕ECHO.◁CHOICE1[S]▷ applied.❕NORMAL❕RO❕
+❕@TEXTHOST❕◁CHOICE1[S]▷ scheduled for RunOnce.❕SCREEN❕DX❕
+❕@TEXTHOST❕◁CHOICE1[S]▷ applied.❕SCREEN❕RO❕
 
 
 ❕GROUP❕🪟 Startup❕⏳ Boot Menu Timeout❕NORMAL❕
 ❕CHOICE1❕Select an option❕5❗10❗20❗30❗45❗60❗90❗120❗180❕VolaTILE❕
-❕@COMMAND❕ECHO. ◁SUBGROUP▷ ◁CHOICE1[S]▷ scheduled for RunOnce.❕NORMAL❕DX❕
+❕@TEXTHOST❕ ◁SUBGROUP▷ ◁CHOICE1[S]▷ scheduled for RunOnce.❕SCREEN❕DX❕
 ❕@COMMAND❕bcdedit /timeout ◁CHOICE1[S]▷ >NUL❕NORMAL❕RO❕
-❕@COMMAND❕ECHO.⏳ Boot Menu Timeout ◁CHOICE1[S]▷s applied.❕NORMAL❕RO❕
+❕@TEXTHOST❕⏳ Boot Menu Timeout ◁CHOICE1[S]▷s applied.❕SCREEN❕RO❕
 
 ❕GROUP❕🪟 Startup❕🪛 RunOnce initialization❕NORMAL❕
 ❕CHOICE1❕Select an option❕🪛 RunOnce initializes first❗🪛 Desktop initializes first❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪟 Startup❕🪛 Skip preparing desktop❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Skip preparing desktop ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Skip preparing desktop ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪟 Startup❕🪛 WinLogon verbose output❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 WinLogon verbose output ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 WinLogon verbose output ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🛜 Network❕❎ Online accounts Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗NoConnectedUser❗3❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.❎ Online accounts Disable applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕❎ Online accounts Disable applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕❎ Cloud content Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❗◁EMPTY▷❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsConsumerFeatures❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\CloudContent❗DisableSoftLanding❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsSpotlightFeatures❗1❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.❎ Cloud content Disable applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕❎ Cloud content Disable applied.❕SCREEN❕DX❕
 
 X❕GROUP❕🛜 Network❕❎ OneDrive Disable❕NORMAL❕
 X❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}❗SYSTEM.IsPinnedToNameSpaceTree❗0❗STRING❕CREATE❕DX❕
 X❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Services\OneSyncSvc❕DELETE❕DX❕
-X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
+X❕@TEXTHOST❕❎ OneDrive Disable applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕❎ Windows store Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\WindowsStore❗RemoveWindowsStore❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❗1❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.❎ Windows store Disable applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕❎ Windows store Disable applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕🛜 Bluetooth discovery❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
@@ -265,7 +265,7 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\PolicyManager\current\device\Browser❗AllowAddressBarDropdown❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\PolicyManager\current\device\SYSTEM❗AllowExperimentation❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\PolicyManager\current\device\SmartGlass❗BluetoothPolicy❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🛜 Bluetooth discovery ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🛜 Bluetooth discovery ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕🛜 Link layer topology discovery❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
@@ -275,27 +275,27 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\LLTD❗AllowRspndrOnDomain❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\LLTD❗AllowRspndrOnPublicNet❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\LLTD❗ProhibitRspndrOnPrivateNet❗◁ARRAY2[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🛜 Link layer topology discovery ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🛜 Link layer topology discovery ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕🪛 Network access for explorer.exe❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0❗NoOnlineAssist❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Network access for explorer.exe ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Network access for explorer.exe ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕🪛 Network access for driver search❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Network access for driver search ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Network access for driver search ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛜 Network❕🪛 Prioritize Traffic❕NORMAL❕
 ❕CHOICE1❕Select an option❕🪛 Ethernet❗🪛 WiFi❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕5❗5❕10❗10❕
 ❕@COMMAND❕NETSH interface ipv4 SET interface "Ethernet" metric=◁ARRAY1[1]▷ >NUL❕NORMAL❕RO❕
 ❕@COMMAND❕NETSH interface ipv4 SET interface "Wi-Fi" metric=◁ARRAY1[2]▷ >NUL❕NORMAL❕RO❕
-❕@COMMAND❕ECHO.Prioritize ◁CHOICE1[S]▷ Traffic applied.❕NORMAL❕RO❕
+❕@TEXTHOST❕Prioritize ◁CHOICE1[S]▷ Traffic applied.❕SCREEN❕RO❕
 
 
 ❕GROUP❕🛡️ Security❕🪛 Strict rule set for LSA❕NORMAL❕
@@ -313,7 +313,7 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Lsa❗restrictanonymoussam❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Lsa❗RestrictRemoteSAM❗O:BAG:BAD:(A;;RC;;;BA)❗STRING❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Lsa❗allownullsessionfallback❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Strict rule set for LSA applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Strict rule set for LSA applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛡️ Security❕🪛 UAC prompt❕NORMAL❕
 ❕CHOICE1❕Select an option❕🛡️ UAC always prompt❗🛡️ UAC never prompt❕VolaTILE❕
@@ -321,7 +321,7 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗ConsentPromptBehaviorAdmin❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗ConsentPromptBehaviorUser❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗FilterAdministratorToken❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🛡️ Security❕🪛 Virtualization based security❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
@@ -334,149 +334,149 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\DeviceGuard❗Locked❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Locked❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Enabled❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Virtualization based security ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Virtualization based security ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🪛 Consent Store❕❎ accessoryManager❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ activity❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ appDiagnostics❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ appointments❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ backgroundSpatialPerception❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ bluetooth❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ bluetoothSync❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ broadFileSystemAccess❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ cellularData❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ chat❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ contacts❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ documentsLibrary❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ email❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ internetClient❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ location❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ locationHistory❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ microphone❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ phoneCall❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ phoneCallHistory❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ picturesLibrary❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ proximity❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ radios❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ sms❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ userAccountInformation❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ userDataTasks❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ userNotificationListener❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ videosLibrary❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Consent Store❕❎ webcam❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Allow❗❎ Deny❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Allow❗Deny❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam❗Value❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Consent Store ◁SUBGROUP▷ ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🪛 Trackers / Loggers❕❎ Boot / Shutdown Diagnostics Disable ❕NORMAL❕
@@ -486,67 +486,67 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Diagnostics\Performance❗DisableDiagnosticTracing❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Siuf\Rules❗PeriodInNanoSeconds❗0❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Siuf\Rules❗NumberOfSIUFInPeriod❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ Component Based Servicing Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ Circular Kernel Context Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ CloudExperienceHostOobe Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ DiagLog Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\DiagLog❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ Diagtrack Listener Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ FaceTel Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ Graphics RdpIdd Trace Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ HolographicDevice Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ LwtNetLog Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ NetCore Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ NtfsLog Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ RadioMgr Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ ReadyBoot Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ ReFSLog Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ Spooler Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ SQM Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ UBPM Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ WdiContextLog Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ WiFiSession Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 ❕GROUP❕🪛 Trackers / Loggers❕❎ WMI - WBEM Disable ❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\WBEM\CIMOM❗Logging❗0❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Trackers / Loggers ◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🚽 Telemetry❕❎ Data Collection Disable❕NORMAL❕
@@ -559,20 +559,20 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\DataCollection❗DisableEnterpriseAuthProxy❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\DataCollection❗DisableOneSettingsDownloads❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\DataCollection❗DoNotShowFeedbackNotifications❗1❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🚽 Telemetry❕❎ Error Reporting Disable❕NORMAL❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\Windows Error Reporting❗DontSendAdditionalData❗1❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\Windows Error Reporting❗LoggingDisabled❗1❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕◁SUBGROUP▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Notification center❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗◁ARRAY1[S]▷ ❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Notification center ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Notification center ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Background applications❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
@@ -580,13 +580,13 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕ARRAY2❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Edge❗BackgroundModeEnabled❗◁ARRAY2[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Background applications ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Background applications ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 DCOM❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕Y❗N❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Microsoft\Ole❗EnableDCOM❗◁ARRAY1[S]▷❗STRING❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 DCOM ◁CHOICE1[S]▷  applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 DCOM ◁CHOICE1[S]▷  applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Driver updates❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
@@ -594,119 +594,119 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕ARRAY2❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❗◁ARRAY2[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Driver updates ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Driver updates ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Wakelocks other❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Wakelocks other ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Wakelocks other ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Wakelocks network❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SYSTEM▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Wakelocks network ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Wakelocks network ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 ❕GROUP❕🪛 Miscellaneous❕🪛 Lockscreen❕NORMAL❕
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
-❕@COMMAND❕ECHO.🪛 Lockscreen ◁CHOICE1[S]▷ applied.❕NORMAL❕DX❕
+❕@TEXTHOST❕🪛 Lockscreen ◁CHOICE1[S]▷ applied.❕SCREEN❕DX❕
 
 
 ❕GROUP❕🛠️ DISM Operations❕🪛 RestoreHealth❕NORMAL❕
 ❕NOTE❕DISM needs access to the registry hive files for external operations (eg. offline vhdx). Use the NOMOUNT option for DISM.❕
-❕@COMMAND❕ECHO. Executing DISM RestoreHealth...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing DISM RestoreHealth...❕SCREEN❕DX❕
 ❕COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /NORESTART /CLEANUP-IMAGE /RestoreHealth❕NOMOUNT❕DX❕
 ❕GROUP❕🛠️ DISM Operations❕🪛 StartComponentCleanup❕NORMAL❕
-❕@COMMAND❕ECHO. Executing DISM StartComponentCleanup...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing DISM StartComponentCleanup...❕SCREEN❕DX❕
 ❕COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup❕NOMOUNT❕DX❕
 ❕GROUP❕🛠️ DISM Operations❕🪛 ResetBase❕NORMAL❕
-❕@COMMAND❕ECHO. Executing DISM ResetBase...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing DISM ResetBase...❕SCREEN❕DX❕
 ❕COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup /ResetBase❕NOMOUNT❕DX❕
 ❕GROUP❕🛠️ DISM Operations❕🪛 SPSuperseded❕NORMAL❕
-❕@COMMAND❕ECHO. Executing DISM SPSuperseded...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing DISM SPSuperseded...❕SCREEN❕DX❕
 ❕COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /NORESTART /CLEANUP-IMAGE /SPSuperseded❕NOMOUNT❕DX❕
 ❕GROUP❕🛠️ DISM Operations❕🪛 CheckHealth❕NORMAL❕
-❕@COMMAND❕ECHO. Executing DISM CheckHealth...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing DISM CheckHealth...❕SCREEN❕DX❕
 ❕COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /NORESTART /CLEANUP-IMAGE /CheckHealth❕NOMOUNT❕DX❕
 ❕GROUP❕🛠️ DISM Operations❕🪛 AnalyzeComponentStore❕NORMAL❕
-❕@COMMAND❕ECHO. Executing DISM AnalyzeComponentStore...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing DISM AnalyzeComponentStore...❕SCREEN❕DX❕
 ❕COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /NORESTART /CLEANUP-IMAGE /AnalyzeComponentStore❕NOMOUNT❕DX❕
 ❕GROUP❕🛠️ DISM Operations❕Delete WinRE❕NORMAL❕
 ❕CONDIT1❕◁WINTAR▷\SYSTEM32\Recovery❗EXIST❕DX❕DX❕
-❕@COMMAND❕ECHO. Executing Delete WinRE folder...❕NOMOUNT❕◁CONDIT1[1]▷❕
-❕@COMMAND❕ECHO. WinRE does not exist.❕NOMOUNT❕◁CONDIT1[2]▷❕
+❕@TEXTHOST❕Executing Delete WinRE folder...❕SCREEN❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕WinRE does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
 ❕@FILEOPER❕◁WINTAR▷\SYSTEM32\Recovery❕TAKEOWN❕◁CONDIT1[1]▷❕
 ❕@FILEOPER❕◁WINTAR▷\SYSTEM32\Recovery❕DELETE❕◁CONDIT1[1]▷❕
 ❕GROUP❕🛠️ DISM Operations❕Delete WinSxS (Offline Image Only) Breaks Stuff Forever❕NORMAL❕
-❕@COMMAND❕ECHO. Executing Delete WinSxS folder...❕NOMOUNT❕DX❕
+❕@TEXTHOST❕Executing Delete WinSxS folder...❕SCREEN❕DX❕
 ❕WINSXS❕Delete WinSxS folder❕DELETE❕DX❕
 
 
 ❕GROUP❕🔄 Export to program\cache folder❕🔄 Export appassociations.xml❕NORMAL❕
 ❕CONDIT1❕◁CACHE_FOLDER▷\appassociations.xml❗EXIST❕DX❕◁NULL▷❕
-❕@COMMAND❕ECHO. Exporting appassociations.xml...❕NORMAL❕DX❕
+❕@TEXTHOST❕Exporting appassociations.xml...❕SCREEN❕DX❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\appassociations.xml❕DELETE❕◁CONDIT1[1]▷❕
 ❕@COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /EXPORT-DefaultAppAssociations:"◁CACHE_FOLDER▷\appassociations.xml">NUL❕NORMAL❕DX❕
-❕@COMMAND❕ECHO. Default application associations have been exported.❕NORMAL❕DX❕
-❕@COMMAND❕ECHO. Next, execute an import app associations list entry.❕NORMAL❕DX❕
+❕@TEXTHOST❕Default application associations have been exported.❕SCREEN❕DX❕
+❕@TEXTHOST❕Next, execute an import app associations list entry.❕SCREEN❕DX❕
 
 ❕GROUP❕🔄 Export to program\cache folder❕🔄 Export firewallrules.xml❕NORMAL❕
 ❕CONDIT1❕◁CACHE_FOLDER▷\firewallrules.xml❗EXIST❕DX❕◁NULL▷❕
-❕@COMMAND❕ECHO. Exporting firewallrules.xml...❕NORMAL❕DX❕
+❕@TEXTHOST❕Exporting firewallrules.xml...❕SCREEN❕DX❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\firewallrules.xml❕DELETE❕◁CONDIT1[1]▷❕
 ❕@COMMAND❕NETSH advfirewall EXPORT "◁CACHE_FOLDER▷\firewallrules.xml" >NUL❕NORMAL❕DX❕
-❕@COMMAND❕ECHO. Firewall rules have been exported.❕NORMAL❕DX❕
-❕@COMMAND❕ECHO. Next, execute an import firewall rules list entry.❕NORMAL❕DX❕
+❕@TEXTHOST❕Firewall rules have been exported.❕SCREEN❕DX❕
+❕@TEXTHOST❕Next, execute an import firewall rules list entry.❕SCREEN❕DX❕
 
 ❕GROUP❕🔄 Export to program\cache folder❕🔄 Export power schemes to xml❕NORMAL❕
 ❕CONDIT1❕◁CACHE_FOLDER▷\power_bal.xml❗EXIST❕DX❕◁NULL▷❕
 ❕CONDIT2❕◁CACHE_FOLDER▷\power_min.xml❗EXIST❕DX❕◁NULL▷❕
 ❕CONDIT3❕◁CACHE_FOLDER▷\power_max.xml❗EXIST❕DX❕◁NULL▷❕
-❕@COMMAND❕ECHO. Exporting min, max, and balanced power schemes to xml...❕NORMAL❕DX❕
+❕@TEXTHOST❕Exporting min, max, and balanced power schemes to xml...❕SCREEN❕DX❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\power_bal.xml❕DELETE❕◁CONDIT1[1]▷❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\power_min.xml❕DELETE❕◁CONDIT2[1]▷❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\power_max.xml❕DELETE❕◁CONDIT3[1]▷❕
 ❕@COMMAND❕POWERCFG /EXPORT "◁CACHE_FOLDER▷\power_bal.xml" SCHEME_BALANCED >NUL❕NORMAL❕DX❕
 ❕@COMMAND❕POWERCFG /EXPORT "◁CACHE_FOLDER▷\power_min.xml" SCHEME_MIN >NUL❕NORMAL❕DX❕
 ❕@COMMAND❕POWERCFG /EXPORT "◁CACHE_FOLDER▷\power_max.xml" SCHEME_MAX >NUL❕NORMAL❕DX❕
-❕@COMMAND❕ECHO. Power scheme has been exported. Next, execute a power scheme import list entry.❕NORMAL❕DX❕
+❕@TEXTHOST❕Power scheme has been exported. Next, execute a power scheme import list entry.❕SCREEN❕DX❕
 
 ❕GROUP❕🔄 Import from program\cache folder❕🔄 Import appassociations.xml❕NORMAL❕
 ❕CONDIT1❕◁CACHE_FOLDER▷\appassociations.xml❗EXIST❕DX❕DX❕
-❕@COMMAND❕ECHO. Importing appassociations.xml...❕NORMAL❕DX❕
+❕@TEXTHOST❕Importing appassociations.xml...❕SCREEN❕DX❕
 ❕@COMMAND❕DISM /ENGLISH /◁APPLY_TARGET▷ /IMPORT-DefaultAppAssociations:"◁CACHE_FOLDER▷\appassociations.xml" >NUL❕NOMOUNT❕DX❕
-❕@COMMAND❕ECHO. The operation completed successfully.❕NORMAL❕◁CONDIT1[1]▷❕
-❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ appassociations.xml does not exist in folder.❕NORMAL❕◁CONDIT1[2]▷❕
+❕@TEXTHOST❕The operation completed successfully.❕SCREEN❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕◁COLOR4▷ERROR:◁COLORT▷ appassociations.xml does not exist in folder.❕SCREEN❕◁CONDIT1[2]▷❕
 
 ❕GROUP❕🔄 Import from program\cache folder❕🔄 Import firewallrules.xml❕NORMAL❕
 ❕CONDIT1❕◁CACHE_FOLDER▷\firewallrules.xml❗EXIST❕RO❕◁NULL▷❕
 ❕CONDIT2❕◁CACHE_FOLDER▷\firewallrules.xml❗EXIST❕DX❕DX❕
-❕@COMMAND❕ECHO. Importing firewallrules.xml...❕NORMAL❕RO❕
+❕@TEXTHOST❕Importing firewallrules.xml...❕SCREEN❕RO❕
 ❕@COMMAND❕NETSH advfirewall IMPORT "◁CACHE_FOLDER▷\firewallrules.xml" >NUL❕NORMAL❕◁CONDIT1[1]▷❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\firewallrules.xml❗◁DRVTAR▷\$❕COPY❕◁CONDIT1[1]▷❕
-❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ firewallrules.xml does not exist in folder.❕NORMAL❕◁CONDIT2[2]▷❕
+❕@TEXTHOST❕◁COLOR4▷ERROR:◁COLORT▷ firewallrules.xml does not exist in folder.❕SCREEN❕◁CONDIT2[2]▷❕
 
 ❕GROUP❕🔄 Import from program\cache folder❕🔄 Import power schemes from xml❕NORMAL❕
 ❕CONDIT1❕◁CACHE_FOLDER▷\power_bal.xml❗EXIST❕RO❕DX❕
 ❕CONDIT2❕◁CACHE_FOLDER▷\power_min.xml❗EXIST❕DX❕◁NULL▷❕
 ❕CONDIT3❕◁CACHE_FOLDER▷\power_max.xml❗EXIST❕DX❕◁NULL▷❕
-❕@COMMAND❕ECHO. Importing power schemes from xml...❕NORMAL❕RO❕
+❕@TEXTHOST❕Importing power schemes from xml...❕SCREEN❕RO❕
 ❕@COMMAND❕POWERCFG /IMPORT "◁CACHE_FOLDER▷\power_bal.xml" >NUL❕NORMAL❕◁CONDIT1[1]▷❕
 ❕@COMMAND❕POWERCFG /IMPORT "◁CACHE_FOLDER▷\power_min.xml" >NUL❕NORMAL❕◁CONDIT2[1]▷❕
 ❕@COMMAND❕POWERCFG /IMPORT "◁CACHE_FOLDER▷\power_max.xml" >NUL❕NORMAL❕◁CONDIT3[1]▷❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\power_bal.xml❗◁DRVTAR▷\$❕COPY❕◁CONDIT1[1]▷❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\power_min.xml❗◁DRVTAR▷\$❕COPY❕◁CONDIT2[1]▷❕
 ❕@FILEOPER❕◁CACHE_FOLDER▷\power_max.xml❗◁DRVTAR▷\$❕COPY❕◁CONDIT3[1]▷❕
-❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕NORMAL❕◁CONDIT1[2]▷❕
-❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕NORMAL❕◁CONDIT2[2]▷❕
-❕@COMMAND❕ECHO.◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕NORMAL❕◁CONDIT3[2]▷❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ scheduled for RunOnce.❕NORMAL❕DX❕
-❕@COMMAND❕ECHO.◁SUBGROUP▷ applied.❕NORMAL❕RO❕
+❕@TEXTHOST❕◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕SCREEN❕◁CONDIT1[2]▷❕
+❕@TEXTHOST❕◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕SCREEN❕◁CONDIT2[2]▷❕
+❕@TEXTHOST❕◁COLOR4▷ERROR:◁COLORT▷ power_bal.xml doesn't exist in folder.❕SCREEN❕◁CONDIT3[2]▷❕
+❕@TEXTHOST❕◁SUBGROUP▷ scheduled for RunOnce.❕SCREEN❕DX❕
+❕@TEXTHOST❕◁SUBGROUP▷ applied.❕SCREEN❕RO❕
 
 
 ❕GROUP❕👽❕Reset Widgets❕NORMAL❕
@@ -736,5 +736,41 @@ X❕@COMMAND❕ECHO.❎ OneDrive Disable applied.❕NORMAL❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Classes\Drive\shell\Powershell\command❗◁NULL▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗STRING❕CREATE❕DX❕
 ?❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\Drive\shell\Powershell❗XXX❗XXX❗XXX❕CREATE❕DX❕
 
+❕GROUP❕👽❕Add_Take_Ownership_context_menu❕NORMAL❕
+❕@FILEOPER❕◁CACHE_FOLDER▷\TakeOwnership.reg❕DELETE❕DX❕
+❕@TEXTHOST❕Windows Registry Editor Version 5.00❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+; Created by: Shawn Brink; Created on: September 6, 2021; Updated on: January 7, 2024
+; Tutorial: https://www.elevenforum.com/t/add-take-ownership-to-context-menu-in-windows-11.1230/
+❕@TEXTHOST❕[-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[-HKEY_CLASSES_ROOT\*\shell\runas]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"NeverDefault"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕@="powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"IsolatedCommand"= "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\Users\" OR System.ItemPathDisplay:=\"C:\\ProgramData\" OR System.ItemPathDisplay:=\"C:\\Windows\" OR System.ItemPathDisplay:=\"C:\\Windows\\System32\" OR System.ItemPathDisplay:=\"C:\\Program Files\" OR System.ItemPathDisplay:=\"C:\\Program Files (x86)\")"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"Position"="middle"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕@="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"IsolatedCommand"="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Drive\shell\runas]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"Position"="middle"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Drive\shell\runas\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕@="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@TEXTHOST❕"IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕@COMMAND❕REG IMPORT "◁CACHE_FOLDER▷\TakeOwnership.reg"❕NORMAL❕DX❕
 
-X❕SESSION❕-IMAGEMGR -RUN -LIST "TEST.LIST" -LIVE❕◁NULL▷❕DX❕
