@@ -229,92 +229,92 @@ ECHO.
 EXIT /B
 :BASE_EXAMPLE
 ECHO.MENU-SCRIPT
-ECHO.❗BUILDER INTERACTIVE LIST ITEMS❗
+ECHO.❗* BUILDER INTERACTIVE LIST ITEMS *❗
 ECHO.
 ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Choice item❕NORMAL❕
-ECHO.❗Note: Choice Item. CHOICE1-9 are valid. Up to 9 choices seperated by '❗'❗
+ECHO.Note: Choice Item. CHOICE1-9 are valid. Up to 9 choices seperated by '❗'
 ECHO.❕CHOICE1❕Select an option❕✅ Choice option 1 selected❗❎ Choice option 2 selected❗❎ Choice option 3 selected❕VolaTILE❕
-ECHO.❕@COMMAND❕ECHO.Choice1-S:◁CHOICE1[S]▷ Choice1-I:◁CHOICE1[I]▷ Choice1-1:◁CHOICE1[1]▷ Choice1-2:◁CHOICE1[2]▷ Choice1-3:◁CHOICE1[3]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Group:◁GROUP▷ SubGroup:◁SUBGROUP▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Choice1-S:◁CHOICE1[S]▷ Choice1-I:◁CHOICE1[I]▷ Choice1-1:◁CHOICE1[1]▷ Choice1-2:◁CHOICE1[2]▷ Choice1-3:◁CHOICE1[3]▷❕SCREEN❕DX❕
+ECHO.❕@TEXTHOST❕Group:◁GROUP▷ SubGroup:◁SUBGROUP▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Prompt item❕NORMAL❕
-ECHO.❗Note: Prompt Item. PROMPT1-9 are valid. Prompt filter NUMBER, LETTER, ALPHA, MENU, MOST, and NONE are usable options. Minimum and maximum character limit are optional.❗
+ECHO.Note: Prompt Item. PROMPT1-9 are valid. Prompt filter NUMBER, LETTER, ALPHA, MENU, MOST, and NONE are usable options. Minimum and maximum character limit are optional.
 ECHO.❕PROMPT1❕Enter text❕ALPHA_3-20❕VolaTILE❕
-ECHO.❕@COMMAND❕ECHO.Prompt1-S:◁PROMPT1[S]▷ Prompt1-I:◁PROMPT1[I]▷ Prompt1-1:◁PROMPT1[1]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Prompt1-S:◁PROMPT1[S]▷ Prompt1-I:◁PROMPT1[I]▷ Prompt1-1:◁PROMPT1[1]▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder interactive items❕🪛 Picker item❕NORMAL❕
-ECHO.❗Note: Picker Item. PICKER1-9 are valid. ◁IMAGE_FOLDER▷, ◁LIST_FOLDER▷, ◁PACK_FOLDER▷, ◁CACHE_FOLDER▷, and ◁PROG_SOURCE▷ are usable options.❗
+ECHO.Note: Picker Item. PICKER1-9 are valid. ◁IMAGE_FOLDER▷, ◁LIST_FOLDER▷, ◁PACK_FOLDER▷, ◁CACHE_FOLDER▷, and ◁PROG_SOURCE▷ are usable options.
 ECHO.❕PICKER1❕Select a file❕"◁IMAGE_FOLDER▷\*.*"❕VolaTILE❕
-ECHO.❕@COMMAND❕ECHO.Picker1-S:◁PICKER1[S]▷ Picker1-I:◁PICKER1[I]▷ Picker1-1:◁PICKER1[1]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Picker1-S:◁PICKER1[S]▷ Picker1-I:◁PICKER1[I]▷ Picker1-1:◁PICKER1[1]▷❕SCREEN❕DX❕
 ECHO.
-ECHO.❗BUILDER NON-INTERACTIVE LIST ITEMS❗
+ECHO.❗* BUILDER NON-INTERACTIVE LIST ITEMS *❗
 ECHO.
 ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Condit item❕NORMAL❕
-ECHO.❗Note: Condit Item. CONDIT1-9 are valid. DEFINED, NDEFINED, EXIST, NEXIST, EQ, NE, GE, LE, LT, and GT are usable options. Enter ◁NULL▷ into the 4th column if 'else' is not needed.❗
+ECHO.Note: Condit Item. CONDIT1-9 are valid. DEFINED, NDEFINED, EXIST, NEXIST, EQ, NE, GE, LE, LT, and GT are usable options. Enter ◁NULL▷ into the 4th column if 'else' is not needed.
 ECHO.❕CONDIT1❕◁WINTAR▷❗EXIST❕WinTar Exists❕◁NULL▷❕
 ECHO.❕CONDIT2❕◁CHOICE1[I]▷❗EQ❗1❕Choice 1 index equals 1❕Choice 1 index does not equal 1❕
-ECHO.❕@COMMAND❕ECHO.Condit1-S:◁CONDIT1[S]▷ Condit1-I:◁CONDIT1[I]▷ Condit1-1:◁CONDIT1[1]▷ Condit1-2:◁CONDIT1[2]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Condit2-S:◁CONDIT2[S]▷ Condit2-I:◁CONDIT2[I]▷ Condit2-1:◁CONDIT2[1]▷ Condit2-2:◁CONDIT2[2]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Condit1-S:◁CONDIT1[S]▷ Condit1-I:◁CONDIT1[I]▷ Condit1-1:◁CONDIT1[1]▷ Condit1-2:◁CONDIT1[2]▷❕SCREEN❕DX❕
+ECHO.❕@TEXTHOST❕Condit2-S:◁CONDIT2[S]▷ Condit2-I:◁CONDIT2[I]▷ Condit2-1:◁CONDIT2[1]▷ Condit2-2:◁CONDIT2[2]▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Array item❕NORMAL❕
-ECHO.❗Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th colum adds 'else' function.❗
+ECHO.Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th colum adds 'else' function.
 ECHO.❕ARRAY1❕a❕a❗b❗c❕✅ Array1  option 1 selected❗✅ Array1  option 2 selected❗✅ Array1  option 3 selected❕
 ECHO.❕ARRAY2❕1❕1❗2❗3❕✅ Array2  option 1 selected❗✅ Array2  option 2 selected❗✅ Array2  option 3 selected❕✅ Array2  option 1 else selected❗✅ Array2  option 2 else selected❗✅ Array2  option 3 else selected❕
-ECHO.❕@COMMAND❕ECHO.Array1-S:◁ARRAY1[S]▷ Array1-I:◁ARRAY1[I]▷ Array1-1:◁ARRAY1[1]▷ Array1-2:◁ARRAY1[2]▷ Array1-3:◁ARRAY1[3]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Array2-S:◁ARRAY2[S]▷ Array2-I:◁ARRAY2[I]▷ Array2-1:◁ARRAY2[1]▷ Array2-2:◁ARRAY2[2]▷ Array2-3:◁ARRAY2[3]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Array1-S:◁ARRAY1[S]▷ Array1-I:◁ARRAY1[I]▷ Array1-1:◁ARRAY1[1]▷ Array1-2:◁ARRAY1[2]▷ Array1-3:◁ARRAY1[3]▷❕SCREEN❕DX❕
+ECHO.❕@TEXTHOST❕Array2-S:◁ARRAY2[S]▷ Array2-I:◁ARRAY2[I]▷ Array2-1:◁ARRAY2[1]▷ Array2-2:◁ARRAY2[2]▷ Array2-3:◁ARRAY2[3]▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Math item❕NORMAL❕
-ECHO.❗Note: Math item. MATH1-9 are valid. +, -, /, and * are usable options.❗
+ECHO.Note: Math item. MATH1-9 are valid. +, -, /, and * are usable options.
 ECHO.❕MATH1❕1❕*❕5❕
-ECHO.❕@COMMAND❕ECHO.Math1-S:◁MATH1[S]▷ Math1-I:◁MATH1[I]▷ Math1-1:◁MATH1[1]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Math1-S:◁MATH1[S]▷ Math1-I:◁MATH1[I]▷ Math1-1:◁MATH1[1]▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 String item❕NORMAL❕
-ECHO.❗Note: String item. STRING1-9 are valid. STRING and INTEGER are usable options.❗
+ECHO.Note: String item. STRING1-9 are valid. STRING and INTEGER are usable options.
 ECHO.❕STRING1❕10❗20❗30❗40❗50❕INTEGER❕3❕
 ECHO.❕STRING2❕A❗B❗C❗D❗E❕STRING❕2❕
-ECHO.❕@COMMAND❕ECHO.String1-S:◁STRING1[S]▷ String1-I:◁STRING1[I]▷ String1-1:◁STRING1[1]▷ String1-2:◁STRING1[2]▷ String1-3:◁STRING1[3]▷ String1-4:◁STRING1[4]▷ String1-5:◁STRING1[5]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.String2-S:◁STRING2[S]▷ String2-I:◁STRING2[I]▷ String2-1:◁STRING2[1]▷ String2-2:◁STRING2[2]▷ String2-3:◁STRING2[3]▷ String2-4:◁STRING2[4]▷ String2-5:◁STRING2[5]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕String1-S:◁STRING1[S]▷ String1-I:◁STRING1[I]▷ String1-1:◁STRING1[1]▷ String1-2:◁STRING1[2]▷ String1-3:◁STRING1[3]▷ String1-4:◁STRING1[4]▷ String1-5:◁STRING1[5]▷❕SCREEN❕DX❕
+ECHO.❕@TEXTHOST❕String2-S:◁STRING2[S]▷ String2-I:◁STRING2[I]▷ String2-1:◁STRING2[1]▷ String2-2:◁STRING2[2]▷ String2-3:◁STRING2[3]▷ String2-4:◁STRING2[4]▷ String2-5:◁STRING2[5]▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Routine item❕NORMAL❕
-ECHO.❗Note: Routine items are loop based. ROUTINE1-9 are valid. COMMAND and SPLIT are usable options. Optional column# match seperated by '❗'.❗
+ECHO.Note: Routine items are loop based. ROUTINE1-9 are valid. COMMAND and SPLIT are usable options. Optional column# match seperated by '❗'.
 ECHO.❕ROUTINE1❕^<^>:❗DIR /B C:\❗1❗Program Files❕COMMAND❕1❕
 ECHO.❕ROUTINE2❕:❗A:B:C❗3❗C❕SPLIT❕2❕
 ECHO.X❕ROUTINE1❕^<^>:❗DIR /B C:\❕COMMAND❕1❕
 ECHO.X❕ROUTINE2❕:❗A:B:C❕SPLIT❕2❕
-ECHO.❕@COMMAND❕ECHO.Routine1-S:◁ROUTINE1[S]▷ Routine1-I:◁ROUTINE1[I]▷  Routine1-1:◁ROUTINE1[1]▷ Routine1-2:◁ROUTINE1[2]▷ Routine1-3:◁ROUTINE1[3]▷❕NORMAL❕DX❕
-ECHO.❕@COMMAND❕ECHO.Routine2-S:◁ROUTINE2[S]▷ Routine2-I:◁ROUTINE2[I]▷  Routine2-1:◁ROUTINE2[1]▷ Routine2-2:◁ROUTINE2[2]▷ Routine2-3:◁ROUTINE2[3]▷❕NORMAL❕DX❕
+ECHO.❕@TEXTHOST❕Routine1-S:◁ROUTINE1[S]▷ Routine1-I:◁ROUTINE1[I]▷  Routine1-1:◁ROUTINE1[1]▷ Routine1-2:◁ROUTINE1[2]▷ Routine1-3:◁ROUTINE1[3]▷❕SCREEN❕DX❕
+ECHO.❕@TEXTHOST❕Routine2-S:◁ROUTINE2[S]▷ Routine2-I:◁ROUTINE2[I]▷  Routine2-1:◁ROUTINE2[1]▷ Routine2-2:◁ROUTINE2[2]▷ Routine2-3:◁ROUTINE2[3]▷❕SCREEN❕DX❕
 ECHO.
-ECHO.❗EXECUTION LIST ITEMS❗
+ECHO.❗* EXECUTION LIST ITEMS *❗
 ECHO.
 ECHO.❕GROUP❕🪟 Execution items❕🪛 Command item❕NORMAL❕
-ECHO.❗Note: Command item. 'NORMAL', 'NOMOUNT', 'NORMAL❗RAU', 'NORMAL❗RAS', 'NORMAL❗RATI', 'NOMOUNT❗RAU', 'NOMOUNT❗RAS', or 'NOMOUNT❗RATI' are usable options.❗
-ECHO.❕@COMMAND❕ECHO.testing 1 2 3.❕NORMAL❕DX❕
+ECHO.Note: Command item. 'NORMAL', 'NOMOUNT', 'NORMAL❗RAU', 'NORMAL❗RAS', 'NORMAL❗RATI', 'NOMOUNT❗RAU', 'NOMOUNT❗RAS', or 'NOMOUNT❗RATI' are usable options.
+ECHO.❕@TEXTHOST❕testing 1 2 3.❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Execution items❕🪛 Registry create item❕NORMAL❕
-ECHO.❗Note: Registry item. 'CREATE', 'DELETE', 'CREATE❗RAU', 'CREATE❗RAS', 'CREATE❗RATI', 'DELETE❗RAU', 'DELETE❗RAS', or 'DELETE❗RATI' are usable options. DWORD, QWORD, BINARY, STRING, EXPAND, and MULTI are usable options.❗
+ECHO.Note: Registry item. 'CREATE', 'DELETE', 'CREATE❗RAU', 'CREATE❗RAS', 'CREATE❗RATI', 'DELETE❗RAU', 'DELETE❗RAS', or 'DELETE❗RATI' are usable options. DWORD, QWORD, BINARY, STRING, EXPAND, and MULTI are usable options.
 ECHO.
-ECHO.❗Note: Registry item create 'key'.❗
+ECHO.Note: Registry item create 'key'.
 ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❕CREATE❕DX❕
-ECHO.❗Note: Registry item create 'value'.❗
+ECHO.Note: Registry item create 'value'.
 ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗◁NULL▷❗TestData❗STRING❕CREATE❕DX❕
 ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗TestValue❗◁NULL▷❗STRING❕CREATE❕DX❕
-ECHO.❗Note: Registry item delete 'value'.❗
+ECHO.Note: Registry item delete 'value'.
 ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❗TestValue❕DELETE❕DX❕
-ECHO.❗Note: Registry item delete 'key'.❗
+ECHO.Note: Registry item delete 'key'.
 ECHO.❕@REGISTRY❕◁HIVE_USER▷\Test❕DELETE❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Execution items❕🪛 FileOper item❕NORMAL❕
-ECHO.❗Note: FileOper item. CREATE, DELETE, RENAME, COPY, MOVE, and TAKEOWN are usable options.❗
-ECHO.❗Note: FileOper item create 'folder'.❗
+ECHO.Note: FileOper item. CREATE, DELETE, RENAME, COPY, MOVE, and TAKEOWN are usable options.
+ECHO.Note: FileOper item create 'folder'.
 ECHO.❕@FILEOPER❕c:\test❕CREATE❕DX❕
-ECHO.❗Note: FileOper item move.❗
+ECHO.Note: FileOper item move.
 ECHO.❕@TEXTHOST❕test❕FILE❗c:\testmove.txt❕DX❕
 ECHO.❕@FILEOPER❕testmove.txt❗c:\test❕MOVE❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Execution items❕🪛 Session item + TextHost item❕NORMAL❕
 ECHO.❕@TEXTHOST❕MENU-SCRIPT❕FILE❗◁LIST_FOLDER▷\testlist.list❕DX❕
 ECHO.❕@TEXTHOST❕◁U00▷@TEXTHOST◁U00▷testing 1 2 3◁U00▷SCREEN◁U00▷DX◁U00▷❕FILE❗◁LIST_FOLDER▷\testlist.list❕DX❕
-ECHO.❗Note: Using the '-PATH "◁DRVTAR▷"' parameter during an active session will reuse the active session's target.❗
+ECHO.Note: Using the '-PATH "◁DRVTAR▷"' parameter during an active session will reuse the active session's target.
 ECHO.❕SESSION❕-IMAGEMGR -RUN -LIST "testlist.list" -PATH "◁DRVTAR▷"❕◁NULL▷❕DX❕
 ECHO.❕@FILEOPER❕◁LIST_FOLDER▷\testlist.list❕DELETE❕DX❕
 ECHO.
@@ -328,26 +328,29 @@ ECHO.❕@TEXTHOST❕Choice ◁ARRAY2[S]▷ picked.❕SCREEN❕◁ARRAY2[3]▷❕
 EXIT /B
 :MENU_EXAMPLE_BASE
 ECHO.MENU-SCRIPT
-ECHO.❗Note: This is an example of a custom menu for recovery.❗
+ECHO.❗* This is an example of a custom menu for recovery *❗
 ECHO.
 ECHO.❕GROUP❕Recovery Operation Example❕Backup picked vhdx to backup.wim❕NORMAL❕
 ECHO.❕PICKER1❕Select a vhdx to backup❕"◁PROG_SOURCE▷\*.vhdx"❕VolaTILE❕
 ECHO.❕CONDIT1❕◁PROG_SOURCE▷\◁PICKER1[S]▷❗EXIST❕DX❕DX❕
 ECHO.❕@TEXTHOST❕◁PROG_SOURCE▷\◁PICKER1[S]▷ does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
 ECHO.❕@TEXTHOST❕Deleting backup.wim❕SCREEN❕◁CONDIT1[1]▷❕
-ECHO.❕@COMMAND❕DEL /Q /F "◁IMAGE_FOLDER▷\backup.wim"❕NORMAL❕◁CONDIT1[1]▷❕
+ECHO.❕@FILEOPER❕◁IMAGE_FOLDER▷\backup.wim❕DELETE❕◁CONDIT1[1]▷❕
 ECHO.❕SESSION❕-imageproc -vhdx "◁PICKER1[S]▷" -index 1 -wim "backup.wim" -size 25❕◁NULL▷❕◁CONDIT1[1]▷❕
+ECHO.❕@COMMAND❕PAUSE❕NORMAL❕DX❕
+ECHO.
 ECHO.❕GROUP❕Recovery Operation Example❕Restore picked wim to current.vhdx❕NORMAL❕
 ECHO.❕PICKER1❕Select a wim to restore❕"◁IMAGE_FOLDER▷\*.wim"❕VolaTILE❕
 ECHO.❕CONDIT1❕◁PROG_SOURCE▷\◁PICKER1[S]▷❗EXIST❕DX❕DX❕
 ECHO.❕@TEXTHOST❕◁IMAGE_FOLDER▷\◁PICKER1[S]▷ does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
 ECHO.❕@TEXTHOST❕Deleting current.vhdx❕SCREEN❕◁CONDIT1[1]▷❕
-ECHO.❕@COMMAND❕DEL /Q /F "◁PROG_SOURCE▷\current.vhdx"❕NORMAL❕◁CONDIT1[1]▷❕
+ECHO.❕@FILEOPER❕◁PROG_SOURCE▷\current.vhdx❕DELETE❕◁CONDIT1[1]▷❕
 ECHO.❕SESSION❕-imageproc -wim "◁PICKER1[S]▷" -index 1 -vhdx "current.vhdx" -size 25❕◁NULL▷❕◁CONDIT1[1]▷❕
+ECHO.❕@COMMAND❕PAUSE❕NORMAL❕DX❕
 EXIT /B
 :MENU_EXAMPLE_EXEC
 ECHO.MENU-SCRIPT
-ECHO.❗Note: Here is an example of a reboot to restore scenerio as an execution list.❗
+ECHO.❗* This is an example of a reboot to restore scenerio as an execution list *❗
 ECHO.
 ECHO.❕CONDIT1❕◁IMAGE_FOLDER▷\backup.wim❗EXIST❕DX❕DX❕
 ECHO.❕@TEXTHOST❕ECHO.◁IMAGE_FOLDER▷\backup.wim does not exist.❕SCREEN❕◁CONDIT1[2]▷❕
@@ -457,8 +460,8 @@ SET "$PATH_X="&&SET "$FILE_X="&&SET "$EXT_X="&&FOR %%G in ("%INPUT%") DO (SET "$
 SET "$CASE=UPPER"&&SET "CAPS_SET=EXT_UPPER"&&SET "CAPS_VAR=%$EXT_X%"&&CALL:CAPS_SET
 SET "INPUT="&&EXIT /B
 :GET_SID
-::FOR /F "TOKENS=2* SKIP=1 DELIMS=:\. " %%a in ('%REG% QUERY "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUser 2^>NUL') do (IF "%%a"=="REG_SZ" SET "CUR_USR=%%b")
-FOR /F "TOKENS=2* SKIP=1 DELIMS=:\. " %%a in ('%REG% QUERY "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUserSID 2^>NUL') do (IF "%%a"=="REG_SZ" SET "CUR_SID=%%b")
+FOR /F "TOKENS=2* SKIP=1 DELIMS=:\. " %%a in ('%REG% QUERY "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUser 2^>NUL') do (IF "%%a"=="REG_SZ" SET "USER_NAM=%%b")
+FOR /F "TOKENS=2* SKIP=1 DELIMS=:\. " %%a in ('%REG% QUERY "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUserSID 2^>NUL') do (IF "%%a"=="REG_SZ" SET "USER_SID=%%b")
 SET "ERRORLEVEL=0"&&EXIT /B
 :GET_NEXTBOOT
 SET "BOOT_OK="&&SET "GUID_TMP="&&SET "GUID_CUR="&&FOR /F "TOKENS=1-5 DELIMS= " %%a in ('%BCDEDIT% /V') do (
@@ -1632,7 +1635,7 @@ FOR %%○ in (SC RO) DO (IF "%%●"=="%%○" CALL:SC_RO_CREATE))
 CD /D "%PROG_FOLDER%">NUL 2>&1
 EXIT /B
 :TEXTHOST_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=ZCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (FILE SCREEN) DO (IF "!$ZCLM1$!"=="%%□" SET "$PASS=1")
@@ -1648,28 +1651,28 @@ SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 CALL %CMD% /C ""%PROG_SOURCE%\windick.cmd" !$QCLM2$!"
 EXIT /B
 :GROUP_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 in ("!$QCLM2$!%U01%!$QCLM3$!") DO (SET "GROUP=%%1"&&SET "SUBGROUP=%%2")
 IF DEFINED $QCLM7$ FOR /F "TOKENS=*" %%● IN ("!$QCLM7$!") DO (SET "CHOICE0[I]=%%●"
 FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (IF "%%●"=="%%○" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM6$!") DO (SET "CHOICE0[S]=%%%$QCLM7$%"&&SET "CHOICE0[%%●]=%%%$QCLM7$%")))
 FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0[%%●] SET "CHOICE0[I]="&&SET "CHOICE0[S]=")
 EXIT /B
 :PICKER_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![1]=%%○"&&SET "!$QCLM1$![S]=%%○")
 EXIT /B
 :PROMPT_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![1]=%%○"&&SET "!$QCLM1$![S]=%%○")
 EXIT /B
 :CHOICE_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 FOR /F "TOKENS=*" %%○ IN ("!$QCLM4$!") DO (SET "!$QCLM1$![I]=%%○"
 FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM3$!") DO (SET "!$QCLM1$![S]=%%%$QCLM4$%"&&SET "!$QCLM1$![%%◌]=%%%$QCLM4$%")))
 FOR %%○ in (S I) DO (IF NOT DEFINED !$QCLM1$![%%○] SET "!$QCLM1$![I]="&&SET "!$QCLM1$![S]=")
 EXIT /B
 :STRING_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 FOR /F "TOKENS=1-9 DELIMS=%U01%" %%1 IN ("!$QCLM2$!") DO (
 IF "!$QCLM3$!"=="STRING" IF NOT "%%1"=="" SET "!$QCLM1$![1]=%%1"&&IF NOT "%%2"=="" SET "!$QCLM1$![2]=%%2"&&IF NOT "%%3"=="" SET "!$QCLM1$![3]=%%3"&&IF NOT "%%4"=="" SET "!$QCLM1$![4]=%%4"&&IF NOT "%%5"=="" SET "!$QCLM1$![5]=%%5"&&IF NOT "%%6"=="" SET "!$QCLM1$![6]=%%6"&&IF NOT "%%7"=="" SET "!$QCLM1$![7]=%%7"&&IF NOT "%%8"=="" SET "!$QCLM1$![8]=%%8"&&IF NOT "%%9"=="" SET "!$QCLM1$![9]=%%9"
 IF "!$QCLM3$!"=="INTEGER" IF NOT "%%1"=="" SET /A "!$QCLM1$![1]=%%1"&&IF NOT "%%2"=="" SET /A "!$QCLM1$![2]=%%2"&&IF NOT "%%3"=="" SET /A "!$QCLM1$![3]=%%3"&&IF NOT "%%4"=="" SET /A "!$QCLM1$![4]=%%4"&&IF NOT "%%5"=="" SET /A "!$QCLM1$![5]=%%5"&&IF NOT "%%6"=="" SET /A "!$QCLM1$![6]=%%6"&&IF NOT "%%7"=="" SET /A "!$QCLM1$![7]=%%7"&&IF NOT "%%8"=="" SET /A "!$QCLM1$![8]=%%8"&&IF NOT "%%9"=="" SET /A "!$QCLM1$![9]=%%9")
@@ -1719,7 +1722,7 @@ IF "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedIn
 IF "%$RAS%"=="RATI" ECHO.DEL /Q /F "%PROG_FOLDER%\$RAS.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$RAS.cmd"
 ECHO.@ECHO OFF^&CD /D "%PROG_FOLDER%">"%PROG_FOLDER%\$%$RAS%.cmd"
 IF NOT DEFINED VAR_ITEMS CALL:VAR_ITEMS
-FOR %%■ in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER PROG_SOURCE IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PKX_FOLDER APPLY_TARGET %VAR_ITEMS%) DO (IF DEFINED %%■ ECHO.SET "%%■=!%%■!">>"%PROG_FOLDER%\$%$RAS%.cmd")
+FOR %%■ in (DRVTAR WINTAR USRTAR HIVE_SOFTWARE HIVE_SYSTEM HIVE_USER PROG_SOURCE IMAGE_FOLDER LIST_FOLDER PACK_FOLDER CACHE_FOLDER PKX_FOLDER APPLY_TARGET USER_NAM USER_SID %VAR_ITEMS%) DO (IF DEFINED %%■ ECHO.SET "%%■=!%%■!">>"%PROG_FOLDER%\$%$RAS%.cmd")
 ECHO.CALL:ROUTINE^>"%PROG_FOLDER%\$LOG">>"%PROG_FOLDER%\$%$RAS%.cmd"
 ECHO.DEL /Q /F "%PROG_FOLDER%\$%$RAS%.cmd"^>NUL^&EXIT>>"%PROG_FOLDER%\$%$RAS%.cmd"
 ECHO.:ROUTINE>>"%PROG_FOLDER%\$%$RAS%.cmd"
@@ -1761,7 +1764,7 @@ FOR /F "TOKENS=1 DELIMS= " %%a IN ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\SERVI
 EXIT /B
 :ARRAY_ITEM
 SET "$IFELSE="
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM4!"&&SET "$OUTPUT=ACTN"&&CALL:EXPANDOFLEX
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=MATCH"&&CALL:EXPANDOFLEX
 IF NOT "!ACTN1!"=="◁NULL▷" IF "!$QCLM2$!"=="!$MATCH1$!" SET "!$QCLM1$![I]=1"&&SET "!$QCLM1$![S]=!$ACTN1$!"&&SET "!$QCLM1$![1]=!$ACTN1$!"&&SET "$IFELSE=1"
@@ -1804,11 +1807,11 @@ EXIT /B
 SET "$PASS="&&FOR %%□ IN (+ - /) DO (IF "!$QCLM3$!"=="*" SET "$PASS=1"
 IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 OPERATION is not *, /, +, or -.&&EXIT /B
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET /A "!$QCLM1$![I]=1"&&SET /A "!$QCLM1$![S]=!$QCLM2$!"&&SET /A "!$QCLM1$![S]!$QCLM3$!=!$QCLM4$!"&&SET /A "!$QCLM1$![1]=!$QCLM1$![S]!"
 EXIT /B
 :CONDIT_ITEM
-CALL:IF_LIVE_EXT
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=COND"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (EXIST NEXIST DEFINED NDEFINED EQ NE LE GE GT LT) DO (IF "!$COND2$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 CONDITION is not EQ, NE, LE, GE, GT, LT, EXIST, NEXIST, DEFINED or NDEFINED. Example: 'c:\❗EXIST' or '1❗EQ❗1' or 'CHOICE1❗DEFINED'&&EXIT /B
@@ -1839,7 +1842,7 @@ EXIT /B
 :FILEOPER_ITEM
 SET "$FILE_OBJ="&&SET "$PASS="&&FOR %%□ IN (CREATE DELETE RENAME COPY MOVE TAKEOWN) DO (IF "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not CREATE, DELETE, RENAME, COPY, MOVE, or TAKEOWN.&&EXIT /B
-CALL:IF_LIVE_MIX
+IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_MIX
 FOR /F "TOKENS=*" %%a in ("!$QCLM3$!") DO (SET "$FILEOPER=%%a"&&SET "$RAS=%%b")
 FOR /F "TOKENS=1-4 DELIMS=%U01%" %%a in ("!$QCLM2$!") DO (SET "$OBJONE=%%a"&&SET "$OBJTWO=%%b")
 IF "%$FILEOPER%"=="COPY" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
@@ -1851,6 +1854,10 @@ IF DEFINED $EXIT EXIT /B
 IF EXIST "!$OBJONE!\*" SET "$FILE_OBJ=FOLD"
 IF NOT EXIST "!$OBJONE!\*" SET "$FILE_OBJ=FILE"
 IF "%$FILEOPER%"=="CREATE" SET "$FILE_OBJ=FOLD"
+IF NOT DEFINED $RAS SET "RUN_AS=user"
+IF "!$RAS!"=="RAU" SET "RUN_AS=user"&&SET "$RAS="
+IF "!$RAS!"=="RAS" SET "RUN_AS=system"
+IF "!$RAS!"=="RATI" SET "RUN_AS=trustedinstaller"
 IF NOT DEFINED @QUIET ECHO.Executing %@@%fileoper%$$% !$FILEOPER! !$FILE_OBJ! !$OBJONE! as %##%%RUN_AS%%$$%!
 IF "%$FILEOPER%"=="CREATE" IF "%$FILE_OBJ%"=="FOLD" MD "\\?\!$OBJONE!">NUL 2>&1
 IF "%$FILEOPER%"=="DELETE" IF "%$FILE_OBJ%"=="FOLD" IF EXIST "!$OBJONE!" RD /S /Q "\\?\!$OBJONE!"
@@ -2459,7 +2466,7 @@ FOR %%a in (%VAR_ITEMS%) DO (CALL SET "%%a=%%%%a_X%%"&&SET "%%a_X=")
 EXIT /B
 :IF_LIVE_EXT
 IF DEFINED LIVE_APPLY CALL:MOUNT_INT
-IF DEFINED LIVE_APPLY IF NOT DEFINED CUR_SID IF "%PROG_MODE%"=="COMMAND" CALL:MOUNT_USR
+IF DEFINED LIVE_APPLY IF NOT DEFINED USER_SID IF "%PROG_MODE%"=="COMMAND" CALL:MOUNT_USR
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_EXT
 EXIT /B
 :IF_LIVE_MIX
@@ -2470,15 +2477,15 @@ EXIT /B
 SET "$GO="&&FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKU\$ALLUSER" /VE 2^>NUL') DO (IF "%%X"=="HKEY_USERS" SET "$GO=1")
 IF NOT DEFINED $GO SET "MOUNT="
 IF "%MOUNT%"=="USR" EXIT /B
-SET "MOUNT=USR"&&SET "HIVE_USER=HKU\$ALLUSER"&&SET "USRTAR=%DRVTAR%\Users\Default"
+SET "MOUNT=USR"&&SET "HIVE_USER=HKEY_USERS\$ALLUSER"&&SET "USRTAR=%DRVTAR%\Users\Default"
 %REG% UNLOAD HKU\$ALLUSER>NUL 2>&1
 %REG% LOAD HKU\$ALLUSER "%DRVTAR%\Users\Default\Ntuser.dat">NUL 2>&1
 EXIT /B
 :MOUNT_INT
 FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKLM\$SOFTWARE" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "MOUNT="&&IF "%DEBUG%"=="ENABLED" ECHO.Unmounting external registry hives..)
 IF "%MOUNT%"=="INT" EXIT /B
-SET "MOUNT=INT"&&SET "HIVE_USER=HKCU"&&SET "HIVE_SOFTWARE=HKLM\SOFTWARE"&&SET "HIVE_SYSTEM=HKLM\SYSTEM"&&SET "APPLY_TARGET=ONLINE"&&SET "DRVTAR=%SYSTEMDRIVE%"&&SET "WINTAR=%WINDIR%"&&SET "USRTAR=%USERPROFILE%"
-IF DEFINED CUR_SID SET "HIVE_USER=HKU\%CUR_SID%"
+SET "MOUNT=INT"&&SET "HIVE_USER=HKEY_CURRENT_USER"&&SET "HIVE_SOFTWARE=HKEY_LOCAL_MACHINE\SOFTWARE"&&SET "HIVE_SYSTEM=HKEY_LOCAL_MACHINE\SYSTEM"&&SET "APPLY_TARGET=ONLINE"&&SET "DRVTAR=%SYSTEMDRIVE%"&&SET "WINTAR=%WINDIR%"&&SET "USRTAR=%USERPROFILE%"
+IF DEFINED USER_SID SET "HIVE_USER=HKEY_USERS\%USER_SID%"
 %REG% UNLOAD HKU\$ALLUSER>NUL 2>&1
 %REG% UNLOAD HKLM\$SOFTWARE>NUL 2>&1
 %REG% UNLOAD HKLM\$SYSTEM>NUL 2>&1
@@ -2487,7 +2494,7 @@ EXIT /B
 SET "$GO="&&FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKLM\$SOFTWARE" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "$GO=1")
 IF NOT DEFINED $GO SET "MOUNT="&&IF "%DEBUG%"=="ENABLED" ECHO.Mounting external registry hives..
 IF "%MOUNT%"=="EXT" EXIT /B
-SET "MOUNT=EXT"&&SET "HIVE_USER=HKU\$ALLUSER"&&SET "HIVE_SOFTWARE=HKLM\$SOFTWARE"&&SET "HIVE_SYSTEM=HKLM\$SYSTEM"&&SET "APPLY_TARGET=IMAGE:%TARGET_PATH%"&&SET "DRVTAR=%TARGET_PATH%"&&SET "WINTAR=%TARGET_PATH%\Windows"&&SET "USRTAR=%TARGET_PATH%\Users\Default"
+SET "MOUNT=EXT"&&SET "HIVE_USER=HKEY_USERS\$ALLUSER"&&SET "HIVE_SOFTWARE=HKEY_LOCAL_MACHINE\$SOFTWARE"&&SET "HIVE_SYSTEM=HKEY_LOCAL_MACHINE\$SYSTEM"&&SET "APPLY_TARGET=IMAGE:%TARGET_PATH%"&&SET "DRVTAR=%TARGET_PATH%"&&SET "WINTAR=%TARGET_PATH%\Windows"&&SET "USRTAR=%TARGET_PATH%\Users\Default"
 %REG% UNLOAD HKU\$ALLUSER>NUL 2>&1
 %REG% UNLOAD HKLM\$SOFTWARE>NUL 2>&1
 %REG% UNLOAD HKLM\$SYSTEM>NUL 2>&1
@@ -2498,7 +2505,7 @@ EXIT /B
 :MOUNT_MIX
 FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKLM\$SOFTWARE" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "MOUNT="&&IF "%DEBUG%"=="ENABLED" ECHO.Unmounting external registry hives..)
 IF "%MOUNT%"=="MIX" EXIT /B
-SET "MOUNT=MIX"&&SET "HIVE_USER=HKCU"&&SET "HIVE_SOFTWARE=HKLM\SOFTWARE"&&SET "HIVE_SYSTEM=HKLM\SYSTEM"&&SET "APPLY_TARGET=IMAGE:%TARGET_PATH%"&&SET "DRVTAR=%TARGET_PATH%"&&SET "WINTAR=%TARGET_PATH%\Windows"&&SET "USRTAR=%TARGET_PATH%\Users\Default"
+SET "MOUNT=MIX"&&SET "HIVE_USER=HKEY_CURRENT_USER"&&SET "HIVE_SOFTWARE=HKEY_LOCAL_MACHINE\SOFTWARE"&&SET "HIVE_SYSTEM=HKEY_LOCAL_MACHINE\SYSTEM"&&SET "APPLY_TARGET=IMAGE:%TARGET_PATH%"&&SET "DRVTAR=%TARGET_PATH%"&&SET "WINTAR=%TARGET_PATH%\Windows"&&SET "USRTAR=%TARGET_PATH%\Users\Default"
 %REG% UNLOAD HKU\$ALLUSER>NUL 2>&1
 %REG% UNLOAD HKLM\$SOFTWARE>NUL 2>&1
 %REG% UNLOAD HKLM\$SYSTEM>NUL 2>&1

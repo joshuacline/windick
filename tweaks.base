@@ -737,40 +737,52 @@ X❕@TEXTHOST❕❎ OneDrive Disable applied.❕SCREEN❕DX❕
 ?❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Classes\Drive\shell\Powershell❗XXX❗XXX❗XXX❕CREATE❕DX❕
 
 ❕GROUP❕👽❕Add_Take_Ownership_context_menu❕NORMAL❕
-❕@FILEOPER❕◁CACHE_FOLDER▷\TakeOwnership.reg❕DELETE❕DX❕
-❕@TEXTHOST❕Windows Registry Editor Version 5.00❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
+❕CONDIT1❕◁CACHE_FOLDER▷\TakeOwnership.reg❗NEXIST❕DX❕◁NULL▷❕
+X❕@FILEOPER❕◁CACHE_FOLDER▷\TakeOwnership.reg❕DELETE❕◁CONDIT1[2]▷❕
+❕@TEXTHOST❕Windows Registry Editor Version 5.00❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
 ; Created by: Shawn Brink; Created on: September 6, 2021; Updated on: January 7, 2024
 ; Tutorial: https://www.elevenforum.com/t/add-take-ownership-to-context-menu-in-windows-11.1230/
-❕@TEXTHOST❕[-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[-HKEY_CLASSES_ROOT\*\shell\runas]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"NeverDefault"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕@="powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"IsolatedCommand"= "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\Users\" OR System.ItemPathDisplay:=\"C:\\ProgramData\" OR System.ItemPathDisplay:=\"C:\\Windows\" OR System.ItemPathDisplay:=\"C:\\Windows\\System32\" OR System.ItemPathDisplay:=\"C:\\Program Files\" OR System.ItemPathDisplay:=\"C:\\Program Files (x86)\")"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"Position"="middle"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕@="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"IsolatedCommand"="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Drive\shell\runas]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"Position"="middle"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Drive\shell\runas\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕@="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@TEXTHOST❕"IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕DX❕
-❕@COMMAND❕REG IMPORT "◁CACHE_FOLDER▷\TakeOwnership.reg"❕NORMAL❕DX❕
+❕@TEXTHOST❕[-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[-HKEY_CLASSES_ROOT\*\shell\runas]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"NeverDefault"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕@="powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"IsolatedCommand"= "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\Users\" OR System.ItemPathDisplay:=\"C:\\ProgramData\" OR System.ItemPathDisplay:=\"C:\\Windows\" OR System.ItemPathDisplay:=\"C:\\Windows\\System32\" OR System.ItemPathDisplay:=\"C:\\Program Files\" OR System.ItemPathDisplay:=\"C:\\Program Files (x86)\")"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"Position"="middle"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕@="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"IsolatedCommand"="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Drive\shell\runas]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕@="Take Ownership"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"Extended"=-❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"HasLUAShield"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"NoWorkingDirectory"=""❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"Position"="middle"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕[HKEY_CLASSES_ROOT\Drive\shell\runas\command]❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕@="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+❕@TEXTHOST❕"IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕FILE❗◁CACHE_FOLDER▷\TakeOwnership.reg❕◁CONDIT1[1]▷❕
+Note: The below 'Condit2' item string 'DX' can be changed to 'RO' for scheduling after deployment.
+❕CONDIT2❕◁CACHE_FOLDER▷\TakeOwnership.reg❗EXIST❕DX❕◁NULL▷❕
+❕@COMMAND❕REG IMPORT "◁CACHE_FOLDER▷\TakeOwnership.reg"❕NORMAL❕◁CONDIT2[1]▷❕
+
+❕GROUP❕👽❕Dynamic HKEY for .REG example❕NORMAL❕
+❕@FILEOPER❕◁CACHE_FOLDER▷\DynamicHKEY.reg❕DELETE❕DX❕
+❕@TEXTHOST❕Windows Registry Editor Version 5.00❕FILE❗◁CACHE_FOLDER▷\DynamicHKEY.reg❕DX❕
+❕@TEXTHOST❕[◁HIVE_SOFTWARE▷\TEST]❕FILE❗◁CACHE_FOLDER▷\DynamicHKEY.reg❕DX❕
+❕@TEXTHOST❕[◁HIVE_SYSTEM▷\TEST]❕FILE❗◁CACHE_FOLDER▷\DynamicHKEY.reg❕DX❕
+❕@TEXTHOST❕[◁HIVE_USER▷\TEST]❕FILE❗◁CACHE_FOLDER▷\DynamicHKEY.reg❕DX❕
+❕@COMMAND❕REG IMPORT "◁CACHE_FOLDER▷\DynamicHKEY.reg"❕NORMAL❕DX❕
+
 
