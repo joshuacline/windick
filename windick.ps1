@@ -1,4 +1,4 @@
-﻿# Windows Deployment Image Customization Kit v 1214 (c) github.com/joshuacline
+﻿# Windows Deployment Image Customization Kit v 1215 (c) github.com/joshuacline
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -1645,6 +1645,26 @@ do {Start-Sleep -Milliseconds 100} until (-not (Test-Path -Path "$env:temp\`$CON
 if ($GUI_CONTYPE -eq 'Embed') {[VOID][WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 1);[VOID][WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
 $PageBlank.Visible = $false;$PageConsole.Visible = $true;$PageConsole.BringToFront()
 [VOID][WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 3)}
+#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+[string]$SplashLogo=@"
+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
+"@
+function SplashScreen {
+$SplashForm = New-Object System.Windows.Forms.Form
+$SplashForm.Size = New-Object System.Drawing.Size($SplashSize, $SplashSize)
+$SplashForm.StartPosition = "CenterScreen"
+$SplashForm.ShowInTaskbar = $false
+$SplashForm.ControlBox = $false
+$PictureBoxSplash = New-Object System.Windows.Forms.PictureBox
+$PictureBoxSplash.Dock = "Fill"
+$PictureBoxSplash.SizeMode = 'StretchImage'
+$PictureBoxSplash.Image = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($SplashLogo))
+$SplashForm.Controls.Add($PictureBoxSplash)
+$PictureBoxSplash.Visible = $true;$PictureBoxSplash.BringToFront()
+$SplashForm.Show()
+Start-Sleep -Milliseconds 250
+return $SplashForm
+}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -1669,8 +1689,10 @@ $GetCurDpi = [System.Drawing.Graphics]::FromHwnd(0)
 $DpiX = $GetCurDpi.DpiX;$DpiCur = $DpiX / 96
 $RefX = 1000;$DimScaleX = $DimensionX / $RefX
 $RefY = 1000;$DimScaleY = $DimensionY / $RefY
-if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
-if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
+if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY;$SplashSize = $DimScaleY}
+if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX;$SplashSize = $DimScaleY}
+$SplashSize = [int]($ScaleRef / 2 * 1000);$SplashSize = [Math]::Floor($SplashSize);
+$SplashScreen = SplashScreen
 if ($GUI_SCALE) {$null} else {$global:GUI_SCALE = 1.00}
 if ($GUI_CONFONT) {$null} else {$global:GUI_CONFONT = 'Consolas'}
 if ($GUI_FONTSIZE) {$null} else {$global:GUI_FONTSIZE = 'Auto'}
@@ -1996,6 +2018,8 @@ $Page = 'PageMain';$Button_SP = NewPageButton -X '-5' -Y '630' -W '50' -H '40' -
 $form.ResumeLayout()
 $form.Add_Shown({$form.Activate()})
 GUI_Resume
+$SplashScreen.Close()
+$SplashScreen.Dispose()
 $form.ShowDialog()
 $form.Dispose()
 #$form.Refresh()
