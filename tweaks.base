@@ -1,8 +1,8 @@
 ﻿MENU-SCRIPT
 
 ❕GROUP❕🪟 Initial Setup❕🪪 Create unattend.xml (Skips OOBE setup)❕NORMAL❕
-❕PROMPT1❕Enter Username: 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
-❕PROMPT2❕Enter Computer Name: 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
+❕PROMPT1❕Enter Username: 0-9 A-Z - No Spaces❕ALPHA❗3-20❕VolaTILE❕
+❕PROMPT2❕Enter Computer Name: 0-9 A-Z - No Spaces❕ALPHA❗3-20❕VolaTILE❕
 ❕CHOICE1❕Select an edition❕Bypass Initial Setup❕VolaTILE❕
 ❕CHOICE2❕Select a locale❕en-US❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❕DX❕
@@ -121,7 +121,7 @@
 
 
 ❕GROUP❕🪟 Initial Setup❕🪪 Create new admin❕NORMAL❕
-❕PROMPT1❕Enter the admin name 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
+❕PROMPT1❕Enter the admin name 0-9 A-Z - No Spaces❕ALPHA❗3-20❕VolaTILE❕
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /add >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /passwordreq:No >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /passwordchg:No >NUL❕NORMAL❕SC❕
@@ -131,7 +131,7 @@
 ❕@TEXTHOST❕◁SUBGROUP▷ scheduled for SetupComplete.❕SCREEN❕DX❕
 
 ❕GROUP❕🪟 Initial Setup❕🪪 Create new user❕NORMAL❕
-❕PROMPT1❕Enter the username 0-9 A-Z - No Spaces❕ALPHA_3-20❕VolaTILE❕
+❕PROMPT1❕Enter the username 0-9 A-Z - No Spaces❕ALPHA❗3-20❕VolaTILE❕
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /add >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /passwordreq:No >NUL❕NORMAL❕SC❕
 ❕@COMMAND❕Net User ◁PROMPT1[S]▷ /passwordchg:No >NUL❕NORMAL❕SC❕
@@ -164,7 +164,7 @@
 ❕CHOICE1❕Select an option❕✅ Enable❗❎ Disable❕VolaTILE❕
 ❕ARRAY1❕◁CHOICE1[I]▷❕1❗2❕0❗1❕
 ❕ARRAY2❕◁CHOICE1[I]▷❕1❗2❕1❗0❕
-❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗◁ARRAY2▷❗DWORD❕CREATE❕DX❕
+❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗◁ARRAY2[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_SOFTWARE▷\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
 ❕@REGISTRY❕◁HIVE_USER▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁ARRAY1[S]▷❗DWORD❕CREATE❕DX❕
