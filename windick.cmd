@@ -1,6 +1,6 @@
-﻿#>NUL 2>&1&::Windows Deployment Image Customization Kit v 1216 (c) github.com/joshuacline
-:: <#  Build, administrate and backup your Windows in a native WinPE recovery environment
-@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"&&IF "%1"=="" CLS
+:: <# Windows Deployment Image Customization Kit v 1216 © github.com/joshuacline
+:: Build, administrate and backup your Windows in a native WinPE recovery environment
+@ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
 GOTO:GET_INIT
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -8,7 +8,7 @@ GOTO:GET_INIT
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 @ECHO OFF&&CLS&&SET "MOUNT="&&IF NOT DEFINED MENU_MODE SET "MENU_MODE=NORMAL"
 IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (BASIC CUSTOM) DO (IF "%MENU_MODE%"=="%%a" GOTO:%MENU_MODE%_MODE)
-IF NOT "%GUI_LAUNCH%"=="DISABLED" IF NOT "%WINPE_BOOT%"=="1" GOTO:LAUNCH_GUI
+IF NOT "%GUI_LAUNCH%"=="DISABLED" IF NOT "%WINPE_BOOT%"=="1" GOTO:GUI_MODE
 IF EXIST "%PROG_SOURCE%\$PKX" ECHO.Cleaning up pkx folder from previous session...&&SET "FOLDER_DEL=%PROG_SOURCE%\$PKX"&&CALL:FOLDER_DEL
 CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.              Windows Deployment Image Customization Kit&&ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 0 %$$%) %U09% Change Boot Order
 ECHO. (%##% 1 %$$%) %U07% Image Processing&&ECHO. (%##% 2 %$$%) %U08% Image Management&&ECHO. (%##% 3 %$$%) %U11% Other Management&&ECHO. (%##% 4 %$$%) %U04% BootDisk Creator&&ECHO. (%##% 5 %$$%) %U03% Settings
@@ -34,11 +34,9 @@ IF "%SELECT%"=="*" IF "%PROG_MODE%"=="PORTABLE" IF NOT "%WINPE_BOOT%"=="1" SET "
 IF "%SELECT%"=="~" SET&&CALL:PAUSED
 IF "%SELECT%"=="0" IF "%PROG_MODE%"=="RAMDISK" CALL:BCD_MENU
 GOTO:MAIN_MENU
-:LAUNCH_GUI
-IF EXIST "%PROG_FOLDER%\windick.ps1" SET "VER_GET=%~DP0windick.ps1"&&SET "VER_SET=VER_PS1"&&CALL:GET_PROGVER
-IF NOT "%VER_PS1%"=="%VER_CUR%" COPY /Y "%PROG_FOLDER%\windick.cmd" "%PROG_FOLDER%\windick.ps1">NUL 2>&1
-IF EXIST "%PROG_FOLDER%\windick.ps1" START powershell -WindowStyle Hidden -executionpolicy bypass -command "%PROG_FOLDER%\windick.ps1"&GOTO:QUIT
-EXIT /B
+:GUI_MODE
+START powershell -WindowStyle Hidden -executionpolicy bypass -command "$Content = Get-Content -Path '%~f0' -raw -Encoding utf8;$ContentUTF = [ScriptBlock]::Create($Content);& $ContentUTF"
+GOTO:QUIT
 :BASIC_MODE
 @ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.              Windows Deployment Image Customization Kit&&ECHO.&&ECHO.&&ECHO. (%##% 0 %$$%) %U09% Change Boot Order&&ECHO. (%##% 1 %$$%) %U07% Backup&&ECHO. (%##% 2 %$$%) %U07% Restore
 ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" IF "%PROG_SOURCE%"=="Z:\%HOST_FOLDERX%" ECHO.          ^< Disk %@@%%HOST_NUMBER%%$$% UID %@@%%HOST_TARGET%%$$% ^>
@@ -254,7 +252,7 @@ ECHO.❕@TEXTHOST❕Condit1-S:◁CONDIT1[S]▷ Condit1-I:◁CONDIT1[I]▷ Condit
 ECHO.❕@TEXTHOST❕Condit2-S:◁CONDIT2[S]▷ Condit2-I:◁CONDIT2[I]▷ Condit2-1:◁CONDIT2[1]▷ Condit2-2:◁CONDIT2[2]▷❕SCREEN❕DX❕
 ECHO.
 ECHO.❕GROUP❕🪟 Builder non-interactive items❕🪛 Array item❕NORMAL❕
-ECHO.Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th colum adds 'else' function.
+ECHO.Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th column adds 'else' function.
 ECHO.❕ARRAY1❕a❕a❗b❗c❕✅ Array1  option 1 selected❗✅ Array1  option 2 selected❗✅ Array1  option 3 selected❕
 ECHO.❕ARRAY2❕1❕1❗2❗3❕✅ Array2  option 1 selected❗✅ Array2  option 2 selected❗✅ Array2  option 3 selected❕✅ Array2  option 1 else selected❗✅ Array2  option 2 else selected❗✅ Array2  option 3 else selected❕
 ECHO.❕@TEXTHOST❕Array1-S:◁ARRAY1[S]▷ Array1-I:◁ARRAY1[I]▷ Array1-1:◁ARRAY1[1]▷ Array1-2:◁ARRAY1[2]▷ Array1-3:◁ARRAY1[3]▷❕SCREEN❕DX❕
@@ -359,8 +357,8 @@ EXIT /B
 :GET_INIT
 SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"
 SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="&&SET "ALLOW_ENVO="
-SET "VER_GET=%~DP0windick.cmd"&&CALL:GET_PROGVER&&CD /D "%~DP0"&&CHCP 65001>NUL
-IF EXIST "%TEMP%\$CON" SET "GUI_ACTIVE=1"&DEL /F /Q "%TEMP%\$CON">NUL 2>&1
+SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&CD /D "%~DP0"&&CHCP 65001>NUL
+IF EXIST "%PROG_FOLDER%\$CON" SET "GUI_ACTIVE=1"&DEL /F /Q "%PROG_FOLDER%\$CON">NUL 2>&1
 SET "ORIG_CD=%CD%"&&FOR /F "TOKENS=*" %%a in ("%CD%") DO (SET "CAPS_SET=PROG_FOLDER"&&SET "CAPS_VAR=%%a"&&CALL:CAPS_SET)
 FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%PROG_FOLDER%") DO (SET "CHAR_STR=%%b"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&IF "%%b"=="\" SET "PROG_FOLDER=%%a:")
 IF DEFINED CHAR_FLG SET "ERROR=Remove the space from the path or folder name, then launch again."
@@ -499,7 +497,7 @@ SET "$IMAGE_X="&&SET "INDEX_X="&&EXIT /B
 :GET_PROGVER
 IF NOT DEFINED VER_SET SET "VER_SET=VER_CUR"
 IF EXIST "%VER_GET%" SET /P VER_CHK=<"%VER_GET%"
-SET "%VER_SET%="&&FOR /F "TOKENS=1-9 DELIMS= " %%A IN ("%VER_CHK%") DO (SET "%VER_SET%=%%H")
+SET "%VER_SET%="&&FOR /F "TOKENS=1-9 DELIMS= " %%A IN ("%VER_CHK%") DO (SET "%VER_SET%=%%I")
 IF NOT DEFINED %VER_SET% SET "ERROR=GET_PROGVER"&&CALL:DEBUG
 SET "VER_CHK="&&SET "VER_GET="&&SET "VER_SET="&&EXIT /B
 :GET_HEADER
@@ -2282,7 +2280,6 @@ SET "$HEADERS=                           %U13% Miscellaneous%U01% %U01%         
 IF "%SELECT%"=="0" SET "FILE_TYPE=LIST"&&CALL:BASIC_FILE&GOTO:LIST_CONVERT_END
 IF DEFINED $PICK SET "$HEAD_CHECK=%$PICK%"&&CALL:GET_HEADER
 IF DEFINED ERROR GOTO:LIST_CONVERT_END
-::SET "INPUT=%$PICK%"&&CALL:GET_FILEEXT
 COPY /Y "%$PICK%" "$TEMP">NUL
 IF EXIST "$TEMP" SET "ISGROUP="&&FOR /F "TOKENS=1 SKIP=1 DELIMS=%U00%" %%1 in ($TEMP) DO (IF "%%1"=="GROUP" SET "ISGROUP=1"&&GOTO:LIST_CONVERT_SKIP)
 :LIST_CONVERT_SKIP
@@ -2927,12 +2924,13 @@ ECHO.Mounting vdisk %VHDX_123% letter %VDISK_LTR%...
 (ECHO.Select vdisk file="%$VDISK_FILE%"&&ECHO.attach vdisk&&ECHO.list vdisk&&ECHO.Exit)>"$DISK"
 IF NOT EXIST "%VDISK_LTR%:\" IF NOT DEFINED VRETRY CALL:VDISK_DETACH>NUL 2>&1
 IF NOT EXIST "%VDISK_LTR%:\" IF NOT DEFINED VRETRY SET "VRETRY=1"&&GOTO:VDISK_RETRY
-FOR /F "TOKENS=1-8* DELIMS=* " %%a IN ('DISKPART /s "$DISK"') DO (SET "DISK_NUM="&&IF "%%a"=="VDisk" IF EXIST "%%i" SET "DISK_NUM=%%d"&&SET "CAPS_SET=VDISK_QRY"&&SET "CAPS_VAR=%%i"&&CALL:CAPS_SET&&CALL:VDISK_CAPS)
+FOR /F "TOKENS=1-8* DELIMS=* " %%a IN ('DISKPART /s "$DISK"') DO (SET "DISK_NUM="&&IF "%%a"=="VDisk" IF /I "%%i"=="%$VDISK_FILE%" IF EXIST "%%i" SET "DISK_NUM=%%d"&&SET "VDISK_QRY=%%i"&&CALL:VDISK_ASGN)
 SET "VRETRY="&&SET "VHDX_123="&&SET "VDISK_PART="&&SET "VDISK_QRY="&&SET "DISK_NUM="&&IF EXIST "$DISK" DEL /Q /F "$DISK">NUL 2>&1
 EXIT /B
-:VDISK_CAPS
-SET "CAPS_SET=VDISK"&&SET "CAPS_VAR=%$VDISK_FILE%"&&CALL:CAPS_SET
-IF NOT "%VDISK_QRY%"=="%$VDISK_FILE%" EXIT /B
+:VDISK_ASGN
+SET "$PASS="&&SET "VDISK=%$VDISK_FILE%"
+IF /I "%VDISK_QRY%"=="%$VDISK_FILE%" SET "$PASS=1"
+IF NOT DEFINED $PASS EXIT /B
 (ECHO.select disk %DISK_NUM%&&ECHO.list partition&&ECHO.Exit)>"$DISK"&&FOR /F "TOKENS=1-8* DELIMS=* " %%1 IN ('DISKPART /s "$DISK"') DO (IF "%%1"=="Partition" IF NOT "%%2"=="" IF NOT "%%2"=="###" SET "VDISK_PART=%%2")
 IF DEFINED VDISK_PART (ECHO.Select vdisk file="%$VDISK_FILE%"&&ECHO.select partition %VDISK_PART%&&ECHO.assign letter=%VDISK_LTR% noerr&&ECHO.Exit)>"$DISK"&&DISKPART /s "$DISK">NUL 2>&1
 EXIT /B
@@ -3270,7 +3268,6 @@ ECHO.Unmounting EFI...&&IF EXIST "%PRI_LETTER%:\%HOST_FOLDER%\$TEMP.vhdx" DEL /Q
 SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=1"&&SET "LETT_X=%EFI_LETTER%"&&CALL:PART_REMOVE
 SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=1"&&CALL:PART_EFIX
 IF NOT DEFINED ERROR (
-IF EXIST "%PROG_SOURCE%\windick.ps1" ECHO.Copying windick.ps1... &&COPY /Y "%PROG_SOURCE%\windick.ps1" "%PRI_LETTER%:\%HOST_FOLDER%">NUL 2>&1
 IF EXIST "%CACHE_FOLDER%\boot.sdi" ECHO.Copying boot.sdi...&&COPY /Y "%CACHE_FOLDER%\boot.sdi" "%PRI_LETTER%:\%HOST_FOLDER%">NUL 2>&1
 IF EXIST "%CACHE_FOLDER%\bootmgfw.efi" ECHO.Copying bootmgfw.efi...&&COPY /Y "%CACHE_FOLDER%\bootmgfw.efi" "%PRI_LETTER%:\%HOST_FOLDER%">NUL 2>&1
 IF DEFINED PE_WALLPAPER IF EXIST "%CACHE_FOLDER%\%PE_WALLPAPER%" ECHO.Copying %PE_WALLPAPER%... &&COPY /Y "%CACHE_FOLDER%\%PE_WALLPAPER%" "%PRI_LETTER%:\%HOST_FOLDER%">NUL 2>&1
@@ -3392,8 +3389,8 @@ IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="ENABLED" CALL:HOST_HIDE
 COLOR&&TITLE C:\Windows\system32\%CMD%&&CD /D "%ORIG_CD%"
 IF "%PROG_MODE%"=="RAMDISK" EXIT 0&&EXIT 0
 GOTO:END_OF_FILE
-#>
-#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶GUISTART◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+#>▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶GUISTART◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
+CLS
 Add-Type -MemberDefinition @"
 [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
 [StructLayout(LayoutKind.Sequential)] public struct COORD {public short X;public short Y;}
@@ -3428,6 +3425,11 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
         CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
         fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 "@
+$PSScriptRootX = "$($PWD.Path)";$ProjectFolder = "$PSScriptRootX\project"
+if (Test-Path -Path "$PSScriptRootX\image") {$ImageFolder = "$PSScriptRootX\image"} else {$ImageFolder = "$PSScriptRootX"}
+if (Test-Path -Path "$PSScriptRootX\list") {$ListFolder = "$PSScriptRootX\list"} else {$ListFolder = "$PSScriptRootX"}
+if (Test-Path -Path "$PSScriptRootX\pack") {$PackFolder = "$PSScriptRootX\pack"} else {$PackFolder = "$PSScriptRootX"}
+if (Test-Path -Path "$PSScriptRootX\cache") {$CacheFolder = "$PSScriptRootX\cache"} else {$CacheFolder = "$PSScriptRootX"}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function NewPanel {
 param([int]$X,[int]$Y,[int]$H,[int]$W,[string]$C)
@@ -3728,12 +3730,12 @@ $dropbox.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $dropbox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $dropbox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $dropbox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-if ($parta1 -eq "◁LIST_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "◁IMAGE_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "◁PACK_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "◁CACHE_FOLDER▷\") {$PartMatch = 1;$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}}
-if ($parta1 -eq "◁PROG_SOURCE▷\") {$PartMatch = 1;$FilePath = "$PSScriptRoot"}
-if ($PartMatch -eq $null) {$PathCheck = "$parta1";if (Test-Path -Path $PathCheck) {$FilePath = "$parta1"} else {$FilePath = "$PSScriptRoot"}}
+if ($parta1 -eq "◁LIST_FOLDER▷\") {$PartMatch = 1;$FilePath = "$ListFolder"}
+if ($parta1 -eq "◁IMAGE_FOLDER▷\") {$PartMatch = 1;$FilePath = "$ImageFolder"}
+if ($parta1 -eq "◁PACK_FOLDER▷\") {$PartMatch = 1;$FilePath = "$PackFolder"}
+if ($parta1 -eq "◁CACHE_FOLDER▷\") {$PartMatch = 1;$FilePath = "$CacheFolder"}
+if ($parta1 -eq "◁PROG_SOURCE▷\") {$PartMatch = 1;$FilePath = "$PSScriptRootX"}
+if ($PartMatch -eq $null) {$PathCheck = "$parta1";if (Test-Path -Path $PathCheck) {$FilePath = "$parta1"} else {$FilePath = "$PSScriptRootX"}}
 Get-ChildItem -Path "$FilePath\*$partb1" -Name | ForEach-Object {[void]$dropbox.Items.Add($_)}
 $dropbox.Add_SelectedIndexChanged({$null})
 $dropbox.DisplayMember = "$DisplayMember"
@@ -3848,12 +3850,11 @@ $okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
 $okButton.Add_Click({
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
 $global:checkedItemsX = $ListViewBox.CheckedItems | ForEach-Object {$ListWriteX = 0
 $partaa, $ListViewCheckedX, $partcc = $_ -split '[{}]'
 Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partYa, $partYb, $partYc, $partYd, $partYe, $partYf, $partYg, $partYh, $partYi, $partYj, $partYk, $partYl, $partYm, $partYn = $_ -split "[❕]"
-if ($partYc -eq $ListViewCheckedX) {Add-Content -Path "$FilePathLST" -Value "$_" -Encoding UTF8;}}}})
+if ($partYc -eq $ListViewCheckedX) {Add-Content -Path "$ListFolder\`$LIST" -Value "$_" -Encoding UTF8;}}}})
 $okButton.DialogResult = "OK"
 $okButton.Cursor = 'Hand'
 $okButton.Text = "OK"
@@ -3998,8 +3999,8 @@ $slider.Add_Scroll({
 $ScaleJ = $($Slider1_PageSC.Value) / 100
 $LabelX_PageSC.Text = "GUI Scale Factor $($Slider1_PageSC.Value)%"
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
-ForEach ($i in @("","GUI_SCALE=$ScaleJ")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-if ($boxresult -eq "OK") {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+ForEach ($i in @("","GUI_SCALE=$ScaleJ")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($boxresult -eq "OK") {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 })
 #$slider.Add_MouseUp({$null})
 #$slider.Add_MouseDown({$null})
@@ -4156,9 +4157,8 @@ if ($Button_V2W.Tag -eq 'Enable') {$Button_W2V.BackColor = [System.Drawing.Color
 if ($Button_W2V.Tag -eq 'Enable') {$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_LB.Tag -eq 'Enable') {$Button_PB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_PB.Tag -eq 'Enable') {$Button_LB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
-$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
-$PathCheck = "$PSScriptRoot\`$TEMP";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$TEMP" -Force}
+$PathCheck = "$ListFolder\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$ListFolder\`$LIST" -Force}
+$PathCheck = "$PSScriptRootX\`$TEMP";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRootX\`$TEMP" -Force}
 })
 $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
 $button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")} else {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")}
@@ -4193,14 +4193,12 @@ if ($_.ParentProcessId -ne $_.ProcessId) {Get-ChildProcesses $_.ProcessId}}}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageW2V {
 $global:GUI_RESUME = "ImageProcessingW2V"
-$PathCheck = "$PSScriptRoot\image\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-if (Test-Path -Path $FilePath\$($DropBox1_PageW2V.SelectedItem)) {$null} else {$DropBox1_PageW2V.SelectedItem = $null}
+if (Test-Path -Path $ImageFolder\$($DropBox1_PageW2V.SelectedItem)) {$null} else {$DropBox1_PageW2V.SelectedItem = $null}
 $ListView1_PageW2V.Items.Clear();#$ListView1_PageW2V.Columns[0].Width = -2
 $DropBox1_PageW2V.ResetText();$DropBox1_PageW2V.Items.Clear()
 $DropBox2_PageW2V.ResetText();$DropBox2_PageW2V.Items.Clear()
-Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$DropBox1_PageW2V.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.wim" -Name | ForEach-Object {[void]$ListView1_PageW2V.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.wim" -Name | ForEach-Object {[void]$DropBox1_PageW2V.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.wim" -Name | ForEach-Object {[void]$ListView1_PageW2V.Items.Add($_)}
 [void]$DropBox1_PageW2V.Items.Add("Import Installation Media")
 if ($($TextBox1_PageW2V.Text)) {$null} else {$TextBox1_PageW2V.Text = 'NewFile.vhdx'}
 if ($($TextBox2_PageW2V.Text)) {$null} else {$TextBox2_PageW2V.Text = '25'}
@@ -4209,14 +4207,12 @@ $PageW2V.Visible = $true;$PageW2V.BringToFront();$Button_V2W.Visible = $true;$Bu
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageV2W {
 $global:GUI_RESUME = "ImageProcessingV2W"
-$PathCheck = "$PSScriptRoot\image\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-if (Test-Path -Path $FilePath\$($DropBox1_PageV2W.SelectedItem)) {$null} else {$DropBox1_PageV2W.SelectedItem = $null}
+if (Test-Path -Path $ImageFolder\$($DropBox1_PageV2W.SelectedItem)) {$null} else {$DropBox1_PageV2W.SelectedItem = $null}
 $ListView1_PageV2W.Items.Clear();#$ListView1_PageW2V.Columns[0].Width = -2
 $DropBox1_PageV2W.ResetText();$DropBox1_PageV2W.Items.Clear()
 $DropBox2_PageV2W.ResetText();$DropBox2_PageV2W.Items.Clear()
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageV2W.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageV2W.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageV2W.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageV2W.Items.Add($_)}
 if ($($TextBox1_PageV2W.Text)) {$null} else {$TextBox1_PageV2W.Text = 'NewFile.wim'}
 if ($($DropBox3_PageV2W.SelectedItem)) {$null} else {$DropBox3_PageV2W.Items.Clear();$DropBox3_PageV2W.Items.Add("Fast");$DropBox3_PageV2W.Items.Add("Max");$DropBox3_PageV2W.SelectedItem = "Fast";}
 $PageV2W.Visible = $true;$PageV2W.BringToFront();$Button_W2V.Visible = $true;$Button_V2W.Visible = $false
@@ -4225,41 +4221,32 @@ $PageV2W.Visible = $true;$PageV2W.BringToFront();$Button_W2V.Visible = $true;$Bu
 function Button_PageLB {
 $global:GUI_RESUME = "ImageManagementList"
 $ListView1_PageLB.Items.Clear();$ListView2_PageLB.Items.Clear()
-$PathCheck = "$PSScriptRoot\list"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-#Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLB.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.base" -Name | ForEach-Object {[void]$ListView2_PageLB.Items.Add($_)}
+Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLB.Items.Add($_)}
+Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView2_PageLB.Items.Add($_)}
 $PageMain.Visible = $true;$PageLEWiz.Visible = $false;$PageLBWiz.Visible = $false;$PageLB.Visible = $true;$PageLB.BringToFront();$Button_PB.Visible = $true;$Button_LB.Visible = $false
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PagePB {
 $global:GUI_RESUME = "ImageManagementPack"
 $ListView1_PagePB.Items.Clear();$ListView2_PagePB.Items.Clear()
-$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePB.Items.Add($_)}
-$PathCheck = "$PSScriptRoot\project"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\project"
-Get-ChildItem -Path "$FilePath" -Name | ForEach-Object {[void]$ListView2_PagePB.Items.Add($_)}}
+Get-ChildItem -Path "$PackFolder\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePB.Items.Add($_)}
+if (Test-Path -Path $ProjectFolder) {
+Get-ChildItem -Path "$ProjectFolder" -Name | ForEach-Object {[void]$ListView2_PagePB.Items.Add($_)}}
 $PageMain.Visible = $true;$PagePEWiz.Visible = $false;$PagePBWiz.Visible = $false;$PagePB.Visible = $true;$PagePB.BringToFront();$Button_LB.Visible = $true;$Button_PB.Visible = $false
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageBC {
 $global:GUI_RESUME = "BootDiskCreator"
 $DropBox3_PageBC.Items.Clear();$DropBox3_PageBC.Items.Add("Refresh");$DropBox3_PageBC.Text = "Select Disk"
-$PathCheck = "$PSScriptRoot\image\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-if (Test-Path -Path $FilePath\$($DropBox1_PageBC.SelectedItem)) {$null} else {$DropBox1_PageBC.SelectedItem = $null}
-$ListView1_PageBC.Items.Clear();Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageBC.Items.Add($_)}
+if (Test-Path -Path $ImageFolder\$($DropBox1_PageBC.SelectedItem)) {$null} else {$DropBox1_PageBC.SelectedItem = $null}
+$ListView1_PageBC.Items.Clear();Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageBC.Items.Add($_)}
 $DropBox1_PageBC.ResetText();$DropBox1_PageBC.Items.Clear();$DropBox1_PageBC.Text = "Select .vhdx"
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageBC.Items.Add($_)}
-$PathCheck = "$PSScriptRoot\cache\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
-if (Test-Path -Path $FilePath\$($DropBox2_PageBC.SelectedItem)) {$null} else {$DropBox2_PageBC.SelectedItem = $null}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageBC.Items.Add($_)}
+if (Test-Path -Path $CacheFolder\$($DropBox2_PageBC.SelectedItem)) {$null} else {$DropBox2_PageBC.SelectedItem = $null}
 $empty = $true;
 $DropBox2_PageBC.ResetText();$DropBox2_PageBC.Items.Clear()
-Get-ChildItem -Path "$FilePath\*.jpg" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.png" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
+Get-ChildItem -Path "$CacheFolder\*.jpg" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
+Get-ChildItem -Path "$CacheFolder\*.png" -Name | ForEach-Object {$empty = $false;[void]$DropBox2_PageBC.Items.Add($_)}
 [void]$DropBox2_PageBC.Items.Add("Import Wallpaper")
 $PageBC.Visible = $true;$PageBC.BringToFront()
 }
@@ -4309,28 +4296,25 @@ if ($Button_SP.Tag -eq 'Enable') {$Button_SP.BackColor = $ColorFill}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function ImportBoot {
-$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
-$PathCheckX = "$FilePath\boot.sav";if (Test-Path -Path $PathCheckX) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
-$FileFilt = "ISO files (*.iso)|*.iso";PickFile
+if (Test-Path -Path $CacheFolder\boot.sav) {$result = [System.Windows.Forms.MessageBox]::Show("Boot media already exists.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK)} else {
+$FilePath = "$CacheFolder";$FileFilt = "ISO files (*.iso)|*.iso";PickFile
 if ($Pick) {
 $Image = Mount-DiskImage -ImagePath "$Pick" -PassThru
 $drvLetter = ($Image | Get-Volume).DriveLetter
-$PathCheck = "$drvLetter`:\sources\boot.wim";if (Test-Path -Path $PathCheck) {
-$source = "$PathCheck";$target = "$FilePath"
+if (Test-Path -Path "$drvLetter`:\sources\boot.wim") {
+$source = "$drvLetter`:\sources\boot.wim";$target = "$CacheFolder"
 $objShell = New-Object -ComObject "Shell.Application"
 $objFolder = $objShell.NameSpace($target)
 $objFolder.CopyHere($source)
-Rename-Item -Path "$FilePath\boot.wim" -NewName "boot.sav"}
+Rename-Item -Path "$CacheFolder\boot.wim" -NewName "boot.sav"}
 Dismount-DiskImage -DevicePath $Image.DevicePath} else {$null}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function ImportWim {
-$FileFilt = "ISO files (*.iso)|*.iso";PickFile
+$FilePath = "$ImageFolder";$FileFilt = "ISO files (*.iso)|*.iso";PickFile
 if ($Pick) {
 $Image = Mount-DiskImage -ImagePath "$Pick" -PassThru
 $drvLetter = ($Image | Get-Volume).DriveLetter
-$PathCheck = "$PSScriptRoot\image"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
 $source = "$drvLetter`:\sources\install.wim";$target = "$FilePath"
 $objShell = New-Object -ComObject "Shell.Application"
 $objFolder = $objShell.NameSpace($target)
@@ -4343,9 +4327,7 @@ function ImportWallpaper {
 $DropBox2_PageBC.SelectedItem = $null
 $FilePath = $HOME;$FileFilt = "Picture files (*.jpg;*.png)|*.jpg;*.png";PickFile
 if ($Pick) {
-$PathCheck = "$PSScriptRoot\cache"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
-$source = "$Pick";$target = "$FilePath"
+$source = "$Pick";$target = "$CacheFolder"
 $objShell = New-Object -ComObject "Shell.Application"
 $objFolder = $objShell.NameSpace($target)
 $objFolder.CopyHere($source)
@@ -4360,11 +4342,11 @@ $disks = Get-Disk | Sort-Object -Property Number
 $ListView1_PageBC.Items.Clear();foreach ($disk in $disks) {
 #$diskModel = $disk.Model;#$diskID = $disk.UniqueID;#$diskSerialNumber = $disk.SerialNumber
 $diskNumber = $disk.Number;$diskSize = $disk.Size / 1073741824;$diskSize = [Math]::Floor($diskSize)
-$PathCheck = "$PSScriptRoot\`$DISK";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\`$DISK" -Force}
-Add-Content -Path "$PSScriptRoot\`$DISK" -Value "select disk $diskNumber" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\`$DISK" -Value "detail disk" -Encoding UTF8
-Add-Content -Path "$PSScriptRoot\`$DISK" -Value "exit" -Encoding UTF8
-$diskpart = DISKPART /S "$PSScriptRoot\`$DISK";Remove-Item -Path "$PSScriptRoot\`$DISK" -Force
+$PathCheck = "$PSScriptRootX\`$DISK";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRootX\`$DISK" -Force}
+Add-Content -Path "$PSScriptRootX\`$DISK" -Value "select disk $diskNumber" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\`$DISK" -Value "detail disk" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\`$DISK" -Value "exit" -Encoding UTF8
+$diskpart = DISKPART /S "$PSScriptRootX\`$DISK";Remove-Item -Path "$PSScriptRootX\`$DISK" -Force
 $ltr = $null;$vols = $null;$pagefile = 0;$sysdrive = 0;$progdrive = 0;$diskreason = $null;
 Foreach ($line in $diskpart) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn = $line -split '[{}:. 	 ]'
 if ($start -eq 'y') {$name = $line;$start = $null};if ($start -eq 'x') {$start = 'y'};if ($partg -eq 'disk') {$start = 'x'}
@@ -4387,9 +4369,7 @@ function Dropbox1W2V {
 if ($DropBox1_PageW2V.SelectedItem) {if ($DropBox1_PageW2V.SelectedItem -ne 'Import Installation Media') {
 $DropBox2_PageW2V.Items.Clear()
 $ListView1_PageW2V.Items.Clear()
-$PathCheck = "$PSScriptRoot\image\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageW2V.SelectedItem)"
+$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$ImageFolder\$($DropBox1_PageW2V.SelectedItem)"
 Foreach ($line in $command) {
 if ($line -match "Index :") {
 [void]$ListView1_PageW2V.Items.Add($line)
@@ -4415,9 +4395,7 @@ $DropBox2_PageW2V.SelectedItem = "1"
 function Dropbox1V2W {
 $DropBox2_PageV2W.Items.Clear()
 $ListView1_PageV2W.Items.Clear();#$DropBox2_PageV2W.Text = '1'
-$PathCheck = "$PSScriptRoot\image\*"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$FilePath\$($DropBox1_PageV2W.SelectedItem)" /INDEX:1
+$command = DISM.EXE /ENGLISH /GET-IMAGEINFO /IMAGEFILE:"$ImageFolder\$($DropBox1_PageV2W.SelectedItem)" /INDEX:1
 Foreach ($line in $command) {
 if ($line -match "Index :") {
 [void]$ListView1_PageV2W.Items.Add($line)
@@ -4437,7 +4415,7 @@ $DropBox2_PageV2W.SelectedItem = "1"
 function DropBox1SC {
 if ($DropBox1SCChanged -eq '1') {
 $global:GUI_CONFONT = "$($DropBox1_PageSC.SelectedItem)";[VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
+Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox1SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4449,7 +4427,7 @@ if ($GUI_CONFONTSIZE -eq 'Auto') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = 
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
+Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox2SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4457,10 +4435,10 @@ function DropBox3SC {
 #$global:GUI_LVFONTSIZE = "$($DropBox3_PageSC.SelectedItem)"
 if ($DropBox3SCChanged -eq '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox3SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4468,10 +4446,10 @@ function DropBox4SC {
 #$global:GUI_FONTSIZE = "$($DropBox4_PageSC.SelectedItem)"
 if ($DropBox4SCChanged -eq '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox4SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4486,24 +4464,24 @@ if ($boxoutput -eq "Light") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFFFF
 if ($boxoutput -eq "LightRed") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFFFD0D0';$GUI_BTN_COLORX = 'FFFF8888';$GUI_HLT_COLORX = 'FFFFACAC';$GUI_BG_COLORX = 'FFE06C6C';$GUI_PAG_COLORX = 'FF990000'}
 if ($boxoutput -eq "LightGreen") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFD0FFD0';$GUI_BTN_COLORX = 'FF88FF88';$GUI_HLT_COLORX = 'FFACFFAC';$GUI_BG_COLORX = 'FF6CE06C';$GUI_PAG_COLORX = 'FF009900'}
 if ($boxoutput -eq "LightBlue") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFD0D0FF';$GUI_BTN_COLORX = 'FF8888FF';$GUI_HLT_COLORX = 'FFACACFF';$GUI_BG_COLORX = 'FF6C6CE0';$GUI_PAG_COLORX = 'FF000099'}
-ForEach ($i in @("","GUI_TXT_FORE=$GUI_TXT_FOREX","GUI_TXT_BACK=$GUI_TXT_BACKX","GUI_BTN_COLOR=$GUI_BTN_COLORX","GUI_HLT_COLOR=$GUI_HLT_COLORX","GUI_BG_COLOR=$GUI_BG_COLORX","GUI_PAG_COLOR=$GUI_PAG_COLORX")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","GUI_TXT_FORE=$GUI_TXT_FOREX","GUI_TXT_BACK=$GUI_TXT_BACKX","GUI_BTN_COLOR=$GUI_BTN_COLORX","GUI_HLT_COLOR=$GUI_HLT_COLORX","GUI_BG_COLOR=$GUI_BG_COLORX","GUI_PAG_COLOR=$GUI_PAG_COLORX")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 }
 if ($($DropBox5_PageSC.SelectedItem) -ne '🎨 Theme') {$colorDialog = New-Object System.Windows.Forms.ColorDialog;$boxresultX = $colorDialog.ShowDialog()}
 If ($boxresultX -eq [System.Windows.Forms.DialogResult]::OK) {
 $colorSelect = $colorDialog.Color;$colorHex = $($colorSelect.ToArgb().ToString('X'))
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Color') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_TXT_FORE=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Canvas') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_TXT_BACK=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Button') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_BTN_COLOR=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Highlight') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_HLT_COLOR=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Background') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_BG_COLOR=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Side Panel') {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_PAG_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Color') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_TXT_FORE=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Canvas') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_TXT_BACK=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Button') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_BTN_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Highlight') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_HLT_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Background') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_BG_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Side Panel') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_PAG_COLOR=$colorHex" -Encoding UTF8}
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 }
 $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
 [void]$DropBox5_PageSC.Items.Add("🎨 Theme");[void]$DropBox5_PageSC.Items.Add("Button");[void]$DropBox5_PageSC.Items.Add("Highlight");[void]$DropBox5_PageSC.Items.Add("Text Color");[void]$DropBox5_PageSC.Items.Add("Text Canvas");[void]$DropBox5_PageSC.Items.Add("Side Panel");[void]$DropBox5_PageSC.Items.Add("Background")
@@ -4539,14 +4517,12 @@ MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Package' -MessageBo
 
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;$Label1_PagePBWiz.Text = "🗳 Pack Builder";$Label2_PagePBWiz.Text = "Select an option"}
 if ($boxresult -eq "OK") {$ListView1_PagePBWiz.Items.Clear();
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
-$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
-$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePathPKX = "$PSScriptRoot\pack\$boxoutput.pkx"} else {$FilePathPKX = "$PSScriptRoot\$boxoutput.pkx"}
+if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST" -Force}
 $command = @"
-DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"$PSScriptRoot\project" /IMAGEFILE:"$FilePathPKX" /COMPRESS:Fast /NAME:"PKX" /CheckIntegrity /Verify
+DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"$PSScriptRootX\project" /IMAGEFILE:"$PackFolder\$boxoutput.pkx" /COMPRESS:Fast /NAME:"PKX" /CheckIntegrity /Verify
 "@
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("MENU-SCRIPT","`❕@COMMAND`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕@COMMAND`❕$command`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","`❕@COMMAND`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕@COMMAND`❕$command`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
@@ -4555,8 +4531,8 @@ $Label1_PagePBWiz.Text = "🗳 Pack Builder"
 $Label2_PagePBWiz.Text = "New Package Template"
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;$Label1_PagePBWiz.Text = "🗳 Pack Builder";$Label2_PagePBWiz.Text = "Select an option"}
-if ($boxresult -eq "OK") {$PathCheck = "$PSScriptRoot\project";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\project" -Recurse -Force}
-ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-NEWPACK")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+if ($boxresult -eq "OK") {if (Test-Path -Path $ProjectFolder) {Remove-Item -Path "$ProjectFolder" -Recurse -Force}
+ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-NEWPACK")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
@@ -4564,16 +4540,14 @@ if ($ListViewChoiceS2 -eq "🗳 Restore Package") {
 $Label1_PagePBWiz.Text = "🗳 Restore Package"
 $Label2_PagePBWiz.Text = "Select a package"
 $ListView1_PagePBWiz.Items.Clear()
-$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePBWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePBWiz.Items.Add($_)}
 }
 if ($ListViewChoiceS2 -eq "🔄 Export Drivers") {
 $Label1_PagePBWiz.Text = "🔄 Export Drivers"
 $Label2_PagePBWiz.Text = "Select a source"
 $ListView1_PagePBWiz.CheckBoxes = $false;$ListView1_PagePBWiz.Items.Clear();
 $global:Show_ENV = $null;[void]$ListView1_PagePBWiz.Items.Add("🪟 Current Environment")
-$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PagePBWiz.Items.Add($_)}}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PagePBWiz.Items.Add($_)}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PBWiz_Stage3 {$global:PBWiz_Stage = 3;
@@ -4581,9 +4555,9 @@ if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListVi
 $ListView1_PagePBWiz.GridLines = $false;$ListView1_PagePBWiz.CheckBoxes = $false;$ListView1_PagePBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
 if ($ListViewChoiceS2 -eq "🔄 Export Drivers") {
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-EXPORT","ARG3=-DRIVERS")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-If ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG4=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG4=-VHDX","ARG5=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-EXPORT","ARG3=-DRIVERS")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+If ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "ARG4=-LIVE" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG4=-VHDX","ARG5=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
@@ -4591,16 +4565,14 @@ if ($ListViewChoiceS2 -eq "🗳 Restore Package") {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 2;}
 if ($boxresult -eq "OK") {
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
-$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
-$PathCheck = "$PSScriptRoot\project";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$PSScriptRoot\project" -Recurse -Force}
-New-Item -ItemType Directory -Path "$PSScriptRoot\project"
-$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
+if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST" -Force}
+if (Test-Path -Path "$ProjectFolder") {Remove-Item -Path "$ProjectFolder" -Recurse -Force}
+New-Item -ItemType Directory -Path "$PSScriptRootX\project"
 $command = @"
-DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"$FilePath\$ListViewChoiceS3" /INDEX:1 /APPLYDIR:"$PSScriptRoot\project"
+DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"$PackFolder\$ListViewChoiceS3" /INDEX:1 /APPLYDIR:"$ProjectFolder"
 "@
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("MENU-SCRIPT","`❕@COMMAND`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕@COMMAND`❕$command`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$FilePathLST" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","`❕@COMMAND`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕@COMMAND`❕$command`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.`❕NORMAL`❕DX`❕","`❕@COMMAND`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 }
@@ -4612,22 +4584,19 @@ $ListView1_PageLEWiz.GridLines = $false
 $ListView1_PageLEWiz.CheckBoxes = $false
 $ListView1_PageLEWiz.FullRowSelect = $true
 $ListView1_PageLEWiz.Items.Clear();
-$PathCheck = "$PSScriptRoot\list"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.base" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
+Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
+Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
 $PageLEWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLEWiz.BringToFront()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LEWiz_Stage2 {$global:LEWiz_Stage = 2;$global:marked = $null;$global:boxresult = $null
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $global:ListViewSelectS2 = $ListView1_PageLEWiz.FocusedItem
 $parta, $global:ListViewChoiceS2, $partc = $ListViewSelectS2 -split '[{}]';
-$LBWiz_TypeZ = Get-Content -Path "$FilePath\$ListViewChoiceS2" -TotalCount 1
+$LBWiz_TypeZ = Get-Content -Path "$ListFolder\$ListViewChoiceS2" -TotalCount 1
 $global:LBWiz_TypeX, $partbxyz = $LBWiz_TypeZ -split '[ ]';
 
 if ($LBWiz_TypeX -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LEWiz_Stage1;$global:LBWiz_Stage = $null;$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront();return}
-$LBWiz_TypeEXT = [System.IO.Path]::GetExtension("$FilePath\$ListViewChoiceS2").ToUpper()
+$LBWiz_TypeEXT = [System.IO.Path]::GetExtension("$ListFolder\$ListViewChoiceS2").ToUpper()
 
 if ($LBWiz_TypeEXT -eq ".BASE") {LBWiz_Stage2;$PageLBWiz.Visible = $true;$PageLEWiz.Visible = $false;$PageLBWiz.BringToFront()}
 $Label1_PageLEWiz.Text = "🧾 List Execute"
@@ -4636,17 +4605,16 @@ $ListView1_PageLEWiz.GridLines = $false;$ListView1_PageLEWiz.CheckBoxes = $false
 if ($LBWiz_TypeEXT -eq ".BASE") {$global:ListViewChoiceS2 = "`$LIST"}
 $ListView1_PageLEWiz.Items.Clear();
 if ($Allow_ENV -eq 'ENABLED') {[void]$ListView1_PageLEWiz.Items.Add("🪟 Current Environment")}
-$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLEWiz.Items.Add($_)}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LEWiz_Stage3 {$global:LEWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLEWiz.FocusedItem}
 $ListView1_PageLEWiz.GridLines = $false;$ListView1_PageLEWiz.CheckBoxes = $false;$ListView1_PageLEWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-LIST","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-LIST","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:LEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLEWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 $PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()
@@ -4659,9 +4627,7 @@ $ListView1_PagePEWiz.GridLines = $false
 $ListView1_PagePEWiz.CheckBoxes = $false
 $ListView1_PagePEWiz.FullRowSelect = $true
 $ListView1_PagePEWiz.Items.Clear();
-$PathCheck = "$PSScriptRoot\pack"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePEWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.pkx" -Name | ForEach-Object {[void]$ListView1_PagePEWiz.Items.Add($_)}
 $PagePEWiz.Visible = $true;$PageMain.Visible = $false;$PagePB.Visible = $false;$PagePEWiz.BringToFront()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4673,17 +4639,16 @@ $ListView1_PagePEWiz.GridLines = $false;$ListView1_PagePEWiz.CheckBoxes = $false
 $parta, $global:ListViewChoiceS2, $partc = $ListViewSelectS2 -split '[{}]'
 $ListView1_PagePEWiz.Items.Clear();
 if ($Allow_ENV -eq 'ENABLED') {[void]$ListView1_PagePEWiz.Items.Add("🪟 Current Environment")}
-$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PagePEWiz.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PagePEWiz.Items.Add($_)}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function PEWiz_Stage3 {$global:PEWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PagePEWiz.FocusedItem}
 $ListView1_PagePEWiz.GridLines = $false;$ListView1_PagePEWiz.CheckBoxes = $false;$ListView1_PagePEWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-PACK","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-PACK","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:PEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePEWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 $PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()
@@ -4699,9 +4664,7 @@ $ListView1_PageLBWiz.Items.Clear();
 $item1 = New-Object System.Windows.Forms.ListViewItem("🧾 Miscellaneous")
 #[void]$item1.SubItems.Add("Description for X")
 [void]$ListView1_PageLBWiz.Items.Add($item1)
-$PathCheck = "$PSScriptRoot\list"
-if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.base" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 $PageLBWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLBWiz.BringToFront()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4711,9 +4674,9 @@ if ($ListMode -eq "Builder") {$global:ListViewSelectS2 = $ListView1_PageLBWiz.Fo
 $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
 
 if ($BaseFile -eq "🧾 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
-if ($BaseFile -ne "🧾 Miscellaneous") {$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-$LBWiz_TypeZ = Get-Content -Path "$FilePath\\$BaseFile" -TotalCount 1
-$global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]';"$FilePath\\$BaseFile"
+if ($BaseFile -ne "🧾 Miscellaneous") {
+$LBWiz_TypeZ = Get-Content -Path "$ListFolder\\$BaseFile" -TotalCount 1
+$global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]';"$ListFolder\\$BaseFile"
 if ($LBWiz_Type -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LBWiz_Stage1;return}}
 
 $ListView1_PageLBWiz.Items.Clear()
@@ -4729,7 +4692,7 @@ ForEach ($i in @("🧾 Create Source Base","🧾 Generate Example Base","🧾 Co
 if ($LBWiz_Type -eq 'MENU-SCRIPT') {
 $Label1_PageLBWiz.Text = "🧾 List $ListMode"
 $Label2_PageLBWiz.Text = "$BaseFile"
-Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
+Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh = $_ -split "[❕]"
 
 if ($partXb -eq 'GROUP') {if (-not ($partXc -eq $GRP)) {
@@ -4754,8 +4717,7 @@ $Label1_PageLBWiz.Text = "🧾 Miscellaneous"
 $Label2_PageLBWiz.Text = "Generate Example Base"
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Generate Example Base' -MessageBoxText 'Enter new base name' -Check 'PATH'
 if ($boxresult -eq "OK") {$BaseName = "$boxoutput";
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-EXAMPLE","ARG3=$boxoutput.base")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-EXAMPLE","ARG3=$boxoutput.base")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
@@ -4764,27 +4726,24 @@ if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 if ($ListViewChoiceS3 -eq "✒ External Package Item") {
 $Label1_PageLBWiz.Text = "🧾 Miscellaneous";
 $Label2_PageLBWiz.Text = "Select a package"
-$ListView1_PageLBWiz.Items.Clear();$PathCheck = "$PSScriptRoot\pack";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\pack"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.appx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.appxbundle" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.cab" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.msixbundle" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.msu" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
-Get-ChildItem -Path "$FilePath\*.pkx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
+$ListView1_PageLBWiz.Items.Clear()
+Get-ChildItem -Path "$PackFolder\*.appx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.appxbundle" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.cab" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.msixbundle" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.msu" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$PackFolder\*.pkx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 
 if ($ListViewChoiceS3 -eq "🧾 Convert Group Base") {
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();
 $Label1_PageLBWiz.Text = "🧾 Convert Group Base";
 $Label2_PageLBWiz.Text = "Select a list to convert"
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
+Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage4MISC {$global:LBWiz_Stage = 4;
 if ($marked -ne $null) {$global:ListViewSelectS4 = $marked} else { $global:ListViewSelectS4 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $global:ListViewChoiceS4, $partc = $ListViewSelectS4 -split '[{}]'
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {
 if ($ListViewChoiceS4 -eq 'All source items') {$global:ListViewBase = '1 4 2 5 6 7 3'}
 if ($ListViewChoiceS4 -eq 'AppX') {$global:ListViewBase = 1}
@@ -4796,23 +4755,23 @@ if ($ListViewChoiceS4 -eq 'Task') {$global:ListViewBase = 6}
 if ($ListViewChoiceS4 -eq 'Driver') {$global:ListViewBase = 7}
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Source Base' -MessageBoxText 'Enter new .base name' -Check 'PATH'
 if ($boxresult -ne "OK") {$global:ListName = "$null";$global:LBWiz_Stage = 3;}
-if ($boxresult -eq "OK") {$global:ListName = "$boxoutput.base";$ListTarget = "$FilePath\$boxoutput.base";if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
+if ($boxresult -eq "OK") {$global:ListName = "$boxoutput.base";$ListTarget = "$ListFolder\$boxoutput.base";if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 $Show_ENV = $true;PickEnvironment
 $Label1_PageLBWiz.Text = "🧾 Create Source Base"
 $Label2_PageLBWiz.Text = "Select a source"
 }}
 
 if ($ListViewChoiceS3 -eq "🧾 Convert Group Base") {$is_group = $null
-$LBWiz_TypeZ = Get-Content -Path "$FilePath\$ListViewChoiceS4" -TotalCount 1
+$LBWiz_TypeZ = Get-Content -Path "$ListFolder\$ListViewChoiceS4" -TotalCount 1
 $LBWiz_TypeY, $partbxyz = $LBWiz_TypeZ -split '[ ]';
 
 if ($LBWiz_TypeY -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC;return}
-Get-Content "$FilePath\$ListViewChoiceS4" -Encoding UTF8 | ForEach-Object {$partXa, $partXb, $partXc = $_ -split "[❕]";if ($partXb -eq 'GROUP') {$is_group = 1}}
+Get-Content "$ListFolder\$ListViewChoiceS4" -Encoding UTF8 | ForEach-Object {$partXa, $partXb, $partXc = $_ -split "[❕]";if ($partXb -eq 'GROUP') {$is_group = 1}}
 if ($is_group -eq $null) {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText "List does not contain any groups.";$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC;return}
 if ($is_group -eq 1) {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Group Base' -MessageBoxText 'Enter new .base name' -Check 'PATH'
-$ListName = "$boxoutput.base";$ListTarget = "$FilePath\$boxoutput.base";
+$ListName = "$boxoutput.base";$ListTarget = "$ListFolder\$boxoutput.base";
 if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
-Copy-Item -Path "$FilePath\$ListViewChoiceS4" -Destination "$FilePath\$boxoutput.base" -Force}
+Copy-Item -Path "$ListFolder\$ListViewChoiceS4" -Destination "$ListFolder\$boxoutput.base" -Force}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 
 if ($ListViewChoiceS3 -eq "✒ External Package Item") {
@@ -4822,34 +4781,32 @@ if ($boxoutput -eq "❕SC❕ SetupComplete - Scheduled execution") {$global:Exec
 if ($boxoutput -eq "❕RO❕ RunOnce - Scheduled execution") {$global:ExecuteTime = "RO"}
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$Label1_PageLBWiz.Text = "💾 Append Items";$Label2_PageLBWiz.Text = "Select a list"
 [void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
+Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5MISC {
 if ($marked -ne $null) {$global:ListViewSelectS5 = $marked} else { $global:ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $ListViewChoiceS5, $partc = $ListViewSelectS5 -split '[{}]'
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 
-if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
-if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}
+if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
+if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
 if ($ListViewChoiceS5 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 4;}
-if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
+if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$ListFolder\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
 Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
-if ($ListViewChoiceS5 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS5";$ListTarget = "$FilePath\$ListViewChoiceS5"}
+if ($ListViewChoiceS5 -ne "🧾 Create New List") {$ListName = "$ListViewChoiceS5";$ListTarget = "$ListFolder\$ListViewChoiceS5"}
 Add-Content -Path "$ListTarget" -Value "`❕EXTPACKAGE`❕$ListViewChoiceS4`❕INSTALL`❕$ExecuteTime`❕" -Encoding UTF8
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3GRP {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
 $ListView1_PageLBWiz.Items.Clear();$Label1_PageLBWiz.Text = "🧾 $BaseFile";$Label2_PageLBWiz.Text = "$ListViewChoiceS3"
-Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
+Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]"
 if ($partXb -eq 'GROUP') {
 if ($partXc -eq $ListViewChoiceS3) {
@@ -4858,22 +4815,20 @@ $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $true;
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage4GRP {$global:LBWiz_Stage = 4;
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePathLST = "$PSScriptRoot\list\`$LIST"} else {$FilePathLST = "$PSScriptRoot\`$LIST"}
-$PathCheck = "$FilePathLST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePathLST" -Force}
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-if ($ListMode -eq 'Execute') {Add-Content -Path "$FilePathLST" -Value "MENU-SCRIPT" -Encoding UTF8}
+if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST" -Force}
+if ($ListMode -eq 'Execute') {Add-Content -Path "$ListFolder\`$LIST" -Value "MENU-SCRIPT" -Encoding UTF8}
 #$checkedItems = $ListView1_PageLBWiz.CheckedItems | ForEach-Object { $_.Text }
 #[System.Windows.Forms.MessageBox]::Show(("Checked Items: " + ($checkedItems -join ", ")), "Checked Items")
 $global:checkedItems = $ListView1_PageLBWiz.CheckedItems | ForEach-Object {$ListWrite = 0
 $parta, $ListViewChecked, $partc = $_ -split '[{}]'
-Get-Content "$FilePath\$BaseFile" -Encoding UTF8 | ForEach-Object {
+Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]"
 if ($partXb -eq 'GROUP') {if ($partXc -ne $ListViewChoiceS3) {$ListWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXd -ne $ListViewChecked) {$ListWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXc -eq $ListViewChoiceS3) {if ($partXd -eq $ListViewChecked) {$ListWrite = 1}}}
 if ($partXb -eq 'GROUP') {if ($partXe -eq "SCOPED") {if ($partXc -eq $ListViewChoiceS3) {if ($partXd -eq $ListViewChecked) {
 MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewCheckedX" -MessageBoxText "$partXf" -MessageBoxChoices "$partXg"
-Add-Content -Path "$FilePathLST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$partXe`❕$partXf`❕$partXg`❕$boxindex`❕" -Encoding UTF8
+Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$partXe`❕$partXf`❕$partXg`❕$boxindex`❕" -Encoding UTF8
 $ListWrite = 0;MessageBoxListView;return}}}}
 if ($ListWrite -eq '1') {$ListPrompt = $null;
 $Label1_PageLBWiz.Text = "$ListViewChoiceS3"
@@ -4881,43 +4836,41 @@ $Label2_PageLBWiz.Text = "$ListViewChecked"
 ForEach ($i in @("PROMPT0","PROMPT1","PROMPT2","PROMPT3","PROMPT4","PROMPT5","PROMPT6","PROMPT7","PROMPT8","PROMPT9")) {if ($i -eq "$partXb") {$ListPrompt = 1}}
 ForEach ($i in @("CHOICE0","CHOICE1","CHOICE2","CHOICE3","CHOICE4","CHOICE5","CHOICE6","CHOICE7","CHOICE8","CHOICE9")) {if ($i -eq "$partXb") {$ListPrompt = 2}}
 ForEach ($i in @("PICKER0","PICKER1","PICKER2","PICKER3","PICKER4","PICKER5","PICKER6","PICKER7","PICKER8","PICKER9")) {if ($i -eq "$partXb") {$ListPrompt = 3}}
-if ($ListPrompt -eq $null) {Add-Content -Path "$FilePathLST" -Value "$_" -Encoding UTF8}
+if ($ListPrompt -eq $null) {Add-Content -Path "$ListFolder\`$LIST" -Value "$_" -Encoding UTF8}
 if ($ListPrompt -eq '1') {$partw1, $partx1 = $partXd -split "❗";$party1, $partz1 = $partx1 -split "-";
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXc" -Check "$partw1" -TextMin "$party1" -TextMax "$partz1"
-Add-Content -Path "$FilePathLST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}
+Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}
 if ($ListPrompt -eq '2') {MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd"
-Add-Content -Path "$FilePathLST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxindex`❕" -Encoding UTF8}
+Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxindex`❕" -Encoding UTF8}
 if ($ListPrompt -eq '3') {MessageBox -MessageBoxType 'Picker' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd"
-Add-Content -Path "$FilePathLST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}
+Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}
 }}}
 if ($ListMode -eq 'Builder') {
 $Label1_PageLBWiz.Text = "💾 Append Items"
 $Label2_PageLBWiz.Text = "Select a list"
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
+Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 if ($ListMode -eq 'Execute') {$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront()}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5GRP {
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
 $ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem
 $parta, $partb, $partc = $ListViewSelectS5 -split '[{}]'
 if ($partb -eq "🧾 Create New List") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";}
 if ($boxresult -eq "OK") {
-$ListName = "$boxoutput.list";$ListTarget = "$FilePath\$boxoutput.list";
+$ListName = "$boxoutput.list";$ListTarget = "$ListFolder\$boxoutput.list";
 if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
 Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
-if ($partb -ne "🧾 Create New List") {$ListName = "$partb";$ListTarget = "$FilePath\$partb"}
-Get-Content "$FilePath\`$LIST" -Encoding UTF8 | ForEach-Object {
+if ($partb -ne "🧾 Create New List") {$ListName = "$partb";$ListTarget = "$ListFolder\$partb"}
+Get-Content "$ListFolder\`$LIST" -Encoding UTF8 | ForEach-Object {
 $partxxx, $partyyy, $partzzz = $_ -split '[❕]';if ($partyyy -eq "GROUP") {Add-Content -Path "$ListTarget" -Value "" -Encoding UTF8}
 if ($_ -ne "") {Add-Content -Path "$ListTarget" -Value "$_" -Encoding UTF8}}
 #Add-Content -Path "$ListTarget" -Value "" -Encoding UTF8
-$PathCheck = "$FilePath\`$LIST";if (Test-Path -Path $PathCheck) {Remove-Item -Path "$FilePath\`$LIST" -Force}
+if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST" -Force}
 
 if ($ListName -ne "$null") {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName"
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
@@ -4926,8 +4879,7 @@ $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$Pa
 function PickEnvironment {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();
 if ($Show_ENV -eq $true) {$global:Show_ENV = $null;[void]$ListView1_PageLBWiz.Items.Add("🪟 Current Environment")}
-$PathCheck = "$PSScriptRoot\image";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\image"} else {$FilePath = "$PSScriptRoot"}
-Get-ChildItem -Path "$FilePath\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
+Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function AddElement {
@@ -4948,7 +4900,7 @@ if ($Page -eq 'PageMain') {$PageMain.Controls.Add($element)}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LoadSettings {
-$LoadINI = Get-Content -Path "$PSScriptRoot\windick.ini" | Select-Object -Skip 1
+$LoadINI = Get-Content -Path "$PSScriptRootX\windick.ini" | Select-Object -Skip 1
 $Settings = $LoadINI | ConvertFrom-StringData
 $global:Allow_ENV = $Settings.ALLOW_ENV
 $global:GUI_SCALE = $Settings.GUI_SCALE
@@ -4973,14 +4925,14 @@ $HSIZ = [int]($H * $ScaleRef * $GUI_SCALE)
 $XLOC = [int]($X * $ScaleRef * $GUI_SCALE)
 $YLOC = [int]($Y * $ScaleRef * $GUI_SCALE)
 $PageMain.Visible = $false;$PageBlank.Visible = $true;$PageBlank.BringToFront()
-if (Test-Path -Path "$env:temp\`$CON") {Remove-Item -Path "$env:temp\`$CON" -Force -Recurse}
-if (Test-Path -Path "$PSScriptRoot\`$PKX") {Remove-Item -Path "$PSScriptRoot\`$PKX" -Force -Recurse}
-if (Test-Path -Path "$PSScriptRoot\`$CAB") {Remove-Item -Path "$PSScriptRoot\`$CAB" -Force -Recurse}
-if (Test-Path -Path "$PSScriptRoot\`$DISK") {Remove-Item -Path "$PSScriptRoot\`$DISK" -Force -Recurse}
-Add-Content -Path "$env:temp\`$CON" -Value "$PSScriptRoot" -Encoding UTF8
-Add-Content -Path "$env:temp\`$CON" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$env:temp\`$CON" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8
-Add-Content -Path "$env:temp\`$CON" -Value "GUI_SCALE=$GUI_SCALE" -Encoding UTF8
+if (Test-Path -Path "$PSScriptRootX\`$CON") {Remove-Item -Path "$PSScriptRootX\`$CON" -Force -Recurse}
+if (Test-Path -Path "$PSScriptRootX\`$PKX") {Remove-Item -Path "$PSScriptRootX\`$PKX" -Force -Recurse}
+if (Test-Path -Path "$PSScriptRootX\`$CAB") {Remove-Item -Path "$PSScriptRootX\`$CAB" -Force -Recurse}
+if (Test-Path -Path "$PSScriptRootX\`$DISK") {Remove-Item -Path "$PSScriptRootX\`$DISK" -Force -Recurse}
+Add-Content -Path "$PSScriptRootX\`$CON" -Value "$PSScriptRootX" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\`$CON" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\`$CON" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\`$CON" -Value "GUI_SCALE=$GUI_SCALE" -Encoding UTF8
 if ($ButtonRadio1_Group1.Checked -eq $true) {$GUI_CONTYPE = 'Embed'} else {$GUI_CONTYPE = 'Spawn'}
 $CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-WindowStyle", "Hidden", "-Command", {
 Add-Type -TypeDefinition @'
@@ -5003,8 +4955,8 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
 Add-Type -AssemblyName System.Windows.Forms
 [VOID][System.Text.Encoding]::Unicode;CLS
 [VOID][WinMekanix]::SetConsoleFont('Consolas', 1)
-$PSScriptRoot = Get-Content -Path \"$env:temp\`$CON\" -TotalCount 1
-$LoadINI = Get-Content -Path \"$env:temp\`$CON\" | Select-Object -Skip 1
+$PSScriptRootX = "$($PWD.Path)";#$PSScriptRootX = Get-Content -Path \"$env:temp\`$CON\" -TotalCount 1
+$LoadINI = Get-Content -Path \"$PSScriptRootX\`$CON\" | Select-Object -Skip 1
 $Settings = $LoadINI | ConvertFrom-StringData
 $GUI_SCALE = $Settings.GUI_SCALE
 $GUI_CONFONT = $Settings.GUI_CONFONT
@@ -5026,8 +4978,8 @@ $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
 CLS;Write-Host "Console Virtual Dimensions: $DimensionX x $DimensionY"
-Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", \"$PSScriptRoot\windick.cmd\", "-EXTERNAL"
-$PathCheck = \"$env:temp\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$env:temp\`$CON\" -Force}
+Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", \"$PSScriptRootX\windick.cmd\", "-EXTERNAL"
+$PathCheck = \"$PSScriptRootX\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$PSScriptRootX\`$CON\" -Force}
 if ($PAUSE_END -eq '1') {pause}}
 $CMDHandle = $CMDWindow.MainWindowHandle;#$CMDHandleX = $CMDWindow.Handle;
 do {$CMDHandle = $CMDWindow.MainWindowHandle;Start-Sleep -Milliseconds 100} until ($CMDHandle -ne 0)
@@ -5036,7 +4988,7 @@ $getproc = Get-ChildProcesses $CMDProcessId | Select ProcessId, Name, ParentProc
 $part1, $part2, $part3 = $getproc -split ";";$part4 = $part1 -split ";";$global:SubProcessId = $part4 -Split "@{ProcessId="
 Write-Host "Starting console PID: $CMDProcessId conhost PID:$SubProcessId"
 if ($GUI_CONTYPE -eq 'Embed') {[VOID][WinMekanix.Functions]::SetParent($CMDHandle, $PanelHandle)}
-do {Start-Sleep -Milliseconds 100} until (-not (Test-Path -Path "$env:temp\`$CON"))
+do {Start-Sleep -Milliseconds 100} until (-not (Test-Path -Path "$PSScriptRootX\`$CON"))
 if ($GUI_CONTYPE -eq 'Embed') {[VOID][WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 1);[VOID][WinMekanix.Functions]::MoveWindow($CMDHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
 $PageBlank.Visible = $false;$PageConsole.Visible = $true;$PageConsole.BringToFront()
 [VOID][WinMekanix.Functions]::ShowWindowAsync($CMDHandle, 3)}
@@ -5070,7 +5022,7 @@ $PSHandle = [WinMekanix.Functions]::GetConsoleWindow()
 [VOID][WinMekanix.Functions]::SetProcessDPIAware()
 [VOID][System.Windows.Forms.Application]::EnableVisualStyles()
 [VOID][System.Windows.Forms.Application]::SetCompatibleTextRenderingDefault($false)
-$sysltr, $nullx = $env:SystemDrive -split '[:]';$progltr, $nullx = $PSScriptRoot -split '[:]'
+$sysltr, $nullx = $env:SystemDrive -split '[:]';$progltr, $nullx = $PSScriptRootX -split '[:]'
 $STDOutputHandle = [WinMekanix.Functions]::GetStdHandle([WinMekanix.Functions]::STD_OUTPUT_HANDLE)
 $getproc = Get-ChildProcesses $PID | Select ProcessId, Name, ParentProcessId
 $part1, $part2, $part3 = $getproc -split ";";$part4 = $part1 -split ";";
@@ -5106,12 +5058,12 @@ if ($GUI_PAG_COLOR.Length -ne 8) {$GUI_PAG_COLOR = 'FF151515'}
 if ($GUI_TXT_BACK.Length -ne 8) {$GUI_TXT_BACK = 'FF151515'}
 if ($Allow_ENV) {$null} else {$Allow_ENV = $null}
 $Splash = [Int32]"0x$GUI_TXT_BACK";if ($Splash -ge '-10000000') {$BGIMG = 'Light'} else {$BGIMG = 'Dark'}
-ForEach ($i in @("$PSScriptRoot\`$PKX","$PSScriptRoot\`$CAB","$PSScriptRoot\list\`$LIST","$PSScriptRoot\`$LIST","$PSScriptRoot\`$DISK")) {if (Test-Path -Path "$i") {Remove-Item -Path "$i" -Recurse -Force}}
-if (Test-Path -Path "$env:temp\`$CON") {Remove-Item -Path "$env:temp\`$CON" -Force}
+ForEach ($i in @("$PSScriptRootX\`$PKX","$PSScriptRootX\`$CAB","$ListFolder\`$LIST","$PSScriptRootX\`$LIST","$PSScriptRootX\`$DISK")) {if (Test-Path -Path "$i") {Remove-Item -Path "$i" -Recurse -Force}}
+if (Test-Path -Path "$PSScriptRootX\`$CON") {Remove-Item -Path "$PSScriptRootX\`$CON" -Force}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $form = New-Object Windows.Forms.Form
 $form.SuspendLayout()
-$version = Get-Content -Path "$PSScriptRoot\windick.ps1" -TotalCount 1;
+$version = Get-Content -Path "windick.cmd" -TotalCount 1;
 $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
 $form.Text = "Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $GUI_SCALE)
@@ -5125,11 +5077,11 @@ $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
 $form.add_FormClosing({$action = $_
-if ($NoExitPrompt) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}
+if ($NoExitPrompt) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}
 if (-not ($NoExitPrompt)) {MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Close' -MessageBoxText 'Are you sure you want to close?'
 if ($boxresult -ne "OK") {$action.Cancel = $true}
 if ($boxresult -eq "OK") {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue
-Add-Content -Path "$PSScriptRoot\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRoot\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}}})
+Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}}})
 $form.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
 $form.AutoSize = $true
 $form.AutoSizeMode = 'GrowAndShrink';#AutoSizeMode: GrowAndShrink, GrowOnly, and ShrinkOnly.
@@ -5177,14 +5129,14 @@ SplashChange}})
 
 $Button2_PageSP = NewButton -X '225' -Y '585' -W '300' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBoxAbout}
 #$ButtonTest_PageSP = NewButton -X '50' -Y '585' -W '150' -H '60' -Text 'TEST' -Hover_Text 'About' -Add_Click {$null}
-#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
 $ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageW2V.Columns.Add("X", $WSIZ)
 $Button1_PageW2V = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
-ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-WIM","ARG3=$($DropBox1_PageW2V.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageW2V.SelectedItem)","ARG6=-VHDX","ARG7=$($TextBox1_PageW2V.Text)","ARG8=-SIZE","ARG9=$($TextBox2_PageW2V.Text)")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-WIM","ARG3=$($DropBox1_PageW2V.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageW2V.SelectedItem)","ARG6=-VHDX","ARG7=$($TextBox1_PageW2V.Text)","ARG8=-SIZE","ARG9=$($TextBox2_PageW2V.Text)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageW2V = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Source Image'
@@ -5200,7 +5152,7 @@ $Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' 
 $ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageV2W.Columns.Add("X", $WSIZ)
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
-if ($halt -ne '1') {ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-VHDX","ARG3=$($DropBox1_PageV2W.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageV2W.SelectedItem)","ARG6=-WIM","ARG7=$($TextBox1_PageV2W.Text)","ARG8=-XLVL","ARG9=$($DropBox3_PageV2W.SelectedItem)")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+if ($halt -ne '1') {ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-VHDX","ARG3=$($DropBox1_PageV2W.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageV2W.SelectedItem)","ARG6=-WIM","ARG7=$($TextBox1_PageV2W.Text)","ARG8=-XLVL","ARG9=$($DropBox3_PageV2W.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageV2W = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Source Image'
@@ -5219,7 +5171,7 @@ $Button1_PageLB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏁 List 
 $Button2_PageLB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏗 List Builder' -Hover_Text 'List Builder' -Add_Click {LBWiz_Stage1}
 
 $Button3_PageLB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit List' -Hover_Text 'Edit List' -Add_Click {
-$PathCheck = "$PSScriptRoot\list";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\list"} else {$FilePath = "$PSScriptRoot"}
+$FilePath = "$ListFolder"
 $FileFilt = "List files (*.list;*.base)|*.list;*.base";PickFile
 if ($Pick) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$Pick"}}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -5229,15 +5181,14 @@ $ListView2_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](
 $Button0_PagePB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏁 Pack Execute' -Hover_Text 'Pack Execute' -Add_Click {PEWiz_Stage1}
 $Button3_PagePB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏗 Pack Builder' -Hover_Text 'Pack Builder' -Add_Click {PBWiz_Stage1}
 $Button4_PagePB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit Pack' -Hover_Text 'Edit Pack' -Add_Click {
-$PathCheck = "$PSScriptRoot\project\package.list";if (Test-Path -Path $PathCheck) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PathCheck"}
-$PathCheck = "$PSScriptRoot\project\package.cmd";if (Test-Path -Path $PathCheck) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PathCheck"}}
+if (Test-Path -Path "$PSScriptRootX\project\package.list") {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PSScriptRootX\project\package.list"}
+if (Test-Path -Path "$PSScriptRootX\project\package.cmd") {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$PSScriptRootX\project\package.cmd"}}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageBC';$Label0_PageBC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "💾 BootDisk Creator" -TextAlign 'X'
 
 $ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageBC.Columns.Add("X", $WSIZ)
 $Button1_PageBC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Create' -Hover_Text 'Start BootDisk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
-$PathCheck = "$PSScriptRoot\cache";if (Test-Path -Path $PathCheck) {$FilePath = "$PSScriptRoot\cache"} else {$FilePath = "$PSScriptRoot"}
-$PathCheckX = "$FilePath\boot.sav";if (-not (Test-Path -Path $PathCheckX)) {
+$FilePath = "$CacheFolder";$PathCheckX = "$CacheFolder\boot.sav";if (-not (Test-Path -Path $PathCheckX)) {
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Import Boot Media' -MessageBoxText 'Boot media needs to be imported from a windows .iso before proceeding.';if ($boxresult -eq "OK") {ImportBoot}}
 if (-not (Test-Path -Path $PathCheckX)) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No boot media.'}
 if ($($DropBox1_PageBC.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
@@ -5246,7 +5197,7 @@ if ($disknum -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBox
 if ($halt -ne '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Erase' -MessageBoxText "This will erase Disk $disknum. If you've inserted or removed any disks, refresh before proceeding. Are you sure?"
 if ($boxresult -ne "OK") {$null}
-if ($boxresult -eq "OK") {ForEach ($i in @("","ARG1=-BOOTMAKER","ARG2=-CREATE","ARG3=-DISK","ARG4=$disknum","ARG5=-VHDX","ARG6=$($DropBox1_PageBC.SelectedItem)","PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
+if ($boxresult -eq "OK") {ForEach ($i in @("","ARG1=-BOOTMAKER","ARG2=-CREATE","ARG3=-DISK","ARG4=$disknum","ARG5=-VHDX","ARG6=$($DropBox1_PageBC.SelectedItem)","PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}}
 
 $Label1_PageBC = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Active VHDX'
@@ -5261,8 +5212,8 @@ $GUI_SLIDE = [int](100 * $GUI_SCALE);
 $Slider1_PageSC = NewSlider -X '300' -Y '120' -W '225' -H '60' -Value "$GUI_SLIDE"
 $LabelX_PageSC = NewLabel -X '290' -Y '85' -W '585' -H '35' -Text "GUI Scale Factor $($Slider1_PageSC.Value)%"
 
-$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-#$TextPath = "$env:temp\`$CON";$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8);#$TextWrite.WriteLine("x");$TextWrite.Close()
+$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+#$TextPath = "$PSScriptRootX\`$CON";$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8);#$TextWrite.WriteLine("x");$TextWrite.Close()
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
 $Button2_PageSC = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🐜 Debug' -Hover_Text 'Debug' -Add_Click {
@@ -5271,17 +5222,17 @@ $WSIZ = [int](1000 * $ScaleRef * $GUI_SCALE);$HSIZ = [int](575 * $ScaleRef * $GU
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE);$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $PageDebug.Visible = $true;$PageMain.Visible = $false;$PageSC.Visible = $false;$PageDebug.BringToFront()
 [VOID][WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
-$Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {ForEach ($i in @("","GUI_LAUNCH=DISABLED")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRoot\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+$Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {ForEach ($i in @("","GUI_LAUNCH=DISABLED")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 
 $GroupBoxName = 'Group1';$GroupBox1_PageSC = NewGroupBox -X '20' -Y '85' -W '260' -H '75' -Text 'Console Window'
 #if ($Button_SC.Tag -eq 'Enable') 
 $Add_CheckedChanged = {if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio1_Group1.Checked) {
-ForEach ($i in @("","GUI_CONTYPE=Embed")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}}
+ForEach ($i in @("","GUI_CONTYPE=Embed")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}}
 $global:ButtonGroup1Changed = '1';}
 $ButtonRadio1_Group1 = NewRadioButton -X '15' -Y '30' -W '120' -H '35' -Text 'Embed' -GroupName 'Group1'
 $Add_CheckedChanged = {if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio2_Group1.Checked) {
-ForEach ($i in @("","GUI_CONTYPE=Spawn")) {Add-Content -Path "$PSScriptRoot\windick.ini" -Value "$i" -Encoding UTF8}}}
+ForEach ($i in @("","GUI_CONTYPE=Spawn")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}}
 $global:ButtonGroup1Changed = '1';}
 $ButtonRadio2_Group1 = NewRadioButton -X '135' -Y '30' -W '120' -H '35' -Text 'Spawn' -GroupName 'Group1'
 if ($GUI_CONTYPE) {$null} else {$GUI_CONTYPE = 'Embed'}
@@ -5430,11 +5381,10 @@ $form.Dispose()
 #Write-Error "ERROR: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
 #ForEachNull ($i in Get-Content "c:\txt.txt") {[void]$listview.Items.Add($i)}
 #ForEachNull ($line in $command) {$textBox.AppendText("$line`r`n")}  
-#Get-ContentNull "$PSScriptRoot\ini.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
+#Get-ContentNull "$PSScriptRootX\ini.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
 #Get-ItemNull -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
 #Get-ItemNull | Select-Object Name, Length, Extension
 #Get-ItemNull -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
-#Remove-ItemNull -Path "$env:temp\`$CON" -Recurse
 #GetProcessNull | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
 #InvokeCommandNull -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
 #$Rnd = Get-Random -Minimum 1 -Maximum 100
