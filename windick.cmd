@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1219 © github.com/joshuacline
+:: <# Windows Deployment Image Customization Kit v 1220 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -259,73 +259,74 @@ ECHO.
 EXIT /B
 :BASE_EXAMPLE
 ECHO.MENU-SCRIPT
-ECHO.❗* BUILDER EXECUTION INTERACTIVE LIST ITEMS *❗
+ECHO.❗* Builder Execution Interactive List Items *❗
 ECHO.
-ECHO.❕Table❕ⓠ: Execution item, suppresses announcement - ⓡ: Reference item, no announcement❕
-ECHO.❕Note❕List items without a 'ⓠ' or 'ⓡ' prefix are processed as execution❕
+ECHO.❕Table❕ⓠ: Execution item, suppresses announcement / ⓡ: Reference item, no announcement❕
+ECHO.❕Note❕List items without a 'ⓠ' or 'ⓡ' prefix are processed as execution.❕
 ECHO.
-ECHO.❕Group❕🪟 Builder interactive items❕🪛 Choice item❕Normal❕
-ECHO.Note: Choice Item. Choice1-9 are valid. Up to 9 choices seperated by '❗'
-ECHO.❕ⓠChoice1❕Select an option❕✅ Option 1 selected❗❎ Option 2 selected❗❎ Option 3 selected❕VolaTILE❕
-ECHO.❕ⓠTextHost❕Choice1-S:◁Choice1.S▷ Choice1-I:◁Choice1.I▷ Choice1-1:◁Choice1.1▷ Choice1-2:◁Choice1.2▷ Choice1-3:◁Choice1.3▷❕Screen❕DX❕
+ECHO.❕Group❕🪟Builder interactive items❕🪛Choice item❕Normal❕
+ECHO.❕Note❕Choice Item. Choice1-9 are valid. Up to 9 choices seperated by '❗'.❕
+ECHO.❕ⓠChoice1❕Select an option❕✅Choice1 1 selected❗❎Choice1 2 selected❗❎Choice1 3 selected❕VolaTILE❕
+ECHO.❕ⓠTextHost❕Choice1.S:◁Choice1.S▷ Choice1.I:◁Choice1.I▷ Choice1.1:◁Choice1.1▷ Choice1.2:◁Choice1.2▷ Choice1.3:◁Choice1.3▷❕Screen❕DX❕
 ECHO.❕ⓠTextHost❕Group:◁Group▷ SubGroup:◁SubGroup▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Builder interactive items❕🪛 Prompt item❕Normal❕
-
-ECHO.❕Note❕Prompt Item. PROMPT1-9 are valid. Prompt filter NUMBER, LETTER, ALPHA, MENU, MOST, and NONE are usable options. Minimum and maximum character limit are optional.❕
-ECHO.
+ECHO.❕Group❕🪟Builder interactive items❕🪛Prompt item❕Normal❕
+ECHO.❕Note❕Prompt Item. PROMPT1-9 are valid. Prompt filter 'Number', 'Letter', 'Alpha', 'Menu', 'Most', and 'None' are usable options. Minimum and maximum character limit are optional.❕
 ECHO.❕ⓠPrompt1❕Enter text❕Alpha❗3-20❕VolaTILE❕
-ECHO.❕ⓠTextHost❕ⓠPrompt1-S:◁Prompt1.S▷ Prompt1-I:◁Prompt1.I▷ Prompt1-1:◁Prompt1.1▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕ⓠPrompt1.S:◁Prompt1.S▷ Prompt1.I:◁Prompt1.I▷ Prompt1.1:◁Prompt1.1▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Builder interactive items❕🪛 Picker item❕Normal❕
-ECHO.Note: Picker Item. Picker1-9 are valid. ◁ImageFolder▷, ◁ListFolder▷, ◁PackFolder▷, ◁CacheFolder▷, and ◁ProgFolder▷ are usable options.
+ECHO.❕Group❕🪟Builder interactive items❕🪛Picker item❕Normal❕
+ECHO.❕Note❕Picker Item. Picker1-9 are valid. '◁ImageFolder▷', '◁ListFolder▷', '◁PackFolder▷', '◁CacheFolder▷', and '◁ProgFolder▷' are suggested options.❕
 ECHO.❕ⓠPicker1❕Select a file❕◁ImageFolder▷❗*.wim❕VolaTILE❕
-ECHO.❕ⓠTextHost❕Picker1-S:◁Picker1.S▷ Picker1-I:◁Picker1.I▷ Picker1-1:◁Picker1.1▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Picker1.S:◁Picker1.S▷ Picker1.I:◁Picker1.I▷ Picker1.1:◁Picker1.1▷❕Screen❕DX❕
 ECHO.
 ECHO.
-ECHO.❗* BUILDER EXECUTION NON-INTERACTIVE LIST ITEMS *❗
 ECHO.
-ECHO.❕Group❕🪟 Builder non-interactive items❕🪛 Condit item❕Normal❕
-ECHO.Note: Condit Item. Condit1-9 are valid. DEFINED, NDEFINED, EXIST, NEXIST, EQ, NE, GE, LE, LT, and GT are usable options. Enter ◁Null▷ into the 4th column if 'else' is not needed.
+ECHO.❗* Builder Execution Non-Interactive List Items *❗
+ECHO.
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Condit item❕Normal❕
+ECHO.❕Note❕Condit Item. Condit1-9 are valid. 'Defined', 'Ndefined', 'Exist', 'Nexist', 'EQ', 'NE', 'GE', 'LE', 'LT', and 'GT' are usable options. Enter ◁Null▷ into the 4th column if 'else' is not needed.❕
+ECHO.❕ⓠString1❕TestString❕String❕1❕
 ECHO.❕ⓠCondit1❕◁WinTar▷❗Exist❕WinTar Exists❕◁Null▷❕
-ECHO.❕ⓠCondit2❕◁Choice1.I▷❗EQ❗1❕Choice 1 index equals 1❕Choice 1 index does not equal 1❕
-ECHO.❕ⓠTextHost❕Condit1-S:◁Condit1.S▷ Condit1-I:◁Condit1.I▷ Condit1-1:◁Condit1.1▷ Condit1-2:◁Condit1.2▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Condit2-S:◁Condit2.S▷ Condit2-I:◁Condit2.I▷ Condit2-1:◁Condit2.1▷ Condit2-2:◁Condit2.2▷❕Screen❕DX❕
+ECHO.❕ⓠCondit2❕◁String1.I▷❗EQ❗1❕String1 1 equals 'TestString'❕String1 1 does not equal 'TestString'❕
+ECHO.❕ⓠTextHost❕Condit1.S:◁Condit1.S▷ Condit1.I:◁Condit1.I▷ Condit1.1:◁Condit1.1▷ Condit1.2:◁Condit1.2▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Condit2.S:◁Condit2.S▷ Condit2.I:◁Condit2.I▷ Condit2.1:◁Condit2.1▷ Condit2.2:◁Condit2.2▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Builder non-interactive items❕🪛 Array item❕Normal❕
-ECHO.Note: Array items are similar to a condit item, except it's always 'EQ' and is an array of IF's. Optional 5th column adds 'else' function.
-ECHO.❕ⓠArray1❕a❕a❗b❗c❕✅ A1 Option 1 selected❗✅ A1 Option 2 selected❗✅ A1 Option 3 selected❕
-ECHO.❕ⓠArray2❕1❕1❗2❗3❕✅ A2 0ption 1 selected❗✅ A2 Option 2 selected❗✅ A2 Option 3 selected❕✅ A2 Option 1 else selected❗✅ A2 0ption 2 else selected❗✅ A2 Option 3 else selected❕
-ECHO.❕ⓠTextHost❕Array1-S:◁Array1.S▷ Array1-I:◁Array1.I▷ Array1-1:◁Array1.1▷ Array1-2:◁Array1.2▷ Array1-3:◁Array1.3▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Array2-S:◁Array2.S▷ Array2-I:◁Array2.I▷ Array2-1:◁Array2.1▷ Array2-2:◁Array2.2▷ Array2-3:◁Array2.3▷❕Screen❕DX❕
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Array item❕Normal❕
+ECHO.❕Note❕Array items are similar to a condit item, except the condition is always 'EQ'. Basically it's an array of if's. Optional 5th column adds 'else' function.❕
+ECHO.❕ⓠArray1❕a❕a❗b❗c❕✅Array1 Option 1 selected❗✅Array1 Option 2 selected❗✅Array1 Option 3 selected❕
+ECHO.❕ⓠArray2❕1❕1❗2❗3❕✅Array2 0ption 1 selected❗✅Array2 Option 2 selected❗✅Array2 Option 3 selected❕✅Array2 Else 1 selected❗✅Array2 Else 2 selected❗✅Array2 Else 3 selected❕
+ECHO.❕ⓠTextHost❕Array1.S:◁Array1.S▷ Array1.I:◁Array1.I▷ Array1.1:◁Array1.1▷ Array1.2:◁Array1.2▷ Array1.3:◁Array1.3▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Array2.S:◁Array2.S▷ Array2.I:◁Array2.I▷ Array2.1:◁Array2.1▷ Array2.2:◁Array2.2▷ Array2.3:◁Array2.3▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Builder non-interactive items❕🪛 Math item❕Normal❕
-ECHO.Note: Math item. MATH1-9 are valid. +, -, /, and * are usable options.
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Math item❕Normal❕
+ECHO.❕Note❕Math item. MATH1-9 are valid. '+', '-', '/', and '*' are usable options.❕
 ECHO.❕ⓠMath1❕1❕*❕5❕
-ECHO.❕ⓠTextHost❕Math1-S:◁Math1.S▷ Math1-I:◁Math1.I▷ Math1-1:◁Math1.1▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Math1.S:◁Math1.S▷ Math1.I:◁Math1.I▷ Math1.1:◁Math1.1▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Builder non-interactive items❕🪛 String item❕Normal❕
-ECHO.Note: String item. String1-9 are valid. STRING and INTEGER are usable options.
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛String item❕Normal❕
+ECHO.❕Note❕String item. String1-9 are valid. 'String' and 'Integer' are usable options.❕
 ECHO.❕ⓠString1❕10❗20❗30❗40❗50❕Integer❕3❕
 ECHO.❕ⓠString2❕A❗B❗C❗D❗E❕String❕2❕
-ECHO.❕ⓠTextHost❕String1-S:◁String1.S▷ String1-I:◁String1.I▷ String1-1:◁String1.1▷ String1-2:◁String1.2▷ String1-3:◁String1.3▷ String1-4:◁String1.4▷ String1-5:◁String1.5▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕String2-S:◁String2.S▷ String2-I:◁String2.I▷ String2-1:◁String2.1▷ String2-2:◁String2.2▷ String2-3:◁String2.3▷ String2-4:◁String2.4▷ String2-5:◁String2.5▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕String1.S:◁String1.S▷ String1.I:◁String1.I▷ String1.1:◁String1.1▷ String1.2:◁String1.2▷ String1.3:◁String1.3▷ String1.4:◁String1.4▷ String1.5:◁String1.5▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕String2.S:◁String2.S▷ String2.I:◁String2.I▷ String2.1:◁String2.1▷ String2.2:◁String2.2▷ String2.3:◁String2.3▷ String2.4:◁String2.4▷ String2.5:◁String2.5▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Builder non-interactive items❕🪛 Routine item❕Normal❕
-ECHO.Note: Routine items are loop based. Routine1-9 are valid. COMMAND and SPLIT are usable options. Optional column# match seperated by '❗'.
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Routine item❕Normal❕
+ECHO.❕Note❕Routine items are loop based. Routine1-9 are valid. 'Command' and 'Split' are usable options. Optional column number match seperated by '❗'.❕
 ECHO.❕ⓠRoutine1❕^<^>:❗DIR /B C:\❗1❗Program Files❕Command❕1❕
 ECHO.❕ⓠRoutine2❕:❗A:B:C❗3❗C❕Split❕2❕
 ECHO.❕X❕ⓠRoutine1❕^<^>:❗DIR /B C:\❕Command❕1❕
 ECHO.❕X❕ⓠRoutine2❕:❗A:B:C❕Split❕2❕
-ECHO.❕ⓠTextHost❕Routine1-S:◁Routine1.S▷ Routine1-I:◁Routine1.I▷  Routine1-1:◁Routine1.1▷ Routine1-2:◁Routine1.2▷ Routine1-3:◁Routine1.3▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Routine2-S:◁Routine2.S▷ Routine2-I:◁Routine2.I▷  Routine2-1:◁Routine2.1▷ Routine2-2:◁Routine2.2▷ Routine2-3:◁Routine2.3▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Routine1.S:◁Routine1.S▷ Routine1.I:◁Routine1.I▷  Routine1.1:◁Routine1.1▷ Routine1.2:◁Routine1.2▷ Routine1.3:◁Routine1.3▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Routine2.S:◁Routine2.S▷ Routine2.I:◁Routine2.I▷  Routine2.1:◁Routine2.1▷ Routine2.2:◁Routine2.2▷ Routine2.3:◁Routine2.3▷❕Screen❕DX❕
 ECHO.
 ECHO.
-ECHO.❗* BUILDER REFERENCE LIST ITEMS EXAMPLE *❗
 ECHO.
-ECHO.❕Group❕🎨 Reference Example❕🎨Theme ➥ ◁Array1.S▷❕Normal❕
+ECHO.❗* Builder Reference List Items Example *❗
+ECHO.
+ECHO.❕Group❕🎨Reference Example❕🎨Theme ➥ ◁Array1.S▷❕Normal❕
 ECHO.❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme"❗1❗AppsUseLightTheme❕Command❕3❕
-ECHO.❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❕🌑Dark❗🌕Light❕
+ECHO.❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕🌑Dark❗🌕Light❗❔NoValue❕
 ECHO.❕ⓠChoice1❕Select an option❕🌕Light theme❗🌑Dark theme❕VolaTILE❕
 ECHO.❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ECHO.❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
@@ -333,43 +334,49 @@ ECHO.❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\T
 ECHO.❕ⓠTextHost❕◁Choice1.S▷ applied.❕Screen❕DX❕
 ECHO.
 ECHO.
-ECHO.❗* EXECUTION LIST ITEMS *❗
 ECHO.
-ECHO.❕Group❕🪟 Execution items❕🪛 Command item❕Normal❕
-ECHO.Note: Command item. 'NORMAL', 'NOMOUNT', 'NORMAL❗RAU', 'NORMAL❗RAS', 'NORMAL❗RATI', 'NOMOUNT❗RAU', 'NOMOUNT❗RAS', or 'NOMOUNT❗RATI' are usable options.
-ECHO.❕ⓠTextHost❕testing 1 2 3.❕Screen❕DX❕
+ECHO.❗* Execution List Items *❗
 ECHO.
-ECHO.❕Group❕🪟 Execution items❕🪛 Registry create item❕Normal❕
-ECHO.Note: Registry item. 'CREATE', 'DELETE', 'CREATE❗RAU', 'CREATE❗RAS', 'CREATE❗RATI', 'DELETE❗RAU', 'DELETE❗RAS', or 'DELETE❗RATI' are usable options. DWORD, QWORD, BINARY, STRING, EXPAND, and MULTI are usable options.
+ECHO.❕Group❕🪟Execution items❕🪛Command item❕Normal❕
+ECHO.❕Note❕Command item. 'Normal', 'NoMount', 'Normal❗RAU', 'Normal❗RAS', 'Normal❗RATI', 'NoMount❗RAU', 'NoMount❗RAS', or 'NoMount❗RATI' are usable options.❕
+ECHO.❕ⓠCommand❕echo.testing 1 2 3.❕Normal❕DX❕
 ECHO.
-ECHO.Note: Registry item create 'key'.
+ECHO.❕Group❕🪟Execution items❕🪛Registry create item❕Normal❕
+ECHO.❕Note❕Registry item. 'Create', 'Delete', 'Create❗RAU', 'Create❗RAS', 'Create❗RATI', 'Delete❗RAU', 'Delete❗RAS', or 'Delete❗RATI' are usable options. 'Dword', 'Qword', 'Binary', 'String', 'Expand', and 'Multi' are usable options.❕
+ECHO.
+ECHO.❕Note❕Registry item create key.❕
 ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❕Create❕DX❕
-ECHO.Note: Registry item create 'value'.
+ECHO.
+ECHO.❕Note❕Registry item create value with empty value and data.❕
 ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❗◁Null▷❗TestData❗String❕Create❕DX❕
 ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❗TestValue❗◁Null▷❗String❕Create❕DX❕
-ECHO.Note: Registry item delete 'value'.
+ECHO.
+ECHO.❕Note❕Registry item delete value.❕
 ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❗TestValue❕Delete❕DX❕
-ECHO.Note: Registry item delete 'key'.
+ECHO.
+ECHO.❕Note❕Registry item delete key.❕
 ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❕Delete❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Execution items❕🪛 FileOper item❕Normal❕
-ECHO.Note: FileOper item. CREATE, DELETE, RENAME, COPY, MOVE, and TAKEOWN are usable options.
-ECHO.Note: FileOper item create 'folder'.
+ECHO.❕Group❕🪟Execution items❕🪛FileOper item❕Normal❕
+ECHO.❕Note❕FileOper item. 'Create', 'Delete', 'Rename', 'Copy', 'Move', and 'Takeown' are usable options.❕
+ECHO.❕Note❕FileOper item create folder.❕
 ECHO.❕ⓠFileOper❕c:\test❕Create❕DX❕
-ECHO.Note: FileOper item move.
+ECHO.
+ECHO.❕Note❕FileOper item move.❕
 ECHO.❕ⓠTextHost❕test❕File❗c:\testmove.txt❕DX❕
 ECHO.❕ⓠFileOper❕testmove.txt❗c:\test❕Move❕DX❕
 ECHO.
-ECHO.❕Group❕🪟 Execution items❕🪛 Session item + TextHost item❕Normal❕
+ECHO.❕Group❕🪟Execution items❕🪛Session item + TextHost item❕Normal❕
+ECHO.❕Note❕TextHost item. 'Screen' and 'File' are usable options. Using the '◁U00▷' and '◁U01▷' variables when outputting to a file will create white and red columns.❕
 ECHO.❕ⓠTextHost❕MENU-SCRIPT❕File❗◁ListFolder▷\testlist.list❕DX❕
 ECHO.❕ⓠTextHost❕◁U00▷ⓠTextHost◁U00▷Greetings from session 2◁U00▷Screen◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
-ECHO.Note: Using the '-PATH "◁DrvTar▷"' parameter during an active session will reuse the active session's target.
+ECHO.❕Note❕Session item. Using the '-PATH "◁DrvTar▷"' parameter during an active session will reuse the active session's target.❕
 ECHO.❕ⓠSession❕-IMAGEMGR -RUN -LIST "testlist.list" -PATH "◁DrvTar▷"❕◁Null▷❕DX❕
 ECHO.❕ⓠTextHost❕End of session 1❕Screen❕DX❕
 ECHO.❕ⓠFileOper❕◁ListFolder▷\testlist.list❕Delete❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Miscellaneous Examples❕Items being used in conjunction❕Normal❕
-ECHO.❕ⓠChoice1❕Select an option❕🪛 Choice A❗🪛 Choice B❗🪛 Choice C❗❕VolaTILE❕
+ECHO.❕ⓠChoice1❕Select an option❕🪛Choice A❗🪛Choice B❗🪛Choice C❗❕VolaTILE❕
 ECHO.❕ⓠArray1❕◁Choice1.I▷❕1❗2❗3❕A❗B❗C❕
 ECHO.❕ⓠArray2❕◁Array1.S▷❕A❗B❗C❕DX❗DX❗DX❕
 ECHO.❕ⓠTextHost❕Choice ◁Array2.S▷ picked.❕Screen❕◁Array2.1▷❕
@@ -769,7 +776,7 @@ CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%$$% &&
 CALL:TIMER_POINT3&SET /A "XNTZ+=1"&IF NOT "%XNTZ%"=="7" GOTO:LOGO_X
 EXIT /B
 :SETS_LIST
-SET SETS_LIST=GUI_LAUNCH GUI_RESUME GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE GUI_FONTSIZE GUI_LVFONTSIZE GUI_TXT_FORE GUI_TXT_BACK GUI_BTN_COLOR GUI_HLT_COLOR GUI_BG_COLOR GUI_PAG_COLOR PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 RECOVERY_LOGO MENU_MODE MENU_LIST REFERENCE APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
+SET SETS_LIST=GUI_LAUNCH GUI_RESUME GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE GUI_FONTSIZE GUI_LVFONTSIZE GUI_TXT_FORE GUI_TXT_BACK GUI_BTN_COLOR GUI_HLT_COLOR GUI_BG_COLOR GUI_PAG_COLOR PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 MENU_MODE MENU_LIST REFERENCE RECOVERY_LOGO APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
 EXIT /B
 :SETS_LOAD
 IF EXIST "windick.ini" FOR /F "TOKENS=1-1* DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
@@ -812,7 +819,7 @@ SET "FOLDER_MODE=UNIFIED"&&IF NOT "%COMPRESS%"=="FAST" IF NOT "%COMPRESS%"=="MAX
 IF EXIST "%ProgFolder%\CACHE" IF EXIST "%ProgFolder%\IMAGE" IF EXIST "%ProgFolder%\PACK" IF EXIST "%ProgFolder%\LIST" SET "FOLDER_MODE=ISOLATED"
 IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (Cache Image Pack List) DO (SET "%%aFolder=%ProgFolder%\%%a")
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (Cache Image Pack List) DO (SET "%%aFolder=%ProgFolder%")
-IF DEFINED REFERENCE IF NOT EXIST "%ImageFolder%\%REFERENCE%" SET "REFERENCE=LIVE"
+IF DEFINED REFERENCE IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT EXIST "%ImageFolder%\%REFERENCE%" SET "REFERENCE=LIVE"
 FOR %%a in (MOUNT TARGET_PATH PATH_APPLY LIVE_APPLY VDISK_APPLY ERROR $NO_MOUNT $HALT $ONLY1 $ONLY2 $ONLY3 $VERBOSE $VHDX VDISK VDISK_LTR MENU_SESSION CUSTOM_SESSION MENU_SKIP DELETE_DONE FEAT_QRY DRVR_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
 CHCP 65001>NUL&IF NOT DEFINED U00 SET "U00=❕"&&SET "U01=❗"&&SET "U02=🗂 "&&SET "U03=🛠️"&&SET "U04=💾"&&SET "U05=🗳 "&&SET "U06=🪟"&&SET "U07=🔄"&&SET "U08=🪛"&&SET "U09=🥾"&&SET "U10=✒ "&&SET "U11=🗃 "&&SET "U12=🎨"&&SET "U13=🧾"&&SET "U14=⏳"&&SET "U15=✅"&&SET "U16=❎"&&SET "U17=🚫"&&SET "U18=🗜 "&&SET "U19=🛡 "&&SET "U0L=◁"&&SET "U0R=▷"&&SET "COLOR0=[97m"&&SET "COLOR1=[31m"&&SET "COLOR2=[91m"&&SET "COLOR3=[33m"&&SET "COLOR4=[93m"&&SET "COLOR5=[92m"&&SET "COLOR6=[96m"&&SET "COLOR7=[94m"&&SET "COLOR8=[34m"&&SET "COLOR9=[95m"
 CALL SET "@@=%%COLOR%ACC_COLOR%%%"&&CALL SET "##=%%COLOR%BTN_COLOR%%%"&&CALL SET "$$=%%COLOR%TXT_COLOR%%%"
@@ -908,10 +915,9 @@ EXIT /B
 :LIST_VIEWER
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 SET "INPUT=%$LIST_FILE%"&&CALL:GET_FILEEXT
-IF DEFINED MENU_SESSION SET "REFERENCE=LIVE"
-IF NOT "%REFERENCE%"=="LIVE" IF NOT DEFINED $VATTACH SET "LIVE_APPLY="&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&&SET "VDISK_LTR=ANY"&&ECHO.Loading reference image...&&CALL:VDISK_ATTACH
-IF NOT "%REFERENCE%"=="LIVE" IF NOT DEFINED $VATTACH IF EXIST "%VDISK_LTR%:\" SET "TARGET_PATH=%VDISK_LTR%:"&&SET "$VATTACH=1"&&CALL:MOUNT_EXT
-IF "%REFERENCE%"=="LIVE" SET "TARGET_PATH=%SYSTEMDRIVE%"&&SET "LIVE_APPLY=1"&&CALL:MOUNT_INT
+IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT DEFINED $VATTACH SET "LIVE_APPLY="&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&&SET "VDISK_LTR=ANY"&&ECHO.Loading reference image...&&CALL:VDISK_ATTACH
+IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT DEFINED $VATTACH IF EXIST "%VDISK_LTR%:\" SET "TARGET_PATH=%VDISK_LTR%:"&&SET "$VATTACH=1"&&CALL:MOUNT_EXT
+IF /I "%REFERENCE%"=="LIVE" SET "TARGET_PATH=%SYSTEMDRIVE%"&&SET "LIVE_APPLY=1"&&CALL:MOUNT_INT
 IF DEFINED BASE_EXEC (SET "$LIST_MODE=Execute") else (SET "$LIST_MODE=Builder")
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&SET "$CENTERED=1"&&SET "$HEADERS=%U13% List %$LIST_MODE%%U01% %U01%  !$FILE_X!%$EXT_X%%U01% %U01%"&&CALL:BOX_HEADERS&SET "$LIST_SCOPE=GROUP"&&CALL:LIST_FILE
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&IF NOT DEFINED ERROR CALL:PAD_PREV
@@ -938,8 +944,8 @@ IF DEFINED ERROR SET "ERROR="&&SET "$ONLY3="&&GOTO:SUBGROUP_BOX
 SET "$LIST_FILE=%$PICK%"&&CALL:LIST_COMBINE&&CALL:APPEND_SCREEN
 :LIST_VIEWER_END
 FOR %%▓ in (LIVE_APPLY BASE_EXEC GROUP_TYPE $ONLY1 $ONLY2 $ONLY3 $CENTERED $HEADERS $NO_ERRORS $VERBOSE) DO (SET "%%▓=")
-IF NOT "%REFERENCE%"=="LIVE" IF DEFINED $VATTACH ECHO.Unloading reference image...&&SET "$VATTACH="&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&CALL:MOUNT_INT&CALL:VDISK_DETACH
-EXIT /B
+IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF DEFINED $VATTACH ECHO.Unloading reference image...&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&CALL:MOUNT_INT&CALL:VDISK_DETACH
+SET "$VATTACH="&&EXIT /B
 :UNIFIED_PARSE_BUILDER
 IF NOT DEFINED FULL_TARGET EXIT /B
 SET "FULL_TARGETQ=%FULL_TARGET:"=%"
@@ -959,9 +965,9 @@ IF DEFINED ERROR GOTO:LIST_FILE_SKIP
 IF DEFINED $ITEMSTOP CALL:ITEMSTOP
 COPY /Y "%$LIST_FILE%" "$TEMP">NUL 2>&1
 SET "$VCLM2_LAST="&&SET "$SUBGROUP_LAST="&&SET "$LIST_FILEX="&&SET "$LIST_FILEZ="&&IF EXIST "$TEMP" FOR /F "TOKENS=1-9 SKIP=1 DELIMS=%U00%" %%1 in ($TEMP) DO (
-IF "%$LIST_SCOPE%"=="GROUP" IF /I "%%1"=="GROUP" SET "$LIST_FILEX=1"
+IF "%$LIST_SCOPE%"=="GROUP" IF /I "%%1"=="GROUP" SET "$LIST_FILEX=1"&&SET "$LIST_FILEZ="
 IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF NOT "%%2"=="%$ONLY2%" SET "$LIST_FILEZ="
-IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF "%%2"=="%$ONLY2%" SET "$LIST_FILEX=1"&&SET "$LIST_FILEZ=1"
+IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF "%%2"=="%$ONLY2%" SET "$LIST_FILEX=1"&&IF /I NOT "%REFERENCE%"=="DISABLED" SET "$LIST_FILEZ=1"
 IF DEFINED $LIST_FILEZ IF NOT "%%1"=="" FOR /F "TOKENS=* DELIMS=ⓡ" %%░ IN ("%%1") DO (IF NOT "%%1"=="%%░" SET "$VCLMX=%%░"&&CALL:LIST_FILEX_SKIP)
 IF DEFINED $LIST_FILEX SET "$LIST_FILEX="&&SET "$VCLM1=%%1"&&SET "$VCLM2=%%2"&&SET "$VCLM3=%%3"&&SET "$VCLM4=%%4"&&SET "$VCLM5=%%5"&&SET "$VCLM6=%%6"&&SET "$VCLM7=%%7"&&SET "$VCLM8=%%8"&&SET "$VCLM9=%%9"&&CALL:LIST_FILEX)
 IF "%$LIST_SCOPE%"=="SUBGROUP" IF DEFINED $SUBGROUP_LAST SET "$SUBGROUP_LAST=!$SUBGROUP_LAST:◁=%%!"&&SET "$SUBGROUP_LAST=!$SUBGROUP_LAST:▷=%%!"&&CALL SET "$SUBGROUP_LAST=!$SUBGROUP_LAST!"&&FOR /F "TOKENS=*" %%░ IN ("!$SUBGROUP_LAST!") DO (ECHO. %%░%$$%)
@@ -1211,25 +1217,24 @@ EXIT /B
 :SETTINGS_MENU
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                              %U03% Settings&&ECHO.&&ECHO.
-ECHO. (%##% 1 %$$%) %U12% Appearance&&ECHO. (%##% 2 %$$%) %U15% Shortcuts&&ECHO. (%##% 3 %$$%) %U18% Compression          %@@%%COMPRESS%%$$%&&ECHO. (%##% 4 %$$%) %U02% Folder Layout        %@@%%FOLDER_MODE%%$$%
-IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 5 %$$%) %U19% Host Hide            %@@%%HOST_HIDE%%$$%&&ECHO. (%##% 6 %$$%) %U07% Update
+ECHO. (%##% 1 %$$%) %U12% Appearance&&ECHO. (%##% 2 %$$%) %U15% Shortcuts&&ECHO. (%##% 3 %$$%) %U02% Folder Layout        %@@%%FOLDER_MODE%%$$%
+IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 4 %$$%) %U19% Host Hide            %@@%%HOST_HIDE%%$$%&&ECHO. (%##% 5 %$$%) %U07% Update
 ECHO. (%##% . %$$%) %U17% Clear Settings
 IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% * %$$%) %U01% %COLOR2%Enable Custom Menu%$$%
 ECHO.&&ECHO.&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=MENU"&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT IF DEFINED MENU_EXIT GOTO:QUIT
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:MAIN_MENU
+IF "%SELECT%"=="." CALL:SETS_CLEAR&SET "SELECT="&IF "%PROG_MODE%"=="GUI" ECHO.Restart app for changes to take effect.&CALL:PAUSED
 IF "%SELECT%"=="~" IF NOT "%DEBUG%"=="ENABLED" SET "DEBUG=ENABLED"&SET "SELECT="
 IF "%SELECT%"=="~" IF "%DEBUG%"=="ENABLED" SET "DEBUG=DISABLED"&SET "SELECT="
 IF "%SELECT%"=="*" IF "%PROG_MODE%"=="RAMDISK" GOTO:MENU_LIST
-IF "%SELECT%"=="." CALL:SETS_CLEAR&SET "SELECT="
 IF "%SELECT%"=="1" GOTO:APPEARANCE
 IF "%SELECT%"=="2" GOTO:SHORTCUTS
-IF "%SELECT%"=="3" CALL:COMPRESS_LVL&SET "SELECT="
-IF "%SELECT%"=="4" CALL:FOLDER_MODE&SET "SELECT="
-IF "%SELECT%"=="5" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="DISABLED" SET "HOST_HIDE=ENABLED"&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.           The vhdx host partition will be hidden upon exit.&&ECHO.                     Boot into recovery to revert.&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAUSED&SET "SELECT="
-IF "%SELECT%"=="5" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="ENABLED" SET "HOST_HIDE=DISABLED"&&SET "SELECT="
-IF "%SELECT%"=="6" IF "%PROG_MODE%"=="RAMDISK" GOTO:UPDATE_RECOVERY
+IF "%SELECT%"=="3" CALL:FOLDER_MODE&SET "SELECT="
+IF "%SELECT%"=="4" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="DISABLED" SET "HOST_HIDE=ENABLED"&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.           The vhdx host partition will be hidden upon exit.&&ECHO.                     Boot into recovery to revert.&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAUSED&SET "SELECT="
+IF "%SELECT%"=="4" IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="ENABLED" SET "HOST_HIDE=DISABLED"&&SET "SELECT="
+IF "%SELECT%"=="5" IF "%PROG_MODE%"=="RAMDISK" GOTO:UPDATE_RECOVERY
 GOTO:SETTINGS_MENU
 :MENU_LIST
 SET "$HEADERS=                        %U01% Custom Main Menu %U01%%U01% %U01%                             Select a list"&&SET "$CHOICEMINO=1"&&SET "$ITEMSTOP= ( %##%0%$$% ) Create new template"&&SET "$FOLD=%ListFolder%"&&SET "$FILT=*.BASE *.LIST"&&SET "$VERBOSE=1"&&CALL:FILE_VIEWER
@@ -1480,7 +1485,7 @@ IF "%SOURCE_TYPE%"=="PATH" ECHO. [%@@%PATH%$$%] (%##%S%$$%)ource %@@%%PATH_SOURC
 IF "%SOURCE_TYPE%"=="VHDX" ECHO. [%@@%VHDX%$$%] (%##%S%$$%)ource %@@%%VHDX_SOURCE%%$$%&&CALL:PAD_LINE
 IF "%SOURCE_TYPE%"=="WIM" ECHO. [%@@%WIM%$$%] (%##%S%$$%)ource %@@%%WIM_SOURCE%%$$%   (%##%I%$$%)ndex %@@%%WIM_INDEX%%$$%   Edition: %@@%%$IMGEDIT%%$$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="VHDX" ECHO. [%@@%VHDX%$$%] (%##%T%$$%)arget %@@%%VHDX_TARGET%%$$%        (%##%C%$$%)onvert      (%##%V%$$%)disk Size %@@%%VHDX_SIZE%GB%$$%&&CALL:PAD_LINE
-IF "%TARGET_TYPE%"=="WIM" ECHO. [%@@%WIM%$$%] (%##%T%$$%)arget %@@%%WIM_TARGET%%$$%         (%##%C%$$%)onvert&&CALL:PAD_LINE
+IF "%TARGET_TYPE%"=="WIM" ECHO. [%@@%WIM%$$%] (%##%T%$$%)arget %@@%%WIM_TARGET%%$$%         (%##%C%$$%)onvert          (%##%.%$$%)Compression %@@%%COMPRESS%%$$%&&CALL:PAD_LINE
 IF "%TARGET_TYPE%"=="PATH" ECHO. [%@@%PATH%$$%] (%##%T%$$%)arget %@@%%PATH_TARGET%%$$%        (%##%C%$$%)onvert&&CALL:PAD_LINE
 CALL:PAD_PREV&&SET "$CHECK=MENU"&&CALL:MENU_SELECT
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
@@ -1493,6 +1498,7 @@ IF "%SELECT%"=="V" IF "%TARGET_TYPE%"=="VHDX" CALL:IMAGEPROC_VSIZE&SET "SELECT="
 IF "%SELECT%"=="I" IF "%SOURCE_TYPE%"=="WIM" IF NOT "%WIM_SOURCE%"=="SELECT" CALL:WIM_INDEX_MENU
 IF "%SELECT%"=="+" IF DEFINED SOURCE_LOCATION CALL:SOURCE_IMPORT&SET "SELECT="
 IF "%SELECT%"=="-" IF DEFINED SOURCE_LOCATION CALL:BOOT_IMPORT&SET "SELECT="
+IF "%SELECT%"=="." CALL:COMPRESS_LVL&SET "SELECT="
 GOTO:IMAGE_PROCESSING
 :IMAGEPROC_START
 SET "SOURCE_X="&&SET "TARGET_X="&&IF NOT "%PROG_MODE%"=="COMMAND" CLS
@@ -1623,7 +1629,7 @@ EXIT /B
 @ECHO OFF&&CLS&&SET "IMAGE_LAST=IMAGE"&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                          %U13% Image Management&&ECHO.
 ECHO.  %@@%AVAILABLE LISTs/BASEs:%$$%&&ECHO.&&SET "$FOLD=%ListFolder%"&&SET "$FILT=*.BASE *.LIST"&&SET "$DISP=BAS"&&CALL:FILE_LIST
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE
-ECHO. %@@%%U13%LIST%$$%(%##%X%$$%)PACK%U05%%$$%  (%##%R%$$%)un List  (%##%E%$$%)dit List  (%##%B%$$%)uild List  (%##%.%$$%) Reference&&CALL:PAD_LINE
+ECHO. %@@%%U13%LIST%$$%(%##%X%$$%)PACK%U05%%$$%  (%##%R%$$%)un List  (%##%E%$$%)dit List  (%##%B%$$%)uild List  (%##%.%$$%)Reference&&CALL:PAD_LINE
 IF DEFINED ADV_IMGM ECHO. [%@@%OPTIONS%$$%] (%##%S%$$%)afe Exclude %@@%%SAFE_EXCLUDE%%$$%&&CALL:PAD_LINE
 CALL:PAD_PREV&&SET "$CHECK=MENU"&&CALL:MENU_SELECT
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
@@ -1639,9 +1645,10 @@ IF "%SELECT%"=="S" IF "%SAFE_EXCLUDE%"=="DISABLED" SET "SAFE_EXCLUDE=ENABLED"&SE
 IF "%SELECT%"=="S" IF "%SAFE_EXCLUDE%"=="ENABLED" SET "SAFE_EXCLUDE=DISABLED"&SET "SELECT="
 GOTO:IMAGE_MANAGEMENT
 :REFERENCE
-CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             %U13% Reference&&ECHO.&&ECHO.            Select a reference image to load with the menu&&ECHO.&&ECHO.  %@@%AVAILABLE *.VHDXs:%$$%&&ECHO.&&ECHO. ( %##%0%$$% ) %U06% Current Environment&&SET "$FOLD=%ImageFolder%"&&SET "$FILT=*.VHDX"&&CALL:FILE_LIST&&ECHO.
+CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             %U13% Reference&&ECHO.&&ECHO.            Select a reference image to load with the menu&&ECHO.&&ECHO.  %@@%AVAILABLE *.VHDXs:%$$%&&ECHO.&&ECHO. ( %##%0%$$% ) %U06% Current Environment&&SET "$FOLD=%ImageFolder%"&&SET "$FILT=*.VHDX"&&CALL:FILE_LIST&&ECHO. ( %##%.%$$% ) Disabled&&ECHO.
 SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=PATH"&&CALL:MENU_SELECT
 IF "%SELECT%"=="0" SET "REFERENCE=LIVE"
+IF "%SELECT%"=="." SET "REFERENCE=DISABLED"
 IF NOT DEFINED $PICK EXIT /B
 SET "REFERENCE=%$CHOICE%"
 EXIT /B
@@ -1790,7 +1797,17 @@ EXIT /B
 IF DEFINED $NO_QUOTE SET "$INPUT=!$INPUT:"=!"
 SET "$NO_QUOTE="&&SET "!$OUTPUT!0=!$INPUT!"&&FOR /F "TOKENS=1-9 DELIMS=%DELIMS%" %%a in ("!$INPUT!") DO (SET "PART1=%%a"&&SET "PART2=%%b"&&SET "PART3=%%c"&&SET "PART4=%%d"&&SET "PART5=%%e"&&SET "PART6=%%f"&&SET "PART7=%%g"&&SET "PART8=%%h"&&SET "PART9=%%i")
 FOR %%● in (1 2 3 4 5 6 7 8 9) DO (SET "$PART%%●="&&SET "!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●$="&&IF DEFINED PART%%● SET "!$OUTPUT!%%●=!PART%%●!"&&SET "$PART%%●=!PART%%●:◁=%%!"&&SET "$PART%%●=!$PART%%●:▷=%%!"&&SET "$!$OUTPUT!%%●=!$PART%%●!"&&CALL SET "$!$OUTPUT!%%●$=!$PART%%●!"
-IF DEFINED PART%%● IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=!PART%%●!")
+IF DEFINED PART%%● IF DEFINED $NULLED IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=◁Null▷"
+IF DEFINED PART%%● IF NOT DEFINED $NULLED IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=!PART%%●!")
+SET "$NULLED="&&EXIT /B
+:EXPAND_ONE
+FOR %%● in ($INPUT $OUTPUT) DO (IF NOT DEFINED %%● SET "$INPUT_OG="&&SET "$INPUT="&&SET "$OUTPUT="&&EXIT /B)
+SET "$INPUT_OG=!$INPUT!"&&SET "$INPUT=!$INPUT:◁=%%!"&&SET "$INPUT=!$INPUT:▷=%%!"
+IF DEFINED $INPUT FOR /F "TOKENS=*" %%● in ("!$INPUT!") DO (CALL SET "$INPUT=%%●")
+IF NOT DEFINED $INPUT IF DEFINED $NULLED SET "!$OUTPUT!=◁Null▷"
+IF NOT DEFINED $INPUT IF NOT DEFINED $NULLED SET "!$OUTPUT!=!$INPUT_OG!"
+IF DEFINED $INPUT SET "!$OUTPUT!=!$INPUT!"
+FOR %%● in ($INPUT_OG $INPUT $OUTPUT $NULLED) DO (SET "%%●=")
 EXIT /B
 :RASTI_CREATE
 IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %ProgFolder0%\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %ProgFolder0%\$RAS.cmd" /f)
@@ -1847,8 +1864,9 @@ EXIT /B
 SET "$IFELSE="
 IF NOT DEFINED @QUIET ECHO.Executing %@@%!$QCLM1$!%$$% item 
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
+SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=$QCLM2$"&&SET "$NULLED=1"&&CALL:EXPAND_ONE
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM4!"&&SET "$OUTPUT=ACTN"&&CALL:EXPANDOFLEX
-SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=MATCH"&&CALL:EXPANDOFLEX
+SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=MATCH"&&SET "$NULLED=1"&&CALL:EXPANDOFLEX
 IF /I NOT "!ACTN1!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH1$!" SET "!$QCLM1$!.I=1"&&SET "!$QCLM1$!.S=!$ACTN1$!"&&SET "!$QCLM1$!.1=!$ACTN1$!"&&SET "$IFELSE=1"
 IF /I NOT "!ACTN2!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH2$!" SET "!$QCLM1$!.I=2"&&SET "!$QCLM1$!.S=!$ACTN2$!"&&SET "!$QCLM1$!.2=!$ACTN2$!"&&SET "$IFELSE=2"
 IF /I NOT "!ACTN3!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH3$!" SET "!$QCLM1$!.I=3"&&SET "!$QCLM1$!.S=!$ACTN3$!"&&SET "!$QCLM1$!.3=!$ACTN3$!"&&SET "$IFELSE=3"
@@ -1878,7 +1896,7 @@ SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=ROUT"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM4$!"=="COMMAND" FOR %%□ IN ($ROUT1$ $ROUT2$) DO (IF NOT DEFINED %%□ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 is not valid. Example: '^<^>❗DIR C:\ /B❗1❗TEST.TXT' or '^<^>❗DIR C:\ /B'&&EXIT /B)
 IF /I "!$QCLM4$!"=="SPLIT" FOR %%□ IN ($ROUT1$ $ROUT2$) DO (IF NOT DEFINED %%□ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 is not valid. Example: ':❗A:B:C❗3❗C' or ':❗A:B:C'&&EXIT /B)
 IF NOT DEFINED @QUIET ECHO.Executing %@@%!$QCLM1$!%$$% item 
-IF /I "!$QCLM3$!"=="COMMAND" FOR /F "TOKENS=1-9 DELIMS=%$ROUT1$%" %%1 in ('!$ROUT2$!') DO (
+IF /I "!$QCLM3$!"=="COMMAND" FOR /F "TOKENS=1-9 DELIMS=%$ROUT1$%" %%1 in ('!$ROUT2$! 2^>NUL') DO (
 IF NOT DEFINED $ROUT3$ SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET "!$QCLM1$!.1=%%%$QCLM4$%"&&SET /A "!$QCLM1$!.I=1"
 IF DEFINED $ROUT3$ IF /I "!$ROUT4$!"=="%%%$ROUT3$%" SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET "!$QCLM1$!.1=%%%$QCLM4$%"&&SET "!$QCLM1$!.I=1")
 IF /I "!$QCLM3$!"=="SPLIT" FOR /F "TOKENS=1-9 DELIMS=%$ROUT1$%" %%1 in ("!$ROUT2$!") DO (
@@ -2442,8 +2460,6 @@ IF "%%a %%b"=="Current Edition" IF NOT "%%c"=="is" SET "INFO_E=%%c")
 FOR %%a in (INFO_V INFO_E) DO (IF NOT DEFINED %%a SET "%%a=Unavailable")
 ECHO.Version:%@@%%INFO_V%%$$% Edition:%@@%%INFO_E%%$$% Source:%@@%%DISP_NAME%%$$%&&ECHO.Version:%INFO_V% Edition:%INFO_E% Source:%DISP_NAME%>>"%ListFolder%\%NEW_NAME%.base"
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
-SET "INPUT=%$PICK%"&&CALL:GET_FILEEXT
-IF "%EXT_UPPER%"==".BASE" SET "NEW_NAME="
 IF DEFINED LIVE_APPLY SET "$BASE_GROUP=Current Environment - %DATE% - %TIME%"
 IF NOT DEFINED LIVE_APPLY SET "$BASE_GROUP=%$FILE_X%%$EXT_X% - %DATE% - %TIME%"
 IF NOT DEFINED BASE_CHOICE SET "BASE_CHOICE=1 4 2 5 6 7 3"
@@ -2462,7 +2478,7 @@ ECHO.&&ECHO.        %@@%BASE-LIST CREATION END:%$$%  %DATE%  %TIME%&&SET "$BOX=S
 EXIT /B
 :GET_BASE_APPX
 ECHO.&&ECHO. %@@%Getting AppX Listing%$$%..&&ECHO.&&SET "$BCLM1=AppX"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% AppX❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%AppX❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=9* DELIMS=\" %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications" 2^>NUL') DO (FOR /F "TOKENS=1-1* DELIMS=_" %%1 in ("%%a") DO (SET "BASE_WRITE=%%1"&&SET "$GROUP_CLM2=%%1"&&CALL:BASE_WRITE))
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 SET "$BCLM3=%U0L%CHOICE0.S%U0R%"&&FOR /F "TOKENS=9* DELIMS=\" %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications" 2^>NUL') DO (FOR /F "TOKENS=1-1* DELIMS=_" %%1 in ("%%a") DO (SET "BASE_WRITE=%%1"&&SET "$GROUP_CLM2=%%1"&&CALL:BASE_WRITE))
@@ -2472,7 +2488,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_FEATURE
 ECHO.&&ECHO. %@@%Getting Feature Listing%$$%..&&ECHO.&&SET "$BCLM1=Feature"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_MIX
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% Feature❕Scoped❕Select an option❕Enable❗Disable❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%Feature❕Scoped❕Select an option❕Enable❗Disable❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-9 DELIMS=|: " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (
 IF "%%b"=="Enabled" SET "$BASE_CHOICE=Default is ENABLE"&&SET "BASE_WRITE=%%a"&&SET "$GROUP_CLM2=%%a"&&CALL:BASE_WRITE
 IF "%%b"=="Disabled" SET "$BASE_CHOICE=Default is DISABLE"&&SET "BASE_WRITE=%%a"&&SET "$GROUP_CLM2=%%a"&&CALL:BASE_WRITE)
@@ -2482,7 +2498,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_COMPONENT
 ECHO.&&ECHO. %@@%Getting Component Listing%$$%..&&ECHO.&&SET "$BCLM1=Component"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% Component❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%Component❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=8* DELIMS=\" %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages" 2^>NUL') DO (FOR /F "TOKENS=1-1* DELIMS=~" %%1 in ("%%a") DO (SET "BASE_WRITE=%%1"&&SET "$GROUP_CLM2=%%1"&&CALL:BASE_WRITE))
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
@@ -2490,7 +2506,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_CAPABILITY
 ECHO.&&ECHO. %@@%Getting Capability Listing%$$%..&&ECHO.&&SET "$BCLM1=Capability"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_MIX
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% Capability❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%Capability❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-2 DELIMS=|: " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-CAPABILITIES /FORMAT:TABLE 2^>NUL') DO (
 IF "%%b"=="Installed" SET "BASE_WRITE=%%a"&&SET "$GROUP_CLM2=%%a"&&CALL:BASE_WRITE)
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
@@ -2499,7 +2515,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_SERVICE
 ECHO.&&ECHO. %@@%Getting Service Listing%$$%..&&ECHO.&&SET "$BCLM1=Service"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% Service❕Scoped❕Select an option❕Auto%U01%Manual%U01%Disable%U01%Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%Service❕Scoped❕Select an option❕Auto%U01%Manual%U01%Disable%U01%Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-4* DELIMS=\" %%a in ('%REG% QUERY "%HiveSystem%\ControlSet001\Services" 2^>NUL') DO (FOR /F "TOKENS=1-9 DELIMS= " %%1 in ('%REG% QUERY "%HiveSystem%\ControlSet001\Services\%%e" 2^>NUL') DO (SET "BASE_WRITE=%%e"
 IF "%%1"=="Start" IF "%%3"=="0x2" SET "$BASE_CHOICE=Default is Auto"
 IF "%%1"=="Start" IF "%%3"=="0x3" SET "$BASE_CHOICE=Default is Manual"
@@ -2514,7 +2530,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_TASK
 ECHO.&&ECHO. %@@%Getting Task Listing%$$%..&&ECHO.&&SET "$BCLM1=Task"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% Task❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%Task❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-3* DELIMS= " %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree" /f ID /e /s 2^>NUL') DO (IF "%%b"=="REG_SZ" IF NOT "%%c"=="" FOR /F "TOKENS=2* DELIMS=\ " %%1 in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\%%c" /f PATH /e /s 2^>NUL') DO (IF "%%1"=="REG_SZ" IF NOT "%%2"=="" SET "BASE_WRITE=%%2"&&CALL:BASE_WRITE))
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
@@ -2522,7 +2538,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_DRIVER
 ECHO.&&ECHO. %@@%Getting Driver Listing%$$%..&&ECHO.&&SET "$BCLM1=Driver"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_MIX
-ECHO.❕Group❕%$BASE_GROUP%❕%U08% Driver❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U08%Driver❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 SET "DRIVER_NAME="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=: " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-DRIVERS 2^>NUL') DO (
 IF "%%a %%b"=="Published Name" SET "DRIVER_INF=%%c"
 IF "%%a %%b %%c"=="Original File Name" SET "DRIVER_NAME=%%d"&&SET "BASE_WRITE=%%d"
@@ -2534,10 +2550,10 @@ ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :BASE_WRITE
-IF DEFINED BASE_WRITE IF DEFINED BASE_WRITELAST IF /I "%BASE_WRITE%"=="%BASE_WRITELAST%" EXIT /B
-SET "BASE_WRITELAST=%BASE_WRITE%"
-ECHO.%@@%%$BCLM1%%$$% %BASE_WRITE%%$$%
-ECHO.%U00%%$BCLM1%%U00%%BASE_WRITE%%U00%%$BCLM3%%U00%DX%U00%%$BASE_CHOICE%>>"%ListFolder%\%NEW_NAME%.base"
+IF DEFINED BASE_WRITE IF DEFINED BASE_WRITELAST IF "%BASE_WRITE%"=="%BASE_WRITELAST%" EXIT /B
+SET "BASE_WRITELAST=!BASE_WRITE!"
+ECHO.%@@%!$BCLM1!%$$% !BASE_WRITE!%$$%
+ECHO.%U00%!$BCLM1!%U00%!BASE_WRITE!%U00%!$BCLM3!%U00%DX%U00%!$BASE_CHOICE!>>"%ListFolder%\%NEW_NAME%.base"
 EXIT /B
 :LIST_TIME
 SET "$BCLM4="&&SET "$HEADERS=                           %U13% Miscellaneous%U01% %U01%                            Time of Action"&&SET "$CHOICE_LIST=Default       %U00%%@@%DX%$$%%U00% Immediate execution%U01%SetupComplete %U00%%@@%SC%$$%%U00% Scheduled execution%U01%RunOnce       %U00%%@@%RO%$$%%U00% Scheduled execution"&&SET "$VERBOSE=1"&&SET "$SELECT=SELECTZ"&&CALL:CHOICE_BOX
@@ -3517,43 +3533,56 @@ using System;using System.Runtime.InteropServices;public class WinMekanix {
         CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
         fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 "@
-$PSScriptRootX = "$($PWD.Path)";$ProjectFolder = "$PSScriptRootX\project"
+$PSScriptRootX = "$($PWD.Path)";$ProjectFolder = "$PSScriptRootX\project";
 if (Test-Path -Path "$PSScriptRootX\image") {$ImageFolder = "$PSScriptRootX\image"} else {$ImageFolder = "$PSScriptRootX"}
 if (Test-Path -Path "$PSScriptRootX\list") {$ListFolder = "$PSScriptRootX\list"} else {$ListFolder = "$PSScriptRootX"}
 if (Test-Path -Path "$PSScriptRootX\pack") {$PackFolder = "$PSScriptRootX\pack"} else {$PackFolder = "$PSScriptRootX"}
 if (Test-Path -Path "$PSScriptRootX\cache") {$CacheFolder = "$PSScriptRootX\cache"} else {$CacheFolder = "$PSScriptRootX"}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-function Group-View {$ListItem = ""
-if ($partXb -eq "ⓡRoutine1") {$ListItem = "Routine"}
-if ($partXb -eq "ⓡArray1") {$ListItem = "Array"}
-if ($ListItem -eq "Array") {$global:Array1 = "";$ifX = ""
-$stringX1 = $partXc.Replace("◁", "`$(`$")
-$stringX2 = $stringX1.Replace("▷", ")")
-$partXc = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
-$stringX1 = $partXd.Replace("◁", "`$(`$")
-$stringX2 = $stringX1.Replace("▷", ")")
-$partXd = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
-$stringX1 = $partXe.Replace("◁", "`$(`$")
-$stringX2 = $stringX1.Replace("▷", ")")
-$partXe = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
-if ($partXd) {$if1, $if2, $if3, $if4, $if5, $if6, $if7, $if8, $if9 = $partXd -split "[❗]"}
-if ($partXe) {$do1, $do2, $do3, $do4, $do5, $do6, $do7, $do8, $do9 = $partXe -split "[❗]"}
-if ($partXc -eq "$if1") {$ArrayX = $do1;$ifX = 1};if ($partXc -eq "$if2") {$ArrayX = $do2;$ifX = 2};if ($partXc -eq "$if3") {$ArrayX = $do3;$ifX = 3};if ($partXc -eq "$if4") {$ArrayX = $do4;$ifX = 4};if ($partXc -eq "$if5") {$ArrayX = $do5;$ifX = 5};if ($partXc -eq "$if6") {$ArrayX = $do6;$ifX = 6};if ($partXc -eq "$if7") {$ArrayX = $do7;$ifX = 7};if ($partXc -eq "$if8") {$ArrayX = $do8;$ifX = 8};if ($partXc -eq "$if9") {$ArrayX = $do9;$ifX = 9}
+function Group-View {$ListItem = "";
+if ($partXb -eq "ⓡRoutine1") {$ListItem = "Routine";$global:Routine1 = ""}
+if ($partXb -eq "ⓡArray1") {$ListItem = "Array";$global:Array1 = ""}
+if ($ListItem -eq "Array") {$ifX = ""
+if ($partXc) {if ($partXc -ne "◁Null▷") {$stringX1 = $partXc.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$partXc = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($partXc)) {$partXc = "◁Null▷"}}
+}
+if ($partXd) {$if1, $if2, $if3, $if4, $if5, $if6, $if7, $if8, $if9, $if10 = $partXd -split "[❗]"
+if ($if1) {if ($if1 -ne "◁Null▷") {$stringX1 = $if1.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if1 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if1)) {$if1 = "◁Null▷"}}}
+if ($if2) {if ($if2 -ne "◁Null▷") {$stringX1 = $if2.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if2 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if2)) {$if2 = "◁Null▷"}}}
+if ($if3) {if ($if3 -ne "◁Null▷") {$stringX1 = $if3.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if3)) {$if3 = "◁Null▷"}}}
+if ($if4) {if ($if4 -ne "◁Null▷") {$stringX1 = $if4.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if4 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if4)) {$if4 = "◁Null▷"}}}
+if ($if5) {if ($if5 -ne "◁Null▷") {$stringX1 = $if5.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if5 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if5)) {$if5 = "◁Null▷"}}}
+if ($if6) {if ($if6 -ne "◁Null▷") {$stringX1 = $if6.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if6 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if6)) {$if6 = "◁Null▷"}}}
+if ($if7) {if ($if7 -ne "◁Null▷") {$stringX1 = $if7.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if7 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if7)) {$if7 = "◁Null▷"}}}
+if ($if8) {if ($if8 -ne "◁Null▷") {$stringX1 = $if8.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if8 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if8)) {$if8 = "◁Null▷"}}}
+if ($if9) {if ($if9 -ne "◁Null▷") {$stringX1 = $if9.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if9 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if9)) {$if9 = "◁Null▷"}}}
+}
+if ($partXe) {$do1, $do2, $do3, $do4, $do5, $do6, $do7, $do8, $do9, $do10 = $partXe -split "[❗]"
+if ($do1) {if ($do1 -ne "◁Null▷") {$stringX1 = $do1.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do1 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if1") {$ArrayX = $do1;$ifX = 1}}}
+if ($do2) {if ($do2 -ne "◁Null▷") {$stringX1 = $do2.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do2 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if2") {$ArrayX = $do2;$ifX = 2}}}
+if ($do3) {if ($do3 -ne "◁Null▷") {$stringX1 = $do3.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if3") {$ArrayX = $do3;$ifX = 3}}}
+if ($do4) {if ($do4 -ne "◁Null▷") {$stringX1 = $do4.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do4 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if4") {$ArrayX = $do4;$ifX = 4}}}
+if ($do5) {if ($do5 -ne "◁Null▷") {$stringX1 = $do5.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do5 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if5") {$ArrayX = $do5;$ifX = 5}}}
+if ($do6) {if ($do6 -ne "◁Null▷") {$stringX1 = $do6.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do6 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if6") {$ArrayX = $do6;$ifX = 6}}}
+if ($do7) {if ($do7 -ne "◁Null▷") {$stringX1 = $do7.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do7 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if7") {$ArrayX = $do7;$ifX = 7}}}
+if ($do8) {if ($do8 -ne "◁Null▷") {$stringX1 = $do8.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do8 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if8") {$ArrayX = $do8;$ifX = 8}}}
+if ($do9) {if ($do9 -ne "◁Null▷") {$stringX1 = $do9.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do9 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if9") {$ArrayX = $do9;$ifX = 9}}}
+}
+if ($ifX) {
 $global:Array1 = [PSCustomObject]@{
 I = "$ifX"
 S = "$ArrayX"
-$ifX = "$ArrayX"
-}
-}
-if ($ListItem -eq "Routine") {$Routine1 = "";$RoutineX = ""
+$ifX = "$ArrayX"}
+}}
+if ($ListItem -eq "Routine") {$RoutineX = ""
 if ($partXd -eq "Command") {
 if ($partXc) {$delims, $command, $columntar, $columnstr = $partXc -split "[❗]"}
 $stringX1 = $command.Replace("◁", "`$(`$")
 $stringX2 = $stringX1.Replace("▷", ")")
 $command = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
-$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=1-9 DELIMS=$delims`" %1 in ('$command') do (echo %1%2%3%4%5%6%7%8%9)" }
+$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=1-9 DELIMS=$delims`" %1 in ('$command 2^>NUL') do (echo %1%2%3%4%5%6%7%8%9)" }
 $scriptblockZ = [scriptblock]::create($scriptblockX)
 $commandX = Invoke-command $scriptblockZ
+#if (-not ($waitX)) {$global:waitX = 1;Start-Sleep -Milliseconds 250}
 Foreach ($line in $commandX) {
 $Part1g, $Part2g, $Part3g, $Part4g, $Part5g, $Part6g, $Part7g, $Part8g, $Part9g = $line -split "[]"
 if ($columntar -eq 1) {if ($Part1g -eq $columnstr) {
@@ -3742,6 +3771,7 @@ if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle =
 $listview.Visible = $true
 $listview.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $listview.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$doublebuffer = $listview.GetType().GetProperty("DoubleBuffered", [System.Reflection.BindingFlags] "NonPublic, Instance");$doublebuffer.SetValue($listview, $true, $null)
 $element = $listview;AddElement
 #$listview.Columns[0].Width = -2
 #$listview.Columns[1].Width = -2
@@ -4075,6 +4105,7 @@ if ($Headers) {$ListViewBox.HeaderStyle = "$Headers"} else {$ListViewBox.HeaderS
 $ListViewBox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $ListViewBox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $ListViewBox.Visible = $true
+$doublebufferX = $ListViewBox.GetType().GetProperty("DoubleBuffered", [System.Reflection.BindingFlags] "NonPublic, Instance");$doublebufferX.SetValue($ListViewBox, $true, $null)
 $WSIZ = [int](542 * $ScaleRef * $GUI_SCALE);[void]$ListViewBox.Columns.Add("X", $WSIZ);$formboxX.Controls.Add($ListViewBox)
 $ListViewBox.GridLines = $false;$ListViewBox.CheckBoxes = $true;$ListViewBox.FullRowSelect = $true
 $wtfbbq = Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
@@ -4423,7 +4454,7 @@ $global:GUI_RESUME = "ImageManagementList"
 $ListView1_PageLB.Items.Clear();$ListView2_PageLB.Items.Clear()
 Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView1_PageLB.Items.Add($_)}
 Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView2_PageLB.Items.Add($_)}
-if ($DropBox1_PageLB.SelectedItem) {$null} else {$DropBox1_PageLB.Items.Clear();[void]$DropBox1_PageLB.Items.Add("🪟 Current Environment");Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
+if ($DropBox1_PageLB.SelectedItem) {$null} else {$DropBox1_PageLB.Items.Clear();[void]$DropBox1_PageLB.Items.Add("🪟 Current Environment");[void]$DropBox1_PageLB.Items.Add("Disabled");Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
 [void]$DropBox1_PageLB.Items.Add("Refresh");$DropBox1_PageLB.SelectedItem = "$REFERENCE";}
 if ($REFERENCE -eq "LIVE") {if (-not ($DropBox1_PageLB.SelectedItem -eq "🪟 Current Environment")) {$DropBox1_PageLB.SelectedItem = "🪟 Current Environment";}}
 $PageMain.Visible = $true;$PageLEWiz.Visible = $false;$PageLBWiz.Visible = $false;$PageLB.Visible = $true;$PageLB.BringToFront();$Button_PB.Visible = $true;$Button_LB.Visible = $false
@@ -4541,7 +4572,7 @@ Button_PageBC
 function DropBox1LB {
 if ($DropBox1LBChanged -eq '1') {
 $global:REFERENCE = "$($DropBox1_PageLB.SelectedItem)";if ($REFERENCE -eq "🪟 Current Environment") {$global:REFERENCE = "LIVE"}
-if ($REFERENCE -eq "Refresh") {$DropBox1_PageLB.Items.Clear();[void]$DropBox1_PageLB.Items.Add("🪟 Current Environment");Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
+if ($REFERENCE -eq "Refresh") {$DropBox1_PageLB.Items.Clear();[void]$DropBox1_PageLB.Items.Add("🪟 Current Environment");[void]$DropBox1_PageLB.Items.Add("Disabled");Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
 [void]$DropBox1_PageLB.Items.Add("Refresh");$DropBox1_PageLB.SelectedItem = "🪟 Current Environment";} else {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "REFERENCE=$REFERENCE" -Encoding UTF8}}
 if ($REFERENCE -eq "LIVE") {if (-not ($DropBox1_PageLB.SelectedItem -eq "🪟 Current Environment")) {$DropBox1_PageLB.SelectedItem = "🪟 Current Environment";}}
 $global:DropBox1LBChanged = '1';
@@ -4880,7 +4911,7 @@ Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView
 $PageLBWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$PageLBWiz.BringToFront()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-function LBWiz_Stage2 {$global:LBWiz_Stage = 2;MOUNT_INT
+function LBWiz_Stage2 {$global:LBWiz_Stage = 2;
 $GRP = $null;if ($marked -ne $null) {$global:ListViewSelectS2 = $marked} else {
 if ($ListMode -eq "Builder") {$global:ListViewSelectS2 = $ListView1_PageLBWiz.FocusedItem}}
 $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
@@ -4888,7 +4919,7 @@ $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
 if ($BaseFile -eq "🧾 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
 if ($BaseFile -ne "🧾 Miscellaneous") {
 $LBWiz_TypeZ = Get-Content -Path "$ListFolder\\$BaseFile" -TotalCount 1
-$global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]';"$ListFolder\\$BaseFile"
+$global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]'
 if ($LBWiz_Type -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LBWiz_Stage1;return}}
 
 $ListView1_PageLBWiz.Items.Clear()
@@ -4902,8 +4933,9 @@ $Label2_PageLBWiz.Text = "Miscellaneous"
 ForEach ($i in @("🧾 Create Source Base","🧾 Generate Example Base","🧾 Convert Group Base","✒ External Package Item")) {[void]$ListView1_PageLBWiz.Items.Add("$i")}
 }
 if ($LBWiz_Type -eq 'MENU-SCRIPT') {
+if ($REFERENCE -ne 'DISABLED') {
 if ($REFERENCE -eq 'LIVE') {MOUNT_INT}
-if ($REFERENCE -ne 'LIVE') {if (-not ($vdiskltr)) {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Mounting Reference Image...";VDISK_ATTACH}}
+if ($REFERENCE -ne 'LIVE') {if (-not ($vdiskltr)) {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Mounting Reference Image...";VDISK_ATTACH}}}
 
 $Label1_PageLBWiz.Text = "🧾 List $ListMode"
 $Label2_PageLBWiz.Text = "$BaseFile"
@@ -4968,7 +5000,7 @@ if ($ListViewChoiceS4 -eq 'Service') {$global:ListViewBase = 5}
 if ($ListViewChoiceS4 -eq 'Task') {$global:ListViewBase = 6}
 if ($ListViewChoiceS4 -eq 'Driver') {$global:ListViewBase = 7}
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Source Base' -MessageBoxText 'Enter new .base name' -Check 'PATH'
-if ($boxresult -ne "OK") {$global:ListName = "$null";$global:LBWiz_Stage = 3;}
+if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$global:ListName = "$boxoutput.base";$ListTarget = "$ListFolder\$boxoutput.base";if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 PickEnvironment
 $Label1_PageLBWiz.Text = "🧾 Create Source Base"
@@ -5001,7 +5033,6 @@ Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView
 function LBWiz_Stage5MISC {
 if ($marked -ne $null) {$global:ListViewSelectS5 = $marked} else { $global:ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $ListViewChoiceS5, $partc = $ListViewSelectS5 -split '[{}]'
-
 if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
@@ -5018,15 +5049,15 @@ MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selec
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3GRP {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
-
+$ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.CheckBoxes = $true;$Label1_PageLBWiz.Text = "🧾 $BaseFile";$Label2_PageLBWiz.Text = "$ListViewChoiceS3"
+$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.CheckBoxes = $true;$Label1_PageLBWiz.Text = "🧾 $BaseFile";
+$Label2_PageLBWiz.Text = "Loading $ListViewChoiceS3..."
 $global:SubGroupLast = "";$ReadGroup = "";Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]"
-if ($partXb -eq 'GROUP') {if ($partXc -eq $ListViewChoiceS3) {$ReadGroup = 1}}
-if ($partXb -eq 'GROUP') {if ($partXc -ne $ListViewChoiceS3) {$ReadGroup = ""}}
+if ($partXb -eq 'GROUP') {if ($partXc -eq $ListViewChoiceS3) {$ReadGroup = 1} else {$ReadGroup = ""}}
 if ($ReadGroup) {
-if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[ⓡ]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {Group-View}}
+if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[ⓡ]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {if ($REFERENCE -ne 'DISABLED') {Group-View}}}
 if ($partXb -eq 'GROUP') {
 if ($partXc -eq $ListViewChoiceS3) {
 if ($SubGroupLast) {$SubGroupLastOG = $SubGroupLast
@@ -5035,8 +5066,10 @@ $stringX2 = $stringX1.Replace("▷", ")")
 $stringX3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
 $item1 = New-Object System.Windows.Forms.ListViewItem("$stringX3")
 $item1.SubItems.Add("$SubGroupLastOG")
-[void]$ListView1_PageLBWiz.Items.Add($item1)}
-$global:GroupLast = $partXc;$global:SubGroupLast = $partXd}}
+[void]$ListView1_PageLBWiz.Items.Add($item1)
+}
+$global:GroupLast = $partXc;$global:SubGroupLast = $partXd}
+$global:Array1 = "";$global:Routine1 = "";$global:Condit1 = ""}
 }}
 if ($SubGroupLast) {$SubGroupLastOG = $SubGroupLast
 $stringX1 = $SubGroupLast.Replace("◁", "`$(`$")
@@ -5044,9 +5077,9 @@ $stringX2 = $stringX1.Replace("▷", ")")
 $stringX3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
 $item1 = New-Object System.Windows.Forms.ListViewItem("$stringX3")
 $item1.SubItems.Add("$SubGroupLastOG")
-[void]$ListView1_PageLBWiz.Items.Add($item1)
-$global:GroupLast = $partXc;$global:SubGroupLast = $partXd}
-$ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.FullRowSelect = $true
+[void]$ListView1_PageLBWiz.Items.Add($item1)}
+$global:Condit1 = "";$global:Array1 = "";$global:Routine1 = ""
+$Label2_PageLBWiz.Text = "$ListViewChoiceS3";
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage4GRP {$global:LBWiz_Stage = 4;
@@ -5054,14 +5087,7 @@ if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST
 if ($ListMode -eq 'Execute') {Add-Content -Path "$ListFolder\`$LIST" -Value "MENU-SCRIPT" -Encoding UTF8}
 ForEach ($checkedItem in $ListView1_PageLBWiz.CheckedItems) {$ListWrite = 0
 
-if ($partXb) {
-$GrpViewChk1, $GrpViewChk2 = $partXb -split "[ⓡ]";
-if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {Group-View}}
-
-#$ExpandoFlex = $checkedItem.SubItems[0].Text
-#$stringX1 = $ExpandoFlex.Replace("◁", "`$(`$")
-#$stringX2 = $stringX1.Replace("▷", ")")
-#$ListViewCheckedExpand = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
+if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[ⓡ]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {if ($REFERENCE -ne 'DISABLED') {Group-View}}}
 
 $ListViewChecked = $checkedItem.SubItems[1].Text;$ListViewCheckedExpand = $checkedItem.SubItems[0].Text
 Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
@@ -5094,12 +5120,13 @@ $Label1_PageLBWiz.Text = "💾 Append Items"
 $Label2_PageLBWiz.Text = "Select a list"
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
 Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
-if ($ListMode -eq 'Execute') {if ($REFERENCE -ne 'LIVE') {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}
+if ($ListMode -eq 'Execute') {if ($REFERENCE -ne 'LIVE') {if ($REFERENCE -ne "Disabled") {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}}
 $PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront()}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5GRP {
-if ($REFERENCE -ne 'LIVE') {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH;$Label1_PageLBWiz.Text = "💾 Append Items";$Label2_PageLBWiz.Text = "Select a list"}
+if ($REFERENCE -ne 'LIVE') {if ($REFERENCE -ne "Disabled") {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}}
+$Label1_PageLBWiz.Text = "💾 Append Items";$Label2_PageLBWiz.Text = "Select a list"
 $ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem
 $parta, $partb, $partc = $ListViewSelectS5 -split '[{}]'
 if ($partb -eq "🧾 Create New List") {
@@ -5149,6 +5176,7 @@ function LoadSettings {
 $LoadINI = Get-Content -Path "$PSScriptRootX\windick.ini" | Select-Object -Skip 1
 $Settings = $LoadINI | ConvertFrom-StringData
 $global:REFERENCE = $Settings.REFERENCE
+if ($REFERENCE -eq "DISABLED") {$global:REFERENCE = "Disabled"}
 $global:GUI_SCALE = $Settings.GUI_SCALE
 $global:GUI_RESUME = $Settings.GUI_RESUME
 $global:GUI_CONFONT = $Settings.GUI_CONFONT
@@ -5496,7 +5524,6 @@ $Label5_PageSC = NewLabel -X '25' -Y '335' -W '585' -H '35' -Text 'GUI FontSize'
 $DropBox4_PageSC = NewDropBox -X '25' -Y '370' -W '190' -H '40' -C '0' -Text "$GUI_FONTSIZE"
 $Label6_PageSC = NewLabel -X '25' -Y '505' -W '585' -H '35' -Text 'GUI Appearance'
 $DropBox5_PageSC = NewDropBox -X '25' -Y '540' -W '190' -H '40' -C '0' -Text ""
-#$Add_CheckedChanged = {if ($Toggle1_PageSC.Checked) {$GUI_CONTYPE = 'Spawn';$Toggle1_PageSC.Text = "Enabled";} else {$GUI_CONTYPE = 'Embed';$Toggle1_PageSC.Text = "";}}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 $PageMain.Visible = $true;$PictureBoxConsole.SendToBack();$PictureBoxConsole.Visible = $false;$PageConsole.Visible = $false
@@ -5516,7 +5543,7 @@ $Label2_PageLBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Te
 $Button1_PageLBWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
 if ($LBWiz_Stage -eq '1') {$global:LBWiz_Stage = $null;$global:marked = $null;Button_PageLB}
 if ($LBWiz_Stage -eq '2') {
-if ($LBWiz_Type -eq 'MENU-SCRIPT') {if ($REFERENCE -ne 'LIVE') {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}}
+if ($LBWiz_Type -eq 'MENU-SCRIPT') {if ($REFERENCE -ne 'LIVE') {if ($REFERENCE -ne "Disabled") {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}}}
 if ($ListMode -eq 'Builder') {LBWiz_Stage1}
 if ($ListMode -eq 'Execute') {LEWiz_Stage1;$global:LBWiz_Stage = $null;$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront();return}}
 if ($LBWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;LBWiz_Stage2}
@@ -5605,7 +5632,7 @@ R0lGODlhgACAAPcAAAAAAB0MFjwAGUAAHUUAIEwAIksMKFMAKloAL2EZKmIAMWgMNW8MOXgMPms3JXNL
 [string]$logojpgB64=@"
 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
 "@
-$Page = 'PageConsole';$pictureBase64 = $shazzam_img;$PictureBoxConsole = NewPictureBox -X '910' -Y '576' -W '90' -H '90';$PictureBoxConsole.Visible = $false
+$Page = 'PageConsole';$pictureBase64 = $shazzam_img;$PictureBoxConsole = NewPictureBox -X '940' -Y '606' -W '60' -H '60';$PictureBoxConsole.Visible = $false
 $Page = 'PageSP';if ($BGIMG -eq 'Dark') {$pictureBase64 = $splashjpg1} else {$pictureBase64 = $splashjpg2}
 $PictureBox1_PageMain = NewPictureBox -X '120' -Y '75' -W '500' -H '500';
 $Page = 'PageMain';$Button_SP = NewPageButton -X '-5' -Y '630' -W '50' -H '40' -C '0' -Text '';$Button_SPImage = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($logobar));$Button_SP.Image = $Button_SPImage
