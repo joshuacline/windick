@@ -961,71 +961,102 @@
 
 
 
-❕Group❕🔣Unsorted❕🪛Add_Take_Ownership_context_menu❕Normal❕
-❕ⓠString1❕◁CacheFolder▷\TakeOwnership.reg❕String❕1❕
-❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁String1.S▷❕DX❕
+❕Group❕🔣Unsorted❕🪛Take Ownership Context Menu ➥ ◁Array1.S▷❕Normal❕
 ; Created by: Shawn Brink; Created on: September 6, 2021; Updated on: January 7, 2024
 ; Tutorial: https://www.elevenforum.com/t/add-take-ownership-to-context-menu-in-windows-11.1230/
-❕ⓠTextHost❕[-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[-HKEY_CLASSES_ROOT\*\shell\runas]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕@="Take Ownership"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"Extended"=-❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"HasLUAShield"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"NeverDefault"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[HKEY_CLASSES_ROOT\*\shell\TakeOwnership\command]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕@="powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"IsolatedCommand"= "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%%1\\\" && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕@="Take Ownership"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\Users\" OR System.ItemPathDisplay:=\"C:\\ProgramData\" OR System.ItemPathDisplay:=\"C:\\Windows\" OR System.ItemPathDisplay:=\"C:\\Windows\\System32\" OR System.ItemPathDisplay:=\"C:\\Program Files\" OR System.ItemPathDisplay:=\"C:\\Program Files (x86)\")"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"Extended"=-❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"HasLUAShield"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"Position"="middle"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership\command]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕@="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"IsolatedCommand"="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%%1\\\" /r /d ' + $Y + ' && icacls \\\"%%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[HKEY_CLASSES_ROOT\Drive\shell\runas]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕@="Take Ownership"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"Extended"=-❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"HasLUAShield"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"Position"="middle"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕[HKEY_CLASSES_ROOT\Drive\shell\runas\command]❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕@="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕File❗◁String1.S▷❕DX❕
-❕ⓠTextHost❕"IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕File❗◁String1.S▷❕DX❕
+❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership" /v ""❗1❗(Default)❕Command❕1❕
+❕ⓡArray1❕◁Routine1.S▷❕(Default)❗◁Null▷❕✅Enabled❗❎Disabled❕
+❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠString1❕◁CacheFolder▷\TakeOwnershipContextMenu.reg❕String❕1❕
+❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁String1.S▷❕DX❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\*\shell\TakeOwnership]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\*\shell\runas]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\*\shell\TakeOwnership]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="Take Ownership"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Extended"=-❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"HasLUAShield"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NeverDefault"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\*\shell\TakeOwnership\command]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%1\\\" && icacls \\\"%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"IsolatedCommand"= "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/c takeown /f \\\"%1\\\" && icacls \\\"%1\\\" /grant *S-1-3-4:F /t /c /l' -Verb runAs\""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="Take Ownership"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\Users\" OR System.ItemPathDisplay:=\"C:\\ProgramData\" OR System.ItemPathDisplay:=\"C:\\Windows\" OR System.ItemPathDisplay:=\"C:\\Windows\\System32\" OR System.ItemPathDisplay:=\"C:\\Program Files\" OR System.ItemPathDisplay:=\"C:\\Program Files (x86)\")"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Extended"=-❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"HasLUAShield"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Position"="middle"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership\command]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%1\\\" /r /d ' + $Y + ' && icacls \\\"%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"IsolatedCommand"="powershell -windowstyle hidden -command \"$Y = ($null | choice).Substring(1,1); Start-Process cmd -ArgumentList ('/c takeown /f \\\"%1\\\" /r /d ' + $Y + ' && icacls \\\"%1\\\" /grant *S-1-3-4:F /t /c /l /q') -Verb runAs\""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Drive\shell\runas]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="Take Ownership"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Extended"=-❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"HasLUAShield"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Position"="middle"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Drive\shell\runas\command]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\*\shell\TakeOwnership]❕File❗◁String1.S▷❕◁Array1.2▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\*\shell\runas]❕File❗◁String1.S▷❕◁Array1.2▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership]❕File❗◁String1.S▷❕◁Array1.2▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\Drive\shell\runas]❕File❗◁String1.S▷❕◁Array1.2▷❕
+❕ⓠCondit1❕◁String1.S▷❗Exist❕DX❕◁Null▷❕
+❕ⓠRegistry❕◁String1.S▷❕Import❗RATI❕◁Condit1.1▷❕
+❕ⓠFileOper❕◁String1.S▷❕Delete❕◁Condit1.1▷❕
+❕ⓠTextHost❕🪛Add Take Ownership Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔣Unsorted❕🪛Open PowerShell Here Context Menu ➥ ◁Array1.S▷❕Normal❕
+; Created by: Shawn Brink; Created on: December 19, 2023
+; Tutorial: https://www.elevenforum.com/t/add-or-remove-open-powershell-window-here-context-menu-in-windows-11.20899/
+❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell" /v ""❗1❗(Default)❕Command❕1❕
+❕ⓡArray1❕◁Routine1.S▷❕(Default)❗◁Null▷❕✅Enabled❗❎Disabled❕
+❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠString1❕◁CacheFolder▷\OpenPowershellContextMenu.reg❕String❕1❕
+❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁String1.S▷❕DX❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="@shell32.dll,-8508"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Extended"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"ShowBasedOnVelocityId"=dword:00639bc8❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell\command]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="powershell.exe -noexit -command Set-Location -literalPath "%V"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Directory\shell\Powershell]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="@shell32.dll,-8508"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Extended"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"ShowBasedOnVelocityId"=dword:00639bc8❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Directory\shell\Powershell\command]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="powershell.exe -noexit -command Set-Location -literalPath '%V'"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Drive\shell\Powershell]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="@shell32.dll,-8508"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"Extended"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"NoWorkingDirectory"=""❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕"ShowBasedOnVelocityId"=dword:00639bc8❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[◁HiveSoftware▷\Classes\Drive\shell\Powershell\command]❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕@="powershell.exe -noexit -command Set-Location -literalPath '%V'"❕File❗◁String1.S▷❕◁Array1.1▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell]❕File❗◁String1.S▷❕◁Array1.2▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\Directory\shell\Powershell]❕File❗◁String1.S▷❕◁Array1.2▷❕
+❕ⓠTextHost❕[-◁HiveSoftware▷\Classes\Drive\shell\Powershell]❕File❗◁String1.S▷❕◁Array1.2▷❕
 ❕ⓠCondit1❕◁String1.S▷❗Exist❕DX❕◁Null▷❕
 ❕ⓠRegistry❕◁String1.S▷❕Import❕◁Condit1.1▷❕
 ❕ⓠFileOper❕◁String1.S▷❕Delete❕◁Condit1.1▷❕
-❕ⓠTextHost❕🪛Add_Take_Ownership_context_menu ➥ applied.❕Screen❕DX❕
+❕ⓠTextHost❕🪛Add Open PowerShell Here Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Add_Open_PowerShell_window_here_context_menu❕Normal❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell❗◁Null▷❗@shell32.dll,-8508❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell❗Extended❗◁Null▷❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell❗NoWorkingDirectory❗◁Null▷❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell\command❗◁Null▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\shell\Powershell❗◁Null▷❗@shell32.dll,-8508❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\shell\Powershell❗Extended❗◁Null▷❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\shell\Powershell❗NoWorkingDirectory❗◁Null▷❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Directory\shell\Powershell\command❗◁Null▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Drive\shell\Powershell❗◁Null▷❗@shell32.dll,-8508❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Drive\shell\Powershell❗Extended❗◁Null▷❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Drive\shell\Powershell❗NoWorkingDirectory❗◁Null▷❗String❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Drive\shell\Powershell❗ShowBasedOnVelocityId❗6527944❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Classes\Drive\shell\Powershell\command❗◁Null▷❗powershell.exe -noexit -command Set-Location -literalPath ""%%%%V""❗String❕Create❕DX❕
-❕ⓠTextHost❕🪛Add_Open_PowerShell_window_here_context_menu ➥ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Copy As Path Context Menu❕Normal❕
-❕ⓠChoice1❕Select an option❕✅Add❗❎Remove❕VolaTILE❕
+❕Group❕🔣Unsorted❕🪛Copy As Path Context Menu ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu" /v ""❗1❗(Default)❕Command❕3❕
+❕ⓡArray1❕◁Routine1.S▷❕{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗◁Null▷❕✅Enabled❗❎Disabled❕
+❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁Null▷❗{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗String❕Create❕◁Array1.1▷❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❕Delete❕◁Array1.2▷❕
-❕ⓠTextHost❕🪛Copy As Path Context Menu ➥ applied.❕Screen❕DX❕
+❕ⓠTextHost❕🪛Copy As Path Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Built-In Administrator❕Normal❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -1043,7 +1074,7 @@
 ❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v "Enabled"❗1❗Enabled❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕00000001❗00000000❕
 ❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
 ❕ⓠTextHost❕[◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo]❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
 ❕ⓠTextHost❕"Enabled"=dword:◁Array1.S▷❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
@@ -1055,7 +1086,7 @@
 ❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState" /v ""❗1❗(Default)❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕00000001❗00000000❕
 ❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
 ❕ⓠTextHost❕[◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState]❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
 ❕ⓠTextHost❕@=dword:◁Array1.S▷❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
@@ -1067,7 +1098,7 @@
 ❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System" /v "TypeOfAdminApprovalMode"❗1❗TypeOfAdminApprovalMode❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x2❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠArray1❕◁Choice1.I▷❕00000001❗00000002❕DX❗DX❕
 ❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AdminApproval.reg❕DX❕
 ❕ⓠTextHost❕[◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System]❕File❗◁CacheFolder▷\AdminApproval.reg❕DX❕
 ❕ⓠTextHost❕"TypeOfAdminApprovalMode"=dword:◁Array1.S▷❕File❗◁CacheFolder▷\AdminApproval.reg❕◁Array1.S▷❕
@@ -1075,14 +1106,13 @@
 ❕ⓠFileOper❕◁CacheFolder▷\AdminApproval.reg❕Delete❕DX❕
 ❕ⓠTextHost❕🪛Administrator Approval Mode ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\FBD9AA66-9553-4097-BA44-ED6E9D65EAB8\DefaultPowerSchemeValues\7516b95f-f776-4464-8c53-06167f40cc99" /v "AcSettingIndex"❗1❗AcSettingIndex❕Command❕3❕
+❕Group❕🔣Unsorted❕🪛Content Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers" /v "CABCOption"❗1❗CABCOption❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\FBD9AA66-9553-4097-BA44-ED6E9D65EAB8\DefaultPowerSchemeValues\7516b95f-f776-4464-8c53-06167f40cc99❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\FBD9AA66-9553-4097-BA44-ED6E9D65EAB8\DefaultPowerSchemeValues\7516b95f-f776-4464-8c53-06167f40cc99❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠTextHost❕🪛Adaptive Brightness ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Content Adaptive Brightness ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
 
