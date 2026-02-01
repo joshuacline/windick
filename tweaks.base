@@ -605,7 +605,7 @@
 ❕ⓠTextHost❕📋Shutdown Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Component Based Servicing ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query ◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing" /v "EnableLog"❗1❗EnableLog❕Command❕3❕
+❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing" /v "EnableLog"❗1❗EnableLog❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
