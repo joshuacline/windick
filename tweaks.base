@@ -150,8 +150,6 @@
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗EnableFirstLogonAnimation❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛First Logon Waiting Screen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-
-
 ❕Group❕🪛Advertisements❕🪛Start Menu Ads ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations"❗1❗Start_IrisRecommendations❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
