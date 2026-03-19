@@ -1,4 +1,5 @@
 ﻿MENU-SCRIPT
+
 ❕Note❕Some settings may require restarting explorer.exe or a reboot to take effect. Schedule items for RunOnce 'RO' if having issues.❕
 
 ❕Group❕🪟Initial Setup❕🪪Create unattend.xml (Skips OOBE setup)❕Normal❕
@@ -121,7 +122,6 @@
 ❕ⓠTextHost❕unattend.xml located at ◁WinTar▷\Panther.❕Screen❕◁Condit1.1▷❕
 ❕ⓠTextHost❕◁Color4▷ERROR:◁ColorT▷ Unable to create unattend.xml at ◁WinTar▷\Panther.❕Screen❕◁Condit1.2▷❕
 
-
 ❕Group❕🪟Initial Setup❕🪪Create new admin❕Normal❕
 ❕ⓠPrompt1❕Enter the admin name 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
 ❕ⓠCommand❕Net User ◁Prompt1.S▷ /add >NUL❕Normal❕SC❕
@@ -141,7 +141,6 @@
 ❕ⓠCommand❕WMIC USERACCOUNT WHERE Name="◁Prompt1.S▷" SET PasswordExpires=FALSE >NUL❕Normal❕SC❕
 ❕ⓠTextHost❕🪪Create new user scheduled for SetupComplete.❕Screen❕DX❕
 
-
 ❕Group❕🪟Initial Setup❕🪛First Logon Waiting Screen ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation"❗1❗EnableFirstLogonAnimation❕Command❕3❕
 ❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
@@ -149,6 +148,8 @@
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗EnableFirstLogonAnimation❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛First Logon Waiting Screen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+
 
 ❕Group❕🪛Advertisements❕🪛Start Menu Ads ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations"❗1❗Start_IrisRecommendations❕Command❕3❕
@@ -173,6 +174,7 @@
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Bing Searchbox ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Copilot ➥ ◁Array1.S▷❕Normal❕
@@ -181,10 +183,8 @@
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠArray2❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗◁Array2.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Copilot ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 

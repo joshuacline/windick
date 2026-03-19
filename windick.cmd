@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1222 © github.com/joshuacline
+:: <# Windows Deployment Image Customization Kit v 1223 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -789,7 +789,8 @@ SET "SETS_LIST="&&EXIT /B
 :SETS_HANDLER
 IF NOT "%PROG_MODE%"=="RAMDISK" SET "ProgFolder=%ProgFolder0%"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%ProgFolder%" SET "ProgFolder=%ProgFolder0%"
-CD /D "%ProgFolder0%"&&IF EXIST "windick.ini" IF NOT DEFINED SETS_LOAD SET "SETS_LOAD=1"&&CALL:SETS_LOAD
+CD /D "%ProgFolder0%"&&IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "windick.ini" IF NOT DEFINED SETS_LOAD CALL:SETS_MAIN
+IF EXIST "windick.ini" IF NOT DEFINED SETS_LOAD SET "SETS_LOAD=1"&&CALL:SETS_LOAD
 CALL:SETS_LIST&&ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings>"windick.ini"
 FOR %%a in (%SETS_LIST%) DO (CALL ECHO.%%a=%%%%a%%>>"windick.ini")
 SET "SETS_LIST="&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" SET "HOST_GET=1"
@@ -1757,6 +1758,7 @@ IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
 CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 CALL %CMD% /C ""%ProgFolder%\windick.cmd" !$QCLM2$!"
+SET "MOUNT="&&CALL:MOUNT_INT
 EXIT /B
 :GROUP_ITEM
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
@@ -2462,7 +2464,6 @@ IF "%%a"=="TASK" %XXX1% ECHO.%X%%%a%X%%%b%X%DELETE%X%DX%X%RAS%X%>>"%XXX2%")
 SET "$LIST1="&&SET "$LIST2="&&CALL:CLEAN
 CALL:PAUSED
 EXIT /B
-::XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 :LIST_BASE_CREATE
 SET "$HEADERS=                           %U13% Miscellaneous%U01% %U01%                          Create Source Base"&&SET "$ITEMSTOP= ( %##%0%$$% ) All base list items"&&SET "$CHOICE_LIST=Appx%U01%Feature%U01%Component%U01%Capability%U01%Service%U01%Task%U01%Driver"&&SET "$VERBOSE=1"&&SET "$CHECKO=PATH"&&SET "$SELECT=BASE_CHOICE"&&CALL:CHOICE_BOX
 IF "%BASE_CHOICE%"=="0" SET "BASE_CHOICE=1 4 2 5 6 7 3"
@@ -2631,7 +2632,8 @@ EXIT /B
 :MOUNT_INT
 FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKLM\SoftwareX" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "MOUNT="&&IF "%DEBUG%"=="ENABLED" ECHO.Unmounting external registry hives..)
 IF "%MOUNT%"=="INT" EXIT /B
-SET "MOUNT=INT"&&SET "HiveUser=HKEY_CURRENT_USER"&&SET "HiveSoftware=HKEY_LOCAL_MACHINE\SOFTWARE"&&SET "HiveSystem=HKEY_LOCAL_MACHINE\SYSTEM"&&SET "ApplyTarget=ONLINE"&&SET "DrvTar=%SYSTEMDRIVE%"&&SET "WinTar=%WINDIR%"&&SET "UsrTar=%USERPROFILE%"
+SET "UsrFld="&&SET "MOUNT=INT"&&SET "HiveUser=HKEY_CURRENT_USER"&&SET "HiveSoftware=HKEY_LOCAL_MACHINE\SOFTWARE"&&SET "HiveSystem=HKEY_LOCAL_MACHINE\SYSTEM"&&SET "ApplyTarget=ONLINE"&&SET "DrvTar=%SYSTEMDRIVE%"&&SET "WinTar=%WINDIR%"&&SET "UsrTar=%USERPROFILE%"
+SET "UsrSid="&&FOR /F "TOKENS=2* SKIP=1 DELIMS=:\ " %%a in ('%REG% QUERY "HKLM\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUserSID 2^>NUL') do (IF "%%a"=="REG_SZ" SET "UsrSid=%%b")
 IF DEFINED UsrSid SET "HiveUser=HKEY_USERS\%UsrSid%"
 %REG% UNLOAD HKU\AllUsersX>NUL 2>&1
 %REG% UNLOAD HKLM\SoftwareX>NUL 2>&1
@@ -2641,21 +2643,33 @@ EXIT /B
 SET "$GO="&&FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKLM\SoftwareX" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "$GO=1")
 IF NOT DEFINED $GO SET "MOUNT="&&IF "%DEBUG%"=="ENABLED" ECHO.Mounting external registry hives..
 IF "%MOUNT%"=="EXT" EXIT /B
-SET "MOUNT=EXT"&&SET "HiveUser=HKEY_USERS\AllUsersX"&&SET "HiveSoftware=HKEY_LOCAL_MACHINE\SoftwareX"&&SET "HiveSystem=HKEY_LOCAL_MACHINE\SystemX"&&SET "ApplyTarget=IMAGE:%TARGET_PATH%"&&SET "DrvTar=%TARGET_PATH%"&&SET "WinTar=%TARGET_PATH%\Windows"&&SET "UsrTar=%TARGET_PATH%\Users\Default"
+SET "MOUNT=EXT"&&SET "HiveUser=HKEY_USERS\AllUsersX"&&SET "HiveSoftware=HKEY_LOCAL_MACHINE\SoftwareX"&&SET "HiveSystem=HKEY_LOCAL_MACHINE\SystemX"&&SET "ApplyTarget=IMAGE:%TARGET_PATH%"&&SET "DrvTar=%TARGET_PATH%"&&SET "WinTar=%TARGET_PATH%\Windows"
 %REG% UNLOAD HKU\AllUsersX>NUL 2>&1
 %REG% UNLOAD HKLM\SoftwareX>NUL 2>&1
 %REG% UNLOAD HKLM\SystemX>NUL 2>&1
-%REG% LOAD HKU\AllUsersX "%TARGET_PATH%\Users\Default\Ntuser.dat">NUL 2>&1
 %REG% LOAD HKLM\SoftwareX "%TARGET_PATH%\WINDOWS\SYSTEM32\Config\SOFTWARE">NUL 2>&1
+SET "UsrSid="&&FOR /F "TOKENS=2* SKIP=1 DELIMS=:\ " %%a in ('%REG% QUERY "HKLM\SoftwareX\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUserSID 2^>NUL') do (IF "%%a"=="REG_SZ" SET "UsrSid=%%b")
+SET "UsrFld="&&FOR /F "TOKENS=2-3* SKIP=1 DELIMS=:\ " %%a in ('%REG% QUERY "HKLM\SoftwareX\Microsoft\Windows NT\CurrentVersion\ProfileList\%UsrSid%" /v ProfileImagePath 2^>NUL') do (IF "%%a"=="REG_EXPAND_SZ" SET "UsrFld=%%c")
+IF DEFINED UsrFld IF EXIST "%TARGET_PATH%\%UsrFld%" SET "UsrTar=%TARGET_PATH%\%UsrFld%"
+IF DEFINED UsrFld IF NOT EXIST "%TARGET_PATH%\%UsrFld%" SET "UsrFld="
+IF NOT DEFINED UsrFld SET "UsrFld=Users\Default"&&SET "UsrTar=%TARGET_PATH%\Users\Default"
 %REG% LOAD HKLM\SystemX "%TARGET_PATH%\WINDOWS\SYSTEM32\Config\SYSTEM">NUL 2>&1
+%REG% LOAD HKU\AllUsersX "%UsrTar%\Ntuser.dat">NUL 2>&1
 EXIT /B
 :MOUNT_MIX
 FOR /F "TOKENS=1 DELIMS=\" %%X in ('%REG% QUERY "HKLM\SoftwareX" /VE 2^>NUL') DO (IF "%%X"=="HKEY_LOCAL_MACHINE" SET "MOUNT="&&IF "%DEBUG%"=="ENABLED" ECHO.Unmounting external registry hives..)
 IF "%MOUNT%"=="MIX" EXIT /B
-SET "MOUNT=MIX"&&SET "HiveUser=HKEY_CURRENT_USER"&&SET "HiveSoftware=HKEY_LOCAL_MACHINE\SOFTWARE"&&SET "HiveSystem=HKEY_LOCAL_MACHINE\SYSTEM"&&SET "ApplyTarget=IMAGE:%TARGET_PATH%"&&SET "DrvTar=%TARGET_PATH%"&&SET "WinTar=%TARGET_PATH%\Windows"&&SET "UsrTar=%TARGET_PATH%\Users\Default"
+SET "MOUNT=MIX"&&SET "HiveUser=HKEY_CURRENT_USER"&&SET "HiveSoftware=HKEY_LOCAL_MACHINE\SOFTWARE"&&SET "HiveSystem=HKEY_LOCAL_MACHINE\SYSTEM"&&SET "ApplyTarget=IMAGE:%TARGET_PATH%"&&SET "DrvTar=%TARGET_PATH%"&&SET "WinTar=%TARGET_PATH%\Windows"
 %REG% UNLOAD HKU\AllUsersX>NUL 2>&1
 %REG% UNLOAD HKLM\SoftwareX>NUL 2>&1
 %REG% UNLOAD HKLM\SystemX>NUL 2>&1
+%REG% LOAD HKLM\SoftwareX "%TARGET_PATH%\WINDOWS\SYSTEM32\Config\SOFTWARE">NUL 2>&1
+SET "UsrSid="&&FOR /F "TOKENS=2* SKIP=1 DELIMS=:\ " %%a in ('%REG% QUERY "HKLM\SoftwareX\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" /v LastLoggedOnUserSID 2^>NUL') do (IF "%%a"=="REG_SZ" SET "UsrSid=%%b")
+SET "UsrFld="&&FOR /F "TOKENS=2-3* SKIP=1 DELIMS=:\ " %%a in ('%REG% QUERY "HKLM\SoftwareX\Microsoft\Windows NT\CurrentVersion\ProfileList\%UsrSid%" /v ProfileImagePath 2^>NUL') do (IF "%%a"=="REG_EXPAND_SZ" SET "UsrFld=%%c")
+IF DEFINED UsrFld IF EXIST "%TARGET_PATH%\%UsrFld%" SET "UsrTar=%TARGET_PATH%\%UsrFld%"
+IF DEFINED UsrFld IF NOT EXIST "%TARGET_PATH%\%UsrFld%" SET "UsrFld="
+IF NOT DEFINED UsrFld SET "UsrFld=Users\Default"&&SET "UsrTar=%TARGET_PATH%\Users\Default"
+%REG% UNLOAD HKLM\SoftwareX>NUL 2>&1
 EXIT /B
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 :PACKAGE_MANAGEMENT
@@ -4580,11 +4594,13 @@ function ImportWim {
 $FilePath = "$ImageFolder";$FileFilt = "ISO files (*.iso)|*.iso";PickFile
 if ($Pick) {
 $Image = Mount-DiskImage -ImagePath "$Pick" -PassThru
-$drvLetter = ($Image | Get-Volume).DriveLetter
-$source = "$drvLetter`:\sources\install.wim";$target = "$FilePath"
+$drvLetter = ($Image | Get-Volume).DriveLetter;$target = "$FilePath"
+if (Test-Path -Path "$drvLetter`:\sources\install.esd") {$source = "$drvLetter`:\sources\install.esd"}
+if (Test-Path -Path "$drvLetter`:\sources\install.wim") {$source = "$drvLetter`:\sources\install.wim"}
 $objShell = New-Object -ComObject "Shell.Application"
 $objFolder = $objShell.NameSpace($target)
 $objFolder.CopyHere($source)
+if (Test-Path -Path "$target\install.esd") {Rename-Item -Path "$target\install.esd" -NewName "install.wim"}
 Dismount-DiskImage -DevicePath $Image.DevicePath}
 Button_PageW2V
 }
