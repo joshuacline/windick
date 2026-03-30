@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1223 © github.com/joshuacline
+:: <# Windows Deployment Image Customization Kit v 1224 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -293,9 +293,9 @@ ECHO.❕ⓠTextHost❕Condit1.S:◁Condit1.S▷ Condit1.I:◁Condit1.I▷ Condit
 ECHO.❕ⓠTextHost❕Condit2.S:◁Condit2.S▷ Condit2.I:◁Condit2.I▷ Condit2.1:◁Condit2.1▷ Condit2.2:◁Condit2.2▷❕Screen❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Builder non-interactive items❕🪛Array item❕Normal❕
-ECHO.❕Note❕Array items are similar to a condit item, except the condition is always 'EQ'. Basically it's an array of if's. Optional 5th column adds 'else' function.❕
-ECHO.❕ⓠArray1❕a❕a❗b❗c❕✅Array1 Option 1 selected❗✅Array1 Option 2 selected❗✅Array1 Option 3 selected❕
-ECHO.❕ⓠArray2❕1❕1❗2❗3❕✅Array2 0ption 1 selected❗✅Array2 Option 2 selected❗✅Array2 Option 3 selected❕✅Array2 Else 1 selected❗✅Array2 Else 2 selected❗✅Array2 Else 3 selected❕
+ECHO.❕Note❕Array items are similar to a condit item, except the condition is always 'EQ'. An array of if EQ's, optional '◁Else▷' needs to be placed last.❕
+ECHO.❕ⓠArray1❕a❕a❗a❗b❗c❗◁Else▷❕✅Array1 Option 1 selected❗✅Array1 Option 2 selected❗✅Array1 Option 3 selected❗✅Array1 Else selected❕
+ECHO.❕ⓠArray2❕1❕1❗1❗2❗3❗◁Else▷❕✅Array2 0ption 1 selected❗✅Array2 Option 2 selected❗✅Array2 Option 3 selected❗✅Array2 Else selected❕
 ECHO.❕ⓠTextHost❕Array1.S:◁Array1.S▷ Array1.I:◁Array1.I▷ Array1.1:◁Array1.1▷ Array1.2:◁Array1.2▷ Array1.3:◁Array1.3▷❕Screen❕DX❕
 ECHO.❕ⓠTextHost❕Array2.S:◁Array2.S▷ Array2.I:◁Array2.I▷ Array2.1:◁Array2.1▷ Array2.2:◁Array2.2▷ Array2.3:◁Array2.3▷❕Screen❕DX❕
 ECHO.
@@ -312,26 +312,29 @@ ECHO.❕ⓠTextHost❕String1.S:◁String1.S▷ String1.I:◁String1.I▷ String
 ECHO.❕ⓠTextHost❕String2.S:◁String2.S▷ String2.I:◁String2.I▷ String2.1:◁String2.1▷ String2.2:◁String2.2▷ String2.3:◁String2.3▷ String2.4:◁String2.4▷ String2.5:◁String2.5▷❕Screen❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Builder non-interactive items❕🪛Routine item❕Normal❕
-ECHO.❕Note❕Routine items are loop based. Routine1-9 are valid. 'Command' and 'Split' are usable options. Optional column number match seperated by '❗'. An asterisk can be used in column 4 as a tokens modifier eg '3*'.❕
+ECHO.❕Note❕Routine items are loop based. Routine1-9 are valid. 'Command', 'Split', and 'Registry' are usable options. Optional column number match seperated by '❗'. For 'Command' routines an asterisk can be used in column 4 as a tokens modifier eg '3*'.❕
 ECHO.❕ⓠRoutine1❕^<^>:❗DIR /B C:\❗1❗Program Files❕Command❕1❕
 ECHO.❕ⓠRoutine2❕:❗A:B:C❗3❗C❕Split❕2❕
 ECHO.❕X❕ⓠRoutine1❕^<^>:❗DIR /B C:\❕Command❕1❕
 ECHO.❕X❕ⓠRoutine2❕:❗A:B:C❕Split❕2❕
-ECHO.❕ⓠTextHost❕Routine1.S:◁Routine1.S▷ Routine1.I:◁Routine1.I▷  Routine1.1:◁Routine1.1▷ Routine1.2:◁Routine1.2▷ Routine1.3:◁Routine1.3▷❕Screen❕DX❕
+ECHO.❕Note❕For Routine Registry items 'String' and 'Integer' are usable options.❕
+ECHO.❕ⓡRoutine3❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowInfoTip❕Registry❕Integer❕
+ECHO.❕ⓠTextHost❕Routine1.S:◁Routine1.S▷ Routine1.I:◁Routine1.I▷  Routine1.1:◁Routine1.1▷ Routine1.2:◁Routine1.2▷❕Screen❕DX❕
 ECHO.❕ⓠTextHost❕Routine2.S:◁Routine2.S▷ Routine2.I:◁Routine2.I▷  Routine2.1:◁Routine2.1▷ Routine2.2:◁Routine2.2▷ Routine2.3:◁Routine2.3▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Routine3.S:◁Routine3.S▷ Routine3.I:◁Routine3.I▷  Routine3.1:◁Routine3.1▷ Routine3.2:◁Routine3.2▷❕Screen❕DX❕
 ECHO.
 ECHO.
 ECHO.
 ECHO.❗* Builder Reference List Items Example *❗
 ECHO.
 ECHO.❕Group❕🎨Reference Example❕🎨Theme ➥ ◁Array1.S▷❕Normal❕
-ECHO.❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme"❗1❗AppsUseLightTheme❕Command❕3❕
-ECHO.❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕🌑Dark❗🌕Light❗❔NoValue❕
+ECHO.❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
+ECHO.❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗🌑Dark❗🌕Light❗❔Unspecified❕
 ECHO.❕ⓠChoice1❕Select an option❕🌕Light theme❗🌑Dark theme❕VolaTILE❕
 ECHO.❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
-ECHO.❕ⓠTextHost❕◁Choice1.S▷ applied.❕Screen❕DX❕
+ECHO.❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+ECHO.❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕CreateECHO.❕DX❕
+ECHO.❕ⓠTextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
 ECHO.
 ECHO.
 ECHO.
@@ -1873,48 +1876,59 @@ IF "%WINPE_BOOT%"=="1" EXIT /B
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\SERVICES\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SC DELETE $RAS>NUL 2>&1)
 EXIT /B
 :ARRAY_ITEM
-SET "$IFELSE="
 IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item 
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=$QCLM2$"&&SET "$NULLED=1"&&CALL:EXPAND_INPUT
-SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM4!"&&SET "$OUTPUT=ACTN"&&CALL:EXPANDOFLEX
+SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM4!"&&SET "$OUTPUT=ACTN"&&SET "$NULLED=1"&&CALL:EXPANDOFLEX
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=MATCH"&&SET "$NULLED=1"&&CALL:EXPANDOFLEX
-IF /I NOT "!ACTN1!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH1$!" SET "!$QCLM1$!.I=1"&&SET "!$QCLM1$!.S=!$ACTN1$!"&&SET "!$QCLM1$!.1=!$ACTN1$!"&&SET "$IFELSE=1"
-IF /I NOT "!ACTN2!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH2$!" SET "!$QCLM1$!.I=2"&&SET "!$QCLM1$!.S=!$ACTN2$!"&&SET "!$QCLM1$!.2=!$ACTN2$!"&&SET "$IFELSE=2"
-IF /I NOT "!ACTN3!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH3$!" SET "!$QCLM1$!.I=3"&&SET "!$QCLM1$!.S=!$ACTN3$!"&&SET "!$QCLM1$!.3=!$ACTN3$!"&&SET "$IFELSE=3"
-IF /I NOT "!ACTN4!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH4$!" SET "!$QCLM1$!.I=4"&&SET "!$QCLM1$!.S=!$ACTN4$!"&&SET "!$QCLM1$!.4=!$ACTN4$!"&&SET "$IFELSE=4"
-IF /I NOT "!ACTN5!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH5$!" SET "!$QCLM1$!.I=5"&&SET "!$QCLM1$!.S=!$ACTN5$!"&&SET "!$QCLM1$!.5=!$ACTN5$!"&&SET "$IFELSE=5"
-IF /I NOT "!ACTN6!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH6$!" SET "!$QCLM1$!.I=6"&&SET "!$QCLM1$!.S=!$ACTN6$!"&&SET "!$QCLM1$!.6=!$ACTN6$!"&&SET "$IFELSE=6"
-IF /I NOT "!ACTN7!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH7$!" SET "!$QCLM1$!.I=7"&&SET "!$QCLM1$!.S=!$ACTN7$!"&&SET "!$QCLM1$!.7=!$ACTN7$!"&&SET "$IFELSE=7"
-IF /I NOT "!ACTN8!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH8$!" SET "!$QCLM1$!.I=8"&&SET "!$QCLM1$!.S=!$ACTN8$!"&&SET "!$QCLM1$!.8=!$ACTN8$!"&&SET "$IFELSE=8"
-IF /I NOT "!ACTN9!"=="◁NULL▷" IF /I "!$QCLM2$!"=="!$MATCH9$!" SET "!$QCLM1$!.I=9"&&SET "!$QCLM1$!.S=!$ACTN9$!"&&SET "!$QCLM1$!.9=!$ACTN9$!"&&SET "$IFELSE=9"
-IF NOT DEFINED $QCLM5$ EXIT /B
-SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM5!"&&SET "$OUTPUT=ELSE"&&CALL:EXPANDOFLEX
-IF /I NOT "!ELSE1!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH1$!" SET "!$QCLM1$!.1=!$ELSE1$!"&&IF "!$IFELSE!"=="1" SET "!$QCLM1$!.S=!$ELSE1$!"
-IF /I NOT "!ELSE2!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH2$!" SET "!$QCLM1$!.2=!$ELSE2$!"&&IF "!$IFELSE!"=="2" SET "!$QCLM1$!.S=!$ELSE2$!"
-IF /I NOT "!ELSE3!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH3$!" SET "!$QCLM1$!.3=!$ELSE3$!"&&IF "!$IFELSE!"=="3" SET "!$QCLM1$!.S=!$ELSE3$!"
-IF /I NOT "!ELSE4!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH4$!" SET "!$QCLM1$!.4=!$ELSE4$!"&&IF "!$IFELSE!"=="4" SET "!$QCLM1$!.S=!$ELSE4$!"
-IF /I NOT "!ELSE5!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH5$!" SET "!$QCLM1$!.5=!$ELSE5$!"&&IF "!$IFELSE!"=="5" SET "!$QCLM1$!.S=!$ELSE5$!"
-IF /I NOT "!ELSE6!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH6$!" SET "!$QCLM1$!.6=!$ELSE6$!"&&IF "!$IFELSE!"=="6" SET "!$QCLM1$!.S=!$ELSE6$!"
-IF /I NOT "!ELSE7!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH7$!" SET "!$QCLM1$!.7=!$ELSE7$!"&&IF "!$IFELSE!"=="7" SET "!$QCLM1$!.S=!$ELSE7$!"
-IF /I NOT "!ELSE8!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH8$!" SET "!$QCLM1$!.8=!$ELSE8$!"&&IF "!$IFELSE!"=="8" SET "!$QCLM1$!.S=!$ELSE8$!"
-IF /I NOT "!ELSE9!"=="◁NULL▷" IF /I NOT "!$QCLM2$!"=="!$MATCH9$!" SET "!$QCLM1$!.9=!$ELSE9$!"&&IF "!$IFELSE!"=="9" SET "!$QCLM1$!.S=!$ELSE9$!"
+IF /I NOT "!ACTN1!"=="◁NULL▷" IF /I NOT "!MATCH1!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH1$!" SET "!$QCLM1$!.I=1"&&SET "!$QCLM1$!.S=!$ACTN1$!"&&SET "!$QCLM1$!.1=!$ACTN1$!"&&EXIT /B
+IF /I NOT "!ACTN2!"=="◁NULL▷" IF /I NOT "!MATCH2!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH2$!" SET "!$QCLM1$!.I=2"&&SET "!$QCLM1$!.S=!$ACTN2$!"&&SET "!$QCLM1$!.2=!$ACTN2$!"&&EXIT /B
+IF /I NOT "!ACTN3!"=="◁NULL▷" IF /I NOT "!MATCH3!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH3$!" SET "!$QCLM1$!.I=3"&&SET "!$QCLM1$!.S=!$ACTN3$!"&&SET "!$QCLM1$!.3=!$ACTN3$!"&&EXIT /B
+IF /I NOT "!ACTN4!"=="◁NULL▷" IF /I NOT "!MATCH4!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH4$!" SET "!$QCLM1$!.I=4"&&SET "!$QCLM1$!.S=!$ACTN4$!"&&SET "!$QCLM1$!.4=!$ACTN4$!"&&EXIT /B
+IF /I NOT "!ACTN5!"=="◁NULL▷" IF /I NOT "!MATCH5!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH5$!" SET "!$QCLM1$!.I=5"&&SET "!$QCLM1$!.S=!$ACTN5$!"&&SET "!$QCLM1$!.5=!$ACTN5$!"&&EXIT /B
+IF /I NOT "!ACTN6!"=="◁NULL▷" IF /I NOT "!MATCH6!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH6$!" SET "!$QCLM1$!.I=6"&&SET "!$QCLM1$!.S=!$ACTN6$!"&&SET "!$QCLM1$!.6=!$ACTN6$!"&&EXIT /B
+IF /I NOT "!ACTN7!"=="◁NULL▷" IF /I NOT "!MATCH7!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH7$!" SET "!$QCLM1$!.I=7"&&SET "!$QCLM1$!.S=!$ACTN7$!"&&SET "!$QCLM1$!.7=!$ACTN7$!"&&EXIT /B
+IF /I NOT "!ACTN8!"=="◁NULL▷" IF /I NOT "!MATCH8!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH8$!" SET "!$QCLM1$!.I=8"&&SET "!$QCLM1$!.S=!$ACTN8$!"&&SET "!$QCLM1$!.8=!$ACTN8$!"&&EXIT /B
+IF /I NOT "!ACTN9!"=="◁NULL▷" IF /I NOT "!MATCH9!"=="◁ELSE▷" IF /I "!$QCLM2$!"=="!$MATCH9$!" SET "!$QCLM1$!.I=9"&&SET "!$QCLM1$!.S=!$ACTN9$!"&&SET "!$QCLM1$!.9=!$ACTN9$!"&&EXIT /B
+SET "$MATCH_XNT="&&FOR %%□ IN (1 2 3 4 5 6 7 8 9) DO (IF DEFINED MATCH%%□ SET "$MATCH_XNT=%%□")
+SET "ACTNX=!ACTN%$MATCH_XNT%!"&&SET "$ACTNX$=!$ACTN%$MATCH_XNT%$!"&&SET "MATCHX=!MATCH%$MATCH_XNT%!"&&SET "$MATCHX$=!$MATCH%$MATCH_XNT%$!"
+IF /I NOT "!ACTNX!"=="◁NULL▷" IF /I "!MATCHX!"=="◁ELSE▷" SET "!$QCLM1$!.I=%$MATCH_XNT%"&&SET "!$QCLM1$!.S=!$ACTNX$!"&&SET "!$QCLM1$!.%$MATCH_XNT%=!$ACTNX$!"
 EXIT /B
 :ROUTINE_ITEM
 IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
 CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
-SET "$PASS="&&FOR %%□ IN (SPLIT COMMAND) DO (IF /I "!$QCLM3$!"=="%%□" SET "$PASS=1")
-IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not SPLIT or COMMAND.&&EXIT /B
+SET "$PASS="&&FOR %%□ IN (SPLIT COMMAND REGISTRY) DO (IF /I "!$QCLM3$!"=="%%□" SET "$PASS=1")
+IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not SPLIT, COMMAND, or REGISTRY.&&EXIT /B
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM2!"&&SET "$OUTPUT=ROUT"&&CALL:EXPANDOFLEX
+IF /I "!$QCLM3$!"=="REGISTRY" FOR %%□ IN ($ROUT1$ $ROUT2$) DO (IF NOT DEFINED %%□ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 is not valid. Example: 'HKCU❗FontSize'&&EXIT /B)
 IF /I "!$QCLM3$!"=="COMMAND" FOR %%□ IN ($ROUT1$ $ROUT2$) DO (IF NOT DEFINED %%□ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 is not valid. Example: '^<^>❗DIR C:\ /B❗1❗TEST.TXT' or '^<^>❗DIR C:\ /B'&&EXIT /B)
 IF /I "!$QCLM3$!"=="SPLIT" FOR %%□ IN ($ROUT1$ $ROUT2$) DO (IF NOT DEFINED %%□ ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 is not valid. Example: ':❗A:B:C❗3❗C' or ':❗A:B:C'&&EXIT /B)
+GOTO:ROUTINE_%$QCLM3$%
+:ROUTINE_REGISTRY
+SET "$ROUTX$="&&SET "$INTG="
+IF /I "!$QCLM4$!"=="INTEGER" SET "$INTG=/A "
+IF /I "!ROUT2!"=="◁NULL▷" (SET "$ROUT2$=(Default)") ELSE (SET "$ROUTX$=!$ROUT2$!")
+SET /A "$VAL_RETRY=1"&&FOR /F "TOKENS=1-9 DELIMS= " %%1 in ("!$ROUT2$!") do (IF NOT "%%1"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%2"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%3"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%4"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%5"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%6"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%7"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%8"=="" SET /A "$VAL_RETRY+=1"&&IF NOT "%%9"=="" SET /A "$VAL_RETRY+=1")
+FOR /F "TOKENS=1-%$VAL_RETRY%* SKIP=2 DELIMS=	 " %%1 in ('reg.exe query "!$ROUT1$!" /v "!$ROUTX$!" 2^>NUL') DO (
+IF "!$VAL_RETRY!"=="2" IF /I "%%1"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%3"&&SET %$INTG%"!$QCLM1$!.1=%%3"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B
+IF "!$VAL_RETRY!"=="3" IF /I "%%1 %%2"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%4"&&SET %$INTG%"!$QCLM1$!.1=%%4"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B
+IF "!$VAL_RETRY!"=="4" IF /I "%%1 %%2 %%3"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%5"&&SET %$INTG%"!$QCLM1$!.1=%%5"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B
+IF "!$VAL_RETRY!"=="5" IF /I "%%1 %%2 %%3 %%4"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%6"&&SET %$INTG%"!$QCLM1$!.1=%%6"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B
+IF "!$VAL_RETRY!"=="6" IF /I "%%1 %%2 %%3 %%4 %%5"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%7"&&SET %$INTG%"!$QCLM1$!.1=%%7"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B
+IF "!$VAL_RETRY!"=="7" IF /I "%%1 %%2 %%3 %%4 %%5 %%6"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%8"&&SET %$INTG%"!$QCLM1$!.1=%%8"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B
+IF "!$VAL_RETRY!"=="8" IF /I "%%1 %%2 %%3 %%4 %%5 %%6 %%7"=="!$ROUT2$!" SET %$INTG%"!$QCLM1$!.S=%%9"&&SET %$INTG%"!$QCLM1$!.1=%%9"&&SET /A "!$QCLM1$!.I=1"&&EXIT /B)
+EXIT /B
+:ROUTINE_COMMAND
 SET "$TOKENS=9"&&FOR /F "TOKENS=1 DELIMS=*" %%● IN ("!$QCLM4$!") DO (IF NOT "%%●"=="!$QCLM4$!" SET "$QCLM4$=%%●"&&SET "$TOKENS=%%●"&&SET /A "$TOKENS-=1"&&SET "$TOKENS=!$TOKENS!*")
-IF /I "!$QCLM3$!"=="COMMAND" FOR /F "TOKENS=1-%$TOKENS% DELIMS=%$ROUT1$%" %%1 in ('!$ROUT2$! 2^>NUL') DO (
+FOR /F "TOKENS=1-%$TOKENS% DELIMS=%$ROUT1$%" %%1 in ('!$ROUT2$! 2^>NUL') DO (
 IF NOT DEFINED $ROUT3$ SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET "!$QCLM1$!.1=%%%$QCLM4$%"&&SET /A "!$QCLM1$!.I=1"
 IF DEFINED $ROUT3$ IF /I "!$ROUT4$!"=="%%%$ROUT3$%" SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET "!$QCLM1$!.1=%%%$QCLM4$%"&&SET "!$QCLM1$!.I=1")
-IF /I "!$QCLM3$!"=="SPLIT" FOR /F "TOKENS=1-%$TOKENS% DELIMS=%$ROUT1$%" %%1 in ("!$ROUT2$!") DO (
+EXIT /B
+:ROUTINE_SPLIT
+SET "$TOKENS=9"&&FOR /F "TOKENS=1 DELIMS=*" %%● IN ("!$QCLM4$!") DO (IF NOT "%%●"=="!$QCLM4$!" SET "$QCLM4$=%%●"&&SET "$TOKENS=%%●"&&SET /A "$TOKENS-=1"&&SET "$TOKENS=!$TOKENS!*")
+FOR /F "TOKENS=1-%$TOKENS% DELIMS=%$ROUT1$%" %%1 in ("!$ROUT2$!") DO (
 IF NOT "%%1"=="" SET "!$QCLM1$!.1=%%1"&&IF NOT "%%2"=="" SET "!$QCLM1$!.2=%%2"&&IF NOT "%%3"=="" SET "!$QCLM1$!.3=%%3"&&IF NOT "%%4"=="" SET "!$QCLM1$!.4=%%4"&&IF NOT "%%5"=="" SET "!$QCLM1$!.5=%%5"&&IF NOT "%%6"=="" SET "!$QCLM1$!.6=%%6"&&IF NOT "%%7"=="" SET "!$QCLM1$!.7=%%7"&&IF NOT "%%8"=="" SET "!$QCLM1$!.8=%%8"&&IF NOT "%%9"=="" SET "!$QCLM1$!.9=%%9"
 IF NOT DEFINED $ROUT3$ SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET /A "!$QCLM1$!.I=!$QCLM4$!"
 IF DEFINED $ROUT3$ IF /I "!$ROUT4$!"=="%%%$ROUT3$%" SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET "!$QCLM1$!.I=!$QCLM4$!")
@@ -3589,30 +3603,28 @@ function Group-View {$ListItem = "";
 if ($partXb -eq "ⓡRoutine1") {$ListItem = "Routine";$global:Routine1 = ""}
 if ($partXb -eq "ⓡArray1") {$ListItem = "Array";$global:Array1 = ""}
 if ($ListItem -eq "Array") {$ifX = ""
-if ($partXc) {if ($partXc -ne "◁Null▷") {$stringX1 = $partXc.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$partXc = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($partXc)) {$partXc = "◁Null▷"}}
-}
+if ($partXc) {if ($partXc -ne "◁Null▷") {$stringX1 = $partXc.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$partXc = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($partXc)) {$partXc = "◁Null▷"}}}
 if ($partXd) {$if1, $if2, $if3, $if4, $if5, $if6, $if7, $if8, $if9, $if10 = $partXd -split "[❗]"
-if ($if1) {if ($if1 -ne "◁Null▷") {$stringX1 = $if1.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if1 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if1)) {$if1 = "◁Null▷"}}}
-if ($if2) {if ($if2 -ne "◁Null▷") {$stringX1 = $if2.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if2 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if2)) {$if2 = "◁Null▷"}}}
-if ($if3) {if ($if3 -ne "◁Null▷") {$stringX1 = $if3.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if3)) {$if3 = "◁Null▷"}}}
-if ($if4) {if ($if4 -ne "◁Null▷") {$stringX1 = $if4.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if4 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if4)) {$if4 = "◁Null▷"}}}
-if ($if5) {if ($if5 -ne "◁Null▷") {$stringX1 = $if5.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if5 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if5)) {$if5 = "◁Null▷"}}}
-if ($if6) {if ($if6 -ne "◁Null▷") {$stringX1 = $if6.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if6 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if6)) {$if6 = "◁Null▷"}}}
-if ($if7) {if ($if7 -ne "◁Null▷") {$stringX1 = $if7.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if7 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if7)) {$if7 = "◁Null▷"}}}
-if ($if8) {if ($if8 -ne "◁Null▷") {$stringX1 = $if8.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if8 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if8)) {$if8 = "◁Null▷"}}}
-if ($if9) {if ($if9 -ne "◁Null▷") {$stringX1 = $if9.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if9 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if9)) {$if9 = "◁Null▷"}}}
-}
 if ($partXe) {$do1, $do2, $do3, $do4, $do5, $do6, $do7, $do8, $do9, $do10 = $partXe -split "[❗]"
-if ($do1) {if ($do1 -ne "◁Null▷") {$stringX1 = $do1.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do1 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if1") {$ArrayX = $do1;$ifX = 1}}}
-if ($do2) {if ($do2 -ne "◁Null▷") {$stringX1 = $do2.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do2 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if2") {$ArrayX = $do2;$ifX = 2}}}
-if ($do3) {if ($do3 -ne "◁Null▷") {$stringX1 = $do3.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if3") {$ArrayX = $do3;$ifX = 3}}}
-if ($do4) {if ($do4 -ne "◁Null▷") {$stringX1 = $do4.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do4 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if4") {$ArrayX = $do4;$ifX = 4}}}
-if ($do5) {if ($do5 -ne "◁Null▷") {$stringX1 = $do5.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do5 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if5") {$ArrayX = $do5;$ifX = 5}}}
-if ($do6) {if ($do6 -ne "◁Null▷") {$stringX1 = $do6.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do6 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if6") {$ArrayX = $do6;$ifX = 6}}}
-if ($do7) {if ($do7 -ne "◁Null▷") {$stringX1 = $do7.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do7 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if7") {$ArrayX = $do7;$ifX = 7}}}
-if ($do8) {if ($do8 -ne "◁Null▷") {$stringX1 = $do8.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do8 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if8") {$ArrayX = $do8;$ifX = 8}}}
-if ($do9) {if ($do9 -ne "◁Null▷") {$stringX1 = $do9.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do9 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if9") {$ArrayX = $do9;$ifX = 9}}}
-}
+if ($if1) {if ($do1) {if ($if1 -ne "◁Null▷") {if ($if1 -ne "◁Else▷") {$stringX1 = $if1.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if1 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if1)) {$if1 = "◁Null▷"}}}
+if ($do1 -ne "◁Null▷") {$stringX1 = $do1.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do1 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if1") {$ArrayX = $do1;$ifX = 1} else {if ($if1 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do1;$ifX = 1}}}}}}
+if ($if2) {if ($do2) {if ($if2 -ne "◁Null▷") {if ($if2 -ne "◁Else▷") {$stringX1 = $if2.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if2 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if2)) {$if3 = "◁Null▷"}}}
+if ($do2 -ne "◁Null▷") {$stringX1 = $do2.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do2 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if2") {$ArrayX = $do2;$ifX = 2} else {if ($if2 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do2;$ifX = 2}}}}}}
+if ($if3) {if ($do3) {if ($if3 -ne "◁Null▷") {if ($if3 -ne "◁Else▷") {$stringX1 = $if3.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if3)) {$if3 = "◁Null▷"}}}
+if ($do3 -ne "◁Null▷") {$stringX1 = $do3.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if3") {$ArrayX = $do3;$ifX = 3} else {if ($if3 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do3;$ifX = 3}}}}}}
+if ($if4) {if ($do4) {if ($if4 -ne "◁Null▷") {if ($if4 -ne "◁Else▷") {$stringX1 = $if4.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if4 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if4)) {$if4 = "◁Null▷"}}}
+if ($do4 -ne "◁Null▷") {$stringX1 = $do4.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do4 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if4") {$ArrayX = $do4;$ifX = 4} else {if ($if4 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do4;$ifX = 4}}}}}}
+if ($if5) {if ($do5) {if ($if5 -ne "◁Null▷") {if ($if5 -ne "◁Else▷") {$stringX1 = $if5.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if5 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if5)) {$if5 = "◁Null▷"}}}
+if ($do5 -ne "◁Null▷") {$stringX1 = $do5.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do5 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if5") {$ArrayX = $do5;$ifX = 5} else {if ($if5 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do5;$ifX = 5}}}}}}
+if ($if6) {if ($do6) {if ($if6 -ne "◁Null▷") {if ($if6 -ne "◁Else▷") {$stringX1 = $if6.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if6 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if6)) {$if6 = "◁Null▷"}}}
+if ($do6 -ne "◁Null▷") {$stringX1 = $do6.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do6 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if6") {$ArrayX = $do6;$ifX = 6} else {if ($if6 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do6;$ifX = 6}}}}}}
+if ($if7) {if ($do7) {if ($if7 -ne "◁Null▷") {if ($if7 -ne "◁Else▷") {$stringX1 = $if7.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if7 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if7)) {$if7 = "◁Null▷"}}}
+if ($do7 -ne "◁Null▷") {$stringX1 = $do7.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do7 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if7") {$ArrayX = $do7;$ifX = 7} else {if ($if7 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do7;$ifX = 7}}}}}}
+if ($if8) {if ($do8) {if ($if8 -ne "◁Null▷") {if ($if8 -ne "◁Else▷") {$stringX1 = $if8.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if8 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if8)) {$if8 = "◁Null▷"}}}
+if ($do8 -ne "◁Null▷") {$stringX1 = $do8.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do8 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if8") {$ArrayX = $do8;$ifX = 8} else {if ($if8 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do8;$ifX = 8}}}}}}
+if ($if9) {if ($do9) {if ($if9 -ne "◁Null▷") {if ($if9 -ne "◁Else▷") {$stringX1 = $if9.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$if9 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($if9)) {$if9 = "◁Null▷"}}}
+if ($do9 -ne "◁Null▷") {$stringX1 = $do9.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$do9 = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if ($partXc -eq "$if9") {$ArrayX = $do9;$ifX = 9} else {if ($if9 -eq "◁Else▷") {if (-not ($ifX)) {$ArrayX = $do9;$ifX = 9}}}}}}
+}}
 if ($ifX) {
 $global:Array1 = [PSCustomObject]@{
 I = "$ifX"
@@ -3620,6 +3632,29 @@ S = "$ArrayX"
 $ifX = "$ArrayX"}
 }}
 if ($ListItem -eq "Routine") {$RoutineX = ""
+if ($partXd -eq "Registry") {
+if ($partXc) {$regkeyX, $regvalX = $partXc -split "[❗]"}
+if ($regvalX -eq "◁NULL▷") {$regvalZ = "(Default)";$regvalX = ""} else {$regvalZ = "$regvalX"}
+$stringX1 = $regkeyX.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")")
+$stringX3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
+$stringV1 = $regvalX.Replace("◁", "`$(`$");$stringV2 = $stringV1.Replace("▷", ")")
+$stringV3 = $ExecutionContext.InvokeCommand.ExpandString($stringV2)
+$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=* SKIP=2`" %1 in ('reg.exe query `"$stringX3`" /v `"$stringV3`" 2^>NUL') do (echo %1)" }
+$scriptblockZ = [scriptblock]::create($scriptblockX)
+$commandX = Invoke-command $scriptblockZ
+Foreach ($line in $commandX) {
+$Part1g, $Part2g, $Part3g = $line -split '    '
+if ($Part1g -eq $regvalZ) {$RoutineX = $Part3g}
+if ($RoutineX) {
+$stringX1 = $RoutineX.Replace("◁", "`$(`$")
+$stringX2 = $stringX1.Replace("▷", ")")
+$RoutineX = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
+if ($partXe -eq 'Integer') {$RoutineX = $RoutineX.Replace("0x", "")}}
+$global:Routine1 = [PSCustomObject]@{
+I = "1"
+S = "$RoutineX"
+1 = "$RoutineX"
+}}}
 if ($partXd -eq "Command") {
 if ($partXc) {$delims, $command, $columntar, $columnstr = $partXc -split "[❗]"}
 $stringX1 = $command.Replace("◁", "`$(`$")

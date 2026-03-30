@@ -142,77 +142,85 @@
 ❕ⓠTextHost❕🪪Create new user scheduled for SetupComplete.❕Screen❕DX❕
 
 ❕Group❕🪟Initial Setup❕🪛First Logon Waiting Screen ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableFirstLogonAnimation"❗1❗EnableFirstLogonAnimation❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗EnableFirstLogonAnimation❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗EnableFirstLogonAnimation❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗EnableFirstLogonAnimation❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛First Logon Waiting Screen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
 
 ❕Group❕🪛Advertisements❕🪛Start Menu Ads ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_IrisRecommendations"❗1❗Start_IrisRecommendations❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Start Menu Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Spotlight Ads ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled"❗1❗SubscribedContent-338387Enabled❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Spotlight Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Bing Searchbox ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableSearchSuggestions"❗1❗DisableSearchSuggestions❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Bing Searchbox ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Copilot ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v "TurnOffWindowsCopilot"❗1❗TurnOffWindowsCopilot❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠArray2❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗◁Array2.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Copilot ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
 
-❕Group❕🎨Appearance❕❎Taskbar Animations ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAnimations"❗1❗TaskbarAnimations❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕Group❕🎨Appearance❕🪛Accent Color ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗ColorPrevalence❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗ColorPrevalence❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Accent Color ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Taskbar Animations ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕❎Taskbar Animations ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🎨Theme ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme"❗1❗AppsUseLightTheme❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕🌑Dark❗🌕Light❗❔NoValue❕
+❕Group❕🎨Appearance❕🪛Theme ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗🌑Dark❗🌕Light❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕🌕Light theme❗🌑Dark theme❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🎨Appearance❕🪛Taskbar Size ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSi"❗1❗TaskbarSi❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗0x2❗◁Null▷❕Small❗Medium❗Large❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗2❗◁Else▷❕❔Unconfigured❗Small❗Medium❗Large❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕🪛Small❗🪛Medium❗🪛Large❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❗3❕0❗1❗2❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕◁Choice1.S▷ Taskbar  ➥ applied.❕Screen❕DX❕
 
 
@@ -224,24 +232,24 @@
 ❕ⓠTextHost❕⏳Boot Menu Timeout ➥ ◁Choice1.S▷s applied.❕Screen❕RO❕
 
 ❕Group❕🪟Startup❕🪛RunOnce initialization ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer" /v "AsyncRunOnce"❗1❗AsyncRunOnce❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕RunOnce first❗Desktop first❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗RunOnce first❗Desktop first❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕🪛RunOnce initializes first❗🪛Desktop initializes first❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🪟Startup❕🪛Skip preparing desktop ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "DelayedDesktopSwitchTimeout"❗1❗DelayedDesktopSwitchTimeout❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Skip preparing desktop ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪟Startup❕🪛WinLogon verbose output ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "VerboseStatus"❗1❗VerboseStatus❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❗◁Array1.S▷❗Dword❕Create❕DX❕
@@ -250,8 +258,8 @@
 
 
 ❕Group❕🛜Network❕❎Cloud content ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent" /v "SearchSuggestions"❗1❗SearchSuggestions❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠArray2❕◁Choice1.I▷❕1❗2❕0❗1❕
@@ -263,8 +271,8 @@
 
 
 ❕Group❕🛜Network❕🛜Bluetooth discovery ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth" /v "AllowAdvertising"❗1❗AllowAdvertising❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❗◁Array1.S▷❗Dword❕Create❕DX❕
@@ -274,44 +282,45 @@
 ❕ⓠTextHost❕❎Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🛜Network❕🛜Link layer topology discovery ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD" /v "EnableRspndr"❗1❗EnableRspndr❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🛜Link layer topology discovery ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🛜Network❕🪛Network access for explorer.exe ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith"❗1❗NoInternetOpenWith❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Assistance\Client\1.0❗NoOnlineAssist❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Assistance\Client\1.0❗NoOnlineAssist❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Network access for explorer.exe ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🛜Network❕🪛Network access for driver search ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig"❗1❗SearchOrderConfig❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Network access for driver search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🛜Network❕🪛Network access for Windows store ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoUseStoreOpenWith"❗1❗NoUseStoreOpenWith❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\WindowsStore❗RemoveWindowsStore❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Network access for Windows store ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🛜Network❕🪛Prioritize Traffic❕Normal❕
 ❕ⓠChoice1❕Select an option❕🪛Ethernet❗🪛WiFi❕VolaTILE❕
-❕ⓠArray1❕◁Choice1.I▷❕1❗2❕5❗5❕10❗10❕
-❕ⓠCommand❕NETSH interface ipv4 SET interface "Ethernet" metric=◁Array1.1▷ >NUL❕Normal❕RO❕
-❕ⓠCommand❕NETSH interface ipv4 SET interface "Wi-Fi" metric=◁Array1.2▷ >NUL❕Normal❕RO❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕5❗10❕
+❕ⓠArray2❕◁Choice1.I▷❕1❗2❕10❗5❕
+❕ⓠCommand❕NETSH interface ipv4 SET interface "Ethernet" metric=◁Array1.S▷ >NUL❕Normal❕RO❕
+❕ⓠCommand❕NETSH interface ipv4 SET interface "Wi-Fi" metric=◁Array2.S▷ >NUL❕Normal❕RO❕
 ❕ⓠTextHost❕🪛Prioritize Traffic ➥ ◁Choice1.S▷ Traffic applied.❕Screen❕RO❕
 
 
@@ -357,224 +366,224 @@
 
 
 ❕Group❕🔏Consent Store❕🪛activity ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store activity ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛accessoryManager ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store accessoryManager ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛appDiagnostics ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store appDiagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛appointments ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store appointments ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛backgroundSpatialPerception ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store backgroundSpatialPerception ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛bluetooth ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store bluetooth ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛bluetoothSync ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store bluetoothSync ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛broadFileSystemAccess ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store broadFileSystemAccess ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛cellularData ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store cellularData ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛chat ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store chat ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛contacts ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store contacts ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛documentsLibrary ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store documentsLibrary ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛email ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store email ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛internetClient ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store internetClient ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛location ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store location ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛locationHistory ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store locationHistory ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛microphone ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store microphone ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛phoneCall ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store phoneCall ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛phoneCallHistory ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store phoneCallHistory ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛picturesLibrary ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store picturesLibrary ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛proximity ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store proximity ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛radios ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store radios ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛sms ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store sms ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛userAccountInformation ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store userAccountInformation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛userDataTasks ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store userDataTasks ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛userNotificationListener ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store userNotificationListener ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛videosLibrary ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🔏Consent Store videosLibrary ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔏Consent Store❕🪛webcam ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" /v "Value"❗1❗Value❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Allow❗Deny❗◁Null▷❕✅Allow❗❎Deny❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam❗Value❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Allow❗Deny❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam❗Value❗◁Array1.S▷❗String❕Create❕DX❕
@@ -583,52 +592,52 @@
 
 
 ❕Group❕📋Trackers / Loggers❕🪛Boot Diagnostics ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠArray2❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\SecondaryLogonCKCLSettings❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Siuf\Rules❗PeriodInNanoSeconds❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Siuf\Rules❗NumberOfSIUFInPeriod❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Siuf\Rules❗PeriodInNanoSeconds❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Siuf\Rules❗NumberOfSIUFInPeriod❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Boot  Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Shutdown Diagnostics ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings"❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Shutdown Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Component Based Servicing ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing" /v "EnableLog"❗1❗EnableLog❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Component Based Servicing ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Circular Kernel Context ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Circular Kernel Context ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛CloudExperienceHostOobe ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋CloudExperienceHostOobe ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛DiagLog ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\DiagLog" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\DiagLog❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠArray2❕◁Choice1.I▷❕1❗2❕0❗1❕
@@ -637,128 +646,128 @@
 ❕ⓠTextHost❕📋DiagLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Diagtrack Listener ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Diagtrack Listener ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛FaceTel ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋FaceTel ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Graphics RdpIdd Trace ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Graphics RdpIdd Trace ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛HolographicDevice ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋HolographicDevice ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛LwtNetLog ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋LwtNetLog Disable ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛NetCore ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋NetCore ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛NtfsLog ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋NtfsLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛RadioMgr ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋RadioMgr ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛ReadyBoot ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋ReadyBoot ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛ReFSLog ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋ReFSLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Spooler ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋Spooler ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛SQM ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋SQM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛UBPM ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋UBPM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛WdiContextLog ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋WdiContextLog ➥ Disable applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛WiFiSession ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession" /v "Start"❗1❗Start❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕📋WiFiSession ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛WMI - WBEM ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\WBEM\CIMOM" /v "Logging"❗1❗Logging❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕1❗0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\WBEM\CIMOM❗Logging❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\WBEM\CIMOM❗Logging❗0❗String❕Create❕DX❕
@@ -786,51 +795,59 @@
 
 
 
+❕Group❕🪛Miscellaneous❕🪛Apps for Websites ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Apps for Websites ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
 ❕Group❕🪛Miscellaneous❕🪛Notification center ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter"❗1❗DisableNotificationCenter❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗◁Array1.S▷ ❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗◁Array1.S▷ ❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Notification center ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Background applications  ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v "GlobalUserDisabled"❗1❗GlobalUserDisabled❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠArray2❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Edge❗BackgroundModeEnabled❗◁Array2.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Background applications ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛DCOM ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Ole" /v "EnableDCOM"❗1❗EnableDCOM❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕Y❗N❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗Y❗N❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕Y❗N❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❗◁Array1.S▷❗String❕Create❕DX❕
 ❕ⓠTextHost❕🪛DCOM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Driver updates ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate" /v "ExcludeWUDriversInQualityUpdate"❗1❗ExcludeWUDriversInQualityUpdate❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❗◁Array2.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Driver updates ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Driver updates search ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching" /v "DriverUpdateWizardWuSearchEnabled"❗1❗DriverUpdateWizardWuSearchEnabled❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Driver updates search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Wakelocks other ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex"❗1❗AcSettingIndex❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
@@ -838,8 +855,8 @@
 ❕ⓠTextHost❕🪛Wakelocks other ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Wakelocks network ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e" /v "AcSettingIndex"❗1❗AcSettingIndex❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
@@ -847,12 +864,19 @@
 ❕ⓠTextHost❕🪛Wakelocks network ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Lockscreen ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization" /v "NoLockScreen"❗1❗NoLockScreen❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x0❗0x1❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕0❗1❕
 ❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Lockscreen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Inactivity Lockout Timeout ➥ ◁Array1.S▷s❕Normal❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Routine1.S▷❗◁Null▷❕◁Routine1.S▷❗❔Unconfigured❕
+❕ⓠPrompt1❕Enter inactivity lockout timeout in seconds: 0-500000 (Disabled=0)❕Number❗0-500000❕VolaTILE❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❗◁Prompt1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Inactivity Lockout Timeout ◁Prompt1.S▷s  ➥ applied.❕Screen❕DX❕
 
 
 
@@ -962,8 +986,8 @@
 ❕Group❕🔣Unsorted❕🪛Take Ownership Context Menu ➥ ◁Array1.S▷❕Normal❕
 ; Created by: Shawn Brink; Created on: September 6, 2021; Updated on: January 7, 2024
 ; Tutorial: https://www.elevenforum.com/t/add-take-ownership-to-context-menu-in-windows-11.1230/
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership" /v ""❗1❗(Default)❕Command❕1❕
-❕ⓡArray1❕◁Routine1.S▷❕(Default)❗◁Null▷❕✅Enabled❗❎Disabled❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership❗◁Null▷❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕Take Ownership❗◁Null▷❕✅Enabled❗❎Disabled❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
 ❕ⓠString1❕◁CacheFolder▷\TakeOwnershipContextMenu.reg❕String❕1❕
@@ -1011,8 +1035,8 @@
 ❕Group❕🔣Unsorted❕🪛Open PowerShell Here Context Menu ➥ ◁Array1.S▷❕Normal❕
 ; Created by: Shawn Brink; Created on: December 19, 2023
 ; Tutorial: https://www.elevenforum.com/t/add-or-remove-open-powershell-window-here-context-menu-in-windows-11.20899/
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell" /v ""❗1❗(Default)❕Command❕1❕
-❕ⓡArray1❕◁Routine1.S▷❕(Default)❗◁Null▷❕✅Enabled❗❎Disabled❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell❗◁Null▷❕Registry❕String❕
+❕ⓡArray1❕◁Routine1.S▷❕@shell32.dll,-8508❗◁Null▷❕✅Enabled❗❎Disabled❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
 ❕ⓠString1❕◁CacheFolder▷\OpenPowershellContextMenu.reg❕String❕1❕
@@ -1048,7 +1072,7 @@
 
 
 ❕Group❕🔣Unsorted❕🪛Copy As Path Context Menu ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu" /v ""❗1❗(Default)❕Command❕3❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁Null▷❕Registry❕String❕
 ❕ⓡArray1❕◁Routine1.S▷❕{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗◁Null▷❕✅Enabled❗❎Disabled❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕DX❗DX❕
@@ -1069,8 +1093,8 @@
 ❕ⓠTextHost❕🪛Reset Widgets ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Advertising ID ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v "Enabled"❗1❗Enabled❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo❗Enabled❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕00000001❗00000000❕
 ❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
@@ -1081,8 +1105,8 @@
 ❕ⓠTextHost❕🪛Advertising ID ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Airplane Mode ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState" /v ""❗1❗(Default)❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState❗◁Null▷❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕00000001❗00000000❕
 ❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
@@ -1093,8 +1117,8 @@
 ❕ⓠTextHost❕🪛Airplane Mode  ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Administrator Approval Mode ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System" /v "TypeOfAdminApprovalMode"❗1❗TypeOfAdminApprovalMode❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x2❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗TypeOfAdminApprovalMode❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗2❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕00000001❗00000002❕DX❗DX❕
 ❕ⓠTextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AdminApproval.reg❕DX❕
@@ -1105,8 +1129,8 @@
 ❕ⓠTextHost❕🪛Administrator Approval Mode ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Content Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine1❕ ❗reg.exe query "◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers" /v "CABCOption"❗1❗CABCOption❕Command❕3❕
-❕ⓡArray1❕◁Routine1.S▷❕0x1❗0x0❗◁Null▷❕✅Enabled❗❎Disabled❗❔NoValue❕
+❕ⓡRoutine1❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❕Registry❕Integer❕
+❕ⓡArray1❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice1❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray1❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❗◁Array1.S▷❗Dword❕Create❕DX❕
