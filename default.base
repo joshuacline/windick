@@ -2,7 +2,7 @@
 
 ❕Note❕Some settings may require restarting explorer.exe or a reboot to take effect. Schedule items for RunOnce 'RO' if having issues.❕
 
-❕Group❕🪟Initial Setup❕🪪Create unattend.xml (Skips OOBE setup)❕Normal❕
+❕Group❕🪟Initial Setup❕🪪Skip OOBE setup (create unattend.xml)❕Normal❕
 ❕ⓠPrompt❕Enter Username: 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
 ❕ⓠPrompt2❕Enter Computer Name: 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
 ❕ⓠChoice❕Select an edition❕Bypass Initial Setup❕VolaTILE❕
@@ -122,23 +122,16 @@
 ❕ⓠTextHost❕unattend.xml located at ◁WinTar▷\Panther.❕Screen❕◁Condit1.1▷❕
 ❕ⓠTextHost❕◁Color4▷ERROR:◁ColorT▷ Unable to create unattend.xml at ◁WinTar▷\Panther.❕Screen❕◁Condit1.2▷❕
 
-❕Group❕🪟Initial Setup❕🪪Create new admin❕Normal❕
-❕ⓠPrompt❕Enter the admin name 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
-❕ⓠCommand❕Net User ◁Prompt1.S▷ /add >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordreq:No >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordchg:No >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net Accounts /maxpwage:unlimited >NUL❕Normal❕SC❕
-❕ⓠCommand❕WMIC USERACCOUNT WHERE Name="◁Prompt1.S▷" SET PasswordExpires=FALSE >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net localgroup Administrators ◁Prompt1.S▷ /add >NUL❕Normal❕SC❕
-❕ⓠTextHost❕🪪Create new admin scheduled for SetupComplete.❕Screen❕DX❕
-
 ❕Group❕🪟Initial Setup❕🪪Create new user❕Normal❕
-❕ⓠPrompt❕Enter the username 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
+❕ⓠPrompt❕Enter the user name 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
+❕ⓠChoice❕Select user type❕🪪Standard❗🪪Administrator❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕◁Null▷❗SC❕
 ❕ⓠCommand❕Net User ◁Prompt1.S▷ /add >NUL❕Normal❕SC❕
 ❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordreq:No >NUL❕Normal❕SC❕
 ❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordchg:No >NUL❕Normal❕SC❕
 ❕ⓠCommand❕Net Accounts /maxpwage:unlimited >NUL❕Normal❕SC❕
 ❕ⓠCommand❕WMIC USERACCOUNT WHERE Name="◁Prompt1.S▷" SET PasswordExpires=FALSE >NUL❕Normal❕SC❕
+❕ⓠCommand❕Net localgroup Administrators ◁Prompt1.S▷ /add >NUL❕Normal❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪪Create new user scheduled for SetupComplete.❕Screen❕DX❕
 
 ❕Group❕🪟Initial Setup❕🪛First Logon Waiting Screen ➥ ◁Array1.S▷❕Normal❕
