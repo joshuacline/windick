@@ -270,7 +270,7 @@ ECHO.❕ⓠChoice❕Select an option❕A❗B❗C❕VolaTILE❕
 ECHO.❕ⓠTextHost❕Choice1.I:◁Choice1.I▷ Choice1.S:◁Choice1.S▷ Choice1.1:◁Choice1.1▷ Choice1.2:◁Choice1.2▷ Choice1.3:◁Choice1.3▷❕Screen❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Builder interactive items❕🪛Prompt item❕Normal❕
-ECHO.❕Note❕Prompt Item: PROMPT1-9 are valid. Prompt filter 'Number', 'Letter', 'Alpha', 'Menu', 'Most', and 'None' are usable options. Minimum and maximum character limit are optional.❕
+ECHO.❕Note❕Prompt Item: Prompt1-9 are valid. Prompt filter 'Number', 'Letter', 'Alpha', 'Menu', 'Most', and 'None' are usable options. Minimum and maximum character limit are optional.❕
 ECHO.❕ⓠPrompt❕Enter text❕Alpha❗3-20❕VolaTILE❕
 ECHO.❕ⓠTextHost❕Prompt1.I:◁Prompt1.I▷ Prompt1.S:◁Prompt1.S▷ Prompt1.1:◁Prompt1.1▷❕Screen❕DX❕
 ECHO.
@@ -296,7 +296,7 @@ ECHO.❕ⓠTextHost❕Condit1.I:◁Condit1.I▷ Condit1.S:◁Condit1.S▷ Condit
 ECHO.❕ⓠTextHost❕Condit2.I:◁Condit2.I▷ Condit2.S:◁Condit2.S▷ Condit2.1:◁Condit2.1▷ Condit2.2:◁Condit2.2▷❕Screen❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Builder non-interactive items❕🪛Array item❕Normal❕
-ECHO.❕Note❕Array items are similar to a condit item, except the condition is always 'EQ'. An array of if EQ's, optional '◁Else▷' needs to be placed last.❕
+ECHO.❕Note❕Array Item: Array1-9 are valid. Similar to a condit item except the condition is always 'EQ'. An array of if EQ's, optional '◁Else▷' needs to be placed last.❕
 ECHO.❕ⓠChoice❕Select an option❕A❗B❗C❗Z❕VolaTILE❕
 ECHO.❕ⓠArray❕◁Choice1.S▷❕A❗B❗C❗◁Else▷❕✅Array1.1 selected❗✅Array1.2 selected❗✅Array1.3 selected❗✅Array1.4 selected❕
 ECHO.❕ⓠArray2❕◁Choice1.I▷❕1❗2❗3❗◁Else▷❕✅Array2.1 selected❗✅Array2.2 selected❗✅Array2.3 selected❗✅Array2.4 selected❕
@@ -318,15 +318,18 @@ ECHO.❕ⓠTextHost❕String2.I:◁String2.I▷ String2.S:◁String2.S▷ String
 ECHO.
 ECHO.❕Group❕🪟Builder non-interactive items❕🪛Routine item❕Normal❕
 ECHO.❕Note❕Routine item: Routine1-9 are valid. 'Command', 'Split', and 'Registry' are usable options. Optional column number match seperated by '❗'. For 'Command' routines an asterisk can be used in column 4 as a tokens modifier eg '3*'.❕
-ECHO.❕ⓠRoutine❕^<^>:❗DIR /B C:\❗1❗Program Files❕Command❕1❕
-ECHO.❕Alt❕ⓠRoutine❕^<^>:❗DIR /B C:\❕Command❕1❕
-ECHO.❕ⓠRoutine2❕:❗A:B:C❗3❗C❕Split❕2❕
-ECHO.❕Alt❕ⓠRoutine2❕:❗A:B:C❕Split❕2❕
+ECHO.❕ⓠRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
+ECHO.❕ⓠRoutine2❕^<^>:❗DIR /B C:\❗1❗Program Files❕Command❕1❕
+ECHO.❕Note❕Routine examples 3-5 listed below are not currently implemented as dynamic menu reference items 'ⓡ', only execution 'ⓠ'.❕
+ECHO.❕ⓠRoutine3❕^<^>:❗DIR /B C:\❕Command❕1❕
+ECHO.❕ⓠRoutine4❕:❗A:B:C❗3❗C❕Split❕2❕
+ECHO.❕ⓠRoutine5❕:❗A:B:C❕Split❕2❕
 ECHO.❕Note❕For Routine Registry items 'String' and 'Integer' are usable options.❕
-ECHO.❕ⓡRoutine3❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowInfoTip❕Registry❕Integer❕
 ECHO.❕ⓠTextHost❕Routine1.I:◁Routine1.I▷ Routine1.S:◁Routine1.S▷ Routine1.1:◁Routine1.1▷ Routine1.2:◁Routine1.2▷ Routine1.3:◁Routine1.3▷ ❕Screen❕DX❕
 ECHO.❕ⓠTextHost❕Routine2.I:◁Routine2.I▷ Routine2.S:◁Routine2.S▷ Routine2.1:◁Routine2.1▷ Routine2.2:◁Routine2.2▷ Routine2.3:◁Routine2.3▷❕Screen❕DX❕
 ECHO.❕ⓠTextHost❕Routine3.I:◁Routine3.I▷ Routine3.S:◁Routine3.S▷ Routine3.1:◁Routine3.1▷ Routine3.2:◁Routine3.2▷ Routine3.3:◁Routine3.3▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Routine4.I:◁Routine4.I▷ Routine4.S:◁Routine4.S▷ Routine4.1:◁Routine4.1▷ Routine4.2:◁Routine4.2▷ Routine4.3:◁Routine4.3▷❕Screen❕DX❕
+ECHO.❕ⓠTextHost❕Routine5.I:◁Routine5.I▷ Routine5.S:◁Routine5.S▷ Routine5.1:◁Routine5.1▷ Routine5.2:◁Routine5.2▷ Routine5.3:◁Routine5.3▷❕Screen❕DX❕
 ECHO.
 ECHO.
 ECHO.
@@ -377,13 +380,12 @@ ECHO.❕Note❕FileOper item move.❕
 ECHO.❕ⓠTextHost❕test❕File❗c:\testmove.txt❕DX❕
 ECHO.❕ⓠFileOper❕testmove.txt❗c:\test❕Move❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Execution items❕🪛Session item + TextHost item❕Normal❕
-ECHO.❕Note❕Alternatively, using these unicode '％' or '＄' symbols guarantees passing a percent or dollar sign.❕
-ECHO.❕Note❕TextHost item. 'Screen' and 'File' are usable options. When outputting to a file, using the '◁U00▷' and '◁U01▷' variables will create white '❕' and red '❗' columns, and the '◁U0P▷' and '◁U0D▷' generates unicode '％' or '＄' symbols.❕
+ECHO.❕Group❕🪟Execution items❕🪛Session item❕Normal❕
+ECHO.❕Note❕TextHost item: 'Screen' and 'File' are usable options. When outputting to a file, using the '◁U00▷' and '◁U01▷' variables will create white '❕' and red '❗' columns.❕
 ECHO.❕ⓠTextHost❕MENU-SCRIPT❕File❗◁ListFolder▷\testlist.list❕DX❕
 ECHO.❕ⓠTextHost❕◁U00▷ⓠTextHost◁U00▷Greetings from session 2◁U00▷Screen◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
 ECHO.❕Note❕Session item. Using the '-PATH "◁DrvTar▷"' parameter during an active session will reuse the active session's target.❕
-ECHO.❕ⓠSession❕-IMAGEMGR -RUN -LIST "testlist.list" -PATH "◁DrvTar▷"❕◁Null▷❕DX❕
+ECHO.❕ⓠSession❕-imagemgr -run -list "testlist.list" -path "◁DrvTar▷"❕New❕DX❕
 ECHO.❕ⓠTextHost❕End of session 1❕Screen❕DX❕
 ECHO.❕ⓠFileOper❕◁ListFolder▷\testlist.list❕Delete❕DX❕
 ECHO.
@@ -397,7 +399,7 @@ ECHO.
 ECHO.❕Note❕Installs any drivers located in a folder named driver.❕
 ECHO.❕Group❕🪟Miscellaneous Examples❕Driver Install❕Normal
 ECHO.❕ⓠCondit❕◁ProgFolder▷\driver❗Exist❕DX❕◁Null▷❕
-ECHO.❕Driver❕◁ProgFolder▷\driver❕Install❕◁Condit1.1▷❕
+ECHO.❕ⓠDriver❕◁ProgFolder▷\driver❕Install❕◁Condit1.1▷❕
 EXIT /B
 :MENU_EXAMPLE_BASE
 ECHO.MENU-SCRIPT
@@ -824,7 +826,7 @@ IF NOT DEFINED PAD_SEQ SET "PAD_SEQ=0000000000"
 IF NOT DEFINED HOST_FOLDER SET "HOST_FOLDER=$"
 IF NOT DEFINED HOST_HIDE SET "HOST_HIDE=DISABLED"
 IF NOT DEFINED SAFE_EXCLUDE SET "SAFE_EXCLUDE=ENABLED"
-IF NOT DEFINED ADDFILE_0 SET "ADDFILE_0=list\tweaks.base"
+IF NOT DEFINED ADDFILE_0 SET "ADDFILE_0=◁ListFolder▷\default.base"
 IF NOT DEFINED HOTKEY_1 SET "HOTKEY_1=CMD"&&SET "SHORT_1=CMD.EXE"
 IF NOT DEFINED HOTKEY_2 SET "HOTKEY_2=NOTE"&&SET "SHORT_2=NOTEPAD.EXE"
 IF NOT DEFINED HOTKEY_3 SET "HOTKEY_3=REG"&&SET "SHORT_3=REGEDIT.EXE"
@@ -845,22 +847,11 @@ FOR %%a in (COMMAND GUI) DO (IF "%PROG_MODE%"=="%%a" EXIT /B)
 FOR %%a in (MENU_LIST) DO (SET "OBJ_FLD=%ListFolder%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (PE_WALLPAPER) DO (SET "OBJ_FLD=%CacheFolder%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (VHDX_SLOTX WIM_SOURCE VHDX_SOURCE) DO (SET "OBJ_FLD=%ImageFolder%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
-FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "ADDFILE_NUM=%%a"&&CALL SET "ADDFILE_CHK=%%ADDFILE_%%a%%"&&CALL:ADDFILE_CHK)
 IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5) DO (SET "OBJ_FLD=%ProgFolder%"&&CALL SET "OBJ_CHK=%%a"&&CALL:OBJ_CLEAR)
 FOR %%a in (MENU_LIST PE_WALLPAPER PATH_SOURCE PATH_TARGET WIM_SOURCE VHDX_SOURCE WIM_TARGET VHDX_TARGET VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5) DO (IF NOT DEFINED %%a SET "%%a=SELECT")
 IF NOT EXIST "%PATH_SOURCE%\" SET "PATH_SOURCE=SELECT"
 IF NOT EXIST "%PATH_TARGET%\" SET "PATH_TARGET=SELECT"
-FOR %%a in (ADDFILE_CHK ADDFILE_NUM OBJ_FLD OBJ_CHK OBJ_CHKX) DO (SET "%%a=")
-EXIT /B
-:ADDFILE_CHK
-IF NOT DEFINED ADDFILE_%ADDFILE_NUM% SET "ADDFILE_%ADDFILE_NUM%=SELECT"
-IF "%ADDFILE_CHK%"=="SELECT" EXIT /B
-FOR /F "TOKENS=1-9 DELIMS=\" %%a in ("%ADDFILE_CHK%") DO (
-IF "%%a"=="pack" IF NOT EXIST "%PackFolder%\%%b" SET "ADDFILE_%ADDFILE_NUM%=SELECT"
-IF "%%a"=="list" IF NOT EXIST "%ListFolder%\%%b" SET "ADDFILE_%ADDFILE_NUM%=SELECT"
-IF "%%a"=="image" IF NOT EXIST "%ImageFolder%\%%b" SET "ADDFILE_%ADDFILE_NUM%=SELECT"
-IF "%%a"=="cache" IF NOT EXIST "%CacheFolder%\%%b" SET "ADDFILE_%ADDFILE_NUM%=SELECT"
-IF "%%a"=="main" IF NOT EXIST "%ProgFolder%\%%b" SET "ADDFILE_%ADDFILE_NUM%=SELECT")
+FOR %%a in (OBJ_FLD OBJ_CHK OBJ_CHKX) DO (SET "%%a=")
 EXIT /B
 :OBJ_CLEAR
 CALL SET "OBJ_CHKX=%%%OBJ_CHK%%%"
@@ -2663,10 +2654,10 @@ IF "%$LIST_FILE%"=="%$PICK%" CALL:PAD_LINE&&ECHO.%@@%%$LIST_FILE%%$$% and %@@%%$
 EXIT /B
 :LIST_ITEMS
 SET LIST_ITEMS_EXECUTE=APPX FEATURE COMPONENT CAPABILITY SERVICE TASK WINSXS DRIVER EXTPACKAGE COMMAND SESSION REGISTRY FILEOPER TEXTHOST
-SET LIST_ITEMS_BUILDER=INFO INFO1 ARRAY ARRAY0 ARRAY1 ARRAY2 ARRAY3 ARRAY4 ARRAY5 ARRAY6 ARRAY7 ARRAY8 ARRAY9 MATH MATH1 MATH2 MATH3 MATH4 MATH5 MATH6 MATH7 MATH8 MATH9 STRING STRING1 STRING2 STRING3 STRING4 STRING5 STRING6 STRING7 STRING8 STRING9 CONDIT CONDIT1 CONDIT2 CONDIT3 CONDIT4 CONDIT5 CONDIT6 CONDIT7 CONDIT8 CONDIT9 PROMPT PROMPT1 PROMPT2 PROMPT3 PROMPT4 PROMPT5 PROMPT6 PROMPT7 PROMPT8 PROMPT9 CHOICE CHOICE1 CHOICE2 CHOICE3 CHOICE4 CHOICE5 CHOICE6 CHOICE7 CHOICE8 CHOICE9 PICKER PICKER1 PICKER2 PICKER3 PICKER4 PICKER5 PICKER6 PICKER7 PICKER8 PICKER9 ROUTINE ROUTINE1 ROUTINE2 ROUTINE3 ROUTINE4 ROUTINE5 ROUTINE6 ROUTINE7 ROUTINE8 ROUTINE9 GROUP
+SET LIST_ITEMS_BUILDER=INFO INFO1 ARRAY ARRAY ARRAY1 ARRAY2 ARRAY3 ARRAY4 ARRAY5 ARRAY6 ARRAY7 ARRAY8 ARRAY9 MATH MATH1 MATH2 MATH3 MATH4 MATH5 MATH6 MATH7 MATH8 MATH9 STRING STRING1 STRING2 STRING3 STRING4 STRING5 STRING6 STRING7 STRING8 STRING9 CONDIT CONDIT1 CONDIT2 CONDIT3 CONDIT4 CONDIT5 CONDIT6 CONDIT7 CONDIT8 CONDIT9 PROMPT PROMPT1 PROMPT2 PROMPT3 PROMPT4 PROMPT5 PROMPT6 PROMPT7 PROMPT8 PROMPT9 CHOICE CHOICE1 CHOICE2 CHOICE3 CHOICE4 CHOICE5 CHOICE6 CHOICE7 CHOICE8 CHOICE9 PICKER PICKER1 PICKER2 PICKER3 PICKER4 PICKER5 PICKER6 PICKER7 PICKER8 PICKER9 ROUTINE ROUTINE1 ROUTINE2 ROUTINE3 ROUTINE4 ROUTINE5 ROUTINE6 ROUTINE7 ROUTINE8 ROUTINE9 GROUP
 EXIT /B
 :VAR_ITEMS
-SET VAR_ITEMS=PROMPT0.I PROMPT1.I PROMPT2.I PROMPT3.I PROMPT4.I PROMPT5.I PROMPT6.I PROMPT7.I PROMPT8.I PROMPT9.I PROMPT0.S PROMPT1.S PROMPT2.S PROMPT3.S PROMPT4.S PROMPT5.S PROMPT6.S PROMPT7.S PROMPT8.S PROMPT9.S PROMPT0.1 PROMPT1.1 PROMPT2.1 PROMPT3.1 PROMPT4.1 PROMPT5.1 PROMPT6.1 PROMPT7.1 PROMPT8.1 PROMPT9.1 STRING0.I STRING1.I STRING2.I STRING3.I STRING4.I STRING5.I STRING6.I STRING7.I STRING8.I STRING9.I STRING0.S STRING1.S STRING2.S STRING3.S STRING4.S STRING5.S STRING6.S STRING7.S STRING8.S STRING9.S STRING0.1 STRING1.1 STRING2.1 STRING3.1 STRING4.1 STRING5.1 STRING6.1 STRING7.1 STRING8.1 STRING9.1 STRING0.2 STRING1.2 STRING2.2 STRING3.2 STRING4.2 STRING5.2 STRING6.2 STRING7.2 STRING8.2 STRING9.2 STRING0.3 STRING1.3 STRING2.3 STRING3.3 STRING4.3 STRING5.3 STRING6.3 STRING7.3 STRING8.3 STRING9.3 STRING0.4 STRING1.4 STRING2.4 STRING3.4 STRING4.4 STRING5.4 STRING6.4 STRING7.4 STRING8.4 STRING9.4 STRING0.5 STRING1.5 STRING2.5 STRING3.5 STRING4.5 STRING5.5 STRING6.5 STRING7.5 STRING8.5 STRING9.5 STRING0.6 STRING1.6 STRING2.6 STRING3.6 STRING4.6 STRING5.6 STRING6.6 STRING7.6 STRING8.6 STRING9.6 STRING0.7 STRING1.7 STRING2.7 STRING3.7 STRING4.7 STRING5.7 STRING6.7 STRING7.7 STRING8.7 STRING9.7 STRING0.8 STRING1.8 STRING2.8 STRING3.8 STRING4.8 STRING5.8 STRING6.8 STRING7.8 STRING8.8 STRING9.8 STRING0.9 STRING1.9 STRING2.9 STRING3.9 STRING4.9 STRING5.9 STRING6.9 STRING7.9 STRING8.9 STRING9.9 PICKER0.I PICKER1.I PICKER2.I PICKER3.I PICKER4.I PICKER5.I PICKER6.I PICKER7.I PICKER8.I PICKER9.I PICKER0.S PICKER1.S PICKER2.S PICKER3.S PICKER4.S PICKER5.S PICKER6.S PICKER7.S PICKER8.S PICKER9.S PICKER0.1 PICKER1.1 PICKER2.1 PICKER3.1 PICKER4.1 PICKER5.1 PICKER6.1 PICKER7.1 PICKER8.1 PICKER9.1 CHOICE0.I CHOICE1.I CHOICE2.I CHOICE3.I CHOICE4.I CHOICE5.I CHOICE6.I CHOICE7.I CHOICE8.I CHOICE9.I CHOICE0.S CHOICE1.S CHOICE2.S CHOICE3.S CHOICE4.S CHOICE5.S CHOICE6.S CHOICE7.S CHOICE8.S CHOICE9.S CHOICE0.1 CHOICE1.1 CHOICE2.1 CHOICE3.1 CHOICE4.1 CHOICE5.1 CHOICE6.1 CHOICE7.1 CHOICE8.1 CHOICE9.1 CHOICE0.2 CHOICE1.2 CHOICE2.2 CHOICE3.2 CHOICE4.2 CHOICE5.2 CHOICE6.2 CHOICE7.2 CHOICE8.2 CHOICE9.2 CHOICE0.3 CHOICE1.3 CHOICE2.3 CHOICE3.3 CHOICE4.3 CHOICE5.3 CHOICE6.3 CHOICE7.3 CHOICE8.3 CHOICE9.3 CHOICE0.4 CHOICE1.4 CHOICE2.4 CHOICE3.4 CHOICE4.4 CHOICE5.4 CHOICE6.4 CHOICE7.4 CHOICE8.4 CHOICE9.4 CHOICE0.5 CHOICE1.5 CHOICE2.5 CHOICE3.5 CHOICE4.5 CHOICE5.5 CHOICE6.5 CHOICE7.5 CHOICE8.5 CHOICE9.5 CHOICE0.6 CHOICE1.6 CHOICE2.6 CHOICE3.6 CHOICE4.6 CHOICE5.6 CHOICE6.6 CHOICE7.6 CHOICE8.6 CHOICE9.6 CHOICE0.7 CHOICE1.7 CHOICE2.7 CHOICE3.7 CHOICE4.7 CHOICE5.7 CHOICE6.7 CHOICE7.7 CHOICE8.7 CHOICE9.7 CHOICE0.8 CHOICE1.8 CHOICE2.8 CHOICE3.8 CHOICE4.8 CHOICE5.8 CHOICE6.8 CHOICE7.8 CHOICE8.8 CHOICE9.8 CHOICE0.9 CHOICE1.9 CHOICE2.9 CHOICE3.9 CHOICE4.9 CHOICE5.9 CHOICE6.9 CHOICE7.9 CHOICE8.9 CHOICE9.9 CONDIT0.I CONDIT1.I CONDIT2.I CONDIT3.I CONDIT4.I CONDIT5.I CONDIT6.I CONDIT7.I CONDIT8.I CONDIT9.I CONDIT0.S CONDIT1.S CONDIT2.S CONDIT3.S CONDIT4.S CONDIT5.S CONDIT6.S CONDIT7.S CONDIT8.S CONDIT9.S CONDIT0.1 CONDIT1.1 CONDIT2.1 CONDIT3.1 CONDIT4.1 CONDIT5.1 CONDIT6.1 CONDIT7.1 CONDIT8.1 CONDIT9.1 CONDIT0.2 CONDIT1.2 CONDIT2.2 CONDIT3.2 CONDIT4.2 CONDIT5.2 CONDIT6.2 CONDIT7.2 CONDIT8.2 CONDIT9.2 CONDIT0.3 CONDIT1.3 CONDIT2.3 CONDIT3.3 CONDIT4.3 CONDIT5.3 CONDIT6.3 CONDIT7.3 CONDIT8.3 CONDIT9.3 CONDIT0.4 CONDIT1.4 CONDIT2.4 CONDIT3.4 CONDIT4.4 CONDIT5.4 CONDIT6.4 CONDIT7.4 CONDIT8.4 CONDIT9.4 CONDIT0.5 CONDIT1.5 CONDIT2.5 CONDIT3.5 CONDIT4.5 CONDIT5.5 CONDIT6.5 CONDIT7.5 CONDIT8.5 CONDIT9.5 CONDIT0.6 CONDIT1.6 CONDIT2.6 CONDIT3.6 CONDIT4.6 CONDIT5.6 CONDIT6.6 CONDIT7.6 CONDIT8.6 CONDIT9.6 CONDIT0.7 CONDIT1.7 CONDIT2.7 CONDIT3.7 CONDIT4.7 CONDIT5.7 CONDIT6.7 CONDIT7.7 CONDIT8.7 CONDIT9.7 CONDIT0.8 CONDIT1.8 CONDIT2.8 CONDIT3.8 CONDIT4.8 CONDIT5.8 CONDIT6.8 CONDIT7.8 CONDIT8.8 CONDIT9.8 CONDIT0.9 CONDIT1.9 CONDIT2.9 CONDIT3.9 CONDIT4.9 CONDIT5.9 CONDIT6.9 CONDIT7.9 CONDIT8.9 CONDIT9.9 ARRAY0.I ARRAY1.I ARRAY2.I ARRAY3.I ARRAY4.I ARRAY5.I ARRAY6.I ARRAY7.I ARRAY8.I ARRAY9.I ARRAY0.S ARRAY1.S ARRAY2.S ARRAY3.S ARRAY4.S ARRAY5.S ARRAY6.S ARRAY7.S ARRAY8.S ARRAY9.S ARRAY0.1 ARRAY1.1 ARRAY2.1 ARRAY3.1 ARRAY4.1 ARRAY5.1 ARRAY6.1 ARRAY7.1 ARRAY8.1 ARRAY9.1 ARRAY0.2 ARRAY1.2 ARRAY2.2 ARRAY3.2 ARRAY4.2 ARRAY5.2 ARRAY6.2 ARRAY7.2 ARRAY8.2 ARRAY9.2 ARRAY0.3 ARRAY1.3 ARRAY2.3 ARRAY3.3 ARRAY4.3 ARRAY5.3 ARRAY6.3 ARRAY7.3 ARRAY8.3 ARRAY9.3 ARRAY0.4 ARRAY1.4 ARRAY2.4 ARRAY3.4 ARRAY4.4 ARRAY5.4 ARRAY6.4 ARRAY7.4 ARRAY8.4 ARRAY9.4 ARRAY0.5 ARRAY1.5 ARRAY2.5 ARRAY3.5 ARRAY4.5 ARRAY5.5 ARRAY6.5 ARRAY7.5 ARRAY8.5 ARRAY9.5 ARRAY0.6 ARRAY1.6 ARRAY2.6 ARRAY3.6 ARRAY4.6 ARRAY5.6 ARRAY6.6 ARRAY7.6 ARRAY8.6 ARRAY9.6 ARRAY0.7 ARRAY1.7 ARRAY2.7 ARRAY3.7 ARRAY4.7 ARRAY5.7 ARRAY6.7 ARRAY7.7 ARRAY8.7 ARRAY9.7 ARRAY0.8 ARRAY1.8 ARRAY2.8 ARRAY3.8 ARRAY4.8 ARRAY5.8 ARRAY6.8 ARRAY7.8 ARRAY8.8 ARRAY9.8 ARRAY0.9 ARRAY1.9 ARRAY2.9 ARRAY3.9 ARRAY4.9 ARRAY5.9 ARRAY6.9 ARRAY7.9 ARRAY8.9 ARRAY9.9 MATH0.I MATH1.I MATH2.I MATH3.I MATH4.I MATH5.I MATH6.I MATH7.I MATH8.I MATH9.I MATH0.S MATH1.S MATH2.S MATH3.S MATH4.S MATH5.S MATH6.S MATH7.S MATH8.S MATH9.S MATH0.1 MATH1.1 MATH2.1 MATH3.1 MATH4.1 MATH5.1 MATH6.1 MATH7.1 MATH8.1 MATH9.1 ROUTINE0.I ROUTINE1.I ROUTINE2.I ROUTINE3.I ROUTINE4.I ROUTINE5.I ROUTINE6.I ROUTINE7.I ROUTINE8.I ROUTINE9.I ROUTINE0.S ROUTINE1.S ROUTINE2.S ROUTINE3.S ROUTINE4.S ROUTINE5.S ROUTINE6.S ROUTINE7.S ROUTINE8.S ROUTINE9.S ROUTINE0.1 ROUTINE1.1 ROUTINE2.1 ROUTINE3.1 ROUTINE4.1 ROUTINE5.1 ROUTINE6.1 ROUTINE7.1 ROUTINE8.1 ROUTINE9.1 ROUTINE0.2 ROUTINE1.2 ROUTINE2.2 ROUTINE3.2 ROUTINE4.2 ROUTINE5.2 ROUTINE6.2 ROUTINE7.2 ROUTINE8.2 ROUTINE9.2 ROUTINE0.3 ROUTINE1.3 ROUTINE2.3 ROUTINE3.3 ROUTINE4.3 ROUTINE5.3 ROUTINE6.3 ROUTINE7.3 ROUTINE8.3 ROUTINE9.3 ROUTINE0.4 ROUTINE1.4 ROUTINE2.4 ROUTINE3.4 ROUTINE4.4 ROUTINE5.4 ROUTINE6.4 ROUTINE7.4 ROUTINE8.4 ROUTINE9.4 ROUTINE0.5 ROUTINE1.5 ROUTINE2.5 ROUTINE3.5 ROUTINE4.5 ROUTINE5.5 ROUTINE6.5 ROUTINE7.5 ROUTINE8.5 ROUTINE9.5 ROUTINE0.6 ROUTINE1.6 ROUTINE2.6 ROUTINE3.6 ROUTINE4.6 ROUTINE5.6 ROUTINE6.6 ROUTINE7.6 ROUTINE8.6 ROUTINE9.6 ROUTINE0.7 ROUTINE1.7 ROUTINE2.7 ROUTINE3.7 ROUTINE4.7 ROUTINE5.7 ROUTINE6.7 ROUTINE7.7 ROUTINE8.7 ROUTINE9.7 ROUTINE0.8 ROUTINE1.8 ROUTINE2.8 ROUTINE3.8 ROUTINE4.8 ROUTINE5.8 ROUTINE6.8 ROUTINE7.8 ROUTINE8.8 ROUTINE9.8 ROUTINE0.9 ROUTINE1.9 ROUTINE2.9 ROUTINE3.9 ROUTINE4.9 ROUTINE5.9 ROUTINE6.9 ROUTINE7.9 ROUTINE8.9 ROUTINE9.9
+SET VAR_ITEMS=CHOICE0.I CHOICE1.I CHOICE2.I CHOICE3.I CHOICE4.I CHOICE5.I CHOICE6.I CHOICE7.I CHOICE8.I CHOICE9.I CHOICE0.S CHOICE1.S CHOICE2.S CHOICE3.S CHOICE4.S CHOICE5.S CHOICE6.S CHOICE7.S CHOICE8.S CHOICE9.S CHOICE0.1 CHOICE1.1 CHOICE2.1 CHOICE3.1 CHOICE4.1 CHOICE5.1 CHOICE6.1 CHOICE7.1 CHOICE8.1 CHOICE9.1 CHOICE0.2 CHOICE1.2 CHOICE2.2 CHOICE3.2 CHOICE4.2 CHOICE5.2 CHOICE6.2 CHOICE7.2 CHOICE8.2 CHOICE9.2 CHOICE0.3 CHOICE1.3 CHOICE2.3 CHOICE3.3 CHOICE4.3 CHOICE5.3 CHOICE6.3 CHOICE7.3 CHOICE8.3 CHOICE9.3 CHOICE0.4 CHOICE1.4 CHOICE2.4 CHOICE3.4 CHOICE4.4 CHOICE5.4 CHOICE6.4 CHOICE7.4 CHOICE8.4 CHOICE9.4 CHOICE0.5 CHOICE1.5 CHOICE2.5 CHOICE3.5 CHOICE4.5 CHOICE5.5 CHOICE6.5 CHOICE7.5 CHOICE8.5 CHOICE9.5 CHOICE0.6 CHOICE1.6 CHOICE2.6 CHOICE3.6 CHOICE4.6 CHOICE5.6 CHOICE6.6 CHOICE7.6 CHOICE8.6 CHOICE9.6 CHOICE0.7 CHOICE1.7 CHOICE2.7 CHOICE3.7 CHOICE4.7 CHOICE5.7 CHOICE6.7 CHOICE7.7 CHOICE8.7 CHOICE9.7 CHOICE0.8 CHOICE1.8 CHOICE2.8 CHOICE3.8 CHOICE4.8 CHOICE5.8 CHOICE6.8 CHOICE7.8 CHOICE8.8 CHOICE9.8 CHOICE0.9 CHOICE1.9 CHOICE2.9 CHOICE3.9 CHOICE4.9 CHOICE5.9 CHOICE6.9 CHOICE7.9 CHOICE8.9 CHOICE9.9 PROMPT1.I PROMPT2.I PROMPT3.I PROMPT4.I PROMPT5.I PROMPT6.I PROMPT7.I PROMPT8.I PROMPT9.I PROMPT1.S PROMPT2.S PROMPT3.S PROMPT4.S PROMPT5.S PROMPT6.S PROMPT7.S PROMPT8.S PROMPT9.S PROMPT1.1 PROMPT2.1 PROMPT3.1 PROMPT4.1 PROMPT5.1 PROMPT6.1 PROMPT7.1 PROMPT8.1 PROMPT9.1 STRING1.I STRING2.I STRING3.I STRING4.I STRING5.I STRING6.I STRING7.I STRING8.I STRING9.I STRING1.S STRING2.S STRING3.S STRING4.S STRING5.S STRING6.S STRING7.S STRING8.S STRING9.S STRING1.1 STRING2.1 STRING3.1 STRING4.1 STRING5.1 STRING6.1 STRING7.1 STRING8.1 STRING9.1 STRING1.2 STRING2.2 STRING3.2 STRING4.2 STRING5.2 STRING6.2 STRING7.2 STRING8.2 STRING9.2 STRING1.3 STRING2.3 STRING3.3 STRING4.3 STRING5.3 STRING6.3 STRING7.3 STRING8.3 STRING9.3 STRING1.4 STRING2.4 STRING3.4 STRING4.4 STRING5.4 STRING6.4 STRING7.4 STRING8.4 STRING9.4 STRING1.5 STRING2.5 STRING3.5 STRING4.5 STRING5.5 STRING6.5 STRING7.5 STRING8.5 STRING9.5 STRING1.6 STRING2.6 STRING3.6 STRING4.6 STRING5.6 STRING6.6 STRING7.6 STRING8.6 STRING9.6 STRING1.7 STRING2.7 STRING3.7 STRING4.7 STRING5.7 STRING6.7 STRING7.7 STRING8.7 STRING9.7 STRING1.8 STRING2.8 STRING3.8 STRING4.8 STRING5.8 STRING6.8 STRING7.8 STRING8.8 STRING9.8 STRING1.9 STRING2.9 STRING3.9 STRING4.9 STRING5.9 STRING6.9 STRING7.9 STRING8.9 STRING9.9 PICKER1.I PICKER2.I PICKER3.I PICKER4.I PICKER5.I PICKER6.I PICKER7.I PICKER8.I PICKER9.I PICKER1.S PICKER2.S PICKER3.S PICKER4.S PICKER5.S PICKER6.S PICKER7.S PICKER8.S PICKER9.S PICKER1.1 PICKER2.1 PICKER3.1 PICKER4.1 PICKER5.1 PICKER6.1 PICKER7.1 PICKER8.1 PICKER9.1 CONDIT1.I CONDIT2.I CONDIT3.I CONDIT4.I CONDIT5.I CONDIT6.I CONDIT7.I CONDIT8.I CONDIT9.I CONDIT1.S CONDIT2.S CONDIT3.S CONDIT4.S CONDIT5.S CONDIT6.S CONDIT7.S CONDIT8.S CONDIT9.S CONDIT1.1 CONDIT2.1 CONDIT3.1 CONDIT4.1 CONDIT5.1 CONDIT6.1 CONDIT7.1 CONDIT8.1 CONDIT9.1 CONDIT1.2 CONDIT2.2 CONDIT3.2 CONDIT4.2 CONDIT5.2 CONDIT6.2 CONDIT7.2 CONDIT8.2 CONDIT9.2 CONDIT1.3 CONDIT2.3 CONDIT3.3 CONDIT4.3 CONDIT5.3 CONDIT6.3 CONDIT7.3 CONDIT8.3 CONDIT9.3 CONDIT1.4 CONDIT2.4 CONDIT3.4 CONDIT4.4 CONDIT5.4 CONDIT6.4 CONDIT7.4 CONDIT8.4 CONDIT9.4 CONDIT1.5 CONDIT2.5 CONDIT3.5 CONDIT4.5 CONDIT5.5 CONDIT6.5 CONDIT7.5 CONDIT8.5 CONDIT9.5 CONDIT1.6 CONDIT2.6 CONDIT3.6 CONDIT4.6 CONDIT5.6 CONDIT6.6 CONDIT7.6 CONDIT8.6 CONDIT9.6 CONDIT1.7 CONDIT2.7 CONDIT3.7 CONDIT4.7 CONDIT5.7 CONDIT6.7 CONDIT7.7 CONDIT8.7 CONDIT9.7 CONDIT1.8 CONDIT2.8 CONDIT3.8 CONDIT4.8 CONDIT5.8 CONDIT6.8 CONDIT7.8 CONDIT8.8 CONDIT9.8 CONDIT1.9 CONDIT2.9 CONDIT3.9 CONDIT4.9 CONDIT5.9 CONDIT6.9 CONDIT7.9 CONDIT8.9 CONDIT9.9 ARRAY1.I ARRAY2.I ARRAY3.I ARRAY4.I ARRAY5.I ARRAY6.I ARRAY7.I ARRAY8.I ARRAY9.I ARRAY1.S ARRAY2.S ARRAY3.S ARRAY4.S ARRAY5.S ARRAY6.S ARRAY7.S ARRAY8.S ARRAY9.S ARRAY1.1 ARRAY2.1 ARRAY3.1 ARRAY4.1 ARRAY5.1 ARRAY6.1 ARRAY7.1 ARRAY8.1 ARRAY9.1 ARRAY1.2 ARRAY2.2 ARRAY3.2 ARRAY4.2 ARRAY5.2 ARRAY6.2 ARRAY7.2 ARRAY8.2 ARRAY9.2 ARRAY1.3 ARRAY2.3 ARRAY3.3 ARRAY4.3 ARRAY5.3 ARRAY6.3 ARRAY7.3 ARRAY8.3 ARRAY9.3 ARRAY1.4 ARRAY2.4 ARRAY3.4 ARRAY4.4 ARRAY5.4 ARRAY6.4 ARRAY7.4 ARRAY8.4 ARRAY9.4 ARRAY1.5 ARRAY2.5 ARRAY3.5 ARRAY4.5 ARRAY5.5 ARRAY6.5 ARRAY7.5 ARRAY8.5 ARRAY9.5 ARRAY1.6 ARRAY2.6 ARRAY3.6 ARRAY4.6 ARRAY5.6 ARRAY6.6 ARRAY7.6 ARRAY8.6 ARRAY9.6 ARRAY1.7 ARRAY2.7 ARRAY3.7 ARRAY4.7 ARRAY5.7 ARRAY6.7 ARRAY7.7 ARRAY8.7 ARRAY9.7 ARRAY1.8 ARRAY2.8 ARRAY3.8 ARRAY4.8 ARRAY5.8 ARRAY6.8 ARRAY7.8 ARRAY8.8 ARRAY9.8 ARRAY1.9 ARRAY2.9 ARRAY3.9 ARRAY4.9 ARRAY5.9 ARRAY6.9 ARRAY7.9 ARRAY8.9 ARRAY9.9 MATH1.I MATH2.I MATH3.I MATH4.I MATH5.I MATH6.I MATH7.I MATH8.I MATH9.I MATH1.S MATH2.S MATH3.S MATH4.S MATH5.S MATH6.S MATH7.S MATH8.S MATH9.S MATH1.1 MATH2.1 MATH3.1 MATH4.1 MATH5.1 MATH6.1 MATH7.1 MATH8.1 MATH9.1 ROUTINE1.I ROUTINE2.I ROUTINE3.I ROUTINE4.I ROUTINE5.I ROUTINE6.I ROUTINE7.I ROUTINE8.I ROUTINE9.I ROUTINE1.S ROUTINE2.S ROUTINE3.S ROUTINE4.S ROUTINE5.S ROUTINE6.S ROUTINE7.S ROUTINE8.S ROUTINE9.S ROUTINE1.1 ROUTINE2.1 ROUTINE3.1 ROUTINE4.1 ROUTINE5.1 ROUTINE6.1 ROUTINE7.1 ROUTINE8.1 ROUTINE9.1 ROUTINE1.2 ROUTINE2.2 ROUTINE3.2 ROUTINE4.2 ROUTINE5.2 ROUTINE6.2 ROUTINE7.2 ROUTINE8.2 ROUTINE9.2 ROUTINE1.3 ROUTINE2.3 ROUTINE3.3 ROUTINE4.3 ROUTINE5.3 ROUTINE6.3 ROUTINE7.3 ROUTINE8.3 ROUTINE9.3 ROUTINE1.4 ROUTINE2.4 ROUTINE3.4 ROUTINE4.4 ROUTINE5.4 ROUTINE6.4 ROUTINE7.4 ROUTINE8.4 ROUTINE9.4 ROUTINE1.5 ROUTINE2.5 ROUTINE3.5 ROUTINE4.5 ROUTINE5.5 ROUTINE6.5 ROUTINE7.5 ROUTINE8.5 ROUTINE9.5 ROUTINE1.6 ROUTINE2.6 ROUTINE3.6 ROUTINE4.6 ROUTINE5.6 ROUTINE6.6 ROUTINE7.6 ROUTINE8.6 ROUTINE9.6 ROUTINE1.7 ROUTINE2.7 ROUTINE3.7 ROUTINE4.7 ROUTINE5.7 ROUTINE6.7 ROUTINE7.7 ROUTINE8.7 ROUTINE9.7 ROUTINE1.8 ROUTINE2.8 ROUTINE3.8 ROUTINE4.8 ROUTINE5.8 ROUTINE6.8 ROUTINE7.8 ROUTINE8.8 ROUTINE9.8 ROUTINE1.9 ROUTINE2.9 ROUTINE3.9 ROUTINE4.9 ROUTINE5.9 ROUTINE6.9 ROUTINE7.9 ROUTINE8.9 ROUTINE9.9
 EXIT /B
 :VAR_CLEAR
 IF NOT DEFINED VAR_ITEMS CALL:VAR_ITEMS
@@ -3364,26 +3355,35 @@ IF "%SELECT%"=="C" CALL:BOOT_CREATOR_PROMPT
 IF "%SELECT%"=="W" CALL:PE_WALLPAPER
 GOTO:BOOT_CREATOR
 :ADDFILE_MENU
-CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             %U02% Add File&&ECHO.
+CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP
+FOR %%a in (0 1 2 3 4 5 6 7 8 9) DO (SET "ADDFILE_NUM=%%a"&&CALL SET "ADDFILE_CHK=%%ADDFILE_%%a%%"&&CALL:ADDFILE_CHK)
+ECHO.                             %U02% Add File&&ECHO.
 FOR %%G in (0 1 2 3 4 5 6 7 8 9) DO (CALL ECHO. File ^(%##%%%G%$$%^) %@@%%%ADDFILE_%%G%%%$$%)
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=NUMBER"&&CALL:MENU_SELECT
 IF NOT DEFINED SELECT EXIT /B
 FOR %%G in (0 1 2 3 4 5 6 7 8 9) DO (IF "%SELECT%"=="%%G" SET "ADDFILEX=%SELECT%"&&CALL:ADDFILE_CHOOSE)
+FOR %%a in (ADDFILE_CHK ADDFILE_NUM) DO (SET "%%a=")
 GOTO:ADDFILE_MENU
 :ADDFILE_CHOOSE
 CLS&&SET "ADDFILEZ="&&IF "%FOLDER_MODE%"=="UNIFIED" SET "SELECTX=5"&&GOTO:ADDFILE_JUMP
 CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             %U02% Add File&&ECHO.&&ECHO. (%##%1%$$%) Package&&ECHO. (%##%2%$$%) List&&CALL ECHO. (%##%3%$$%) Image&&ECHO. (%##%4%$$%) Cache&&ECHO. (%##%5%$$%) Main&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=NUMBER❗1-5"&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
 IF NOT "%SELECTX%"=="1" IF NOT "%SELECTX%"=="2" IF NOT "%SELECTX%"=="3" IF NOT "%SELECTX%"=="4" IF NOT "%SELECTX%"=="5" EXIT /B
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                             %U02% Add File&&ECHO.
-IF "%SELECTX%"=="1" SET "ADDFILEZ=pack" ECHO.  %@@%AVAILABLE PACKAGEs:%$$%&&ECHO.&&SET "$FOLD=%PackFolder%"&&SET "$FILT=*.PKX *.CAB *.MSU *.APPX *.APPXBUNDLE *.MSIXBUNDLE"&&CALL:FILE_LIST
-IF "%SELECTX%"=="2" SET "ADDFILEZ=list"&&ECHO.  %@@%AVAILABLE LISTs/BASEs:%$$%&&ECHO.&&SET "$FOLD=%ListFolder%"&&SET "$FILT=*.LIST *.BASE"&&CALL:FILE_LIST
-IF "%SELECTX%"=="3" SET "ADDFILEZ=image"&&ECHO.  %@@%AVAILABLE IMAGEs:%$$%&&ECHO.&&SET "$FOLD=%ImageFolder%"&&SET "$FILT=*.WIM *.VHDX *.ISO"&&CALL:FILE_LIST
-IF "%SELECTX%"=="4" SET "ADDFILEZ=cache"&&ECHO.  %@@%AVAILABLE CACHE FILEs:%$$%&&ECHO.&&SET "$FOLD=%CacheFolder%"&&SET "$FILT=*.*"&&CALL:FILE_LIST
+IF "%SELECTX%"=="1" SET "ADDFILEZ=◁PackFolder▷" ECHO.  %@@%AVAILABLE PACKAGEs:%$$%&&ECHO.&&SET "$FOLD=%PackFolder%"&&SET "$FILT=*.PKX *.CAB *.MSU *.APPX *.APPXBUNDLE *.MSIXBUNDLE"&&CALL:FILE_LIST
+IF "%SELECTX%"=="2" SET "ADDFILEZ=◁ListFolder▷"&&ECHO.  %@@%AVAILABLE LISTs/BASEs:%$$%&&ECHO.&&SET "$FOLD=%ListFolder%"&&SET "$FILT=*.LIST *.BASE"&&CALL:FILE_LIST
+IF "%SELECTX%"=="3" SET "ADDFILEZ=◁ImageFolder▷"&&ECHO.  %@@%AVAILABLE IMAGEs:%$$%&&ECHO.&&SET "$FOLD=%ImageFolder%"&&SET "$FILT=*.WIM *.VHDX *.ISO"&&CALL:FILE_LIST
+IF "%SELECTX%"=="4" SET "ADDFILEZ=◁CacheFolder▷"&&ECHO.  %@@%AVAILABLE CACHE FILEs:%$$%&&ECHO.&&SET "$FOLD=%CacheFolder%"&&SET "$FILT=*.*"&&CALL:FILE_LIST
 :ADDFILE_JUMP
-IF "%SELECTX%"=="5" SET "ADDFILEZ=main"&&ECHO.  %@@%AVAILABLE MAIN FILEs:%$$%&&ECHO.&&SET "$FOLD=%ProgFolder%"&&SET "$FILT=*.*"&&CALL:FILE_LIST
+IF "%SELECTX%"=="5" SET "ADDFILEZ=◁ProgFolder▷"&&ECHO.  %@@%AVAILABLE MAIN FILEs:%$$%&&ECHO.&&SET "$FOLD=%ProgFolder%"&&SET "$FILT=*.*"&&CALL:FILE_LIST
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV&&SET "$CHECK=MENU"&&CALL:MENU_SELECT
 IF DEFINED ADDFILEZ IF DEFINED $PICK IF EXIST "%$PICK%" IF NOT EXIST "%$PICK%\*" SET "ADDFILE_%ADDFILEX%=%ADDFILEZ%\%$CHOICE%"
 IF DEFINED ADDFILEZ IF NOT DEFINED $PICK SET "ADDFILE_%ADDFILEX%=SELECT"
+EXIT /B
+:ADDFILE_CHK
+IF NOT DEFINED ADDFILE_%ADDFILE_NUM% SET "ADDFILE_%ADDFILE_NUM%=SELECT"
+IF "%ADDFILE_CHK%"=="SELECT" EXIT /B
+SET "$INPUT=!ADDFILE_CHK!"&&SET "$OUTPUT=ADDFILE_CHK"&&SET "$NO_QUOTE=1"&&CALL:EXPAND_INPUT
+IF NOT EXIST "%ADDFILE_CHK%" SET "ADDFILE_%ADDFILE_NUM%=SELECT"
 EXIT /B
 :EFI_FETCH
 CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.        EFI boot files will be extracted from the boot media.&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:CONFIRM
@@ -3524,13 +3524,8 @@ IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :ADDFILE_COPY
 IF "%ADDFILE_CHK%"=="SELECT" EXIT /B
-SET "PATH_TEMP="&&SET "PATH_FILE="&&FOR /F "TOKENS=1-9 DELIMS=\" %%a in ("%ADDFILE_CHK%") DO (
-IF "%%a"=="pack" SET "PATH_TEMP=%PackFolder%"&&SET "PATH_FILE=%%b"
-IF "%%a"=="list" SET "PATH_TEMP=%ListFolder%"&&SET "PATH_FILE=%%b"
-IF "%%a"=="image" SET "PATH_TEMP=%ImageFolder%"&&SET "PATH_FILE=%%b"
-IF "%%a"=="cache" SET "PATH_TEMP=%CacheFolder%"&&SET "PATH_FILE=%%b"
-IF "%%a"=="main" SET "PATH_TEMP=%ProgFolder%"&&SET "PATH_FILE=%%b")
-IF DEFINED PATH_TEMP IF DEFINED PATH_FILE IF EXIST "%PATH_TEMP%\%PATH_FILE%" IF NOT EXIST "%PATH_TEMP%\%PATH_FILE%\*" ECHO.Copying %PATH_FILE%...&&COPY /Y "%PATH_TEMP%\%PATH_FILE%" "%PRI_LETTER%:\%HOST_FOLDER%">NUL 2>&1
+SET "$INPUT=!ADDFILE_CHK!"&&SET "$OUTPUT=ADDFILE_CHK"&&SET "$NO_QUOTE=1"&&CALL:EXPAND_INPUT
+IF EXIST "%ADDFILE_CHK%" IF NOT EXIST "%ADDFILE_CHK%\*" ECHO.Copying %ADDFILE_CHK%...&&COPY /Y "%ADDFILE_CHK%" "%PRI_LETTER%:\%HOST_FOLDER%">NUL 2>&1
 EXIT /B
 :BCD_MENU
 CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&IF NOT DEFINED BOOT_TIMEOUT SET "BOOT_TIMEOUT=5"
@@ -3652,20 +3647,27 @@ public const int STD_OUTPUT_HANDLE = -11;
 "@ -Name "Functions" -Namespace "WinMekanix" -PassThru | Out-Null
 Add-Type -TypeDefinition @"
 using System;using System.Runtime.InteropServices;public class WinMekanix {
-    private const int STD_OUTPUT_HANDLE = -11;
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] public struct CONSOLE_FONT_INFO_EX
-    {public uint cbSize;public uint nFont;public COORD dwFontSize;public int FontFamily;public int FontWeight;[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]public string FaceName;}
-    [StructLayout(LayoutKind.Sequential)] public struct COORD
-    {public short X;public short Y;}
-    [DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
-    [DllImport("kernel32.dll", SetLastError = true)] public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
-    [DllImport("kernel32.dll", SetLastError = true)] public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
-    public static bool SetConsoleFont(string fontName, short fontSize)
-    {IntPtr consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (consoleOutputHandle == IntPtr.Zero)
-        {return false;}
-        CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
-        fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
+[DllImport("user32.dll", SetLastError = true)] private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+[DllImport("user32.dll", SetLastError = true)] private static extern bool DeleteMenu(IntPtr hMenu, uint uPosition, uint uFlags);
+[DllImport("kernel32.dll", SetLastError = true)] private static extern IntPtr GetConsoleWindow();
+private const uint SC_CLOSE = 0xF060;private const uint MF_BYCOMMAND = 0x00000000;
+public static void DisableCloseButton() {
+IntPtr hWnd = GetConsoleWindow();
+if (hWnd != IntPtr.Zero) {IntPtr hMenu = GetSystemMenu(hWnd, false);
+if (hMenu != IntPtr.Zero) {DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);}}}
+private const int STD_OUTPUT_HANDLE = -11;
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] public struct CONSOLE_FONT_INFO_EX
+{public uint cbSize;public uint nFont;public COORD dwFontSize;public int FontFamily;public int FontWeight;[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]public string FaceName;}
+[StructLayout(LayoutKind.Sequential)] public struct COORD
+{public short X;public short Y;}
+[DllImport("kernel32.dll", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
+[DllImport("kernel32.dll", SetLastError = true)] public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+[DllImport("kernel32.dll", SetLastError = true)] public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+public static bool SetConsoleFont(string fontName, short fontSize)
+{IntPtr consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+if (consoleOutputHandle == IntPtr.Zero) {return false;}
+CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
+fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 "@
 $PSScriptRootX = "$($PWD.Path)";$ProjectFolder = "$PSScriptRootX\project";
 if (Test-Path -Path "$PSScriptRootX\image") {$ImageFolder = "$PSScriptRootX\image"} else {$ImageFolder = "$PSScriptRootX"}
@@ -5333,9 +5335,9 @@ if ($partXb -eq 'GROUP') {if ($partXe -eq "SCOPED") {if ($partXc -eq $ListViewCh
 MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXf" -MessageBoxChoices "$partXg";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$partXe`❕$partXf`❕$partXg`❕$boxindex`❕" -Encoding UTF8
 $ListWrite = 0;MessageBoxListView;return}}}}
 if ($ListWrite -eq '1') {$ListPrompt = $null;
-ForEach ($i in @("PROMPT","PROMPT0","PROMPT1","PROMPT2","PROMPT3","PROMPT4","PROMPT5","PROMPT6","PROMPT7","PROMPT8","PROMPT9")) {if ($i -eq "$partXb") {$ListPrompt = 1;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";$partw1, $partx1 = $partXd -split "❗";$party1, $partz1 = $partx1 -split "-";MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -Check "$partw1" -TextMin "$party1" -TextMax "$partz1";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
-ForEach ($i in @("CHOICE","CHOICE0","CHOICE1","CHOICE2","CHOICE3","CHOICE4","CHOICE5","CHOICE6","CHOICE7","CHOICE8","CHOICE9")) {if ($i -eq "$partXb") {$ListPrompt = 2;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxindex`❕" -Encoding UTF8}}
-ForEach ($i in @("PICKER","PICKER0","PICKER1","PICKER2","PICKER3","PICKER4","PICKER5","PICKER6","PICKER7","PICKER8","PICKER9")) {if ($i -eq "$partXb") {$ListPrompt = 3;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Picker' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
+ForEach ($i in @("PROMPT","PROMPT1","PROMPT2","PROMPT3","PROMPT4","PROMPT5","PROMPT6","PROMPT7","PROMPT8","PROMPT9")) {if ($i -eq "$partXb") {$ListPrompt = 1;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";$partw1, $partx1 = $partXd -split "❗";$party1, $partz1 = $partx1 -split "-";MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -Check "$partw1" -TextMin "$party1" -TextMax "$partz1";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
+ForEach ($i in @("CHOICE","CHOICE1","CHOICE2","CHOICE3","CHOICE4","CHOICE5","CHOICE6","CHOICE7","CHOICE8","CHOICE9")) {if ($i -eq "$partXb") {$ListPrompt = 2;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxindex`❕" -Encoding UTF8}}
+ForEach ($i in @("PICKER","PICKER1","PICKER2","PICKER3","PICKER4","PICKER5","PICKER6","PICKER7","PICKER8","PICKER9")) {if ($i -eq "$partXb") {$ListPrompt = 3;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Picker' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
 ForEach ($i in @("INFO","INFO1")) {if ($i -eq "$partXb") {$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBoxInfo -MessageBoxSize "$partXe" -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxLabel "$partXc" -MessageBoxBody "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250}}
 if ($ListPrompt -eq $null) {Add-Content -Path "$ListFolder\`$LIST" -Value "$_" -Encoding UTF8}
 }}}
@@ -5399,7 +5401,8 @@ if ($Page -eq 'PageMain') {$PageMain.Controls.Add($element)}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LoadSettings {
 $LoadINI = Get-Content -Path "$PSScriptRootX\windick.ini" | Select-Object -Skip 1
-$Settings = $LoadINI | ConvertFrom-StringData
+$LoadINIX = $LoadINI -replace '\\', '\\\\'
+$Settings = $LoadINIX | ConvertFrom-StringData
 $global:REFERENCE = $Settings.REFERENCE
 if ($REFERENCE -eq "DISABLED") {$global:REFERENCE = "Disabled"}
 $global:GUI_SCALE = $Settings.GUI_SCALE
@@ -5437,20 +5440,27 @@ if ($ButtonRadio1_Group1.Checked -eq $true) {$GUI_CONTYPE = 'Embed'} else {$GUI_
 $CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-noprofile", "-WindowStyle", "Hidden", "-Command", {
 Add-Type -TypeDefinition @'
 using System;using System.Runtime.InteropServices;public class WinMekanix {
-    private const int STD_OUTPUT_HANDLE = -11;
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] public struct CONSOLE_FONT_INFO_EX
-    {public uint cbSize;public uint nFont;public COORD dwFontSize;public int FontFamily;public int FontWeight;[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]public string FaceName;}
-    [StructLayout(LayoutKind.Sequential)] public struct COORD
-    {public short X;public short Y;}
-    [DllImport(\"kernel32.dll\", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
-    [DllImport(\"kernel32.dll\", SetLastError = true)] public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
-    [DllImport(\"kernel32.dll\", SetLastError = true)] public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
-    public static bool SetConsoleFont(string fontName, short fontSize)
-    {IntPtr consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (consoleOutputHandle == IntPtr.Zero)
-        {return false;}
-        CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
-        fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
+[DllImport(\"user32.dll\", SetLastError = true)] private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+[DllImport(\"user32.dll\", SetLastError = true)] private static extern bool DeleteMenu(IntPtr hMenu, uint uPosition, uint uFlags);
+[DllImport(\"kernel32.dll\", SetLastError = true)] private static extern IntPtr GetConsoleWindow();
+private const uint SC_CLOSE = 0xF060;private const uint MF_BYCOMMAND = 0x00000000;
+public static void DisableCloseButton() {
+IntPtr hWnd = GetConsoleWindow();
+if (hWnd != IntPtr.Zero) {IntPtr hMenu = GetSystemMenu(hWnd, false);
+if (hMenu != IntPtr.Zero) {DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);}}}
+private const int STD_OUTPUT_HANDLE = -11;
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] public struct CONSOLE_FONT_INFO_EX
+{public uint cbSize;public uint nFont;public COORD dwFontSize;public int FontFamily;public int FontWeight;[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]public string FaceName;}
+[StructLayout(LayoutKind.Sequential)] public struct COORD
+{public short X;public short Y;}
+[DllImport(\"kernel32.dll\", SetLastError = true)] public static extern IntPtr GetStdHandle(int nStdHandle);
+[DllImport(\"kernel32.dll\", SetLastError = true)] public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+[DllImport(\"kernel32.dll\", SetLastError = true)] public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+public static bool SetConsoleFont(string fontName, short fontSize)
+{IntPtr consoleOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+if (consoleOutputHandle == IntPtr.Zero) {return false;}
+CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
+fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 '@
 Add-Type -AssemblyName System.Windows.Forms
 [VOID][System.Text.Encoding]::Unicode;CLS
@@ -5477,6 +5487,7 @@ if ($GUI_CONFONTSIZE -eq 'Auto') {$CFSIZE0 = 28} else {$CFSIZE0 = $GUI_CONFONTSI
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
+[VOID][WinMekanix]::DisableCloseButton()
 CLS;Write-Host "Console Virtual Dimensions: $DimensionX x $DimensionY"
 Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", \"$PSScriptRootX\windick.cmd\", "-EXTERNAL"
 $PathCheck = \"$PSScriptRootX\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$PSScriptRootX\`$CON\" -Force}
@@ -5551,6 +5562,7 @@ if ($GUI_CONFONTSIZE -eq 'Auto') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = 
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
+[VOID][WinMekanix]::DisableCloseButton()
 if ($GUI_BG_COLOR.Length -ne 8) {$GUI_BG_COLOR = 'FF252525'}
 if ($GUI_BTN_COLOR.Length -ne 8) {$GUI_BTN_COLOR = 'FF404040'}
 if ($GUI_HLT_COLOR.Length -ne 8) {$GUI_HLT_COLOR = 'FF777777'}
