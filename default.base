@@ -125,14 +125,17 @@
 ❕Group❕🪟Initial Setup❕🪪Create new user❕Normal❕
 ❕ⓠPrompt❕Enter the user name 0-9 A-Z - No Spaces❕Alpha❗3-20❕VolaTILE❕
 ❕ⓠChoice❕Select user type❕🪪Standard❗🪪Administrator❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕◁Null▷❗SC❕
-❕ⓠCommand❕Net User ◁Prompt1.S▷ /add >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordreq:No >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordchg:No >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net Accounts /maxpwage:unlimited >NUL❕Normal❕SC❕
-❕ⓠCommand❕WMIC USERACCOUNT WHERE Name="◁Prompt1.S▷" SET PasswordExpires=FALSE >NUL❕Normal❕SC❕
-❕ⓠCommand❕Net localgroup Administrators ◁Prompt1.S▷ /add >NUL❕Normal❕◁Array1.2▷❕
-❕ⓠTextHost❕🪪Create new user scheduled for SetupComplete.❕Screen❕DX❕
+❕ⓠChoice2❕Has the initial Windows setup been completed on the target❕❎No❗✅Yes❕VolaTILE❕
+❕ⓠArray❕◁Choice2.I▷❕1❗2❕SC❗RO❕
+❕ⓠArray2❕◁Choice1.I▷❕1❗2❕◁Null▷❗◁Array1.S▷❕
+❕ⓠCommand❕Net User ◁Prompt1.S▷ /add >NUL❕Normal❕◁Array1.S▷❕
+❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordreq:No >NUL❕Normal❕◁Array1.S▷❕
+❕ⓠCommand❕Net User ◁Prompt1.S▷ /passwordchg:No >NUL❕Normal❕◁Array1.S▷❕
+❕ⓠCommand❕Net Accounts /maxpwage:unlimited >NUL❕Normal❕◁Array1.S▷❕
+❕ⓠCommand❕WMIC USERACCOUNT WHERE Name="◁Prompt1.S▷" SET PasswordExpires=FALSE >NUL❕Normal❕◁Array1.S▷❕
+❕ⓠCommand❕Net localgroup Administrators ◁Prompt1.S▷ /add >NUL❕Normal❕◁Array2.2▷❕
+❕ⓠTextHost❕🪪Create new user applied.❕Screen❕◁Array1.S▷❕
+❕ⓠTextHost❕🪪Create new user scheduled.❕Screen❕DX❕
 
 ❕Group❕🪟Initial Setup❕🪛First Logon Waiting Screen ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗EnableFirstLogonAnimation❕Registry❕Integer❕
@@ -146,39 +149,42 @@
 
 ❕Group❕🪛Advertisements❕🪛Start Menu Ads ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Start Menu Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Spotlight Ads ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗0❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Spotlight Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Bing Searchbox ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Delete❕DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗1❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Bing Searchbox ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Advertisements❕🪛Copilot ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠArray2❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗1❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Copilot ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
@@ -191,6 +197,39 @@
 ❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗ColorPrevalence❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕🪛Accent Color ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
+❕Group❕🎨Appearance❕🪛Show Hidden Files ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Hidden❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗2❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗2❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Hidden❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Show Hidden Files ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Show SuperHidden Files ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowSuperHidden❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowSuperHidden❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Show SuperHidden Files ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Show File Extensions ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗HideFileExt❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗HideFileExt❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Show File Extensions ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Show TaskView Button ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowTaskViewButton❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowTaskViewButton❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowTaskViewButton❗0❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛Show TaskView Button ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
 ❕Group❕🎨Appearance❕🪛Taskbar Animations ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❕Registry❕Integer❕
 ❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
@@ -198,6 +237,23 @@
 ❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
 ❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕❎Taskbar Animations ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Taskbar Icons Size ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSmallIcons❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Normal❗✅Small❗✅Normal❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Small❗✅Normal❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSmallIcons❗1❗Dword❕Create❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSmallIcons❕Delete❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛Taskbar Icons Size➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Taskbar Size ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗2❗◁Else▷❕❔Unconfigured❗✅Small❗✅Medium❗✅Large❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Small❗✅Medium❗✅Large❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❗3❕0❗1❗2❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕◁Choice1.S▷ Taskbar  ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🎨Appearance❕🪛Theme ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
@@ -208,39 +264,51 @@
 ❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕ⓠTextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Taskbar Size ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗2❗◁Else▷❕❔Unconfigured❗Small❗Medium❗Large❗❔Unspecified❕
-❕ⓠChoice❕Select an option❕🪛Small❗🪛Medium❗🪛Large❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❗3❕0❗1❗2❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠTextHost❕◁Choice1.S▷ Taskbar  ➥ applied.❕Screen❕DX❕
+❕Group❕🎨Appearance❕🪛Window Shaking ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗DisallowShaking❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗DisallowShaking❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗DisallowShaking❗1❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛Window Shaking ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
+
+❕Group❕🪟Audio / Video❕🪛Audio Effects ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❗1❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛Audio Effects ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪟Audio / Video❕🪛Audio Enhancements ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableAllEnhancements❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Multimedia\Audio❗DisableAllEnhancements❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Multimedia\Audio❗DisableAllEnhancements❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Multimedia\Audio❗DisableAllEnhancements❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Audio Enhancements ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪟Audio / Video❕🪛Content Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Content Adaptive Brightness ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪟Audio / Video❕🪛Spatial Audio ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableSpatialAudio❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableSpatialAudio❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableSpatialAudio❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableSpatialAudio❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Spatial Audio ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
@@ -549,75 +617,99 @@
 
 ❕Group❕🪛Miscellaneous❕🪛Apps for Websites ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❗1❗Dword❕Create❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Delete❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛Apps for Websites ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Auto Rotation ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\AutoRotation❗Enable❕Registry❕Integer❕
 ❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠTextHost❕🪛Apps for Websites ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\AutoRotation❗Enable❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Auto Rotation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Background applications  ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠArray2❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Edge❗BackgroundModeEnabled❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Background applications ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪛Miscellaneous❕🪛DCOM ➥ ◁Array1.S▷❕Normal❕
-❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❕Registry❕String❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗Y❗N❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕Y❗N❕
-❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❗◁Array1.S▷❗String❕Create❕DX❕
-❕ⓠTextHost❕🪛DCOM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+❕X❕Group❕🪛Miscellaneous❕🪛DCOM ➥ ◁Array1.S▷❕Normal❕
+❕X❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❕Registry❕String❕
+❕X❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗Y❗N❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕X❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕X❕ⓠArray❕◁Choice1.I▷❕1❗2❕Y❗N❕
+❕X❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❗◁Array1.S▷❗String❕Create❕DX❕
+❕X❕ⓠTextHost❕🪛DCOM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Driver updates ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Driver updates ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Driver updates search ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Driver updates search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪛Miscellaneous❕🪛Inactivity Lockout Timeout ➥ ◁Array1.S▷s❕Normal❕
+❕Group❕🪛Miscellaneous❕🪛File History ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❗1❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛File History ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Inactivity Lockout Timeout ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Routine1.S▷❗◁Null▷❕◁Routine1.S▷❗❔Unconfigured❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗◁Else▷❕❎Disabled❗❎Disabled❗◁Routine1.S▷ seconds❕
 ❕ⓠPrompt❕Enter inactivity lockout timeout in seconds: 0-500000 (Disabled=0)❕Number❗0-500000❕VolaTILE❕
-❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❗◁Prompt1.S▷❗Dword❕Create❕DX❕
-❕ⓠTextHost❕🪛Inactivity Lockout Timeout ◁Prompt1.S▷s  ➥ applied.❕Screen❕DX❕
+❕ⓠArray❕◁Prompt1.S▷❕0❗◁Else▷❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❗◁Prompt1.S▷❗Dword❕Create❕◁Array1.2▷❕
+❕ⓠTextHost❕🪛Inactivity Lockout Timeout ◁Prompt1.S▷ ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Lockscreen ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❗1❗Dword❕Create❕◁Array2.1▷❕
 ❕ⓠTextHost❕🪛Lockscreen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Notification center ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗◁Array1.S▷ ❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗1 ❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛Notification center ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛ScreenSaver ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❕Registry❕Integer❕
-❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❕Delete❕◁Array1.1▷❕
+❕ⓠRegistry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕ⓠTextHost❕🪛ScreenSaver ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🪛Wakelocks other ➥ ◁Array1.S▷❕Normal❕
@@ -773,6 +865,30 @@
 ❕ⓠTextHost❕⏳Boot Menu Timeout ◁Choice1.S▷ scheduled for RunOnce.❕Screen❕DX❕
 ❕ⓠCommand❕bcdedit /timeout ◁Choice1.S▷ >NUL❕Normal❕RO❕
 ❕ⓠTextHost❕⏳Boot Menu Timeout ➥ ◁Choice1.S▷s applied.❕Screen❕RO❕
+
+
+
+❕Group❕🪟Startup❕🪛Connected Standby ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveSystem▷\ControlSet001\Control\Power❗CsEnabled❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power❗CsEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Connected Standby ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+
+
+❕Group❕🪟Startup❕🪛Hibernation ➥ ◁Array1.S▷❕Normal❕
+❕ⓡRoutine❕◁HiveSystem▷\ControlSet001\Control\Power❗HibernateEnabled❕Registry❕Integer❕
+❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕ⓠChoice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕ⓠArray2❕◁Choice1.I▷❕1❗2❕50❗0❕
+❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power❗HibernateEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕ⓠRegistry❕◁HiveSystem▷\ControlSet001\Control\Power❗HiberFileSizePercent❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕ⓠTextHost❕🪛Hibernation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+
 
 ❕Group❕🪟Startup❕🪛RunOnce initialization ➥ ◁Array1.S▷❕Normal❕
 ❕ⓡRoutine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❕Registry❕Integer❕
@@ -1116,7 +1232,7 @@
 ❕ⓠTextHost❕🪛Built-In Administrator ➥ ◁Choice1.S▷ applied.❕Screen❕RO❕
 
 ❕Group❕🔣Unsorted❕🪛Reset Widgets❕Normal❕
-❕ⓠCommand❕powershell -Command "Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage​"❕NoMount❕DX❕
+❕ⓠCommand❕powershell -noprofile -Command "Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage"❕NoMount❕DX❕
 ❕ⓠTextHost❕🪛Reset Widgets ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Advertising ID ➥ ◁Array1.S▷❕Normal❕
