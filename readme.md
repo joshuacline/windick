@@ -1,7 +1,7 @@
 # Windows Deployment Image Customization Kit
 A native command shell Windows image deployment tool.
 
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/topbanner.png "topbanner")
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/maingui.png" alt=" " width="720">
 
 [![Download](https://img.shields.io/github/v/release/joshuacline/windick)](https://github.com/joshuacline/windick/archive/refs/heads/main.zip)
 
@@ -16,8 +16,24 @@ A native command shell Windows image deployment tool.
 
 - https://youtube.com/@windozedev
 
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/maingui.png "maingui")
-![Alt text](https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg "MenuScript")
+\
+\
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.gif" alt=" " width="720">
+
+- 1. ***Import your Windows installation media from a .iso, then convert to a .vhdx in Image Processing***
+
+\
+\
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootdiskcreator.gif" alt=" " width="720">
+
+- 2. ***Create a bootable Windows USB or setup disk with just a few clicks in BootDisk Creator***
+
+\
+\
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg" alt=" " width="720">
+
+- 3. ***Customize your Windows with tweaks and more in Image Management***
+
 
 # Testimonials
 - "Wow. Just wow." -K.Genus
