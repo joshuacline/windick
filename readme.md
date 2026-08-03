@@ -16,26 +16,25 @@ A native command shell Windows image deployment tool.
 
 - https://youtube.com/@windozedev
 
-\
-\
-<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.gif" alt=" " width="720">
 
 - 1. ***Import your Windows installation media from a .iso, then convert to a .vhdx in Image Processing***
 
-\
-\
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.gif" alt=" " width="720">
+
+- 2. ***Customize your Windows with tweaks and more in Image Management (optional)***
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/listexecute.gif" alt=" " width="720">
+
+- 3. ***Create a bootable Windows USB or setup disk with just a few clicks in BootDisk Creator***
+
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootdiskcreator.gif" alt=" " width="720">
-
-- 2. ***Create a bootable Windows USB or setup disk with just a few clicks in BootDisk Creator***
-
-\
-\
-<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg" alt=" " width="720">
-
-- 3. ***Customize your Windows with tweaks and more in Image Management***
 
 
 # Testimonials
 - "Wow. Just wow." -K.Genus
 - "Blown away. What am I looking at again?" -J.Gates
 - "Flexible. Absurdly. Now I get the beef." -C.Envy
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg" alt=" " width="720">
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscriptsample.jpg" alt=" " width="720">
