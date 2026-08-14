@@ -30,7 +30,7 @@ GUI
 
 </details>
 
-##Image Management
+## Image Management
 - 2. ***Customize your Windows with tweaks and more in Image Management (optional)***
 
 GUI
