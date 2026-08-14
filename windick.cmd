@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1225 © github.com/joshuacline
+:: <# Windows Deployment Image Customization Kit v 1226 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -438,22 +438,20 @@ EXIT /B
 SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"
 SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="
 SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&CD /D "%~DP0"&&CHCP 65001>NUL
-SET "ORIG_CD=%CD%"&&FOR /F "TOKENS=*" %%a in ("%CD%") DO (SET "CAPS_SET=ProgFolder0"&&SET "CAPS_VAR=%%a"&&CALL:CAPS_SET)
-FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%ProgFolder0%") DO (SET "CHAR_STR=%%b"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&IF "%%b"=="\" SET "ProgFolder0=%%a:")
+SET "ORIG_CD=%CD%"&&SET "ProgFolder0=%CD%"&&FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%CD%") DO (SET "CHAR_STR=%%b"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&IF "%%b"=="\" SET "ProgFolder0=%%a:")
 IF EXIST "%ProgFolder0%\$CON" SET "GUI_ACTIVE=1"&DEL /F /Q "%ProgFolder0%\$CON">NUL 2>&1
 IF DEFINED CHAR_FLG SET "ERROR=Remove the space from the path or folder name, then launch again."
 IF NOT EXIST "%ProgFolder0%" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
 IF "%ProgFolder0%"=="X:\$" IF NOT "%SYSTEMDRIVE%"=="X:" SET "ERROR=Relocate to path other than X:\$."
-IF "%ProgFolder0%"=="%SYSTEMDRIVE%\WINDOWS\SYSTEM32" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
-SET "PATH_TEMP="&&FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%ProgFolder0%") DO (IF "%%a\%%b\%%c"=="%SystemDrive%\WINDOWS\TEMP" SET "PATH_TEMP=1"
-IF "%%a\%%b\%%d\%%e\%%f"=="%SystemDrive%\USERS\APPDATA\LOCAL\TEMP" SET "PATH_TEMP=1")
-IF DEFINED PATH_TEMP SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again."
+IF /I "%ProgFolder0%"=="%SYSTEMDRIVE%\Windows\System32" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
+FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%ProgFolder0%") DO (IF /I "%%a\%%b\%%c"=="%SystemDrive%\Windows\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again."
+IF /I "%%a\%%b\%%d\%%e\%%f"=="%SystemDrive%\Users\AppData\Local\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again.")
 %REG% query "HKU\S-1-5-19\Environment">NUL
 IF NOT "%ERRORLEVEL%" EQU "0" SET "ERROR=Right click and run as administrator."
-SET "LANG_PASS="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "LANG_PASS=1")
-IF NOT DEFINED LANG_PASS SET "ERR_MSG=Non-english host language/locale."
+SET "$ENG="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "$ENG=1")
+IF NOT DEFINED $ENG SET "ERROR=Non-english host language/locale."
 IF "%SYSTEMDRIVE%"=="X:" IF EXIST "X:\$\HOST_TARGET" SET "WINPE_BOOT=1"
-IF DEFINED ERROR CALL ECHO.ERROR: %ERROR%&&PAUSE&&GOTO:QUIT
+IF DEFINED ERROR CALL ECHO.ERROR: %ERROR%&&SET "TIMER=10"&&CALL:TIMER&&GOTO:QUIT
 CALL:SESSION_CLEAR&CALL:GET_ARGS&CALL:GET_SID&CALL:MOUNT_INT
 IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
 IF NOT "%ProgFolder0%"=="X:\$" SET "PROG_MODE=PORTABLE"&&CALL:SETS_HANDLER&&GOTO:MAIN_MENU
