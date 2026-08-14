@@ -19,22 +19,43 @@ A native command shell Windows image deployment tool.
 
 - 1. ***Import your Windows installation media from a .iso, then convert to a .vhdx in Image Processing***
 
+GUI
+
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessing.gif" alt=" " width="720">
+
+<details>
+<summary>CMD</summary>
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/imageprocessingCMD.gif" alt=" " width="720">
+
+</details>
 
 - 2. ***Customize your Windows with tweaks and more in Image Management (optional)***
 
+GUI
+
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/listexecute.gif" alt=" " width="720">
+
+<details>
+<summary>CMD</summary>
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/listexecuteCMD.gif" alt=" " width="720">
+
+</details>
 
 - 3. ***Create a bootable Windows USB or setup disk with just a few clicks in BootDisk Creator***
 
+GUI
+
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootdiskcreator.gif" alt=" " width="720">
 
+<details>
+<summary>CMD</summary>
 
-# Testimonials
-- "Wow. Just wow." -K.Genus
-- "Blown away. What am I looking at again?" -J.Gates
-- "Flexible. Absurdly. Now I get the beef." -C.Envy
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/bootdiskcreatorCMD.gif" alt=" " width="720">
 
-<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg" alt=" " width="720">
+</details>
+
+MenuScript menu based scripting database
 
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscriptsample.jpg" alt=" " width="720">
