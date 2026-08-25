@@ -1232,7 +1232,7 @@
 ❕ⓠTextHost❕🪛Built-In Administrator ➥ ◁Choice1.S▷ applied.❕Screen❕RO❕
 
 ❕Group❕🔣Unsorted❕🪛Reset Widgets❕Normal❕
-❕ⓠCommand❕powershell -noprofile -Command "Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage"❕NoMount❕DX❕
+❕ⓠPowerShell❕Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage❕NoMount❕DX❕
 ❕ⓠTextHost❕🪛Reset Widgets ➥ applied.❕Screen❕DX❕
 
 ❕Group❕🔣Unsorted❕🪛Advertising ID ➥ ◁Array1.S▷❕Normal❕
