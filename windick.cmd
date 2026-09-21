@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1226 © github.com/joshuacline
+:: <# Windows Deployment Image Customization Kit v 1227 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -261,182 +261,182 @@ EXIT /B
 ECHO.MENU-SCRIPT
 ECHO.❗* Builder Execution Interactive List Items *❗
 ECHO.
-ECHO.❕Table❕ⓠ: Execution item, suppresses announcement / ⓡ: Reference item, no announcement❕
-ECHO.❕Note❕List items without a 'ⓠ' or 'ⓡ' prefix are processed as execution.❕
+ECHO.❕Table❕📢: Adds announcement to Execution item upon execution / 📜: List viewer Reference item❕
+ECHO.❕Note❕List items without a '📜' prefix are processed as execution.❕
 ECHO.
-ECHO.❕Group❕🪟Builder interactive items❕🪛Choice item❕Normal❕
+ECHO.❕Group❕🪟Builder interactive items❕🪛Choice item❕Normal❕Example list❗Opens a choice menu❕
 ECHO.❕Note❕Choice Item: Choice1-9 are valid. Up to 9 choices seperated by '❗'.❕
-ECHO.❕ⓠChoice❕Select an option❕A❗B❗C❕VolaTILE❕
-ECHO.❕ⓠTextHost❕Choice1.I:◁Choice1.I▷ Choice1.S:◁Choice1.S▷ Choice1.1:◁Choice1.1▷ Choice1.2:◁Choice1.2▷ Choice1.3:◁Choice1.3▷❕Screen❕DX❕
+ECHO.❕Choice❕Select an option❕A❗B❗C❕VolaTILE❕
+ECHO.❕TextHost❕Choice1.I:◁Choice1.I▷ Choice1.S:◁Choice1.S▷ Choice1.1:◁Choice1.1▷ Choice1.2:◁Choice1.2▷ Choice1.3:◁Choice1.3▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Builder interactive items❕🪛Prompt item❕Normal❕
+ECHO.❕Group❕🪟Builder interactive items❕🪛Prompt item❕Normal❕Example list❗Opens a prompt menu❕
 ECHO.❕Note❕Prompt Item: Prompt1-9 are valid. Prompt filter 'Number', 'Letter', 'Alpha', 'Menu', 'Most', and 'None' are usable options. Minimum and maximum character limit are optional.❕
-ECHO.❕ⓠPrompt❕Enter text❕Alpha❗3-20❕VolaTILE❕
-ECHO.❕ⓠTextHost❕Prompt1.I:◁Prompt1.I▷ Prompt1.S:◁Prompt1.S▷ Prompt1.1:◁Prompt1.1▷❕Screen❕DX❕
+ECHO.❕Prompt❕Enter text❕Alpha❗3-20❕VolaTILE❕
+ECHO.❕TextHost❕Prompt1.I:◁Prompt1.I▷ Prompt1.S:◁Prompt1.S▷ Prompt1.1:◁Prompt1.1▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Builder interactive items❕🪛Picker item❕Normal❕
+ECHO.❕Group❕🪟Builder interactive items❕🪛Picker item❕Normal❕Example list❗Opens a file picker menu❕
 ECHO.❕Note❕Picker Item: Picker1-9 are valid. '◁ImageFolder▷', '◁ListFolder▷', '◁PackFolder▷', '◁CacheFolder▷', and '◁ProgFolder▷' are suggested options.❕
-ECHO.❕ⓠPicker❕Select a file❕◁ImageFolder▷❗*.wim❕VolaTILE❕
-ECHO.❕ⓠTextHost❕Picker1.I:◁Picker1.I▷ Picker1.S:◁Picker1.S▷ Picker1.1:◁Picker1.1▷❕Screen❕DX❕
+ECHO.❕Picker❕Select a file❕◁ImageFolder▷❗*.wim❕VolaTILE❕
+ECHO.❕TextHost❕Picker1.I:◁Picker1.I▷ Picker1.S:◁Picker1.S▷ Picker1.1:◁Picker1.1▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Builder interactive items❕🪛Info item❕Normal❕
+ECHO.❕Group❕🪟Builder interactive items❕🪛Info item❕Normal❕Example list❗Opens an info box menu❕
 ECHO.❕Note❕Info Item: Info1 is valid. 'Small' and 'Large' are usable options.❕
-ECHO.❕ⓠInfo❕✅InfoBox Item Header❕✅InfoBox message goes here.❕Large❕
+ECHO.❕Info❕✅InfoBox Item Header❕✅InfoBox message goes here.❕Large❕
 ECHO.
 ECHO.
 ECHO.
 ECHO.❗* Builder Execution Non-Interactive List Items *❗
 ECHO.
-ECHO.❕Group❕🪟Builder non-interactive items❕🪛Condit item❕Normal❕
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Condit item❕Normal❕Example list❗Item that assigns values upon condition❕
 ECHO.❕Note❕Condit Item: Condit1-9 are valid. 'Defined', 'Ndefined', 'Exist', 'Nexist', 'EQ', 'NE', 'GE', 'LE', 'LT', and 'GT' are usable options. Enter ◁Null▷ into the 4th column if 'else' is not needed.❕
-ECHO.❕ⓠString❕TestString❕String❕1❕
-ECHO.❕ⓠCondit❕◁WinTar▷❗Exist❕WinTar Exists❕◁Null▷❕
-ECHO.❕ⓠCondit2❕◁String1.I▷❗EQ❗1❕String1 equals 'TestString'❕String1 does not equal 'TestString'❕
-ECHO.❕ⓠTextHost❕Condit1.I:◁Condit1.I▷ Condit1.S:◁Condit1.S▷ Condit1.1:◁Condit1.1▷ Condit1.2:◁Condit1.2▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Condit2.I:◁Condit2.I▷ Condit2.S:◁Condit2.S▷ Condit2.1:◁Condit2.1▷ Condit2.2:◁Condit2.2▷❕Screen❕DX❕
+ECHO.❕String❕TestString❕String❕1❕
+ECHO.❕Condit❕◁WinTar▷❗Exist❕WinTar Exists❕◁Null▷❕
+ECHO.❕Condit2❕◁String1.I▷❗EQ❗1❕String1 equals 'TestString'❕String1 does not equal 'TestString'❕
+ECHO.❕TextHost❕Condit1.I:◁Condit1.I▷ Condit1.S:◁Condit1.S▷ Condit1.1:◁Condit1.1▷ Condit1.2:◁Condit1.2▷❕Screen❕DX❕
+ECHO.❕TextHost❕Condit2.I:◁Condit2.I▷ Condit2.S:◁Condit2.S▷ Condit2.1:◁Condit2.1▷ Condit2.2:◁Condit2.2▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Builder non-interactive items❕🪛Array item❕Normal❕
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Array item❕Normal❕Example list❗Item that assigns values from an array upon if-equals condition❕
 ECHO.❕Note❕Array Item: Array1-9 are valid. Similar to a condit item except the condition is always 'EQ'. An array of if EQ's, optional '◁Else▷' needs to be placed last.❕
-ECHO.❕ⓠChoice❕Select an option❕A❗B❗C❗Z❕VolaTILE❕
-ECHO.❕ⓠArray❕◁Choice1.S▷❕A❗B❗C❗◁Else▷❕✅Array1.1 selected❗✅Array1.2 selected❗✅Array1.3 selected❗✅Array1.4 selected❕
-ECHO.❕ⓠArray2❕◁Choice1.I▷❕1❗2❗3❗◁Else▷❕✅Array2.1 selected❗✅Array2.2 selected❗✅Array2.3 selected❗✅Array2.4 selected❕
-ECHO.❕ⓠTextHost❕Array1.I:◁Array1.I▷ Array1.S:◁Array1.S▷ Array1.1:◁Array1.1▷ Array1.2:◁Array1.2▷ Array1.3:◁Array1.3▷ Array1.4:◁Array1.4▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Array2.I:◁Array2.I▷ Array2.S:◁Array2.S▷ Array2.1:◁Array2.1▷ Array2.2:◁Array2.2▷ Array2.3:◁Array2.3▷ Array2.4:◁Array2.4▷❕Screen❕DX❕
+ECHO.❕Choice❕Select an option❕A❗B❗C❗Z❕VolaTILE❕
+ECHO.❕Array❕◁Choice1.S▷❕A❗B❗C❗◁Else▷❕✅Array1.1 selected❗✅Array1.2 selected❗✅Array1.3 selected❗✅Array1.4 selected❕
+ECHO.❕Array2❕◁Choice1.I▷❕1❗2❗3❗◁Else▷❕✅Array2.1 selected❗✅Array2.2 selected❗✅Array2.3 selected❗✅Array2.4 selected❕
+ECHO.❕TextHost❕Array1.I:◁Array1.I▷ Array1.S:◁Array1.S▷ Array1.1:◁Array1.1▷ Array1.2:◁Array1.2▷ Array1.3:◁Array1.3▷ Array1.4:◁Array1.4▷❕Screen❕DX❕
+ECHO.❕TextHost❕Array2.I:◁Array2.I▷ Array2.S:◁Array2.S▷ Array2.1:◁Array2.1▷ Array2.2:◁Array2.2▷ Array2.3:◁Array2.3▷ Array2.4:◁Array2.4▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Builder non-interactive items❕🪛Math item❕Normal❕
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Math item❕Normal❕Example list❗Item that assigns values for math❕
 ECHO.❕Note❕Math item: MATH1-9 are valid. '+', '-', '/', and '*' are usable options.❕
-ECHO.❕ⓠMath❕1❕*❕5❕
-ECHO.❕ⓠTextHost❕Math1.I:◁Math1.I▷ Math1.S:◁Math1.S▷ Math1.1:◁Math1.1▷❕Screen❕DX❕
+ECHO.❕Math❕1❕*❕5❕
+ECHO.❕TextHost❕Math1.I:◁Math1.I▷ Math1.S:◁Math1.S▷ Math1.1:◁Math1.1▷❕Screen❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Builder non-interactive items❕🪛String item❕Normal❕
 ECHO.❕Note❕String item: String1-9 are valid. 'String' and 'Integer' are usable options.❕
-ECHO.❕ⓠChoice❕Select an option❕A❗B❗C❗D❗E❕VolaTILE❕
-ECHO.❕ⓠString❕10❗20❗30❗40❗50❕Integer❕◁Choice1.I▷❕
-ECHO.❕ⓠString2❕V❗W❗X❗Y❗Z❕String❕◁Choice1.I▷❕
-ECHO.❕ⓠTextHost❕String1.I:◁String1.I▷ String1.S:◁String1.S▷ String1.1:◁String1.1▷ String1.2:◁String1.2▷ String1.3:◁String1.3▷ String1.4:◁String1.4▷ String1.5:◁String1.5▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕String2.I:◁String2.I▷ String2.S:◁String2.S▷ String2.1:◁String2.1▷ String2.2:◁String2.2▷ String2.3:◁String2.3▷ String2.4:◁String2.4▷ String2.5:◁String2.5▷❕Screen❕DX❕
+ECHO.❕Choice❕Select an option❕A❗B❗C❗D❗E❕VolaTILE❕
+ECHO.❕String❕10❗20❗30❗40❗50❕Integer❕◁Choice1.I▷❕
+ECHO.❕String2❕V❗W❗X❗Y❗Z❕String❕◁Choice1.I▷❕
+ECHO.❕TextHost❕String1.I:◁String1.I▷ String1.S:◁String1.S▷ String1.1:◁String1.1▷ String1.2:◁String1.2▷ String1.3:◁String1.3▷ String1.4:◁String1.4▷ String1.5:◁String1.5▷❕Screen❕DX❕
+ECHO.❕TextHost❕String2.I:◁String2.I▷ String2.S:◁String2.S▷ String2.1:◁String2.1▷ String2.2:◁String2.2▷ String2.3:◁String2.3▷ String2.4:◁String2.4▷ String2.5:◁String2.5▷❕Screen❕DX❕
 ECHO.
-ECHO.❕Group❕🪟Builder non-interactive items❕🪛Routine item❕Normal❕
+ECHO.❕Group❕🪟Builder non-interactive items❕🪛Routine item❕Normal❕Example list❗Item that assigns values upon output of routine❕
 ECHO.❕Note❕Routine item: Routine1-9 are valid. 'Command', 'Split', and 'Registry' are usable options. Optional column number match seperated by '❗'. For 'Command' routines an asterisk can be used in column 4 as a tokens modifier eg '3*'.❕
-ECHO.❕ⓠRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
-ECHO.❕ⓠRoutine2❕^<^>:❗DIR /B C:\❗1❗Program Files❕Command❕1❕
-ECHO.❕Note❕Routine examples 3-5 listed below are not currently implemented as dynamic menu reference items 'ⓡ', only execution 'ⓠ'.❕
-ECHO.❕ⓠRoutine3❕^<^>:❗DIR /B C:\❕Command❕1❕
-ECHO.❕ⓠRoutine4❕:❗A:B:C❗3❗C❕Split❕2❕
-ECHO.❕ⓠRoutine5❕:❗A:B:C❕Split❕2❕
+ECHO.❕Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
+ECHO.❕Routine2❕^<^>:❗DIR /B C:\❗1❗Program Files❕Command❕1❕
+ECHO.❕Note❕Routine examples 3-5 listed below are not currently implemented as dynamic menu reference items '📜', only execution ''.❕
+ECHO.❕Routine3❕^<^>:❗DIR /B C:\❕Command❕1❕
+ECHO.❕Routine4❕:❗A:B:C❗3❗C❕Split❕2❕
+ECHO.❕Routine5❕:❗A:B:C❕Split❕2❕
 ECHO.❕Note❕For Routine Registry items 'String' and 'Integer' are usable options.❕
-ECHO.❕ⓠTextHost❕Routine1.I:◁Routine1.I▷ Routine1.S:◁Routine1.S▷ Routine1.1:◁Routine1.1▷ Routine1.2:◁Routine1.2▷ Routine1.3:◁Routine1.3▷ ❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Routine2.I:◁Routine2.I▷ Routine2.S:◁Routine2.S▷ Routine2.1:◁Routine2.1▷ Routine2.2:◁Routine2.2▷ Routine2.3:◁Routine2.3▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Routine3.I:◁Routine3.I▷ Routine3.S:◁Routine3.S▷ Routine3.1:◁Routine3.1▷ Routine3.2:◁Routine3.2▷ Routine3.3:◁Routine3.3▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Routine4.I:◁Routine4.I▷ Routine4.S:◁Routine4.S▷ Routine4.1:◁Routine4.1▷ Routine4.2:◁Routine4.2▷ Routine4.3:◁Routine4.3▷❕Screen❕DX❕
-ECHO.❕ⓠTextHost❕Routine5.I:◁Routine5.I▷ Routine5.S:◁Routine5.S▷ Routine5.1:◁Routine5.1▷ Routine5.2:◁Routine5.2▷ Routine5.3:◁Routine5.3▷❕Screen❕DX❕
+ECHO.❕TextHost❕Routine1.I:◁Routine1.I▷ Routine1.S:◁Routine1.S▷ Routine1.1:◁Routine1.1▷ Routine1.2:◁Routine1.2▷ Routine1.3:◁Routine1.3▷ ❕Screen❕DX❕
+ECHO.❕TextHost❕Routine2.I:◁Routine2.I▷ Routine2.S:◁Routine2.S▷ Routine2.1:◁Routine2.1▷ Routine2.2:◁Routine2.2▷ Routine2.3:◁Routine2.3▷❕Screen❕DX❕
+ECHO.❕TextHost❕Routine3.I:◁Routine3.I▷ Routine3.S:◁Routine3.S▷ Routine3.1:◁Routine3.1▷ Routine3.2:◁Routine3.2▷ Routine3.3:◁Routine3.3▷❕Screen❕DX❕
+ECHO.❕TextHost❕Routine4.I:◁Routine4.I▷ Routine4.S:◁Routine4.S▷ Routine4.1:◁Routine4.1▷ Routine4.2:◁Routine4.2▷ Routine4.3:◁Routine4.3▷❕Screen❕DX❕
+ECHO.❕TextHost❕Routine5.I:◁Routine5.I▷ Routine5.S:◁Routine5.S▷ Routine5.1:◁Routine5.1▷ Routine5.2:◁Routine5.2▷ Routine5.3:◁Routine5.3▷❕Screen❕DX❕
 ECHO.
 ECHO.
 ECHO.
 ECHO.❗* Builder Reference List Items Example *❗
 ECHO.
-ECHO.❕Group❕🎨Reference Example❕🎨Theme ➥ ◁Array1.S▷❕Normal❕
-ECHO.❕ⓡRoutine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
-ECHO.❕ⓡArray❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗🌑Dark❗🌕Light❗❔Unspecified❕
-ECHO.❕ⓠChoice❕Select an option❕🌕Light theme❗🌑Dark theme❕VolaTILE❕
-ECHO.❕ⓠArray❕◁Choice1.I▷❕1❗2❕1❗0❕
+ECHO.❕Group❕🎨Reference Example❕🎨Theme ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Choose Light or Dark theme❕
+ECHO.❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
+ECHO.❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗🌑Dark❗🌕Light❗❔Unspecified❕
+ECHO.❕Choice❕Select an option❕🌕Light theme❗🌑Dark theme❕VolaTILE❕
+ECHO.❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
 ECHO.
 ECHO.❕Note❕Halt item❕
-ECHO.❕ⓠChoice2❕Select an option❕Halt❗Don't Halt❕VolaTILE❕
-ECHO.❕ⓠArray2❕◁Choice2.I▷❕1❗2❕HALT❗DX❕
-ECHO.❕ⓠTextHost❕Halt skipped.❕Screen❕◁Array2.S▷❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
-ECHO.❕ⓠTextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
+ECHO.❕Choice2❕Select an option❕Halt❗Don't Halt❕VolaTILE❕
+ECHO.❕Array2❕◁Choice2.I▷❕1❗2❕HALT❗DX❕
+ECHO.❕TextHost❕Halt skipped.❕Screen❕◁Array2.S▷❕
+ECHO.❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+ECHO.❕TextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
 ECHO.
 ECHO.❗* Execution List Items *❗
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛Command item❕Normal❕
 ECHO.❕Note❕Command item: 'Normal', 'NoMount', 'Normal❗RAU', 'Normal❗RAS', 'Normal❗RATI', 'NoMount❗RAU', 'NoMount❗RAS', or 'NoMount❗RATI' are usable options.❕
-ECHO.❕ⓠCommand❕echo.testing 1 2 3.❕Normal❕DX❕
+ECHO.❕Command❕echo.testing 1 2 3.❕Normal❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛PowerShell item❕Normal❕
 ECHO.❕Note❕PowerShell Command item: 'Normal' or 'NoMount' are usable options.❕
-ECHO.❕ⓠPowerShell❕Get-ItemProperty -Path "Registry::◁HiveUser▷\Control Panel" | ForEach-Object {Write-Host "($_)"}❕Normal❕DX❕
+ECHO.❕PowerShell❕Get-ItemProperty -Path "Registry::◁HiveUser▷\Control Panel" | ForEach-Object {Write-Host "($_)"}❕Normal❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛Registry create item❕Normal❕
 ECHO.❕Note❕Registry item: 'Create', 'Delete', 'Create❗RAU', 'Create❗RAS', 'Create❗RATI', 'Delete❗RAU', 'Delete❗RAS', or 'Delete❗RATI' are usable options. 'Dword', 'Qword', 'Binary', 'String', 'Expand', and 'Multi' are usable options.❕
 ECHO.
 ECHO.❕Note❕Registry item create key.❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❕Create❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Test❕Create❕DX❕
 ECHO.
 ECHO.❕Note❕Registry item create value with empty value and data.❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❗◁Null▷❗TestData❗String❕Create❕DX❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❗TestValue❗◁Null▷❗String❕Create❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Test❗◁Null▷❗TestData❗String❕Create❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Test❗TestValue❗◁Null▷❗String❕Create❕DX❕
 ECHO.
 ECHO.❕Note❕Registry item delete value.❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❗TestValue❕Delete❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Test❗TestValue❕Delete❕DX❕
 ECHO.
 ECHO.❕Note❕Registry item delete key.❕
-ECHO.❕ⓠRegistry❕◁HiveUser▷\Test❕Delete❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Test❕Delete❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛FileOper item❕Normal❕
 ECHO.❕Note❕FileOper item: 'Create', 'Delete', 'Rename', 'Copy', 'Move', and 'Takeown' are usable options.❕
 ECHO.❕Note❕FileOper item create folder.❕
-ECHO.❕ⓠFileOper❕c:\test❕Create❕DX❕
+ECHO.❕FileOper❕c:\test❕Create❕DX❕
 ECHO.
 ECHO.❕Note❕FileOper item move.❕
-ECHO.❕ⓠTextHost❕test❕File❗c:\testmove.txt❕DX❕
-ECHO.❕ⓠFileOper❕testmove.txt❗c:\test❕Move❕DX❕
+ECHO.❕TextHost❕test❕File❗c:\testmove.txt❕DX❕
+ECHO.❕FileOper❕testmove.txt❗c:\test❕Move❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛Session item❕Normal❕
 ECHO.❕Note❕TextHost item: 'Screen' and 'File' are usable options. When outputting to a file, using the '◁U00▷' and '◁U01▷' variables will create white '❕' and red '❗' columns.❕
-ECHO.❕ⓠTextHost❕MENU-SCRIPT❕File❗◁ListFolder▷\testlist.list❕DX❕
-ECHO.❕ⓠTextHost❕◁U00▷ⓠTextHost◁U00▷Greetings from session 2◁U00▷Screen◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
+ECHO.❕TextHost❕MENU-SCRIPT❕File❗◁ListFolder▷\testlist.list❕DX❕
+ECHO.❕TextHost❕◁U00▷TextHost◁U00▷Greetings from session 2◁U00▷Screen◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
 ECHO.❕Note❕Session item. Using the '-PATH "◁DrvTar▷"' parameter during an active session will reuse the active session's target.❕
-ECHO.❕ⓠSession❕-imagemgr -run -list "testlist.list" -path "◁DrvTar▷"❕New❕DX❕
-ECHO.❕ⓠTextHost❕End of session 1❕Screen❕DX❕
-ECHO.❕ⓠFileOper❕◁ListFolder▷\testlist.list❕Delete❕DX❕
+ECHO.❕Session❕-imagemgr -run -list "testlist.list" -path "◁DrvTar▷"❕New❕DX❕
+ECHO.❕TextHost❕End of session 1❕Screen❕DX❕
+ECHO.❕FileOper❕◁ListFolder▷\testlist.list❕Delete❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Miscellaneous Examples❕Items being used in conjunction❕Normal❕
-ECHO.❕ⓠChoice❕Select an option❕🪛Choice A❗🪛Choice B❗🪛Choice C❗❕VolaTILE❕
-ECHO.❕ⓠArray❕◁Choice1.I▷❕1❗2❗3❕DX❗DX❗DX❕
-ECHO.❕ⓠTextHost❕◁Choice1.S▷ picked.❕Screen❕◁Array1.1▷❕
-ECHO.❕ⓠTextHost❕◁Choice1.S▷ picked.❕Screen❕◁Array1.2▷❕
-ECHO.❕ⓠTextHost❕◁Choice1.S▷ picked.❕Screen❕◁Array1.3▷❕
+ECHO.❕Choice❕Select an option❕🪛Choice A❗🪛Choice B❗🪛Choice C❗❕VolaTILE❕
+ECHO.❕Array❕◁Choice1.I▷❕1❗2❗3❕DX❗DX❗DX❕
+ECHO.❕TextHost❕◁Choice1.S▷ picked.❕Screen❕◁Array1.1▷❕
+ECHO.❕TextHost❕◁Choice1.S▷ picked.❕Screen❕◁Array1.2▷❕
+ECHO.❕TextHost❕◁Choice1.S▷ picked.❕Screen❕◁Array1.3▷❕
 ECHO.
-ECHO.❕Note❕Installs any drivers located in a folder named driver.❕
+ECHO.❕Note❕Installs any drivers located in a folder named driver. Announcement enabled via '📢' prefix❕
 ECHO.❕Group❕🪟Miscellaneous Examples❕Driver Install❕Normal
-ECHO.❕ⓠCondit❕◁ProgFolder▷\driver❗Exist❕DX❕◁Null▷❕
-ECHO.❕ⓠDriver❕◁ProgFolder▷\driver❕Install❕◁Condit1.1▷❕
+ECHO.❕Condit❕◁ProgFolder▷\driver❗Exist❕DX❕◁Null▷❕
+ECHO.❕📢Driver❕◁ProgFolder▷\driver❕Install❕◁Condit1.1▷❕
 EXIT /B
 :MENU_EXAMPLE_BASE
 ECHO.MENU-SCRIPT
 ECHO.❗* This is an example of a custom menu for recovery *❗
 ECHO.
 ECHO.❕Group❕Recovery Operation Example❕Backup picked vhdx to backup.wim❕Normal❕
-ECHO.❕ⓠPicker❕Select a vhdx to backup❕◁ProgFolder▷❗*.vhdx❕VolaTILE❕
-ECHO.❕ⓠCondit❕◁ProgFolder▷\◁Picker1.S▷❗Exist❕DX❕DX❕
-ECHO.❕ⓠTextHost❕◁ProgFolder▷\◁Picker1.S▷ does not exist.❕Screen❕◁Condit1.2▷❕
-ECHO.❕ⓠTextHost❕Deleting backup.wim❕Screen❕◁Condit1.1▷❕
-ECHO.❕ⓠFileOper❕◁ImageFolder▷\backup.wim❕Delete❕◁Condit1.1▷❕
-ECHO.❕ⓠSession❕-imageproc -vhdx "◁Picker1.S▷" -index 1 -wim "backup.wim" -size 25❕New❕◁Condit1.1▷❕
-ECHO.❕ⓠCommand❕PAUSE❕Normal❕DX❕
+ECHO.❕Picker❕Select a vhdx to backup❕◁ProgFolder▷❗*.vhdx❕VolaTILE❕
+ECHO.❕Condit❕◁ProgFolder▷\◁Picker1.S▷❗Exist❕DX❕DX❕
+ECHO.❕TextHost❕◁ProgFolder▷\◁Picker1.S▷ does not exist.❕Screen❕◁Condit1.2▷❕
+ECHO.❕TextHost❕Deleting backup.wim❕Screen❕◁Condit1.1▷❕
+ECHO.❕FileOper❕◁ImageFolder▷\backup.wim❕Delete❕◁Condit1.1▷❕
+ECHO.❕Session❕-imageproc -vhdx "◁Picker1.S▷" -index 1 -wim "backup.wim" -size 25❕New❕◁Condit1.1▷❕
+ECHO.❕Command❕PAUSE❕Normal❕DX❕
 ECHO.
 ECHO.❕Group❕Recovery Operation Example❕Restore picked wim to current.vhdx❕Normal❕
-ECHO.❕ⓠPicker❕Select a wim to restore❕◁ImageFolder▷❗*.wim❕VolaTILE❕
-ECHO.❕ⓠCondit❕◁ProgFolder▷\◁Picker1.S▷❗Exist❕DX❕DX❕
-ECHO.❕ⓠTextHost❕◁ImageFolder▷\◁Picker1.S▷ does not exist.❕Screen❕◁Condit1.2▷❕
-ECHO.❕ⓠTextHost❕Deleting current.vhdx❕Screen❕◁Condit1.1▷❕
-ECHO.❕ⓠFileOper❕◁ProgFolder▷\current.vhdx❕Delete❕◁Condit1.1▷❕
-ECHO.❕ⓠSession❕-imageproc -wim "◁Picker1.S▷" -index 1 -vhdx "current.vhdx" -size 25❕New❕◁Condit1.1▷❕
-ECHO.❕ⓠCommand❕PAUSE❕Normal❕DX❕
+ECHO.❕Picker❕Select a wim to restore❕◁ImageFolder▷❗*.wim❕VolaTILE❕
+ECHO.❕Condit❕◁ProgFolder▷\◁Picker1.S▷❗Exist❕DX❕DX❕
+ECHO.❕TextHost❕◁ImageFolder▷\◁Picker1.S▷ does not exist.❕Screen❕◁Condit1.2▷❕
+ECHO.❕TextHost❕Deleting current.vhdx❕Screen❕◁Condit1.1▷❕
+ECHO.❕FileOper❕◁ProgFolder▷\current.vhdx❕Delete❕◁Condit1.1▷❕
+ECHO.❕Session❕-imageproc -wim "◁Picker1.S▷" -index 1 -vhdx "current.vhdx" -size 25❕New❕◁Condit1.1▷❕
+ECHO.❕Command❕PAUSE❕Normal❕DX❕
 EXIT /B
 :MENU_EXAMPLE_EXEC
 ECHO.MENU-SCRIPT
 ECHO.❗* This is an example of a reboot to restore scenerio as an execution list *❗
 ECHO.
-ECHO.❕ⓠCondit❕◁ImageFolder▷\backup.wim❗Exist❕DX❕DX❕
-ECHO.❕ⓠTextHost❕ECHO.◁ImageFolder▷\backup.wim does not exist.❕Screen❕◁Condit1.2▷❕
-ECHO.❕ⓠTextHost❕Deleting current.vhdx❕Screen❕◁Condit1.1▷❕
-ECHO.❕ⓠFileOper❕◁ProgFolder▷\current.vhdx❕Delete❕◁Condit1.1▷❕
-ECHO.❕ⓠSession❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -size 25❕New❕◁Condit1.1▷❕
-ECHO.❕ⓠCommand❕PAUSE❕Normal❕DX❕
+ECHO.❕Condit❕◁ImageFolder▷\backup.wim❗Exist❕DX❕DX❕
+ECHO.❕TextHost❕ECHO.◁ImageFolder▷\backup.wim does not exist.❕Screen❕◁Condit1.2▷❕
+ECHO.❕TextHost❕Deleting current.vhdx❕Screen❕◁Condit1.1▷❕
+ECHO.❕FileOper❕◁ProgFolder▷\current.vhdx❕Delete❕◁Condit1.1▷❕
+ECHO.❕Session❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -size 25❕New❕◁Condit1.1▷❕
+ECHO.❕Command❕PAUSE❕Normal❕DX❕
 EXIT /B
 :GET_INIT
 SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"
@@ -842,7 +842,7 @@ IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (Cache Image Pack List) DO (SET "%%aFol
 IF "%BOOTLOADER%"=="boot.efi" IF NOT EXIST "%CacheFolder%\boot.efi" SET "BOOTLOADER=New"
 IF DEFINED REFERENCE IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT EXIST "%ImageFolder%\%REFERENCE%" SET "REFERENCE=LIVE"
 FOR %%a in (MOUNT TARGET_PATH PATH_APPLY LIVE_APPLY VDISK_APPLY ERROR $NO_MOUNT $HALT $ONLY1 $ONLY2 $ONLY3 $VERBOSE $VHDX VDISK VDISK_LTR MENU_SESSION CUSTOM_SESSION MENU_SKIP DELETE_DONE FEAT_QRY DRVR_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
-CHCP 65001>NUL&IF NOT DEFINED U00 SET "U00=❕"&&SET "U01=❗"&&SET "U02=🗂 "&&SET "U03=🛠️"&&SET "U04=💾"&&SET "U05=🗳 "&&SET "U06=🪟"&&SET "U07=🔄"&&SET "U08=🪛"&&SET "U09=🥾"&&SET "U10=✒ "&&SET "U11=🗃 "&&SET "U12=🎨"&&SET "U13=🧾"&&SET "U14=⏳"&&SET "U15=✅"&&SET "U16=❎"&&SET "U17=🚫"&&SET "U18=🗜 "&&SET "U19=🛡 "&&SET "U0L=◁"&&SET "U0R=▷"&&SET "U0P=％"&&SET "U0D=＄"&&SET "COLOR0=[97m"&&SET "COLOR1=[31m"&&SET "COLOR2=[91m"&&SET "COLOR3=[33m"&&SET "COLOR4=[93m"&&SET "COLOR5=[92m"&&SET "COLOR6=[96m"&&SET "COLOR7=[94m"&&SET "COLOR8=[34m"&&SET "COLOR9=[95m"
+CHCP 65001>NUL&IF NOT DEFINED U00 SET "U00=❕"&&SET "U01=❗"&&SET "U02=🗂 "&&SET "U03=🛠️"&&SET "U04=💾"&&SET "U05=🗳 "&&SET "U06=🪟"&&SET "U07=🔄"&&SET "U08=🪛"&&SET "U09=🥾"&&SET "U10=✒ "&&SET "U11=🗃 "&&SET "U12=🎨"&&SET "U13=📜"&&SET "U14=⏳"&&SET "U15=✅"&&SET "U16=❎"&&SET "U17=🚫"&&SET "U18=🗜 "&&SET "U19=🛡 "&&SET "U0L=◁"&&SET "U0R=▷"&&SET "U0P=％"&&SET "U0D=＄"&&SET "COLOR0=[97m"&&SET "COLOR1=[31m"&&SET "COLOR2=[91m"&&SET "COLOR3=[33m"&&SET "COLOR4=[93m"&&SET "COLOR5=[92m"&&SET "COLOR6=[96m"&&SET "COLOR7=[94m"&&SET "COLOR8=[34m"&&SET "COLOR9=[95m"
 CALL SET "@@=%%COLOR%ACC_COLOR%%%"&&CALL SET "##=%%COLOR%BTN_COLOR%%%"&&CALL SET "$$=%%COLOR%TXT_COLOR%%%"
 SET "COLORA=%@@%"&&SET "COLORB=%##%"&&SET "COLORT=%$$%"
 FOR %%a in (COMMAND GUI) DO (IF "%PROG_MODE%"=="%%a" EXIT /B)
@@ -978,7 +978,7 @@ SET "$VCLM2_LAST="&&SET "$SUBGROUP_LAST="&&SET "$LIST_FILEX="&&SET "$LIST_FILEZ=
 IF "%$LIST_SCOPE%"=="GROUP" IF /I "%%1"=="GROUP" SET "$LIST_FILEX=1"&&SET "$LIST_FILEZ="
 IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF NOT "%%2"=="%$ONLY2%" SET "$LIST_FILEZ="
 IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF "%%2"=="%$ONLY2%" SET "$LIST_FILEX=1"&&IF /I NOT "%REFERENCE%"=="DISABLED" SET "$LIST_FILEZ=1"
-IF DEFINED $LIST_FILEZ IF NOT "%%1"=="" FOR /F "TOKENS=* DELIMS=ⓡ" %%░ IN ("%%1") DO (IF NOT "%%1"=="%%░" SET "$VCLMX=%%░"&&CALL:LIST_FILEX_SKIP)
+IF DEFINED $LIST_FILEZ IF NOT "%%1"=="" FOR /F "TOKENS=* DELIMS=📜" %%░ IN ("%%1") DO (IF NOT "%%1"=="%%░" SET "$VCLMX=%%░"&&CALL:LIST_FILEX_SKIP)
 IF DEFINED $LIST_FILEX SET "$LIST_FILEX="&&SET "$VCLM1=%%1"&&SET "$VCLM2=%%2"&&SET "$VCLM3=%%3"&&SET "$VCLM4=%%4"&&SET "$VCLM5=%%5"&&SET "$VCLM6=%%6"&&SET "$VCLM7=%%7"&&SET "$VCLM8=%%8"&&SET "$VCLM9=%%9"&&CALL:LIST_FILEX)
 IF "%$LIST_SCOPE%"=="SUBGROUP" IF DEFINED $SUBGROUP_LAST SET "$SUBGROUP_LAST=!$SUBGROUP_LAST:◁=%%!"&&SET "$SUBGROUP_LAST=!$SUBGROUP_LAST:▷=%%!"&&CALL SET "$SUBGROUP_LAST=!$SUBGROUP_LAST!"&&FOR /F "TOKENS=*" %%░ IN ("!$SUBGROUP_LAST!") DO (ECHO. %%░%$$%)
 IF NOT DEFINED $ITEM1 ECHO.&&ECHO.   Empty.&&ECHO.
@@ -988,15 +988,15 @@ FOR %%a in ($VCLM1 $VCLM2 $VCLM3 $VCLM4 $VCLM5 $VCLM6 $VCLM7 $VCLM2_LAST $ITEMST
 EXIT /B
 :LIST_FILEX_SKIP
 SET "COLUMN0="&&FOR %%░ IN (X) DO (
-IF NOT "%%1"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%"
-IF NOT "%%2"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%"
-IF NOT "%%3"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%"
-IF NOT "%%4"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%"
-IF NOT "%%5"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%"
-IF NOT "%%6"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%"
-IF NOT "%%7"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%%%7%U00%"
-IF NOT "%%8"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%%%7%U00%%%8%U00%"
-IF NOT "%%9"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%%%7%U00%%%8%U00%%%9%U00%"
+IF NOT "%%1"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%"
+IF NOT "%%2"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%"
+IF NOT "%%3"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%"
+IF NOT "%%4"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%"
+IF NOT "%%5"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%"
+IF NOT "%%6"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%"
+IF NOT "%%7"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%%%7%U00%"
+IF NOT "%%8"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%%%7%U00%%%8%U00%"
+IF NOT "%%9"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%2%U00%%%3%U00%%%4%U00%%%5%U00%%%6%U00%%%7%U00%%%8%U00%%%9%U00%"
 IF DEFINED COLUMN0 CALL:UNIFIED_PARSE_EXECUTE)
 SET "$VCLMX="&&EXIT /B
 :LIST_FILEX
@@ -1029,7 +1029,7 @@ SET "NORMAL_LISTX="&&SET "WRITEZ="&&SET "$XNT="&&FOR /F "TOKENS=1-9 SKIP=1 DELIM
 IF /I "%%a"=="GROUP" IF "%%b"=="!GROUP_TARGET!" IF "%%c"=="!SUB_TARGET!" SET "NORMAL_LISTX=1"&&SET "WRITEZ=1"
 IF /I "%%a"=="GROUP" IF NOT "%%b"=="!GROUP_TARGET!" SET "NORMAL_LISTX="
 IF /I "%%a"=="GROUP" IF NOT "%%c"=="!SUB_TARGET!" SET "NORMAL_LISTX="
-IF DEFINED NORMAL_LISTX IF NOT "%%a"=="" FOR /F "TOKENS=* DELIMS=ⓡ" %%░ IN ("%%a") DO (IF NOT "%%a"=="%%░" SET "$VCLMX=%%░"&&CALL:NORMAL_LIST_SKIP)
+IF DEFINED NORMAL_LISTX IF NOT "%%a"=="" FOR /F "TOKENS=* DELIMS=📜" %%░ IN ("%%a") DO (IF NOT "%%a"=="%%░" SET "$VCLMX=%%░"&&CALL:NORMAL_LIST_SKIP)
 IF NOT "%%a"=="" SET "$NORMAL_ITEM=%U00%%%a%U00%"
 IF NOT "%%b"=="" SET "$NORMAL_ITEM=%U00%%%a%U00%%%b%U00%"
 IF NOT "%%c"=="" SET "$NORMAL_ITEM=%U00%%%a%U00%%%b%U00%%%c%U00%"
@@ -1044,20 +1044,21 @@ IF DEFINED NORMAL_LISTX SET "$VCLM1=%%a"&&SET "$VCLM2=%%b"&&SET "$VCLM3=%%c"&&SE
 EXIT /B
 :NORMAL_LIST_SKIP
 SET "COLUMN0="&&FOR %%░ IN (X) DO (
-IF NOT "%%a"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%"
-IF NOT "%%b"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%"
-IF NOT "%%c"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%"
-IF NOT "%%d"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%"
-IF NOT "%%e"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%"
-IF NOT "%%f"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%"
-IF NOT "%%g"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%%%g%U00%"
-IF NOT "%%h"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%%%g%U00%%%h%U00%"
-IF NOT "%%i"=="" SET "COLUMN0=%U00%ⓠ!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%%%g%U00%%%h%U00%%%i%U00%"
+IF NOT "%%a"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%"
+IF NOT "%%b"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%"
+IF NOT "%%c"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%"
+IF NOT "%%d"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%"
+IF NOT "%%e"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%"
+IF NOT "%%f"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%"
+IF NOT "%%g"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%%%g%U00%"
+IF NOT "%%h"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%%%g%U00%%%h%U00%"
+IF NOT "%%i"=="" SET "COLUMN0=%U00%!$VCLMX!%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%%%f%U00%%%g%U00%%%h%U00%%%i%U00%"
 IF DEFINED COLUMN0 CALL:UNIFIED_PARSE_EXECUTE)
 SET "$VCLMX="&&EXIT /B
 :NORMAL_LISTX
 SET "$VCLM1=!$VCLM1:"=!"
-SET "@QUIET="&&FOR /F "TOKENS=* DELIMS=ⓠ" %%● IN ("!$VCLM1!") DO (IF NOT "%%●"=="!$VCLM1!" SET "$VCLM1=%%●"&&SET "@QUIET=1")
+SET "@VERBOSE="&&SET "@COLUMN=!$VCLM1:📢=!"
+IF NOT "!@COLUMN!"=="!$VCLM1!" SET "$VCLM1=!$VCLM1:📢=!"&&SET "@VERBOSE=1"
 IF NOT DEFINED LIST_START SET "LIST_START=1"&&(ECHO.MENU-SCRIPT)>"$LIST"
 IF DEFINED WRITEZ SET "WRITEZ="&&ECHO.>>"$LIST"
 FOR %%@ in (PROMPT CHOICE PICKER INFO) DO (IF /I "!$VCLM1!"=="%%@" CALL:NORMAL_LIST_%%@
@@ -1079,7 +1080,7 @@ IF NOT "%%i"=="" SET "$CHOICE_LIST=%U01%%%a%U01%%%b%U01%%%c%U01%%%d%U01%%%e%U01%
 IF "%%a"=="" SET "$CHOICE_LIST=")
 SET "$HEADERS=!GROUP_TARGET!%U01% %U01%!SUB_TARGET!%U01% %U01%!$VCLM2!"
 SET "$VERBOSE=1"&&SET "$NO_ERRORS=1"&&SET "$CENTERED=1"&&CALL:CHOICE_BOX
-IF DEFINED @QUIET FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=ⓠ%%●")
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=📢%%●")
 SET "$NORMAL_ITEM=%U00%!$VCLM1!%U00%!$VCLM2!%U00%!$VCLM3!%U00%!SELECT!%U00%"
 EXIT /B
 :NORMAL_LIST_PICKER
@@ -1089,20 +1090,20 @@ SET "$FOLD="&&SET "$FILT="&&FOR /F "TOKENS=1-2 DELIMS=%U01%" %%a in ("!$VCLM3!")
 IF NOT DEFINED $FILT SET "$FILT=*.*"
 IF NOT DEFINED $FOLD SET "$FOLD=%ProgFolder%"
 SET "$VERBOSE=1"&&SET "$NO_ERRORS=1"&&SET "$CENTERED=1"&&CALL:FILE_VIEWER
-IF DEFINED @QUIET FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=ⓠ%%●")
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=📢%%●")
 SET "$NORMAL_ITEM=%U00%!$VCLM1!%U00%!$VCLM2!%U00%!$VCLM3!%U00%!$CHOICE!%U00%"
 EXIT /B
 :NORMAL_LIST_PROMPT
 SET "$CHOICEMINO="&&SET "$CHOICEMAXO="&&SET "$CHECKO="
 SET "$HEADERS=!GROUP_TARGET!%U01% %U01%!SUB_TARGET!%U01% %U01% %U01% %U01%!$VCLM2!%U01% %U01% "
 SET "$CHECK=!$VCLM3!"&&SET "$VERBOSE=1"&&SET "$NO_ERRORS=1"&&SET "$CENTERED=1"&&CALL:PROMPT_BOX
-IF DEFINED @QUIET FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=ⓠ%%●")
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=📢%%●")
 SET "$NORMAL_ITEM=%U00%!$VCLM1!%U00%!$VCLM2!%U00%!$VCLM3!%U00%!SELECT!%U00%"
 EXIT /B
 :NORMAL_LIST_INFO
 SET "$HEADERS=!$VCLM2!%U01% %U01%!$VCLM3!%U01%"
 SET "$CENTERED=1"&&CALL:INFO_BOX
-IF DEFINED @QUIET FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=ⓠ%%●")
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%● IN ("!$VCLM1!") DO (SET "$VCLM1=📢%%●")
 SET "$NORMAL_ITEM=%U00%!$VCLM1!%U00%!$VCLM2!%U00%!$VCLM3!%U00%!$VCLM4!%U00%"
 EXIT /B
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -1755,9 +1756,11 @@ IF NOT DEFINED COLUMN0 EXIT /B
 FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a IN ("!COLUMN0!") DO (SET "COLUMN1=%%a"&&SET "COLUMN2=%%b"&&SET "COLUMN3=%%c"&&SET "COLUMN4=%%d")
 SET "$INPUT=!COLUMN1!"&&SET "$OUTPUT=COLUMN1"&&SET "$NO_QUOTE=1"&&CALL:EXPAND_INPUT
 IF "!COLUMN1!"=="HALT" SET "$HALT=1"&&SET "COLUMN1="
-FOR %%● in (COLUMN1 COLUMN4) DO (IF NOT DEFINED %%● EXIT /B)
-FOR /F "TOKENS=* DELIMS=ⓡ" %%● IN ("!COLUMN1!") DO (IF NOT "%%●"=="!COLUMN1!" SET "COLUMN1=!COLUMN1:ⓡ=!"&&IF NOT DEFINED $VCLMX EXIT /B)
-SET "@QUIET="&&FOR /F "TOKENS=* DELIMS=ⓠ" %%● IN ("!COLUMN1!") DO (IF NOT "%%●"=="!COLUMN1!" SET "@QUIET=1"&&SET "COLUMN1=!COLUMN1:ⓠ=!")
+SET "@VERBOSE="&&SET "@COLUMN="&&FOR %%● in (COLUMN1 COLUMN4) DO (IF NOT DEFINED %%● EXIT /B)
+SET "@COLUMN=!COLUMN1:📜=!"
+IF NOT "!@COLUMN!"=="!COLUMN1!" SET "COLUMN1=!COLUMN1:📜=!"&&IF NOT DEFINED $VCLMX EXIT /B
+SET "@COLUMN=!COLUMN1:📢=!"
+IF NOT "!@COLUMN!"=="!COLUMN1!" SET "COLUMN1=!COLUMN1:📢=!"&&SET "@VERBOSE=1"
 SET "$RAS="&&SET "$ITEM_TYPE="&&IF NOT DEFINED LIST_ITEMS_EXECUTE CALL:LIST_ITEMS
 FOR %%● in (%LIST_ITEMS_EXECUTE%) DO (IF /I "%%●"=="!COLUMN1!" SET "$ITEM_TYPE=EXECUTE")
 FOR %%● in (%LIST_ITEMS_BUILDER%) DO (IF /I "%%●"=="!COLUMN1!" SET "$ITEM_TYPE=BUILDER")
@@ -1773,10 +1776,10 @@ IF "!$ITEM_TYPE!"=="EXECUTE" FOR /F "TOKENS=*" %%● in ("!COLUMN4!") DO (IF /I 
 FOR %%○ in (SC RO) DO (IF /I "%%●"=="%%○" CALL:SCRO_CREATE))
 IF /I NOT "!CD!"=="!ProgFolder0!" CD /D "!ProgFolder0!">NUL 2>&1
 EXIT /B
-:iNFO_ITEM
+:INFO_ITEM
 EXIT /B
 :TEXTHOST_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "DELIMS=%U01%"&&SET "$INPUT=!QCLM3!"&&SET "$OUTPUT=ZCLM"&&CALL:EXPANDOFLEX
@@ -1788,7 +1791,7 @@ IF /I "!$ZCLM1$!"=="FILE" FOR /F "TOKENS=* DELIMS=" %%● in ("!$QCLM2$!") DO (E
 IF /I "!$ZCLM1$!"=="SCREEN" FOR /F "TOKENS=* DELIMS=" %%● in ("!$QCLM2$!") DO (ECHO.%%●)
 EXIT /B
 :POWERSHELL_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 SET "$PASS="&&FOR %%□ IN (NORMAL NOMOUNT NORMAL) DO (IF /I "!COLUMN3!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not NORMAL or NOMOUNT.&&EXIT /B
 IF /I "!COLUMN3!"=="NOMOUNT" CALL:IF_LIVE_MIX
@@ -1799,7 +1802,7 @@ SET "LISTCLM2=!$QCLM2$!"&&CHCP %CODEPAGE%>NUL
 SET "LISTCLM2="&&CHCP 65001>NUL
 EXIT /B
 :SESSION_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 CALL:IF_LIVE_EXT&&CHCP %CODEPAGE%>NUL
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 CALL %CMD% /C ""%ProgFolder%\windick.cmd" !$QCLM2$!"
@@ -1814,21 +1817,21 @@ FOR %%○ in (1 2 3 4 5 6 7 8 9) DO (IF "%%●"=="%%○" FOR /F "TOKENS=1-9 DELI
 FOR %%● in (S I) DO (IF NOT DEFINED CHOICE0.%%● SET "CHOICE0.I="&&SET "CHOICE0.S=")
 EXIT /B
 :PICKER_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="PICKER" SET "$QCLM1$=!$QCLM1$!1"
 FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$!.I=1"&&SET "!$QCLM1$!.1=%%○"&&SET "!$QCLM1$!.S=%%○")
 EXIT /B
 :PROMPT_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="PROMPT" SET "$QCLM1$=!$QCLM1$!1"
 FOR /F "TOKENS=*" %%○ in ("!$QCLM4$!") DO (SET "!$QCLM1$!.I=1"&&SET "!$QCLM1$!.1=%%○"&&SET "!$QCLM1$!.S=%%○")
 EXIT /B
 :CHOICE_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="CHOICE" SET "$QCLM1$=!$QCLM1$!1"
@@ -1837,7 +1840,7 @@ FOR %%◌ in (1 2 3 4 5 6 7 8 9) DO (IF "%%○"=="%%◌" FOR /F "TOKENS=1-9 DELI
 FOR %%○ in (S I) DO (IF NOT DEFINED !$QCLM1$!.%%○ SET "!$QCLM1$!.I="&&SET "!$QCLM1$!.S=")
 EXIT /B
 :STRING_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="STRING" SET "$QCLM1$=!$QCLM1$!1"
@@ -1857,7 +1860,7 @@ SET "!$OUTPUT!0=!$INPUT!"&&FOR /F "TOKENS=1-9 DELIMS=%DELIMS%" %%a in ("!$INPUT!
 FOR %%● in (1 2 3 4 5 6 7 8 9) DO (SET "$PART%%●="&&SET "!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●="&&SET "$!$OUTPUT!%%●$="&&IF DEFINED PART%%● SET "!$OUTPUT!%%●=!PART%%●!"&&SET "$PART%%●=!PART%%●:◁=%%!"&&SET "$PART%%●=!$PART%%●:▷=%%!"&&SET "$!$OUTPUT!%%●=!$PART%%●!"&&CALL SET "$!$OUTPUT!%%●$=!$PART%%●!"
 IF DEFINED PART%%● IF NOT DEFINED $NULLED IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=!PART%%●!"
 IF DEFINED PART%%● IF DEFINED $NULLED SET "$NULLED="&&IF NOT DEFINED $!$OUTPUT!%%●$ SET "$!$OUTPUT!%%●$=◁Null▷")
-IF "!$OUTPUT!"=="QCLM" SET "$QCLM1$=!$QCLM1$:ⓡ=!"&&SET "$QCLM1$=!$QCLM1$:ⓠ=!"
+IF "!$OUTPUT!"=="QCLM" SET "$QCLM1$=!$QCLM1$:📜=!"&&SET "$QCLM1$=!$QCLM1$:📢=!"
 FOR %%● in ($INPUT $OUTPUT) DO (SET "%%●=")
 EXIT /B
 :EXPAND_INPUT
@@ -1922,7 +1925,7 @@ IF "%WINPE_BOOT%"=="1" EXIT /B
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\SERVICES\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SC DELETE $RAS>NUL 2>&1)
 EXIT /B
 :ARRAY_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item 
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item 
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="ARRAY" SET "$QCLM1$=!$QCLM1$!1"
@@ -1943,7 +1946,7 @@ SET "ACTNX=!ACTN%$MATCH_XNT%!"&&SET "$ACTNX$=!$ACTN%$MATCH_XNT%$!"&&SET "MATCHX=
 IF /I NOT "!ACTNX!"=="◁NULL▷" IF /I "!MATCHX!"=="◁ELSE▷" SET "!$QCLM1$!.I=%$MATCH_XNT%"&&SET "!$QCLM1$!.S=!$ACTNX$!"&&SET "!$QCLM1$!.%$MATCH_XNT%=!$ACTNX$!"
 EXIT /B
 :ROUTINE_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="ROUTINE" SET "$QCLM1$=!$QCLM1$!1"
@@ -1982,7 +1985,7 @@ IF NOT DEFINED $ROUT3$ SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET /A "!$QCLM1$!.I=!$QCLM
 IF DEFINED $ROUT3$ IF /I "!$ROUT4$!"=="%%%$ROUT3$%" SET "!$QCLM1$!.S=%%%$QCLM4$%"&&SET "!$QCLM1$!.I=!$QCLM4$!")
 EXIT /B
 :MATH_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item 
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item 
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="MATH" SET "$QCLM1$=!$QCLM1$!1"
 SET "$PASS="&&FOR %%□ IN (+ - /) DO (IF "!$QCLM3$!"=="*" SET "$PASS=1"
@@ -1992,7 +1995,7 @@ IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET /A "!$QCLM1$!.I=1"&&SET /A "!$QCLM1$!.S=!$QCLM2$!"&&SET /A "!$QCLM1$!.S!$QCLM3$!=!$QCLM4$!"&&SET /A "!$QCLM1$!.1=!$QCLM1$!.S!"
 EXIT /B
 :CONDIT_ITEM
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!COLUMN1!%$$% item 
+IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item 
 IF NOT "%MOUNT%"=="EXT" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "!$QCLM1$!"=="CONDIT" SET "$QCLM1$=!$QCLM1$!1"
@@ -2033,8 +2036,8 @@ FOR /F "TOKENS=1-4 DELIMS=%U01%" %%a in ("!$QCLM2$!") DO (SET "$OBJONE=%%a"&&SET
 IF /I "%$FILEOPER%"=="COPY" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
 IF /I "%$FILEOPER%"=="MOVE" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
 IF /I "%$FILEOPER%"=="RENAME" IF NOT DEFINED $OBJTWO ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 2 object 2 OBJ_TAR is not specified.&&EXIT /B
-SET "$EXIT="&&FOR %%□ IN (DELETE RENAME COPY MOVE TAKEOWN) DO (IF /I "%$FILEOPER%"=="%%□" IF NOT EXIST "!$OBJONE!" SET "$EXIT=1"&&IF NOT DEFINED @QUIET ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.)
-IF /I "%$FILEOPER%"=="CREATE" IF EXIST "!$OBJONE!" SET "$EXIT=1"&&IF NOT DEFINED @QUIET ECHO.%COLOR4%ERROR:%$$% !$OBJONE! already exists.
+SET "$EXIT="&&FOR %%□ IN (DELETE RENAME COPY MOVE TAKEOWN) DO (IF /I "%$FILEOPER%"=="%%□" IF NOT EXIST "!$OBJONE!" SET "$EXIT=1"&&IF DEFINED @VERBOSE ECHO.%COLOR4%ERROR:%$$% !$OBJONE! doesn't exist.)
+IF /I "%$FILEOPER%"=="CREATE" IF EXIST "!$OBJONE!" SET "$EXIT=1"&&IF DEFINED @VERBOSE ECHO.%COLOR4%ERROR:%$$% !$OBJONE! already exists.
 IF DEFINED $EXIT EXIT /B
 IF EXIST "!$OBJONE!\*" SET "$FILE_OBJ=FOLD"
 IF NOT EXIST "!$OBJONE!\*" SET "$FILE_OBJ=FILE"
@@ -2043,7 +2046,7 @@ IF NOT DEFINED $RAS SET "RUN_AS=user"
 IF /I "!$RAS!"=="RAU" SET "RUN_AS=user"&&SET "$RAS="
 IF /I "!$RAS!"=="RAS" SET "RUN_AS=system"
 IF /I "!$RAS!"=="RATI" SET "RUN_AS=trustedinstaller"
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!$QCLM1$!%$$% !$FILEOPER! !$FILE_OBJ! !$OBJONE! as %##%%RUN_AS%%$$%!
+IF DEFINED @VERBOSE ECHO.Executing %@@%!$QCLM1$!%$$% !$FILEOPER! !$FILE_OBJ! !$OBJONE! as %##%%RUN_AS%%$$%!
 IF /I "%$FILEOPER%"=="CREATE" IF /I "%$FILE_OBJ%"=="FOLD" MD "\\?\!$OBJONE!">NUL 2>&1
 IF /I "%$FILEOPER%"=="DELETE" IF /I "%$FILE_OBJ%"=="FOLD" IF EXIST "!$OBJONE!" RD /S /Q "\\?\!$OBJONE!"
 IF /I "%$FILEOPER%"=="DELETE" IF /I "%$FILE_OBJ%"=="FILE" IF EXIST "!$OBJONE!" DEL /Q /F "\\?\!$OBJONE!"
@@ -2090,23 +2093,23 @@ IF /I "%$REG_TYPE%"=="EXPAND" SET "$REG_TYPEX=REG_EXPAND_SZ"
 IF /I "%$REG_TYPE%"=="MULTI" SET "$REG_TYPEX=REG_MULTI_SZ"
 IF /I "!$REG_DAT!"=="◁NULL▷" SET "$REG_DAT="
 IF /I "!$REG_VAL!"=="◁NULL▷" SET "$REG_VAL="&&SET "$REG_TYPEX=REG_SZ"
-IF NOT DEFINED @QUIET IF /I "%$REG_OBJ%"=="KEY" ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$% key !$REG_KEY!
-IF NOT DEFINED @QUIET IF /I "%$REG_OBJ%"=="VAL" ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$% key !$REG_KEY! value !$REG_VAL!
-IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="KEY" IF NOT DEFINED $RAS %CMD% /C %REG% DELETE "!$REG_KEY!" /f>NUL
-IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="VAL" IF NOT DEFINED $RAS %CMD% /C %REG% DELETE "!$REG_KEY!" /v "!$REG_VAL!" /f>NUL
-IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="KEY" IF NOT DEFINED $RAS %CMD% /C %REG% ADD "!$REG_KEY!" /f>NUL
-IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="VAL" IF NOT DEFINED $RAS %CMD% /C %REG% ADD "!$REG_KEY!" /v "!$REG_VAL!" /t "!$REG_TYPEX!" /d "!$REG_DAT!" /f>NUL
-IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="KEY" IF DEFINED $RAS ECHO.%CMD% /C %REG% DELETE "!$REG_KEY!" /f ^>NUL>"$LIST"
-IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="VAL" IF DEFINED $RAS ECHO.%CMD% /C %REG% DELETE "!$REG_KEY!" /v "!$REG_VAL!" /f ^>NUL>"$LIST"
-IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="KEY" IF DEFINED $RAS ECHO.%CMD% /C %REG% ADD "!$REG_KEY!" /f ^>NUL>"$LIST"
-IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="VAL" IF DEFINED $RAS ECHO.%CMD% /C %REG% ADD "!$REG_KEY!" /v "!$REG_VAL!" /t "!$REG_TYPEX!" /d "!$REG_DAT!" /f ^>NUL>"$LIST"
+IF DEFINED @VERBOSE IF /I "%$REG_OBJ%"=="KEY" ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$% key !$REG_KEY!
+IF DEFINED @VERBOSE IF /I "%$REG_OBJ%"=="VAL" ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$% key !$REG_KEY! value !$REG_VAL!
+IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="KEY" IF NOT DEFINED $RAS %CMD% /C %REG% DELETE "!$REG_KEY!" /f>NUL 2>&1
+IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="VAL" IF NOT DEFINED $RAS %CMD% /C %REG% DELETE "!$REG_KEY!" /v "!$REG_VAL!" /f>NUL 2>&1
+IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="KEY" IF NOT DEFINED $RAS %CMD% /C %REG% ADD "!$REG_KEY!" /f>NUL 2>&1
+IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="VAL" IF NOT DEFINED $RAS %CMD% /C %REG% ADD "!$REG_KEY!" /v "!$REG_VAL!" /t "!$REG_TYPEX!" /d "!$REG_DAT!" /f>NUL 2>&1
+IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="KEY" IF DEFINED $RAS ECHO.%CMD% /C %REG% DELETE "!$REG_KEY!" /f ^>NUL 2^>^&^1>"$LIST"
+IF /I "%$REG_OPER%"=="DELETE" IF /I "%$REG_OBJ%"=="VAL" IF DEFINED $RAS ECHO.%CMD% /C %REG% DELETE "!$REG_KEY!" /v "!$REG_VAL!" /f ^>NUL 2^>^&^1>"$LIST"
+IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="KEY" IF DEFINED $RAS ECHO.%CMD% /C %REG% ADD "!$REG_KEY!" /f ^>NUL 2^>^&^1>"$LIST"
+IF /I "%$REG_OPER%"=="CREATE" IF /I "%$REG_OBJ%"=="VAL" IF DEFINED $RAS ECHO.%CMD% /C %REG% ADD "!$REG_KEY!" /v "!$REG_VAL!" /t "!$REG_TYPEX!" /d "!$REG_DAT!" /f ^>NUL 2^>^&^1>"$LIST"
 :REGISTRY_ITEM_END
-IF /I "%$REG_OPER%"=="IMPORT" IF NOT DEFINED @QUIET ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$%
-IF /I "%$REG_OPER%"=="EXPORT" IF NOT DEFINED @QUIET ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$%
+IF /I "%$REG_OPER%"=="IMPORT" IF DEFINED @VERBOSE ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$%
+IF /I "%$REG_OPER%"=="EXPORT" IF DEFINED @VERBOSE ECHO.Executing %@@%!$QCLM1$!%$$% !$REG_OPER! as %##%%RUN_AS%%$$%
 IF /I "%$REG_OPER%"=="IMPORT" IF NOT DEFINED $RAS %CMD% /C %REG% IMPORT "!$REG_KEY!" >NUL 2>&1
-IF /I "%$REG_OPER%"=="IMPORT" IF DEFINED $RAS ECHO.%CMD% /C %REG% IMPORT "!$REG_KEY!" ^>NUL>"$LIST"
+IF /I "%$REG_OPER%"=="IMPORT" IF DEFINED $RAS ECHO.%CMD% /C %REG% IMPORT "!$REG_KEY!" ^>NUL 2^>^&^1>"$LIST"
 IF /I "%$REG_OPER%"=="EXPORT" IF NOT DEFINED $RAS %CMD% /C %REG% EXPORT "!$REG_KEY!" "!$REG_VAL!" /Y>NUL 2>&1
-IF /I "%$REG_OPER%"=="EXPORT" IF DEFINED $RAS ECHO.%CMD% /C %REG% EXPORT "!$REG_KEY!" "!$REG_VAL!" /Y^>NUL>"$LIST"
+IF /I "%$REG_OPER%"=="EXPORT" IF DEFINED $RAS ECHO.%CMD% /C %REG% EXPORT "!$REG_KEY!" "!$REG_VAL!" /Y^>NUL 2^>^&^1>"$LIST"
 IF DEFINED $RAS SET "$QCLM1$=COMMAND"&&SET "$QCLM3$=NORMAL"&&CALL:RASTI_CREATE
 EXIT /B
 :COMMAND_ITEM
@@ -2123,7 +2126,7 @@ IF /I "!$RAS!"=="RAS" SET "RUN_AS=system"
 IF /I "!$RAS!"=="RATI" SET "RUN_AS=trustedinstaller"
 IF DEFINED COLUMN0 SET "$COLUMN0=!COLUMN0:%%=％!"&&SET "$COLUMN0=!$COLUMN0:◁=%%!"&&SET "$COLUMN0=!$COLUMN0:▷=%%!"&&SET "$COLUMN0=!$COLUMN0:＄=$!"&&SET "$COLUMN0=!$COLUMN0:％=%%!"
 FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ("!$COLUMN0!") DO (SET "$COLUMN2=%%b")
-IF NOT DEFINED @QUIET ECHO.Executing %@@%!$QCLM1$!%$$% as %##%%RUN_AS%%$$% !$COLUMN2!
+IF DEFINED @VERBOSE ECHO.Executing %@@%!$QCLM1$!%$$% as %##%%RUN_AS%%$$% !$COLUMN2!
 IF DEFINED $RAS ECHO.!$COLUMN2!>"$LIST"
 IF DEFINED $RAS CALL:RASTI_CREATE
 IF NOT DEFINED $RAS %CMD% /C !$COLUMN2!
@@ -2140,15 +2143,15 @@ SET "PACK_GOOD=The operation completed successfully"
 FOR %%G in ("%EXTPACKAGE%") DO (SET "PACKFULL=%%~nG%%~xG"&&SET "PACKEXT=%%~xG")
 IF /I "%PACKEXT%"==".PKX" CALL %CMD% /C ""%ProgFolder%\windick.cmd" -IMAGEMGR -RUN -PACK "%$QCLM2$%" -path "%DrvTar%""&EXIT /B
 FOR %%G in (APPXBUNDLE MSIXBUNDLE) DO (IF /I "%PACKEXT%"==".%%G" SET "PACKEXT=.APPX")
-IF NOT DEFINED @QUIET ECHO.Installing %@@%%PACKFULL%%$$%...
+IF DEFINED @VERBOSE ECHO.Installing %@@%%PACKFULL%%$$%...
 IF /I "%PACKEXT%"==".APPX" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%EXTPACKAGE%" 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" ECHO.%COLOR5%%PACK_GOOD%.%$$%&&EXIT /B)
-IF /I "%PACKEXT%"==".APPX" FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%EXTPACKAGE%" /SKIPLICENSE 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" IF NOT DEFINED @QUIET ECHO.%COLOR5%%PACK_GOOD%.%$$%
+IF /I "%PACKEXT%"==".APPX" FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%EXTPACKAGE%" /SKIPLICENSE 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" IF DEFINED @VERBOSE ECHO.%COLOR5%%PACK_GOOD%.%$$%
 IF "%%1"=="%PACK_GOOD%" EXIT /B)
 IF /I "%PACKEXT%"==".APPX" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B
-IF /I "%PACKEXT%"==".CAB" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PACKAGE /PACKAGEPATH:"%EXTPACKAGE%" 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" IF NOT DEFINED @QUIET ECHO.%COLOR5%%PACK_GOOD%.%$$%
+IF /I "%PACKEXT%"==".CAB" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PACKAGE /PACKAGEPATH:"%EXTPACKAGE%" 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" IF DEFINED @VERBOSE ECHO.%COLOR5%%PACK_GOOD%.%$$%
 IF "%%1"=="%PACK_GOOD%" EXIT /B)
 IF /I "%PACKEXT%"==".CAB" GOTO:CAB_EXEC
-IF /I "%PACKEXT%"==".MSU" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PACKAGE /PACKAGEPATH:"%EXTPACKAGE%" 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" IF NOT DEFINED @QUIET ECHO.%COLOR5%%PACK_GOOD%.%$$%
+IF /I "%PACKEXT%"==".MSU" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PACKAGE /PACKAGEPATH:"%EXTPACKAGE%" 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" IF DEFINED @VERBOSE ECHO.%COLOR5%%PACK_GOOD%.%$$%
 IF "%%1"=="%PACK_GOOD%" EXIT /B)
 IF /I "%PACKEXT%"==".MSU" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B
 EXIT /B
@@ -2169,7 +2172,7 @@ EXIT /B
 :CAB_EXEC
 IF EXIST "%ProgFolder%\$CAB" ECHO.%COLOR4%ERROR:%$$% A package is already in session. Delete the $CAB folder before proceeding.&&EXIT /B
 IF EXIST "%ProgFolder%\$CAB" SET "FOLDER_DEL=%ProgFolder%\$CAB"&&CALL:FOLDER_DEL
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%PACKFULL%") DO (ECHO.Extracting %@@%%%□%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%PACKFULL%") DO (ECHO.Extracting %@@%%%□%$$%...)
 MD "%ProgFolder%\$CAB">NUL 2>&1
 EXPAND "%EXTPACKAGE%" -F:* "%ProgFolder%\$CAB">NUL 2>&1
 SET "$QCLM2$=%ProgFolder%\$CAB"&&CALL:DRVR_INSTALL
@@ -2180,7 +2183,7 @@ CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (DELETE) DO (IF /I "%$QCLM3$%"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not DELETE.&&EXIT /B)
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing AppX %@@%%%□%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing AppX %@@%%%□%$$%...)
 SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%$QCLM2$%"&&CALL:CAPS_SET
 IF DEFINED APPX_SKIP SET "CAPS_SET=APPX_SKIPX"&&SET "CAPS_VAR=%APPX_SKIP%"&&CALL:CAPS_SET
 IF DEFINED APPX_SKIP FOR %%1 in (%APPX_SKIPX%) DO (IF "%$QCLM2$%"=="%%1" ECHO.%COLOR4%The operation has been skipped.%$$%&&GOTO:APPX_END)
@@ -2196,7 +2199,7 @@ FOR /F "TOKENS=1-9 SKIP=2 DELIMS=\ " %%a in ('%REG% QUERY "%APPX_KEY%" /V Path 2
 FOR /F "TOKENS=1-3* DELIMS=_" %%a IN ("%APPX_KEY%") DO (SET "APPX_VER=%%d")
 IF DEFINED APPX_PATH IF DEFINED APPX_VER CALL:IF_LIVE_MIX
 IF DEFINED APPX_PATH IF DEFINED APPX_VER FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /REMOVE-Provisionedappxpackage /PACKAGENAME:"%$QCLM2$%_%APPX_VER%" 2^>NUL') DO (
-IF "%%1"=="The operation completed successfully" SET "APPX_DONE=1"&&IF NOT DEFINED @QUIET ECHO.%COLOR5%%%1.%$$%
+IF "%%1"=="The operation completed successfully" SET "APPX_DONE=1"&&IF DEFINED @VERBOSE ECHO.%COLOR5%%%1.%$$%
 IF "%%1"=="The operation completed successfully" IF EXIST "%APPX_PATH%\*" SET "FOLDER_DEL=%APPX_PATH%"&&CALL:FOLDER_DEL)
 IF DEFINED APPX_DONE CALL:IF_LIVE_EXT
 IF DEFINED APPX_DONE %REG% ADD "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\%$QCLM2$%_%APPX_VER%" /f>NUL 2>&1
@@ -2212,7 +2215,7 @@ CALL:IF_LIVE_MIX
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (DELETE) DO (IF /I "%$QCLM3$%"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not DELETE.&&EXIT /B)
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Capability %@@%%%□%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Capability %@@%%%□%$$%...)
 SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /REMOVE-CAPABILITY /CAPABILITYNAME:"%$QCLM2$%" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" CALL ECHO.%COLOR5%%%1.%$$%&&EXIT /B)
 FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Capability %%□ doesn't exist.)
 EXIT /B
@@ -2221,7 +2224,7 @@ CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (DELETE) DO (IF /I "%$QCLM3$%"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not DELETE.&&EXIT /B)
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Component %@@%%%□%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Component %@@%%%□%$$%...)
 SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%$QCLM2$%"&&CALL:CAPS_SET
 IF DEFINED COMP_SKIP SET "CAPS_SET=COMP_SKIPX"&&SET "CAPS_VAR=%COMP_SKIP%"&&CALL:CAPS_SET
 IF DEFINED COMP_SKIP FOR %%1 in (%COMP_SKIPX%) DO (IF "%$QCLM2$%"=="%%1" ECHO.%COLOR4%The operation has been skipped.%$$%&&EXIT /B)
@@ -2250,7 +2253,7 @@ SET "COMP_ABT2="&&IF "%SAFE_EXCLUDE%"=="ENABLED" FOR /F "TOKENS=1-9 DELIMS=-" %%
 SET "COMP_Z%FNL_XNT%=%$QCLM2$%~%X2%"&&SET "COMP_ABT3="&&FOR %%1 in (%COMP_SKIPX%) DO (IF "%$QCLM2$%"=="%%1" SET "COMP_ABT3=1")
 IF NOT DEFINED COMP_ABT1 IF NOT DEFINED COMP_ABT2 IF NOT DEFINED COMP_ABT3 SET "COMP_ABT="
 SET /A "FNL_XNT+=1"&&SET "X0Z=%$QCLM2$%~%X2%"
-IF NOT DEFINED COMP_FLAG IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Subcomp %@@%%%□~%X2%%$$%...)
+IF NOT DEFINED COMP_FLAG IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Subcomp %@@%%%□~%X2%%$$%...)
 IF DEFINED COMP_ABT IF "%FNL_XNT%"=="2" SET "COMP_FLAG=1"&&FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR2%ERROR:%$$% Component %%□ is required or unable to remove.)
 IF DEFINED COMP_ABT EXIT /B
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_EXT
@@ -2259,7 +2262,7 @@ IF NOT DEFINED LIVE_APPLY CALL:MOUNT_EXT
 IF NOT DEFINED LIVE_APPLY CALL:MOUNT_MIX
 SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /REMOVE-PACKAGE /PACKAGENAME:"%$QCLM2$%~%X2%" 2^>NUL') DO (SET "DISMSG="&&IF "%%1"=="The operation completed successfully" CALL SET "DISMSG=%%1.")
 IF NOT DEFINED DISMSG FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR2%ERROR:%$$% Component %%□ is a stub or unable to remove.)
-IF DEFINED DISMSG IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%DISMSG%") DO (ECHO.%COLOR5%%%□%$$%)
+IF DEFINED DISMSG IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%DISMSG%") DO (ECHO.%COLOR5%%%□%$$%)
 EXIT /B
 :DRIVER_ITEM
 CALL:IF_LIVE_MIX
@@ -2272,27 +2275,27 @@ EXIT /B
 :DRVR_INSTALL
 SET "PACK_GOOD=The operation completed successfully"&&SET "PACK_BAD=The operation did not complete successfully"
 FOR /F "TOKENS=*" %%a in ('DIR/S/B "%$QCLM2$%\*.INF" 2^>NUL') DO (
-IF NOT EXIST "%%a\*" FOR %%G in ("%%a") DO (IF NOT DEFINED @QUIET CALL ECHO.Installing %@@%%%~nG.inf%$$%...)
+IF NOT EXIST "%%a\*" FOR %%G in ("%%a") DO (IF DEFINED @VERBOSE CALL ECHO.Installing %@@%%%~nG.inf%$$%...)
 IF NOT EXIST "%%a\*" IF DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('pnputil.exe /add-driver "%%a" /install 2^>NUL') DO (IF "%%1"=="Driver package added successfully" CALL SET "DISMSG=%PACK_GOOD%")
 IF NOT EXIST "%%a\*" IF NOT DEFINED LIVE_APPLY SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /ADD-DRIVER /DRIVER:"%%a" /ForceUnsigned 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" CALL SET "DISMSG=%PACK_GOOD%")
-IF NOT EXIST "%%a\*" IF DEFINED DISMSG IF NOT DEFINED @QUIET ECHO.%COLOR5%%PACK_GOOD%.%$$%
+IF NOT EXIST "%%a\*" IF DEFINED DISMSG IF DEFINED @VERBOSE ECHO.%COLOR5%%PACK_GOOD%.%$$%
 IF NOT EXIST "%%a\*" IF NOT DEFINED DISMSG ECHO.%COLOR2%ERROR:%$$% %PACK_BAD%.)
 EXIT /B
 :DRVR_REMOVE
 SET "FILE_OUTPUT=$DRVR"
 IF NOT DEFINED DRVR_QRY IF EXIST "$DRVR" DEL /Q /F "$DRVR">NUL 2>&1
 FOR /F "TOKENS=1 DELIMS= " %%# in ("%$QCLM3$%") DO (CALL SET "$QCLM3$=%%#")
-IF NOT EXIST "$DRVR" IF NOT DEFINED @QUIET ECHO.Getting driver listing...
+IF NOT EXIST "$DRVR" IF DEFINED @VERBOSE ECHO.Getting driver listing...
 IF NOT EXIST "$DRVR" SET "DRVR_QRY=1"&&FOR /F "TOKENS=1-9 DELIMS=|" %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-DRIVERS /FORMAT:TABLE 2^>NUL') DO (FOR /F "TOKENS=1 DELIMS= " %%# in ("%%a") DO (SET "X1=%%#")
 FOR /F "TOKENS=1 DELIMS= " %%# in ("%%g") DO (SET "X3=%%#")
 FOR /F "TOKENS=1 DELIMS= " %%# in ("%%b") DO (SET "CAPS_SET=X2"&&SET "CAPS_VAR=%%#"&&CALL:CAPS_SET&&CALL:FILE_OUTPUT))
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Driver %@@%%%□%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Driver %@@%%%□%$$%...)
 SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%$QCLM2$%"&&CALL:CAPS_SET
-SET "DISMSG="&&IF EXIST "$DRVR" FOR /F "TOKENS=1-3 DELIMS=%U00%" %%a in ($DRVR) DO (IF NOT DEFINED @QUIET IF "%%b"=="%$QCLM2$%" ECHO.Uninstalling %@@%%%a%$$% v%%c...
+SET "DISMSG="&&IF EXIST "$DRVR" FOR /F "TOKENS=1-3 DELIMS=%U00%" %%a in ($DRVR) DO (IF DEFINED @VERBOSE IF "%%b"=="%$QCLM2$%" ECHO.Uninstalling %@@%%%a%$$% v%%c...
 IF "%%b"=="%$QCLM2$%" IF DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('PNPUTIL.EXE /DELETE-DRIVER "%%a" /UNINSTALL /FORCE 2^>NUL') DO (IF "%%1"=="Driver package deleted successfully" SET "DISMSG=The operation completed successfully.")
 IF "%%b"=="%$QCLM2$%" IF NOT DEFINED LIVE_APPLY FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /REMOVE-DRIVER /DRIVER:"%%a" 2^>NUL') DO (IF "%%1"=="The operation completed successfully" SET "DISMSG=%%1."))
 IF NOT DEFINED DISMSG FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Driver %%□ doesn't exist.)
-IF DEFINED DISMSG IF NOT DEFINED @QUIET ECHO.%COLOR5%%DISMSG%%$$%
+IF DEFINED DISMSG IF DEFINED @VERBOSE ECHO.%COLOR5%%DISMSG%%$$%
 EXIT /B
 :FILE_OUTPUT
 IF "%FILE_OUTPUT%"=="$FEAT" ECHO.%X1%%U00%%X2%>>"$FEAT"
@@ -2304,23 +2307,23 @@ SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (ENABLE DISABLE) DO (IF /I "%$QCLM3$%"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not ENABLE or DISABLE.&&EXIT /B)
 SET "FILE_OUTPUT=$FEAT"&&IF NOT DEFINED FEAT_QRY IF EXIST "$FEAT" DEL /Q /F "$FEAT">NUL 2>&1
-IF NOT EXIST "$FEAT" IF NOT DEFINED @QUIET ECHO.Getting feature listing...
+IF NOT EXIST "$FEAT" IF DEFINED @VERBOSE ECHO.Getting feature listing...
 IF NOT EXIST "$FEAT" SET "FEAT_QRY=1"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (FOR %%X in (Enabled Disabled) DO (IF "%%b"=="%%X" SET "CAPS_SET=X1"&&SET "CAPS_VAR=%%a"&&SET "X2=%%b"&&CALL:CAPS_SET&&CALL:FILE_OUTPUT))
-IF /I "%$QCLM3$%"=="ENABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF NOT DEFINED @QUIET ECHO.Enabling Feature %@@%%%□%$$%... 
+IF /I "%$QCLM3$%"=="ENABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF DEFINED @VERBOSE ECHO.Enabling Feature %@@%%%□%$$%... 
 SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%%□"&&CALL:CAPS_SET)
-IF /I "%$QCLM3$%"=="DISABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF NOT DEFINED @QUIET ECHO.Disabling Feature %@@%%%□%$$%...
+IF /I "%$QCLM3$%"=="DISABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF DEFINED @VERBOSE ECHO.Disabling Feature %@@%%%□%$$%...
 SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%%□"&&CALL:CAPS_SET)
 SET "FEAT="&&IF EXIST "$FEAT" FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ($FEAT) DO (IF "%%a"=="%$QCLM2$%" SET "FEAT=1"&&SET "X1=%%a"&&SET "X2=%%b")
 IF NOT DEFINED FEAT FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Feature %%□ doesn't exist.&&EXIT /B)
-IF /I "%$QCLM3$%"=="ENABLE" IF "%X2%"=="Enabled" IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF /I "%$QCLM3$%"=="ENABLE" IF "%X2%"=="Enabled" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="ENABLE" IF "%X2%"=="Enabled" EXIT /B
-IF /I "%$QCLM3$%"=="DISABLE" IF "%X2%"=="Disabled" IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF /I "%$QCLM3$%"=="DISABLE" IF "%X2%"=="Disabled" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="DISABLE" IF "%X2%"=="Disabled" EXIT /B
 IF /I "%$QCLM3$%"=="ENABLE" FOR /F "TOKENS=1 DELIMS=." %%■ in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ENABLE-FEATURE /FEATURENAME:"%$QCLM2$%" /ALL 2^>NUL') DO (
-IF "%%■"=="The operation completed successfully" IF NOT DEFINED @QUIET ECHO.%COLOR5%%%■.%$$%
+IF "%%■"=="The operation completed successfully" IF DEFINED @VERBOSE ECHO.%COLOR5%%%■.%$$%
 IF "%%■"=="The operation completed successfully" SET "X2=Enabled"&&CALL:FILE_OUTPUT&&EXIT /B)
 IF /I "%$QCLM3$%"=="DISABLE" FOR /F "TOKENS=1 DELIMS=." %%■ in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /DISABLE-FEATURE /FEATURENAME:"%$QCLM2$%" /REMOVE 2^>NUL') DO (
-IF "%%■"=="The operation completed successfully" IF NOT DEFINED @QUIET ECHO.%COLOR5%%%$.%$$%
+IF "%%■"=="The operation completed successfully" IF DEFINED @VERBOSE ECHO.%COLOR5%%%$.%$$%
 IF "%%■"=="The operation completed successfully" SET "X2=Disabled"&&CALL:FILE_OUTPUT&&EXIT /B)
 FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Feature %%□ is a stub or unable to change.)
 EXIT /B
@@ -2330,18 +2333,18 @@ SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (AUTO MANUAL DISABLE DELETE) DO (IF /I "!$QCLM3$!"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not AUTO, MANUAL, DISABLE, or DELETE.&&EXIT /B
 FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (FOR /F "TOKENS=*" %%■ IN ("%$QCLM2$%") DO (
-IF /I "%%□"=="DELETE" IF NOT DEFINED @QUIET ECHO.Removing Service %@@%%%■%$$%...
-IF /I NOT "%%□"=="DELETE" IF NOT DEFINED @QUIET ECHO.Changing start to %@@%%%□%$$% for Service %@@%%%■%$$%...
+IF /I "%%□"=="DELETE" IF DEFINED @VERBOSE ECHO.Removing Service %@@%%%■%$$%...
+IF /I NOT "%%□"=="DELETE" IF DEFINED @VERBOSE ECHO.Changing start to %@@%%%□%$$% for Service %@@%%%■%$$%...
 SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%%■"&&CALL:CAPS_SET))
 IF DEFINED SVC_SKIP SET "CAPS_SET=SVC_SKIPX"&&SET "CAPS_VAR=%SVC_SKIP%"&&CALL:CAPS_SET
 IF DEFINED SVC_SKIP FOR %%1 in (%SVC_SKIPX%) DO (IF "%$QCLM2$%"=="%%1" ECHO.%COLOR4%The operation has been skipped.%$$%&&EXIT /B)
 SET "$GO="&&FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('%REG% QUERY "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V Start 2^>NUL') DO (
 IF "%%a"=="Start" SET "$GO=1"
-IF /I "%$QCLM3$%"=="AUTO" IF "%%a"=="Start" IF "%%c"=="0x2" IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF /I "%$QCLM3$%"=="AUTO" IF "%%a"=="Start" IF "%%c"=="0x2" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="AUTO" IF "%%a"=="Start" IF "%%c"=="0x2" EXIT /B
-IF /I "%$QCLM3$%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF /I "%$QCLM3$%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" EXIT /B
-IF /I "%$QCLM3$%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF /I "%$QCLM3$%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" EXIT /B)
 IF NOT DEFINED $GO FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Service %%□ doesn't exist.&&EXIT /B)
 IF /I "%$QCLM3$%"=="DELETE" SET "$RAS=RATI"&&CALL:RASTI_CREATE
@@ -2351,19 +2354,19 @@ IF /I "%$QCLM3$%"=="AUTO" IF "%%a"=="Start" IF NOT "%%c"=="0x2" ECHO.%COLOR2%ERR
 IF /I "%$QCLM3$%"=="MANUAL" IF "%%a"=="Start" IF NOT "%%c"=="0x3" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B
 IF /I "%$QCLM3$%"=="DISABLE" IF "%%a"=="Start" IF NOT "%%c"=="0x4" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B
 IF /I "%$QCLM3$%"=="DELETE" IF "%%a"=="Start" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B)
-IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 EXIT /B
 :TASK_ITEM
 CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 SET "$PASS="&&FOR %%□ IN (DELETE) DO (IF /I "%$QCLM3$%"=="%%□" SET "$PASS=1")
 IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not DELETE.&&EXIT /B)
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Task %@@%%%□%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Task %@@%%%□%$$%...)
 SET "TASKID="&&FOR /F "TOKENS=1-4 DELIMS={} " %%a IN ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /V Id 2^>NUL') DO (IF "%%a"=="Id" SET "TASKID=%%c")
 IF NOT DEFINED TASKID FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Task %%□ doesn't exist.&&EXIT /B)
 SET "$RAS=RAS"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /V Id 2^>NUL') DO (IF "%%a"=="Id" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B)
-IF NOT DEFINED @QUIET ECHO.%COLOR5%The operation completed successfully.%$$%
+IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 EXIT /B
 :WINSXS_ITEM
 CALL:IF_LIVE_EXT
@@ -2390,11 +2393,11 @@ SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
 IF /I "%$QCLM4$%"=="SC" SET "SCRO=SetupComplete"
 IF /I "%$QCLM4$%"=="RO" SET "SCRO=RunOnce"
 IF NOT DEFINED %$QCLM4$%_PREPARE SET "%$QCLM4$%_PREPARE=1"&&CALL:SCRO_PREPARE
-IF NOT DEFINED @QUIET FOR /F "TOKENS=*" %%□ IN ("!$QCLM2$!") DO (ECHO.Scheduling %@@%%%□%$$% for %@@%%SCRO%%$$%...)
+IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("!$QCLM2$!") DO (ECHO.Scheduling %@@%%%□%$$% for %@@%%SCRO%%$$%...)
 CALL:SCRO_DISPATCH
 IF /I NOT "!$QCLM1$!"=="EXTPACKAGE" GOTO:SCRO_CREATE_SKIP
 FOR /F "TOKENS=*" %%░ in ("!$QCLM2$!") DO (
-IF EXIST "%PackFolder%\%%░" IF NOT DEFINED @QUIET ECHO.Copying Package %@@%%%░ for %##%%SCRO%%$$%...
+IF EXIST "%PackFolder%\%%░" IF DEFINED @VERBOSE ECHO.Copying Package %@@%%%░ for %##%%SCRO%%$$%...
 IF EXIST "%PackFolder%\%%░" COPY /Y "%PackFolder%\%%░" "%DrvTar%\$">NUL
 IF EXIST "%PackFolder%\%%░" ECHO.%U00%EXTPACKAGE%U00%%%░%U00%INSTALL%U00%DX%U00%>>"%DrvTar%\$\%SCRO%.list"
 IF NOT EXIST "%PackFolder%\%%░" ECHO.%COLOR4%ERROR:%$$% %PackFolder%\%%░ doesn't exist.)
@@ -3690,8 +3693,8 @@ if (Test-Path -Path "$PSScriptRootX\cache") {$CacheFolder = "$PSScriptRootX\cach
 
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Group-View {$ListItem = "";
-if ($partXb -eq "ⓡRoutine") {$ListItem = "Routine";$global:Routine1 = ""}
-if ($partXb -eq "ⓡArray") {$ListItem = "Array";$global:Array1 = ""}
+if ($partXb -eq "📜Routine") {$ListItem = "Routine";$global:Routine1 = ""}
+if ($partXb -eq "📜Array") {$ListItem = "Array";$global:Array1 = ""}
 if ($ListItem -eq "Array") {$ifX = ""
 if ($partXc) {if ($partXc -ne "◁Null▷") {$stringX1 = $partXc.Replace("◁", "`$(`$");$stringX2 = $stringX1.Replace("▷", ")");$partXc = $ExecutionContext.InvokeCommand.ExpandString($stringX2);if (-not ($partXc)) {$partXc = "◁Null▷"}}}
 if ($partXd) {$if1, $if2, $if3, $if4, $if5, $if6, $if7, $if8, $if9, $if10 = $partXd -split "[❗]"
@@ -3933,9 +3936,11 @@ $listview.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $listview.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 #$listview.View = [System.Windows.Forms.View]::Details
 $listview.View = "Details";#$listview.View = "List"
+$listview.Scrollable = $true
 $listview.MultiSelect = $false
 $listview.HideSelection = $true
-if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+$listview.ShowItemToolTips = $true
+if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 22 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
 if ($GUI_LVFONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $listview.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle = 'None'}
@@ -3946,9 +3951,9 @@ $doublebuffer = $listview.GetType().GetProperty("DoubleBuffered", [System.Reflec
 $element = $listview;AddElement
 #$listview.Columns[0].Width = -2
 #$listview.Columns[1].Width = -2
-#$listview.CheckBoxes = true
-#$listview.FullRowSelect = true
-#$listview.GridLines = true
+#$listview.CheckBoxes = $true
+#$listview.FullRowSelect = $true
+#$listview.GridLines = $true
 #$listview.Sorting = SortOrder.Ascending
 #$listview.HeaderStyle = 'Clickable';#NonClickable;#None
 #$imageListSmall = New-Object System.Windows.Forms.ImageList
@@ -4270,7 +4275,7 @@ $ListViewBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListViewBox.View = "Details";#$listview.View = "List"
 $ListViewBox.MultiSelect = $false
 $ListViewBox.HideSelection = $true
-if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 22 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
 if ($GUI_LVFONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $ListViewBox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 if ($Headers) {$ListViewBox.HeaderStyle = "$Headers"} else {$ListViewBox.HeaderStyle = 'None'}
@@ -4278,7 +4283,7 @@ $ListViewBox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
 $ListViewBox.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $ListViewBox.Visible = $true
 $doublebufferX = $ListViewBox.GetType().GetProperty("DoubleBuffered", [System.Reflection.BindingFlags] "NonPublic, Instance");$doublebufferX.SetValue($ListViewBox, $true, $null)
-$WSIZ = [int](542 * $ScaleRef * $GUI_SCALE);[void]$ListViewBox.Columns.Add("X", $WSIZ);$formboxX.Controls.Add($ListViewBox)
+$WSIZ = [int](542 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListViewBox.Columns.Add("X", $WSIZX);$formboxX.Controls.Add($ListViewBox)
 $ListViewBox.GridLines = $false;$ListViewBox.CheckBoxes = $true;$ListViewBox.FullRowSelect = $true
 $wtfbbq = Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partZa, $partZb, $partZc, $partZd, $partZe, $partZf, $partZg, $partZh, $partZi, $partZj, $partZk, $partZl, $partZm, $partZn = $_ -split "[❕]"
@@ -5015,7 +5020,7 @@ $command = @"
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"$PSScriptRootX\project" /IMAGEFILE:"$PackFolder\$boxoutput.pkx" /COMPRESS:Fast /NAME:"PKX" /CheckIntegrity /Verify
 "@
 ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("MENU-SCRIPT","`❕ⓠCommand`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕ⓠCommand`❕$command`❕NORMAL`❕DX`❕","`❕ⓠCommand`❕ECHO.`❕NORMAL`❕DX`❕","`❕ⓠCommand`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","`❕Command`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕Command`❕$command`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
@@ -5065,13 +5070,13 @@ $command = @"
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"$PackFolder\$ListViewChoiceS3" /INDEX:1 /APPLYDIR:"$ProjectFolder"
 "@
 ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-ForEach ($i in @("MENU-SCRIPT","`❕ⓠCommand`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕ⓠCommand`❕$command`❕NORMAL`❕DX`❕","`❕ⓠCommand`❕ECHO.`❕NORMAL`❕DX`❕","`❕ⓠCommand`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("MENU-SCRIPT","`❕Command`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕Command`❕$command`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LEWiz_Stage1 {$global:LEWiz_Stage = 1;$global:ListMode = 'Execute'
-$Label1_PageLEWiz.Text = "🧾 List Execute"
+$Label1_PageLEWiz.Text = "📜 List Execute"
 $Label2_PageLEWiz.Text = "Select an option"
 $ListView1_PageLEWiz.GridLines = $false
 $ListView1_PageLEWiz.CheckBoxes = $false
@@ -5092,7 +5097,7 @@ if ($LBWiz_TypeX -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageB
 $LBWiz_TypeEXT = [System.IO.Path]::GetExtension("$ListFolder\$ListViewChoiceS2").ToUpper()
 
 if ($LBWiz_TypeEXT -eq ".BASE") {$PageLBWiz.Visible = $true;$PageLEWiz.Visible = $false;$PageLBWiz.BringToFront();LBWiz_Stage2}
-$Label1_PageLEWiz.Text = "🧾 List Execute"
+$Label1_PageLEWiz.Text = "📜 List Execute"
 $Label2_PageLEWiz.Text = "Select a target"
 $ListView1_PageLEWiz.GridLines = $false;$ListView1_PageLEWiz.CheckBoxes = $false;$ListView1_PageLEWiz.FullRowSelect = $true
 if ($LBWiz_TypeEXT -eq ".BASE") {$global:ListViewChoiceS2 = "`$LIST"}
@@ -5148,13 +5153,13 @@ $PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage1 {$global:LBWiz_Stage = 1;$global:ListMode = 'Builder'
-$Label1_PageLBWiz.Text = "🧾 List Builder"
+$Label1_PageLBWiz.Text = "📜 List Builder"
 $Label2_PageLBWiz.Text = "Select an option"
 $ListView1_PageLBWiz.GridLines = $false
 $ListView1_PageLBWiz.CheckBoxes = $false
 $ListView1_PageLBWiz.FullRowSelect = $true
 $ListView1_PageLBWiz.Items.Clear();
-$item1 = New-Object System.Windows.Forms.ListViewItem("🧾 Miscellaneous")
+$item1 = New-Object System.Windows.Forms.ListViewItem("📜 Miscellaneous")
 #[void]$item1.SubItems.Add("Description for X")
 [void]$ListView1_PageLBWiz.Items.Add($item1)
 Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
@@ -5166,8 +5171,8 @@ $GRP = $null;if ($marked -ne $null) {$global:ListViewSelectS2 = $marked} else {
 if ($ListMode -eq "Builder") {$global:ListViewSelectS2 = $ListView1_PageLBWiz.FocusedItem}}
 $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
 
-if ($BaseFile -eq "🧾 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
-if ($BaseFile -ne "🧾 Miscellaneous") {
+if ($BaseFile -eq "📜 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
+if ($BaseFile -ne "📜 Miscellaneous") {
 $LBWiz_TypeZ = Get-Content -Path "$ListFolder\\$BaseFile" -TotalCount 1
 $global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]'
 if ($LBWiz_Type -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LBWiz_Stage1;return}}
@@ -5178,22 +5183,23 @@ $ListView1_PageLBWiz.CheckBoxes = $false
 $ListView1_PageLBWiz.FullRowSelect = $true
 
 if ($LBWiz_Type -eq 'MISC') {
-$Label1_PageLBWiz.Text = "🧾 List $ListMode"
+$Label1_PageLBWiz.Text = "📜 List $ListMode"
 $Label2_PageLBWiz.Text = "Miscellaneous"
-ForEach ($i in @("🧾 Create Source Base","🧾 Generate Example Base","🧾 Convert Group Base","✒ External Package Item")) {[void]$ListView1_PageLBWiz.Items.Add("$i")}
+ForEach ($i in @("📜 Create Source Base","📜 Generate Example Base","📜 Convert Group Base","✒ External Package Item")) {[void]$ListView1_PageLBWiz.Items.Add("$i")}
 }
 if ($LBWiz_Type -eq 'MENU-SCRIPT') {
 if ($REFERENCE -ne 'DISABLED') {
 if ($REFERENCE -eq 'LIVE') {MOUNT_INT}
 if ($REFERENCE -ne 'LIVE') {if (-not ($vdiskltr)) {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Mounting Reference Image...";VDISK_ATTACH}}}
 
-$Label1_PageLBWiz.Text = "🧾 List $ListMode"
+$Label1_PageLBWiz.Text = "📜 List $ListMode"
 $Label2_PageLBWiz.Text = "$BaseFile"
 Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh = $_ -split "[❕]"
 if ($partXb -eq 'GROUP') {if (-not ($partXc -eq $GRP)) {
 $GRP = "$partXc";#$item1.SubItems.Add("$partXf")
 $item1 = New-Object System.Windows.Forms.ListViewItem("$partXc")
+if ($partXe -eq 'Normal') {if ($partXf) {$ToolTip1, $ToolTip2 = $partXf -split "[❗]";$item1.ToolTipText = "$ToolTip1"}}
 [void]$ListView1_PageLBWiz.Items.Add($item1)}}}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -5202,14 +5208,14 @@ if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListVi
 $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
 
-if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {
-$Label1_PageLBWiz.Text = "🧾 Miscellaneous"
+if ($ListViewChoiceS3 -eq "📜 Create Source Base") {
+$Label1_PageLBWiz.Text = "📜 Miscellaneous"
 $Label2_PageLBWiz.Text = "Create Source Base"
 $ListView1_PageLBWiz.Items.Clear()
 ForEach ($i in @("All source items","AppX","Capability","Feature","Service","Task","Component","Driver")) {[void]$ListView1_PageLBWiz.Items.Add("$i")}}
 
-if ($ListViewChoiceS3 -eq "🧾 Generate Example Base") {
-$Label1_PageLBWiz.Text = "🧾 Miscellaneous"
+if ($ListViewChoiceS3 -eq "📜 Generate Example Base") {
+$Label1_PageLBWiz.Text = "📜 Miscellaneous"
 $Label2_PageLBWiz.Text = "Generate Example Base"
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Generate Example Base' -MessageBoxText 'Enter new base name' -Check 'PATH'
 if ($boxresult -eq "OK") {$BaseName = "$boxoutput";
@@ -5220,7 +5226,7 @@ return}
 if ($boxresult -ne "OK") {$global:LBWiz_Stage = 2}}
 
 if ($ListViewChoiceS3 -eq "✒ External Package Item") {
-$Label1_PageLBWiz.Text = "🧾 Miscellaneous";
+$Label1_PageLBWiz.Text = "📜 Miscellaneous";
 $Label2_PageLBWiz.Text = "Select a package"
 $ListView1_PageLBWiz.Items.Clear()
 Get-ChildItem -Path "$PackFolder\*.appx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
@@ -5230,9 +5236,9 @@ Get-ChildItem -Path "$PackFolder\*.msixbundle" -Name | ForEach-Object {[void]$Li
 Get-ChildItem -Path "$PackFolder\*.msu" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}
 Get-ChildItem -Path "$PackFolder\*.pkx" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 
-if ($ListViewChoiceS3 -eq "🧾 Convert Group Base") {
+if ($ListViewChoiceS3 -eq "📜 Convert Group Base") {
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();
-$Label1_PageLBWiz.Text = "🧾 Convert Group Base";
+$Label1_PageLBWiz.Text = "📜 Convert Group Base";
 $Label2_PageLBWiz.Text = "Select a list to convert"
 Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 }
@@ -5240,7 +5246,7 @@ Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView
 function LBWiz_Stage4MISC {$global:LBWiz_Stage = 4;
 if ($marked -ne $null) {$global:ListViewSelectS4 = $marked} else { $global:ListViewSelectS4 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $global:ListViewChoiceS4, $partc = $ListViewSelectS4 -split '[{}]'
-if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {
+if ($ListViewChoiceS3 -eq "📜 Create Source Base") {
 if ($ListViewChoiceS4 -eq 'All source items') {$global:ListViewBase = '1 4 2 5 6 7 3'}
 if ($ListViewChoiceS4 -eq 'AppX') {$global:ListViewBase = 1}
 if ($ListViewChoiceS4 -eq 'Feature') {$global:ListViewBase = 2}
@@ -5253,11 +5259,11 @@ MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create Source Base' -Messa
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 3;}
 if ($boxresult -eq "OK") {$global:ListName = "$boxoutput.base";$ListTarget = "$ListFolder\$boxoutput.base";if (Test-Path -Path $ListTarget) {Remove-Item -Path "$ListTarget" -Force}
 PickEnvironment
-$Label1_PageLBWiz.Text = "🧾 Create Source Base"
+$Label1_PageLBWiz.Text = "📜 Create Source Base"
 $Label2_PageLBWiz.Text = "Select a source"
 }}
 
-if ($ListViewChoiceS3 -eq "🧾 Convert Group Base") {$is_group = $null
+if ($ListViewChoiceS3 -eq "📜 Convert Group Base") {$is_group = $null
 $LBWiz_TypeZ = Get-Content -Path "$ListFolder\$ListViewChoiceS4" -TotalCount 1
 $LBWiz_TypeY, $partbxyz = $LBWiz_TypeZ -split '[ ]';
 
@@ -5276,24 +5282,24 @@ if ($boxoutput -eq "❕DX❕ Default - Immediate execution") {$global:ExecuteTim
 if ($boxoutput -eq "❕SC❕ SetupComplete - Scheduled execution") {$global:ExecuteTime = "SC"}
 if ($boxoutput -eq "❕RO❕ RunOnce - Scheduled execution") {$global:ExecuteTime = "RO"}
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();$Label1_PageLBWiz.Text = "💾 Append Items";$Label2_PageLBWiz.Text = "Select a list"
-[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
+[void]$ListView1_PageLBWiz.Items.Add("📜 Create New List")
 Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5MISC {
 if ($marked -ne $null) {$global:ListViewSelectS5 = $marked} else { $global:ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $ListViewChoiceS5, $partc = $ListViewSelectS5 -split '[{}]'
-if ($ListViewChoiceS3 -eq "🧾 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS3 -eq "📜 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
-if ($ListViewChoiceS5 -eq "🧾 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
+if ($ListViewChoiceS5 -eq "📜 Create New List") {MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 4;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$ListFolder\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
 Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
-if ($ListViewChoiceS5 -ne "🧾 Create New List") {$global:LBWiz_Stage = 4;$ListName = "$ListViewChoiceS5";$ListTarget = "$ListFolder\$ListViewChoiceS5"}
+if ($ListViewChoiceS5 -ne "📜 Create New List") {$global:LBWiz_Stage = 4;$ListName = "$ListViewChoiceS5";$ListTarget = "$ListFolder\$ListViewChoiceS5"}
 Add-Content -Path "$ListTarget" -Value "`❕ExtPackage`❕$ListViewChoiceS4`❕Install`❕$ExecuteTime`❕" -Encoding UTF8
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -5301,13 +5307,13 @@ function LBWiz_Stage3GRP {$global:LBWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLBWiz.FocusedItem}
 $ListView1_PageLBWiz.GridLines = $false;$ListView1_PageLBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.CheckBoxes = $true;$Label1_PageLBWiz.Text = "🧾 $BaseFile";
+$ListView1_PageLBWiz.Items.Clear();$ListView1_PageLBWiz.CheckBoxes = $true;$Label1_PageLBWiz.Text = "📜 $BaseFile";
 $Label2_PageLBWiz.Text = "Loading $ListViewChoiceS3..."
-$global:SubGroupLast = "";$ReadGroup = "";Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
+$global:SubGroupLast = "";$global:ToolTipLast = "";$ReadGroup = "";Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]"
 if ($partXb -eq 'GROUP') {if ($partXc -eq $ListViewChoiceS3) {$ReadGroup = 1} else {$ReadGroup = ""}}
 if ($ReadGroup) {
-if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[ⓡ]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {if ($REFERENCE -ne 'DISABLED') {Group-View}}}
+if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[📜]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {if ($REFERENCE -ne 'DISABLED') {Group-View}}}
 if ($partXb -eq 'GROUP') {
 if ($partXc -eq $ListViewChoiceS3) {
 if ($SubGroupLast) {$SubGroupLastOG = $SubGroupLast
@@ -5316,9 +5322,10 @@ $stringX2 = $stringX1.Replace("▷", ")")
 $stringX3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
 $item1 = New-Object System.Windows.Forms.ListViewItem("$stringX3")
 $item1.SubItems.Add("$SubGroupLastOG")
+if ($ToolTipLast) {$ToolTip1, $ToolTip2 = $ToolTipLast -split "[❗]";$item1.ToolTipText = "$ToolTip2"}
 [void]$ListView1_PageLBWiz.Items.Add($item1)
 }
-$global:GroupLast = $partXc;$global:SubGroupLast = $partXd}
+$global:GroupLast = $partXc;$global:SubGroupLast = $partXd;$global:ToolTipLast = $partXf}
 $global:Array1 = "";$global:Routine1 = "";$global:Condit1 = ""}
 }}
 if ($SubGroupLast) {$SubGroupLastOG = $SubGroupLast
@@ -5327,6 +5334,7 @@ $stringX2 = $stringX1.Replace("▷", ")")
 $stringX3 = $ExecutionContext.InvokeCommand.ExpandString($stringX2)
 $item1 = New-Object System.Windows.Forms.ListViewItem("$stringX3")
 $item1.SubItems.Add("$SubGroupLastOG")
+if ($ToolTipLast) {$ToolTip1, $ToolTip2 = $ToolTipLast -split "[❗]";$item1.ToolTipText = "$ToolTip2"}
 [void]$ListView1_PageLBWiz.Items.Add($item1)}
 $global:Condit1 = "";$global:Array1 = "";$global:Routine1 = ""
 $Label2_PageLBWiz.Text = "$ListViewChoiceS3";
@@ -5337,10 +5345,10 @@ if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST
 if ($ListMode -eq 'Execute') {Add-Content -Path "$ListFolder\`$LIST" -Value "MENU-SCRIPT" -Encoding UTF8}
 ForEach ($checkedItem in $ListView1_PageLBWiz.CheckedItems) {$ListWrite = 0
 $Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250
-if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[ⓡ]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {if ($REFERENCE -ne 'DISABLED') {Group-View}}}
+if ($partXb) {$GrpViewChk1, $GrpViewChk2 = $partXb -split "[📜]";if (-not ("$GrpViewChk1$GrpViewChk2" -eq "$partXb")) {if ($REFERENCE -ne 'DISABLED') {Group-View}}}
 $ListViewChecked = $checkedItem.SubItems[1].Text;$ListViewCheckedExpand = $checkedItem.SubItems[0].Text
 Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
-$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]";if ($partXb) {$partXb = $partXb.Replace("ⓠ", "")}
+$partXa, $partXb, $partXc, $partXd, $partXe, $partXf, $partXg, $partXh, $partXi, $partXj, $partXk, $partXl, $partXm, $partXn = $_ -split "[❕]";if ($partXb) {$partXb = $partXb.Replace("📜", "")}
 
 if ($partXb -eq 'GROUP') {if ($partXc -ne $ListViewChoiceS3) {$ListWrite = 0}}
 if ($partXb -eq 'GROUP') {if ($partXd -ne $ListViewChecked) {$ListWrite = 0}}
@@ -5349,9 +5357,9 @@ if ($partXb -eq 'GROUP') {if ($partXe -eq "SCOPED") {if ($partXc -eq $ListViewCh
 MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewChecked" -MessageBoxText "$partXf" -MessageBoxChoices "$partXg";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$partXe`❕$partXf`❕$partXg`❕$boxindex`❕" -Encoding UTF8
 $ListWrite = 0;MessageBoxListView;return}}}}
 if ($ListWrite -eq '1') {$ListPrompt = $null;
-ForEach ($i in @("PROMPT","PROMPT1","PROMPT2","PROMPT3","PROMPT4","PROMPT5","PROMPT6","PROMPT7","PROMPT8","PROMPT9")) {if ($i -eq "$partXb") {$ListPrompt = 1;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";$partw1, $partx1 = $partXd -split "❗";$party1, $partz1 = $partx1 -split "-";MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -Check "$partw1" -TextMin "$party1" -TextMax "$partz1";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
-ForEach ($i in @("CHOICE","CHOICE1","CHOICE2","CHOICE3","CHOICE4","CHOICE5","CHOICE6","CHOICE7","CHOICE8","CHOICE9")) {if ($i -eq "$partXb") {$ListPrompt = 2;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxindex`❕" -Encoding UTF8}}
-ForEach ($i in @("PICKER","PICKER1","PICKER2","PICKER3","PICKER4","PICKER5","PICKER6","PICKER7","PICKER8","PICKER9")) {if ($i -eq "$partXb") {$ListPrompt = 3;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Picker' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕ⓠ$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
+ForEach ($i in @("PROMPT","PROMPT1","PROMPT2","PROMPT3","PROMPT4","PROMPT5","PROMPT6","PROMPT7","PROMPT8","PROMPT9")) {if ($i -eq "$partXb") {$ListPrompt = 1;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";$partw1, $partx1 = $partXd -split "❗";$party1, $partz1 = $partx1 -split "-";MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -Check "$partw1" -TextMin "$party1" -TextMax "$partz1";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
+ForEach ($i in @("CHOICE","CHOICE1","CHOICE2","CHOICE3","CHOICE4","CHOICE5","CHOICE6","CHOICE7","CHOICE8","CHOICE9")) {if ($i -eq "$partXb") {$ListPrompt = 2;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Choice' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxindex`❕" -Encoding UTF8}}
+ForEach ($i in @("PICKER","PICKER1","PICKER2","PICKER3","PICKER4","PICKER5","PICKER6","PICKER7","PICKER8","PICKER9")) {if ($i -eq "$partXb") {$ListPrompt = 3;$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBox -MessageBoxType 'Picker' -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxText "$partXc" -MessageBoxChoices "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250;Add-Content -Path "$ListFolder\`$LIST" -Value "`❕$partXb`❕$partXc`❕$partXd`❕$boxoutput`❕" -Encoding UTF8}}
 ForEach ($i in @("INFO","INFO1")) {if ($i -eq "$partXb") {$Label1_PageLBWiz.Text = "$ListViewChoiceS3";$Label2_PageLBWiz.Text = "$ListViewCheckedExpand";MessageBoxInfo -MessageBoxSize "$partXe" -MessageBoxTitle "$ListViewCheckedExpand" -MessageBoxLabel "$partXc" -MessageBoxBody "$partXd";$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Generating List...";Start-Sleep -Milliseconds 250}}
 if ($ListPrompt -eq $null) {Add-Content -Path "$ListFolder\`$LIST" -Value "$_" -Encoding UTF8}
 }}}
@@ -5359,7 +5367,7 @@ if ($ListPrompt -eq $null) {Add-Content -Path "$ListFolder\`$LIST" -Value "$_" -
 if ($ListMode -eq 'Builder') {
 $Label1_PageLBWiz.Text = "💾 Append Items"
 $Label2_PageLBWiz.Text = "Select a list"
-$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("🧾 Create New List")
+$ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("📜 Create New List")
 Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
 if ($ListMode -eq 'Execute') {if ($REFERENCE -ne 'LIVE') {if ($REFERENCE -ne "Disabled") {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}}
 $PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront()}
@@ -5370,7 +5378,7 @@ if ($REFERENCE -ne 'LIVE') {if ($REFERENCE -ne "Disabled") {$Label1_PageLBWiz.Te
 $Label1_PageLBWiz.Text = "💾 Append Items";$Label2_PageLBWiz.Text = "Select a list"
 $ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem
 $parta, $partb, $partc = $ListViewSelectS5 -split '[{}]'
-if ($partb -eq "🧾 Create New List") {
+if ($partb -eq "📜 Create New List") {
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Create List' -MessageBoxText 'Enter new .list name' -Check 'PATH'
 if ($boxresult -ne "OK") {$ListName = "$null";}
 if ($boxresult -eq "OK") {
@@ -5379,7 +5387,7 @@ if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBa
 Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 }
-if ($partb -ne "🧾 Create New List") {$ListName = "$partb";$ListTarget = "$ListFolder\$partb"}
+if ($partb -ne "📜 Create New List") {$ListName = "$partb";$ListTarget = "$ListFolder\$partb"}
 Get-Content "$ListFolder\`$LIST" -Encoding UTF8 | ForEach-Object {
 $partxxx, $partyyy, $partzzz = $_ -split '[❕]';if ($partyyy -eq "GROUP") {Add-Content -Path "$ListTarget" -Value "" -Encoding UTF8}
 if ($_ -ne "") {Add-Content -Path "$ListTarget" -Value "$_" -Encoding UTF8}}
@@ -5657,7 +5665,7 @@ SplashChange}})
 #$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
-$ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageW2V.Columns.Add("X", $WSIZ)
+$ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageW2V.Columns.Add("X", $WSIZX)
 $Button1_PageW2V = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
@@ -5674,7 +5682,7 @@ $Label4_PageW2V = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text 'VHDX Size (
 $TextBox2_PageW2V = NewTextBox -X '425' -Y '525' -W '300' -H '40' -Check 'NUMBER'
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|VHD" -TextAlign 'X'
-$ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageV2W.Columns.Add("X", $WSIZ)
+$ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageV2W.Columns.Add("X", $WSIZX)
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
 if ($halt -ne '1') {ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-VHDX","ARG3=$($DropBox1_PageV2W.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageV2W.SelectedItem)","ARG6=-WIM","ARG7=$($TextBox1_PageV2W.Text)","ARG8=-XLVL","ARG9=$($DropBox3_PageV2W.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
@@ -5689,11 +5697,11 @@ $TextBox1_PageV2W = NewTextBox -X '25' -Y '525' -W '300' -H '40' -Check 'PATH'
 $Label4_PageV2W = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text '   Compression'
 $DropBox3_PageV2W = NewDropBox -X '425' -Y '525' -W '300' -H '40' -C '0' -DisplayMember 'Description'
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-$Page = 'PageLB';$Label0_PageLB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🧾 Image Management" -TextAlign 'X'
+$Page = 'PageLB';$Label0_PageLB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "📜 Image Management" -TextAlign 'X'
 $Label1_PageLB = NewLabel -X '85' -Y '535' -W '175' -H '30' -Text 'Reference'
 $DropBox1_PageLB = NewDropBox -X '215' -Y '530' -W '325' -H '40' -C '0' -DisplayMember 'Name'
-$ListView1_PageLB = NewListView -X '390' -Y '90' -W '335' -H '420';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageLB.Columns.Add("X", $WSIZ)
-$ListView2_PageLB = NewListView -X '25' -Y '90' -W '335' -H '420';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView2_PageLB.Columns.Add("X", $WSIZ)
+$ListView1_PageLB = NewListView -X '390' -Y '90' -W '335' -H '420';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageLB.Columns.Add("X", $WSIZX)
+$ListView2_PageLB = NewListView -X '25' -Y '90' -W '335' -H '420';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView2_PageLB.Columns.Add("X", $WSIZX)
 $Button1_PageLB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏁 List Execute' -Hover_Text 'List Execute' -Add_Click {LEWiz_Stage1}
 $Button2_PageLB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏗 List Builder' -Hover_Text 'List Builder' -Add_Click {LBWiz_Stage1}
 
@@ -5703,8 +5711,8 @@ $FileFilt = "List files (*.base;*.list)|*.base;*.list";PickFile
 if ($Pick) {Start-Process -FilePath "Notepad.exe" -WindowStyle "Maximized" -ArgumentList "$Pick"}}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PagePB';$Label0_PagePB = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🗳 Image Management" -TextAlign 'X'
-$ListView1_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PagePB.Columns.Add("X", $WSIZ)
-$ListView2_PagePB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);[void]$ListView2_PagePB.Columns.Add("X", $WSIZ)
+$ListView1_PagePB = NewListView -X '25' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PagePB.Columns.Add("X", $WSIZX)
+$ListView2_PagePB = NewListView -X '390' -Y '90' -W '335' -H '470';$WSIZ = [int](325 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView2_PagePB.Columns.Add("X", $WSIZX)
 $Button0_PagePB = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🏁 Pack Execute' -Hover_Text 'Pack Execute' -Add_Click {PEWiz_Stage1}
 $Button3_PagePB = NewButton -X '500' -Y '585' -W '225' -H '60' -Text '🏗 Pack Builder' -Hover_Text 'Pack Builder' -Add_Click {PBWiz_Stage1}
 $Button4_PagePB = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '✏ Edit Pack' -Hover_Text 'Edit Pack' -Add_Click {
@@ -5713,7 +5721,7 @@ if (Test-Path -Path "$PSScriptRootX\project\package.cmd") {Start-Process -FilePa
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageBC';$Label0_PageBC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "💾 BootDisk Creator" -TextAlign 'X'
 
-$ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageBC.Columns.Add("X", $WSIZ)
+$ListView1_PageBC = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageBC.Columns.Add("X", $WSIZX)
 $Button1_PageBC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Create' -Hover_Text 'Start BootDisk Creation' -Add_Click {$halt = $null;$nullx, $disknum, $nully = $($DropBox3_PageBC.SelectedItem) -split '[| ]'
 if (-not (Test-Path -Path "$CacheFolder\boot.sav")) {
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Import Boot Media' -MessageBoxText 'Boot media needs to be imported from a windows .iso before proceeding.';if ($boxresult -eq "OK") {ImportBoot}}
@@ -5819,10 +5827,9 @@ if ($LBWiz_Stage -eq '3') {if ($ListView1_PageLBWiz.CheckedItems) {$global:marke
 if ($LBWiz_Stage -eq '2') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage3GRP} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 if ($LBWiz_Stage -eq '1') {if ($ListView1_PageLBWiz.SelectedItems) {$global:marked = $null;LBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
-$ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';
-$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageLBWiz.Columns.Add("X", $WSIZ)
+$ListView1_PageLBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageLBWiz.Columns.Add("X", $WSIZX)
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-$Page = 'PageLEWiz';$Label1_PageLEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🧾 List Execute" -TextAlign 'X'
+$Page = 'PageLEWiz';$Label1_PageLEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "📜 List Execute" -TextAlign 'X'
 $Label2_PageLEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
 
 $Button1_PageLEWiz = NewButton -X '180' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
@@ -5834,7 +5841,7 @@ if ($LEWiz_Stage -eq '4') {$global:marked = $ListViewSelectS3;LEWiz_Stage3}
 $Button2_PageLEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next ▶' -Hover_Text 'Next' -Add_Click {
 if ($LEWiz_Stage -eq '2') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($LEWiz_Stage -eq '1') {if ($ListView1_PageLEWiz.SelectedItems) {$global:marked = $null;LEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-$ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PageLEWiz.Columns.Add("X", $WSIZ)
+$ListView1_PageLEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageLEWiz.Columns.Add("X", $WSIZX)
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PagePBWiz';$Label1_PagePBWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text '' -TextAlign 'X'
 $Label2_PagePBWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
@@ -5849,7 +5856,7 @@ if ($PBWiz_Stage -eq '2') {if ($ListView1_PagePBWiz.SelectedItems) {$global:mark
 if ($PBWiz_Stage -eq '1') {if ($ListView1_PagePBWiz.SelectedItems) {$global:marked = $null;PBWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
 
 $ListView1_PagePBWiz = NewListView -X '25' -Y '135' -W '950' -H '425';# -Headers 'NonClickable';#$WSIZ = [int](470 * $ScaleRef * $GUI_SCALE);#$ListView1_PagePBWiz.Columns.Add("Item Name", $WSIZ);#$ListView1_PagePBWiz.Columns.Add("Description", $WSIZ)
-$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PagePBWiz.Columns.Add("X", $WSIZ)
+$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PagePBWiz.Columns.Add("X", $WSIZX)
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PagePEWiz';$Label1_PagePEWiz = NewLabel -X '0' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🗳 Pack Execute" -TextAlign 'X'
 $Label2_PagePEWiz = NewLabel -X '0' -Y '70' -W '1000' -H '50' -TextSize '24' -Text "" -TextAlign 'X'
@@ -5862,7 +5869,7 @@ if ($PEWiz_Stage -eq '3') {$global:marked = $ListViewSelectS2;PEWiz_Stage2}}
 $Button2_PagePEWiz = NewButton -X '520' -Y '585' -W '300' -H '60' -Text 'Next ▶' -Hover_Text 'Next' -Add_Click {
 if ($PEWiz_Stage -eq '2') {if ($ListView1_PagePEWiz.SelectedItems) {$global:marked = $null;PEWiz_Stage3} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}
 if ($PEWiz_Stage -eq '1') {if ($ListView1_PagePEWiz.SelectedItems) {$global:marked = $null;PEWiz_Stage2} else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}}}
-$ListView1_PagePEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);[void]$ListView1_PagePEWiz.Columns.Add("X", $WSIZ)
+$ListView1_PagePEWiz = NewListView -X '25' -Y '135' -W '950' -H '425';$WSIZ = [int](940 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PagePEWiz.Columns.Add("X", $WSIZX)
 #$FilePathOut = "C:\gif.gif";$Base64String = "x";$FileContent = [Convert]::FromBase64String($Base64String);[System.IO.File]::WriteAllBytes($FilePathOut, $FileContent)
 #$FilePathIn = "C:\gif.gif";$FileContent = Get-Content -Path "$FilePathIn" -Encoding Byte;$Base64Out = [System.Convert]::ToBase64String($FileContent);Write-Host "$Base64Out"
 #77u/RVhFQy1MSVNU
@@ -5914,4 +5921,4 @@ $form.Dispose()
 #If ($FolderBrowserDialog.ShowDialog($MainForm) -eq [System.Windows.Forms.DialogResult]::OK) { $return = $($FolderBrowserDialog.SelectedPath) }
 #Try { $FolderBrowserDialog.Dispose() } Catch {}
 :END_OF_FILE
-::#🗃\🗂\🧾\💾\🗳\🏗\🛠\🪛\✂\🗜\✒\✏\🥾\🪟\🛜\🔄\🌐\🛡\🪪\✅\❎\🚫\⏳\🏁\🎨\❗\🛳\🚽\💥\🚥\🚦\🕸\🐜\🛤\🏞\🌕\🌑\◀\▶\❕#
+::#🗃\🗂\📜\💾\🗳\🏗\🛠\🪛\✂\🗜\✒\✏\🥾\🪟\🛜\🔄\🌐\🛡\🪪\✅\❎\🚫\⏳\🏁\🎨\❗\🛳\🚽\💥\🚥\🚦\🕸\🐜\🛤\🏞\🌕\🌑\◀\▶\❕#
