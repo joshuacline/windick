@@ -96,4 +96,5 @@ MenuScript: menu based scripting database
 - "Kinda reminds me of Rufus, NTLite, WinUtil, and WinBackup, but all in one package." -U.Besteva
 - "The tech-media will eventually figure it out once your crops are fleeced. Convenient." -D.Atruff
 - "Flexible. Absurdly. Now I get the beef." -C.Envy
+- "Hey, tell BuiltBy🛎 (also known as 'AppCopier') he should stop using your tool as a blueprint. Everyone can see. All of the published media & featured youtube spots in the world just aren't enough for scum." -M.Eudumbas
 
