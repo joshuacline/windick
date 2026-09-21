@@ -3660,6 +3660,8 @@ public const int STD_OUTPUT_HANDLE = -11;
 [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
 [DllImport("user32.dll")] public static extern bool DestroyWindow(IntPtr hWnd);
 [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+[DllImport("user32.dll")] public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+[DllImport("gdi32.dll")] public static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 "@ -Name "Functions" -Namespace "WinMekanix" -PassThru | Out-Null
 Add-Type -TypeDefinition @"
 using System;using System.Runtime.InteropServices;public class WinMekanix {
@@ -3940,8 +3942,8 @@ $listview.Scrollable = $true
 $listview.MultiSelect = $false
 $listview.HideSelection = $true
 $listview.ShowItemToolTips = $true
-if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 22 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_LVFONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_LVFONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 21 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_LVFONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $listview.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 if ($Headers) {$listview.HeaderStyle = "$Headers"} else {$listview.HeaderStyle = 'None'}
 $listview.Visible = $true
@@ -3989,7 +3991,6 @@ return $label
 function MessageBox {
 param([string]$MessageBoxType,[string]$MessageBoxTitle,[string]$MessageBoxChoices,[string]$MessageBoxText,[string]$Check,[string]$TextMin,[string]$TextMax)
 if ($MessageBoxType -eq 'Choice') {if ($MessageBoxChoices) {$parta, $partb, $partc, $partd, $parte, $partf, $partg, $parth, $parti, $partj, $partk, $partl, $partm, $partn, $parto = $MessageBoxChoices -split '[❗]'}}
-
 #if ($MessageBoxType -eq 'Picker') {if ($MessageBoxChoices) {$parta1X, $partb1X, $partc1X = $MessageBoxChoices -split '[*]';$parta1 = $parta1X -replace "`"|'", "";$partb1 = $partb1X -replace "`"|'", ""}};#`"
 $formbox = New-Object System.Windows.Forms.Form
 $formbox.SuspendLayout()
@@ -4010,8 +4011,8 @@ $formbox.AutoScale = $true
 $formbox.AutoSize = $true
 #$formbox.MdiParent = $form
 if ($MessageBoxTitle) {$formbox.Text = "$MessageBoxTitle"}
-if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_FONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $formbox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $WSIZ = [int](475 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](140 * $ScaleRef * $GUI_SCALE)
@@ -4055,6 +4056,8 @@ $cancelButton.Add_MouseLeave({$cancelButton.BackColor = [System.Drawing.Color]::
 $cancelButton.DialogResult = "CANCEL"
 $cancelButton.Cursor = 'Hand'
 $cancelButton.Text = "No"
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
+$cancelButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$cancelButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $cancelButton.Width , $cancelButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($cancelButton.Handle , $ARCLOC, $true);
 $formbox.AcceptButton = $okButton
 $formbox.Controls.Add($cancelButton)
 $formbox.Controls.Add($okButton)}
@@ -4062,6 +4065,7 @@ if ($MessageBoxType -eq 'Info') {
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $formbox.AcceptButton = $okButton
 $formbox.Controls.Add($okButton)}
 if ($MessageBoxType -eq 'Prompt') {
@@ -4099,10 +4103,11 @@ $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
 $okButton.Add_Click({$null})
 $okButton.Enabled = $false
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $formbox.AcceptButton = $okButton
-$formbox.Controls.Add($inputbox)
 $formbox.Controls.Add($okButton)
-$formbox.Controls.Add($cancelButton)}
+#$formbox.Controls.Add($cancelButton)
+$formbox.Controls.Add($inputbox)}
 if ($MessageBoxType -eq 'Choice') {
 $WSIZ = [int](430 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](40 * $ScaleRef * $GUI_SCALE)
@@ -4123,9 +4128,11 @@ $dropbox.SelectedIndex = 0
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $formbox.AcceptButton = $okButton
+$formbox.Controls.Add($okButton)
 $formbox.Controls.Add($dropbox)
-$formbox.Controls.Add($okButton)}
+}
 if ($MessageBoxType -eq 'Picker') {$PartMatch = $null
 $WSIZ = [int](430 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](40 * $ScaleRef * $GUI_SCALE)
@@ -4151,9 +4158,10 @@ $dropbox.SelectedIndex = 0
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
 $okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $formbox.AcceptButton = $okButton
-$formbox.Controls.Add($dropbox)
-$formbox.Controls.Add($okButton)}
+$formbox.Controls.Add($okButton)
+$formbox.Controls.Add($dropbox)}
 $formbox.Controls.Add($labelbox)
 $formbox.ResumeLayout();$global:boxresult = $formbox.ShowDialog()
 $global:boxoutput = $null;$global:boxindex = $null;
@@ -4173,8 +4181,8 @@ $formboxX.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $formboxX.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BG_COLOR")
 $formboxX.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $formboxX.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
-if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_FONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $formboxX.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $formboxX.StartPosition = "CenterScreen"
 $formboxX.FormBorderStyle = 'FixedDialog'
@@ -4211,6 +4219,7 @@ $okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb
 $okButton.DialogResult = "OK"
 $okButton.Cursor = 'Hand'
 $okButton.Text = "OK"
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $Page = 'x';$pictureBase64 = $logo_main;$PictureBox1_PageSP = NewPictureBox -X '15' -Y '15' -W '420' -H '420';$formboxX.Controls.Add($PictureBox1_PageSP);
 $formboxX.Controls.Add($labelbox)
 $formboxX.AcceptButton = $okButton
@@ -4230,8 +4239,8 @@ if ($MessageBoxTitle) {$formboxX.Text = "$MessageBoxTitle"} else {$formboxX.Text
 $formboxX.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BG_COLOR")
 $formboxX.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $formboxX.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
-if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_FONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $formboxX.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $formboxX.StartPosition = "CenterScreen"
 $formboxX.FormBorderStyle = 'FixedDialog'
@@ -4275,8 +4284,8 @@ $ListViewBox.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $ListViewBox.View = "Details";#$listview.View = "List"
 $ListViewBox.MultiSelect = $false
 $ListViewBox.HideSelection = $true
-if ($GUI_LVFONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 22 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_LVFONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_LVFONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 21 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_LVFONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_LVFONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $ListViewBox.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 if ($Headers) {$ListViewBox.HeaderStyle = "$Headers"} else {$ListViewBox.HeaderStyle = 'None'}
 $ListViewBox.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_BACK")
@@ -4292,6 +4301,7 @@ if ($partZb -eq 'GROUP') {if ($partZd -ne $ListViewChecked) {$gogogo = 0}}
 if ($partZb -eq 'GROUP') {if ($partZc -eq $ListViewChoiceS3) {if ($partZd -eq $ListViewChecked) {$gogogo = 1}}}
 if ($gogogo -eq 1) {
 if ($partZb -ne 'GROUP') {if ($_ -ne "") {[void]$ListViewBox.Items.Add("$partZc")}}}}
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $formboxX.AcceptButton = $okButton
 $formboxX.Controls.Add($okButton)
 #$formboxX.Controls.Add($labelbox)
@@ -4311,8 +4321,8 @@ if ($MessageBoxTitle) {$formboxX.Text = "$MessageBoxTitle"} else {$formboxX.Text
 $formboxX.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BG_COLOR")
 $formboxX.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $formboxX.AutoScaleMode = [System.Windows.Forms.AutoScaleMode]::DPI
-if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_FONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $formboxX.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $formboxX.StartPosition = "CenterScreen"
 $formboxX.FormBorderStyle = 'FixedDialog'
@@ -4354,6 +4364,7 @@ $okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb
 $okButton.DialogResult = "OK"
 $okButton.Cursor = 'Hand'
 $okButton.Text = "OK"
+$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
 $formboxX.Controls.Add($labelbox)
 $formboxX.AcceptButton = $okButton
 $formboxX.Controls.Add($okButton)
@@ -4566,9 +4577,8 @@ $button.Add_MouseLeave({$this.BackColor = [System.Drawing.Color]::FromArgb("0X$G
 $hovertext = New-Object System.Windows.Forms.ToolTip
 $hovertext.SetToolTip($button, $Hover_Text)
 #$button.FlatStyle = 'Flat'
-#$button.FlatAppearance.BorderSize = '3'
-#$paint = $button;$global:shape = 'Rectangle';Add_Paint
-#$colorHex1 = [Convert]::ToInt32($GUI_BTN_COLOR.Substring(0, 2), 16);#$colorHex2 = [Convert]::ToInt32($GUI_BTN_COLOR.Substring(2, 2), 16)
+$button.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$button.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $button.Width , $button.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($button.Handle , $ARCLOC, $true);
+#$button.Region = [System.Drawing.Region]::FromHrgn($ARCLOC)
 $element = $button;AddElement
 return $button
 }
@@ -4585,8 +4595,7 @@ $button.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $button.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $button.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
 $button.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-#$button.FlatAppearance.BorderSize = '3'
-#$button.FlatStyle = 'Flat'
+$button.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$button.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $button.Width , $button.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($button.Handle , $ARCLOC, $true);
 $button.Text = $Text
 $button.Cursor = 'Hand'
 $button.Add_Click({
@@ -4733,11 +4742,11 @@ $key = Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Consol
 #$key.GetValueNames() | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
 $key.GetValueNames() | ForEach-Object {$key.GetValue($_) | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}}
 $DropBox1_PageSC.SelectedItem = "$GUI_CONFONT"}
-if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();ForEach ($i in @('Auto','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36','40','44','48','52','56','60','64','68','72')) {[void]$DropBox2_PageSC.Items.Add($i)}
+if ($($DropBox2_PageSC.SelectedItem)) {$null} else {$DropBox2_PageSC.ResetText();$DropBox2_PageSC.Items.Clear();ForEach ($i in @('Default','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36','40','44','48','52','56','60','64','68','72')) {[void]$DropBox2_PageSC.Items.Add($i)}
 $DropBox2_PageSC.SelectedItem = "$GUI_CONFONTSIZE"}
-if ($($DropBox3_PageSC.SelectedItem)) {$null} else {$DropBox3_PageSC.ResetText();$DropBox3_PageSC.Items.Clear();ForEach ($i in @('Auto','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36')) {[void]$DropBox3_PageSC.Items.Add($i)}
+if ($($DropBox3_PageSC.SelectedItem)) {$null} else {$DropBox3_PageSC.ResetText();$DropBox3_PageSC.Items.Clear();ForEach ($i in @('Default','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36')) {[void]$DropBox3_PageSC.Items.Add($i)}
 $DropBox3_PageSC.SelectedItem = "$GUI_LVFONTSIZE"}
-if ($($DropBox4_PageSC.SelectedItem)) {$null} else {$DropBox4_PageSC.ResetText();$DropBox4_PageSC.Items.Clear();ForEach ($i in @('Auto','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36')) {[void]$DropBox4_PageSC.Items.Add($i)}
+if ($($DropBox4_PageSC.SelectedItem)) {$null} else {$DropBox4_PageSC.ResetText();$DropBox4_PageSC.Items.Clear();ForEach ($i in @('Default','2','4','6','8','10','12','14','16','18','20','22','24','26','28','30','32','36')) {[void]$DropBox4_PageSC.Items.Add($i)}
 $DropBox4_PageSC.SelectedItem = "$GUI_FONTSIZE"}
 if ($($DropBox5_PageSC.SelectedItem)) {$null} else {
 $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
@@ -4913,7 +4922,7 @@ $global:DropBox1SCChanged = '1';
 function DropBox2SC {
 if ($DropBox2SCChanged -eq '1') {
 $global:GUI_CONFONTSIZE = "$($DropBox2_PageSC.SelectedItem)"
-if ($GUI_CONFONTSIZE -eq 'Auto') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = $GUI_CONFONTSIZE}
+if ($GUI_CONFONTSIZE -eq 'Default') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = $GUI_CONFONTSIZE}
 #$ScaleFont = $CFSIZE0 * $ScaleRef * $GUI_SCALE
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
@@ -5503,8 +5512,8 @@ if ($DimScaleX -ge $DimScaleY) {$ScaleRef = $DimScaleY}
 if ($DimScaleY -ge $DimScaleX) {$ScaleRef = $DimScaleX}
 if ($GUI_SCALE) {$null} else {$GUI_SCALE = 1.00}
 if ($GUI_CONFONT) {$null} else {$GUI_CONFONT = 'Consolas'}
-if ($GUI_CONFONTSIZE) {$null} else {$GUI_CONFONTSIZE = 'Auto'}
-if ($GUI_CONFONTSIZE -eq 'Auto') {$CFSIZE0 = 28} else {$CFSIZE0 = $GUI_CONFONTSIZE}
+if ($GUI_CONFONTSIZE) {$null} else {$GUI_CONFONTSIZE = 'Default'}
+if ($GUI_CONFONTSIZE -eq 'Default') {$CFSIZE0 = 28} else {$CFSIZE0 = $GUI_CONFONTSIZE}
 #$ScaleFont = $CFSIZE0 * $ScaleRef * $GUI_SCALE
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$CFSIZEX = $ScaleFontX
@@ -5576,10 +5585,10 @@ $SplashSize = [int]($ScaleRef / 2 * 1000);$SplashSize = [Math]::Floor($SplashSiz
 $SplashScreen = SplashScreen
 if ($GUI_SCALE) {$null} else {$global:GUI_SCALE = 1.00}
 if ($GUI_CONFONT) {$null} else {$global:GUI_CONFONT = 'Consolas'}
-if ($GUI_FONTSIZE) {$null} else {$global:GUI_FONTSIZE = 'Auto'}
-if ($GUI_LVFONTSIZE) {$null} else {$global:GUI_LVFONTSIZE = 'Auto'}
-if ($GUI_CONFONTSIZE) {$null} else {$global:GUI_CONFONTSIZE = 'Auto'}
-if ($GUI_CONFONTSIZE -eq 'Auto') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = $GUI_CONFONTSIZE}
+if ($GUI_FONTSIZE) {$null} else {$global:GUI_FONTSIZE = 'Default'}
+if ($GUI_LVFONTSIZE) {$null} else {$global:GUI_LVFONTSIZE = 'Default'}
+if ($GUI_CONFONTSIZE) {$null} else {$global:GUI_CONFONTSIZE = 'Default'}
+if ($GUI_CONFONTSIZE -eq 'Default') {$global:CFSIZE0 = 28} else {$global:CFSIZE0 = $GUI_CONFONTSIZE}
 #$ScaleFont = $CFSIZE0 * $ScaleRef * $GUI_SCALE
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
@@ -5602,8 +5611,8 @@ $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
 $form.Text = "Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($RefY * $ScaleRef * $GUI_SCALE)
-if ($GUI_FONTSIZE -eq 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
-if ($GUI_FONTSIZE -ne 'Auto') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
+if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
+if ($GUI_FONTSIZE -ne 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * $GUI_FONTSIZE * $ScaleRef);$fontX = [Math]::Floor($fontX)}
 $form.Font = New-Object System.Drawing.Font("", $fontX,[System.Drawing.FontStyle]::Regular)
 $form.ClientSize = New-Object System.Drawing.Size($WSIZ,$HSIZ)
 $form.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")

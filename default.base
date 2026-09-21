@@ -309,7 +309,7 @@
 
 
 
-❕Group❕🪟Audio / Video❕🪛Audio Effects ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🪟Audio / Video❕🪛Audio Effects ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable audio effects❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -318,7 +318,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Audio Effects ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Audio / Video❕🪛Audio Enhancements ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🪟Audio / Video❕🪛Audio Enhancements ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable audio enhancements❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableAllEnhancements❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -327,7 +327,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Multimedia\Audio❗DisableAllEnhancements❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Audio Enhancements ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Audio / Video❕🪛Content Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🪟Audio / Video❕🪛Content Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable content adaptive brightness❕
 ❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -336,7 +336,7 @@
 ❕Registry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Content Adaptive Brightness ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Audio / Video❕🪛Spatial Audio ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🪟Audio / Video❕🪛Spatial Audio ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable spacial audio❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableSpatialAudio❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -347,7 +347,7 @@
 
 
 
-❕Group❕🔏Consent Store❕🪛activity ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛activity ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -355,7 +355,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store activity ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛accessoryManager ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛accessoryManager ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -363,7 +363,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\accessoryManager❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store accessoryManager ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛appDiagnostics ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛appDiagnostics ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -371,7 +371,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store appDiagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛appointments ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛appointments ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -379,7 +379,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appointments❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store appointments ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛backgroundSpatialPerception ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛backgroundSpatialPerception ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -387,7 +387,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\backgroundSpatialPerception❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store backgroundSpatialPerception ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛bluetooth ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛bluetooth ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -395,7 +395,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetooth❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store bluetooth ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛bluetoothSync ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛bluetoothSync ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -403,7 +403,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\bluetoothSync❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store bluetoothSync ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛broadFileSystemAccess ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛broadFileSystemAccess ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -411,7 +411,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\broadFileSystemAccess❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store broadFileSystemAccess ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛cellularData ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛cellularData ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -419,7 +419,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\cellularData❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store cellularData ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛chat ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛chat ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -427,7 +427,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\chat❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store chat ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛contacts ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛contacts ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -435,7 +435,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\contacts❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store contacts ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛documentsLibrary ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛documentsLibrary ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -443,7 +443,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\documentsLibrary❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store documentsLibrary ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛email ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛email ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -451,7 +451,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\email❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store email ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛internetClient ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛internetClient ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -459,7 +459,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\internetClient❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store internetClient ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛location ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛location ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -467,7 +467,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store location ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛locationHistory ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛locationHistory ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -475,7 +475,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\locationHistory❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store locationHistory ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛microphone ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛microphone ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -483,7 +483,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store microphone ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛phoneCall ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛phoneCall ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -491,7 +491,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCall❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store phoneCall ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛phoneCallHistory ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛phoneCallHistory ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -499,7 +499,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\phoneCallHistory❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store phoneCallHistory ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛picturesLibrary ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛picturesLibrary ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -507,7 +507,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\picturesLibrary❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store picturesLibrary ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛proximity ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛proximity ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -515,7 +515,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\proximity❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store proximity ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛radios ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛radios ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -523,7 +523,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store radios ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛sms ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛sms ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -531,7 +531,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\sms❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store sms ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛userAccountInformation ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛userAccountInformation ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -539,7 +539,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store userAccountInformation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛userDataTasks ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛userDataTasks ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -547,7 +547,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store userDataTasks ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛userNotificationListener ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛userNotificationListener ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -555,7 +555,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store userNotificationListener ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛videosLibrary ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛videosLibrary ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -563,7 +563,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary❗Value❗◁Array1.S▷❗String❕Create❕DX❕
 ❕TextHost❕🔏Consent Store videosLibrary ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔏Consent Store❕🪛webcam ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🔏Consent Store❕🪛webcam ➥ ◁Array1.S▷❕Normal❕Change consent store permissions❗Enable or Disable❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam❗Value❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗Allow❗Deny❗◁Else▷❕❔Unconfigured❗✅Allow❗❎Deny❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Allow❗❎Deny❕VolaTILE❕
@@ -573,7 +573,7 @@
 
 
 
-❕Group❕🔄Import / Export Settings❕🔄Export appassociations.xml❕Normal❕
+❕Group❕🔄Import / Export Settings❕🔄Export appassociations.xml❕Normal❕Import/Export misc settings ❗ ❕
 ❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
 ❕FileOper❕◁CacheFolder▷\appassociations.xml❕Delete❕◁Condit1.1▷❕
 ❕TextHost❕Exporting appassociations.xml...❕Screen❕DX❕
@@ -581,7 +581,7 @@
 ❕TextHost❕Default application associations have been exported.❕Screen❕DX❕
 ❕TextHost❕Next, execute 🔄Import appassociations.xml.❕Screen❕DX❕
 
-❕Group❕🔄Import / Export Settings❕🔄Import appassociations.xml❕Normal❕
+❕Group❕🔄Import / Export Settings❕🔄Import appassociations.xml❕Normal❕Import/Export misc settings ❗ ❕
 ❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
 ❕Condit2❕◁CacheFolder▷\appassociations.xml❗Exist❕RO❕◁Null▷❕
 ❕TextHost❕◁Color4▷ERROR:◁ColorT▷ appassociations.xml does not exist in folder.❕Screen❕◁Condit1.2▷❕
@@ -590,7 +590,7 @@
 ❕TextHost❕🔄Import appassociations.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
 ❕TextHost❕🔄Import appassociations.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
 
-❕Group❕🔄Import / Export Settings❕🔄Export firewallrules.xml❕Normal❕
+❕Group❕🔄Import / Export Settings❕🔄Export firewallrules.xml❕Normal❕Import/Export misc settings ❗ ❕
 ❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕◁Null▷❕
 ❕TextHost❕Exporting firewallrules.xml...❕Screen❕DX❕
 ❕FileOper❕◁CacheFolder▷\firewallrules.xml❕Delete❕◁Condit1.1▷❕
@@ -598,7 +598,7 @@
 ❕TextHost❕Firewall rules have been exported.❕Screen❕DX❕
 ❕TextHost❕Next, execute 🔄Import firewallrules.xml.❕Screen❕DX❕
 
-❕Group❕🔄Import / Export Settings❕🔄Import firewallrules.xml❕Normal❕
+❕Group❕🔄Import / Export Settings❕🔄Import firewallrules.xml❕Normal❕Import/Export misc settings ❗ ❕
 ❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕RO❕◁Null▷❕
 ❕Condit2❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕DX❕
 ❕TextHost❕Importing firewallrules.xml...❕Screen❕RO❕
@@ -608,7 +608,7 @@
 ❕TextHost❕🔄Import firewallrules.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
 ❕TextHost❕🔄Import firewallrules.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
 
-❕Group❕🔄Import / Export Settings❕🔄Export power schemes to xml❕Normal❕
+❕Group❕🔄Import / Export Settings❕🔄Export power schemes to xml❕Normal❕Import/Export misc settings ❗ ❕
 ❕TextHost❕Exporting min, max, and balanced power schemes to xml...❕Screen❕DX❕
 ❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕◁Null▷❕
 ❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕◁Null▷❕
@@ -621,7 +621,7 @@
 ❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_max.xml" SCHEME_MAX >NUL❕Normal❕DX❕
 ❕TextHost❕Power schemes have been exported. Next, execute 🔄Import power schemes from xml.❕Screen❕DX❕
 
-❕Group❕🔄Import / Export Settings❕🔄Import power schemes from xml❕Normal❕
+❕Group❕🔄Import / Export Settings❕🔄Import power schemes from xml❕Normal❕Import/Export misc settings ❗ ❕
 ❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕DX❕
 ❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕DX❕
 ❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕DX❕
@@ -765,15 +765,15 @@
 ❕TextHost❕🪛Wakelocks network ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🛠️DISM Operations❕Normal❕
-❕Choice❕Select an option❕🪛AnalyzeComponentStore❗🪛CheckHealth❗🪛ResetBase❗🪛RestoreHealth❗🪛SPSuperseded❗🪛StartComponentCleanup❕VolaTILE❕
+❕Choice❕Generally it's best to leave these for last when finalizing an image. Select an option❕🪛AnalyzeComponentStore❗🪛CheckHealth❗🪛ResetBase❗🪛RestoreHealth❗🪛SPSuperseded❗🪛StartComponentCleanup❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❕
 ❕NOTE❕DISM needs access to the registry hive files for external operations (eg. offline vhdx). Use the NOMOUNT option for DISM.❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /AnalyzeComponentStore❕NoMount❕◁Array1.1▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /CheckHealth❕NoMount❕◁Array1.2▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup /ResetBase❕NoMount❕◁Array1.3▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /RestoreHealth❕NoMount❕◁Array1.4▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /SPSuperseded❕NoMount❕◁Array1.5▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup❕NoMount❕◁Array1.6▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /AnalyzeComponentStore❕NoMount❕◁Array1.1▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /CheckHealth❕NoMount❕◁Array1.2▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup /ResetBase❕NoMount❕◁Array1.3▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /RestoreHealth❕NoMount❕◁Array1.4▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /SPSuperseded❕NoMount❕◁Array1.5▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup❕NoMount❕◁Array1.6▷❕
 
 ❕X❕Group❕🛠️DISM Operations❕Delete WinRE❕Normal❕
 ❕X❕Condit❕◁WinTar▷\SYSTEM32\Recovery❗Exist❕DX❕DX❕
