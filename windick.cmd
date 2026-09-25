@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1227 © github.com/joshuacline
+:: <# Windows Deployment Image Customization Kit v 1228 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -35,7 +35,7 @@ IF "%SELECT%"=="~" SET&&CALL:PAUSED
 IF "%SELECT%"=="0" IF "%PROG_MODE%"=="RAMDISK" CALL:BCD_MENU
 GOTO:MAIN_MENU
 :GUI_MODE
-START powershell -noprofile -WindowStyle Hidden -executionpolicy bypass -command "$Content = Get-Content -Path '%~f0' -raw -Encoding utf8;$ContentUTF = [ScriptBlock]::Create($Content);& $ContentUTF"
+START powershell -noprofile -WindowStyle Hidden -executionpolicy bypass -command "$Content = Get-Content -Path \"%~f0\" -raw -Encoding utf8;$ContentUTF = [ScriptBlock]::Create($Content);& $ContentUTF"
 GOTO:QUIT
 :BASIC_MODE
 @ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.              Windows Deployment Image Customization Kit&&ECHO.&&ECHO.&&ECHO. (%##% 0 %$$%) %U09% Change Boot Order&&ECHO. (%##% 1 %$$%) %U07% Backup&&ECHO. (%##% 2 %$$%) %U07% Restore
@@ -357,7 +357,7 @@ ECHO.❕Command❕echo.testing 1 2 3.❕Normal❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛PowerShell item❕Normal❕
 ECHO.❕Note❕PowerShell Command item: 'Normal' or 'NoMount' are usable options.❕
-ECHO.❕PowerShell❕Get-ItemProperty -Path "Registry::◁HiveUser▷\Control Panel" | ForEach-Object {Write-Host "($_)"}❕Normal❕DX❕
+ECHO.❕PowerShell❕Get-ItemProperty -Path "Registry::◁HiveUser▷\Control Panel" ^| ForEach-Object {Write-Host "($_)"}❕Normal❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛Registry create item❕Normal❕
 ECHO.❕Note❕Registry item: 'Create', 'Delete', 'Create❗RAU', 'Create❗RAS', 'Create❗RATI', 'Delete❗RAU', 'Delete❗RAS', or 'Delete❗RATI' are usable options. 'Dword', 'Qword', 'Binary', 'String', 'Expand', and 'Multi' are usable options.❕
@@ -441,21 +441,22 @@ EXIT /B
 :GET_INIT
 SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"
 IF NOT DEFINED CODEPAGE FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO (SET "CODEPAGE=%%a")
-SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="&&SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&CD /D "%~DP0"&&CHCP 65001>NUL
-SET "ORIG_CD=%CD%"&&SET "ProgFolder0=%CD%"&&FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%CD%") DO (SET "CHAR_STR=%%b"&&SET "CHAR_CHK= "&&CALL:CHAR_CHK&&IF "%%b"=="\" SET "ProgFolder0=%%a:")
+SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="&&CD /D "%~DP0"&&CHCP 65001>NUL
+SET "ORIG_CD=%CD%"&&SET "ProgFolder0=%CD%"&&FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%CD%") DO (IF "%%b"=="\" SET "ProgFolder0=%%a:")
 IF EXIST "%ProgFolder0%\$CON" SET "GUI_ACTIVE=1"&DEL /F /Q "%ProgFolder0%\$CON">NUL 2>&1
-IF DEFINED CHAR_FLG SET "ERROR=Remove the space from the path or folder name, then launch again."
-IF NOT EXIST "%ProgFolder0%" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
-IF "%ProgFolder0%"=="X:\$" IF NOT "%SYSTEMDRIVE%"=="X:" SET "ERROR=Relocate to path other than X:\$."
-IF /I "%ProgFolder0%"=="%SYSTEMDRIVE%\Windows\System32" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
-FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%ProgFolder0%") DO (IF /I "%%a\%%b\%%c"=="%SystemDrive%\Windows\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again."
+IF NOT DEFINED ERROR %REG% query "HKU\S-1-5-19\Environment">NUL 2>&1
+IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" IF NOT EXIST "$ELEV" GOTO:REQUEST_ADMIN
+SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&IF EXIST "$ELEV" DEL /Q /F "$ELEV">NUL 2>&1
+IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" SET "ERROR=If experiencing user elevation failure, right-click and run as administrator."
+IF NOT DEFINED ERROR IF NOT EXIST "%ProgFolder0%" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
+IF NOT DEFINED ERROR IF "%ProgFolder0%"=="X:\$" IF NOT "%SYSTEMDRIVE%"=="X:" SET "ERROR=Relocate to path other than X:\$."
+IF NOT DEFINED ERROR IF /I "%ProgFolder0%"=="%SYSTEMDRIVE%\Windows\System32" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
+IF NOT DEFINED ERROR FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%ProgFolder0%") DO (IF /I "%%a\%%b\%%c"=="%SystemDrive%\Windows\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again."
 IF /I "%%a\%%b\%%d\%%e\%%f"=="%SystemDrive%\Users\AppData\Local\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again.")
-%REG% query "HKU\S-1-5-19\Environment">NUL
-IF NOT "%ERRORLEVEL%" EQU "0" SET "ERROR=Right click and run as administrator."
-SET "$ENG="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "$ENG=1")
-IF NOT DEFINED $ENG SET "ERROR=Non-english host language/locale."
-IF "%SYSTEMDRIVE%"=="X:" IF EXIST "X:\$\HOST_TARGET" SET "WINPE_BOOT=1"
+IF NOT DEFINED ERROR SET "$ENG="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "$ENG=1")
+IF NOT DEFINED ERROR IF NOT DEFINED $ENG SET "ERROR=Non-english host language/locale."
 IF DEFINED ERROR CALL ECHO.ERROR: %ERROR%&&SET "TIMER=10"&&CALL:TIMER&&GOTO:QUIT
+IF "%SYSTEMDRIVE%"=="X:" IF EXIST "X:\$\HOST_TARGET" SET "WINPE_BOOT=1"
 CALL:SESSION_CLEAR&CALL:GET_ARGS&CALL:GET_SID&CALL:MOUNT_INT
 IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
 IF NOT "%ProgFolder0%"=="X:\$" SET "PROG_MODE=PORTABLE"&&CALL:SETS_HANDLER&&GOTO:MAIN_MENU
@@ -628,7 +629,7 @@ IF EXIST "%ImageFolder%\$TEMP.vhdx" CALL:VTEMP_DELETE>NUL 2>&1
 IF EXIST "%ImageFolder%\$TEMP.wim" DEL /Q /F "%ImageFolder%\$TEMP.wim">NUL 2>&1
 FOR %%G in (TEMP LIST DISK LOG) DO (IF EXIST "$%%G*" DEL /Q /F "$%%G*">NUL 2>&1)
 FOR %%G in (DRVR FEAT) DO (IF NOT DEFINED %%G_QRY IF EXIST "$%%G" DEL /Q /F "$%%G">NUL 2>&1)
-FOR %%G in (RAS RATI) DO (IF NOT DEFINED CURR_TARGET IF EXIST "$%%G.cmd" CALL:RASTI_CHECK&CALL:RAS_DELETE&DEL /Q /F "$%%G.cmd">NUL 2>&1)
+FOR %%G in (RAS RATI) DO (IF NOT DEFINED CURR_TARGET IF EXIST "%WinDir%\TEMP\$%%G.cmd" CALL:RASTI_CHECK&CALL:RAS_DELETE&DEL /Q /F "%WinDir%\TEMP\$%%G.cmd">NUL 2>&1)
 EXIT /B
 :FOLDER_DEL
 IF NOT DEFINED FOLDER_DEL EXIT /B
@@ -660,6 +661,17 @@ IF NOT "%DEBUG%"=="ENABLED" EXIT /B
 IF NOT DEFINED ERROR EXIT /B
 ECHO.%COLOR4%ERROR:%$$% %ERROR%
 CALL:PAUSED
+EXIT /
+:REQUEST_ADMIN
+CALL:ELEVATE>NUL 2>&1
+GOTO:QUIT
+:ELEVATE
+SET "$CNT="&&%REG% query "HKU\S-1-5-19\Environment"
+IF NOT "%ERRORLEVEL%" EQU "0" ECHO.>"$ELEV"
+IF NOT "%ERRORLEVEL%" EQU "0" %CMD% /C powershell -noprofile -WindowStyle Hidden -executionpolicy bypass -Command "Start-Process -Verb RunAs -FilePath $env:comspec -ArgumentList '/c \"%~f0\" %*'"
+:ELEVATEX
+IF NOT "%$CNT%"=="5" IF EXIST "$ELEV" SET /A "$CNT+=1"&&SET "TIMER=1"&&CALL:TIMER&&GOTO:ELEVATEX
+SET "$CNT="&&IF EXIST "$ELEV" DEL /Q /F "$ELEV"
 EXIT /B
 :PAD_LINE
 IF NOT DEFINED PAD_TYPE SET "PAD_TYPE=1"
@@ -797,7 +809,7 @@ EXIT /B
 SET SETS_LIST=BOOTLOADER GUI_LAUNCH GUI_RESUME GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE GUI_FONTSIZE GUI_LVFONTSIZE GUI_TXT_FORE GUI_TXT_BACK GUI_BTN_COLOR GUI_HLT_COLOR GUI_BG_COLOR GUI_PAG_COLOR PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 MENU_MODE MENU_LIST REFERENCE RECOVERY_LOGO APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
 EXIT /B
 :SETS_LOAD
-IF EXIST "windick.ini" FOR /F "TOKENS=1-1* DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
+IF EXIST "windick.ini" FOR /F "USEBACKQ TOKENS=1-1* DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 EXIT /B
 :SETS_CLEAR
 CALL:SETS_LIST
@@ -809,7 +821,7 @@ IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%ProgFolder%" SET "ProgFolder=%ProgFol
 CD /D "%ProgFolder0%"&&IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "windick.ini" IF NOT DEFINED SETS_LOAD CALL:SETS_MAIN
 IF EXIST "windick.ini" IF NOT DEFINED SETS_LOAD SET "SETS_LOAD=1"&&CALL:SETS_LOAD
 CALL:SETS_LIST&&ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings>"windick.ini"
-FOR %%a in (%SETS_LIST%) DO (CALL ECHO.%%a=%%%%a%%>>"windick.ini")
+FOR %%■ in (%SETS_LIST%) DO (ECHO.%%■=!%%■!>>"windick.ini")
 SET "SETS_LIST="&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" SET "HOST_GET=1"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT "%DISK_TARGET%"=="%HOST_TARGET%" SET "HOST_GET=1"
 IF DEFINED HOST_GET SET "HOST_GET="&&CALL:HOST_AUTO
@@ -884,8 +896,8 @@ EXIT /B
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&CALL:BOX_HEADERS
 SET "$FOLD=!$FOLD:◁=%%!"&&SET "$FOLD=!$FOLD:▷=%%!"
 SET "$FILT=!$FILT:◁=%%!"&&SET "$FILT=!$FILT:▷=%%!"
-FOR /F "TOKENS=*" %%a IN ("!$FOLD!") DO (CALL SET "$FOLD=%%a")
-FOR /F "TOKENS=*" %%a IN ("!$FILT!") DO (CALL SET "$FILT=%%a")
+FOR /F "TOKENS=*" %%a IN ("!$FOLD!") DO (SET "$FOLD=%%a")
+FOR /F "TOKENS=*" %%a IN ("!$FILT!") DO (SET "$FILT=%%a")
 ECHO.&&ECHO.  %@@%AVAILABLE %$FILT%s:%$$%&&ECHO.&&CALL:FILE_LIST&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE
 IF NOT DEFINED $NO_ERRORS CALL:PAD_PREV
 IF DEFINED $CHOICEMINO SET "$CHOICEMIN=0"
@@ -913,7 +925,7 @@ FOR %%a in ($DISP $ITEMSTOP $ITEMSBTM $FILTARG) DO (SET "%%a=")
 EXIT /B
 :FILTARG
 IF NOT EXIST "!$FOLD!\!$FILTARG!" EXIT /B
-FOR /F "TOKENS=*" %%■ in ('DIR /A: /B /O:GN "!$FOLD!\!$FILTARG!"') DO (CALL SET /A "$XNT+=1"&&CALL SET "$VCLM$=%%■"&&CALL:FILE_LISTX)
+FOR /F "TOKENS=*" %%■ in ('DIR /A: /B /O:GN "!$FOLD!\!$FILTARG!"') DO (SET /A "$XNT+=1"&&SET "$VCLM$=%%■"&&CALL:FILE_LISTX)
 EXIT /B
 :FILE_LISTX
 SET "$ITEM%$XNT%=!$VCLM$!"
@@ -942,7 +954,7 @@ CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&SET "$CENTERED=1"&&SET "$HEADE
 ECHO.&&ECHO.                        Multiples OK ( %##%1 2 3%$$% )
 SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV
 SET "$VERBOSE=1"&&SET "LIST_START="&&SET "$CHECK=PATH"&&CALL:MENU_SELECT
-IF NOT DEFINED ERROR FOR %%a in (%SELECT%) DO (CALL SET "FULL_TARGET=%%$ITEM%%a%%"&&CALL:UNIFIED_PARSE_BUILDER)
+IF NOT DEFINED ERROR FOR %%a in (%SELECT%) DO (SET "FULL_TARGET=!$ITEM%%a!"&&CALL:UNIFIED_PARSE_BUILDER)
 IF NOT DEFINED LIST_START IF DEFINED SELECT SET "ERROR=1"&&FOR /F "TOKENS=*" %%■ in ("%SELECT_LAST% ") DO (ECHO.%COLOR4%ERROR:%$$% input [ %COLOR4%%%■%$$%] is invalid)
 IF DEFINED ERROR SET "ERROR="&&SET "$ONLY2="&&GOTO:LIST_VIEWER
 :LIST_VIEWER_APPEND
@@ -1874,51 +1886,51 @@ IF DEFINED $INPUT SET "!$OUTPUT!=!$INPUT!"
 FOR %%● in ($INPUT_OG $INPUT $OUTPUT) DO (SET "%%●=")
 EXIT /B
 :RASTI_CREATE
-IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %ProgFolder0%\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %ProgFolder0%\$RAS.cmd" /f)
-IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="%CMD% /C START "%ProgFolder0%\$RAS.cmd"" START=DEMAND>NUL 2>&1
-IF /I "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %ProgFolder0%\$RATI.cmd" /f^>NUL 2^>^&^1>"%ProgFolder0%\$RAS.cmd"
-IF /I "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%ProgFolder0%\$RAS.cmd"
-IF /I "%$RAS%"=="RATI" ECHO.NET START TrustedInstaller^>NUL 2^>^&^1>>"%ProgFolder0%\$RAS.cmd"
-IF /I "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%ProgFolder0%\$RAS.cmd"
-IF /I "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%ProgFolder0%\$RAS.cmd"
-IF /I "%$RAS%"=="RATI" ECHO.DEL /Q /F "%ProgFolder0%\$RAS.cmd"^>NUL^&EXIT>>"%ProgFolder0%\$RAS.cmd"
-ECHO.@ECHO OFF^&CD /D "%ProgFolder0%">"%ProgFolder0%\$%$RAS%.cmd"
+IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %WinDir%\TEMP\$RAS.cmd" /f)
+IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" START=DEMAND>NUL 2>&1
+IF /I "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %WinDir%\TEMP\$RATI.cmd" /f^>NUL 2^>^&^1>"%WinDir%\TEMP\$RAS.cmd"
+IF /I "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
+IF /I "%$RAS%"=="RATI" ECHO.NET START TrustedInstaller^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
+IF /I "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
+IF /I "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
+IF /I "%$RAS%"=="RATI" ECHO.DEL /Q /F "%WinDir%\TEMP\$RAS.cmd"^>NUL^&EXIT>>"%WinDir%\TEMP\$RAS.cmd"
+ECHO.@ECHO OFF^&CD /D "%ProgFolder0%">"%WinDir%\TEMP\$%$RAS%.cmd"
 IF NOT DEFINED VAR_ITEMS CALL:VAR_ITEMS
-FOR %%■ in (DrvTar WinTar UsrTar HiveSoftware HiveSystem HiveUser ProgFolder ImageFolder ListFolder PackFolder CacheFolder PkxFolder ApplyTarget UsrNam UsrSid %VAR_ITEMS%) DO (IF DEFINED %%■ ECHO.SET "%%■=!%%■!">>"%ProgFolder0%\$%$RAS%.cmd")
-ECHO.CALL:ROUTINE^>"%ProgFolder0%\$LOG">>"%ProgFolder0%\$%$RAS%.cmd"
-ECHO.DEL /Q /F "%ProgFolder0%\$%$RAS%.cmd"^>NUL^&EXIT>>"%ProgFolder0%\$%$RAS%.cmd"
-ECHO.:ROUTINE>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%"=="COMMAND" IF EXIST "$LIST" ECHO.FOR /F "TOKENS=*" %%%%@ in ($LIST) DO (%CMD% /C %%%%@)>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:DELETE" ECHO.%REG% DELETE "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /F^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:AUTO" ECHO.%REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "2" /F^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:MANUAL" ECHO.%REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "3" /F^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:DISABLE" ECHO.%REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "4" /F^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%"=="TASK" ECHO.%REG% DELETE "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /F^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%"=="TASK" ECHO.%REG% DELETE "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%TASKID%}" /F^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-IF /I "%$QCLM1$%"=="TASK" ECHO.DEL /Q /F "%WinTar%\System32\Tasks\%$QCLM2$%"^>NUL 2^>^&^1>>"%ProgFolder0%\$%$RAS%.cmd"
-SET "XNT="&&ECHO.EXIT /B>>"%ProgFolder0%\$%$RAS%.cmd"
+FOR %%■ in (DrvTar WinTar UsrTar HiveSoftware HiveSystem HiveUser ProgFolder ImageFolder ListFolder PackFolder CacheFolder PkxFolder ApplyTarget UsrNam UsrSid %VAR_ITEMS%) DO (IF DEFINED %%■ ECHO.SET "%%■=!%%■!">>"%WinDir%\TEMP\$%$RAS%.cmd")
+ECHO.CALL:ROUTINE^>"%ProgFolder0%\$LOG">>"%WinDir%\TEMP\$%$RAS%.cmd"
+ECHO.DEL /Q /F "%WinDir%\TEMP\$%$RAS%.cmd"^>NUL^&EXIT>>"%WinDir%\TEMP\$%$RAS%.cmd"
+ECHO.:ROUTINE>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%"=="COMMAND" IF EXIST "$LIST" ECHO.FOR /F "TOKENS=*" %%%%@ in ($LIST) DO (%CMD% /C %%%%@)>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:DELETE" ECHO.%REG% DELETE "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /F^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:AUTO" ECHO.%REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "2" /F^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:MANUAL" ECHO.%REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "3" /F^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%:%$QCLM3$%"=="SERVICE:DISABLE" ECHO.%REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "4" /F^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%"=="TASK" ECHO.%REG% DELETE "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /F^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%"=="TASK" ECHO.%REG% DELETE "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%TASKID%}" /F^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+IF /I "%$QCLM1$%"=="TASK" ECHO.DEL /Q /F "%WinTar%\System32\Tasks\%$QCLM2$%"^>NUL 2^>^&^1>>"%WinDir%\TEMP\$%$RAS%.cmd"
+SET "XNT="&&ECHO.EXIT /B>>"%WinDir%\TEMP\$%$RAS%.cmd"
 IF NOT "%WINPE_BOOT%"=="1" NET START $RAS>NUL 2>&1
-IF "%WINPE_BOOT%"=="1" IF "%$RAS%"=="RAS" CALL %CMD% /C "%ProgFolder0%\$RAS.cmd"
-IF "%WINPE_BOOT%"=="1" IF "%$RAS%"=="RATI" CALL %CMD% /C "%ProgFolder0%\$RAS.cmd">NUL 2>&1
+IF "%WINPE_BOOT%"=="1" IF "%$RAS%"=="RAS" CALL %CMD% /C "%WinDir%\TEMP\$RAS.cmd"
+IF "%WINPE_BOOT%"=="1" IF "%$RAS%"=="RATI" CALL %CMD% /C "%WinDir%\TEMP\$RAS.cmd">NUL 2>&1
 :RASTI_WAIT
 SET /A "XNT+=1"&&FOR %%■ in (SERVICE TASK) DO (IF /I "%$QCLM1$%"=="%%■" FOR %%□ in (RAS RATI) DO (
-IF EXIST "%ProgFolder0%\$%%□.cmd" CALL:TIMER_POINT3
-IF EXIST "%ProgFolder0%\$%%□.cmd" IF "%XNT%"=="10" IF NOT DEFINED RETRY SET "RETRY=1"&&GOTO:RASTI_CREATE
-IF EXIST "%ProgFolder0%\$%%□.cmd" IF "%XNT%"=="10" IF DEFINED RETRY CALL:RASTI_CHECK&DEL /Q /F "%ProgFolder0%\$%%□.cmd">NUL 2>&1))
-FOR %%□ in (RAS RATI) DO (IF EXIST "%ProgFolder0%\$%%□.cmd" GOTO:RASTI_WAIT)
-IF EXIST "%ProgFolder0%\$LOG" IF /I NOT "%$QCLM1$%"=="SERVICE" IF /I NOT "%$QCLM1$%"=="TASK" FOR /F "TOKENS=* DELIMS=" %%□ in (%ProgFolder0%\$LOG) DO (ECHO.%%□)
+IF EXIST "%WinDir%\TEMP\$%%□.cmd" CALL:TIMER_POINT3
+IF EXIST "%WinDir%\TEMP\$%%□.cmd" IF "%XNT%"=="10" IF NOT DEFINED RETRY SET "RETRY=1"&&GOTO:RASTI_CREATE
+IF EXIST "%WinDir%\TEMP\$%%□.cmd" IF "%XNT%"=="10" IF DEFINED RETRY CALL:RASTI_CHECK&DEL /Q /F "%WinDir%\TEMP\$%%□.cmd">NUL 2>&1))
+FOR %%□ in (RAS RATI) DO (IF EXIST "%WinDir%\TEMP\$%%□.cmd" GOTO:RASTI_WAIT)
+IF EXIST "%ProgFolder0%\$LOG" IF /I NOT "%$QCLM1$%"=="SERVICE" IF /I NOT "%$QCLM1$%"=="TASK" FOR /F "USEBACKQ TOKENS=* DELIMS=" %%□ in ("%ProgFolder0%\$LOG") DO (ECHO.%%□)
 IF EXIST "%ProgFolder0%\$LOG" DEL /Q /F "%ProgFolder0%\$LOG">NUL 2>&1
 SET "RETRY="&&SET "XNT="&&EXIT /B
 :RASTI_CHECK
 SET "$GO="&&FOR /F "TOKENS=1-3* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" IF "%%c"=="%CMD%" SET "$GO=1")
 IF NOT DEFINED $GO EXIT /B
-IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %ProgFolder0%\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %ProgFolder0%\$RAS.cmd" /f)
-IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="%CMD% /C START "%ProgFolder0%\$RAS.cmd"" START=DEMAND>NUL 2>&1
-ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>"%ProgFolder0%\$RAS.cmd"
-ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%ProgFolder0%\$RAS.cmd"
-ECHO.DEL /Q /F "%ProgFolder0%\$RAS.cmd"^>NUL^&EXIT>>"%ProgFolder0%\$RAS.cmd"
+IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %WinDir%\TEMP\$RAS.cmd" /f)
+IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" START=DEMAND>NUL 2>&1
+ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>"%WinDir%\TEMP\$RAS.cmd"
+ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
+ECHO.DEL /Q /F "%WinDir%\TEMP\$RAS.cmd"^>NUL^&EXIT>>"%WinDir%\TEMP\$RAS.cmd"
 IF NOT "%WINPE_BOOT%"=="1" NET START $RAS>NUL 2>&1
-IF "%WINPE_BOOT%"=="1" CALL %CMD% /C "%ProgFolder0%\$RAS.cmd"
+IF "%WINPE_BOOT%"=="1" CALL %CMD% /C "%WinDir%\TEMP\$RAS.cmd"
 EXIT /B
 :RAS_DELETE
 IF "%WINPE_BOOT%"=="1" EXIT /B
@@ -3953,15 +3965,10 @@ $doublebuffer = $listview.GetType().GetProperty("DoubleBuffered", [System.Reflec
 $element = $listview;AddElement
 #$listview.Columns[0].Width = -2
 #$listview.Columns[1].Width = -2
-#$listview.CheckBoxes = $true
-#$listview.FullRowSelect = $true
-#$listview.GridLines = $true
 #$listview.Sorting = SortOrder.Ascending
 #$listview.HeaderStyle = 'Clickable';#NonClickable;#None
 #$imageListSmall = New-Object System.Windows.Forms.ImageList
 #$listview.SmallImageList = $imageListSmall
-#$ListViewSelect = $listView.SelectedItems
-#$ListViewFocused = $listView.FocusedItem
 return $listview
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4027,47 +4034,50 @@ $labelbox.Dock = "None";#None, Top, Bottom, Left, Right, Fill
 $labelbox.Text = "$MessageBoxText"
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
-$okButton = New-Object System.Windows.Forms.Button
-$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
-$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
-$okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$okButton.DialogResult = "OK"
-$okButton.Enabled = $true
-$okButton.Cursor = 'Hand'
-$okButton.Text = "OK"
+$okbutton = New-Object System.Windows.Forms.Button
+$okbutton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$okbutton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$okbutton.Add_MouseEnter({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
+$okbutton.Add_MouseLeave({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
+$okbutton.DialogResult = "OK"
+$okbutton.Enabled = $true
+$okbutton.Cursor = 'Hand'
+$okbutton.Text = "OK"
+$okbutton.Add_Click({$global:LastClick = "OK"});$global:LastClick = ""
+$formbox.add_FormClosing({$action = $_;if ($LastClick -ne "") {$global:LastClick = ""} else {$action.Cancel = $true}})
 if ($MessageBoxType -eq 'YesNo') {
 $XLOC = [int](200 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.Text = "Yes"
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.Text = "Yes"
 $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
-$cancelButton = New-Object System.Windows.Forms.Button
-$cancelButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$cancelButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
-$cancelButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$cancelButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$cancelButton.Add_MouseEnter({$cancelButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
-$cancelButton.Add_MouseLeave({$cancelButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$cancelButton.DialogResult = "CANCEL"
-$cancelButton.Cursor = 'Hand'
-$cancelButton.Text = "No"
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
-$cancelButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$cancelButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $cancelButton.Width , $cancelButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($cancelButton.Handle , $ARCLOC, $true);
-$formbox.AcceptButton = $okButton
-$formbox.Controls.Add($cancelButton)
-$formbox.Controls.Add($okButton)}
+$cancelbutton = New-Object System.Windows.Forms.Button
+$cancelbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$cancelbutton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$cancelbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$cancelbutton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$cancelbutton.Add_MouseEnter({$cancelbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
+$cancelbutton.Add_MouseLeave({$cancelbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
+$cancelbutton.DialogResult = "CANCEL"
+$cancelbutton.Cursor = 'Hand'
+$cancelbutton.Text = "No"
+$cancelbutton.Add_Click({$global:LastClick = "CANCEL"});$global:LastClick = ""
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
+$cancelbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$cancelbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $cancelbutton.Width , $cancelbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($cancelbutton.Handle , $ARCLOC, $true);
+$formbox.AcceptButton = $okbutton
+$formbox.Controls.Add($cancelbutton)
+$formbox.Controls.Add($okbutton)}
 if ($MessageBoxType -eq 'Info') {
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
-$formbox.AcceptButton = $okButton
-$formbox.Controls.Add($okButton)}
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
+$formbox.AcceptButton = $okbutton
+$formbox.Controls.Add($okbutton)}
 if ($MessageBoxType -eq 'Prompt') {
 $WSIZ = [int](430 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](40 * $ScaleRef * $GUI_SCALE)
@@ -4095,18 +4105,18 @@ if ($TextMin) {if ($inputbox.Text.Length -lt $TextMin) {$okEnable = $false}
 if ($TextMax) {if ($inputbox.Text.Length -gt $TextMax) {$revert = $true}}}}
 if (-not ($this.Text -notmatch "[^$allowed]")) {$revert = $true}}}
 if (-not ($inputbox.Text.Length -gt 0)) {$okEnable = $false}
-if ($okEnable -eq $true) {$okButton.Enabled = $true} else {$okButton.Enabled = $false}
+if ($okEnable -eq $true) {$okbutton.Enabled = $true} else {$okbutton.Enabled = $false}
 if ($revert -eq $true) {$this.Text = "$textXlast"} else {$global:textXlast = "$textX"}
 })
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.Add_Click({$null})
-$okButton.Enabled = $false
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
-$formbox.AcceptButton = $okButton
-$formbox.Controls.Add($okButton)
-#$formbox.Controls.Add($cancelButton)
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.Add_Click({$null})
+$okbutton.Enabled = $false
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
+$formbox.AcceptButton = $okbutton
+$formbox.Controls.Add($okbutton)
+#$formbox.Controls.Add($cancelbutton)
 $formbox.Controls.Add($inputbox)}
 if ($MessageBoxType -eq 'Choice') {
 $WSIZ = [int](430 * $ScaleRef * $GUI_SCALE)
@@ -4127,10 +4137,10 @@ $dropbox.Text = "$Text"
 $dropbox.SelectedIndex = 0
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
-$formbox.AcceptButton = $okButton
-$formbox.Controls.Add($okButton)
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
+$formbox.AcceptButton = $okbutton
+$formbox.Controls.Add($okbutton)
 $formbox.Controls.Add($dropbox)
 }
 if ($MessageBoxType -eq 'Picker') {$PartMatch = $null
@@ -4157,10 +4167,10 @@ $dropbox.Text = "$Text"
 $dropbox.SelectedIndex = 0
 $XLOC = [int](340 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](200 * $ScaleRef * $GUI_SCALE)
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
-$formbox.AcceptButton = $okButton
-$formbox.Controls.Add($okButton)
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
+$formbox.AcceptButton = $okbutton
+$formbox.Controls.Add($okbutton)
 $formbox.Controls.Add($dropbox)}
 $formbox.Controls.Add($labelbox)
 $formbox.ResumeLayout();$global:boxresult = $formbox.ShowDialog()
@@ -4209,21 +4219,23 @@ $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](155 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](485 * $ScaleRef * $GUI_SCALE)
-$okButton = New-Object System.Windows.Forms.Button
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
-$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
-$okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$okButton.DialogResult = "OK"
-$okButton.Cursor = 'Hand'
-$okButton.Text = "OK"
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
+$okbutton = New-Object System.Windows.Forms.Button
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$okbutton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$okbutton.Add_MouseEnter({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
+$okbutton.Add_MouseLeave({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
+$okbutton.DialogResult = "OK"
+$okbutton.Cursor = 'Hand'
+$okbutton.Text = "OK"
+$okbutton.Add_Click({$global:LastClick = "OK"});$global:LastClick = ""
+$formboxX.add_FormClosing({$action = $_;if ($LastClick -ne "") {$global:LastClick = ""} else {$action.Cancel = $true}})
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
 $Page = 'x';$pictureBase64 = $logo_main;$PictureBox1_PageSP = NewPictureBox -X '15' -Y '15' -W '420' -H '420';$formboxX.Controls.Add($PictureBox1_PageSP);
 $formboxX.Controls.Add($labelbox)
-$formboxX.AcceptButton = $okButton
-$formboxX.Controls.Add($okButton)
+$formboxX.AcceptButton = $okbutton
+$formboxX.Controls.Add($okbutton)
 $formboxX.ResumeLayout()
 $formboxX.ShowDialog()
 $formboxX.Dispose()
@@ -4256,23 +4268,23 @@ $WSIZ = [int](135 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](45 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](543 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](405 * $ScaleRef * $GUI_SCALE)
-$okButton = New-Object System.Windows.Forms.Button
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
-$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
-$okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$okButton.Add_Click({
+$okbutton = New-Object System.Windows.Forms.Button
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$okbutton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$okbutton.Add_MouseEnter({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
+$okbutton.Add_MouseLeave({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
+$global:LastClick = "";$okbutton.Add_Click({$global:LastClick = "OK"
 if ($ListViewBox.CheckedItems) {$global:checkedItemsX = $ListViewBox.CheckedItems | ForEach-Object {$ListWriteX = 0
 $partaa, $ListViewCheckedX, $partcc = $_ -split '[{}]'
 Get-Content "$ListFolder\$BaseFile" -Encoding UTF8 | ForEach-Object {
 $partYa, $partYb, $partYc, $partYd, $partYe, $partYf, $partYg, $partYh, $partYi, $partYj, $partYk, $partYl, $partYm, $partYn = $_ -split "[❕]"
 if ($partYc -eq $ListViewCheckedX) {Add-Content -Path "$ListFolder\`$LIST" -Value "$_" -Encoding UTF8;}}}
 } else {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText 'Select an option.'}})
-$okButton.DialogResult = "OK"
-$okButton.Cursor = 'Hand'
-$okButton.Text = "OK"
+$okbutton.DialogResult = "OK"
+$okbutton.Cursor = 'Hand'
+$okbutton.Text = "OK"
 $WSIZ = [int](635 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](365 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](25 * $ScaleRef * $GUI_SCALE)
@@ -4301,9 +4313,10 @@ if ($partZb -eq 'GROUP') {if ($partZd -ne $ListViewChecked) {$gogogo = 0}}
 if ($partZb -eq 'GROUP') {if ($partZc -eq $ListViewChoiceS3) {if ($partZd -eq $ListViewChecked) {$gogogo = 1}}}
 if ($gogogo -eq 1) {
 if ($partZb -ne 'GROUP') {if ($_ -ne "") {[void]$ListViewBox.Items.Add("$partZc")}}}}
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
-$formboxX.AcceptButton = $okButton
-$formboxX.Controls.Add($okButton)
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
+$formboxX.add_FormClosing({$action = $_;if ($LastClick -ne "") {$global:LastClick = ""} else {$action.Cancel = $true}})
+$formboxX.AcceptButton = $okbutton
+$formboxX.Controls.Add($okbutton)
 #$formboxX.Controls.Add($labelbox)
 $formboxX.ResumeLayout()
 $formboxX.ShowDialog()
@@ -4354,20 +4367,22 @@ $labelbox.Dock = "None";#None, Top, Bottom, Left, Right, Fill
 $labelbox.Text = "$MessageBoxBody"
 if ($MessageBoxSize -eq "Small") {$WSIZ = [int](135 * $ScaleRef * $GUI_SCALE);$HSIZ = [int](45 * $ScaleRef * $GUI_SCALE);$XLOC = [int](350 * $ScaleRef * $GUI_SCALE);$YLOC = [int](185 * $ScaleRef * $GUI_SCALE)}
 if ($MessageBoxSize -eq "Large") {$WSIZ = [int](135 * $ScaleRef * $GUI_SCALE);$HSIZ = [int](45 * $ScaleRef * $GUI_SCALE);$XLOC = [int](350 * $ScaleRef * $GUI_SCALE);$YLOC = [int](420 * $ScaleRef * $GUI_SCALE)}
-$okButton = New-Object System.Windows.Forms.Button
-$okButton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
-$okButton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
-$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$okButton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$okButton.Add_MouseEnter({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
-$okButton.Add_MouseLeave({$okButton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
-$okButton.DialogResult = "OK"
-$okButton.Cursor = 'Hand'
-$okButton.Text = "OK"
-$okButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okButton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okButton.Width , $okButton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okButton.Handle , $ARCLOC, $true);
+$okbutton = New-Object System.Windows.Forms.Button
+$okbutton.Location = New-Object System.Drawing.Point($XLOC, $YLOC)
+$okbutton.Size = New-Object Drawing.Size($WSIZ,$HSIZ)
+$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$okbutton.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
+$okbutton.Add_MouseEnter({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
+$okbutton.Add_MouseLeave({$okbutton.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")})
+$okbutton.DialogResult = "OK"
+$okbutton.Cursor = 'Hand'
+$okbutton.Text = "OK"
+$okbutton.Add_Click({$global:LastClick = "OK"});$global:LastClick = ""
+$formboxX.add_FormClosing({$action = $_;if ($LastClick -ne "") {$global:LastClick = ""} else {$action.Cancel = $true}})
+$okbutton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$okbutton.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $okbutton.Width , $okbutton.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($okbutton.Handle , $ARCLOC, $true);
 $formboxX.Controls.Add($labelbox)
-$formboxX.AcceptButton = $okButton
-$formboxX.Controls.Add($okButton)
+$formboxX.AcceptButton = $okbutton
+$formboxX.Controls.Add($okbutton)
 $formboxX.ResumeLayout()
 $formboxX.ShowDialog()
 $formboxX.Dispose()
@@ -4479,7 +4494,7 @@ $ScaleJ = $($Slider1_PageSC.Value) / 100
 $LabelX_PageSC.Text = "GUI Scale Factor $($Slider1_PageSC.Value)%"
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 ForEach ($i in @("","GUI_SCALE=$ScaleJ")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-if ($boxresult -eq "OK") {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+if ($boxresult -eq "OK") {Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 })
 #$slider.Add_MouseUp({$null})
 #$slider.Add_MouseDown({$null})
@@ -4938,7 +4953,7 @@ MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBox
 Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
+Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox3SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4949,7 +4964,7 @@ MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBox
 Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
+Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox4SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4967,7 +4982,7 @@ if ($boxoutput -eq "LightBlue") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'F
 ForEach ($i in @("","GUI_TXT_FORE=$GUI_TXT_FOREX","GUI_TXT_BACK=$GUI_TXT_BACKX","GUI_BTN_COLOR=$GUI_BTN_COLORX","GUI_HLT_COLOR=$GUI_HLT_COLORX","GUI_BG_COLOR=$GUI_BG_COLORX","GUI_PAG_COLOR=$GUI_PAG_COLORX")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 }
 if ($($DropBox5_PageSC.SelectedItem) -ne '🎨 Theme') {$colorDialog = New-Object System.Windows.Forms.ColorDialog;$boxresultX = $colorDialog.ShowDialog()}
 If ($boxresultX -eq [System.Windows.Forms.DialogResult]::OK) {
@@ -4981,7 +4996,7 @@ if ($($DropBox5_PageSC.SelectedItem) -eq 'Side Panel') {Add-Content -Path "$PSSc
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 }
 $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
 [void]$DropBox5_PageSC.Items.Add("🎨 Theme");[void]$DropBox5_PageSC.Items.Add("Button");[void]$DropBox5_PageSC.Items.Add("Highlight");[void]$DropBox5_PageSC.Items.Add("Text Color");[void]$DropBox5_PageSC.Items.Add("Text Canvas");[void]$DropBox5_PageSC.Items.Add("Side Panel");[void]$DropBox5_PageSC.Items.Add("Background")
@@ -5458,7 +5473,7 @@ $WSIZ = [int]($W * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($H * $ScaleRef * $GUI_SCALE)
 $XLOC = [int]($X * $ScaleRef * $GUI_SCALE)
 $YLOC = [int]($Y * $ScaleRef * $GUI_SCALE)
-$PageMain.Visible = $false;$PageBlank.Visible = $true;$PageBlank.BringToFront()
+$PageMain.Visible = $false;$PageBlank.Visible = $true;$PageBlank.BringToFront();$form.ControlBox = $false;$global:isconsoleopen = $true
 if (Test-Path -Path "$PSScriptRootX\`$CON") {Remove-Item -Path "$PSScriptRootX\`$CON" -Force -Recurse}
 if (Test-Path -Path "$PSScriptRootX\`$PKX") {Remove-Item -Path "$PSScriptRootX\`$PKX" -Force -Recurse}
 if (Test-Path -Path "$PSScriptRootX\`$CAB") {Remove-Item -Path "$PSScriptRootX\`$CAB" -Force -Recurse}
@@ -5468,7 +5483,7 @@ Add-Content -Path "$PSScriptRootX\`$CON" -Value "GUI_CONFONT=$($DropBox1_PageSC.
 Add-Content -Path "$PSScriptRootX\`$CON" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8
 Add-Content -Path "$PSScriptRootX\`$CON" -Value "GUI_SCALE=$GUI_SCALE" -Encoding UTF8
 if ($ButtonRadio1_Group1.Checked -eq $true) {$GUI_CONTYPE = 'Embed'} else {$GUI_CONTYPE = 'Spawn'}
-$CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-noprofile", "-WindowStyle", "Hidden", "-Command", {
+$global:CMDWindow = Start-Process "PowerShell" -PassThru -ArgumentList "-noprofile", "-WindowStyle", "Hidden", "-Command", {
 Add-Type -TypeDefinition @'
 using System;using System.Runtime.InteropServices;public class WinMekanix {
 [DllImport(\"user32.dll\", SetLastError = true)] private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
@@ -5520,7 +5535,7 @@ $ScaleFontX = [Math]::Floor($ScaleFont);$CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
 [VOID][WinMekanix]::DisableCloseButton()
 CLS;Write-Host "Console Virtual Dimensions: $DimensionX x $DimensionY"
-Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", \"$PSScriptRootX\windick.cmd\", "-EXTERNAL"
+Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", `\"$PSScriptRootX\windick.cmd`\", "-EXTERNAL"
 $PathCheck = \"$PSScriptRootX\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$PSScriptRootX\`$CON\" -Force}
 if ($PAUSE_END -eq '1') {pause}}
 $CMDHandle = $CMDWindow.MainWindowHandle;#$CMDHandleX = $CMDWindow.Handle;
@@ -5619,12 +5634,12 @@ $form.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
 $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
-$form.add_FormClosing({$action = $_
+$form.add_FormClosing({$action = $_;if ($isconsoleopen) {$action.Cancel = $true} else {
 if ($NoExitPrompt) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}
 if (-not ($NoExitPrompt)) {MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Close' -MessageBoxText 'Are you sure you want to close?'
 if ($boxresult -ne "OK") {$action.Cancel = $true}
 if ($boxresult -eq "OK") {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}}})
+Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}}}})
 $form.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
 $form.AutoSize = $true
 $form.AutoSizeMode = 'GrowAndShrink';#AutoSizeMode: GrowAndShrink, GrowOnly, and ShrinkOnly.
@@ -5671,7 +5686,7 @@ $scrolltimer.Add_Tick({$Label0_PageSP.Left -= 2;if ($Label0_PageSP.Location.X -l
 SplashChange}})
 
 #$ButtonTest_PageSP = NewButton -X '50' -Y '585' -W '150' -H '60' -Text 'TEST' -Hover_Text 'About' -Add_Click {$null}
-#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
 $ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageW2V.Columns.Add("X", $WSIZX)
@@ -5767,7 +5782,7 @@ $XLOC = [int](0 * $ScaleRef * $GUI_SCALE);$YLOC = [int](0 * $ScaleRef * $GUI_SCA
 $PageDebug.Visible = $true;$PageMain.Visible = $false;$PageSC.Visible = $false;$PageDebug.BringToFront()
 [VOID][WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
 $Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {ForEach ($i in @("","GUI_LAUNCH=DISABLED")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-Start-Process "$env:comspec" -ArgumentList "/c", "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
 $Button4_PageSC = NewButton -X '262' -Y '510' -W '225' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBoxAbout}
 
 $GroupBoxName = 'Group1';$GroupBox1_PageSC = NewGroupBox -X '20' -Y '85' -W '260' -H '75' -Text 'Console Window'
@@ -5798,14 +5813,17 @@ $Label7_PageSC = NewLabel -X '530' -Y '505' -W '585' -H '35' -Text 'Bootloader'
 $DropBox6_PageSC = NewDropBox -X '530' -Y '540' -W '190' -H '40' -C '0' -Text ""
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageConsole';$Button1_PageConsole = NewButton -X '350' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {
-$PageMain.Visible = $true;$PictureBoxConsole.SendToBack();$PictureBoxConsole.Visible = $false;$PageConsole.Visible = $false
+$backproceed = "$($CMDWindow.HasExited)"
+if ($backproceed -eq "False") {MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Abort' -MessageBoxText "Console is currently in session. Are you sure?";if ($boxresult -eq "OK") {$backproceed = "True"}}
+if ($backproceed -eq "True") {
+$PageMain.Visible = $true;$PictureBoxConsole.SendToBack();$PictureBoxConsole.Visible = $false;$PageConsole.Visible = $false;$form.ControlBox = $true;$global:isconsoleopen = ""
 if ($Button_LB.Tag -eq 'Enable') {Button_PageLB}
 if ($Button_PB.Tag -eq 'Enable') {Button_PagePB}
 if ($Button_BC.Tag -eq 'Enable') {Button_PageBC}
 if ($Button_SC.Tag -eq 'Enable') {Button_PageSC}
 if ($Button_V2W.Tag -eq 'Enable') {Button_PageV2W}
 if ($Button_W2V.Tag -eq 'Enable') {Button_PageW2V}
-Write-Host "Stopping console PID: $CMDProcessId conhost PID:$SubProcessId";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue}
+Write-Host "Stopping console PID: $CMDProcessId conhost PID:$SubProcessId";Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue;$global:CMDProcessId = "";$global:SubProcessId = ""}}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageDebug';$Button1_PageDebug = NewButton -X '350' -Y '585' -W '300' -H '60' -Text '◀ Back' -Hover_Text 'Back' -Add_Click {$PageMain.Visible = $true;$PageSC.Visible = $true;$PageDebug.Visible = $false}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
