@@ -5,6 +5,8 @@ A native command shell Windows image deployment tool.
 
 [![Download](https://img.shields.io/github/v/release/joshuacline/windick)](https://github.com/joshuacline/windick/archive/refs/heads/main.zip)
 
+<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
+
 # Mirrors
 - https://www.majorgeeks.com/files/details/windows_deployment_image_customization_kit.html
 
