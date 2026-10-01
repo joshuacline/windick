@@ -5,7 +5,6 @@ A native command shell Windows image deployment tool.
 
 [![Download](https://img.shields.io/github/v/release/joshuacline/windick)](https://github.com/joshuacline/windick/archive/refs/heads/main.zip)
 
-<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
 
 # Mirrors
 - https://www.majorgeeks.com/files/details/windows_deployment_image_customization_kit.html
@@ -93,10 +92,7 @@ MenuScript: menu based scripting database
 </details>
 
 ## Testimonials
-- "Wow. Just wow." -K.Genus
-- "Blown away. What am I looking at again?" -J.Gates
-- "Kinda reminds me of Rufus, NTLite, WinUtil, and WinBackup, but all in one package." -U.Besteva
-- "The tech-media will eventually figure it out once your crops are fleeced. Convenient." -D.Atruff
-- "Flexible. Absurdly. Now I get the beef." -C.Envy
-- "Hey, tell BuiltBy🛎 (also known as 'AppCopier') he should stop using your tool as a blueprint. Everyone can see. All of the published media & featured youtube spots in the world just aren't enough for scum." -M.Eudumbas
 
+Google Gemini:
+
+<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
