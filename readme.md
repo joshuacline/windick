@@ -59,8 +59,20 @@ GUI
 
 </details>
 
+## Granular Windows Deployment Re-Imagined
+MenuScript: menu based scripting database
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscriptsample.jpg" alt=" " width="720">
+
+<details>
+<summary>MenuScript</summary>
+
+<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg" alt=" " width="720">
+
+</details>
+
 ## Recovery Environment
-***Backup, restore, or apply tweaks from within recovery***
+***Backup, restore, or apply tweaks from within recovery (CMD-Driven menu only)***
 
 <details>
 <summary>Recovery</summary>
@@ -77,17 +89,7 @@ Standard recovery
 
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/recoverynormal.png" alt=" " width="720">
 
-</details>
-
-## Granular Windows Deployment Re-Imagined
-MenuScript: menu based scripting database
-
-<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscriptsample.jpg" alt=" " width="720">
-
-<details>
-<summary>MenuScript</summary>
-
-<img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/menuscript.jpg" alt=" " width="720">
+- Not much to look at, however contains all standard features plus additional recovery oriented MenuScript templates to get you started with customizable choice-based or automated restore scenerios
 
 </details>
 
