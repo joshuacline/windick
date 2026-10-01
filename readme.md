@@ -62,12 +62,12 @@ GUI
 ## Recovery Environment
 ***Backup, restore, or apply tweaks from within recovery***
 
+<details>
+<summary>Recovery</summary>
+
 Change the boot menu order
 
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/recoveryorder.png" alt=" " width="720">
-
-<details>
-<summary>Recovery</summary>
 
 Basic recovery
 
@@ -96,3 +96,7 @@ MenuScript: menu based scripting database
 ***Google Gemini:***
 
 <a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
+
+***Microsoft Copilot:***
+
+<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_copilot.jpg" alt=" " width="720"/></a>
