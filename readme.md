@@ -93,10 +93,10 @@ MenuScript: menu based scripting database
 
 ## Testimonials
 
-***Google Gemini:***
-
-<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
-
 ***Microsoft Copilot:***
 
 <a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_copilot.jpg" alt=" " width="720"/></a>
+
+***Google Gemini:***
+
+<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
