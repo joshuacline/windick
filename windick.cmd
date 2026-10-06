@@ -1,4 +1,4 @@
-:: <# Windows Deployment Image Customization Kit v 1228 © github.com/joshuacline
+:: <# WinPloy: Granular Windows Deployment Re-Imagined v 1000 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -10,11 +10,11 @@ GOTO:GET_INIT
 IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (BASIC CUSTOM) DO (IF "%MENU_MODE%"=="%%a" GOTO:%MENU_MODE%_MODE)
 IF NOT "%GUI_LAUNCH%"=="DISABLED" IF NOT "%WINPE_BOOT%"=="1" GOTO:GUI_MODE
 IF EXIST "%ProgFolder%\$PKX" ECHO.Cleaning up pkx folder from previous session...&&SET "FOLDER_DEL=%ProgFolder%\$PKX"&&CALL:FOLDER_DEL
-CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.              Windows Deployment Image Customization Kit&&ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 0 %$$%) %U09% Change Boot Order
+CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                                winploy&&ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 0 %$$%) %U09% Change Boot Order
 ECHO. (%##% 1 %$$%) %U07% Image Processing&&ECHO. (%##% 2 %$$%) %U08% Image Management&&ECHO. (%##% 3 %$$%) %U11% Other Management&&ECHO. (%##% 4 %$$%) %U04% BootDisk Creator&&ECHO. (%##% 5 %$$%) %U03% Settings
 ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="Z:\%HOST_FOLDERX%" ECHO.          ^< Disk %@@%%HOST_NUMBER%%$$% UID %@@%%HOST_TARGET%%$$% ^>
 IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" ECHO.        ^< Disk %COLOR2%ERROR%$$% UID %COLOR2%%HOST_TARGET%%$$% ^>
-SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE Windows Deployment Image Customization Kit v%VER_CUR%  (%ProgFolder%)
+SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE winploy: The Windows Deployment Image Customization Kit v%VER_CUR%  (%ProgFolder%)
 IF "%PROG_MODE%"=="RAMDISK" ECHO.  (%##%Q%$$%)uit  (%##%*%$$%) Basic Menu                                    %@@%%FREE%GB%$$% Free
 IF "%PROG_MODE%"=="PORTABLE" IF "%WINPE_BOOT%"=="1" ECHO.  (%##%Q%$$%)uit                                                   %@@%%FREE%GB%$$% Free
 IF "%PROG_MODE%"=="PORTABLE" IF NOT "%WINPE_BOOT%"=="1" ECHO.  (%##%Q%$$%)uit  (%##%*%$$%) %U06% Switch to GUI                            %@@%%FREE%GB%$$% Free
@@ -23,14 +23,12 @@ IF "%SELECT%"=="Q" GOTO:QUIT
 IF DEFINED SELECT CALL:SHORTCUT_RUN
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF "%SELECT%"=="1" GOTO:IMAGE_PROCESSING
-IF NOT DEFINED IMAGE_LAST SET "IMAGE_LAST=IMAGE"
 IF "%SELECT%"=="2" GOTO:%IMAGE_LAST%_MANAGEMENT
-IF NOT DEFINED MISC_LAST SET "MISC_LAST=FILE"
 IF "%SELECT%"=="3" GOTO:%MISC_LAST%_MANAGEMENT
 IF "%SELECT%"=="4" GOTO:BOOT_CREATOR
 IF "%SELECT%"=="5" GOTO:SETTINGS_MENU
 IF "%SELECT%"=="*" IF "%PROG_MODE%"=="RAMDISK" SET "MENU_MODE=BASIC"&&GOTO:BASIC_MODE
-IF "%SELECT%"=="*" IF "%PROG_MODE%"=="PORTABLE" IF NOT "%WINPE_BOOT%"=="1" SET "GUI_LAUNCH=ENABLED"&&(ECHO.&&ECHO.GUI_LAUNCH=ENABLED)>>"windick.ini"
+IF "%SELECT%"=="*" IF "%PROG_MODE%"=="PORTABLE" IF NOT "%WINPE_BOOT%"=="1" SET "GUI_LAUNCH=ENABLED"&&(ECHO.&&ECHO.GUI_LAUNCH=ENABLED)>>"winploy.ini"
 IF "%SELECT%"=="~" SET&&CALL:PAUSED
 IF "%SELECT%"=="0" IF "%PROG_MODE%"=="RAMDISK" CALL:BCD_MENU
 GOTO:MAIN_MENU
@@ -38,10 +36,10 @@ GOTO:MAIN_MENU
 START powershell -noprofile -WindowStyle Hidden -executionpolicy bypass -command "$Content = Get-Content -Path \"%~f0\" -raw -Encoding utf8;$ContentUTF = [ScriptBlock]::Create($Content);& $ContentUTF"
 GOTO:QUIT
 :BASIC_MODE
-@ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.              Windows Deployment Image Customization Kit&&ECHO.&&ECHO.&&ECHO. (%##% 0 %$$%) %U09% Change Boot Order&&ECHO. (%##% 1 %$$%) %U07% Backup&&ECHO. (%##% 2 %$$%) %U07% Restore
+@ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                                winploy&&ECHO.&&ECHO.&&ECHO. (%##% 0 %$$%) %U09% Change Boot Order&&ECHO. (%##% 1 %$$%) %U07% Backup&&ECHO. (%##% 2 %$$%) %U07% Restore
 ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="Z:\%HOST_FOLDERX%" ECHO.          ^< Disk %@@%%HOST_NUMBER%%$$% UID %@@%%HOST_TARGET%%$$% ^>
 IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" ECHO.        ^< Disk %COLOR2%ERROR%$$% UID %COLOR2%%HOST_TARGET%%$$% ^>
-SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE Windows Deployment Image Customization Kit v%VER_CUR%  (%ProgFolder%)
+SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE winploy: The Windows Deployment Image Customization Kit v%VER_CUR%  (%ProgFolder%)
 ECHO.  (%##%Q%$$%)uit  (%##%*%$$%) Main Menu                                    %@@%%FREE%GB%$$% Free
 CALL:PAD_LINE&&SET "$CHECK=MENU"&&CALL:MENU_SELECT
 IF "%SELECT%"=="Q" GOTO:QUIT
@@ -59,13 +57,13 @@ IF NOT EXIST "%ListFolder%\%MENU_LIST%" SET "MENU_LIST="&&GOTO:MAIN_MENU
 SET "$HEAD_CHECK=%ListFolder%\%MENU_LIST%"&&CALL:GET_HEADER
 IF NOT "%$HEAD%"=="MENU-SCRIPT" ECHO.&&ECHO.%COLOR4%ERROR:%$$% %MENU_LIST% is not a base or execution list. Leaving custom menu.&&ECHO.&&CALL:PAUSED&GOTO:MAIN_MENU
 SET "TIMER_MSG= %$$%Executing %@@%%MENU_LIST%%$$% in [ %COLOR4%%%TIMER%%%$$% ] seconds. %##%Close window to abort.%$$%"&&SET "TIMER=10"&&CALL:TIMER&&SET "MENU_MODE=CUSTOM"&&CALL:SETS_HANDLER
-CLS&&CALL %CMD% /C ""%ProgFolder%\windick.cmd" -IMAGEMGR -RUN -LIST "%MENU_LIST%" -MENU"
+CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -LIST "%MENU_LIST%" -MENU"
 SET "TIMER=10"&&CALL:TIMER&&SET "TIMER_MSG= %$$%Reboot in [ %COLOR4%%%TIMER%%%$$% ] seconds."&&SET "TIMER=15"&&CALL:TIMER
 GOTO:QUIT
 :COMMAND_MODE
 IF DEFINED GUI_ACTIVE SET "PROG_MODE=GUI"&&CALL:SETS_HANDLER&CLS
 IF NOT "%PROG_MODE%"=="GUI" SET "PAD_TYPE=0"&&CALL:SETS_MAIN
-SET "MOUNT="&&IF NOT "%ARG1%"=="/?" IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-INTERNAL" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-BOOTCREATOR" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" ECHO.Type windick.cmd -help for more options.&&GOTO:QUIT
+SET "MOUNT="&&IF NOT "%ARG1%"=="/?" IF NOT "%ARG1%"=="-HELP" IF NOT "%ARG1%"=="-INTERNAL" IF NOT "%ARG1%"=="-AUTOBOOT" IF NOT "%ARG1%"=="-NEXTBOOT" IF NOT "%ARG1%"=="-BOOTMAKER" IF NOT "%ARG1%"=="-BOOTCREATOR" IF NOT "%ARG1%"=="-DISKMGR" IF NOT "%ARG1%"=="-FILEMGR" IF NOT "%ARG1%"=="-IMAGEPROC" IF NOT "%ARG1%"=="-IMAGEMGR" ECHO.Type winploy.cmd -help for more options.&&GOTO:QUIT
 IF "%ARG1%"=="/?" SET "ARG1=-HELP"
 IF "%ARG1%"=="-HELP" CALL:COMMAND_HELP
 IF "%ARG1%"=="-BOOTMAKER" SET "ARG1=-BOOTCREATOR"
@@ -439,7 +437,7 @@ ECHO.❕Session❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -si
 ECHO.❕Command❕PAUSE❕Normal❕DX❕
 EXIT /B
 :GET_INIT
-SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"
+SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"&&FOR %%G in ("%~f0") DO SET "PATH_TEST=%%~nG%%~xG"
 IF NOT DEFINED CODEPAGE FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO (SET "CODEPAGE=%%a")
 SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="&&CD /D "%~DP0"&&CHCP 65001>NUL
 SET "ORIG_CD=%CD%"&&SET "ProgFolder0=%CD%"&&FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%CD%") DO (IF "%%b"=="\" SET "ProgFolder0=%%a:")
@@ -447,6 +445,7 @@ IF EXIST "%ProgFolder0%\$CON" SET "GUI_ACTIVE=1"&DEL /F /Q "%ProgFolder0%\$CON">
 IF NOT DEFINED ERROR %REG% query "HKU\S-1-5-19\Environment">NUL 2>&1
 IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" IF NOT EXIST "$ELEV" GOTO:REQUEST_ADMIN
 SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&IF EXIST "$ELEV" DEL /Q /F "$ELEV">NUL 2>&1
+IF NOT "%PATH_TEST%"=="winploy.cmd" SET "PATH_TEST="&&SET "ERROR=If experiencing user elevation failure, right-click and run as administrator."
 IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" SET "ERROR=If experiencing user elevation failure, right-click and run as administrator."
 IF NOT DEFINED ERROR IF NOT EXIST "%ProgFolder0%" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
 IF NOT DEFINED ERROR IF "%ProgFolder0%"=="X:\$" IF NOT "%SYSTEMDRIVE%"=="X:" SET "ERROR=Relocate to path other than X:\$."
@@ -455,7 +454,7 @@ IF NOT DEFINED ERROR FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%ProgFolder0%") DO (I
 IF /I "%%a\%%b\%%d\%%e\%%f"=="%SystemDrive%\Users\AppData\Local\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again.")
 IF NOT DEFINED ERROR SET "$ENG="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "$ENG=1")
 IF NOT DEFINED ERROR IF NOT DEFINED $ENG SET "ERROR=Non-english host language/locale."
-IF DEFINED ERROR CALL ECHO.ERROR: %ERROR%&&SET "TIMER=10"&&CALL:TIMER&&GOTO:QUIT
+IF DEFINED ERROR ECHO.ERROR: %ERROR%&&SET "TIMER=10"&&CALL:TIMER&&GOTO:QUIT
 IF "%SYSTEMDRIVE%"=="X:" IF EXIST "X:\$\HOST_TARGET" SET "WINPE_BOOT=1"
 CALL:SESSION_CLEAR&CALL:GET_ARGS&CALL:GET_SID&CALL:MOUNT_INT
 IF DEFINED ARG1 SET "PROG_MODE=COMMAND"&&GOTO:COMMAND_MODE
@@ -794,13 +793,12 @@ SET "CHAR_FLG="&&FOR /F "DELIMS=" %%■ in ('%CMD% /D /U /C ECHO.%CHAR_STR%^| FI
 EXIT /B
 :LOGO
 IF "%RECOVERY_LOGO%"=="DISABLED" EXIT /B
-IF NOT DEFINED RECOVERY_LOGO SET "RECOVERY_LOGO=DISABLED"
 SET "ROW_X=%%@1%%█%%@2%%█%%@3%%█%%@4%%█%%@1%%█%%@2%%█%%@3%%█%%@4%%█"&&SET "ROW_T=%%@1%% %%@2%%▀%%@3%%█%%@4%%█%%@1%%█%%@2%%█%%@3%%▀%%@4%% "&&SET "ROW_B=%%@1%% %%@2%%▄%%@3%%█%%@4%%█%%@1%%█%%@2%%█%%@3%%▄%%@4%% "
 SET "RND_SET=@1"&&CALL:GET_RANDOM&&SET "RND_SET=@2"&&CALL:GET_RANDOM&&SET "RND_SET=@3"&&CALL:GET_RANDOM&&SET "RND_SET=@4"&&CALL:GET_RANDOM
 CALL SET "@1=%%COLOR%@1%%%"&&CALL SET "@2=%%COLOR%@2%%%"&&CALL SET "@3=%%COLOR%@3%%%"&&CALL SET "@4=%%COLOR%@4%%%"&&SET "LOGOX="&&SET "XNTZ="&&CALL:LOGO_X&&CLS&&FOR %%a in (@1 @2 @3 @4 @5 @6 @7 @8 @9 ROW_X ROW_T ROW_B) DO (SET "%%a=")
 EXIT /B
 :LOGO_X
-CLS&&CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%&&SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"&&CALL ECHO.%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%&&ECHO.&&ECHO.                               %COLOR0%WELCOME TO&&ECHO.&&ECHO.       %@1% ▄█     █▄   ▄█ ███▄▄▄▄   ███████▄   ▄█  ▄███████  ▄█   ▄█▄&&ECHO.       %@2%███     ███ ███ ███▀▀▀██▄ ███  ▀███ ███ ███   ███ ███ ▄███▀&&ECHO.       %@3%███     ███ ███ ███   ███ ███   ███ ███ ███   █▀  ███▐██▀&&ECHO.       %@4%███     ███ ███ ███   ███ ███   ███ ███ ███      ▄█████▀&&ECHO.       %@1%███     ███ ███ ███   ███ ███   ███ ███ ███   █▄  ███▐██▄&&ECHO.       %@2%███ ▄█▄ ███ ███ ███   ███ ███  ▄███ ███ ███   ███ ███ ▀███▄&&ECHO.       %@3% ▀███▀███▀  █▀   ▀█   █▀  ███████▀  █▀  ███████▀  ███   ▀█▀&&ECHO.&&ECHO.                          %COLOR0%RECOVERY ENVIRONMENT&&ECHO.
+CLS&&CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%&&SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"&&CALL ECHO.%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%%ROW_T%&&ECHO.&&ECHO.                               %COLOR0%WELCOME TO&&ECHO.&&ECHO.    %@1% ▄█     █▄   ▄█ ███▄▄▄▄   ███████▄   ▄█     ▄███████   ▄█     █▄&&ECHO.    %@2%███     ███ ███ ███▀▀▀██▄ ███  ▀███ ███     ███   ███ ███     ███&&ECHO.    %@3%███     ███ ███ ███   ███ ███   ███ ███     ███   ███ ███▄   ▄███&&ECHO.    %@4%███     ███ ███ ███   ███ ██████▀   ███     ███   ███  ▀███████▀&&ECHO.    %@1%███     ███ ███ ███   ███ ███       ███     ███   ███     ███&&ECHO.    %@2%███ ▄█▄ ███ ███ ███   ███ ███       ███     ███   ███     ███&&ECHO.    %@3% ▀███▀███▀  █▀   ▀█   █▀  █▀        ██████▀ ███████▀      ▀█▀&&ECHO.&&ECHO.                          %COLOR0%RECOVERY ENVIRONMENT&&ECHO.
 CALL ECHO.%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%%ROW_B%&&SET "@1=%@2%"&SET "@2=%@3%"&SET "@3=%@4%"&SET "@4=%@1%"
 CALL ECHO.%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%ROW_X%%$$% &&SET "@1=%@4%"&SET "@2=%@1%"&SET "@3=%@2%"&SET "@4=%@3%"
 CALL:TIMER_POINT3&SET /A "XNTZ+=1"&IF NOT "%XNTZ%"=="7" GOTO:LOGO_X
@@ -809,7 +807,7 @@ EXIT /B
 SET SETS_LIST=BOOTLOADER GUI_LAUNCH GUI_RESUME GUI_SCALE GUI_CONFONT GUI_CONFONTSIZE GUI_CONTYPE GUI_FONTSIZE GUI_LVFONTSIZE GUI_TXT_FORE GUI_TXT_BACK GUI_BTN_COLOR GUI_HLT_COLOR GUI_BG_COLOR GUI_PAG_COLOR PAD_BOX PAD_TYPE PAD_SIZE PAD_SEQ TXT_COLOR ACC_COLOR BTN_COLOR COMPRESS SAFE_EXCLUDE HOST_HIDE PE_WALLPAPER BOOT_TIMEOUT VHDX_SLOTX VHDX_SLOT0 VHDX_SLOT1 VHDX_SLOT2 VHDX_SLOT3 VHDX_SLOT4 VHDX_SLOT5 ADDFILE_0 ADDFILE_1 ADDFILE_2 ADDFILE_3 ADDFILE_4 ADDFILE_5 ADDFILE_6 ADDFILE_7 ADDFILE_8 ADDFILE_9 HOTKEY_1 SHORT_1 HOTKEY_2 SHORT_2 HOTKEY_3 SHORT_3 MENU_MODE MENU_LIST REFERENCE RECOVERY_LOGO APPX_SKIP COMP_SKIP SVC_SKIP SXS_SKIP DEBUG
 EXIT /B
 :SETS_LOAD
-IF EXIST "windick.ini" FOR /F "USEBACKQ TOKENS=1-1* DELIMS==" %%a in (windick.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
+IF EXIST "winploy.ini" FOR /F "USEBACKQ TOKENS=1-1* DELIMS==" %%a in (winploy.ini) DO (IF NOT "%%a"=="   " SET "%%a=%%b")
 EXIT /B
 :SETS_CLEAR
 CALL:SETS_LIST
@@ -818,16 +816,18 @@ SET "SETS_LIST="&&EXIT /B
 :SETS_HANDLER
 IF NOT "%PROG_MODE%"=="RAMDISK" SET "ProgFolder=%ProgFolder0%"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%ProgFolder%" SET "ProgFolder=%ProgFolder0%"
-CD /D "%ProgFolder0%"&&IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "windick.ini" IF NOT DEFINED SETS_LOAD CALL:SETS_MAIN
-IF EXIST "windick.ini" IF NOT DEFINED SETS_LOAD SET "SETS_LOAD=1"&&CALL:SETS_LOAD
-CALL:SETS_LIST&&ECHO.Windows Deployment Image Customization Kit v %VER_CUR% Settings>"windick.ini"
-FOR %%■ in (%SETS_LIST%) DO (ECHO.%%■=!%%■!>>"windick.ini")
+CD /D "%ProgFolder0%"&&IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "winploy.ini" IF NOT DEFINED SETS_LOAD CALL:SETS_MAIN
+IF EXIST "winploy.ini" IF NOT DEFINED SETS_LOAD SET "SETS_LOAD=1"&&CALL:SETS_LOAD
+CALL:SETS_LIST&&ECHO.winploy v %VER_CUR% Settings>"winploy.ini"
+FOR %%■ in (%SETS_LIST%) DO (ECHO.%%■=!%%■!>>"winploy.ini")
 SET "SETS_LIST="&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" SET "HOST_GET=1"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT "%DISK_TARGET%"=="%HOST_TARGET%" SET "HOST_GET=1"
 IF DEFINED HOST_GET SET "HOST_GET="&&CALL:HOST_AUTO
-IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\%HOST_FOLDERX%" COPY /Y "windick.ini" "Z:\%HOST_FOLDERX%">NUL
+IF "%PROG_MODE%"=="RAMDISK" IF EXIST "Z:\%HOST_FOLDERX%" COPY /Y "winploy.ini" "Z:\%HOST_FOLDERX%">NUL
 :SETS_MAIN
 IF NOT "%BOOTLOADER%"=="New" IF NOT "%BOOTLOADER%"=="Old" IF NOT "%BOOTLOADER%"=="boot.efi" SET "BOOTLOADER=New"
+IF NOT DEFINED IMAGE_LAST SET "IMAGE_LAST=IMAGE"
+IF NOT DEFINED MISC_LAST SET "MISC_LAST=FILE"
 IF NOT DEFINED PAD_TYPE SET "PAD_TYPE=1"
 IF NOT DEFINED ACC_COLOR SET "ACC_COLOR=6"
 IF NOT DEFINED BTN_COLOR SET "BTN_COLOR=7"
@@ -1372,10 +1372,10 @@ IF "%BOOTSVC%"=="INSTALL" ECHO.Recovery switcher service is installed.&&SC CREAT
 IF "%BOOTSVC%"=="REMOVE" ECHO.Recovery switcher service is removed.&&SC DELETE AutoBoot>NUL 2>&1
 SET "BOOTSVC="&&EXIT /B
 :UPDATE_RECOVERY
-CLS&&CALL:SETS_HANDLER&&CALL:GET_SPACE_ENV&&SET "$HEADERS=                            Recovery Update"&&SET "$CHOICE_LIST=Program  (%##%*%$$%) Test%U01%Recovery Wallpaper%U01%Recovery Password%U01%Boot Media%U01%Host Folder%U01%EFI Files%U01%windick.ini"&&SET "$CHECKO=MENU"&&SET "$VERBOSE=1"&&CALL:CHOICE_BOX
+CLS&&CALL:SETS_HANDLER&&CALL:GET_SPACE_ENV&&SET "$HEADERS=                            Recovery Update"&&SET "$CHOICE_LIST=Program  (%##%*%$$%) Test%U01%Recovery Wallpaper%U01%Recovery Password%U01%Boot Media%U01%Host Folder%U01%EFI Files%U01%winploy.ini"&&SET "$CHECKO=MENU"&&SET "$VERBOSE=1"&&CALL:CHOICE_BOX
 IF DEFINED HOST_ERROR GOTO:MAIN_MENU
 IF NOT DEFINED SELECT GOTO:SETTINGS_MENU
-IF "%SELECT%"=="*" IF EXIST "%ProgFolder%\windick.cmd" SET "VER_GET=%ProgFolder%\windick.cmd"&&CALL:GET_PROGVER&&COPY /Y "%ProgFolder%\windick.cmd" "%ProgFolder0%"&GOTO:MAIN_MENU
+IF "%SELECT%"=="*" IF EXIST "%ProgFolder%\winploy.cmd" SET "VER_GET=%ProgFolder%\winploy.cmd"&&CALL:GET_PROGVER&&COPY /Y "%ProgFolder%\winploy.cmd" "%ProgFolder0%"&GOTO:MAIN_MENU
 SET "$GO="&&FOR %%a in (1 2 3 4 5 6 7) DO (IF "%SELECT%"=="%%a" SET "$GO=1")
 IF NOT DEFINED $GO GOTO:UPDATE_RECOVERY
 FOR %%a in (0 1 2 3 4 5 ERROR) DO (IF "%FREE%"=="%%a" ECHO.%COLOR2%ERROR:%$$% Not enough free space. Clear some space and try again. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END)
@@ -1386,17 +1386,17 @@ IF "%SELECT%"=="4" SET "UPDATE_TYPE=BOOT"
 IF "%SELECT%"=="5" SET "UPDATE_TYPE=HOST"
 IF "%SELECT%"=="6" SET "UPDATE_TYPE=EFI"
 IF "%SELECT%"=="7" SET "UPDATE_TYPE=SETS"
-IF "%UPDATE_TYPE%"=="SETS" SET "$HEADERS=                           Default Settings"&&SET "$NO_ERRORS=1"&&SET "$CHOICE_LIST=Replace windick.ini%U01%Remove windick.ini"&&SET "$VERBOSE=1"&&CALL:CHOICE_BOX
+IF "%UPDATE_TYPE%"=="SETS" SET "$HEADERS=                           Default Settings"&&SET "$NO_ERRORS=1"&&SET "$CHOICE_LIST=Replace winploy.ini%U01%Remove winploy.ini"&&SET "$VERBOSE=1"&&CALL:CHOICE_BOX
 IF "%UPDATE_TYPE%"=="SETS" IF DEFINED ERROR GOTO:UPDATE_RECOVERY
 IF "%UPDATE_TYPE%"=="SETS" IF "%SELECT%"=="1" SET "UPDATE_TYPE=CONFIG"
 IF "%UPDATE_TYPE%"=="SETS" IF "%SELECT%"=="2" SET "UPDATE_TYPE=DEL_CONFIG"
-IF "%UPDATE_TYPE%"=="CONFIG" IF NOT EXIST "%ProgFolder%\windick.ini" ECHO.%COLOR4%ERROR:%$$% File windick.ini is not located in folder. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END
+IF "%UPDATE_TYPE%"=="CONFIG" IF NOT EXIST "%ProgFolder%\winploy.ini" ECHO.%COLOR4%ERROR:%$$% File winploy.ini is not located in folder. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="EFI" IF NOT EXIST "%CacheFolder%\boot.sdi" IF NOT EXIST "%CacheFolder%\boot.efi" ECHO.%COLOR4%ERROR:%$$% Files boot.sdi and boot.efi are not located in folder. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="BOOT" IF NOT EXIST "%CacheFolder%\boot.sav" ECHO.%COLOR4%ERROR:%$$% File boot.sav is not located in folder. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END
-IF "%UPDATE_TYPE%"=="PROG" IF NOT EXIST "%ProgFolder%\windick.cmd" ECHO.%COLOR4%ERROR:%$$% File windick.cmd is not located in folder. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END
-IF "%UPDATE_TYPE%"=="PROG" SET "VER_GET=%ProgFolder%\windick.cmd"&&SET "VER_SET=VER_X"&&CALL:GET_PROGVER
-IF "%UPDATE_TYPE%"=="PROG" SET "VER_GET=%ProgFolder0%\windick.cmd"&&SET "VER_SET=VER_Y"&&CALL:GET_PROGVER
-IF "%UPDATE_TYPE%"=="PROG" IF DEFINED ERROR ECHO.%COLOR2%ERROR:%$$% File windick.cmd is corrupt. Abort.&&CALL:PAUSED&GOTO:UPDATE_END
+IF "%UPDATE_TYPE%"=="PROG" IF NOT EXIST "%ProgFolder%\winploy.cmd" ECHO.%COLOR4%ERROR:%$$% File winploy.cmd is not located in folder. Abort.&&SET "ERROR=UPDATE_RECOVERY"&&CALL:PAUSED&GOTO:UPDATE_END
+IF "%UPDATE_TYPE%"=="PROG" SET "VER_GET=%ProgFolder%\winploy.cmd"&&SET "VER_SET=VER_X"&&CALL:GET_PROGVER
+IF "%UPDATE_TYPE%"=="PROG" SET "VER_GET=%ProgFolder0%\winploy.cmd"&&SET "VER_SET=VER_Y"&&CALL:GET_PROGVER
+IF "%UPDATE_TYPE%"=="PROG" IF DEFINED ERROR ECHO.%COLOR2%ERROR:%$$% File winploy.cmd is corrupt. Abort.&&CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="PASS" CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.&&ECHO.        %COLOR4%Important:%$$% Do not use any of these symbols [%COLOR2% ^< ^> %% ^^! ^& ^^^^ %$$%].&&ECHO.&&ECHO.                       Enter new recovery password&&ECHO.               Press (%##%0%$$%) to remove the recovery password&&ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&SET "$SELECT=RECOVERY_LOCK"&&SET "$CASE=ANY"&&SET "$CHECK=MOST"&&SET "$VERBOSE=1"&&CALL:MENU_SELECT
 IF "%UPDATE_TYPE%"=="PASS" IF DEFINED ERROR CALL:PAUSED&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="PASS" IF "%RECOVERY_LOCK%"=="0" SET "RECOVERY_LOCK="
@@ -1415,8 +1415,8 @@ IF "%UPDATE_TYPE%"=="BOOT" SET "$IMAGE_X=%CacheFolder%\$BOOT.wim"&&SET "INDEX_X=
 IF "%UPDATE_TYPE%"=="BOOT" MOVE /Y "%CacheFolder%\$BOOT.wim" "%CacheFolder%\boot.sav">NUL
 IF "%UPDATE_TYPE%"=="BOOT" IF DEFINED ERROR ECHO.%COLOR2%ERROR:%$$% File boot.sav is corrupt. Abort.&&CALL:PAUSED&GOTO:UPDATE_END
 CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.
-IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO.           This will remove the default windick.ini file.
-IF "%UPDATE_TYPE%"=="CONFIG" ECHO.           This will replace the default windick.ini file.
+IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO.           This will remove the default winploy.ini file.
+IF "%UPDATE_TYPE%"=="CONFIG" ECHO.           This will replace the default winploy.ini file.
 IF "%UPDATE_TYPE%"=="EFI" ECHO.             This will replace the current EFI boot files.
 IF "%UPDATE_TYPE%"=="BOOT" ECHO.        This will replace %@@%v%$PATHVER%%$$% with %@@%v%$IMGVER%%$$%
 IF "%UPDATE_TYPE%"=="PROG" ECHO.                  This will replace %@@%v%VER_Y%%$$% with %@@%v%VER_X%%$$%.
@@ -1448,7 +1448,7 @@ IF "%UPDATE_TYPE%"=="BOOT" %DISM% /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%CacheFolder
 IF "%UPDATE_TYPE%"=="BOOT" MOVE /Y "%CacheFolder%\$BOOT.wim" "%CacheFolder%\boot.sav">NUL
 IF NOT EXIST "%VDISK_LTR%:\Windows" ECHO.%COLOR2%ERROR:%$$% BOOT MEDIA&&ECHO.Unmounting EFI...&&SET "ERROR=UPDATE_RECOVERY"&&CALL:VTEMP_DELETE&CALL:EFI_UNMOUNT&GOTO:UPDATE_END
 IF "%UPDATE_TYPE%"=="BOOT" MD "%VDISK_LTR%:\$">NUL 2>&1
-IF "%UPDATE_TYPE%"=="BOOT" COPY /Y "%ProgFolder0%\windick.cmd" "%VDISK_LTR%:\$">NUL 2>&1
+IF "%UPDATE_TYPE%"=="BOOT" COPY /Y "%ProgFolder0%\winploy.cmd" "%VDISK_LTR%:\$">NUL 2>&1
 IF "%UPDATE_TYPE%"=="BOOT" COPY /Y "%ProgFolder0%\HOST_TARGET" "%VDISK_LTR%:\$">NUL 2>&1
 IF "%UPDATE_TYPE%"=="BOOT" COPY /Y "%ProgFolder0%\HOST_FOLDER" "%VDISK_LTR%:\$">NUL 2>&1
 IF "%UPDATE_TYPE%"=="BOOT" COPY /Y "%WINDIR%\System32\setup.bmp" "%VDISK_LTR%:\Windows\System32">NUL 2>&1
@@ -1457,12 +1457,12 @@ IF "%UPDATE_TYPE%"=="BOOT" IF NOT EXIST "%ProgFolder0%\RECOVERY_LOCK" DEL /Q /F 
 IF "%UPDATE_TYPE%"=="BOOT" IF EXIST "%ProgFolder0%\SETTINGS_INI" COPY /Y "%ProgFolder0%\SETTINGS_INI" "%VDISK_LTR%:\$">NUL 2>&1
 IF "%UPDATE_TYPE%"=="BOOT" IF EXIST "%ProgFolder0%\RECOVERY_LOCK" COPY /Y "%ProgFolder0%\RECOVERY_LOCK" "%VDISK_LTR%:\$">NUL 2>&1
 IF "%UPDATE_TYPE%"=="BOOT" IF EXIST "%VDISK_LTR%:\setup.exe" DEL /Q /F "\\?\%VDISK_LTR%:\setup.exe">NUL 2>&1
-IF "%UPDATE_TYPE%"=="BOOT" (ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\windick.cmd)>"%VDISK_LTR%:\Windows\System32\winpeshl.ini"
+IF "%UPDATE_TYPE%"=="BOOT" (ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\winploy.cmd)>"%VDISK_LTR%:\Windows\System32\winpeshl.ini"
 IF "%UPDATE_TYPE%"=="BOOT" ECHO.Updating boot media %@@%v%$PATHVER%%$$% to %@@%v%$IMGVER%%$$%.
-IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO.Removing default windick.ini file.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\SETTINGS_INI">NUL 2>&1
-IF "%UPDATE_TYPE%"=="CONFIG" ECHO.Updating default windick.ini file.&&COPY /Y "%ProgFolder%\windick.ini" "%VDISK_LTR%:\$\SETTINGS_INI">NUL
-IF "%UPDATE_TYPE%"=="PROG" ECHO.Updating windick.cmd %@@%v%VER_Y%%$$% to %@@%v%VER_X%%$$%.&&COPY /Y "%ProgFolder%\windick.cmd" "%VDISK_LTR%:\$">NUL
-IF "%UPDATE_TYPE%"=="PROG" ECHO.Removing default windick.ini file to ensure compatibility.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\SETTINGS_INI">NUL 2>&1
+IF "%UPDATE_TYPE%"=="DEL_CONFIG" ECHO.Removing default winploy.ini file.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\SETTINGS_INI">NUL 2>&1
+IF "%UPDATE_TYPE%"=="CONFIG" ECHO.Updating default winploy.ini file.&&COPY /Y "%ProgFolder%\winploy.ini" "%VDISK_LTR%:\$\SETTINGS_INI">NUL
+IF "%UPDATE_TYPE%"=="PROG" ECHO.Updating winploy.cmd %@@%v%VER_Y%%$$% to %@@%v%VER_X%%$$%.&&COPY /Y "%ProgFolder%\winploy.cmd" "%VDISK_LTR%:\$">NUL
+IF "%UPDATE_TYPE%"=="PROG" ECHO.Removing default winploy.ini file to ensure compatibility.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\SETTINGS_INI">NUL 2>&1
 IF "%UPDATE_TYPE%"=="PASS" IF DEFINED RECOVERY_LOCK ECHO.Recovery password will be changed to %@@%%RECOVERY_LOCK%%$$%.&&ECHO.%RECOVERY_LOCK%>"%VDISK_LTR%:\$\RECOVERY_LOCK"
 IF "%UPDATE_TYPE%"=="PASS" IF NOT DEFINED RECOVERY_LOCK ECHO.Recovery password will be cleared.&&DEL /Q /F "\\?\%VDISK_LTR%:\$\RECOVERY_LOCK">NUL 2>&1
 IF "%UPDATE_TYPE%"=="WALL" ECHO.Using %PE_WALLPAPER% located in folder for the recovery wallpaper.
@@ -1713,14 +1713,14 @@ IF NOT DEFINED $PICK EXIT /B
 SET "$LISTPACK=%$CHOICE%"&&FOR %%G in ("%$PICK%") DO (SET "CAPS_SET=IMAGEMGR_EXT"&&SET "CAPS_VAR=%%~xG"&&CALL:CAPS_SET)
 IF "%IMAGEMGR_EXT%"==".BASE" SET "$LIST_FILE=%$PICK%"&SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"&IF "%FOLDER_MODE%"=="ISOLATED" MOVE /Y "$LIST" "%ListFolder%">NUL
 IF DEFINED ERROR EXIT /B
-IF DEFINED MENU_SESSION CLS&&CALL %CMD% /C ""%ProgFolder%\windick.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -MENU"&CALL:PAUSED&EXIT /B
+IF DEFINED MENU_SESSION CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -MENU"&CALL:PAUSED&EXIT /B
 IF "%IMAGEMGR_EXT%"==".PKX" SET "$IMGMGRX=                           %U05% Pack Execute"
 IF "%IMAGEMGR_EXT%"==".LIST" SET "$IMGMGRX=                           %U13% List Execute"
 SET "$ITEMSTOP= ( %##%0%$$% ) %##%Current Environment%$$%"&&SET "$HEADERS=%$IMGMGRX%%U01% %U01%                            Select a target"&&SET "$FOLD=%ImageFolder%"&&SET "$FILT=*.VHDX"&&SET "$CHOICEMINO=1"&&SET "$VERBOSE=1"&&CALL:FILE_VIEWER
 IF DEFINED ERROR EXIT /B
 IF "%SELECT%"=="0" SET "LIVE_APPLY=1"
-IF NOT DEFINED LIVE_APPLY CLS&&CALL %CMD% /C ""%ProgFolder%\windick.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -vhdx "%$CHOICE%""&&CALL:PAUSED&EXIT /B
-IF DEFINED LIVE_APPLY CLS&&CALL %CMD% /C ""%ProgFolder%\windick.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -live"&CALL:PAUSED&EXIT /B
+IF NOT DEFINED LIVE_APPLY CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -vhdx "%$CHOICE%""&&CALL:PAUSED&EXIT /B
+IF DEFINED LIVE_APPLY CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -live"&CALL:PAUSED&EXIT /B
 EXIT /B
 :LIST_EXEC
 IF NOT DEFINED $LIST_FILE EXIT /B
@@ -1817,7 +1817,7 @@ EXIT /B
 IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
 CALL:IF_LIVE_EXT&&CHCP %CODEPAGE%>NUL
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
-CALL %CMD% /C ""%ProgFolder%\windick.cmd" !$QCLM2$!"
+CALL %CMD% /C ""%ProgFolder%\winploy.cmd" !$QCLM2$!"
 SET "MOUNT="&&CALL:MOUNT_INT&&CHCP 65001>NUL
 EXIT /B
 :GROUP_ITEM
@@ -2153,7 +2153,7 @@ FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (SET "EXTPACKAGE=%PackFolder%\%%□"
 IF NOT EXIST "%PackFolder%\%%□" ECHO.%COLOR4%ERROR:%$$% %PackFolder%\%%□ doesn't exist.&&EXIT /B)
 SET "PACK_GOOD=The operation completed successfully"
 FOR %%G in ("%EXTPACKAGE%") DO (SET "PACKFULL=%%~nG%%~xG"&&SET "PACKEXT=%%~xG")
-IF /I "%PACKEXT%"==".PKX" CALL %CMD% /C ""%ProgFolder%\windick.cmd" -IMAGEMGR -RUN -PACK "%$QCLM2$%" -path "%DrvTar%""&EXIT /B
+IF /I "%PACKEXT%"==".PKX" CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -PACK "%$QCLM2$%" -path "%DrvTar%""&EXIT /B
 FOR %%G in (APPXBUNDLE MSIXBUNDLE) DO (IF /I "%PACKEXT%"==".%%G" SET "PACKEXT=.APPX")
 IF DEFINED @VERBOSE ECHO.Installing %@@%%PACKFULL%%$$%...
 IF /I "%PACKEXT%"==".APPX" SET "DISMSG="&&FOR /F "TOKENS=1 DELIMS=." %%1 in ('%DISM% /ENGLISH /%ApplyTarget% /NORESTART /ADD-PROVISIONEDAPPXPACKAGE /PACKAGEPATH:"%EXTPACKAGE%" 2^>NUL') DO (IF "%%1"=="%PACK_GOOD%" ECHO.%COLOR5%%PACK_GOOD%.%$$%&&EXIT /B)
@@ -2419,11 +2419,11 @@ FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ("!COLUMN0!") DO (ECHO.%U00%%%a%U00%%%b%
 EXIT /B
 :SCRO_PREPARE
 IF NOT EXIST "%DrvTar%\$" MD "%DrvTar%\$">NUL 2>&1
-COPY /Y "%ProgFolder0%\windick.cmd" "%DrvTar%\$">NUL 2>&1
+COPY /Y "%ProgFolder0%\winploy.cmd" "%DrvTar%\$">NUL 2>&1
 IF NOT EXIST "%DrvTar%\$\%SCRO%.LIST" ECHO.MENU-SCRIPT>"%DrvTar%\$\%SCRO%.list"
 IF "%SCRO%"=="RunOnce" %REG% add "%HiveSoftware%\Microsoft\Windows\CurrentVersion\RunOnce" /v "Runonce" /t REG_EXPAND_SZ /d "%%WINDIR%%\Setup\Scripts\RunOnce.cmd" /f>NUL 2>&1
 IF NOT EXIST "%WinTar%\Setup\Scripts" MD "%WinTar%\Setup\Scripts">NUL 2>&1
-ECHO.%%SYSTEMDRIVE%%\$\windick.cmd -imagemgr -run -list %SCRO%.list -live>"%WinTar%\Setup\Scripts\%SCRO%.cmd"
+ECHO.%%SYSTEMDRIVE%%\$\winploy.cmd -imagemgr -run -list %SCRO%.list -live>"%WinTar%\Setup\Scripts\%SCRO%.cmd"
 ECHO.EXIT 0 >>"%WinTar%\Setup\Scripts\%SCRO%.cmd"
 EXIT /B
 :SESSION_CLEAR
@@ -3283,9 +3283,9 @@ IF DEFINED ARBIT_FLAG CALL:DISK_DETECT>NUL 2>&1
 IF NOT DEFINED ARBIT_FLAG SET "QUERY_X=1"&&CALL:DISK_DETECT
 SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=Z"&&CALL:PART_ASSIGN
 IF EXIST "Z:\" IF NOT EXIST "Z:\%HOST_FOLDERX%" MD "Z:\%HOST_FOLDERX%">NUL 2>&1
-IF EXIST "Z:\%HOST_FOLDERX%" IF NOT EXIST "Z:\%HOST_FOLDERX%\windick.cmd" COPY /Y "%ProgFolder0%\windick.cmd" "Z:\%HOST_FOLDERX%">NUL 2>&1
-IF EXIST "Z:\%HOST_FOLDERX%\windick.ini" COPY /Y "Z:\%HOST_FOLDERX%\windick.ini" "%ProgFolder0%">NUL 2>&1
-IF NOT DEFINED SETS_LOAD IF EXIST "%ProgFolder0%\SETTINGS_INI" COPY /Y "%ProgFolder0%\SETTINGS_INI" "%ProgFolder0%\windick.ini">NUL 2>&1
+IF EXIST "Z:\%HOST_FOLDERX%" IF NOT EXIST "Z:\%HOST_FOLDERX%\winploy.cmd" COPY /Y "%ProgFolder0%\winploy.cmd" "Z:\%HOST_FOLDERX%">NUL 2>&1
+IF EXIST "Z:\%HOST_FOLDERX%\winploy.ini" COPY /Y "Z:\%HOST_FOLDERX%\winploy.ini" "%ProgFolder0%">NUL 2>&1
+IF NOT DEFINED SETS_LOAD IF EXIST "%ProgFolder0%\SETTINGS_INI" COPY /Y "%ProgFolder0%\SETTINGS_INI" "%ProgFolder0%\winploy.ini">NUL 2>&1
 IF NOT EXIST "Z:\%HOST_FOLDERX%" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOST_AUTO
 SET "ARBIT_FLAG="&&IF EXIST "Z:\%HOST_FOLDERX%" SET "ProgFolder=Z:\%HOST_FOLDERX%"&&SET "HOST_NUMBER=%DISK_DETECT%"
 IF NOT DEFINED DISK_DETECT SET "HOST_ERROR=1"&&SET "DISK_TARGET="
@@ -3499,7 +3499,7 @@ IF NOT EXIST "%VDISK_LTR%:\Windows" ECHO.%COLOR2%ERROR:%$$% Files created with b
 MD "%VDISK_LTR%:\$">NUL 2>&1
 ECHO.%DISK_TARGET%>"%VDISK_LTR%:\$\HOST_TARGET"
 ECHO.%HOST_FOLDER%>"%VDISK_LTR%:\$\HOST_FOLDER"
-COPY /Y "%ProgFolder0%\windick.cmd" "%VDISK_LTR%:\$">NUL&COPY /Y "%ProgFolder0%\windick.cmd" "%PRI_LETTER%:\%HOST_FOLDER%">NUL&COPY /Y "%ProgFolder%\windick.ini" "%PRI_LETTER%:\%HOST_FOLDER%">NUL
+COPY /Y "%ProgFolder0%\winploy.cmd" "%VDISK_LTR%:\$">NUL&COPY /Y "%ProgFolder0%\winploy.cmd" "%PRI_LETTER%:\%HOST_FOLDER%">NUL&COPY /Y "%ProgFolder%\winploy.ini" "%PRI_LETTER%:\%HOST_FOLDER%">NUL
 FOR %%a in (Boot EFI\Boot EFI\Microsoft\Boot) DO (MD %EFI_LETTER%:\%%a>NUL 2>&1)
 IF "%BOOTLOADER%"=="boot.efi" IF EXIST "%CacheFolder%\boot.sdi" ECHO.Using boot.sdi located in folder, for efi image boot support.&&COPY /Y "%CacheFolder%\boot.sdi" "%EFI_LETTER%:\Boot">NUL
 IF NOT EXIST "%EFI_LETTER%:\Boot\boot.sdi" COPY /Y "%VDISK_LTR%:\Windows\Boot\DVD\EFI\boot.sdi" "%EFI_LETTER%:\Boot">NUL 2>&1
@@ -3515,8 +3515,8 @@ ICACLS "%VDISK_LTR%:\Windows\System32\setup.bmp" /grant %USERNAME%:F>NUL 2>&1
 COPY /Y "%CacheFolder%\%PE_WALLPAPER%" "%VDISK_LTR%:\Windows\System32\setup.bmp">NUL 2>&1)
 IF EXIST "%VDISK_LTR%:\setup.exe" DEL /Q /F "\\?\%VDISK_LTR%:\setup.exe">NUL 2>&1
 COPY /Y "%VDISK_LTR%:\Windows\System32\config\ELAM" "%TEMP%\BCD">NUL 2>&1
-::ECHO."%%SYSTEMDRIVE%%\$\windick.CMD">"%VDISK_LTR%:\WINDOWS\SYSTEM32\STARTNET.CMD"
-(ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\windick.cmd)>"%VDISK_LTR%:\Windows\System32\winpeshl.ini"
+::ECHO."%%SYSTEMDRIVE%%\$\winploy.CMD">"%VDISK_LTR%:\WINDOWS\SYSTEM32\STARTNET.CMD"
+(ECHO.[LaunchApp]&&ECHO.AppPath=X:\$\winploy.cmd)>"%VDISK_LTR%:\Windows\System32\winpeshl.ini"
 SET "VHDX_SLOTZ=%VHDX_SLOT0%"&&SET "VHDX_SLOT0=%VHDX_SLOTX%"&&SET "HOST_X=%HOST_FOLDER%"&&CALL:BCD_CREATE>NUL 2>&1
 SET "VHDX_SLOT0=%VHDX_SLOTZ%"&&SET "VHDX_SLOTZ="&&IF NOT EXIST "%EFI_LETTER%:\EFI\Microsoft\Boot\BCD" ECHO.%COLOR2%ERROR:%$$% BCD missing. Abort.&&SET "ERROR=BOOT_CREATOR_START"&&GOTO:BOOT_CLEANUP
 ::%DISM% /IMAGE:"%VDISK_LTR%:" /SET-SCRATCHSPACE:512 >NUL 2>&1
@@ -3822,7 +3822,7 @@ $global:ApplyTarget = "ONLINE"
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function VDISK_DETACH {
-$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=1-9 DELIMS=$delims`" %1 in ('cmd.exe /c "$PSScriptRootX\windick.cmd" -DISKMGR -UNMOUNT -LETTER "$vdiskltr" -HIVE') do (echo %1%2%3%4%5%6%7%8%9)" }
+$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=1-9 DELIMS=$delims`" %1 in ('cmd.exe /c "$PSScriptRootX\winploy.cmd" -DISKMGR -UNMOUNT -LETTER "$vdiskltr" -HIVE') do (echo %1%2%3%4%5%6%7%8%9)" }
 $scriptblockZ = [scriptblock]::create($scriptblockX)
 $commandX = Invoke-command $scriptblockZ
 Foreach ($line in $commandX) {$Part1mnt, $Part2mnt = $line -split "[]"}
@@ -3840,7 +3840,7 @@ $global:UsrTar = "$vdiskltr`:\Users\Default"
 $global:ApplyTarget = "IMAGE:$vdiskltr`:"
 }
 function VDISK_ATTACH {
-$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=1-9 DELIMS=$delims`" %1 in ('cmd.exe /c "$PSScriptRootX\windick.cmd" -DISKMGR -MOUNT -VHDX "$REFERENCE" -LETTER ANY -HIVE') do (echo %1%2%3%4%5%6%7%8%9)" }
+$scriptblockX = { cmd.exe /c "@ECHO OFF&FOR /F `"TOKENS=1-9 DELIMS=$delims`" %1 in ('cmd.exe /c "$PSScriptRootX\winploy.cmd" -DISKMGR -MOUNT -VHDX "$REFERENCE" -LETTER ANY -HIVE') do (echo %1%2%3%4%5%6%7%8%9)" }
 $scriptblockZ = [scriptblock]::create($scriptblockX)
 $commandX = Invoke-command $scriptblockZ
 Foreach ($line in $commandX) {$nullX, $global:vdiskltr, $nullY = $line -split "[]"}
@@ -4493,8 +4493,8 @@ $slider.Add_Scroll({
 $ScaleJ = $($Slider1_PageSC.Value) / 100
 $LabelX_PageSC.Text = "GUI Scale Factor $($Slider1_PageSC.Value)%"
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
-ForEach ($i in @("","GUI_SCALE=$ScaleJ")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-if ($boxresult -eq "OK") {Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+ForEach ($i in @("","GUI_SCALE=$ScaleJ")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+if ($boxresult -eq "OK") {Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}
 })
 #$slider.Add_MouseUp({$null})
 #$slider.Add_MouseDown({$null})
@@ -4670,7 +4670,7 @@ return $button
 function SplashChange {
 if ($SplashChange) {$NextSplash = Get-Random -Minimum 1 -Maximum 2;
 if ($NextSplash -eq 1) {$Label0_PageSP.Text = "The World Is Yours"}}
-if (-not ($Label0_PageSP.Text)) {$Label0_PageSP.Text = "Welcome to the Windows Deployment Image Customization Kit Graphical User Interface"}
+if (-not ($Label0_PageSP.Text)) {$Label0_PageSP.Text = "Welcome To Winploy`: Granular Windows Deployment Re-Imagined"}
 $ScrollLength = $Label0_PageSP.Text.Length
 $global:Label0_PageSPL = ($GUI_SCALE / $DpiCur * -16 * $ScaleRef * $ScrollLength * 3.333);
 $global:Label0_PageSPL = [Math]::Floor($Label0_PageSPL)
@@ -4845,7 +4845,7 @@ function DropBox1LB {
 if ($DropBox1LBChanged -eq '1') {
 $global:REFERENCE = "$($DropBox1_PageLB.SelectedItem)";if ($REFERENCE -eq "🪟 Current Environment") {$global:REFERENCE = "LIVE"}
 if ($REFERENCE -eq "Refresh") {$DropBox1_PageLB.Items.Clear();[void]$DropBox1_PageLB.Items.Add("🪟 Current Environment");[void]$DropBox1_PageLB.Items.Add("Disabled");Get-ChildItem -Path "$ImageFolder\*.vhdx" -Name | ForEach-Object {[void]$DropBox1_PageLB.Items.Add($_)}
-[void]$DropBox1_PageLB.Items.Add("Refresh");$DropBox1_PageLB.SelectedItem = "🪟 Current Environment";} else {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "REFERENCE=$REFERENCE" -Encoding UTF8}}
+[void]$DropBox1_PageLB.Items.Add("Refresh");$DropBox1_PageLB.SelectedItem = "🪟 Current Environment";} else {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "REFERENCE=$REFERENCE" -Encoding UTF8}}
 if ($REFERENCE -eq "LIVE") {if (-not ($DropBox1_PageLB.SelectedItem -eq "🪟 Current Environment")) {$DropBox1_PageLB.SelectedItem = "🪟 Current Environment";}}
 $global:DropBox1LBChanged = '1';
 }
@@ -4930,7 +4930,7 @@ $DropBox2_PageV2W.SelectedItem = "1"
 function DropBox1SC {
 if ($DropBox1SCChanged -eq '1') {
 $global:GUI_CONFONT = "$($DropBox1_PageSC.SelectedItem)";[VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
+Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_CONFONT=$($DropBox1_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox1SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4942,7 +4942,7 @@ if ($GUI_CONFONTSIZE -eq 'Default') {$global:CFSIZE0 = 28} else {$global:CFSIZE0
 $ScaleFont = $GUI_SCALE / $DpiCur * $CFSIZE0 * $ScaleRef
 $ScaleFontX = [Math]::Floor($ScaleFont);$global:CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
+Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_CONFONTSIZE=$($DropBox2_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox2SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4950,10 +4950,10 @@ function DropBox3SC {
 #$global:GUI_LVFONTSIZE = "$($DropBox3_PageSC.SelectedItem)"
 if ($DropBox3SCChanged -eq '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_LVFONTSIZE=$($DropBox3_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
+Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox3SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4961,10 +4961,10 @@ function DropBox4SC {
 #$global:GUI_FONTSIZE = "$($DropBox4_PageSC.SelectedItem)"
 if ($DropBox4SCChanged -eq '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
+Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_FONTSIZE=$($DropBox4_PageSC.SelectedItem)" -Encoding UTF8
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}}
+Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}}
 $global:DropBox4SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -4979,24 +4979,24 @@ if ($boxoutput -eq "Light") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFFFF
 if ($boxoutput -eq "LightRed") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFFFD0D0';$GUI_BTN_COLORX = 'FFFF8888';$GUI_HLT_COLORX = 'FFFFACAC';$GUI_BG_COLORX = 'FFE06C6C';$GUI_PAG_COLORX = 'FF990000'}
 if ($boxoutput -eq "LightGreen") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFD0FFD0';$GUI_BTN_COLORX = 'FF88FF88';$GUI_HLT_COLORX = 'FFACFFAC';$GUI_BG_COLORX = 'FF6CE06C';$GUI_PAG_COLORX = 'FF009900'}
 if ($boxoutput -eq "LightBlue") {$GUI_TXT_FOREX = 'FF000000';$GUI_TXT_BACKX = 'FFD0D0FF';$GUI_BTN_COLORX = 'FF8888FF';$GUI_HLT_COLORX = 'FFACACFF';$GUI_BG_COLORX = 'FF6C6CE0';$GUI_PAG_COLORX = 'FF000099'}
-ForEach ($i in @("","GUI_TXT_FORE=$GUI_TXT_FOREX","GUI_TXT_BACK=$GUI_TXT_BACKX","GUI_BTN_COLOR=$GUI_BTN_COLORX","GUI_HLT_COLOR=$GUI_HLT_COLORX","GUI_BG_COLOR=$GUI_BG_COLORX","GUI_PAG_COLOR=$GUI_PAG_COLORX")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","GUI_TXT_FORE=$GUI_TXT_FOREX","GUI_TXT_BACK=$GUI_TXT_BACKX","GUI_BTN_COLOR=$GUI_BTN_COLORX","GUI_HLT_COLOR=$GUI_HLT_COLORX","GUI_BG_COLOR=$GUI_BG_COLORX","GUI_PAG_COLOR=$GUI_PAG_COLORX")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -eq "OK") {
-Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}
 }
 if ($($DropBox5_PageSC.SelectedItem) -ne '🎨 Theme') {$colorDialog = New-Object System.Windows.Forms.ColorDialog;$boxresultX = $colorDialog.ShowDialog()}
 If ($boxresultX -eq [System.Windows.Forms.DialogResult]::OK) {
 $colorSelect = $colorDialog.Color;$colorHex = $($colorSelect.ToArgb().ToString('X'))
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Color') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_TXT_FORE=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Canvas') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_TXT_BACK=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Button') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_BTN_COLOR=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Highlight') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_HLT_COLOR=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Background') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_BG_COLOR=$colorHex" -Encoding UTF8}
-if ($($DropBox5_PageSC.SelectedItem) -eq 'Side Panel') {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_PAG_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Color') {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_TXT_FORE=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Text Canvas') {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_TXT_BACK=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Button') {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_BTN_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Highlight') {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_HLT_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Background') {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_BG_COLOR=$colorHex" -Encoding UTF8}
+if ($($DropBox5_PageSC.SelectedItem) -eq 'Side Panel') {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_PAG_COLOR=$colorHex" -Encoding UTF8}
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Reload' -MessageBoxText 'Restart app for changes to take effect. Reload?'
 if ($boxresult -ne "OK") {$null}
 if ($boxresult -eq "OK") {
-Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}
 }
 $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
 [void]$DropBox5_PageSC.Items.Add("🎨 Theme");[void]$DropBox5_PageSC.Items.Add("Button");[void]$DropBox5_PageSC.Items.Add("Highlight");[void]$DropBox5_PageSC.Items.Add("Text Color");[void]$DropBox5_PageSC.Items.Add("Text Canvas");[void]$DropBox5_PageSC.Items.Add("Side Panel");[void]$DropBox5_PageSC.Items.Add("Background")
@@ -5005,7 +5005,7 @@ $DropBox5_PageSC.ResetText();$DropBox5_PageSC.Items.Clear();
 function DropBox6SC {
 if ($DropBox6SCChanged -eq '1') {
 $global:BOOTLOADER = "$($DropBox6_PageSC.SelectedItem)"
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "BOOTLOADER=$($DropBox6_PageSC.SelectedItem)" -Encoding UTF8}
+Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "BOOTLOADER=$($DropBox6_PageSC.SelectedItem)" -Encoding UTF8}
 $global:DropBox6SCChanged = '1';
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -5043,7 +5043,7 @@ if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST
 $command = @"
 DISM /ENGLISH /CAPTURE-IMAGE /CAPTUREDIR:"$PSScriptRootX\project" /IMAGEFILE:"$PackFolder\$boxoutput.pkx" /COMPRESS:Fast /NAME:"PKX" /CheckIntegrity /Verify
 "@
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 ForEach ($i in @("MENU-SCRIPT","`❕Command`❕ECHO.           %@@%PACKAGE CREATE START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕Command`❕$command`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.            %@@%PACKAGE CREATE END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
@@ -5054,7 +5054,7 @@ $Label2_PagePBWiz.Text = "New Package Template"
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Delete' -MessageBoxText 'This will empty the contents of the project folder. Are you sure?'
 if ($boxresult -ne "OK") {$global:PBWiz_Stage = 1;$Label1_PagePBWiz.Text = "🗳 Pack Builder";$Label2_PagePBWiz.Text = "Select an option"}
 if ($boxresult -eq "OK") {if (Test-Path -Path $ProjectFolder) {Remove-Item -Path "$ProjectFolder" -Recurse -Force}
-ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-NEWPACK")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-NEWPACK")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
@@ -5077,9 +5077,9 @@ if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListVi
 $ListView1_PagePBWiz.GridLines = $false;$ListView1_PagePBWiz.CheckBoxes = $false;$ListView1_PagePBWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
 if ($ListViewChoiceS2 -eq "🔄 Export Drivers") {
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-EXPORT","ARG3=-DRIVERS")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-If ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "ARG4=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG4=-VHDX","ARG5=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-EXPORT","ARG3=-DRIVERS")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+If ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "ARG4=-LIVE" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG4=-VHDX","ARG5=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB;
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
@@ -5093,7 +5093,7 @@ New-Item -ItemType Directory -Path "$PSScriptRootX\project"
 $command = @"
 DISM /ENGLISH /APPLY-IMAGE /IMAGEFILE:"$PackFolder\$ListViewChoiceS3" /INDEX:1 /APPLYDIR:"$ProjectFolder"
 "@
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-CUSTOM","ARG4=`$LIST","ARG5=-LIVE")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 ForEach ($i in @("MENU-SCRIPT","`❕Command`❕ECHO.           %@@%PACKAGE EXTRACT START`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕","`❕Command`❕$command`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.`❕NORMAL`❕DX`❕","`❕Command`❕ECHO.            %@@%PACKAGE EXTRACT END`:%`$`$%  %DATE%  %TIME%`❕NORMAL`❕DX`❕")) {Add-Content -Path "$ListFolder\`$LIST" -Value "$i" -Encoding UTF8}
 $global:PBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePBWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
@@ -5134,9 +5134,9 @@ function LEWiz_Stage3 {$global:LEWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PageLEWiz.FocusedItem}
 $ListView1_PageLEWiz.GridLines = $false;$ListView1_PageLEWiz.CheckBoxes = $false;$ListView1_PageLEWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-LIST","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-LIST","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}
 $global:LEWiz_Stage = $null;$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLEWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 $PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()
@@ -5168,9 +5168,9 @@ function PEWiz_Stage3 {$global:PEWiz_Stage = 3;
 if ($marked -ne $null) {$global:ListViewSelectS3 = $marked} else {$global:ListViewSelectS3 = $ListView1_PagePEWiz.FocusedItem}
 $ListView1_PagePEWiz.GridLines = $false;$ListView1_PagePEWiz.CheckBoxes = $false;$ListView1_PagePEWiz.FullRowSelect = $true
 $parta, $global:ListViewChoiceS3, $partc = $ListViewSelectS3 -split '[{}]'
-ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-PACK","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
-if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
+ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-PACK","ARG4=$ListViewChoiceS2")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS3 -eq "🪟 Current Environment") {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "ARG5=-LIVE" -Encoding UTF8}
+if ($ListViewChoiceS3 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS3")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}
 $global:PEWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PagePB.Visible = $true;$PagePEWiz.Visible = $false;Button_PagePB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 $PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()
@@ -5243,7 +5243,7 @@ $Label1_PageLBWiz.Text = "📜 Miscellaneous"
 $Label2_PageLBWiz.Text = "Generate Example Base"
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Generate Example Base' -MessageBoxText 'Enter new base name' -Check 'PATH'
 if ($boxresult -eq "OK") {$BaseName = "$boxoutput";
-ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-EXAMPLE","ARG3=$boxoutput.base")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-EXAMPLE","ARG3=$boxoutput.base")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
@@ -5313,9 +5313,9 @@ Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView
 function LBWiz_Stage5MISC {
 if ($marked -ne $null) {$global:ListViewSelectS5 = $marked} else { $global:ListViewSelectS5 = $ListView1_PageLBWiz.FocusedItem}
 $parta, $ListViewChoiceS5, $partc = $ListViewSelectS5 -split '[{}]'
-if ($ListViewChoiceS3 -eq "📜 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
-if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}
+if ($ListViewChoiceS3 -eq "📜 Create Source Base") {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-CREATE","ARG3=-BASE","ARG4=$ListName")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+if ($ListViewChoiceS5 -eq "🪟 Current Environment") {ForEach ($i in @("ARG5=-LIVE","ARG6=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}
+if ($ListViewChoiceS5 -ne "🪟 Current Environment") {ForEach ($i in @("ARG5=-VHDX","ARG6=$ListViewChoiceS5","ARG7=$ListViewBase")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
@@ -5446,7 +5446,7 @@ if ($Page -eq 'PageMain') {$PageMain.Controls.Add($element)}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LoadSettings {
-$LoadINI = Get-Content -Path "$PSScriptRootX\windick.ini" | Select-Object -Skip 1
+$LoadINI = Get-Content -Path "$PSScriptRootX\winploy.ini" | Select-Object -Skip 1
 $LoadINIX = $LoadINI -replace '\\', '\\\\'
 $Settings = $LoadINIX | ConvertFrom-StringData
 $global:REFERENCE = $Settings.REFERENCE
@@ -5535,7 +5535,7 @@ $ScaleFontX = [Math]::Floor($ScaleFont);$CFSIZEX = $ScaleFontX
 [VOID][WinMekanix]::SetConsoleFont("$GUI_CONFONT", "$CFSIZEX")
 [VOID][WinMekanix]::DisableCloseButton()
 CLS;Write-Host "Console Virtual Dimensions: $DimensionX x $DimensionY"
-Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", `\"$PSScriptRootX\windick.cmd`\", "-EXTERNAL"
+Start-Process \"$env:comspec\" -Wait -NoNewWindow -ArgumentList "/c", `\"$PSScriptRootX\winploy.cmd`\", "-EXTERNAL"
 $PathCheck = \"$PSScriptRootX\\`$CON\";if (Test-Path -Path $PathCheck) {Remove-Item -Path \"$PSScriptRootX\`$CON\" -Force}
 if ($PAUSE_END -eq '1') {pause}}
 $CMDHandle = $CMDWindow.MainWindowHandle;#$CMDHandleX = $CMDWindow.Handle;
@@ -5621,9 +5621,9 @@ if (Test-Path -Path "$PSScriptRootX\`$CON") {Remove-Item -Path "$PSScriptRootX\`
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $form = New-Object Windows.Forms.Form
 $form.SuspendLayout()
-$version = Get-Content -Path "windick.cmd" -TotalCount 1;
+$version = Get-Content -Path "winploy.cmd" -TotalCount 1;
 $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
-$form.Text = "Windows Deployment Image Customization Kit v$part3"
+$form.Text = "winploy`: The Windows Deployment Image Customization Kit v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($RefY * $ScaleRef * $GUI_SCALE)
 if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
@@ -5635,11 +5635,11 @@ $form.StartPosition = 'CenterScreen'
 $form.MaximizeBox = $false
 $form.MinimizeBox = $true
 $form.add_FormClosing({$action = $_;if ($isconsoleopen) {$action.Cancel = $true} else {
-if ($NoExitPrompt) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}
+if ($NoExitPrompt) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}
 if (-not ($NoExitPrompt)) {MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Close' -MessageBoxText 'Are you sure you want to close?'
 if ($boxresult -ne "OK") {$action.Cancel = $true}
 if ($boxresult -eq "OK") {Stop-Process -Id $SubProcessId -Force -ErrorAction SilentlyContinue;Stop-Process -Id $CMDProcessId -Force -ErrorAction SilentlyContinue
-Add-Content -Path "$PSScriptRootX\windick.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\windick.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}}}})
+Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "" -Encoding UTF8;Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "GUI_RESUME=$GUI_RESUME" -Encoding UTF8}}}})
 $form.FormBorderStyle = 'FixedDialog';#FixedDialog, FixedSingle, Fixed3D
 $form.AutoSize = $true
 $form.AutoSizeMode = 'GrowAndShrink';#AutoSizeMode: GrowAndShrink, GrowOnly, and ShrinkOnly.
@@ -5686,14 +5686,14 @@ $scrolltimer.Add_Tick({$Label0_PageSP.Left -= 2;if ($Label0_PageSP.Location.X -l
 SplashChange}})
 
 #$ButtonTest_PageSP = NewButton -X '50' -Y '585' -W '150' -H '60' -Text 'TEST' -Hover_Text 'About' -Add_Click {$null}
-#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+#$ButtonReload_PageSP = NewButton -X '550' -Y '585' -W '150' -H '60' -Text 'RELOAD' -Hover_Text '' -Add_Click {Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 $Page = 'PageW2V';$Label0_PageW2V = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|WIM" -TextAlign 'X'
 $ListView1_PageW2V = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageW2V.Columns.Add("X", $WSIZX)
 $Button1_PageW2V = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageW2V.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No wim selected.'}
 if ($halt -ne '1') {
-ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-WIM","ARG3=$($DropBox1_PageW2V.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageW2V.SelectedItem)","ARG6=-VHDX","ARG7=$($TextBox1_PageW2V.Text)","ARG8=-SIZE","ARG9=$($TextBox2_PageW2V.Text)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-WIM","ARG3=$($DropBox1_PageW2V.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageW2V.SelectedItem)","ARG6=-VHDX","ARG7=$($TextBox1_PageW2V.Text)","ARG8=-SIZE","ARG9=$($TextBox2_PageW2V.Text)")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageW2V = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Source Image'
@@ -5709,7 +5709,7 @@ $Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' 
 $ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageV2W.Columns.Add("X", $WSIZX)
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
-if ($halt -ne '1') {ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-VHDX","ARG3=$($DropBox1_PageV2W.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageV2W.SelectedItem)","ARG6=-WIM","ARG7=$($TextBox1_PageV2W.Text)","ARG8=-XLVL","ARG9=$($DropBox3_PageV2W.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($halt -ne '1') {ForEach ($i in @("","ARG1=-IMAGEPROC","ARG2=-VHDX","ARG3=$($DropBox1_PageV2W.SelectedItem)","ARG4=-INDEX","ARG5=$($DropBox2_PageV2W.SelectedItem)","ARG6=-WIM","ARG7=$($TextBox1_PageV2W.Text)","ARG8=-XLVL","ARG9=$($DropBox3_PageV2W.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}
 
 $Label1_PageV2W = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Source Image'
@@ -5756,7 +5756,7 @@ if ($disknum -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBox
 if ($halt -ne '1') {
 MessageBox -MessageBoxType 'YesNo' -MessageBoxTitle 'Confirm Erase' -MessageBoxText "This will erase Disk $disknum. If you've inserted or removed any disks, refresh before proceeding. Are you sure?"
 if ($boxresult -ne "OK") {$null}
-if ($boxresult -eq "OK") {ForEach ($i in @("","ARG1=-BOOTMAKER","ARG2=-CREATE","ARG3=-DISK","ARG4=$disknum","ARG5=-VHDX","ARG6=$($DropBox1_PageBC.SelectedItem)","PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+if ($boxresult -eq "OK") {ForEach ($i in @("","ARG1=-BOOTMAKER","ARG2=-CREATE","ARG3=-DISK","ARG4=$disknum","ARG5=-VHDX","ARG6=$($DropBox1_PageBC.SelectedItem)","PE_WALLPAPER=$($DropBox2_PageBC.SelectedItem)")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}}}
 
 $Label1_PageBC = NewLabel -X '100' -Y '410' -W '175' -H '30' -Text 'Active VHDX'
@@ -5771,7 +5771,7 @@ $GUI_SLIDE = [int](100 * $GUI_SCALE);
 $Slider1_PageSC = NewSlider -X '500' -Y '120' -W '225' -H '60' -Value "$GUI_SLIDE"
 $LabelX_PageSC = NewLabel -X '490' -Y '85' -W '585' -H '35' -Text "GUI Scale Factor $($Slider1_PageSC.Value)%"
 
-$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
+$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 #$TextPath = "$PSScriptRootX\`$CON";$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8);#$TextWrite.WriteLine("x");$TextWrite.Close()
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
@@ -5781,18 +5781,18 @@ $WSIZ = [int](1000 * $ScaleRef * $GUI_SCALE);$HSIZ = [int](575 * $ScaleRef * $GU
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE);$YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $PageDebug.Visible = $true;$PageMain.Visible = $false;$PageSC.Visible = $false;$PageDebug.BringToFront()
 [VOID][WinMekanix.Functions]::MoveWindow($PSHandle, $XLOC, $YLOC, $WSIZ, $HSIZ, $true)}
-$Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {ForEach ($i in @("","GUI_LAUNCH=DISABLED")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}
-Start-Process "$PSScriptRootX\windick.cmd";$NoExitPrompt = 1;$form.Close()}
+$Button3_PageSC = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🔄 Switch to CMD' -Hover_Text 'Switch to CMD' -Add_Click {ForEach ($i in @("","GUI_LAUNCH=DISABLED")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+Start-Process "$PSScriptRootX\winploy.cmd";$NoExitPrompt = 1;$form.Close()}
 $Button4_PageSC = NewButton -X '262' -Y '510' -W '225' -H '60' -Text 'About' -Hover_Text 'About' -Add_Click {MessageBoxAbout}
 
 $GroupBoxName = 'Group1';$GroupBox1_PageSC = NewGroupBox -X '20' -Y '85' -W '260' -H '75' -Text 'Console Window'
 #if ($Button_SC.Tag -eq 'Enable') 
 $Add_CheckedChanged = {if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio1_Group1.Checked) {
-ForEach ($i in @("","GUI_CONTYPE=Embed")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}}
+ForEach ($i in @("","GUI_CONTYPE=Embed")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}}
 $global:ButtonGroup1Changed = '1';}
 $ButtonRadio1_Group1 = NewRadioButton -X '15' -Y '30' -W '120' -H '35' -Text 'Embed' -GroupName 'Group1'
 $Add_CheckedChanged = {if ($ButtonGroup1Changed -eq '1') {if ($ButtonRadio2_Group1.Checked) {
-ForEach ($i in @("","GUI_CONTYPE=Spawn")) {Add-Content -Path "$PSScriptRootX\windick.ini" -Value "$i" -Encoding UTF8}}}
+ForEach ($i in @("","GUI_CONTYPE=Spawn")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}}}
 $global:ButtonGroup1Changed = '1';}
 $ButtonRadio2_Group1 = NewRadioButton -X '135' -Y '30' -W '120' -H '35' -Text 'Spawn' -GroupName 'Group1'
 if ($GUI_CONTYPE) {$null} else {$GUI_CONTYPE = 'Embed'}
