@@ -573,82 +573,6 @@
 
 
 
-❕Group❕🔄Import / Export Settings❕🔄Export appassociations.xml❕Normal❕Import/Export misc settings ❗ ❕
-❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
-❕FileOper❕◁CacheFolder▷\appassociations.xml❕Delete❕◁Condit1.1▷❕
-❕TextHost❕Exporting appassociations.xml...❕Screen❕DX❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /EXPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml">NUL❕NoMount❕DX❕
-❕TextHost❕Default application associations have been exported.❕Screen❕DX❕
-❕TextHost❕Next, execute 🔄Import appassociations.xml.❕Screen❕DX❕
-
-❕Group❕🔄Import / Export Settings❕🔄Import appassociations.xml❕Normal❕Import/Export misc settings ❗ ❕
-❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
-❕Condit2❕◁CacheFolder▷\appassociations.xml❗Exist❕RO❕◁Null▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ appassociations.xml does not exist in folder.❕Screen❕◁Condit1.2▷❕
-❕TextHost❕Importing appassociations.xml...❕Screen❕◁Condit2.1▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /IMPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml" >NUL❕NoMount❕◁Condit2.1▷❕
-❕TextHost❕🔄Import appassociations.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import appassociations.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
-
-❕Group❕🔄Import / Export Settings❕🔄Export firewallrules.xml❕Normal❕Import/Export misc settings ❗ ❕
-❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕◁Null▷❕
-❕TextHost❕Exporting firewallrules.xml...❕Screen❕DX❕
-❕FileOper❕◁CacheFolder▷\firewallrules.xml❕Delete❕◁Condit1.1▷❕
-❕Command❕NETSH advfirewall EXPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕DX❕
-❕TextHost❕Firewall rules have been exported.❕Screen❕DX❕
-❕TextHost❕Next, execute 🔄Import firewallrules.xml.❕Screen❕DX❕
-
-❕Group❕🔄Import / Export Settings❕🔄Import firewallrules.xml❕Normal❕Import/Export misc settings ❗ ❕
-❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕RO❕◁Null▷❕
-❕Condit2❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕DX❕
-❕TextHost❕Importing firewallrules.xml...❕Screen❕RO❕
-❕Command❕NETSH advfirewall IMPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕◁Condit1.1▷❕
-❕FileOper❕◁CacheFolder▷\firewallrules.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ firewallrules.xml does not exist in folder.❕Screen❕◁Condit2.2▷❕
-❕TextHost❕🔄Import firewallrules.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import firewallrules.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
-
-❕Group❕🔄Import / Export Settings❕🔄Export power schemes to xml❕Normal❕Import/Export misc settings ❗ ❕
-❕TextHost❕Exporting min, max, and balanced power schemes to xml...❕Screen❕DX❕
-❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕◁Null▷❕
-❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕◁Null▷❕
-❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕◁Null▷❕
-❕FileOper❕◁CacheFolder▷\power_bal.xml❕Delete❕◁Condit1.1▷❕
-❕FileOper❕◁CacheFolder▷\power_min.xml❕Delete❕◁Condit2.1▷❕
-❕FileOper❕◁CacheFolder▷\power_max.xml❕Delete❕◁Condit3.1▷❕
-❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_bal.xml" SCHEME_BALANCED >NUL❕Normal❕DX❕
-❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_min.xml" SCHEME_MIN >NUL❕Normal❕DX❕
-❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_max.xml" SCHEME_MAX >NUL❕Normal❕DX❕
-❕TextHost❕Power schemes have been exported. Next, execute 🔄Import power schemes from xml.❕Screen❕DX❕
-
-❕Group❕🔄Import / Export Settings❕🔄Import power schemes from xml❕Normal❕Import/Export misc settings ❗ ❕
-❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕DX❕
-❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕DX❕
-❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕DX❕
-❕FileOper❕◁CacheFolder▷\power_bal.xml❗◁DrvTar▷\$❕COPY❕◁Condit1.1▷❕
-❕FileOper❕◁CacheFolder▷\power_min.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
-❕FileOper❕◁CacheFolder▷\power_max.xml❗◁DrvTar▷\$❕COPY❕◁Condit3.1▷❕
-❕TextHost❕🔄Import power_bal.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import power_min.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit2.1▷❕
-❕TextHost❕🔄Import power_max.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit3.1▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_bal.xml doesn't exist in folder.❕Screen❕◁Condit1.2▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_min.xml doesn't exist in folder.❕Screen❕◁Condit2.2▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_max.xml doesn't exist in folder.❕Screen❕◁Condit3.2▷❕
-❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕RO❕◁Null▷❕
-❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕RO❕◁Null▷❕
-❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕RO❕◁Null▷❕
-❕TextHost❕Importing power_bal.xml power scheme❕Screen❕◁Condit1.1▷❕
-❕TextHost❕Importing power_min.xml power scheme❕Screen❕◁Condit2.1▷❕
-❕TextHost❕Importing power_max.xml power scheme❕Screen❕◁Condit3.1▷❕
-❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_bal.xml" >NUL❕Normal❕◁Condit1.1▷❕
-❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_min.xml" >NUL❕Normal❕◁Condit2.1▷❕
-❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_max.xml" >NUL❕Normal❕◁Condit3.1▷❕
-❕TextHost❕🔄Import power_bal.xml from xml ➥ applied.❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import power_min.xml from xml ➥ applied.❕Screen❕◁Condit2.1▷❕
-❕TextHost❕🔄Import power_max.xml from xml ➥ applied.❕Screen❕◁Condit3.1▷❕
-
-
-
 ❕Group❕🪛Miscellaneous❕🪛Apps for Websites ➥ ◁Array1.S▷❕Normal❕
 ❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
@@ -746,23 +670,34 @@
 ❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛ScreenSaver ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪛Miscellaneous❕🪛Wakelocks other ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Group❕🪛Miscellaneous❕🪛Setting Sync ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗2❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Wakelocks other ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❗2❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Setting Sync ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪛Miscellaneous❕🪛Wakelocks network ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Group❕🪛Miscellaneous❕🪛Windows Backup ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Wakelocks network ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❗1 ❗Dword❕Create❕◁Array1.2▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❗1 ❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Windows Backup ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Windows Backup ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❗1 ❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Windows Backup ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕🪛Miscellaneous❕🛠️DISM Operations❕Normal❕
 ❕Choice❕Generally it's best to leave these for last when finalizing an image. Select an option❕🪛AnalyzeComponentStore❗🪛CheckHealth❗🪛ResetBase❗🪛RestoreHealth❗🪛SPSuperseded❗🪛StartComponentCleanup❕VolaTILE❕
@@ -785,9 +720,28 @@
 ❕X❕TextHost❕Executing Delete WinSxS folder...❕Screen❕DX❕
 ❕X❕WinSxS❕Delete WinSxS folder❕Delete❕DX❕
 
+❕Group❕🪛Miscellaneous❕🔄Export appassociations.xml❕Normal❕Miscellaneous related settings❗Export appassociations.xml from the live system❕
+❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
+❕FileOper❕◁CacheFolder▷\appassociations.xml❕Delete❕◁Condit1.1▷❕
+❕TextHost❕Exporting appassociations.xml...❕Screen❕DX❕
+❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /EXPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml">NUL❕NoMount❕DX❕
+❕TextHost❕Default application associations have been exported.❕Screen❕DX❕
+❕TextHost❕Next, execute 🔄Import appassociations.xml.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🔄Import appassociations.xml❕Normal❕Miscellaneous related settings❗Copies appassociations.xml, then imports appassociations.xml during next reboot. Still remains useful for offline images (VHDX)❕
+❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
+❕Condit2❕◁CacheFolder▷\appassociations.xml❗Exist❕RO❕◁Null▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ appassociations.xml does not exist in folder.❕Screen❕◁Condit1.2▷❕
+❕TextHost❕Importing appassociations.xml...❕Screen❕◁Condit2.1▷❕
+❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /IMPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml" >NUL❕NoMount❕◁Condit2.1▷❕
+❕TextHost❕🔄Import appassociations.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import appassociations.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
 
 
-❕Group❕🛜Network❕🛜Bluetooth discovery ➥ ◁Array1.S▷❕Normal❕
+
+
+
+❕Group❕🛜Network❕🛜Bluetooth discovery ➥ ◁Array1.S▷❕Normal❕Network related settings❗Bluetooth discovery❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -798,7 +752,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\SmartGlass❗BluetoothPolicy❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕❎Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🛜Network❕🛜Link layer topology discovery ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🛜Network❕🛜Link layer topology discovery ➥ ◁Array1.S▷❕Normal❕Network related settings❗Link layer topology discovery❕
 ❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -806,7 +760,7 @@
 ❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🛜Link layer topology discovery ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🛜Network❕🪛Network access for explorer.exe ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🛜Network❕🪛Network access for explorer.exe ➥ ◁Array1.S▷❕Normal❕Network related settings❗Network access for explorer.exe❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -815,7 +769,7 @@
 ❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Assistance\Client\1.0❗NoOnlineAssist❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Network access for explorer.exe ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🛜Network❕🪛Network access for driver search ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🛜Network❕🪛Network access for driver search ➥ ◁Array1.S▷❕Normal❕Network related settings❗Network access for driver search❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -823,7 +777,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Network access for driver search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🛜Network❕🪛Network access for Windows store ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🛜Network❕🪛Network access for Windows store ➥ ◁Array1.S▷❕Normal❕Network related settings❗Network access for Windows store❕
 ❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -832,7 +786,7 @@
 ❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Network access for Windows store ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🛜Network❕🪛Prioritize Traffic❕Normal❕
+❕Group❕🛜Network❕🪛Prioritize Traffic❕Normal❕Network related settings❗Prioritize Traffic❕
 ❕Choice❕Select an option❕🪛Ethernet❗🪛WiFi❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❕5❗10❕
 ❕Array2❕◁Choice1.I▷❕1❗2❕10❗5❕
@@ -840,7 +794,7 @@
 ❕Command❕NETSH interface ipv4 SET interface "Wi-Fi" metric=◁Array2.S▷ >NUL❕Normal❕RO❕
 ❕TextHost❕🪛Prioritize Traffic ➥ ◁Choice1.S▷ Traffic applied.❕Screen❕RO❕
 
-❕Group❕🛜Network❕🪛Cloud content ➥ ◁Array1.S▷❕Normal❕
+❕Group❕🛜Network❕🪛Cloud content ➥ ◁Array1.S▷❕Normal❕Network related settings❗Cloud content❕
 ❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -851,6 +805,83 @@
 ❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableSoftLanding❗◁Array2.S▷❗Dword❕Create❕DX❕
 ❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsSpotlightFeatures❗◁Array2.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🔄Export firewallrules.xml❕Normal❕Network related settings❗Export firewallrules.xml from the live system❕
+❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕◁Null▷❕
+❕TextHost❕Exporting firewallrules.xml...❕Screen❕DX❕
+❕FileOper❕◁CacheFolder▷\firewallrules.xml❕Delete❕◁Condit1.1▷❕
+❕Command❕NETSH advfirewall EXPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕DX❕
+❕TextHost❕Firewall rules have been exported.❕Screen❕DX❕
+❕TextHost❕Next, execute 🔄Import firewallrules.xml.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🔄Import firewallrules.xml❕Normal❕Network related settings❗Copies firewallrules.xml, then imports firewallrules.xml during next reboot. Still remains useful for offline images (VHDX)❕
+❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕RO❕◁Null▷❕
+❕Condit2❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕DX❕
+❕TextHost❕Importing firewallrules.xml...❕Screen❕RO❕
+❕Command❕NETSH advfirewall IMPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕◁Condit1.1▷❕
+❕FileOper❕◁CacheFolder▷\firewallrules.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ firewallrules.xml does not exist in folder.❕Screen❕◁Condit2.2▷❕
+❕TextHost❕🔄Import firewallrules.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import firewallrules.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
+
+
+
+❕Group❕⚡Power❕🪛Wakelocks other ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Wakelocks other ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🪛Wakelocks network ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Wakelocks network ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🔄Export power schemes to xml❕Normal❕Power related settings ❗Exports power settings to power-plan files from the live system❕
+❕TextHost❕Exporting min, max, and balanced power schemes to xml...❕Screen❕DX❕
+❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕◁Null▷❕
+❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕◁Null▷❕
+❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕◁Null▷❕
+❕FileOper❕◁CacheFolder▷\power_bal.xml❕Delete❕◁Condit1.1▷❕
+❕FileOper❕◁CacheFolder▷\power_min.xml❕Delete❕◁Condit2.1▷❕
+❕FileOper❕◁CacheFolder▷\power_max.xml❕Delete❕◁Condit3.1▷❕
+❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_bal.xml" SCHEME_BALANCED >NUL❕Normal❕DX❕
+❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_min.xml" SCHEME_MIN >NUL❕Normal❕DX❕
+❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_max.xml" SCHEME_MAX >NUL❕Normal❕DX❕
+❕TextHost❕Power schemes have been exported. Next, execute 🔄Import power schemes from xml.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🔄Import power schemes from xml❕Normal❕Power related settings❗Copies power-plan files, then imports power settings during next reboot. Still remains useful for offline images (VHDX)❕
+❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕DX❕
+❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕DX❕
+❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕DX❕
+❕FileOper❕◁CacheFolder▷\power_bal.xml❗◁DrvTar▷\$❕COPY❕◁Condit1.1▷❕
+❕FileOper❕◁CacheFolder▷\power_min.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
+❕FileOper❕◁CacheFolder▷\power_max.xml❗◁DrvTar▷\$❕COPY❕◁Condit3.1▷❕
+❕TextHost❕🔄Import power_bal.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import power_min.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit2.1▷❕
+❕TextHost❕🔄Import power_max.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit3.1▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_bal.xml doesn't exist in folder.❕Screen❕◁Condit1.2▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_min.xml doesn't exist in folder.❕Screen❕◁Condit2.2▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_max.xml doesn't exist in folder.❕Screen❕◁Condit3.2▷❕
+❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕RO❕◁Null▷❕
+❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕RO❕◁Null▷❕
+❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕RO❕◁Null▷❕
+❕TextHost❕Importing power_bal.xml power scheme❕Screen❕◁Condit1.1▷❕
+❕TextHost❕Importing power_min.xml power scheme❕Screen❕◁Condit2.1▷❕
+❕TextHost❕Importing power_max.xml power scheme❕Screen❕◁Condit3.1▷❕
+❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_bal.xml" >NUL❕Normal❕◁Condit1.1▷❕
+❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_min.xml" >NUL❕Normal❕◁Condit2.1▷❕
+❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_max.xml" >NUL❕Normal❕◁Condit3.1▷❕
+❕TextHost❕🔄Import power_bal.xml from xml ➥ applied.❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import power_min.xml from xml ➥ applied.❕Screen❕◁Condit2.1▷❕
+❕TextHost❕🔄Import power_max.xml from xml ➥ applied.❕Screen❕◁Condit3.1▷❕
 
 
 
