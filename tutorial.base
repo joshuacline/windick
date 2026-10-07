@@ -9,7 +9,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Apples❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Apples❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Apples❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍎Apples added, ◁Math1.S▷ 🍎Apples in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🫐Blueberries ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many blueberries❕
@@ -19,7 +19,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Blueberries❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Blueberries❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Blueberries❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🫐Blueberries added, ◁Math1.S▷ 🫐Blueberries in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍒Cherries ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many cherries❕
@@ -29,7 +29,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Cherries❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Cherries❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Cherries❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍒Cherries added, ◁Math1.S▷ 🍒Cherries in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍇Grapes ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many grapes❕
@@ -39,7 +39,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Grapes❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Grapes❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Grapes❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍇Grapes added, ◁Math1.S▷ 🍇Grapes in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍊Oranges ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many oranges❕
@@ -49,7 +49,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Oranges❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Oranges❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Oranges❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍊Oranges added, ◁Math1.S▷ 🍊Oranges in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍑Peaches ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many peaches❕
@@ -59,7 +59,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Peaches❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Peaches❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Peaches❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍑Peaches added, ◁Math1.S▷ 🍑Peaches in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍐Pears ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many pears❕
@@ -69,7 +69,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Pears❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Pears❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Pears❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍐Pears added, ◁Math1.S▷ 🍐Pears in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍍Pineapples ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many pineapples❕
@@ -79,7 +79,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Pineapples❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Pineapples❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Pineapples❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍍Pineapples added, ◁Math1.S▷ 🍍Pineapples in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍓Strawberries ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many strawberries❕
@@ -89,7 +89,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Strawberries❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Strawberries❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Strawberries❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍓Strawberries added, ◁Math1.S▷ 🍓Strawberries in total.❕Screen❕DX❕
 
 ❕Group❕🍏Fruit❕🍏Quick Menu❕Normal❕Fruit group❗Choose a fruit from a choice menu❕
@@ -99,7 +99,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❕Registry❕Integer❕
 ❕Array2❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array2.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added, ◁Math1.S▷ ◁Choice1.S▷ in total.❕Screen❕DX❕
 
 
@@ -111,7 +111,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Broccoli❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Broccoli❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Broccoli❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥦Broccoli sprouts added, ◁Math1.S▷ 🥦Broccoli sprouts in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🥕Carrots ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many carrots❕
@@ -121,7 +121,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Carrots❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Carrots❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Carrots❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥕Carrots added, ◁Math1.S▷ 🥕Carrots in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🌶Chilis ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many chilis❕
@@ -131,7 +131,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Chilis❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Chilis❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Chilis❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🌶Chilis added, ◁Math1.S▷ 🌶Chilis in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🌽Corn cobs ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many cobs of corn❕
@@ -141,7 +141,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Corn❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Corn❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Corn❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🌽Corn cobs added, ◁Math1.S▷ 🌽Corn cobs in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🥬Lettuce heads ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many heads of lettuce❕
@@ -151,7 +151,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Lettuce❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Lettuce❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Lettuce❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥬Lettuce heads added, ◁Math1.S▷ 🥬Lettuce heads in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🍄Mushrooms ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many mushrooms❕
@@ -161,7 +161,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Mushrooms❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Mushrooms❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Mushrooms❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍄Mushrooms added, ◁Math1.S▷ 🍄Mushrooms in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🫒Olives ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many olives❕
@@ -171,7 +171,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Olives❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Olives❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Olives❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🫒Olives added, ◁Math1.S▷ 🫒Olives in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🧅Onions ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many onions❕
@@ -181,7 +181,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Onions❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Onions❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Onions❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧅Onions added, ◁Math1.S▷ 🧅Onions in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🥔Potatos ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many potatos❕
@@ -191,7 +191,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Potatos❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Potatos❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Potatos❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥔Potatos added, ◁Math1.S▷ 🥔Potatos in total.❕Screen❕DX❕
 
 ❕Group❕🌿Vegetable❕🌿Quick Menu❕Normal❕Vegetable group❗Choose a vegetable from a choice menu❕
@@ -201,7 +201,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❕Registry❕Integer❕
 ❕Array2❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array2.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added, ◁Math1.S▷ ◁Choice1.S▷ in total.❕Screen❕DX❕
 
 
@@ -213,7 +213,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Bacon❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Bacon❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Bacon❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥓Bacon packs added, ◁Math1.S▷ 🥓Bacon packs in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🍞Bread loaves ➥ ◁Array1.S▷❕Normal❕Other group❗How many loaves of bread❕
@@ -223,7 +223,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Bread❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Bread❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Bread❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍞Bread loaves added, ◁Math1.S▷ 🍞Bread loaves in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🧈Butter sticks ➥ ◁Array1.S▷❕Normal❕Other group❗How many sticks of butter❕
@@ -233,7 +233,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Butter❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Butter❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Butter❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧈Butter sticks added, ◁Math1.S▷ 🧈Butter sticks in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🧀Cheese blocks ➥ ◁Array1.S▷❕Normal❕Other group❗How many blocks of cheese❕
@@ -243,7 +243,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Cheese❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Cheese❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Cheese❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧀Cheese blocks added, ◁Math1.S▷ 🧀Cheese blocks in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🍗Chicken pounds ➥ ◁Array1.S▷❕Normal❕Other group❗How many pounds of chicken❕
@@ -253,7 +253,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Chicken❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Chicken❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Chicken❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍗Chicken pounds added, ◁Math1.S▷ 🍗Chicken pounds in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🥚Egg cartons ➥ ◁Array1.S▷❕Normal❕Other group❗How many cartons of eggs❕
@@ -263,7 +263,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Egg❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Egg❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Egg❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥚Egg cartons added, ◁Math1.S▷ 🥚Egg cartons in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🥨Pretzel bags ➥ ◁Array1.S▷❕Normal❕Other group❗How many bags of pretzels❕
@@ -273,7 +273,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Pretzel❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Pretzel❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Pretzel❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥨Pretzel bags added, ◁Math1.S▷ 🥨Pretzel bags in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🍤Shrimp pounds ➥ ◁Array1.S▷❕Normal❕Other group❗How many pounds of shrimp❕
@@ -283,7 +283,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Shrimp❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Shrimp❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Shrimp❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍤Shrimp pounds added, ◁Math1.S▷ 🍤Shrimp pounds in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🥩Steaks ➥ ◁Array1.S▷❕Normal❕Other group❗How many steaks❕
@@ -293,7 +293,7 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Steaks❕Registry❕Integer❕
 ❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Steaks❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Steaks❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥩Steaks added, ◁Math1.S▷ 🥩Steaks in total.❕Screen❕DX❕
 
 ❕Group❕🥖Other❕🥖Quick Menu❕Normal❕Other group❗Choose an item from a choice menu❕
@@ -303,16 +303,16 @@
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❕Registry❕Integer❕
 ❕Array2❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
 ❕Math❕◁Array2.S▷❕+❕◁Prompt1.S▷❕
-❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗◁Array1.S▷❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added, ◁Math1.S▷ ◁Choice1.S▷ in total.❕Screen❕DX❕
 
 
 
-❕Group❕🛠Manage grocery❕📜View grocery.txt❕Normal❕View grocery.txt❗Execute to view grocery.txt❕
+❕Group❕🛠Manage grocery❕📜View grocery.txt❕Normal❕Manage grocery❗Execute to view grocery.txt❕
 ❕Command❕start notepad "◁CacheFolder▷\grocery.txt"❕NoMount❕DX❕
 ❕TextHost❕Opening grocery.txt in notepad❕Screen❕DX❕
 
-❕Group❕🛠Manage grocery❕🔄Export grocery.txt❕Normal❕Export grocery.txt❗Execute to export grocery.txt❕
+❕Group❕🛠Manage grocery❕🔄Export grocery.txt❕Normal❕Manage grocery❗Execute to export grocery.txt❕
 ❕FileOper❕◁CacheFolder▷\grocery.txt❕Delete❕DX❕
 ❕TextHost❕Generating grocery.txt, 00 percent complete❕Screen❕DX❕
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Apples❕Registry❕Integer❕
@@ -401,7 +401,6 @@
 ❕TextHost❕ ◁Routine1.S▷ 🥩Steaks❕File❗◁CacheFolder▷\grocery.txt❕◁Array1.3▷❕
 ❕Command❕start notepad "◁CacheFolder▷\grocery.txt"❕NoMount❕DX❕
 ❕TextHost❕Generating grocery.txt, 100 percent complete❕Screen❕DX❕
-
-❕Group❕🛠Manage grocery❕⛔Clear grocery count❕Normal❕Clear grocery count❗Execute to clear grocery count❕
+❕Group❕🛠Manage grocery❕⛔Clear grocery count❕Normal❕Manage grocery❗Execute to clear grocery count❕
 ❕Registry❕◁HiveUser▷\Software\Winploy❕Delete❕DX❕
 ❕TextHost❕Clearing grocery count❕Screen❕DX❕
