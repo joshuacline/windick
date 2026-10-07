@@ -690,15 +690,6 @@
 ❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❗1 ❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Windows Backup ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪛Miscellaneous❕🪛Windows Backup ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❗1 ❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Windows Backup ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
 ❕Group❕🪛Miscellaneous❕🛠️DISM Operations❕Normal❕
 ❕Choice❕Generally it's best to leave these for last when finalizing an image. Select an option❕🪛AnalyzeComponentStore❗🪛CheckHealth❗🪛ResetBase❗🪛RestoreHealth❗🪛SPSuperseded❗🪛StartComponentCleanup❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❕
@@ -989,23 +980,31 @@
 
 
 
-❕Group❕🚽Telemetry❕❎Data Collection ➥ ◁Array1.S▷❕Normal❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowCommercialDataPipeline❗0❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDesktopAnalyticsProcessing❗0❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDeviceNameInTelemetry❗0❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❗0❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowUpdateComplianceProcessing❗0❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowWUfBCloudProcessing❗0❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableEnterpriseAuthProxy❗1❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableOneSettingsDownloads❗1❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DoNotShowFeedbackNotifications❗1❗Dword❕Create❕DX❕
-❕TextHost❕❎Data Collection Disable ➥ applied.❕Screen❕DX❕
+❕Group❕🚽Telemetry❕🪛Data Collection ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDesktopAnalyticsProcessing❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDeviceNameInTelemetry❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowWUfBCloudProcessing❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowUpdateComplianceProcessing❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowCommercialDataPipeline❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableEnterpriseAuthProxy❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableOneSettingsDownloads❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DoNotShowFeedbackNotifications❗1❗Dword❕Create❕DX❕
+❕TextHost❕🪛Data Collection ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🚽Telemetry❕❎Error Reporting ➥ ◁Array1.S▷❕Normal❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❗1❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗DontSendAdditionalData❗1❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗LoggingDisabled❗1❗Dword❕Create❕DX❕
-❕TextHost❕❎Error Reporting Disable ➥ applied.❕Screen❕DX❕
+❕Group❕🚽Telemetry❕🪛Error Reporting ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗DontSendAdditionalData❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗LoggingDisabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Error Reporting ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 ❕Group❕📋Trackers / Loggers❕🪛Boot Diagnostics ➥ ◁Array1.S▷❕Normal❕
 ❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❕Registry❕Integer❕
