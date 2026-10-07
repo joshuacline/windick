@@ -1,0 +1,317 @@
+﻿MENU-SCRIPT
+
+❕This tutorial has dynamic menu entries and saves the grocery totals in the Windows registry. The selected target is modified in a trivial manner.❕
+
+❕Group❕🍏Fruit❕🍎Apples ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many apples❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Apples❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many apples?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Apples❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Apples❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍎Apples added, ◁Math1.S▷ 🍎Apples in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🫐Blueberries ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many blueberries❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Blueberries❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many blueberries?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Blueberries❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Blueberries❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🫐Blueberries added, ◁Math1.S▷ 🫐Blueberries in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍒Cherries ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many cherries❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Cherries❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many cherries?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Cherries❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Cherries❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍒Cherries added, ◁Math1.S▷ 🍒Cherries in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍇Grapes ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many grapes❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Grapes❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many grapes?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Grapes❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Grapes❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍇Grapes added, ◁Math1.S▷ 🍇Grapes in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍊Oranges ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many oranges❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Oranges❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many oranges?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Oranges❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Oranges❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍊Oranges added, ◁Math1.S▷ 🍊Oranges in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍑Peaches ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many peaches❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Peaches❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many peaches?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Peaches❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Peaches❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍑Peaches added, ◁Math1.S▷ 🍑Peaches in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍐Pears ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many pears❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pears❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many pears?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pears❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pears❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍐Pears added, ◁Math1.S▷ 🍐Pears in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍍Pineapples ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many pineapples❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pineapples❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many pineapples?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pineapples❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pineapples❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍍Pineapples added, ◁Math1.S▷ 🍍Pineapples in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍓Strawberries ➥ ◁Array1.S▷❕Normal❕Fruit group❗How many strawberries❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Strawberries❕Registry❕Integer❕
+❕Prompt❕How many strawberries?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Strawberries❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Strawberries❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍓Strawberries added, ◁Math1.S▷ 🍓Strawberries in total.❕Screen❕DX❕
+
+❕Group❕🍏Fruit❕🍏Quick Menu❕Normal❕Fruit group❗Choose a fruit from a choice menu❕
+❕Choice❕Select an option❕🍎Apples❗🫐Blueberries❗🍒Cherries❗🍇Grapes❗🍊Oranges❗🍑Peaches❗🍐Pears❗🍍Pineapples❗🍓Strawberries❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕Apples❗Blueberries❗Cherries❗Grapes❗Oranges❗Peaches❗Pears❗Pineapples❗Strawberries❕
+❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗◁Array1.S▷❕Registry❕Integer❕
+❕Array2❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array2.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗◁Array1.S▷❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added, ◁Math1.S▷ ◁Choice1.S▷ in total.❕Screen❕DX❕
+
+
+
+❕Group❕🌿Vegetable❕🥦Broccoli sprouts ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many sprouts of broccoli❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Broccoli❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many sprouts of broccoli?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Broccoli❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Broccoli❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥦Broccoli sprouts added, ◁Math1.S▷ 🥦Broccoli sprouts in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🥕Carrots ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many carrots❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Carrots❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many carrots?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Carrots❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Carrots❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥕Carrots added, ◁Math1.S▷ 🥕Carrots in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🌶Chilis ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many chilis❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Chilis❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many chilis?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Chilis❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Chilis❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🌶Chilis added, ◁Math1.S▷ 🌶Chilis in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🌽Corn cobs ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many cobs of corn❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Corn❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many cobs of corn?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Corn❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Corn❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🌽Corn cobs added, ◁Math1.S▷ 🌽Corn cobs in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🥬Lettuce heads ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many heads of lettuce❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Lettuce❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many heads of lettuce?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Lettuce❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Lettuce❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥬Lettuce heads added, ◁Math1.S▷ 🥬Lettuce heads in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🍄Mushrooms ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many mushrooms❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Mushrooms❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many mushrooms?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Mushrooms❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Mushrooms❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍄Mushrooms added, ◁Math1.S▷ 🍄Mushrooms in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🫒Olives ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many olives❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Olives❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many olives?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Olives❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Olives❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🫒Olives added, ◁Math1.S▷ 🫒Olives in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🧅Onions ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many onions❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Onions❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many onions?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Onions❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Onions❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🧅Onions added, ◁Math1.S▷ 🧅Onions in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🥔Potatos ➥ ◁Array1.S▷❕Normal❕Vegetable group❗How many potatos❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Potatos❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many potatos?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Potatos❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Potatos❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥔Potatos added, ◁Math1.S▷ 🥔Potatos in total.❕Screen❕DX❕
+
+❕Group❕🌿Vegetable❕🌿Quick Menu❕Normal❕Vegetable group❗Choose a vegetable from a choice menu❕
+❕Choice❕Select an option❕🥦Broccoli sprouts❗🥕Carrots❗🌶Chilis❗🌽Corn cobs❗🥬Lettuce heads❗🍄Mushrooms❗🫒Olives❗🧅Onions❗🥔Potatos❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕Broccoli❗Carrots❗Chilis❗Corn❗Lettuce❗Mushrooms❗Olives❗Onions❗Potatos❕
+❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗◁Array1.S▷❕Registry❕Integer❕
+❕Array2❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array2.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗◁Array1.S▷❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added, ◁Math1.S▷ ◁Choice1.S▷ in total.❕Screen❕DX❕
+
+
+
+❕Group❕🥖Other❕🥓Bacon packs ➥ ◁Array1.S▷❕Normal❕Other group❗How many packs of bacon❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Bacon❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many packs of bacon?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Bacon❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Bacon❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥓Bacon packs added, ◁Math1.S▷ 🥓Bacon packs in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🍞Bread loaves ➥ ◁Array1.S▷❕Normal❕Other group❗How many loaves of bread❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Bread❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many loaves of bread?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Bread❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Bread❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍞 Bread loaves added, ◁Math1.S▷ 🍞Bread loaves in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🧈Butter sticks ➥ ◁Array1.S▷❕Normal❕Other group❗How many sticks of butter❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Butter❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many sticks of butter?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Butter❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Butter❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🧈Butter sticks added, ◁Math1.S▷ 🧈Butter sticks in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🧀Cheese blocks ➥ ◁Array1.S▷❕Normal❕Other group❗How many blocks of cheese❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Cheese❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many blocks of cheese?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Cheese❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Cheese❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🧀Cheese blocks added, ◁Math1.S▷ 🧀Cheese blocks in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🍗Chicken pounds ➥ ◁Array1.S▷❕Normal❕Other group❗How many pounds of chicken❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Chicken❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many pounds of chicken?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Chicken❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Chicken❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍗Chicken pounds added, ◁Math1.S▷ 🍗Chicken pounds in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🥚Egg cartons ➥ ◁Array1.S▷❕Normal❕Other group❗How many cartons of eggs❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Egg❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many cartons of eggs?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Egg❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Egg❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥚Egg cartons added, ◁Math1.S▷ 🥚Egg cartons in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🥨Pretzel bags ➥ ◁Array1.S▷❕Normal❕Other group❗How many bags of pretzels❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pretzel❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many bags of pretzels?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pretzel❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Pretzel❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥨Pretzel bags added, ◁Math1.S▷ 🥨Pretzel bags in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🍤Shrimp pounds ➥ ◁Array1.S▷❕Normal❕Other group❗How many pounds of shrimp❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Shrimp❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many pounds of shrimp?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Shrimp❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Shrimp❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🍤Shrimp pounds added, ◁Math1.S▷ 🍤Shrimp pounds in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🥩Steaks ➥ ◁Array1.S▷❕Normal❕Other group❗How many steaks❕
+❕📜Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Steaks❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Prompt❕How many steaks?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Steaks❕Registry❕Integer❕
+❕Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array1.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗Steaks❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ 🥩Steaks added, ◁Math1.S▷ 🥩Steaks in total.❕Screen❕DX❕
+
+❕Group❕🥖Other❕🥖Quick Menu❕Normal❕Other group❗Choose an item from a choice menu❕
+❕Choice❕Select an option❕🥓Bacon packs❗🍞Bread loaves❗🧈Butter sticks❗🧀Cheese blocks❗🍗Chicken pounds❗🥚Egg cartons❗🥨Pretzel bags❗🍤Shrimp pounds❗🥩Steaks❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕Bacon❗Bread❗Butter❗Cheese❗Chicken❗Egg❗Pretzel❗Shrimp❗Steaks❕
+❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
+❕Routine❕◁HiveUser▷\Winploy\Tutorial-Advanced❗◁Array1.S▷❕Registry❕Integer❕
+❕Array2❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕0❗◁Routine1.S▷❕
+❕Math❕◁Array2.S▷❕+❕◁Prompt1.S▷❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❗◁Array1.S▷❗◁Math1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added, ◁Math1.S▷ ◁Choice1.S▷ in total.❕Screen❕DX❕
+
+
+
+❕Group❕🛠Manage grocery registry❕⛔Clear grocery registry❕Normal❕Clear grocery registry❗Execute to clear grocery registry❕
+❕Choice❕Are you sure❕✅Yes❗❎No❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Winploy\Tutorial-Advanced❕Delete❕DX❕
+❕TextHost❕Deleting grocery registry❕Screen❕◁Array1.1▷❕
+❕TextHost❕Skipping deletion of grocery registry❕Screen❕◁Array1.2▷❕
+

@@ -1,6 +1,6 @@
 ﻿MENU-SCRIPT
 
-❕Because grocery.txt is created at "◁CacheFolder▷\grocery.txt", it does not matter which target is selected, as the target is never modified.❕
+❕This tutorial creates a static text file at "◁CacheFolder▷\grocery.txt", and does not matter which target is selected. The selected target is never modified.❕
 ❕If the file output of 'TextHost' was changed to a location such as "◁UsrTar▷\desktop\grocery.txt", that would create grocery.txt on the desktop of the selected target.❕
 
 ❕Group❕🍏Fruit❕🍎Apples❕Normal❕Fruit group❗How many apples❕
@@ -51,8 +51,8 @@
 ❕Group❕🍏Fruit❕🍏Quick Menu❕Normal❕Fruit group❗Choose a fruit from a choice menu❕
 ❕Choice❕Select an option❕🍎Apples❗🫐Blueberries❗🍒Cherries❗🍇Grapes❗🍊Oranges❗🍑Peaches❗🍐Pears❗🍍Pineapples❗🍓Strawberries❕VolaTILE❕
 ❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
-❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷s❕File❗◁CacheFolder▷\grocery.txt❕DX❕
-❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷s added.❕Screen❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷❕File❗◁CacheFolder▷\grocery.txt❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added.❕Screen❕DX❕
 
 
 
@@ -105,57 +105,62 @@
 ❕Group❕🌿Vegetable❕🌿Quick Menu❕Normal❕Vegetable group❗Choose a vegetable from a choice menu❕
 ❕Choice❕Select an option❕🥦Broccoli sprouts❗🥕Carrots❗🌶Chilis❗🌽Corn cobs❗🥬Lettuce heads❗🍄Mushrooms❗🫒Olives❗🧅Onions❗🥔Potatos❕VolaTILE❕
 ❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
-❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷s❕File❗◁CacheFolder▷\grocery.txt❕DX❕
-❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷s added.❕Screen❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷❕File❗◁CacheFolder▷\grocery.txt❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added.❕Screen❕DX❕
 
 
 
-❕Group❕🥖Other❕🥓Bacon❕Normal❕Other group❗How many packs of bacon❕
+❕Group❕🥖Other❕🥓Bacon packs❕Normal❕Other group❗How many packs of bacon❕
 ❕Prompt❕How many packs of bacon?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥓Bacon packs❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥓Bacon packs added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🍞Bread❕Normal❕Other group❗How many loaves of bread❕
+❕Group❕🥖Other❕🍞Bread loaves❕Normal❕Other group❗How many loaves of bread❕
 ❕Prompt❕How many loaves of bread?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍞 Bread loaves❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍞 Bread loaves added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🧈Butter❕Normal❕Other group❗How many sticks of butter❕
+❕Group❕🥖Other❕🧈Butter sticks❕Normal❕Other group❗How many sticks of butter❕
 ❕Prompt❕How many sticks of butter?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧈Butter sticks❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧈Butter sticks added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🧀Cheese❕Normal❕Other group❗How many blocks of cheese❕
+❕Group❕🥖Other❕🧀Cheese blocks❕Normal❕Other group❗How many blocks of cheese❕
 ❕Prompt❕How many blocks of cheese?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧀Cheese blocks❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🧀Cheese blocks added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🍗Chicken❕Normal❕Other group❗How many pounds of chicken❕
+❕Group❕🥖Other❕🍗Chicken pounds❕Normal❕Other group❗How many pounds of chicken❕
 ❕Prompt❕How many pounds of chicken?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍗Chicken pounds❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍗Chicken pounds added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🥚Eggs❕Normal❕Other group❗How many cartons of eggs❕
+❕Group❕🥖Other❕🥚Egg cartons❕Normal❕Other group❗How many cartons of eggs❕
 ❕Prompt❕How many cartons of eggs?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥚Egg cartons❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥚Egg cartons added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🥨Pretzels❕Normal❕Other group❗How many bags of pretzels❕
+❕Group❕🥖Other❕🥨Pretzel bags❕Normal❕Other group❗How many bags of pretzels❕
 ❕Prompt❕How many bags of pretzels?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥨Pretzel bags❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥨Pretzel bags added.❕Screen❕DX❕
  added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🍤Shrimp❕Normal❕Other group❗How many pounds of shrimp❕
+❕Group❕🥖Other❕🍤Shrimp pounds❕Normal❕Other group❗How many pounds of shrimp❕
 ❕Prompt❕How many pounds of shrimp?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍤Shrimp pounds❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍤Shrimp pounds added.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🥩Steak❕Normal❕Other group❗How many steaks❕
+❕Group❕🥖Other❕🥩Steaks❕Normal❕Other group❗How many steaks❕
 ❕Prompt❕How many steaks?❕Number❗1-99❕VolaTILE❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥩Steaks❕File❗◁CacheFolder▷\grocery.txt❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥩Steaks added.❕Screen❕DX❕
 
+❕Group❕🥖Other❕🥖Quick Menu❕Normal❕Other group❗Choose an item from a choice menu❕
+❕Choice❕Select an option❕🥓Bacon packs❗🍞Bread loaves❗🧈Butter sticks❗🧀Cheese blocks❗🍗Chicken pounds❗🥚Egg cartons❗🥨Pretzel bags❗🍤Shrimp pounds❗🥩Steaks❕VolaTILE❕
+❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷❕File❗◁CacheFolder▷\grocery.txt❕DX❕
+❕TextHost❕ ◁Prompt1.S▷ ◁Choice1.S▷ added.❕Screen❕DX❕
 
 
 ❕Group❕🛠Manage grocery.txt❕📜View grocery.txt❕Normal❕View grocery.txt❗Execute to view grocery.txt❕
