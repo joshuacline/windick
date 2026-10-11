@@ -17,6 +17,16 @@ A native command shell Windows image deployment tool.
 
 - https://youtube.com/@windozedev
 
+<a href=" " target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/starhistory.png" alt=" " width="720"/></a>
+
+***Microsoft Copilot:***
+
+<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_copilot.jpg" alt=" " width="720"/></a>
+
+***Google Gemini:***
+
+<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
+
 ## Image Processing
 - 1. ***Import your Windows installation media from a .iso, then convert to a .vhdx in Image Processing***
 
@@ -100,10 +110,3 @@ Standard recovery
 - "It was already pinned to the XDA Windows 11 subforum, so our options were limited. Four years of weekly coverage featuring competing products without a single mention, and yet it persists." -Joaõ, XDA Developers
 - "Exquisite. A masterclass in debugging. Looks like I picked the wrong week to stop huffing glue." - Daniel, LTT
 
-***Microsoft Copilot:***
-
-<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_copilot.jpg" alt=" " width="720"/></a>
-
-***Google Gemini:***
-
-<a href="https://youtu.be/2Tr7DUFseLw" target="_blank"><img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/analysis_gemini.jpg" alt=" " width="720"/></a>
