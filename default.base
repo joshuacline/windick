@@ -135,7 +135,7 @@
 ❕TextHost❕🪪Create new user applied.❕Screen❕◁Array1.S▷❕
 ❕TextHost❕🪪Create new user scheduled.❕Screen❕DX❕
 
-❕Group❕🪟Initial Setup❕🪛First Logon Waiting Screen ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or Disable the initial waiting screen❕
+❕Group❕🪟Initial Setup❕🪛First logon waiting screen ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or disable the initial waiting screen❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗EnableFirstLogonAnimation❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -143,7 +143,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗EnableFirstLogonAnimation❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛First Logon Waiting Screen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Initial Setup❕🪛Bypass SecureBoot Check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or Disable SecureBoot Check❕
+❕Group❕🪟Initial Setup❕🪛Bypass SecureBoot check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or disable SecureBoot Check❕
 ❕📜Routine❕◁HiveSystem▷\Setup\LabConfig❗BypassSecureBootCheck❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -152,7 +152,7 @@
 ❕Registry❕◁HiveSystem▷\Setup\LabConfig❗BypassSecureBootCheck❕Delete❕◁Array1.2▷❕
 ❕TextHost❕🪛Bypass SecureBoot Check ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Initial Setup❕🪛Bypass CPU Check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or Disable CPU Check❕
+❕Group❕🪟Initial Setup❕🪛Bypass CPU check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or disable CPU Check❕
 ❕📜Routine❕◁HiveSystem▷\Setup\LabConfig❗BypassCPUCheck❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -161,7 +161,7 @@
 ❕Registry❕◁HiveSystem▷\Setup\LabConfig❗BypassCPUCheck❕Delete❕◁Array1.2▷❕
 ❕TextHost❕🪛Bypass CPU Check ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Initial Setup❕🪛Bypass RAM Check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or Disable RAM Check❕
+❕Group❕🪟Initial Setup❕🪛Bypass RAM check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or disable RAM Check❕
 ❕📜Routine❕◁HiveSystem▷\Setup\LabConfig❗BypassRAMCheck❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -170,7 +170,7 @@
 ❕Registry❕◁HiveSystem▷\Setup\LabConfig❗BypassRAMCheck❕Delete❕◁Array1.2▷❕
 ❕TextHost❕🪛Bypass RAM Check ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Initial Setup❕🪛Bypass TPM Check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or Disable TPM Check❕
+❕Group❕🪟Initial Setup❕🪛Bypass TPM check ➥ ◁Array1.S▷❕Normal❕Initial deployment setup settings❗Enable or disable TPM Check❕
 ❕📜Routine❕◁HiveSystem▷\Setup\LabConfig❗BypassTPMCheck❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -181,49 +181,7 @@
 
 
 
-❕Group❕🪛Advertisements❕🪛Start Menu Ads ➥ ◁Array1.S▷❕Normal❕Change advertisement settings❗Enable or Disable advertisements on the start menu❕
-❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗0❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Start Menu Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Advertisements❕🪛Spotlight Ads ➥ ◁Array1.S▷❕Normal❕Change advertisement settings❗Enable or Disable advertisements on the lockscreen❕
-❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗0❗Dword❕Create❕◁Array1.2▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗0❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Spotlight Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Advertisements❕🪛Bing Searchbox ➥ ◁Array1.S▷❕Normal❕Change advertisement settings❗Enable or Disable the Bing searchbox❕
-❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗1❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Bing Searchbox ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Advertisements❕🪛Copilot ➥ ◁Array1.S▷❕Normal❕Change advertisement settings❗Enable or Disable Copilot❕
-❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗1❗Dword❕Create❕◁Array1.2▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗0❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Copilot ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-
-
-❕Group❕🎨Appearance❕🪛Accent Color ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable accent color❕
+❕Group❕🎨Appearance❕🪛Accent color ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable accent color❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗ColorPrevalence❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -231,7 +189,16 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗ColorPrevalence❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Accent Color ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Show Hidden Files ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable hidden files in explorer❕
+❕Group❕🎨Appearance❕🪛Screen saver ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❗0❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛ScreenSaver ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🎨Appearance❕🪛Show hidden files ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable hidden files in explorer❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Hidden❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗2❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -239,7 +206,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Hidden❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Show Hidden Files ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Show SuperHidden Files ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable hidden system files in explorer❕
+❕Group❕🎨Appearance❕🪛Show super-hidden files ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable hidden system files in explorer❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowSuperHidden❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -247,7 +214,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowSuperHidden❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Show SuperHidden Files ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Show File Extensions ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable file extensions in explorer❕
+❕Group❕🎨Appearance❕🪛Show file extensions ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable file extensions in explorer❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗HideFileExt❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❎Disabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -255,7 +222,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗HideFileExt❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕🪛Show File Extensions ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Show TaskView Button ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable taskview button on taskbar❕
+❕Group❕🎨Appearance❕🪛Show TaskView Button ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable taskview button on taskbar❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowTaskViewButton❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -264,7 +231,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowTaskViewButton❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Show TaskView Button ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Taskbar Animations ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable taskbar animations❕
+❕Group❕🎨Appearance❕🪛Taskbar animations ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable taskbar animations❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -272,7 +239,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarAnimations❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕❎Taskbar Animations ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Taskbar Icons Size ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Change the size of the icons on the taskbar❕
+❕Group❕🎨Appearance❕🪛Taskbar icons size ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Change the size of the icons on the taskbar❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSmallIcons❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Normal❗✅Small❗✅Normal❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Small❗✅Normal❕VolaTILE❕
@@ -281,7 +248,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSmallIcons❕Delete❕◁Array1.2▷❕
 ❕TextHost❕🪛Taskbar Icons Size➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Taskbar Size ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Change the size of taskbar❕
+❕Group❕🎨Appearance❕🪛Taskbar size ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Change the size of taskbar❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗TaskbarSi❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗2❗◁Else▷❕❔Unconfigured❗✅Small❗✅Medium❗✅Large❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Small❗✅Medium❗✅Large❕VolaTILE❕
@@ -298,7 +265,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
 ❕TextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
 
-❕Group❕🎨Appearance❕🪛Window Shaking ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or Disable window shaking❕
+❕Group❕🎨Appearance❕🪛Window shaking ➥ ◁Array1.S▷❕Normal❕Change appearance settings❗Enable or disable window shaking❕
 ❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗DisallowShaking❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -309,7 +276,7 @@
 
 
 
-❕Group❕🪟Audio / Video❕🪛Audio Effects ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable audio effects❕
+❕Group❕🪟Audio / Video❕🪛Audio effects ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or disable audio effects❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -318,7 +285,7 @@
 ❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableEffects❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Audio Effects ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Audio / Video❕🪛Audio Enhancements ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable audio enhancements❕
+❕Group❕🪟Audio / Video❕🪛Audio enhancements ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or disable audio enhancements❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableAllEnhancements❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -327,7 +294,7 @@
 ❕Registry❕◁HiveUser▷\Software\Microsoft\Multimedia\Audio❗DisableAllEnhancements❗1❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Audio Enhancements ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Audio / Video❕🪛Content Adaptive Brightness ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable content adaptive brightness❕
+❕Group❕🪟Audio / Video❕🪛Content adaptive brightness ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or disable content adaptive brightness❕
 ❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -336,7 +303,7 @@
 ❕Registry❕◁HiveSystem▷\ControlSet001\Control\GraphicsDrivers❗CABCOption❗0❗Dword❕Create❕◁Array1.2▷❕
 ❕TextHost❕🪛Content Adaptive Brightness ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🪟Audio / Video❕🪛Spatial Audio ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or Disable spacial audio❕
+❕Group❕🪟Audio / Video❕🪛Spatial audio ➥ ◁Array1.S▷❕Normal❕Change audio/videos related settings❗Enable or disable spacial audio❕
 ❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Audio❗DisableSpatialAudio❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -573,624 +540,16 @@
 
 
 
-❕Group❕🪛Miscellaneous❕🪛Apps for Websites ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Group❕🖯Context Menu❕🪛Copy as path ➥ ◁Array1.S▷❕Normal❕Right-click context menu settings❕Copy as path context menu❕
+❕📜Routine❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁Null▷❕Registry❕String❕
+❕📜Array❕◁Routine1.S▷❕{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗◁Null▷❕✅Enabled❗❎Disabled❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❗1❗Dword❕Create❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Delete❕◁Array1.2▷❕
-❕TextHost❕🪛Apps for Websites ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Auto Rotation ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\AutoRotation❗Enable❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\AutoRotation❗Enable❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Auto Rotation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Background applications  ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗1❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Background applications ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕X❕Group❕🪛Miscellaneous❕🪛DCOM ➥ ◁Array1.S▷❕Normal❕
-❕X❕📜Routine❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❕Registry❕String❕
-❕X❕📜Array❕◁Routine1.S▷❕◁Null▷❗Y❗N❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕X❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕X❕Array❕◁Choice1.I▷❕1❗2❕Y❗N❕
-❕X❕Registry❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❗◁Array1.S▷❗String❕Create❕DX❕
-❕X❕TextHost❕🪛DCOM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Driver updates ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❗1❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Driver updates ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Driver updates search ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❗0❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Driver updates search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛File History ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❗1❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛File History ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Inactivity Lockout Timeout ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗◁Else▷❕❎Disabled❗❎Disabled❗◁Routine1.S▷ seconds❕
-❕Prompt❕Enter inactivity lockout timeout in seconds: 0-500000 (Disabled=0)❕Number❗0-500000❕VolaTILE❕
-❕Array❕◁Prompt1.S▷❕0❗◁Else▷❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❗◁Prompt1.S▷❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Inactivity Lockout Timeout ◁Prompt1.S▷ ➥ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Lockscreen ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❗1❗Dword❕Create❕◁Array2.1▷❕
-❕TextHost❕🪛Lockscreen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Notification center ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗1 ❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Notification center ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛ScreenSaver ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Control Panel\Desktop❗ScreenSaveActive❗0❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛ScreenSaver ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Setting Sync ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗2❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❗2❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Setting Sync ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🪛Windows Backup ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❗1 ❗Dword❕Create❕◁Array1.2▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❕Delete❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❗1 ❗Dword❕Create❕◁Array1.2▷❕
-❕TextHost❕🪛Windows Backup ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🛠️DISM Operations❕Normal❕
-❕Choice❕Generally it's best to leave these for last when finalizing an image. Select an option❕🪛AnalyzeComponentStore❗🪛CheckHealth❗🪛ResetBase❗🪛RestoreHealth❗🪛SPSuperseded❗🪛StartComponentCleanup❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❕
-❕NOTE❕DISM needs access to the registry hive files for external operations (eg. offline vhdx). Use the NOMOUNT option for DISM.❕
-❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /AnalyzeComponentStore❕NoMount❕◁Array1.1▷❕
-❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /CheckHealth❕NoMount❕◁Array1.2▷❕
-❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup /ResetBase❕NoMount❕◁Array1.3▷❕
-❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /RestoreHealth❕NoMount❕◁Array1.4▷❕
-❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /SPSuperseded❕NoMount❕◁Array1.5▷❕
-❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup❕NoMount❕◁Array1.6▷❕
-
-❕X❕Group❕🛠️DISM Operations❕Delete WinRE❕Normal❕
-❕X❕Condit❕◁WinTar▷\SYSTEM32\Recovery❗Exist❕DX❕DX❕
-❕X❕TextHost❕Executing Delete WinRE folder...❕Screen❕◁Condit1.1▷❕
-❕X❕TextHost❕WinRE does not exist.❕Screen❕◁Condit1.2▷❕
-❕X❕FileOper❕◁WinTar▷\SYSTEM32\Recovery❕TAKEOWN❕◁Condit1.1▷❕
-❕X❕FileOper❕◁WinTar▷\SYSTEM32\Recovery❕Delete❕◁Condit1.1▷❕
-❕X❕Group❕🛠️DISM Operations❕Delete WinSxS (Offline Image Only) Breaks Stuff Forever❕Normal❕
-❕X❕TextHost❕Executing Delete WinSxS folder...❕Screen❕DX❕
-❕X❕WinSxS❕Delete WinSxS folder❕Delete❕DX❕
-
-❕Group❕🪛Miscellaneous❕🔄Export appassociations.xml❕Normal❕Miscellaneous related settings❗Export appassociations.xml from the live system❕
-❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
-❕FileOper❕◁CacheFolder▷\appassociations.xml❕Delete❕◁Condit1.1▷❕
-❕TextHost❕Exporting appassociations.xml...❕Screen❕DX❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /EXPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml">NUL❕NoMount❕DX❕
-❕TextHost❕Default application associations have been exported.❕Screen❕DX❕
-❕TextHost❕Next, execute 🔄Import appassociations.xml.❕Screen❕DX❕
-
-❕Group❕🪛Miscellaneous❕🔄Import appassociations.xml❕Normal❕Miscellaneous related settings❗Copies appassociations.xml, then imports appassociations.xml during next reboot. Still remains useful for offline images (VHDX)❕
-❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
-❕Condit2❕◁CacheFolder▷\appassociations.xml❗Exist❕RO❕◁Null▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ appassociations.xml does not exist in folder.❕Screen❕◁Condit1.2▷❕
-❕TextHost❕Importing appassociations.xml...❕Screen❕◁Condit2.1▷❕
-❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /IMPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml" >NUL❕NoMount❕◁Condit2.1▷❕
-❕TextHost❕🔄Import appassociations.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import appassociations.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
-
-
-
-
-
-❕Group❕🛜Network❕🛜Bluetooth discovery ➥ ◁Array1.S▷❕Normal❕Network related settings❗Bluetooth discovery❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Browser❗AllowAddressBarDropdown❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\SYSTEM❗AllowExperimentation❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\SmartGlass❗BluetoothPolicy❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕❎Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🛜Link layer topology discovery ➥ ◁Array1.S▷❕Normal❕Network related settings❗Link layer topology discovery❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🛜Link layer topology discovery ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🪛Network access for explorer.exe ➥ ◁Array1.S▷❕Normal❕Network related settings❗Network access for explorer.exe❕
-❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Assistance\Client\1.0❗NoOnlineAssist❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Network access for explorer.exe ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🪛Network access for driver search ➥ ◁Array1.S▷❕Normal❕Network related settings❗Network access for driver search❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Network access for driver search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🪛Network access for Windows store ➥ ◁Array1.S▷❕Normal❕Network related settings❗Network access for Windows store❕
-❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\WindowsStore❗RemoveWindowsStore❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Network access for Windows store ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🪛Prioritize Traffic❕Normal❕Network related settings❗Prioritize Traffic❕
-❕Choice❕Select an option❕🪛Ethernet❗🪛WiFi❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕5❗10❕
-❕Array2❕◁Choice1.I▷❕1❗2❕10❗5❕
-❕Command❕NETSH interface ipv4 SET interface "Ethernet" metric=◁Array1.S▷ >NUL❕Normal❕RO❕
-❕Command❕NETSH interface ipv4 SET interface "Wi-Fi" metric=◁Array2.S▷ >NUL❕Normal❕RO❕
-❕TextHost❕🪛Prioritize Traffic ➥ ◁Choice1.S▷ Traffic applied.❕Screen❕RO❕
-
-❕Group❕🛜Network❕🪛Cloud content ➥ ◁Array1.S▷❕Normal❕Network related settings❗Cloud content❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Array2❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsConsumerFeatures❗◁Array2.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableSoftLanding❗◁Array2.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsSpotlightFeatures❗◁Array2.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🔄Export firewallrules.xml❕Normal❕Network related settings❗Export firewallrules.xml from the live system❕
-❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕◁Null▷❕
-❕TextHost❕Exporting firewallrules.xml...❕Screen❕DX❕
-❕FileOper❕◁CacheFolder▷\firewallrules.xml❕Delete❕◁Condit1.1▷❕
-❕Command❕NETSH advfirewall EXPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕DX❕
-❕TextHost❕Firewall rules have been exported.❕Screen❕DX❕
-❕TextHost❕Next, execute 🔄Import firewallrules.xml.❕Screen❕DX❕
-
-❕Group❕🛜Network❕🔄Import firewallrules.xml❕Normal❕Network related settings❗Copies firewallrules.xml, then imports firewallrules.xml during next reboot. Still remains useful for offline images (VHDX)❕
-❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕RO❕◁Null▷❕
-❕Condit2❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕DX❕
-❕TextHost❕Importing firewallrules.xml...❕Screen❕RO❕
-❕Command❕NETSH advfirewall IMPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕◁Condit1.1▷❕
-❕FileOper❕◁CacheFolder▷\firewallrules.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ firewallrules.xml does not exist in folder.❕Screen❕◁Condit2.2▷❕
-❕TextHost❕🔄Import firewallrules.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import firewallrules.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
-
-
-
-❕Group❕⚡Power❕🪛Wakelocks other ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Wakelocks other ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕⚡Power❕🪛Wakelocks network ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Wakelocks network ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕⚡Power❕🔄Export power schemes to xml❕Normal❕Power related settings ❗Exports power settings to power-plan files from the live system❕
-❕TextHost❕Exporting min, max, and balanced power schemes to xml...❕Screen❕DX❕
-❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕◁Null▷❕
-❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕◁Null▷❕
-❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕◁Null▷❕
-❕FileOper❕◁CacheFolder▷\power_bal.xml❕Delete❕◁Condit1.1▷❕
-❕FileOper❕◁CacheFolder▷\power_min.xml❕Delete❕◁Condit2.1▷❕
-❕FileOper❕◁CacheFolder▷\power_max.xml❕Delete❕◁Condit3.1▷❕
-❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_bal.xml" SCHEME_BALANCED >NUL❕Normal❕DX❕
-❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_min.xml" SCHEME_MIN >NUL❕Normal❕DX❕
-❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_max.xml" SCHEME_MAX >NUL❕Normal❕DX❕
-❕TextHost❕Power schemes have been exported. Next, execute 🔄Import power schemes from xml.❕Screen❕DX❕
-
-❕Group❕⚡Power❕🔄Import power schemes from xml❕Normal❕Power related settings❗Copies power-plan files, then imports power settings during next reboot. Still remains useful for offline images (VHDX)❕
-❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕DX❕
-❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕DX❕
-❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕DX❕
-❕FileOper❕◁CacheFolder▷\power_bal.xml❗◁DrvTar▷\$❕COPY❕◁Condit1.1▷❕
-❕FileOper❕◁CacheFolder▷\power_min.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
-❕FileOper❕◁CacheFolder▷\power_max.xml❗◁DrvTar▷\$❕COPY❕◁Condit3.1▷❕
-❕TextHost❕🔄Import power_bal.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import power_min.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit2.1▷❕
-❕TextHost❕🔄Import power_max.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit3.1▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_bal.xml doesn't exist in folder.❕Screen❕◁Condit1.2▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_min.xml doesn't exist in folder.❕Screen❕◁Condit2.2▷❕
-❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_max.xml doesn't exist in folder.❕Screen❕◁Condit3.2▷❕
-❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕RO❕◁Null▷❕
-❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕RO❕◁Null▷❕
-❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕RO❕◁Null▷❕
-❕TextHost❕Importing power_bal.xml power scheme❕Screen❕◁Condit1.1▷❕
-❕TextHost❕Importing power_min.xml power scheme❕Screen❕◁Condit2.1▷❕
-❕TextHost❕Importing power_max.xml power scheme❕Screen❕◁Condit3.1▷❕
-❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_bal.xml" >NUL❕Normal❕◁Condit1.1▷❕
-❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_min.xml" >NUL❕Normal❕◁Condit2.1▷❕
-❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_max.xml" >NUL❕Normal❕◁Condit3.1▷❕
-❕TextHost❕🔄Import power_bal.xml from xml ➥ applied.❕Screen❕◁Condit1.1▷❕
-❕TextHost❕🔄Import power_min.xml from xml ➥ applied.❕Screen❕◁Condit2.1▷❕
-❕TextHost❕🔄Import power_max.xml from xml ➥ applied.❕Screen❕◁Condit3.1▷❕
-
-
-
-❕Group❕🛡️Security❕🪛UAC prompt❕Normal❕
-❕Choice❕Select an option❕🛡️UAC always prompt❗🛡️UAC never prompt❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗ConsentPromptBehaviorAdmin❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗ConsentPromptBehaviorUser❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗FilterAdministratorToken❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕X❕Group❕🛡️Security❕🪛Strict rule set for LSA❕Normal❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗LimitBlankPasswordUse❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗LsaCfgFlags❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗LsaPid❗632❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗ProductType❗125❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗RunAsPPL❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗SubmitControl❗0❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗disabledomaincreds❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗everyoneincludesanonymous❗0❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗forceguest❗0❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗NoLmHash❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗restrictanonymous❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗restrictanonymoussam❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗RestrictRemoteSAM❗O:BAG:BAD:(A;;RC;;;BA)❗String❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗allownullsessionfallback❗0❗Dword❕Create❕DX❕
-❕X❕TextHost🪛Strict rule set for LSA ➥ applied.❕Screen❕DX❕
-
-❕X❕Group❕🛡️Security❕🪛Virtualization based security❕Normal❕
-❕X❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕X❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕X❕Array2❕◁Choice1.I▷❕1❗2❕1❗2❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard❗EnableVirtualizationBasedSecurity❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard❗RequirePlatformSecurityFeatures❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\LSA❗LsaCfgFlags❗◁Array2.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard❗Locked❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Locked❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕TextHost❕🪛Virtualization based security ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-
-
-❕Group❕🪟Startup❕⏳Boot Menu Timeout❕Normal❕
-❕Choice❕Select an option❕5❗10❗20❗30❗45❗60❗90❗120❗180❕VolaTILE❕
-❕TextHost❕⏳Boot Menu Timeout ◁Choice1.S▷ scheduled for RunOnce.❕Screen❕DX❕
-❕Command❕bcdedit /timeout ◁Choice1.S▷ >NUL❕Normal❕RO❕
-❕TextHost❕⏳Boot Menu Timeout ➥ ◁Choice1.S▷s applied.❕Screen❕RO❕
-
-
-
-❕Group❕🪟Startup❕🪛Connected Standby ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power❗CsEnabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power❗CsEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Connected Standby ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-
-
-❕Group❕🪟Startup❕🪛Hibernation ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power❗HibernateEnabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Array2❕◁Choice1.I▷❕1❗2❕50❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power❗HibernateEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power❗HiberFileSizePercent❗◁Array2.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Hibernation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-
-
-❕Group❕🪟Startup❕🪛RunOnce initialization ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗RunOnce first❗Desktop first❗❔Unspecified❕
-❕Choice❕Select an option❕🪛RunOnce initializes first❗🪛Desktop initializes first❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
-
-❕Group❕🪟Startup❕🪛Skip preparing desktop ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Skip preparing desktop ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪟Startup❕🪛Startup Sound ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation❗DisableStartupSound❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation❗DisableStartupSound❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Startup Sound ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🪟Startup❕🪛WinLogon verbose output ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛WinLogon verbose output ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-
-
-❕Group❕🚽Telemetry❕🪛Data Collection ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDesktopAnalyticsProcessing❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDeviceNameInTelemetry❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowWUfBCloudProcessing❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowUpdateComplianceProcessing❗0❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowCommercialDataPipeline❗0❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableEnterpriseAuthProxy❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableOneSettingsDownloads❗1❗Dword❕Create❕DX❕
-❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DoNotShowFeedbackNotifications❗1❗Dword❕Create❕DX❕
-❕TextHost❕🪛Data Collection ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕🚽Telemetry❕🪛Error Reporting ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗DontSendAdditionalData❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗LoggingDisabled❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕🪛Error Reporting ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Boot Diagnostics ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Array2❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\SecondaryLogonCKCLSettings❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Siuf\Rules❗PeriodInNanoSeconds❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveUser▷\Software\Microsoft\Siuf\Rules❗NumberOfSIUFInPeriod❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Boot  Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Shutdown Diagnostics ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings"❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Shutdown Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Component Based Servicing ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Component Based Servicing ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Circular Kernel Context ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Circular Kernel Context ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛CloudExperienceHostOobe ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋CloudExperienceHostOobe ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛DiagLog ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\DiagLog❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Array2❕◁Choice1.I▷❕1❗2❕0❗1❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\DiagLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance❗DisableDiagnosticTracing❗◁Array2.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋DiagLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Diagtrack Listener ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Diagtrack Listener ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛FaceTel ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋FaceTel ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Graphics RdpIdd Trace ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Graphics RdpIdd Trace ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛HolographicDevice ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋HolographicDevice ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛LwtNetLog ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋LwtNetLog Disable ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛NetCore ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋NetCore ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛NtfsLog ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋NtfsLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛RadioMgr ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋RadioMgr ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛ReadyBoot ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋ReadyBoot ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛ReFSLog ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋ReFSLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛Spooler ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋Spooler ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛SQM ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋SQM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛UBPM ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋UBPM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛WdiContextLog ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋WdiContextLog ➥ Disable applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛WiFiSession ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
-❕TextHost❕📋WiFiSession ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-❕Group❕📋Trackers / Loggers❕🪛WMI - WBEM ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\WBEM\CIMOM❗Logging❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
-❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
-❕Registry❕◁HiveSoftware▷\Microsoft\WBEM\CIMOM❗Logging❗0❗String❕Create❕DX❕
-❕TextHost❕📋WMI - WBEM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
-
-
-
-❕Group❕🔣Unsorted❕🪛Take Ownership Context Menu ➥ ◁Array1.S▷❕Normal❕
+❕Registry❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁Null▷❗{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗String❕Create❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❕Delete❕◁Array1.2▷❕
+❕TextHost❕🪛Copy As Path Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🖯Context Menu❕🪛Take ownership ➥ ◁Array1.S▷❕Normal❕Right-click context menu settings❕Take ownership context menu❕
 ; Created by: Shawn Brink; Created on: September 6, 2021; Updated on: January 7, 2024
 ; Tutorial: https://www.elevenforum.com/t/add-take-ownership-to-context-menu-in-windows-11.1230/
 ❕📜Routine❕◁HiveSoftware▷\Classes\Directory\shell\TakeOwnership❗◁Null▷❕Registry❕String❕
@@ -1239,9 +598,8 @@
 ❕FileOper❕◁String1.S▷❕Delete❕◁Condit1.1▷❕
 ❕TextHost❕🪛Add Take Ownership Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Open PowerShell Here Context Menu ➥ ◁Array1.S▷❕Normal❕
-; Created by: Shawn Brink; Created on: December 19, 2023
-; Tutorial: https://www.elevenforum.com/t/add-or-remove-open-powershell-window-here-context-menu-in-windows-11.20899/
+❕Group❕🖯Context Menu❕🪛Open PowerShell here ➥ ◁Array1.S▷❕Normal❕Right-click context menu settings❕Open powershell here context menu❕
+❕Created by: Shawn Brink; Created on: December 19, 2023; Tutorial: https://www.elevenforum.com/t/add-or-remove-open-powershell-window-here-context-menu-in-windows-11.20899/❕
 ❕📜Routine❕◁HiveSoftware▷\Classes\Directory\Background\shell\Powershell❗◁Null▷❕Registry❕String❕
 ❕📜Array❕◁Routine1.S▷❕@shell32.dll,-8508❗◁Null▷❕✅Enabled❗❎Disabled❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
@@ -1278,16 +636,408 @@
 ❕TextHost❕🪛Add Open PowerShell Here Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
 
-❕Group❕🔣Unsorted❕🪛Copy As Path Context Menu ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁Null▷❕Registry❕String❕
-❕📜Array❕◁Routine1.S▷❕{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗◁Null▷❕✅Enabled❗❎Disabled❕
+
+❕Group❕🪛Miscellaneous❕🪛Apps for websites ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
-❕Registry❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❗◁Null▷❗{f3d06e7c-1e45-4a26-847e-f9fcdee59be0}❗String❕Create❕◁Array1.1▷❕
-❕Registry❕◁HiveSoftware▷\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu❕Delete❕◁Array1.2▷❕
-❕TextHost❕🪛Copy As Path Context Menu ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❗1❗Dword❕Create❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\System❗EnableAppUriHandlers❕Delete❕◁Array1.2▷❕
+❕TextHost❕🪛Apps for Websites ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Built-In Administrator❕Normal❕
+❕Group❕🪛Miscellaneous❕🪛Auto rotation ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\AutoRotation❗Enable❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\AutoRotation❗Enable❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Auto Rotation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Background applications  ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications❗GlobalUserDisabled❗1❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Background applications ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕X❕Group❕🪛Miscellaneous❕🪛DCOM ➥ ◁Array1.S▷❕Normal❕
+❕X❕📜Routine❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❕Registry❕String❕
+❕X❕📜Array❕◁Routine1.S▷❕◁Null▷❗Y❗N❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕X❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕X❕Array❕◁Choice1.I▷❕1❗2❕Y❗N❕
+❕X❕Registry❕◁HiveSoftware▷\Microsoft\Ole❗EnableDCOM❗◁Array1.S▷❗String❕Create❕DX❕
+❕X❕TextHost❕🪛DCOM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Driver updates ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\WindowsUpdate❗ExcludeWUDriversInQualityUpdate❗1❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Driver updates ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Driver updates search ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DriverSearching❗DriverUpdateWizardWuSearchEnabled❗0❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Driver updates search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Notification center ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableNotificationCenter❗1 ❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Notification center ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🪛Reset widgets❕Normal❕Miscellaneous related settings❗Resets widgets. Still remains useful for offline images (VHDX)❕
+❕PowerShell❕Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage❕NoMount❕RO❕
+❕TextHost❕🪛Reset Widgets ➥ scheduled for RunOnce (next boot).❕Screen❕DX❕
+❕TextHost❕🪛Reset Widgets ➥ applied.❕Screen❕RO❕
+
+❕Group❕🪛Miscellaneous❕🪛Windows backup ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup❗DisableBackupUI❗1 ❗Dword❕Create❕◁Array1.2▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Backup\Client❗NoBackupBalloonNotifications❗1 ❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Windows Backup ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🛠️DISM operations❕Normal❕
+❕Choice❕Generally it's best to leave these for last when finalizing an image. Select an option❕🪛AnalyzeComponentStore❗🪛CheckHealth❗🪛ResetBase❗🪛RestoreHealth❗🪛SPSuperseded❗🪛StartComponentCleanup❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❗DX❕
+❕NOTE❕DISM needs access to the registry hive files for external operations (eg. offline vhdx). Use the NOMOUNT option for DISM.❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /AnalyzeComponentStore❕NoMount❕◁Array1.1▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /CheckHealth❕NoMount❕◁Array1.2▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup /ResetBase❕NoMount❕◁Array1.3▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /RestoreHealth❕NoMount❕◁Array1.4▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /SPSuperseded❕NoMount❕◁Array1.5▷❕
+❕📢Command❕DISM /ENGLISH /◁ApplyTarget▷ /NORESTART /CLEANUP-IMAGE /StartComponentCleanup❕NoMount❕◁Array1.6▷❕
+
+❕X❕Group❕🛠️DISM operations❕Delete WinRE❕Normal❕
+❕X❕Condit❕◁WinTar▷\SYSTEM32\Recovery❗Exist❕DX❕DX❕
+❕X❕TextHost❕Executing Delete WinRE folder...❕Screen❕◁Condit1.1▷❕
+❕X❕TextHost❕WinRE does not exist.❕Screen❕◁Condit1.2▷❕
+❕X❕FileOper❕◁WinTar▷\SYSTEM32\Recovery❕TAKEOWN❕◁Condit1.1▷❕
+❕X❕FileOper❕◁WinTar▷\SYSTEM32\Recovery❕Delete❕◁Condit1.1▷❕
+❕X❕Group❕🛠️DISM Operations❕Delete WinSxS (Offline Image Only) Breaks Stuff Forever❕Normal❕
+❕X❕TextHost❕Executing Delete WinSxS folder...❕Screen❕DX❕
+❕X❕WinSxS❕Delete WinSxS folder❕Delete❕DX❕
+
+❕Group❕🪛Miscellaneous❕🔄Export appassociations.xml❕Normal❕Miscellaneous related settings❗Export appassociations.xml from the live system❕
+❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
+❕FileOper❕◁CacheFolder▷\appassociations.xml❕Delete❕◁Condit1.1▷❕
+❕TextHost❕Exporting appassociations.xml...❕Screen❕DX❕
+❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /EXPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml">NUL❕NoMount❕DX❕
+❕TextHost❕Default application associations have been exported.❕Screen❕DX❕
+❕TextHost❕Next, execute 🔄Import appassociations.xml.❕Screen❕DX❕
+
+❕Group❕🪛Miscellaneous❕🔄Import appassociations.xml❕Normal❕Miscellaneous related settings❗Copies appassociations.xml, then imports appassociations.xml during next reboot. Still remains useful for offline images (VHDX)❕
+❕Condit❕◁CacheFolder▷\appassociations.xml❗Exist❕DX❕DX❕
+❕Condit2❕◁CacheFolder▷\appassociations.xml❗Exist❕RO❕◁Null▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ appassociations.xml does not exist in folder.❕Screen❕◁Condit1.2▷❕
+❕TextHost❕Importing appassociations.xml...❕Screen❕◁Condit2.1▷❕
+❕Command❕DISM /ENGLISH /◁ApplyTarget▷ /IMPORT-DefaultAppAssociations:"◁CacheFolder▷\appassociations.xml" >NUL❕NoMount❕◁Condit2.1▷❕
+❕TextHost❕🔄Import appassociations.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import appassociations.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
+
+
+
+❕Group❕🛜Network❕📵Airplane mode ➥ ◁Array1.S▷❕Normal❕Network related settings❗Enable or disable airplane mode❕
+❕📜Routine❕◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState❗◁Null▷❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState❗◁Null▷❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Airplane Mode  ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🛜Bluetooth discovery ➥ ◁Array1.S▷❕Normal❕Network related settings❗Enable or disable bluetooth discovery❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Bluetooth❗AllowAdvertising❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\Browser❗AllowAddressBarDropdown❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\SYSTEM❗AllowExperimentation❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Microsoft\PolicyManager\current\device\SmartGlass❗BluetoothPolicy❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕❎Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🪛Link layer topology discovery ➥ ◁Array1.S▷❕Normal❕Network related settings❗Enable or disable link layer topology discovery❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\LLTD❗EnableRspndr❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Link layer topology discovery ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🪛Network access for explorer.exe ➥ ◁Array1.S▷❕Normal❕Network related settings❗Enable or disable network access for explorer.exe❕
+❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer❗NoInternetOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Assistance\Client\1.0❗NoOnlineAssist❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Network access for explorer.exe ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🪛Network access for driver search ➥ ◁Array1.S▷❕Normal❕Network related settings❗Enable or disable network access for driver search❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\DriverSearching❗SearchOrderConfig❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Network access for driver search ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🪛Network access for Windows store ➥ ◁Array1.S▷❕Normal❕Network related settings❗Enable or disable network access for Windows store❕
+❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\WindowsStore❗RemoveWindowsStore❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗NoUseStoreOpenWith❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Network access for Windows store ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🪛Prioritize traffic❕Normal❕Network related settings❗Prioritize Traffic❕
+❕Choice❕Select an option❕🪛Ethernet❗🪛WiFi❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕5❗10❕
+❕Array2❕◁Choice1.I▷❕1❗2❕10❗5❕
+❕Command❕NETSH interface ipv4 SET interface "Ethernet" metric=◁Array1.S▷ >NUL❕Normal❕RO❕
+❕Command❕NETSH interface ipv4 SET interface "Wi-Fi" metric=◁Array2.S▷ >NUL❕Normal❕RO❕
+❕TextHost❕🪛Prioritize Traffic ➥ ◁Choice1.S▷ Traffic applied.❕Screen❕RO❕
+
+❕Group❕🛜Network❕🔄Export firewallrules.xml❕Normal❕Network related settings❗Export firewallrules.xml from the live system❕
+❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕◁Null▷❕
+❕TextHost❕Exporting firewallrules.xml...❕Screen❕DX❕
+❕FileOper❕◁CacheFolder▷\firewallrules.xml❕Delete❕◁Condit1.1▷❕
+❕Command❕NETSH advfirewall EXPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕DX❕
+❕TextHost❕Firewall rules have been exported.❕Screen❕DX❕
+❕TextHost❕Next, execute 🔄Import firewallrules.xml.❕Screen❕DX❕
+
+❕Group❕🛜Network❕🔄Import firewallrules.xml❕Normal❕Network related settings❗Copies firewallrules.xml, then imports firewallrules.xml during next reboot. Still remains useful for offline images (VHDX)❕
+❕Condit❕◁CacheFolder▷\firewallrules.xml❗Exist❕RO❕◁Null▷❕
+❕Condit2❕◁CacheFolder▷\firewallrules.xml❗Exist❕DX❕DX❕
+❕TextHost❕Importing firewallrules.xml...❕Screen❕RO❕
+❕Command❕NETSH advfirewall IMPORT "◁CacheFolder▷\firewallrules.xml" >NUL❕Normal❕◁Condit1.1▷❕
+❕FileOper❕◁CacheFolder▷\firewallrules.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ firewallrules.xml does not exist in folder.❕Screen❕◁Condit2.2▷❕
+❕TextHost❕🔄Import firewallrules.xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import firewallrules.xml ➥ applied.❕Screen❕◁Condit2.1▷❕
+
+
+
+❕Group❕⚡Power❕🪛Active power scheme ➥ ◁Array1.S▷❕Normal❕Power related settings❗Choose the active power scheme❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\User\PowerSchemes❗ActivePowerScheme❕Registry❕String❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕381b4222-f694-41f0-9685-ff5bb260df2e❗◁Routine1.S▷❕🔋🔌
+❕📜Routine❕@,❗reg query "◁HiveSystem▷\ControlSet001\Control\Power\User\PowerSchemes\◁Array1.S▷" /v "FriendlyName"❗2❗%SystemRoot%\system32\powrprof.dll❕Command❕4❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗◁Else▷❕Unavailable❗◁Routine1.S▷❕
+❕Choice❕Select an option❕🔋Balanced❗🍃️Power Saver❗🏍️High Performance❗🚀Ultimate Performance❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❗3❗4❕381b4222-f694-41f0-9685-ff5bb260df2e❗a1841308-3541-4fab-bc81-f71556f20b4a❗8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c❗e9a42b02-d5df-448d-aa00-03f14749eb61❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\User\PowerSchemes❗ActivePowerScheme❗◁Array1.S▷❗String❕Create❗RAS❕DX❕
+❕TextHost❕🪛Active power scheme ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🪛Connected standby ➥ ◁Array1.S▷❕Normal❕Power related settings❗Enable or disable connected standby❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power❗CsEnabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power❗CsEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Connected Standby ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🪛Hibernation ➥ ◁Array1.S▷❕Normal❕Power related settings❗Enable or disable hibernation❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power❗HibernateEnabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Array2❕◁Choice1.I▷❕1❗2❕50❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power❗HibernateEnabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power❗HiberFileSizePercent❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Hibernation ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🪛Wakelocks network ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\F15576E8-98B7-4186-B944-EAFA664402D9\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Wakelocks network ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🪛Wakelocks other ➥ ◁Array1.S▷❕Normal❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗AcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\bd3b718a-0680-4d9d-8ab2-e1d2b4ac806d\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e❗DcSettingIndex❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Wakelocks other ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🔄Export power schemes to xml❕Normal❕Power related settings ❗Exports power settings to power-plan files from the live system❕
+❕TextHost❕Exporting min, max, and balanced power schemes to xml...❕Screen❕DX❕
+❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕◁Null▷❕
+❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕◁Null▷❕
+❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕◁Null▷❕
+❕FileOper❕◁CacheFolder▷\power_bal.xml❕Delete❕◁Condit1.1▷❕
+❕FileOper❕◁CacheFolder▷\power_min.xml❕Delete❕◁Condit2.1▷❕
+❕FileOper❕◁CacheFolder▷\power_max.xml❕Delete❕◁Condit3.1▷❕
+❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_bal.xml" SCHEME_BALANCED >NUL❕Normal❕DX❕
+❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_min.xml" SCHEME_MIN >NUL❕Normal❕DX❕
+❕Command❕POWERCFG /EXPORT "◁CacheFolder▷\power_max.xml" SCHEME_MAX >NUL❕Normal❕DX❕
+❕TextHost❕Power schemes have been exported. Next, execute 🔄Import power schemes from xml.❕Screen❕DX❕
+
+❕Group❕⚡Power❕🔄Import power schemes from xml❕Normal❕Power related settings❗Copies power-plan files, then imports power settings during next reboot. Still remains useful for offline images (VHDX)❕
+❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕DX❕DX❕
+❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕DX❕DX❕
+❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕DX❕DX❕
+❕FileOper❕◁CacheFolder▷\power_bal.xml❗◁DrvTar▷\$❕COPY❕◁Condit1.1▷❕
+❕FileOper❕◁CacheFolder▷\power_min.xml❗◁DrvTar▷\$❕COPY❕◁Condit2.1▷❕
+❕FileOper❕◁CacheFolder▷\power_max.xml❗◁DrvTar▷\$❕COPY❕◁Condit3.1▷❕
+❕TextHost❕🔄Import power_bal.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import power_min.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit2.1▷❕
+❕TextHost❕🔄Import power_max.xml from xml ➥ scheduled for RunOnce (next boot).❕Screen❕◁Condit3.1▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_bal.xml doesn't exist in folder.❕Screen❕◁Condit1.2▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_min.xml doesn't exist in folder.❕Screen❕◁Condit2.2▷❕
+❕TextHost❕◁Color4▷ERROR:◁ColorT▷ power_max.xml doesn't exist in folder.❕Screen❕◁Condit3.2▷❕
+❕Condit❕◁CacheFolder▷\power_bal.xml❗Exist❕RO❕◁Null▷❕
+❕Condit2❕◁CacheFolder▷\power_min.xml❗Exist❕RO❕◁Null▷❕
+❕Condit3❕◁CacheFolder▷\power_max.xml❗Exist❕RO❕◁Null▷❕
+❕TextHost❕Importing power_bal.xml power scheme❕Screen❕◁Condit1.1▷❕
+❕TextHost❕Importing power_min.xml power scheme❕Screen❕◁Condit2.1▷❕
+❕TextHost❕Importing power_max.xml power scheme❕Screen❕◁Condit3.1▷❕
+❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_bal.xml" >NUL❕Normal❕◁Condit1.1▷❕
+❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_min.xml" >NUL❕Normal❕◁Condit2.1▷❕
+❕Command❕POWERCFG /IMPORT "◁CacheFolder▷\power_max.xml" >NUL❕Normal❕◁Condit3.1▷❕
+❕TextHost❕🔄Import power_bal.xml from xml ➥ applied.❕Screen❕◁Condit1.1▷❕
+❕TextHost❕🔄Import power_min.xml from xml ➥ applied.❕Screen❕◁Condit2.1▷❕
+❕TextHost❕🔄Import power_max.xml from xml ➥ applied.❕Screen❕◁Condit3.1▷❕
+
+
+
+❕Group❕🔰Privacy❕🪛Advertising ID ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable advertising ID❕
+❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo❗Enabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo❗Enabled❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo❗Enabled❗0❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Advertising ID ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Bing searchbox ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable the Bing searchbox❕
+❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\Explorer❗DisableSearchSuggestions❗1❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Bing Searchbox ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Cloud content ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable cloud content❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Array2❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗SearchSuggestions❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsConsumerFeatures❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableSoftLanding❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\CloudContent❗DisableWindowsSpotlightFeatures❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Cloud content ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Copilot ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable Copilot❕
+❕📜Routine❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Policies\Microsoft\Windows\WindowsCopilot❗TurnOffWindowsCopilot❗1❗Dword❕Create❕◁Array1.2▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗ShowCopilotButton❗0❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Copilot ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Data collection ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable data collection❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowTelemetry❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDesktopAnalyticsProcessing❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowDeviceNameInTelemetry❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowWUfBCloudProcessing❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowUpdateComplianceProcessing❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗AllowCommercialDataPipeline❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableEnterpriseAuthProxy❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DisableOneSettingsDownloads❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\DataCollection❗DoNotShowFeedbackNotifications❗1❗Dword❕Create❕DX❕
+❕TextHost❕🪛Data Collection ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Error reporting ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable error reporting❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗Disabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗DontSendAdditionalData❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Windows Error Reporting❗LoggingDisabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Error Reporting ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛File history ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable file history❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\FileHistory❗Disabled❗1❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛File History ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Setting sync ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable settings sync❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗2❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\SettingSync❗DisableSettingSync❗2❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Setting Sync ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Spotlight ads ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable advertisements on the lockscreen❕
+❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗RotatingLockScreenOverlayEnabled❗0❗Dword❕Create❕◁Array1.2▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager❗SubscribedContent-338387Enabled❗0❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Spotlight Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🔰Privacy❕🪛Start menu ads ➥ ◁Array1.S▷❕Normal❕Privacy related settings❗Enable or disable advertisements on the start menu❕
+❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced❗Start_IrisRecommendations❗0❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Start Menu Ads ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+
+
+❕Group❕🛡️Security❕🪛Administrator approval mode ➥ ◁Array1.S▷❕Normal❕Security related settings❗Enable or disable administrator approval mode ❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗TypeOfAdminApprovalMode❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗2❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗2❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗TypeOfAdminApprovalMode❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Administrator Approval Mode ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛡️Security❕🪛Built-in administrator❕Normal❕Security related settings❗Enable or disable the built-in administrator❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❕RO❗RO❕
 ❕Command❕net user Administrator /active:yes❕Normal❕◁Array1.1▷❕
@@ -1295,45 +1045,284 @@
 ❕TextHost❕🪛Built-In Administrator ➥ ◁Choice1.S▷ scheduled for RunOnce (next boot)..❕Screen❕DX❕
 ❕TextHost❕🪛Built-In Administrator ➥ ◁Choice1.S▷ applied.❕Screen❕RO❕
 
-❕Group❕🔣Unsorted❕🪛Reset Widgets❕Normal❕
-❕PowerShell❕Get-AppxPackage Microsoft.WidgetsPlatformRuntime -AllUsers | Reset-AppxPackage❕NoMount❕DX❕
-❕TextHost❕🪛Reset Widgets ➥ applied.❕Screen❕DX❕
+❕Group❕🛡️Security❕🪛Inactivity lockout timeout ➥ ◁Array1.S▷❕Normal❕Security related settings❗Set the inactivity lockout timeout in seconds❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗◁Else▷❕❎Disabled❗❎Disabled❗◁Routine1.S▷ seconds❕
+❕Prompt❕Enter inactivity lockout timeout in seconds: 0-500000 (Disabled=0)❕Number❗0-500000❕VolaTILE❕
+❕Array❕◁Prompt1.S▷❕0❗◁Else▷❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗InactivityTimeoutSecs❗◁Prompt1.S▷❗Dword❕Create❕◁Array1.2▷❕
+❕TextHost❕🪛Inactivity Lockout Timeout ◁Prompt1.S▷ ➥ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Advertising ID ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo❗Enabled❕Registry❕Integer❕
+❕Group❕🛡️Security❕🪛Lockscreen ➥ ◁Array1.S▷❕Normal❕Security related settings❗Enable or disable the lockscreen ❕
+❕📜Routine❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕✅Enabled❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕DX❗DX❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❕Delete❕◁Array1.1▷❕
+❕Registry❕◁HiveSoftware▷\Policies\Microsoft\Windows\Personalization❗NoLockScreen❗1❗Dword❕Create❕◁Array2.1▷❕
+❕TextHost❕🪛Lockscreen ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🛡️Security❕🪛UAC prompt❕Normal❕Security related settings❗Enable or disable the UAC prompt❕
+❕Choice❕Select an option❕🛡️UAC always prompt❗🛡️UAC never prompt❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗ConsentPromptBehaviorAdmin❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗ConsentPromptBehaviorUser❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗FilterAdministratorToken❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕X❕Group❕🛡️Security❕🪛Strict rule set for LSA❕Normal❕Security related settings❗ ❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗LimitBlankPasswordUse❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗LsaCfgFlags❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗LsaPid❗632❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗ProductType❗125❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗RunAsPPL❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗SubmitControl❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗disabledomaincreds❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗everyoneincludesanonymous❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗forceguest❗0❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗NoLmHash❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗restrictanonymous❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗restrictanonymoussam❗1❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗RestrictRemoteSAM❗O:BAG:BAD:(A;;RC;;;BA)❗String❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\Lsa❗allownullsessionfallback❗0❗Dword❕Create❕DX❕
+❕X❕TextHost🪛Strict rule set for LSA ➥ applied.❕Screen❕DX❕
+❕X❕Group❕🛡️Security❕🪛Virtualization based security❕Normal❕
+❕X❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕X❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕X❕Array2❕◁Choice1.I▷❕1❗2❕1❗2❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard❗EnableVirtualizationBasedSecurity❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard❗RequirePlatformSecurityFeatures❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\LSA❗LsaCfgFlags❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard❗Locked❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Locked❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕Registry❕◁HiveSystem▷\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity❗Enabled❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕X❕TextHost❕🪛Virtualization based security ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+
+
+❕Group❕🪟Startup❕⏳Boot menu timeout❕Normal❕Boot related settings❗Choose the boot menu timeout❕
+❕Choice❕Select an option❕5❗10❗20❗30❗45❗60❗90❗120❗180❕VolaTILE❕
+❕TextHost❕⏳Boot Menu Timeout ◁Choice1.S▷ scheduled for RunOnce.❕Screen❕DX❕
+❕Command❕bcdedit /timeout ◁Choice1.S▷ >NUL❕Normal❕RO❕
+❕TextHost❕⏳Boot Menu Timeout ➥ ◁Choice1.S▷s applied.❕Screen❕RO❕
+
+❕Group❕🪟Startup❕🪛RunOnce initialization ➥ ◁Array1.S▷❕Normal❕Boot related settings❗Choose whether runonce or the desktop opens first ❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗RunOnce first❗Desktop first❗❔Unspecified❕
+❕Choice❕Select an option❕🪛RunOnce initializes first❗🪛Desktop initializes first❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Explorer❗AsyncRunOnce❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
+
+❕Group❕🪟Startup❕🪛Skip preparing desktop ➥ ◁Array1.S▷❕Normal❕Boot related settings❗Enable or disable the preparing desktop screen❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗DelayedDesktopSwitchTimeout❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Skip preparing desktop ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪟Startup❕🪛Startup sound ➥ ◁Array1.S▷❕Normal❕Boot related settings❗Enable or disable the startup sound❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation❗DisableStartupSound❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation❗DisableStartupSound❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛Startup Sound ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕🪟Startup❕🪛WinLogon verbose output ➥ ◁Array1.S▷❕Normal❕Boot related settings❗Enable or disable the display of detailed winlogon messages during boot❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕00000001❗00000000❕
-❕TextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
-❕TextHost❕[◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo]❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
-❕TextHost❕"Enabled"=dword:◁Array1.S▷❕File❗◁CacheFolder▷\AdvertisingID.reg❕DX❕
-❕Registry❕◁CacheFolder▷\AdvertisingID.reg❕Import❕DX❕
-❕FileOper❕◁CacheFolder▷\AdvertisingID.reg❕Delete❕DX❕
-❕TextHost❕🪛Advertising ID ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\SYSTEM❗VerboseStatus❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕🪛WinLogon verbose output ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Airplane Mode ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState❗◁Null▷❕Registry❕Integer❕
+
+
+❕Group❕📋Trackers / Loggers❕🪛Boot diagnostics ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❕Registry❕Integer❕
 ❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕1❗2❕00000001❗00000000❕
-❕TextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
-❕TextHost❕[◁HiveSystem▷\CurrentControlSet\Control\RadioManagement\SystemRadioState]❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
-❕TextHost❕@=dword:◁Array1.S▷❕File❗◁CacheFolder▷\AirplaneMode.reg❕DX❕
-❕Registry❕◁CacheFolder▷\AirplaneMode.reg❕Import❕DX❕
-❕FileOper❕◁CacheFolder▷\AirplaneMode.reg❕Delete❕DX❕
-❕TextHost❕🪛Airplane Mode  ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Array2❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\BootCKCLSettings❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\SecondaryLogonCKCLSettings❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Siuf\Rules❗PeriodInNanoSeconds❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveUser▷\Software\Microsoft\Siuf\Rules❗NumberOfSIUFInPeriod❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Boot  Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
 
-❕Group❕🔣Unsorted❕🪛Administrator Approval Mode ➥ ◁Array1.S▷❕Normal❕
-❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System❗TypeOfAdminApprovalMode❕Registry❕Integer❕
-❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗2❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Group❕📋Trackers / Loggers❕🪛Shutdown diagnostics ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
 ❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
-❕Array❕◁Choice1.I▷❕00000001❗00000002❕DX❗DX❕
-❕TextHost❕Windows Registry Editor Version 5.00❕File❗◁CacheFolder▷\AdminApproval.reg❕DX❕
-❕TextHost❕[◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Policies\System]❕File❗◁CacheFolder▷\AdminApproval.reg❕DX❕
-❕TextHost❕"TypeOfAdminApprovalMode"=dword:◁Array1.S▷❕File❗◁CacheFolder▷\AdminApproval.reg❕DX❕
-❕Registry❕◁CacheFolder▷\AdminApproval.reg❕Import❕DX❕
-❕FileOper❕◁CacheFolder▷\AdminApproval.reg❕Delete❕DX❕
-❕TextHost❕🪛Administrator Approval Mode ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+❕Array❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance\ShutdownCKCLSettings"❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Shutdown Diagnostics ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛Component based servicing ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\Windows\CurrentVersion\Component Based Servicing❗EnableLog❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Component Based Servicing ➥ ◁Choice1.S▷ applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛Circular kernel context ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Circular Kernel Context Logger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Circular Kernel Context ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛CloudExperienceHostOobe ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\CloudExperienceHostOobe❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋CloudExperienceHostOobe ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛DiagLog ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\DiagLog❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Array2❕◁Choice1.I▷❕1❗2❕0❗1❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\DiagLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\Diagnostics\Performance❗DisableDiagnosticTracing❗◁Array2.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋DiagLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛Diagtrack listener ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Diagtrack-Listener❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Diagtrack Listener ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛FaceTel ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\FaceTel❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋FaceTel ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛Graphics rdpIdd trace ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Graphics RdpIdd Trace ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛Holographic device ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\HolographicDevice❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋HolographicDevice ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛LwtNetLog ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\LwtNetLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋LwtNetLog Disable ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛NetCore ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NetCore❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋NetCore ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛NtfsLog ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\NtfsLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋NtfsLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛RadioMgr ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\RadioMgr❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋RadioMgr ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛ReadyBoot ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReadyBoot❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋ReadyBoot ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛ReFSLog ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\ReFSLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋ReFSLog ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛Spooler ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SpoolerLogger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋Spooler ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛SQM ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\SQMLogger❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋SQM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛UBPM ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\UBPM❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋UBPM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛WdiContextLog ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WdiContextLog❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋WdiContextLog ➥ Disable applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛WiFiSession ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSystem▷\ControlSet001\Control\WMI\Autologger\WiFiSession❗Start❗◁Array1.S▷❗Dword❕Create❕DX❕
+❕TextHost❕📋WiFiSession ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
+
+❕Group❕📋Trackers / Loggers❕🪛WMI - WBEM ➥ ◁Array1.S▷❕Normal❕Trackers and loggers related settings❗For advanced users❕
+❕📜Routine❕◁HiveSoftware▷\Microsoft\WBEM\CIMOM❗Logging❕Registry❕Integer❕
+❕📜Array❕◁Routine1.S▷❕◁Null▷❗1❗0❗◁Else▷❕❔Unconfigured❗✅Enabled❗❎Disabled❗❔Unspecified❕
+❕Choice❕Select an option❕✅Enable❗❎Disable❕VolaTILE❕
+❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+❕Registry❕◁HiveSoftware▷\Microsoft\WBEM\CIMOM❗Logging❗0❗String❕Create❕DX❕
+❕TextHost❕📋WMI - WBEM ➥ ◁Choice1.S▷  applied.❕Screen❕DX❕
 
 
 
