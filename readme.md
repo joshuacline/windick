@@ -1,5 +1,5 @@
 # Windows Deployment Image Customization Kit
-A native command shell Windows image deployment tool.
+A native command shell Windows image deployment tool. Featuring a built-in PowerShell GUI, and MenuScript menu-based scripting engine & framework. ***Customize the way you customize.***
 
 <img src="https://raw.githubusercontent.com/joshuacline/documentation/main/windick/png/maingui.png" alt=" " width="720">
 
