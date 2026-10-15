@@ -1,4 +1,4 @@
-﻿MENU-SCRIPT
+﻿MENU-SCRIPT QUICK
 
 ❕This tutorial has dynamic menu entries and saves the grocery count in the Windows registry.❕
 
@@ -92,7 +92,7 @@
 ❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Strawberries❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🍓Strawberries added, ◁Math1.S▷ 🍓Strawberries in total.❕Screen❕DX❕
 
-❕Group❕🍏Fruit❕🍏Quick Menu❕Normal❕Fruit group❗Choose a fruit from a choice menu❕
+❕Group❕🍏Fruit❕🍏Compact Menu❕Normal❕Fruit group❗Choose a fruit from a choice menu❕
 ❕Choice❕Select an option❕🍎Apples❗🫐Blueberries❗🍒Cherries❗🍇Grapes❗🍊Oranges❗🍑Peaches❗🍐Pears❗🍍Pineapples❗🍓Strawberries❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕Apples❗Blueberries❗Cherries❗Grapes❗Oranges❗Peaches❗Pears❗Pineapples❗Strawberries❕
 ❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
@@ -194,7 +194,7 @@
 ❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Potatos❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥔Potatos added, ◁Math1.S▷ 🥔Potatos in total.❕Screen❕DX❕
 
-❕Group❕🌿Vegetable❕🌿Quick Menu❕Normal❕Vegetable group❗Choose a vegetable from a choice menu❕
+❕Group❕🌿Vegetable❕🌿Compact Menu❕Normal❕Vegetable group❗Choose a vegetable from a choice menu❕
 ❕Choice❕Select an option❕🥦Broccoli sprouts❗🥕Carrots❗🌶Chilis❗🌽Corn cobs❗🥬Lettuce heads❗🍄Mushrooms❗🫒Olives❗🧅Onions❗🥔Potatos❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕Broccoli❗Carrots❗Chilis❗Corn❗Lettuce❗Mushrooms❗Olives❗Onions❗Potatos❕
 ❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
@@ -296,7 +296,7 @@
 ❕Registry❕◁HiveUser▷\Software\Winploy\Tutorial❗Steaks❗◁Math1.S▷❗String❕Create❕DX❕
 ❕TextHost❕ ◁Prompt1.S▷ 🥩Steaks added, ◁Math1.S▷ 🥩Steaks in total.❕Screen❕DX❕
 
-❕Group❕🥖Other❕🥖Quick Menu❕Normal❕Other group❗Choose an item from a choice menu❕
+❕Group❕🥖Other❕🥖Compact Menu❕Normal❕Other group❗Choose an item from a choice menu❕
 ❕Choice❕Select an option❕🥓Bacon packs❗🍞Bread loaves❗🧈Butter sticks❗🧀Cheese blocks❗🍗Chicken pounds❗🥚Egg cartons❗🥨Pretzel bags❗🍤Shrimp pounds❗🥩Steaks❕VolaTILE❕
 ❕Array❕◁Choice1.I▷❕1❗2❗3❗4❗5❗6❗7❗8❗9❕Bacon❗Bread❗Butter❗Cheese❗Chicken❗Egg❗Pretzel❗Shrimp❗Steaks❕
 ❕Prompt❕How many?❕Number❗1-99❕VolaTILE❕
@@ -308,11 +308,11 @@
 
 
 
-❕Group❕🛠Manage grocery❕📜View grocery.txt❕Normal❕Manage grocery❗Execute to view grocery.txt❕
+❕Group❕🔧Manage grocery❕📜View grocery.txt❕Normal❕Manage grocery❗Execute to view grocery.txt❕
 ❕Command❕start notepad "◁CacheFolder▷\grocery.txt"❕NoMount❕DX❕
 ❕TextHost❕Opening grocery.txt in notepad❕Screen❕DX❕
 
-❕Group❕🛠Manage grocery❕🔄Export grocery.txt❕Normal❕Manage grocery❗Execute to export grocery.txt❕
+❕Group❕🔧Manage grocery❕🔄Export grocery.txt❕Normal❕Manage grocery❗Execute to export grocery.txt❕
 ❕FileOper❕◁CacheFolder▷\grocery.txt❕Delete❕DX❕
 ❕TextHost❕Generating grocery.txt, 00 percent complete❕Screen❕DX❕
 ❕Routine❕◁HiveUser▷\Software\Winploy\Tutorial❗Apples❕Registry❕Integer❕
@@ -401,6 +401,6 @@
 ❕TextHost❕ ◁Routine1.S▷ 🥩Steaks❕File❗◁CacheFolder▷\grocery.txt❕◁Array1.3▷❕
 ❕Command❕start notepad "◁CacheFolder▷\grocery.txt"❕NoMount❕DX❕
 ❕TextHost❕Generating grocery.txt, 100 percent complete❕Screen❕DX❕
-❕Group❕🛠Manage grocery❕⛔Clear grocery count❕Normal❕Manage grocery❗Execute to clear grocery count❕
+❕Group❕🔧Manage grocery❕⛔Clear grocery count❕Normal❕Manage grocery❗Execute to clear grocery count❕
 ❕Registry❕◁HiveUser▷\Software\Winploy❕Delete❕DX❕
 ❕TextHost❕Clearing grocery count❕Screen❕DX❕

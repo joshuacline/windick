@@ -1,4 +1,4 @@
-:: <# WinPloy: Granular Windows Deployment Re-Imagined v 1000 © github.com/joshuacline
+:: <# WinPloy: Granular Windows Deployment Re-Imagined v 0999.1 © github.com/joshuacline
 :: Build, administrate and backup your Windows in a native WinPE recovery environment
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
@@ -11,10 +11,10 @@ IF "%PROG_MODE%"=="RAMDISK" FOR %%a in (BASIC CUSTOM) DO (IF "%MENU_MODE%"=="%%a
 IF NOT "%GUI_LAUNCH%"=="DISABLED" IF NOT "%WINPE_BOOT%"=="1" GOTO:GUI_MODE
 IF EXIST "%ProgFolder%\$PKX" ECHO.Cleaning up pkx folder from previous session...&&SET "FOLDER_DEL=%ProgFolder%\$PKX"&&CALL:FOLDER_DEL
 CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                                winploy&&ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 0 %$$%) %U09% Change Boot Order
-ECHO. (%##% 1 %$$%) %U07% Image Processing&&ECHO. (%##% 2 %$$%) %U08% Image Management&&ECHO. (%##% 3 %$$%) %U11% Other Management&&ECHO. (%##% 4 %$$%) %U04% BootDisk Creator&&ECHO. (%##% 5 %$$%) %U03% Settings
-ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="Z:\%HOST_FOLDERX%" ECHO.          ^< Disk %@@%%HOST_NUMBER%%$$% UID %@@%%HOST_TARGET%%$$% ^>
+ECHO. (%##% 1 %$$%) %U07% Image Processing&&ECHO. (%##% 2 %$$%) %U20% Image Management&&ECHO. (%##% 3 %$$%) %U11% Other Management&&ECHO. (%##% 4 %$$%) %U04% BootDisk Creator&&ECHO. (%##% 5 %$$%) %U21% Settings&&ECHO.&&ECHO.
+IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="Z:\%HOST_FOLDERX%" ECHO.          ^< Disk %@@%%HOST_NUMBER%%$$% UID %@@%%HOST_TARGET%%$$% ^>
 IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" ECHO.        ^< Disk %COLOR2%ERROR%$$% UID %COLOR2%%HOST_TARGET%%$$% ^>
-SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE winploy: The Windows Deployment Image Customization Kit v%VER_CUR%  (%ProgFolder%)
+SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE winploy: Granular Windows Deployment Re-Imagined v%VER_CUR%  (%ProgFolder%)
 IF "%PROG_MODE%"=="RAMDISK" ECHO.  (%##%Q%$$%)uit  (%##%*%$$%) Basic Menu                                    %@@%%FREE%GB%$$% Free
 IF "%PROG_MODE%"=="PORTABLE" IF "%WINPE_BOOT%"=="1" ECHO.  (%##%Q%$$%)uit                                                   %@@%%FREE%GB%$$% Free
 IF "%PROG_MODE%"=="PORTABLE" IF NOT "%WINPE_BOOT%"=="1" ECHO.  (%##%Q%$$%)uit  (%##%*%$$%) %U06% Switch to GUI                            %@@%%FREE%GB%$$% Free
@@ -39,7 +39,7 @@ GOTO:QUIT
 @ECHO OFF&&SET "MOUNT="&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&CALL:GET_SPACE_ENV&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                                winploy&&ECHO.&&ECHO.&&ECHO. (%##% 0 %$$%) %U09% Change Boot Order&&ECHO. (%##% 1 %$$%) %U07% Backup&&ECHO. (%##% 2 %$$%) %U07% Restore
 ECHO.&&ECHO.&&IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="Z:\%HOST_FOLDERX%" ECHO.          ^< Disk %@@%%HOST_NUMBER%%$$% UID %@@%%HOST_TARGET%%$$% ^>
 IF "%PROG_MODE%"=="RAMDISK" IF "%ProgFolder%"=="X:\$" ECHO.        ^< Disk %COLOR2%ERROR%$$% UID %COLOR2%%HOST_TARGET%%$$% ^>
-SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE winploy: The Windows Deployment Image Customization Kit v%VER_CUR%  (%ProgFolder%)
+SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&TITLE winploy: Granular Windows Deployment Re-Imagined v%VER_CUR%  (%ProgFolder%)
 ECHO.  (%##%Q%$$%)uit  (%##%*%$$%) Main Menu                                    %@@%%FREE%GB%$$% Free
 CALL:PAD_LINE&&SET "$CHECK=MENU"&&CALL:MENU_SELECT
 IF "%SELECT%"=="Q" GOTO:QUIT
@@ -57,7 +57,7 @@ IF NOT EXIST "%ListFolder%\%MENU_LIST%" SET "MENU_LIST="&&GOTO:MAIN_MENU
 SET "$HEAD_CHECK=%ListFolder%\%MENU_LIST%"&&CALL:GET_HEADER
 IF NOT "%$HEAD%"=="MENU-SCRIPT" ECHO.&&ECHO.%COLOR4%ERROR:%$$% %MENU_LIST% is not a base or execution list. Leaving custom menu.&&ECHO.&&CALL:PAUSED&GOTO:MAIN_MENU
 SET "TIMER_MSG= %$$%Executing %@@%%MENU_LIST%%$$% in [ %COLOR4%%%TIMER%%%$$% ] seconds. %##%Close window to abort.%$$%"&&SET "TIMER=10"&&CALL:TIMER&&SET "MENU_MODE=CUSTOM"&&CALL:SETS_HANDLER
-CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -LIST "%MENU_LIST%" -MENU"
+CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -LIST "%MENU_LIST%" -QUICK"
 SET "TIMER=10"&&CALL:TIMER&&SET "TIMER_MSG= %$$%Reboot in [ %COLOR4%%%TIMER%%%$$% ] seconds."&&SET "TIMER=15"&&CALL:TIMER
 GOTO:QUIT
 :COMMAND_MODE
@@ -143,20 +143,15 @@ IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ARG4 IF NOT EXIST "%ListFold
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-VHDX" IF DEFINED ARG6 IF NOT EXIST "%ImageFolder%\%ARG6%" ECHO.%COLOR4%ERROR:%$$% vhdx "%ImageFolder%\%ARG6%" doesn't exist&&EXIT /B
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-PATH" IF NOT DEFINED ARG6 ECHO.%COLOR4%ERROR:%$$% path [%ARG6%] is not defined&&EXIT /B
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-PATH" IF DEFINED ARG6 IF NOT EXIST "%ARG6%\*" ECHO.%COLOR4%ERROR:%$$% path "%ARG6%" doesn't exist&&EXIT /B
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 SET "PARSE_X="&&FOR /F "TOKENS=1-9* DELIMS=%U00%" %%a in ('ECHO.%ARGS%') DO (IF "%%b"=="COMMAND" SET "PARSE_X=1"&&SET "ARG4=%U00%%%b%U00%%%c%U00%%%d%U00%%%e%U00%"&&SET "ARGZ=5"&&CALL SET "ARGX=%%f"&&CALL:GET_ARGS)
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED PARSE_X FOR /F "TOKENS=1-6* DELIMS= " %%a in ('ECHO.%ARG5%') DO (SET "ARG5=%%a"&&SET "ARG6=%%b"&&SET "ARG7=%%c"&&SET "ARG8=%%d"&&SET "ARG9=%%e")
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED PARSE_X SET "PARSE_X="&&FOR %%a in (5 6 7 8 9) DO (SET "CAPS_SET=ARG%%a"&&CALL SET "CAPS_VAR=%%ARG%%a%%"&&CALL:CAPS_SET)
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 SET "DELETE_DONE=1"&&SET "ARG3=-LIST"&&SET "ARG4=$LIST"&&ECHO.MENU-SCRIPT>"%ListFolder%\$LIST"
-IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-ITEM" IF DEFINED ARG4 ECHO.%ARG4%>"%ListFolder%\$LIST"
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-PACK" IF DEFINED ARG4 IF EXIST "%PackFolder%\%ARG4%" SET "$PACK_FILE=%PackFolder%\%ARG4%"&&SET "$LISTPACK=%ARG4%"
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ARG4 IF EXIST "%ListFolder%\%ARG4%" SET "$LIST_FILE=%ListFolder%\%ARG4%"&&SET "$LISTPACK=%ARG4%"
 IF NOT DEFINED $LISTPACK GOTO:COMMAND_IMAGEMGR_END
 IF "%ARG2%"=="-RUN" FOR %%G in ("%$LISTPACK%") DO (SET "CAPS_SET=IMAGEMGR_EXT"&&SET "CAPS_VAR=%%~xG"&&CALL:CAPS_SET)
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF "%IMAGEMGR_EXT%"==".BASE" SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"&SET "$LIST_FILE=%ListFolder%\$LIST"&IF "%FOLDER_MODE%"=="ISOLATED" MOVE /Y "$LIST" "%ListFolder%">NUL 2>&1
 IF "%ARG2%"=="-RUN" IF "%ARG3%"=="-LIST" IF DEFINED ERROR GOTO:COMMAND_IMAGEMGR_END
-IF "%ARG2%"=="-RUN" IF DEFINED MENU_SESSION SET "ARG5=-MENU"
+IF "%ARG2%"=="-RUN" IF DEFINED QUICK_MENU SET "ARG5=-QUICK"
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-LIVE" SET "CURR_TARGET=LIVE_APPLY"&&CALL:IMAGEMGR_EXECUTE_COMMAND
-IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-MENU" SET "CURR_TARGET=LIVE_APPLY"&&SET "MENU_SESSION=1"&&CALL:IMAGEMGR_EXECUTE_COMMAND
+IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-QUICK" SET "CURR_TARGET=LIVE_APPLY"&&SET "QUICK_MENU=1"&&CALL:IMAGEMGR_EXECUTE_COMMAND
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-PATH" IF DEFINED ARG6 IF EXIST "%ARG6%" SET "CURR_TARGET=PATH_APPLY"&&SET "INPUT=%ARG6%"&&SET "OUTPUT=TARGET_PATH"&&CALL:SLASHER&&CALL:IMAGEMGR_EXECUTE_COMMAND
 IF "%ARG2%"=="-RUN" IF "%ARG5%"=="-VHDX" IF DEFINED ARG6 IF EXIST "%ImageFolder%\%ARG6%" SET "CURR_TARGET=VDISK_APPLY"&&SET "$VDISK_FILE=%ImageFolder%\%ARG6%"&&CALL:IMAGEMGR_EXECUTE_COMMAND
 :COMMAND_IMAGEMGR_END
@@ -201,37 +196,40 @@ IF DEFINED ARG2 IF "%ARG3%"=="-DISK" IF "%DISK_TARGET%"=="00000000" ECHO.%COLOR4
 IF "%ARG2%"=="-CREATE" IF "%ARG3%"=="-DISK" IF DEFINED ARG4 SET "DISK_NUMBER=%ARG4%"&&IF DEFINED ARG6 SET "VHDX_SLOTX=%ARG6%"&&CALL:BOOT_CREATOR_START
 EXIT /B
 :COMMAND_HELP
-ECHO. Command Line Parameters:
+ECHO. WinPloy Command Line Parameters
+ECHO.
 ECHO.   %##%Miscellaneous%$$%
 ECHO.   -help                                                           This menu
 ECHO.   -nextboot -vhdx                                                 Schedule next boot to vhdx
 ECHO.   -nextboot -recovery                                             Schedule next boot to recovery
 ECHO.   -autoboot -install                                              Install reboot to recovery switcher service
 ECHO.   -autoboot -remove                                               Remove reboot to recovery switcher service
+ECHO.
 ECHO.   %##%Image Processing%$$%
 ECHO.   -imageproc -wim %@@%x.wim%$$% -index %@@%#%$$% -vhdx %@@%x.vhdx%$$% -size %@@%GB%$$%
 ECHO.   -imageproc -vhdx %@@%x.vhdx%$$% -index %@@%#%$$% -wim %@@%x.wim%$$% -xlvl %@@%fast/max%$$%
-ECHO. Examples-
+ECHO. Examples:
 ECHO.   %@@%-imageproc -wim x.wim -index 1 -path "c:\abc"%$$%
 ECHO.   %@@%-imageproc -path "c:\abc" -wim x.wim -xlvl fast%$$%
 ECHO.   %@@%-imageproc -wim x.wim -index 1 -vhdx x.vhdx -size 25%$$%
 ECHO.   %@@%-imageproc -vhdx x.vhdx -index 1 -wim x.wim -xlvl fast%$$%
+ECHO.
 ECHO.   %##%Image Management%$$%
-ECHO.   -imagemgr -run -list %@@%x.list%$$% -live /or/ -vhdx /or/ -path /or/ -menu%$$%
-ECHO.   -imagemgr -run -item %@@%"%U00%x%U00%x%U00%x%U00%x%U00%"%$$% -live /or/ -vhdx %@@%x.vhdx%$$%
-ECHO.   -imagemgr -run -pack %@@%x.pkx%$$% -live /or/ -vhdx /or/ -path /or/ -menu%$$%
+ECHO.   -imagemgr -run -list %@@%x.list%$$% -live /or/ -vhdx /or/ -path /or/ -quick%$$%
+ECHO.   -imagemgr -run -pack %@@%x.pkx%$$% -live /or/ -vhdx /or/ -path /or/ -quick%$$%
 ECHO.   -imagemgr -create -base %@@%x.base%$$% -live /or/ -vhdx %@@%x.vhdx%$$%
-ECHO. Examples-
+ECHO. Examples:
 ECHO.   %@@%-imagemgr -run -list "x y z.list" -live%$$%
 ECHO.   %@@%-imagemgr -run -pack x.pkx -vhdx x.vhdx%$$%
-ECHO.   %@@%-imagemgr -run -item "%U00%EXTPACKAGE%U00%x y z.appx%U00%INSTALL%U00%DX%U00%" -vhdx x.vhdx%$$%
-ECHO.   %@@%-imagemgr -run -list "x y z.list" -menu%$$%
+ECHO.   %@@%-imagemgr -run -list "x y z.list" -quick%$$%
 ECHO.   %@@%-imagemgr -create -base x.base -live "1 2 3 4 5 6 7"%$$%
 ECHO.   %@@%-imagemgr -create -base x.base -vhdx x.vhdx "1 2 3 4 5 6 7"%$$%
+ECHO.
 ECHO.   %##%File Management%$$%
 ECHO.   -filemgr -grant %@@%file/folder%$$%
-ECHO. Examples-
+ECHO. Examples:
 ECHO.   %@@%-filemgr -grant c:\x.txt%$$%
+ECHO.
 ECHO.   %##%Disk Management%$$%
 ECHO.   -diskmgr -list                                                  Condensed list of disks
 ECHO.   -diskmgr -inspect -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$%                     DiskPart inquiry on specified disk
@@ -243,14 +241,15 @@ ECHO.   -diskmgr -changeuid -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% %@@%new-ui
 ECHO.   -diskmgr -mount -disk %@@%#%$$% /or/ -diskuid %@@%uid%$$% -part %@@%#%$$% -letter %@@%letter%$$%         Assign drive letter
 ECHO.   -diskmgr -unmount -letter %@@%letter%$$%                                         Remove drive letter
 ECHO.   -diskmgr -mount -vhdx %@@%x.vhdx%$$% -letter %@@%letter%$$%                              Mount virtual disk
-ECHO. Examples-
+ECHO. Examples:
 ECHO.   %@@%-diskmgr -create -disk 0 -size 25%$$%
 ECHO.   %@@%-diskmgr -mount -disk 0 -part 1 -letter e%$$%
 ECHO.   %@@%-diskmgr -unmount -letter e%$$%
+ECHO.
 ECHO.   %##%BootDisk Creator%$$%
 ECHO.   -bootcreator -create -disk %@@%#%$$% -vhdx %@@%x.vhdx%$$%                         Erase specified disk and make bootable
 ECHO.   -bootcreator -create -diskuid %@@%uid%$$% -vhdx %@@%x.vhdx%$$%                    Erase specified disk and make bootable
-ECHO. Examples-
+ECHO. Examples:
 ECHO.   %@@%-bootcreator -create -disk 0 -vhdx x.vhdx%$$%
 ECHO.   %@@%-bootcreator -create -diskuid 12345678-1234-1234-1234-123456781234 -vhdx x.vhdx
 ECHO.
@@ -383,9 +382,11 @@ ECHO.❕TextHost❕test❕File❗c:\testmove.txt❕DX❕
 ECHO.❕FileOper❕testmove.txt❗c:\test❕Move❕DX❕
 ECHO.
 ECHO.❕Group❕🪟Execution items❕🪛Session item❕Normal❕
-ECHO.❕Note❕TextHost item: 'Screen' and 'File' are usable options. When outputting to a file, using the '◁U00▷' and '◁U01▷' variables will create white '❕' and red '❗' columns.❕
+ECHO.❕Note❕TextHost item: 'Screen' and 'File' are usable options. When outputting to a file, using the '◁U00▷' and '◁U01▷' variables will create white '❕' and red '❗' columns. Using '◁U0L▷' and '◁U0R▷' will create '◁' and '▷' expansion symbols.❕
+ECHO.❕Command❕echo.Target Windows Folder:◁WinTar▷^&^&ECHO.Target Registry User:◁HiveUser▷❕Normal❕DX❕
 ECHO.❕TextHost❕MENU-SCRIPT❕File❗◁ListFolder▷\testlist.list❕DX❕
 ECHO.❕TextHost❕◁U00▷TextHost◁U00▷Greetings from session 2◁U00▷Screen◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
+ECHO.❕TextHost❕◁U00▷Command◁U00▷echo.Target Windows Folder:◁U0L▷WinTar◁U0R▷^&^&ECHO.Target Registry User:◁U0L▷HiveUser◁U0R▷◁U00▷Normal◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
 ECHO.❕Note❕Session item. Using the '-PATH "◁DrvTar▷"' parameter during an active session will reuse the active session's target.❕
 ECHO.❕Session❕-imagemgr -run -list "testlist.list" -path "◁DrvTar▷"❕New❕DX❕
 ECHO.❕TextHost❕End of session 1❕Screen❕DX❕
@@ -403,6 +404,28 @@ ECHO.❕Group❕🪟Miscellaneous Examples❕Driver Install❕Normal
 ECHO.❕Condit❕◁ProgFolder▷\driver❗Exist❕DX❕◁Null▷❕
 ECHO.❕📢Driver❕◁ProgFolder▷\driver❕Install❕◁Condit1.1▷❕
 EXIT /B
+:BASE_EXAMPLEQUICK
+ECHO.MENU-SCRIPT QUICK
+ECHO.❗* This is an example of a 'Quick' menu. The 'Reference' is always overridden to the current environment, and the target selection screen is skipped. Useful for launching multiple sessions with individual targets or creating an advanced tools menu *❗
+ECHO.
+ECHO.❕Group❕🪛QuickMenu Example❕🎨Theme ➥ ◁Array1.S▷❕Normal❕QuickMenu Examples❗Choose Light or Dark theme❕
+ECHO.❕📜Routine❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❕Registry❕Integer❕
+ECHO.❕📜Array❕◁Routine1.S▷❕◁Null▷❗0❗1❗◁Else▷❕❔Unconfigured❗🌑Dark❗🌕Light❗❔Unspecified❕
+ECHO.❕Choice❕Select an option❕🌕Light theme❗🌑Dark theme❕VolaTILE❕
+ECHO.❕Array❕◁Choice1.I▷❕1❗2❕1❗0❕
+ECHO.❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗AppsUseLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+ECHO.❕Registry❕◁HiveUser▷\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize❗SystemUsesLightTheme❗◁Array1.S▷❗Dword❕Create❕DX❕
+ECHO.❕TextHost❕◁Choice1.S▷ ➥ applied.❕Screen❕DX❕
+ECHO.
+ECHO.❕Group❕🪛QuickMenu Example❕🪛MultiSession❕Normal❕QuickMenu Examples❗Run a MultiSession❕
+ECHO.❕Command❕echo.Target Windows Folder:◁WinTar▷^&^&ECHO.Target Registry User:◁HiveUser▷❕Normal❕DX❕
+ECHO.❕TextHost❕MENU-SCRIPT❕File❗◁ListFolder▷\testlist.list❕DX❕
+ECHO.❕TextHost❕◁U00▷TextHost◁U00▷Greetings from session 2◁U00▷Screen◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
+ECHO.❕TextHost❕◁U00▷Command◁U00▷echo.Target Windows Folder:◁U0L▷WinTar◁U0R▷^&^&ECHO.Target Registry User:◁U0L▷HiveUser◁U0R▷◁U00▷Normal◁U00▷DX◁U00▷❕File❗◁ListFolder▷\testlist.list❕DX❕
+ECHO.❕Session❕-imagemgr -run -list "testlist.list" -live❕New❕DX❕
+ECHO.❕TextHost❕End of MultiSession❕Screen❕DX❕
+ECHO.❕FileOper❕◁ListFolder▷\testlist.list❕Delete❕DX❕
+EXIT /B
 :MENU_EXAMPLE_BASE
 ECHO.MENU-SCRIPT
 ECHO.❗* This is an example of a custom menu for recovery *❗
@@ -413,7 +436,7 @@ ECHO.❕Condit❕◁ProgFolder▷\◁Picker1.S▷❗Exist❕DX❕DX❕
 ECHO.❕TextHost❕◁ProgFolder▷\◁Picker1.S▷ does not exist.❕Screen❕◁Condit1.2▷❕
 ECHO.❕TextHost❕Deleting backup.wim❕Screen❕◁Condit1.1▷❕
 ECHO.❕FileOper❕◁ImageFolder▷\backup.wim❕Delete❕◁Condit1.1▷❕
-ECHO.❕Session❕-imageproc -vhdx "◁Picker1.S▷" -index 1 -wim "backup.wim" -size 25❕New❕◁Condit1.1▷❕
+ECHO.❕Session❕-imageproc -vhdx "◁Picker1.S▷" -index 1 -wim "backup.wim" -xlvl fast❕New❕◁Condit1.1▷❕
 ECHO.❕Command❕PAUSE❕Normal❕DX❕
 ECHO.
 ECHO.❕Group❕Recovery Operation Example❕Restore picked wim to current.vhdx❕Normal❕
@@ -427,7 +450,7 @@ ECHO.❕Command❕PAUSE❕Normal❕DX❕
 EXIT /B
 :MENU_EXAMPLE_EXEC
 ECHO.MENU-SCRIPT
-ECHO.❗* This is an example of a reboot to restore scenerio as an execution list *❗
+ECHO.❗* This is an example of a reboot to restore scenerio as an execution list. Completion depends on whether 'backup.wim' exists *❗
 ECHO.
 ECHO.❕Condit❕◁ImageFolder▷\backup.wim❗Exist❕DX❕DX❕
 ECHO.❕TextHost❕ECHO.◁ImageFolder▷\backup.wim does not exist.❕Screen❕◁Condit1.2▷❕
@@ -437,14 +460,10 @@ ECHO.❕Session❕-imageproc -wim "backup.wim" -index 1 -vhdx "current.vhdx" -si
 ECHO.❕Command❕PAUSE❕Normal❕DX❕
 EXIT /B
 :GET_INIT
+SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="&&CD /D "%~DP0"
 SET "CMD=CMD.EXE"&&SET "DISM=DISM.EXE"&&SET "REG=REG.EXE"&&SET "BCDEDIT=BCDEDIT.EXE"&&FOR %%G in ("%~f0") DO SET "PATH_TEST=%%~nG%%~xG"
-IF NOT DEFINED CODEPAGE FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO (SET "CODEPAGE=%%a")
-SET "ERROR="&&SET "MENU_EXIT="&&SET "SETS_LOAD="&&SET "GUI_ACTIVE="&&CD /D "%~DP0"&&CHCP 65001>NUL
 SET "ORIG_CD=%CD%"&&SET "ProgFolder0=%CD%"&&FOR /F "TOKENS=1-2 DELIMS=:" %%a IN ("%CD%") DO (IF "%%b"=="\" SET "ProgFolder0=%%a:")
 IF EXIST "%ProgFolder0%\$CON" SET "GUI_ACTIVE=1"&DEL /F /Q "%ProgFolder0%\$CON">NUL 2>&1
-IF NOT DEFINED ERROR %REG% query "HKU\S-1-5-19\Environment">NUL 2>&1
-IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" IF NOT EXIST "$ELEV" GOTO:REQUEST_ADMIN
-SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&IF EXIST "$ELEV" DEL /Q /F "$ELEV">NUL 2>&1
 IF NOT "%PATH_TEST%"=="winploy.cmd" SET "PATH_TEST="&&SET "ERROR=If experiencing user elevation failure, right-click and run as administrator."
 IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" SET "ERROR=If experiencing user elevation failure, right-click and run as administrator."
 IF NOT DEFINED ERROR IF NOT EXIST "%ProgFolder0%" SET "ERROR=Invalid path or folder name. Relocate, then launch again."
@@ -454,6 +473,11 @@ IF NOT DEFINED ERROR FOR /F "TOKENS=1-9 DELIMS=\" %%a IN ("%ProgFolder0%") DO (I
 IF /I "%%a\%%b\%%d\%%e\%%f"=="%SystemDrive%\Users\AppData\Local\Temp" SET "ERROR=This should not be run from a temp folder. Extract zip into a new folder, then launch again.")
 IF NOT DEFINED ERROR SET "$ENG="&&FOR /F "TOKENS=4-5 DELIMS= " %%a IN ('DIR') DO (IF "%%a %%b"=="bytes free" SET "$ENG=1")
 IF NOT DEFINED ERROR IF NOT DEFINED $ENG SET "ERROR=Non-english host language/locale."
+IF NOT DEFINED ERROR %REG% query "HKU\S-1-5-19\Environment">NUL 2>&1
+IF NOT DEFINED ERROR IF NOT "%ERRORLEVEL%" EQU "0" IF NOT EXIST "$ELEV" GOTO:REQUEST_ADMIN
+IF NOT DEFINED ERROR FOR /F "TOKENS=2 DELIMS=:" %%a IN ('CHCP') DO (SET "CODEPAGE=%%a")
+IF NOT DEFINED ERROR SET "VER_GET=%~f0"&&CALL:GET_PROGVER&&CHCP 65001>NUL
+IF EXIST "$ELEV" DEL /Q /F "$ELEV">NUL 2>&1
 IF DEFINED ERROR ECHO.ERROR: %ERROR%&&SET "TIMER=10"&&CALL:TIMER&&GOTO:QUIT
 IF "%SYSTEMDRIVE%"=="X:" IF EXIST "X:\$\HOST_TARGET" SET "WINPE_BOOT=1"
 CALL:SESSION_CLEAR&CALL:GET_ARGS&CALL:GET_SID&CALL:MOUNT_INT
@@ -561,7 +585,7 @@ IF "%$PATH_X%"=="%SYSTEMDRIVE%\" SET "$IMAGE_X=ONLINE"
 IF NOT "%$IMAGE_X%"=="ONLINE" SET "$IMAGE_X=IMAGE:"%$PATH_X%""
 FOR /F "TOKENS=1-2* DELIMS=<>: " %%a in ('%DISM% /ENGLISH /%$IMAGE_X% /GET-CURRENTEDITION 2^>NUL') DO (IF "%%a %%b"=="Image Version" IF NOT "%%c"=="undefined>" SET "$PATHVER=%%c"
 IF "%%a %%b"=="Current Edition" IF NOT "%%c"=="undefined>" SET "$PATHEDIT=%%c")
-IF NOT DEFINED $PATHVER SET "ERROR=GET_PATHINFO"&&CALL:DEBUG
+IF NOT DEFINED $PATHVER SET "ERROR=GET_PATHINFO"&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
 SET "$PATH_X="&&SET "$IMAGE_X="&&EXIT /B
 :GET_IMAGEINFO
 FOR %%a in ($IMGNAME $IMGEDIT $IMGDESC $IMGVER $BUILD) DO (IF DEFINED %%a SET "%%a=")
@@ -574,21 +598,21 @@ IF "%%a"=="Version" IF NOT "%%b"=="undefined" SET "$IMGVER=%%b"
 IF "%%a"=="Edition" IF NOT "%%b"=="undefined" SET "$IMGEDIT=%%b"
 IF "%%a %%b"=="ServicePack Build" IF NOT "%%c"=="undefined>" SET "$BUILD=%%c")
 IF DEFINED $IMGVER IF DEFINED $BUILD SET "$IMGVER=%$IMGVER%.%$BUILD%"&&SET "$BUILD="
-IF NOT DEFINED $IMGVER SET "ERROR=GET_IMAGEINFO"&&CALL:DEBUG
+IF NOT DEFINED $IMGVER SET "ERROR=GET_IMAGEINFO"&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
 SET "$IMAGE_X="&&SET "INDEX_X="&&EXIT /B
 :GET_PROGVER
 IF NOT DEFINED VER_SET SET "VER_SET=VER_CUR"
 IF EXIST "%VER_GET%" SET /P VER_CHK=<"%VER_GET%"
 SET "%VER_SET%="&&FOR /F "TOKENS=1-9 DELIMS= " %%A IN ("%VER_CHK%") DO (SET "%VER_SET%=%%I")
-IF NOT DEFINED %VER_SET% SET "ERROR=GET_PROGVER"&&CALL:DEBUG
+IF NOT DEFINED %VER_SET% SET "ERROR=GET_PROGVER"&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
 SET "VER_CHK="&&SET "VER_GET="&&SET "VER_SET="&&EXIT /B
 :GET_HEADER
 SET "$HEAD="&&FOR %%a in ($HEAD_CHECK) DO (IF NOT DEFINED %%a EXIT /B)
 SET /P $HEAD=<"%$HEAD_CHECK%"
 IF NOT DEFINED $HEAD SET "ERROR=HEADER"&&GOTO:HEADER_SKIP
-FOR /F "TOKENS=1-9 DELIMS= " %%a IN ("!$HEAD!") DO (IF "%%a"=="MENU-SCRIPT" SET "$HEAD=%%a"&&IF NOT "%%b"=="" FOR %%◌ in (%%a %%b %%c %%d %%e %%f %%g %%h) DO (IF "%%◌"=="MENU" SET "MENU_SESSION=1"))
+FOR /F "TOKENS=1-9 DELIMS= " %%a IN ("!$HEAD!") DO (IF /I "%%a"=="MENU-SCRIPT" SET "$HEAD=%%a"&&IF /I "%%b"=="QUICK" SET "QUICK_MENU=1")
 :HEADER_SKIP
-IF NOT "!$HEAD!"=="MENU-SCRIPT" SET "ERROR=HEADER"&&ECHO.%COLOR2%ERROR:%$$% Header is not MENU-SCRIPT, check file.&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
+IF /I NOT "!$HEAD!"=="MENU-SCRIPT" SET "ERROR=HEADER"&&ECHO.%COLOR2%ERROR:%$$% Header is not MENU-SCRIPT, check file.&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
 SET "$HEAD_CHECK="&&EXIT /B
 :GET_RANDOM
 IF NOT DEFINED RND_TYPE SET "RND_TYPE=1"
@@ -647,7 +671,7 @@ SET "NO_PAUSE="&&EXIT /B
 :CONFIRM
 IF DEFINED ERROR EXIT /B
 SET "$HEADERS= %U01% %U01% %U01% %U01%                  %COLOR4%Are you sure?%$$% Press (%##%X%$$%) to proceed%U01% %U01% %U01% "&&SET "$CASE=UPPER"&&SET "$SELECT=CONFIRM"&&SET "$CHECK=LETTER"&&CALL:PROMPT_BOX
-IF NOT "%CONFIRM%"=="X" SET "ERROR=CONFIRM"&&CALL:DEBUG
+IF NOT "%CONFIRM%"=="X" SET "ERROR=CONFIRM"&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
 EXIT /B
 :RECOVERY_LOCK
 SET "LOCKOUT="&&SET "$HEADERS= %U01% %U01% %U01% %U01%                       Enter recovery password%U01% %U01% %U01% "&&SET "$NO_ERRORS=1"&&SET "$SELECT=RECOVERY_PROMPT"&&SET "$CHECK=MOST"&&CALL:PROMPT_BOX
@@ -717,7 +741,7 @@ IF "%$BOX%"=="ST" ECHO.%##%┌────────────────�
 IF "%$BOX%"=="SB" ECHO.%##%└────────────────────────────────────────────────────────────────────┘%$$%
 EXIT /B
 :MENU_SELECT
-IF DEFINED ERROR CALL:DEBUG&&SET "ERROR="
+IF DEFINED ERROR SET "ERROR="&&IF "%DEBUG%"=="ENABLED" CALL:DEBUG
 IF NOT DEFINED $CASE SET "$CASE=UPPER"
 IF NOT DEFINED $CHECK SET "$CHECK=MENU"
 IF NOT DEFINED $SELECT SET "$SELECT=SELECT"
@@ -816,7 +840,7 @@ SET "SETS_LIST="&&EXIT /B
 :SETS_HANDLER
 IF NOT "%PROG_MODE%"=="RAMDISK" SET "ProgFolder=%ProgFolder0%"
 IF "%PROG_MODE%"=="RAMDISK" IF NOT EXIST "%ProgFolder%" SET "ProgFolder=%ProgFolder0%"
-CD /D "%ProgFolder0%"&&IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "winploy.ini" IF NOT DEFINED SETS_LOAD CALL:SETS_MAIN
+CD /D "%ProgFolder%"&&IF "%PROG_MODE%"=="PORTABLE" IF NOT EXIST "winploy.ini" IF NOT DEFINED SETS_LOAD CALL:SETS_MAIN
 IF EXIST "winploy.ini" IF NOT DEFINED SETS_LOAD SET "SETS_LOAD=1"&&CALL:SETS_LOAD
 CALL:SETS_LIST&&ECHO.winploy v %VER_CUR% Settings>"winploy.ini"
 FOR %%■ in (%SETS_LIST%) DO (ECHO.%%■=!%%■!>>"winploy.ini")
@@ -853,8 +877,8 @@ IF "%FOLDER_MODE%"=="ISOLATED" FOR %%a in (Cache Image Pack List) DO (SET "%%aFo
 IF "%FOLDER_MODE%"=="UNIFIED" FOR %%a in (Cache Image Pack List) DO (SET "%%aFolder=%ProgFolder%")
 IF "%BOOTLOADER%"=="boot.efi" IF NOT EXIST "%CacheFolder%\boot.efi" SET "BOOTLOADER=New"
 IF DEFINED REFERENCE IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT EXIST "%ImageFolder%\%REFERENCE%" SET "REFERENCE=LIVE"
-FOR %%a in (MOUNT TARGET_PATH PATH_APPLY LIVE_APPLY VDISK_APPLY ERROR $NO_MOUNT $HALT $ONLY1 $ONLY2 $ONLY3 $VERBOSE $VHDX VDISK VDISK_LTR MENU_SESSION CUSTOM_SESSION MENU_SKIP DELETE_DONE FEAT_QRY DRVR_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
-CHCP 65001>NUL&IF NOT DEFINED U00 SET "U00=❕"&&SET "U01=❗"&&SET "U02=🗂 "&&SET "U03=🛠️"&&SET "U04=💾"&&SET "U05=🗳 "&&SET "U06=🪟"&&SET "U07=🔄"&&SET "U08=🪛"&&SET "U09=🥾"&&SET "U10=✒ "&&SET "U11=🗃 "&&SET "U12=🎨"&&SET "U13=📜"&&SET "U14=⏳"&&SET "U15=✅"&&SET "U16=❎"&&SET "U17=🚫"&&SET "U18=🗜 "&&SET "U19=🛡 "&&SET "U0L=◁"&&SET "U0R=▷"&&SET "U0P=％"&&SET "U0D=＄"&&SET "COLOR0=[97m"&&SET "COLOR1=[31m"&&SET "COLOR2=[91m"&&SET "COLOR3=[33m"&&SET "COLOR4=[93m"&&SET "COLOR5=[92m"&&SET "COLOR6=[96m"&&SET "COLOR7=[94m"&&SET "COLOR8=[34m"&&SET "COLOR9=[95m"
+FOR %%a in (MOUNT TARGET_PATH PATH_APPLY LIVE_APPLY VDISK_APPLY ERROR $NO_MOUNT $HALT $ONLY1 $ONLY2 $ONLY3 $VERBOSE $VHDX VDISK VDISK_LTR QUICK_MENU CUSTOM_SESSION MENU_SKIP DELETE_DONE FEAT_QRY DRVR_QRY SC_PREPARE RO_PREPARE) DO (SET "%%a=")
+CHCP 65001>NUL&IF NOT DEFINED U00 SET "U00=❕"&&SET "U01=❗"&&SET "U02=🗂 "&&SET "U03=🛠️"&&SET "U04=💾"&&SET "U05=🗳 "&&SET "U06=🪟"&&SET "U07=🔄"&&SET "U08=🔃"&&SET "U09=🥾"&&SET "U10=✒ "&&SET "U11=🗃 "&&SET "U12=🎨"&&SET "U13=📜"&&SET "U14=⏳"&&SET "U15=✅"&&SET "U16=❎"&&SET "U17=🚫"&&SET "U18=🗜 "&&SET "U19=🛡 "&&SET "U20=🪛"&&SET "U21=⚙️"&&SET "U22=📢"&&SET "U0L=◁"&&SET "U0R=▷"&&SET "U0P=％"&&SET "U0D=＄"&&SET "COLOR0=[97m"&&SET "COLOR1=[31m"&&SET "COLOR2=[91m"&&SET "COLOR3=[33m"&&SET "COLOR4=[93m"&&SET "COLOR5=[92m"&&SET "COLOR6=[96m"&&SET "COLOR7=[94m"&&SET "COLOR8=[34m"&&SET "COLOR9=[95m"
 CALL SET "@@=%%COLOR%ACC_COLOR%%%"&&CALL SET "##=%%COLOR%BTN_COLOR%%%"&&CALL SET "$$=%%COLOR%TXT_COLOR%%%"
 SET "COLORA=%@@%"&&SET "COLORB=%##%"&&SET "COLORT=%$$%"
 FOR %%a in (COMMAND GUI) DO (IF "%PROG_MODE%"=="%%a" EXIT /B)
@@ -937,9 +961,12 @@ EXIT /B
 :LIST_VIEWER
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 SET "INPUT=%$LIST_FILE%"&&CALL:GET_FILEEXT
-IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT DEFINED $VATTACH SET "LIVE_APPLY="&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&&SET "VDISK_LTR=ANY"&&ECHO.Loading reference image...&&CALL:VDISK_ATTACH
-IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT DEFINED $VATTACH IF EXIST "%VDISK_LTR%:\" SET "TARGET_PATH=%VDISK_LTR%:"&&SET "$VATTACH=1"&&CALL:MOUNT_EXT
-IF /I "%REFERENCE%"=="LIVE" SET "TARGET_PATH=%SYSTEMDRIVE%"&&SET "LIVE_APPLY=1"&&CALL:MOUNT_INT
+SET "$HEAD_CHECK=%$LIST_FILE%"&&CALL:GET_HEADER
+IF DEFINED QUICK_MENU IF DEFINED ERROR SET "TIMER=1"&&CALL:TIMER&&GOTO:LIST_VIEWER_END
+IF NOT DEFINED QUICK_MENU IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT DEFINED $VATTACH SET "LIVE_APPLY="&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&&SET "VDISK_LTR=ANY"&&ECHO.Loading reference image...&&CALL:VDISK_ATTACH
+IF NOT DEFINED QUICK_MENU IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF NOT DEFINED $VATTACH IF EXIST "%VDISK_LTR%:\" SET "TARGET_PATH=%VDISK_LTR%:"&&SET "$VATTACH=1"&&CALL:MOUNT_EXT
+IF NOT DEFINED QUICK_MENU IF /I "%REFERENCE%"=="LIVE" SET "TARGET_PATH=%SYSTEMDRIVE%"&&SET "LIVE_APPLY=1"&&CALL:MOUNT_INT
+IF DEFINED QUICK_MENU SET "TARGET_PATH=%SYSTEMDRIVE%"&&SET "LIVE_APPLY=1"&&CALL:MOUNT_INT
 IF DEFINED BASE_EXEC (SET "$LIST_MODE=Execute") else (SET "$LIST_MODE=Builder")
 CLS&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&SET "$CENTERED=1"&&SET "$HEADERS=%U13% List %$LIST_MODE%%U01% %U01%  !$FILE_X!%$EXT_X%%U01% %U01%"&&CALL:BOX_HEADERS&SET "$LIST_SCOPE=GROUP"&&CALL:LIST_FILE
 ECHO.&&SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&IF NOT DEFINED ERROR CALL:PAD_PREV
@@ -966,7 +993,7 @@ IF DEFINED ERROR SET "ERROR="&&SET "$ONLY3="&&GOTO:SUBGROUP_BOX
 SET "$LIST_FILE=%$PICK%"&&CALL:LIST_COMBINE&&CALL:APPEND_SCREEN
 :LIST_VIEWER_END
 FOR %%▓ in (LIVE_APPLY BASE_EXEC GROUP_TYPE $ONLY1 $ONLY2 $ONLY3 $CENTERED $HEADERS $NO_ERRORS $VERBOSE) DO (SET "%%▓=")
-IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF DEFINED $VATTACH ECHO.Unloading reference image...&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&CALL:MOUNT_INT&CALL:VDISK_DETACH
+IF NOT DEFINED QUICK_MENU IF /I NOT "%REFERENCE%"=="LIVE" IF /I NOT "%REFERENCE%"=="DISABLED" IF DEFINED $VATTACH ECHO.Unloading reference image...&&SET "$VDISK_FILE=%ImageFolder%\%REFERENCE%"&CALL:MOUNT_INT&CALL:VDISK_DETACH
 SET "$VATTACH="&&EXIT /B
 :UNIFIED_PARSE_BUILDER
 IF NOT DEFINED FULL_TARGET EXIT /B
@@ -987,9 +1014,10 @@ IF DEFINED ERROR GOTO:LIST_FILE_SKIP
 IF DEFINED $ITEMSTOP CALL:ITEMSTOP
 COPY /Y "%$LIST_FILE%" "$TEMP">NUL 2>&1
 SET "$VCLM2_LAST="&&SET "$SUBGROUP_LAST="&&SET "$LIST_FILEX="&&SET "$LIST_FILEZ="&&IF EXIST "$TEMP" FOR /F "TOKENS=1-9 SKIP=1 DELIMS=%U00%" %%1 in ($TEMP) DO (
-IF "%$LIST_SCOPE%"=="GROUP" IF /I "%%1"=="GROUP" SET "$LIST_FILEX=1"&&SET "$LIST_FILEZ="
-IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF NOT "%%2"=="%$ONLY2%" SET "$LIST_FILEZ="
-IF "%$LIST_SCOPE%"=="SUBGROUP" IF /I "%%1"=="GROUP" IF "%%2"=="%$ONLY2%" SET "$LIST_FILEX=1"&&IF /I NOT "%REFERENCE%"=="DISABLED" SET "$LIST_FILEZ=1"
+IF /I "%%1"=="GROUP" IF "%$LIST_SCOPE%"=="GROUP" SET "$LIST_FILEX=1"&&SET "$LIST_FILEZ="
+IF /I "%%1"=="GROUP" IF "%$LIST_SCOPE%"=="SUBGROUP" IF NOT "%%2"=="%$ONLY2%" SET "$LIST_FILEZ="
+IF /I "%%1"=="GROUP" IF "%$LIST_SCOPE%"=="SUBGROUP" IF "%%2"=="%$ONLY2%" SET "$LIST_FILEX=1"&&IF /I NOT "%REFERENCE%"=="DISABLED" SET "$LIST_FILEZ=1"
+IF /I "%%1"=="GROUP" IF "%$LIST_SCOPE%"=="SUBGROUP" IF "%%2"=="%$ONLY2%" SET "$LIST_FILEX=1"&&IF /I "%REFERENCE%"=="DISABLED" IF DEFINED QUICK_MENU SET "$LIST_FILEZ=1"
 IF DEFINED $LIST_FILEZ IF NOT "%%1"=="" FOR /F "TOKENS=* DELIMS=📜" %%░ IN ("%%1") DO (IF NOT "%%1"=="%%░" SET "$VCLMX=%%░"&&CALL:LIST_FILEX_SKIP)
 IF DEFINED $LIST_FILEX SET "$LIST_FILEX="&&SET "$VCLM1=%%1"&&SET "$VCLM2=%%2"&&SET "$VCLM3=%%3"&&SET "$VCLM4=%%4"&&SET "$VCLM5=%%5"&&SET "$VCLM6=%%6"&&SET "$VCLM7=%%7"&&SET "$VCLM8=%%8"&&SET "$VCLM9=%%9"&&CALL:LIST_FILEX)
 IF "%$LIST_SCOPE%"=="SUBGROUP" IF DEFINED $SUBGROUP_LAST SET "$SUBGROUP_LAST=!$SUBGROUP_LAST:◁=%%!"&&SET "$SUBGROUP_LAST=!$SUBGROUP_LAST:▷=%%!"&&CALL SET "$SUBGROUP_LAST=!$SUBGROUP_LAST!"&&FOR /F "TOKENS=*" %%░ IN ("!$SUBGROUP_LAST!") DO (ECHO. %%░%$$%)
@@ -1098,7 +1126,8 @@ EXIT /B
 :NORMAL_LIST_PICKER
 SET "$CHOICEMINO="&&SET "$CHOICEMAXO="&&SET "$CHECKO="
 SET "$HEADERS=!GROUP_TARGET!%U01% %U01%!SUB_TARGET!%U01% %U01%!$VCLM2!"
-SET "$FOLD="&&SET "$FILT="&&FOR /F "TOKENS=1-2 DELIMS=%U01%" %%a in ("!$VCLM3!") DO (SET "$FOLD=%%a"&&SET "$FILT=%%b")
+SET "$INPUT=!$VCLM3!"&&SET "$OUTPUT=$VCLM3X"&&SET "$NO_QUOTE=1"&&CALL:EXPAND_INPUT
+SET "$FOLD="&&SET "$FILT="&&FOR /F "TOKENS=1-2 DELIMS=%U01%" %%a in ("!$VCLM3X!") DO (SET "$FOLD=%%a"&&SET "$FILT=%%b")
 IF NOT DEFINED $FILT SET "$FILT=*.*"
 IF NOT DEFINED $FOLD SET "$FOLD=%ProgFolder%"
 SET "$VERBOSE=1"&&SET "$NO_ERRORS=1"&&SET "$CENTERED=1"&&CALL:FILE_VIEWER
@@ -1252,7 +1281,7 @@ EXIT /B
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 :SETTINGS_MENU
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                              %U03% Settings&&ECHO.&&ECHO.
+CLS&&CALL:SETS_HANDLER&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                              %U21% Settings&&ECHO.&&ECHO.
 ECHO. (%##% 1 %$$%) %U12% Appearance&&ECHO. (%##% 2 %$$%) %U02% Folder Layout        %@@%%FOLDER_MODE%%$$%&&IF NOT "%PROG_MODE%"=="GUI" ECHO. (%##% 3 %$$%) %U04% Bootloader           %@@%%BOOTLOADER%%$$%&&ECHO. (%##% 4 %$$%) %U15% Shortcuts
 IF "%PROG_MODE%"=="RAMDISK" ECHO. (%##% 5 %$$%) %U19% Host Hide            %@@%%HOST_HIDE%%$$%&&ECHO. (%##% 6 %$$%) %U07% Update
 ECHO. (%##% . %$$%) %U17% Clear Settings
@@ -1514,7 +1543,10 @@ EXIT /B
 ::▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶MENU◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 @ECHO OFF&&CLS&&CALL:SETS_HANDLER&&CALL:CLEAN&&FOR %%a in (SOURCE TARGET) DO (IF NOT DEFINED %%a_TYPE SET "SOURCE_TYPE=WIM"&&SET "TARGET_TYPE=VHDX")
 SET "SOURCE_LOCATION="&&FOR %%a in (A B C D E F G H I J K L N O P Q R S T U W Y Z) DO (IF EXIST "%%a:\sources\boot.wim" SET "SOURCE_LOCATION=%%a:\sources")
-SET "PROC_DISPLAY="&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                        %U07% Image Processing^|%SOURCE_TYPE%&&ECHO.
+IF "%SOURCE_TYPE%"=="WIM" SET "SOURCEDISP=%U07%"
+IF "%SOURCE_TYPE%"=="VHDX" SET "SOURCEDISP=%U08%"
+IF "%SOURCE_TYPE%"=="PATH" SET "SOURCEDISP=%U08%"
+SET "PROC_DISPLAY="&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP&&ECHO.                        %SOURCEDISP% Image Processing^|%SOURCE_TYPE%&&ECHO.
 IF DEFINED SOURCE_LOCATION ECHO. (%##%-%$$%) Import Boot  %COLOR5%Windows Installation Media Detected%$$%  Import WIM (%##%+%$$%)&&ECHO.
 IF NOT EXIST "%ImageFolder%\*.WIM" ECHO.        %@@%Insert a Windows Disc/ISO to import installation media%$$%&&ECHO.
 IF NOT EXIST "%CacheFolder%\BOOT.SAV" ECHO.            %@@%Insert a Windows Disc/ISO to import boot media%$$%&&ECHO.
@@ -1711,9 +1743,9 @@ IF "%SELECT%"=="0" IF "%IMAGEMGR_TYPE%"=="PACK" SET "FILE_TYPE=PKX"&&CALL:BASIC_
 IF "%SELECT%"=="0" IF "%IMAGEMGR_TYPE%"=="LIST" SET "FILE_TYPE=LISTS"&&CALL:BASIC_FILE&EXIT /B
 IF NOT DEFINED $PICK EXIT /B
 SET "$LISTPACK=%$CHOICE%"&&FOR %%G in ("%$PICK%") DO (SET "CAPS_SET=IMAGEMGR_EXT"&&SET "CAPS_VAR=%%~xG"&&CALL:CAPS_SET)
-IF "%IMAGEMGR_EXT%"==".BASE" SET "$LIST_FILE=%$PICK%"&SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"&IF "%FOLDER_MODE%"=="ISOLATED" MOVE /Y "$LIST" "%ListFolder%">NUL
+IF "%IMAGEMGR_EXT%"==".BASE" SET "$LIST_FILE=%$PICK%"&SET "BASE_EXEC=1"&&CALL:LIST_VIEWER&SET "IMAGEMGR_EXT=.LIST"&SET "$HEAD=MENU-SCRIPT"&SET "$LISTPACK=$LIST"&IF "%FOLDER_MODE%"=="ISOLATED" IF EXIST "$LIST" MOVE /Y "$LIST" "%ListFolder%">NUL 2>&1
 IF DEFINED ERROR EXIT /B
-IF DEFINED MENU_SESSION CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -MENU"&CALL:PAUSED&EXIT /B
+IF DEFINED QUICK_MENU CLS&&CALL %CMD% /C ""%ProgFolder%\winploy.cmd" -IMAGEMGR -RUN -%IMAGEMGR_TYPE% "%$LISTPACK%" -QUICK"&CALL:PAUSED&EXIT /B
 IF "%IMAGEMGR_EXT%"==".PKX" SET "$IMGMGRX=                           %U05% Pack Execute"
 IF "%IMAGEMGR_EXT%"==".LIST" SET "$IMGMGRX=                           %U13% List Execute"
 SET "$ITEMSTOP= ( %##%0%$$% ) %##%Current Environment%$$%"&&SET "$HEADERS=%$IMGMGRX%%U01% %U01%                            Select a target"&&SET "$FOLD=%ImageFolder%"&&SET "$FILT=*.VHDX"&&SET "$CHOICEMINO=1"&&SET "$VERBOSE=1"&&CALL:FILE_VIEWER
@@ -1732,13 +1764,13 @@ SET "$BOX=ST"&&CALL:BOX_DISP
 IF NOT DEFINED CUSTOM_SESSION ECHO.             %@@%%CURR_SESSION%-LIST START:%$$%  %DATE%  %TIME%&&ECHO.
 SET "$HEAD_CHECK=%$LIST_FILE%"&&CALL:GET_HEADER
 IF DEFINED ERROR GOTO:LIST_EXEC_END
-IF DEFINED MENU_SESSION GOTO:LIST_EXEC_JUMP
+IF DEFINED QUICK_MENU GOTO:LIST_EXEC_JUMP
 IF DEFINED VDISK_APPLY SET "VDISK_LTR=ANY"&CALL:VDISK_ATTACH
 IF DEFINED VDISK_APPLY SET "TARGET_PATH=%VDISK_LTR%:"
 IF DEFINED LIVE_APPLY SET "TARGET_PATH=%SYSTEMDRIVE%"
 IF DEFINED PATH_APPLY SET "TARGET_PATH=%TARGET_PATH%"
-IF DEFINED LIVE_APPLY IF NOT DEFINED CUSTOM_SESSION IF NOT DEFINED MENU_SESSION ECHO.Using live system as target.
-IF NOT EXIST "%TARGET_PATH%\" ECHO.&&ECHO.           %COLOR4%Path error or Windows is not installed on Vdisk.%$$%&&ECHO.&&GOTO:LIST_EXEC_END
+IF DEFINED LIVE_APPLY IF NOT DEFINED CUSTOM_SESSION IF NOT DEFINED QUICK_MENU ECHO.Using live system as target.
+IF NOT EXIST "%TARGET_PATH%\" ECHO.&&ECHO.           %COLOR4%Path error or vdisk is not initialized.%$$%&&ECHO.&&GOTO:LIST_EXEC_END
 :LIST_EXEC_JUMP
 FOR %%□ in ($HALT GROUP SUBGROUP) DO (IF DEFINED %%□ SET "%%□=")
 CALL:SESSION_CLEAR&&CALL:RAS_DELETE
@@ -1786,7 +1818,7 @@ IF "!$ITEM_TYPE!"=="EXECUTE" IF "!COLUMN4!"=="HALT" SET "$HALT=1"&&SET "COLUMN4=
 IF "!$ITEM_TYPE!"=="EXECUTE" IF NOT DEFINED COLUMN4 EXIT /B
 IF "!$ITEM_TYPE!"=="EXECUTE" FOR /F "TOKENS=*" %%● in ("!COLUMN4!") DO (IF /I "%%●"=="DX" CALL:!COLUMN1!_ITEM
 FOR %%○ in (SC RO) DO (IF /I "%%●"=="%%○" CALL:SCRO_CREATE))
-IF /I NOT "!CD!"=="!ProgFolder0!" CD /D "!ProgFolder0!">NUL 2>&1
+IF /I NOT "!CD!"=="!ProgFolder!" CD /D "!ProgFolder!">NUL 2>&1
 EXIT /B
 :INFO_ITEM
 EXIT /B
@@ -1809,14 +1841,14 @@ IF NOT DEFINED $PASS ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not NORMAL or
 IF /I "!COLUMN3!"=="NOMOUNT" CALL:IF_LIVE_MIX
 IF /I "!COLUMN3!"=="NORMAL" CALL:IF_LIVE_EXT
 SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
-SET "LISTCLM2=!$QCLM2$!"&&CHCP %CODEPAGE%>NUL
+SET "LISTCLM2=!$QCLM2$!"&&IF DEFINED CODEPAGE CHCP %CODEPAGE%>NUL
 %CMD% /C powershell -noprofile -executionpolicy bypass -command "[VOID][System.Text.Encoding]::Unicode;$PSHLExec = [ScriptBlock]::Create($env:LISTCLM2);Invoke-command $PSHLExec"
 SET "LISTCLM2="&&CHCP 65001>NUL
 EXIT /B
 :SESSION_ITEM
 IF DEFINED @VERBOSE ECHO.Executing %@@%!COLUMN1!%$$% item
-CALL:IF_LIVE_EXT&&CHCP %CODEPAGE%>NUL
-SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX
+CALL:IF_LIVE_EXT
+SET "DELIMS=%U00%"&&SET "$INPUT=!COLUMN0!"&&SET "$OUTPUT=QCLM"&&CALL:EXPANDOFLEX&&IF DEFINED CODEPAGE CHCP %CODEPAGE%>NUL
 CALL %CMD% /C ""%ProgFolder%\winploy.cmd" !$QCLM2$!"
 SET "MOUNT="&&CALL:MOUNT_INT&&CHCP 65001>NUL
 EXIT /B
@@ -1886,18 +1918,20 @@ IF DEFINED $INPUT SET "!$OUTPUT!=!$INPUT!"
 FOR %%● in ($INPUT_OG $INPUT $OUTPUT) DO (SET "%%●=")
 EXIT /B
 :RASTI_CREATE
+IF "%WINPE_BOOT%"=="1" EXIT /B
 IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %WinDir%\TEMP\$RAS.cmd" /f)
 IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" START=DEMAND>NUL 2>&1
+IF NOT EXIST "%WinDir%\TEMP" MD "%WinDir%\TEMP">NUL 2>&1
 IF /I "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %WinDir%\TEMP\$RATI.cmd" /f^>NUL 2^>^&^1>"%WinDir%\TEMP\$RAS.cmd"
 IF /I "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
 IF /I "%$RAS%"=="RATI" ECHO.NET START TrustedInstaller^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
 IF /I "%$RAS%"=="RATI" ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
 IF /I "%$RAS%"=="RATI" ECHO.%REG% add "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /v "ImagePath" /t REG_EXPAND_SZ /d "%%%%SystemRoot%%%%\servicing\TrustedInstaller.exe" /f^>NUL 2^>^&^1>>"%WinDir%\TEMP\$RAS.cmd"
 IF /I "%$RAS%"=="RATI" ECHO.DEL /Q /F "%WinDir%\TEMP\$RAS.cmd"^>NUL^&EXIT>>"%WinDir%\TEMP\$RAS.cmd"
-ECHO.@ECHO OFF^&CD /D "%ProgFolder0%">"%WinDir%\TEMP\$%$RAS%.cmd"
+ECHO.@ECHO OFF^&CD /D "%ProgFolder%">"%WinDir%\TEMP\$%$RAS%.cmd"
 IF NOT DEFINED VAR_ITEMS CALL:VAR_ITEMS
 FOR %%■ in (DrvTar WinTar UsrTar HiveSoftware HiveSystem HiveUser ProgFolder ImageFolder ListFolder PackFolder CacheFolder PkxFolder ApplyTarget UsrNam UsrSid %VAR_ITEMS%) DO (IF DEFINED %%■ ECHO.SET "%%■=!%%■!">>"%WinDir%\TEMP\$%$RAS%.cmd")
-ECHO.CALL:ROUTINE^>"%ProgFolder0%\$LOG">>"%WinDir%\TEMP\$%$RAS%.cmd"
+ECHO.CALL:ROUTINE^>"%ProgFolder%\$LOG">>"%WinDir%\TEMP\$%$RAS%.cmd"
 ECHO.DEL /Q /F "%WinDir%\TEMP\$%$RAS%.cmd"^>NUL^&EXIT>>"%WinDir%\TEMP\$%$RAS%.cmd"
 ECHO.:ROUTINE>>"%WinDir%\TEMP\$%$RAS%.cmd"
 IF /I "%$QCLM1$%"=="COMMAND" IF EXIST "$LIST" ECHO.FOR /F "TOKENS=*" %%%%@ in ($LIST) DO (%CMD% /C %%%%@)>>"%WinDir%\TEMP\$%$RAS%.cmd"
@@ -1918,12 +1952,14 @@ IF EXIST "%WinDir%\TEMP\$%%□.cmd" CALL:TIMER_POINT3
 IF EXIST "%WinDir%\TEMP\$%%□.cmd" IF "%XNT%"=="10" IF NOT DEFINED RETRY SET "RETRY=1"&&GOTO:RASTI_CREATE
 IF EXIST "%WinDir%\TEMP\$%%□.cmd" IF "%XNT%"=="10" IF DEFINED RETRY CALL:RASTI_CHECK&DEL /Q /F "%WinDir%\TEMP\$%%□.cmd">NUL 2>&1))
 FOR %%□ in (RAS RATI) DO (IF EXIST "%WinDir%\TEMP\$%%□.cmd" GOTO:RASTI_WAIT)
-IF EXIST "%ProgFolder0%\$LOG" IF /I NOT "%$QCLM1$%"=="SERVICE" IF /I NOT "%$QCLM1$%"=="TASK" FOR /F "USEBACKQ TOKENS=* DELIMS=" %%□ in ("%ProgFolder0%\$LOG") DO (ECHO.%%□)
-IF EXIST "%ProgFolder0%\$LOG" DEL /Q /F "%ProgFolder0%\$LOG">NUL 2>&1
+IF EXIST "%ProgFolder%\$LOG" IF /I NOT "%$QCLM1$%"=="SERVICE" IF /I NOT "%$QCLM1$%"=="TASK" FOR /F "USEBACKQ TOKENS=* DELIMS=" %%□ in ("%ProgFolder%\$LOG") DO (ECHO.%%□)
+IF EXIST "%ProgFolder%\$LOG" DEL /Q /F "%ProgFolder%\$LOG">NUL 2>&1
 SET "RETRY="&&SET "XNT="&&EXIT /B
 :RASTI_CHECK
+IF "%WINPE_BOOT%"=="1" EXIT /B
 SET "$GO="&&FOR /F "TOKENS=1-3* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\TrustedInstaller" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" IF "%%c"=="%CMD%" SET "$GO=1")
 IF NOT DEFINED $GO EXIT /B
+IF NOT EXIST "%WinDir%\TEMP" MD "%WinDir%\TEMP">NUL 2>&1
 IF NOT "%WINPE_BOOT%"=="1" SET "SRV_X="&&FOR /F "TOKENS=1-2* DELIMS= " %%a in ('%REG% QUERY "HKLM\SYSTEM\ControlSet001\Services\$RAS" /V ImagePath 2^>NUL') DO (IF "%%a"=="ImagePath" SET "SRV_X=1"&&IF NOT "%%c"=="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" %REG% add "HKLM\SYSTEM\ControlSet001\Services\$RAS" /v "ImagePath" /t REG_EXPAND_SZ /d "%CMD% /C START %WinDir%\TEMP\$RAS.cmd" /f)
 IF NOT "%WINPE_BOOT%"=="1" IF NOT DEFINED SRV_X SC CREATE $RAS BINPATH="%CMD% /C START %WinDir%\TEMP\$RAS.cmd" START=DEMAND>NUL 2>&1
 ECHO.NET STOP TrustedInstaller^>NUL 2^>^&^1>"%WinDir%\TEMP\$RAS.cmd"
@@ -2093,6 +2129,7 @@ IF NOT DEFINED $RAS SET "RUN_AS=user"
 IF /I "!$RAS!"=="RAU" SET "RUN_AS=user"&&SET "$RAS="
 IF /I "!$RAS!"=="RAS" SET "RUN_AS=system"
 IF /I "!$RAS!"=="RATI" SET "RUN_AS=trustedinstaller"
+IF "%WINPE_BOOT%"=="1" SET "$RAS="
 IF /I "%$REG_OPER%"=="IMPORT" GOTO:REGISTRY_ITEM_END
 IF /I "%$REG_OPER%"=="EXPORT" GOTO:REGISTRY_ITEM_END
 IF DEFINED $REG_VAL SET "$REG_OBJ=VAL"
@@ -2136,6 +2173,7 @@ IF NOT DEFINED $RAS SET "RUN_AS=user"
 IF /I "!$RAS!"=="RAU" SET "RUN_AS=user"&&SET "$RAS="
 IF /I "!$RAS!"=="RAS" SET "RUN_AS=system"
 IF /I "!$RAS!"=="RATI" SET "RUN_AS=trustedinstaller"
+IF "%WINPE_BOOT%"=="1" SET "$RAS="
 IF DEFINED COLUMN0 SET "$COLUMN0=!COLUMN0:%%=％!"&&SET "$COLUMN0=!$COLUMN0:◁=%%!"&&SET "$COLUMN0=!$COLUMN0:▷=%%!"&&SET "$COLUMN0=!$COLUMN0:＄=$!"&&SET "$COLUMN0=!$COLUMN0:％=%%!"
 FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ("!$COLUMN0!") DO (SET "$COLUMN2=%%b")
 IF DEFINED @VERBOSE ECHO.Executing %@@%!$QCLM1$!%$$% as %##%%RUN_AS%%$$% !$COLUMN2!
@@ -2175,7 +2213,7 @@ FOR /F "TOKENS=*" %%□ IN ("%PKX_NAME%") DO (ECHO.Extracting %@@%%%□%$$%...)
 %DISM% /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%$PACK_FILE%" /INDEX:1 /APPLYDIR:"%ProgFolder%\$PKX">NUL 2>&1
 IF NOT EXIST "%ProgFolder%\$PKX\package.list" ECHO.%COLOR2%ERROR:%$$% Package is either missing package.list or unable to extract.
 SET "ListFolder=%ProgFolder%\$PKX"&&SET "PackFolder=%ProgFolder%\$PKX"&&SET "CacheFolder=%ProgFolder%\$PKX"&&IF EXIST "%ProgFolder%\$PKX\package.list" SET "$LIST_FILE=%ProgFolder%\$PKX\package.list"&&CALL:LIST_EXEC
-CD /D "%ProgFolder0%">NUL
+CD /D "%ProgFolder%">NUL
 FOR %%a in ($PACK_FILE PkxFolder PKX_NAME) DO (SET "%%a=")
 IF EXIST "%ProgFolder%\$PKX" SET "FOLDER_DEL=%ProgFolder%\$PKX"&&CALL:FOLDER_DEL
 IF EXIST "%ProgFolder%\$PKX" ECHO.%COLOR4%ERROR:%$$% Unable to complete package cleanup as the package is still active. Do not spawn commands asynchronously.
@@ -2320,12 +2358,10 @@ SET "$PASS="&&FOR %%□ IN (ENABLE DISABLE) DO (IF /I "%$QCLM3$%"=="%%□" SET "
 IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%ERROR:%$$% !$QCLM1$! column 3 is not ENABLE or DISABLE.&&EXIT /B)
 SET "FILE_OUTPUT=$FEAT"&&IF NOT DEFINED FEAT_QRY IF EXIST "$FEAT" DEL /Q /F "$FEAT">NUL 2>&1
 IF NOT EXIST "$FEAT" IF DEFINED @VERBOSE ECHO.Getting feature listing...
-IF NOT EXIST "$FEAT" SET "FEAT_QRY=1"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (FOR %%X in (Enabled Disabled) DO (IF "%%b"=="%%X" SET "CAPS_SET=X1"&&SET "CAPS_VAR=%%a"&&SET "X2=%%b"&&CALL:CAPS_SET&&CALL:FILE_OUTPUT))
-IF /I "%$QCLM3$%"=="ENABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF DEFINED @VERBOSE ECHO.Enabling Feature %@@%%%□%$$%... 
-SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%%□"&&CALL:CAPS_SET)
-IF /I "%$QCLM3$%"=="DISABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF DEFINED @VERBOSE ECHO.Disabling Feature %@@%%%□%$$%...
-SET "CAPS_SET=$QCLM2$"&&SET "CAPS_VAR=%%□"&&CALL:CAPS_SET)
-SET "FEAT="&&IF EXIST "$FEAT" FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ($FEAT) DO (IF "%%a"=="%$QCLM2$%" SET "FEAT=1"&&SET "X1=%%a"&&SET "X2=%%b")
+IF NOT EXIST "$FEAT" SET "FEAT_QRY=1"&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=| " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (FOR %%X in (Enabled Disabled) DO (IF "%%b"=="%%X" SET "X1=%%a"&&SET "X2=%%b"&&CALL:FILE_OUTPUT))
+IF /I "%$QCLM3$%"=="ENABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF DEFINED @VERBOSE ECHO.Enabling Feature %@@%%%□%$$%...)
+IF /I "%$QCLM3$%"=="DISABLE" FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (IF DEFINED @VERBOSE ECHO.Disabling Feature %@@%%%□%$$%...)
+SET "FEAT="&&IF EXIST "$FEAT" FOR /F "TOKENS=1-9 DELIMS=%U00%" %%a in ($FEAT) DO (IF /I "%%a"=="%$QCLM2$%" SET "FEAT=1"&&SET "X1=%%a"&&SET "X2=%%b")
 IF NOT DEFINED FEAT FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Feature %%□ doesn't exist.&&EXIT /B)
 IF /I "%$QCLM3$%"=="ENABLE" IF "%X2%"=="Enabled" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="ENABLE" IF "%X2%"=="Enabled" EXIT /B
@@ -2359,8 +2395,11 @@ IF /I "%$QCLM3$%"=="MANUAL" IF "%%a"=="Start" IF "%%c"=="0x3" EXIT /B
 IF /I "%$QCLM3$%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 IF /I "%$QCLM3$%"=="DISABLE" IF "%%a"=="Start" IF "%%c"=="0x4" EXIT /B)
 IF NOT DEFINED $GO FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Service %%□ doesn't exist.&&EXIT /B)
-IF /I "%$QCLM3$%"=="DELETE" SET "$RAS=RATI"&&CALL:RASTI_CREATE
-IF /I NOT "%$QCLM3$%"=="DELETE" SET "$RAS=RAS"&&CALL:RASTI_CREATE
+IF "%WINPE_BOOT%"=="1" IF /I "%$QCLM3$%"=="DELETE" %REG% DELETE "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /F>NUL 2>&1
+IF "%WINPE_BOOT%"=="1" IF /I "%$QCLM3$%"=="AUTO" %REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "2" /F >NUL 2>&1
+IF "%WINPE_BOOT%"=="1" IF /I "%$QCLM3$%"=="MANUAL" %REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "3" /F>NUL 2>&1
+IF "%WINPE_BOOT%"=="1" IF /I "%$QCLM3$%"=="DISABLE" %REG% ADD "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V "Start" /T REG_DWORD /D "4" /F>NUL 2>&1
+IF NOT "%WINPE_BOOT%"=="1" SET "$RAS=RATI"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1-3 DELIMS= " %%a IN ('%REG% QUERY "%HiveSystem%\ControlSet001\Services\%$QCLM2$%" /V Start 2^>NUL') DO (
 IF /I "%$QCLM3$%"=="AUTO" IF "%%a"=="Start" IF NOT "%%c"=="0x2" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B
 IF /I "%$QCLM3$%"=="MANUAL" IF "%%a"=="Start" IF NOT "%%c"=="0x3" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B
@@ -2376,7 +2415,9 @@ IF NOT DEFINED $PASS FOR /F "TOKENS=*" %%□ IN ("%$QCLM3$%") DO (ECHO.%COLOR4%E
 IF DEFINED @VERBOSE FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.Removing Task %@@%%%□%$$%...)
 SET "TASKID="&&FOR /F "TOKENS=1-4 DELIMS={} " %%a IN ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /V Id 2^>NUL') DO (IF "%%a"=="Id" SET "TASKID=%%c")
 IF NOT DEFINED TASKID FOR /F "TOKENS=*" %%□ IN ("%$QCLM2$%") DO (ECHO.%COLOR4%ERROR:%$$% Task %%□ doesn't exist.&&EXIT /B)
-SET "$RAS=RAS"&&CALL:RASTI_CREATE
+IF "%WINPE_BOOT%"=="1" IF /I "%$QCLM1$%"=="TASK" %REG% DELETE "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /F>NUL 2>&1
+IF "%WINPE_BOOT%"=="1" IF /I "%$QCLM1$%"=="TASK" %REG% DELETE "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{%TASKID%}" /F>NUL 2>&1
+IF NOT "%WINPE_BOOT%"=="1" SET "$RAS=RATI"&&CALL:RASTI_CREATE
 FOR /F "TOKENS=1 DELIMS= " %%a IN ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\%$QCLM2$%" /V Id 2^>NUL') DO (IF "%%a"=="Id" ECHO.%COLOR2%ERROR:%$$% The operation did not complete successfully.&&EXIT /B)
 IF DEFINED @VERBOSE ECHO.%COLOR5%The operation completed successfully.%$$%
 EXIT /B
@@ -2461,7 +2502,7 @@ IF EXIST "%ListFolder%\%$CHOICE%" SET "$PICK=%ListFolder%\%$CHOICE%"
 EXIT /B
 :LIST_MISCELLANEOUS
 CLS&&SET "IMAGE_LAST=IMAGE"&&CALL:SETS_MAIN&&CALL:CLEAN&&CALL:PAD_LINE&&SET "$BOX=RT"&&CALL:BOX_DISP
-ECHO.                            %U13% List Builder&&ECHO.&&ECHO.                             Miscellaneous&&ECHO.&&ECHO. (%##% 1 %$$%) %U13% Create Source Base&&ECHO. (%##% 2 %$$%) %U08% Generate Example Base&&ECHO. (%##% 3 %$$%) %U13% Convert Group Base&&ECHO. (%##% 4 %$$%) %U10% External Package Item&&ECHO.
+ECHO.                            %U13% List Builder&&ECHO.&&ECHO.                             Miscellaneous&&ECHO.&&ECHO. (%##% 1 %$$%) %U13% Create Source Base&&ECHO. (%##% 2 %$$%) %U20% Generate Example Base&&ECHO. (%##% 3 %$$%) %U13% Convert Group Base&&ECHO. (%##% 4 %$$%) %U10% External Package Item&&ECHO.
 SET "$BOX=RB"&&CALL:BOX_DISP&&CALL:PAD_LINE&&CALL:PAD_PREV
 SET "$CHECK=NUMBER❗0-4"&&SET "$VERBOSE=1"&&SET "$SELECT=SELECTX"&&CALL:MENU_SELECT
 IF NOT DEFINED SELECTX EXIT /B
@@ -2475,7 +2516,8 @@ GOTO:LIST_MISCELLANEOUS
 IF NOT DEFINED MENU_SKIP SET "$HEADERS= %U01% %U01% %U01% %U01%                        Enter name of new .base%U01% %U01% %U01% "&&SET "$SELECT=NEW_NAME"&&SET "$CHECK=PATH"&&CALL:PROMPT_BOX
 IF DEFINED ERROR EXIT /B
 IF NOT "%PROG_MODE%"=="COMMAND" CLS
-SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%EXAMPLE-BASE START:%$$%  %DATE%  %TIME%&&ECHO.&&ECHO.&&CALL:BASE_EXAMPLE>"%ListFolder%\%NEW_NAME%"
+SET "$BOX=ST"&&CALL:BOX_DISP&&ECHO.           %@@%EXAMPLE-BASE START:%$$%  %DATE%  %TIME%&&ECHO.&&ECHO.&&CALL:BASE_EXAMPLE>"%ListFolder%\%NEW_NAME%.base"
+CALL:BASE_EXAMPLEQUICK>"%ListFolder%\%NEW_NAME%_Quick.base"
 ECHO.                   Example base created successfully.&&ECHO.&&ECHO.&&ECHO.            %@@%EXAMPLE-BASE END:%$$%  %DATE%  %TIME%&&SET "$BOX=SB"&&CALL:BOX_DISP
 IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
@@ -2498,7 +2540,7 @@ EXIT /B
 :LIST_WRITE
 IF NOT DEFINED ITEMX EXIT /B
 IF NOT DEFINED LIST_START SET "LIST_START=1"&&(ECHO.MENU-SCRIPT)>"$LIST"
-FOR /F "TOKENS=1-9 DELIMS=%U00%" %%1 IN ("%LIST_WRITE%") DO (CALL ECHO.%U00%ExtPackage%U00%%%1%U00%%$BCLM3%%U00%%$BCLM4%%U00%>>"$LIST")
+FOR /F "TOKENS=1-9 DELIMS=%U00%" %%1 IN ("%LIST_WRITE%") DO (CALL ECHO.%U00%📢ExtPackage%U00%%%1%U00%%$BCLM3%%U00%%$BCLM4%%U00%>>"$LIST")
 EXIT /B
 :LIST_CONVERT
 SET "$HEADERS=                           %U13% Miscellaneous%U01% %U01%                            Create Base-List%U01% %U01%                       Select a list to convert"&&SET "$CHOICEMINO=1"&&SET "$ITEMSTOP= ( %##%0%$$% ) File Operation"&&SET "$FOLD=%ListFolder%"&&SET "$FILT=*.LIST"&&SET "$VERBOSE=1"&&CALL:FILE_VIEWER
@@ -2590,7 +2632,7 @@ ECHO.&&ECHO.        %@@%BASE-LIST CREATION END:%$$%  %DATE%  %TIME%&&SET "$BOX=S
 EXIT /B
 :GET_BASE_APPX
 ECHO.&&ECHO. %@@%Getting AppX Listing%$$%..&&ECHO.&&SET "$BCLM1=AppX"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%AppX❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%AppX❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=9* DELIMS=\" %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications" 2^>NUL') DO (FOR /F "TOKENS=1-1* DELIMS=_" %%1 in ("%%a") DO (SET "BASE_WRITE=%%1"&&SET "$GROUP_CLM2=%%1"&&CALL:BASE_WRITE))
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 SET "$BCLM3=%U0L%CHOICE0.S%U0R%"&&FOR /F "TOKENS=9* DELIMS=\" %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications" 2^>NUL') DO (FOR /F "TOKENS=1-1* DELIMS=_" %%1 in ("%%a") DO (SET "BASE_WRITE=%%1"&&SET "$GROUP_CLM2=%%1"&&CALL:BASE_WRITE))
@@ -2600,7 +2642,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_FEATURE
 ECHO.&&ECHO. %@@%Getting Feature Listing%$$%..&&ECHO.&&SET "$BCLM1=Feature"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_MIX
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%Feature❕Scoped❕Select an option❕Enable❗Disable❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%Feature❕Scoped❕Select an option❕Enable❗Disable❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-9 DELIMS=|: " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-FEATURES /FORMAT:TABLE 2^>NUL') DO (
 IF "%%b"=="Enabled" SET "$BASE_CHOICE=Default is ENABLE"&&SET "BASE_WRITE=%%a"&&SET "$GROUP_CLM2=%%a"&&CALL:BASE_WRITE
 IF "%%b"=="Disabled" SET "$BASE_CHOICE=Default is DISABLE"&&SET "BASE_WRITE=%%a"&&SET "$GROUP_CLM2=%%a"&&CALL:BASE_WRITE)
@@ -2610,7 +2652,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_COMPONENT
 ECHO.&&ECHO. %@@%Getting Component Listing%$$%..&&ECHO.&&SET "$BCLM1=Component"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%Component❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%Component❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=8* DELIMS=\" %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages" 2^>NUL') DO (FOR /F "TOKENS=1-1* DELIMS=~" %%1 in ("%%a") DO (SET "BASE_WRITE=%%1"&&SET "$GROUP_CLM2=%%1"&&CALL:BASE_WRITE))
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
@@ -2618,7 +2660,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_CAPABILITY
 ECHO.&&ECHO. %@@%Getting Capability Listing%$$%..&&ECHO.&&SET "$BCLM1=Capability"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_MIX
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%Capability❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%Capability❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-2 DELIMS=|: " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-CAPABILITIES /FORMAT:TABLE 2^>NUL') DO (
 IF "%%b"=="Installed" SET "BASE_WRITE=%%a"&&SET "$GROUP_CLM2=%%a"&&CALL:BASE_WRITE)
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
@@ -2627,7 +2669,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_SERVICE
 ECHO.&&ECHO. %@@%Getting Service Listing%$$%..&&ECHO.&&SET "$BCLM1=Service"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%Service❕Scoped❕Select an option❕Auto%U01%Manual%U01%Disable%U01%Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%Service❕Scoped❕Select an option❕Auto%U01%Manual%U01%Disable%U01%Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-4* DELIMS=\" %%a in ('%REG% QUERY "%HiveSystem%\ControlSet001\Services" 2^>NUL') DO (FOR /F "TOKENS=1-9 DELIMS= " %%1 in ('%REG% QUERY "%HiveSystem%\ControlSet001\Services\%%e" 2^>NUL') DO (SET "BASE_WRITE=%%e"
 IF "%%1"=="Start" IF "%%3"=="0x2" SET "$BASE_CHOICE=Default is Auto"
 IF "%%1"=="Start" IF "%%3"=="0x3" SET "$BASE_CHOICE=Default is Manual"
@@ -2642,7 +2684,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_TASK
 ECHO.&&ECHO. %@@%Getting Task Listing%$$%..&&ECHO.&&SET "$BCLM1=Task"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_EXT
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%Task❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%Task❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 FOR /F "TOKENS=1-3* DELIMS= " %%a in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree" /f ID /e /s 2^>NUL') DO (IF "%%b"=="REG_SZ" IF NOT "%%c"=="" FOR /F "TOKENS=2* DELIMS=\ " %%1 in ('%REG% QUERY "%HiveSoftware%\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\%%c" /f PATH /e /s 2^>NUL') DO (IF "%%1"=="REG_SZ" IF NOT "%%2"=="" SET "BASE_WRITE=%%2"&&CALL:BASE_WRITE))
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
 ECHO.>>"%ListFolder%\%NEW_NAME%.base"
@@ -2650,7 +2692,7 @@ FOR %%X IN ($BCLM1 $BCLM3 $BASE_CHOICE BASE_WRITELAST) DO (SET "%%X=")
 EXIT /B
 :GET_BASE_DRIVER
 ECHO.&&ECHO. %@@%Getting Driver Listing%$$%..&&ECHO.&&SET "$BCLM1=Driver"&&SET "$BCLM3=%U0L%Choice0.S%U0R%"&&CALL:IF_LIVE_MIX
-ECHO.❕Group❕%$BASE_GROUP%❕%U08%Driver❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.❕Group❕%$BASE_GROUP%❕%U20%Driver❕Scoped❕Select an option❕Delete❕VolaTILE❕>>"%ListFolder%\%NEW_NAME%.base"
 SET "DRIVER_NAME="&&FOR /F "TOKENS=1-9 SKIP=6 DELIMS=: " %%a in ('%DISM% /ENGLISH /%ApplyTarget% /GET-DRIVERS 2^>NUL') DO (
 IF "%%a %%b"=="Published Name" SET "DRIVER_INF=%%c"
 IF "%%a %%b %%c"=="Original File Name" SET "DRIVER_NAME=%%d"&&SET "BASE_WRITE=%%d"
@@ -2665,7 +2707,7 @@ EXIT /B
 IF DEFINED BASE_WRITE IF DEFINED BASE_WRITELAST IF "%BASE_WRITE%"=="%BASE_WRITELAST%" EXIT /B
 SET "BASE_WRITELAST=!BASE_WRITE!"
 ECHO.%@@%!$BCLM1!%$$% !BASE_WRITE!%$$%
-ECHO.%U00%!$BCLM1!%U00%!BASE_WRITE!%U00%!$BCLM3!%U00%DX%U00%!$BASE_CHOICE!>>"%ListFolder%\%NEW_NAME%.base"
+ECHO.%U00%%U22%!$BCLM1!%U00%!BASE_WRITE!%U00%!$BCLM3!%U00%DX%U00%!$BASE_CHOICE!>>"%ListFolder%\%NEW_NAME%.base"
 EXIT /B
 :LIST_TIME
 SET "$BCLM4="&&SET "$HEADERS=                           %U13% Miscellaneous%U01% %U01%                            Time of Action"&&SET "$CHOICE_LIST=Default       %U00%%@@%DX%$$%%U00% Immediate execution%U01%SetupComplete %U00%%@@%SC%$$%%U00% Scheduled execution%U01%RunOnce       %U00%%@@%RO%$$%%U00% Scheduled execution"&&SET "$VERBOSE=1"&&SET "$SELECT=SELECTZ"&&CALL:CHOICE_BOX
@@ -2847,7 +2889,7 @@ ECHO.               New package template created successfully.&&ECHO.&&ECHO.&&EC
 IF NOT "%PROG_MODE%"=="COMMAND" CALL:PAUSED
 EXIT /B
 :NEW_PACKAGELIST
-(ECHO.MENU-SCRIPT&&ECHO.&&ECHO.Delete the driver list entry below and driver folder if there aren't drivers included in the package.&&ECHO.%U00%DRIVER%U00%"%%PkxFolder%%\driver"%U00%INSTALL%U00%DX%U00%&&ECHO.&&ECHO.Delete the command list entry below and package.cmd if a script is not needed.&&ECHO.%U00%COMMAND%U00%%CMD% /C "%%PkxFolder%%\package.cmd"%U00%NORMAL%U00%DX%U00%&&ECHO.&&ECHO.Manually add, copy and paste items, or replace this package.list with an existing execution list.&&ECHO.Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.)>"%ProgFolder%\project\package.list"
+(ECHO.MENU-SCRIPT&&ECHO.&&ECHO.Delete the driver list entry below and driver folder if there aren't drivers included in the package.&&ECHO.%U00%%U22%DRIVER%U00%"%%PkxFolder%%\driver"%U00%INSTALL%U00%DX%U00%&&ECHO.&&ECHO.Delete the command list entry below and package.cmd if a script is not needed.&&ECHO.%U00%%U22%COMMAND%U00%%CMD% /C "%%PkxFolder%%\package.cmd"%U00%NORMAL%U00%DX%U00%&&ECHO.&&ECHO.Manually add, copy and paste items, or replace this package.list with an existing execution list.&&ECHO.Copy any listed items such as scripts, installers, appx, cab, and msu packages into the project folder before package creation.)>"%ProgFolder%\project\package.list"
 EXIT /B
 :NEW_PACKAGECMD
 (ECHO.::================================================&&ECHO.::These variables are built in and can help&&ECHO.::keep a script consistant throughout the entire&&ECHO.::process, whether applying to a vhdx or live.&&ECHO.::Add any files to package folder before creating.&&ECHO.::================================================&&ECHO.::Windows folder :    %%WinTar%%&&ECHO.::Drive root :        %%DrvTar%%&&ECHO.::User or defuser :   %%UsrTar%%&&ECHO.::HKLM\SOFTWARE :     %%HiveSoftware%%&&ECHO.::HKLM\SYSTEM :       %%HiveSystem%%&&ECHO.::HKCU or defuser :   %%HiveUser%%&&ECHO.::DISM target :       %%ApplyTarget%%&&ECHO.::==================START OF PACK=================&&ECHO.&&ECHO.@ECHO OFF&&ECHO.REM "%%PkxFolder%%\example.msi" /quiet /noprompt&&ECHO.&&ECHO.::===================END OF PACK==================)>"%ProgFolder%\project\package.cmd"
@@ -3493,7 +3535,7 @@ SET "$IMAGE_X=%PRI_LETTER%:\%HOST_FOLDER%\boot.wim"&&SET "INDEX_WORD=Setup"&&CAL
 IF NOT DEFINED INDEX_Z SET "INDEX_Z=1"
 SET "$IMAGE_X=%PRI_LETTER%:\%HOST_FOLDER%\boot.wim"&&SET "INDEX_X=%INDEX_Z%"&&CALL:GET_IMAGEINFO
 IF DEFINED ERROR ECHO.%COLOR2%ERROR:%$$% File boot.sav is corrupt. Abort.&&GOTO:BOOT_CLEANUP
-ECHO. v%$IMGVER%&&%DISM% /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%PRI_LETTER%:\%HOST_FOLDER%\boot.wim" /INDEX:%INDEX_Z% /APPLYDIR:"%VDISK_LTR%:"&ECHO.&SET "INDEX_Z="
+ECHO.Version: %$IMGVER%&&%DISM% /ENGLISH /APPLY-IMAGE /IMAGEFILE:"%PRI_LETTER%:\%HOST_FOLDER%\boot.wim" /INDEX:%INDEX_Z% /APPLYDIR:"%VDISK_LTR%:"&ECHO.&SET "INDEX_Z="
 MOVE /Y "%PRI_LETTER%:\%HOST_FOLDER%\boot.wim" "%PRI_LETTER%:\%HOST_FOLDER%\boot.sav">NUL 2>&1
 IF NOT EXIST "%VDISK_LTR%:\Windows" ECHO.%COLOR2%ERROR:%$$% Files created with boot.sav are corrupt. Abort.&&SET "ERROR=BOOT_CREATOR_START"&&GOTO:BOOT_CLEANUP
 MD "%VDISK_LTR%:\$">NUL 2>&1
@@ -3651,7 +3693,7 @@ CALL:EFI_UNMOUNT&SET "BOOT_TARGET=%NEXT_BOOT%"&&CALL:BOOT_TOGGLE
 EXIT /B
 :QUIT
 IF "%PROG_MODE%"=="RAMDISK" IF "%HOST_HIDE%"=="ENABLED" CALL:HOST_HIDE
-COLOR&&TITLE C:\Windows\system32\%CMD%&&CD /D "%ORIG_CD%"&&CHCP %CODEPAGE%>NUL
+COLOR&&TITLE C:\Windows\system32\%CMD%&&CD /D "%ORIG_CD%"&&IF DEFINED CODEPAGE CHCP %CODEPAGE%>NUL
 IF "%PROG_MODE%"=="RAMDISK" EXIT 0&&EXIT 0
 GOTO:END_OF_FILE
 #>;#▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶GUISTART◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
@@ -3700,6 +3742,7 @@ CONSOLE_FONT_INFO_EX fontInfo = new CONSOLE_FONT_INFO_EX();
 fontInfo.cbSize = (uint)Marshal.SizeOf(fontInfo);GetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);fontInfo.dwFontSize.X = 0;fontInfo.dwFontSize.Y = fontSize;fontInfo.FaceName = fontName;return SetCurrentConsoleFontEx(consoleOutputHandle, false, ref fontInfo);} }
 "@
 $PSScriptRootX = "$($PWD.Path)";$ProjectFolder = "$PSScriptRootX\project";
+if (Test-Path -Path "$PSScriptRootX") {$ProgFolder = "$PSScriptRootX"} else {$ProgFolder = "$PSScriptRootX"}
 if (Test-Path -Path "$PSScriptRootX\image") {$ImageFolder = "$PSScriptRootX\image"} else {$ImageFolder = "$PSScriptRootX"}
 if (Test-Path -Path "$PSScriptRootX\list") {$ListFolder = "$PSScriptRootX\list"} else {$ListFolder = "$PSScriptRootX"}
 if (Test-Path -Path "$PSScriptRootX\pack") {$PackFolder = "$PSScriptRootX\pack"} else {$PackFolder = "$PSScriptRootX"}
@@ -4609,8 +4652,10 @@ $button = New-Object Windows.Forms.Button
 $button.Location = New-Object Drawing.Point($XLOC, $YLOC)
 $button.Size = New-Object Drawing.Size($WSIZ, $HSIZ)
 $button.ForeColor = [System.Drawing.Color]::FromArgb("0X$GUI_TXT_FORE")
-$button.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$button.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
 $button.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat;$button.FlatAppearance.BorderSize = 0;$ARCLOC = [WinMekanix.Functions]::CreateRoundRectRgn(0, 0, $button.Width , $button.Height, 30, 30);[void][WinMekanix.Functions]::SetWindowRgn($button.Handle , $ARCLOC, $true);
+$fontX = [int]($GUI_SCALE / $DpiCur * 45 * $ScaleRef);$fontX = [Math]::Floor($fontX);
+$button.Font = New-Object System.Drawing.Font("Consolas", $fontX,[System.Drawing.FontStyle]::Regular)
 $button.Text = $Text
 $button.Cursor = 'Hand'
 $button.Add_Click({
@@ -4642,12 +4687,12 @@ if ($Button_PB.Tag -ne 'Enable') {$PagePB.Visible = $false}
 if ($Button_BC.Tag -ne 'Enable') {$PageBC.Visible = $false}
 if ($Button_SC.Tag -ne 'Enable') {$PageSC.Visible = $false}
 if ($Button_SP.Tag -ne 'Enable') {$PageSP.Visible = $false;$scrolltimer.Enabled = $false}
-$Button_W2V.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$Button_LB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$Button_PB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$Button_BC.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
-$Button_SC.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")
+$Button_W2V.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
+$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
+$Button_LB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
+$Button_PB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
+$Button_BC.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
+$Button_SC.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")
 if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_V2W.Tag -eq 'Enable') {$Button_W2V.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_W2V.Tag -eq 'Enable') {$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
@@ -4657,7 +4702,7 @@ if (Test-Path -Path "$ListFolder\`$LIST") {Remove-Item -Path "$ListFolder\`$LIST
 if (Test-Path -Path "$PSScriptRootX\`$TEMP") {Remove-Item -Path "$PSScriptRootX\`$TEMP" -Force}
 })
 $button.Add_MouseEnter({$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")})
-$button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")} else {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_BTN_COLOR")}
+$button.Add_MouseLeave({if ($this.Tag -eq 'Enable') {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")} else {$this.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_PAG_COLOR")}
 if ($Button_V2W.Tag -eq 'Enable') {$Button_W2V.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_W2V.Tag -eq 'Enable') {$Button_V2W.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
 if ($Button_LB.Tag -eq 'Enable') {$Button_PB.BackColor = [System.Drawing.Color]::FromArgb("0X$GUI_HLT_COLOR")}
@@ -4670,7 +4715,7 @@ return $button
 function SplashChange {
 if ($SplashChange) {$NextSplash = Get-Random -Minimum 1 -Maximum 2;
 if ($NextSplash -eq 1) {$Label0_PageSP.Text = "The World Is Yours"}}
-if (-not ($Label0_PageSP.Text)) {$Label0_PageSP.Text = "Welcome To Winploy`: Granular Windows Deployment Re-Imagined"}
+if (-not ($Label0_PageSP.Text)) {$Label0_PageSP.Text = "Welcome To WinPloy                            The Windows Deployment Image Customization Kit                            Granular Windows Deployment Re-Imagined                            Customize The Way You Customize"}
 $ScrollLength = $Label0_PageSP.Text.Length
 $global:Label0_PageSPL = ($GUI_SCALE / $DpiCur * -16 * $ScaleRef * $ScrollLength * 3.333);
 $global:Label0_PageSPL = [Math]::Floor($Label0_PageSPL)
@@ -4715,6 +4760,7 @@ $PageV2W.Visible = $true;$PageV2W.BringToFront();$Button_W2V.Visible = $true;$Bu
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function Button_PageLB {
+if ($REFSKIP) {$global:REFERENCE = "$REFSKIP";$global:REFSKIP = "";}
 $global:GUI_RESUME = "ImageManagementList"
 $ListView1_PageLB.Items.Clear();$ListView2_PageLB.Items.Clear()
 Get-ChildItem -Path "$ListFolder\*.base" -Name | ForEach-Object {[void]$ListView1_PageLB.Items.Add($_)}
@@ -5115,7 +5161,7 @@ function LEWiz_Stage2 {$global:LEWiz_Stage = 2;$global:marked = $null;$global:bo
 $global:ListViewSelectS2 = $ListView1_PageLEWiz.FocusedItem
 $parta, $global:ListViewChoiceS2, $partc = $ListViewSelectS2 -split '[{}]';
 $LBWiz_TypeZ = Get-Content -Path "$ListFolder\$ListViewChoiceS2" -TotalCount 1
-$global:LBWiz_TypeX, $partbxyz = $LBWiz_TypeZ -split '[ ]';
+$global:LBWiz_TypeX, $global:LBWiz_TypeM = $LBWiz_TypeZ -split '[ ]';
 
 if ($LBWiz_TypeX -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LEWiz_Stage1;$global:LBWiz_Stage = $null;$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront();return}
 $LBWiz_TypeEXT = [System.IO.Path]::GetExtension("$ListFolder\$ListViewChoiceS2").ToUpper()
@@ -5191,6 +5237,7 @@ $PageLBWiz.Visible = $true;$PageMain.Visible = $false;$PageLB.Visible = $false;$
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage2 {$global:LBWiz_Stage = 2;
+if ($REFSKIP) {$global:REFERENCE = "$REFSKIP";$global:REFSKIP = "";}
 $GRP = $null;if ($marked -ne $null) {$global:ListViewSelectS2 = $marked} else {
 if ($ListMode -eq "Builder") {$global:ListViewSelectS2 = $ListView1_PageLBWiz.FocusedItem}}
 $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
@@ -5198,9 +5245,9 @@ $parta, $global:BaseFile, $partc = $ListViewSelectS2 -split '[{}]';
 if ($BaseFile -eq "📜 Miscellaneous") {$global:LBWiz_Type = 'MISC';}
 if ($BaseFile -ne "📜 Miscellaneous") {
 $LBWiz_TypeZ = Get-Content -Path "$ListFolder\\$BaseFile" -TotalCount 1
-$global:LBWiz_Type, $partbxyz = $LBWiz_TypeZ -split '[ ]'
+$global:LBWiz_Type, $global:LBWiz_TypeM = $LBWiz_TypeZ -split '[ ]'
 if ($LBWiz_Type -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';LBWiz_Stage1;return}}
-
+if ($LBWiz_TypeM -eq 'QUICK') {$global:REFSKIP = "$REFERENCE";$global:REFERENCE = 'LIVE'}
 $ListView1_PageLBWiz.Items.Clear()
 $ListView1_PageLBWiz.GridLines = $false
 $ListView1_PageLBWiz.CheckBoxes = $false
@@ -5212,6 +5259,7 @@ $Label2_PageLBWiz.Text = "Miscellaneous"
 ForEach ($i in @("📜 Create Source Base","📜 Generate Example Base","📜 Convert Group Base","✒ External Package Item")) {[void]$ListView1_PageLBWiz.Items.Add("$i")}
 }
 if ($LBWiz_Type -eq 'MENU-SCRIPT') {
+
 if ($REFERENCE -ne 'DISABLED') {
 if ($REFERENCE -eq 'LIVE') {MOUNT_INT}
 if ($REFERENCE -ne 'LIVE') {if (-not ($vdiskltr)) {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Mounting Reference Image...";VDISK_ATTACH}}}
@@ -5243,7 +5291,7 @@ $Label1_PageLBWiz.Text = "📜 Miscellaneous"
 $Label2_PageLBWiz.Text = "Generate Example Base"
 MessageBox -MessageBoxType 'Prompt' -MessageBoxTitle 'Generate Example Base' -MessageBoxText 'Enter new base name' -Check 'PATH'
 if ($boxresult -eq "OK") {$BaseName = "$boxoutput";
-ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-EXAMPLE","ARG3=$boxoutput.base")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+ForEach ($i in @("ARG1=-IMAGEMGR","ARG2=-EXAMPLE","ARG3=$boxoutput")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 $global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
 return}
@@ -5289,7 +5337,7 @@ $Label2_PageLBWiz.Text = "Select a source"
 
 if ($ListViewChoiceS3 -eq "📜 Convert Group Base") {$is_group = $null
 $LBWiz_TypeZ = Get-Content -Path "$ListFolder\$ListViewChoiceS4" -TotalCount 1
-$LBWiz_TypeY, $partbxyz = $LBWiz_TypeZ -split '[ ]';
+$LBWiz_TypeY, $LBWiz_TypeM = $LBWiz_TypeZ -split '[ ]';
 
 if ($LBWiz_TypeY -ne 'MENU-SCRIPT') {MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'Header is not MENU-SCRIPT, check file.';$global:marked = $ListViewSelectS3;LBWiz_Stage3MISC;return}
 Get-Content "$ListFolder\$ListViewChoiceS4" -Encoding UTF8 | ForEach-Object {$partXa, $partXb, $partXc = $_ -split "[❕]";if ($partXb -eq 'GROUP') {$is_group = 1}}
@@ -5324,7 +5372,7 @@ if ($boxresult -ne "OK") {$ListName = "$null";$global:LBWiz_Stage = 4;}
 if ($boxresult -eq "OK") {$ListName = "$boxoutput.list";$ListTarget = "$ListFolder\$boxoutput.list";if (Test-Path -Path $ListTarget) {$null} else {$NewBlankList = [Convert]::FromBase64String($BlankList);[System.IO.File]::WriteAllBytes($ListTarget, $NewBlankList)
 Add-Content -Path "$ListTarget" -Value "MENU-SCRIPT" -Encoding UTF8}}}
 if ($ListViewChoiceS5 -ne "📜 Create New List") {$global:LBWiz_Stage = 4;$ListName = "$ListViewChoiceS5";$ListTarget = "$ListFolder\$ListViewChoiceS5"}
-Add-Content -Path "$ListTarget" -Value "`❕ExtPackage`❕$ListViewChoiceS4`❕Install`❕$ExecuteTime`❕" -Encoding UTF8
+Add-Content -Path "$ListTarget" -Value "`❕📢ExtPackage`❕$ListViewChoiceS4`❕Install`❕$ExecuteTime`❕" -Encoding UTF8
 MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Info' -MessageBoxText "Selected options have been added to $ListName";$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLBWiz.Visible = $false;Button_PageLB}
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage3GRP {$global:LBWiz_Stage = 3;
@@ -5393,8 +5441,13 @@ $Label1_PageLBWiz.Text = "💾 Append Items"
 $Label2_PageLBWiz.Text = "Select a list"
 $ListView1_PageLBWiz.CheckBoxes = $false;$ListView1_PageLBWiz.Items.Clear();[void]$ListView1_PageLBWiz.Items.Add("📜 Create New List")
 Get-ChildItem -Path "$ListFolder\*.list" -Name | ForEach-Object {[void]$ListView1_PageLBWiz.Items.Add($_)}}
+
 if ($ListMode -eq 'Execute') {if ($REFERENCE -ne 'LIVE') {if ($REFERENCE -ne "Disabled") {$Label1_PageLBWiz.Text = "";$Label2_PageLBWiz.Text = "Unmounting Reference Image...";VDISK_DETACH}}
-$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront()}
+$PageLEWiz.Visible = $true;$PageLBWiz.Visible = $false;$PageLEWiz.BringToFront()
+if ($LBWiz_TypeM -eq 'QUICK') {ForEach ($i in @("","ARG1=-IMAGEMGR","ARG2=-RUN","ARG3=-LIST","ARG4=$ListViewChoiceS2", "ARG5=-QUICK")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+$global:LEWiz_Stage = $null;$global:LBWiz_Stage = $null;$global:marked = $null;$PageMain.Visible = $true;$PageLB.Visible = $true;$PageLEWiz.Visible = $false;Button_PageLB
+Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'
+$PictureBoxConsole.Visible = $true;$PictureBoxConsole.BringToFront()}}
 }
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FUNCTION◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 function LBWiz_Stage5GRP {
@@ -5573,6 +5626,7 @@ return $SplashForm
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+$host.UI.RawUI.WindowTitle = "Debug Log"
 $PSHandle = [WinMekanix.Functions]::GetConsoleWindow()
 [VOID][WinMekanix.Functions]::SetForegroundWindow($PSHandle)
 [VOID][WinMekanix.Functions]::ShowWindowAsync($PSHandle, 0)
@@ -5623,7 +5677,7 @@ $form = New-Object Windows.Forms.Form
 $form.SuspendLayout()
 $version = Get-Content -Path "winploy.cmd" -TotalCount 1;
 $part1, $part2 = $version -split " v ";$part3, $part4 = $part2 -split " ";
-$form.Text = "winploy`: The Windows Deployment Image Customization Kit v$part3"
+$form.Text = "winploy`: Granular Windows Deployment Re-Imagined v$part3"
 $WSIZ = [int]($RefX * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int]($RefY * $ScaleRef * $GUI_SCALE)
 if ($GUI_FONTSIZE -eq 'Default') {$fontX = [int]($GUI_SCALE / $DpiCur * 16 * $ScaleRef);$fontX = [Math]::Floor($fontX);}
@@ -5666,12 +5720,12 @@ $WSIZ = [int](1000 * $ScaleRef * $GUI_SCALE)
 $HSIZ = [int](666 * $ScaleRef * $GUI_SCALE)
 $XLOC = [int](0 * $ScaleRef * $GUI_SCALE)
 $YLOC = [int](0 * $ScaleRef * $GUI_SCALE)
-$Button_W2V = NewPageButton -X '10' -Y '70' -W '230' -H '70' -C '0' -Text 'Image Processing';$Button_W2V.Visible = $false
-$Button_V2W = NewPageButton -X '10' -Y '70' -W '230' -H '70' -C '0' -Text 'Image Processing'
-$Button_LB = NewPageButton -X '10' -Y '225' -W '230' -H '70' -C '0' -Text 'Image Management';$Button_LB.Visible = $false
-$Button_PB = NewPageButton -X '10' -Y '225' -W '230' -H '70' -C '0' -Text 'Image Management'
-$Button_BC = NewPageButton -X '10' -Y '380' -W '230' -H '70' -C '0' -Text 'BootDisk Creator'
-$Button_SC = NewPageButton -X '10' -Y '535' -W '230' -H '70' -C '0' -Text 'Settings'
+$Button_W2V = NewPageButton -X '25' -Y '30' -W '200' -H '135' -C '0' -Text '🔃';$Button_W2V.Visible = $false
+$Button_V2W = NewPageButton -X '25' -Y '30' -W '200' -H '135' -C '0' -Text '🔄'
+$Button_LB = NewPageButton -X '25' -Y '190' -W '200' -H '135' -C '0' -Text '🗳';$Button_LB.Visible = $false
+$Button_PB = NewPageButton -X '25' -Y '190' -W '200' -H '135' -C '0' -Text '📜'
+$Button_BC = NewPageButton -X '25' -Y '350' -W '200' -H '135' -C '0' -Text '💾'
+$Button_SC = NewPageButton -X '25' -Y '510' -W '200' -H '135' -C '0' -Text '⚙'
 #$form.ControlBox = $False
 #$form.UseLayoutRounding = $true
 #$form.AutoScaleMode = 'DPI';#DPI, Font, and None.
@@ -5680,7 +5734,7 @@ $Button_SC = NewPageButton -X '10' -Y '535' -W '230' -H '70' -C '0' -Text 'Setti
 #$form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.DPI
 #$form.Add_Resize({[WinMekanix.Functions]::MoveWindow($PanelHandle, 0, 0, $Panel.Width, $Panel.Height, $true) | Out-Null})
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-$Page = 'PageSP';$Label0_PageSP = NewLabel -X '1000' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text '';$Label0_PageSPX = [int](750 * $ScaleRef * $GUI_SCALE);$Label0_PageSPY = [int](5 * $ScaleRef * $GUI_SCALE);SplashChange
+$Page = 'PageSP';$Label0_PageSP = NewLabel -X '1000' -Y '15' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text '';$Label0_PageSPX = [int](750 * $ScaleRef * $GUI_SCALE);$Label0_PageSPY = [int](5 * $ScaleRef * $GUI_SCALE);SplashChange
 $scrolltimer = New-Object System.Windows.Forms.Timer;$scrolltimer.Interval = 25;$scrolltimer.Enabled = $false
 $scrolltimer.Add_Tick({$Label0_PageSP.Left -= 2;if ($Label0_PageSP.Location.X -le $Label0_PageSPL) {$Label0_PageSP.Location = New-Object System.Drawing.Point($Label0_PageSPX, $Label0_PageSPY);
 SplashChange}})
@@ -5705,7 +5759,7 @@ $TextBox1_PageW2V = NewTextBox -X '25' -Y '525' -W '300' -H '40' -Check 'PATH'
 $Label4_PageW2V = NewLabel -X '485' -Y '490' -W '205' -H '30' -Text 'VHDX Size (GB)'
 $TextBox2_PageW2V = NewTextBox -X '425' -Y '525' -W '300' -H '40' -Check 'NUMBER'
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-$Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔄 Image Processing|VHD" -TextAlign 'X'
+$Page = 'PageV2W';$Label0_PageV2W = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🔃 Image Processing|VHD" -TextAlign 'X'
 $ListView1_PageV2W = NewListView -X '25' -Y '90' -W '700' -H '300';$WSIZ = [int](690 * $ScaleRef * $GUI_SCALE);$WSIZX = [int]($WSIZ * 4);[void]$ListView1_PageV2W.Columns.Add("X", $WSIZX)
 $Button1_PageV2W = NewButton -X '262' -Y '585' -W '225' -H '60' -Text '🏁 Convert' -Hover_Text 'Start Image Conversion' -Add_Click {$halt = $null
 if ($($DropBox1_PageV2W.SelectedItem) -eq $null) {$halt = 1;MessageBox -MessageBoxType 'Info' -MessageBoxTitle 'Error' -MessageBoxText 'No vhdx selected.'}
@@ -5766,12 +5820,12 @@ $DropBox2_PageBC = NewDropBox -X '425' -Y '445' -W '300' -H '40' -DisplayMember 
 $Label3_PageBC = NewLabel -X '315' -Y '490' -W '175' -H '30' -Text 'Target Disk'
 $DropBox3_PageBC = NewDropBox -X '25' -Y '525' -W '700' -H '40' -Text 'Select Disk'
 #▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶FORM◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀◀
-$Page = 'PageSC';$Label0_PageSC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "🛠 Settings" -TextAlign 'X'
+$Page = 'PageSC';$Label0_PageSC = NewLabel -X '-125' -Y '5' -W '1000' -H '60' -Bold 'True' -TextSize '36' -Text "⚙ Settings" -TextAlign 'X'
 $GUI_SLIDE = [int](100 * $GUI_SCALE);
 $Slider1_PageSC = NewSlider -X '500' -Y '120' -W '225' -H '60' -Value "$GUI_SLIDE"
 $LabelX_PageSC = NewLabel -X '490' -Y '85' -W '585' -H '35' -Text "GUI Scale Factor $($Slider1_PageSC.Value)%"
 
-$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '🛠 Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
+$Button1_PageSC = NewButton -X '25' -Y '585' -W '225' -H '60' -Text '⚙ Console Settings' -Hover_Text 'Console Settings' -Add_Click {ForEach ($i in @("","ARG1=-INTERNAL","ARG2=-SETTINGS")) {Add-Content -Path "$PSScriptRootX\winploy.ini" -Value "$i" -Encoding UTF8}
 #$TextPath = "$PSScriptRootX\`$CON";$TextWrite = [System.IO.StreamWriter]::new($TextPath, $false, [System.Text.Encoding]::UTF8);#$TextWrite.WriteLine("x");$TextWrite.Close()
 Launch-CMD -X '-0' -Y '-0' -W '1000' -H '666'}
 
@@ -5915,8 +5969,8 @@ R0lGODlhUABQAPAAAAAAAP///yH+LkdJRiBjb21wcmVzc2VkIHdpdGggaHR0cHM6Ly9lemdpZi5jb20v
 "@
 $Page = 'PageConsole';$pictureBase64 = $shazzam_img;$PictureBoxConsole = NewPictureBox -X '940' -Y '606' -W '60' -H '60';$PictureBoxConsole.Visible = $false
 $Page = 'PageSP';if ($BGIMG -eq 'Dark') {$pictureBase64 = $splashjpg1} else {$pictureBase64 = $splashjpg2}
-$PictureBox1_PageMain = NewPictureBox -X '25' -Y '80' -W '700' -H '560';
-$Page = 'PageMain';$Button_SP = NewPageButton -X '-5' -Y '630' -W '50' -H '40' -C '0' -Text '';$Button_SPImage = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($shazzam_img));$Button_SP.Image = $Button_SPImage
+$PictureBox1_PageMain = NewPictureBox -X '75' -Y '85' -W '600' -H '550';
+$Page = 'PageMain';$Button_SP = NewPageButton -X '-5' -Y '645' -W '25' -H '25' -C '0' -Text '';$Button_SPImage = [System.Drawing.Image]::FromStream([System.IO.MemoryStream][Convert]::FromBase64String($shazzam_img));$Button_SP.Image = $Button_SPImage
 $form.ResumeLayout()
 $form.Add_Shown({$form.Activate()})
 GUI_Resume
@@ -5925,27 +5979,5 @@ $SplashScreen.Dispose()
 $form.ShowDialog()
 $form.Dispose()
 #$form.Refresh()
-#$currentTime = (Get-Date);$part1Time, $part2Time , $currentSeconds = $currentTime -split '[:]'
-#if ($CMDWindow) {$CMDHandle = $CMDWindow.MainWindowHandle;$processId = 0;$threadId = [WinMekanix.Functions]::GetWindowThreadProcessId($CMDHandle, [ref]$processId)
-#$process.Handle = $explorer.HWND;#$CurDir =  $PWD.Path
-#if ($processId -gt 0) {$null} else {$null}} else {$null}
-#$process = Get-ProcessNull xyz.exe;Wait-Process -Id $process.Id
-#REGNull ADD "HKCU\Console" /V "FontSize" /T REG_DWORD /D "$ScaleFont" /F
-#Set-ItemProperty -Path "HKCU:\Console" -Name "FontSize" -Value "$ScaleFont"
-#$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(100, 1000)
-#$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(30, 34)
-#Write-Error "ERROR: $([System.Runtime.InteropServices.Marshal]::GetLastWin32Error())"
-#ForEachNull ($i in Get-Content "c:\txt.txt") {[void]$listview.Items.Add($i)}
-#ForEachNull ($line in $command) {$textBox.AppendText("$line`r`n")}  
-#Get-ContentNull "$PSScriptRootX\ini.ini" | ForEach-Object {[void]$ListView1_PageSC.Items.Add($_)}
-#Get-ItemNull -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Property | ForEach-Object {[void]$DropBox1_PageSC.Items.Add($_)}
-#Get-ItemNull | Select-Object Name, Length, Extension
-#Get-ItemNull -Path "$FilePath\*.*" -Name | ForEach-Object {[void]$DropBox1_PagePB.Items.Add($_)}
-#GetProcessNull | Select-Object -Property Name, WorkingSet, PeakWorkingSet | Sort-Object -Property WorkingSet -Descending | Out-GridView
-#InvokeCommandNull -ComputerName S1, S2, S3 -ScriptBlock {Get-Culture} | Out-GridView
-#$Rnd = Get-Random -Minimum 1 -Maximum 100
-#If ([string]::IsNullOrEmpty($InitialDirectory) -eq $False) { $FolderBrowserDialog.SelectedPath = $InitialDirectory }
-#If ($FolderBrowserDialog.ShowDialog($MainForm) -eq [System.Windows.Forms.DialogResult]::OK) { $return = $($FolderBrowserDialog.SelectedPath) }
-#Try { $FolderBrowserDialog.Dispose() } Catch {}
 :END_OF_FILE
 ::#🗃\🗂\📜\💾\🗳\🏗\🛠\🪛\✂\🗜\✒\✏\🥾\🪟\🛜\🔄\🌐\🛡\🪪\✅\❎\🚫\⏳\🏁\🎨\❗\🛳\🚽\💥\🚥\🚦\🕸\🐜\🛤\🏞\🌕\🌑\◀\▶\❕#
