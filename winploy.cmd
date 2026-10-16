@@ -1,5 +1,5 @@
-:: <# WinPloy: Granular Windows Deployment Re-Imagined v 0999.1 © github.com/joshuacline
-:: Build, administrate and backup your Windows in a native WinPE recovery environment
+:: <# WinPloy: Granular Windows Deployment Re-Imagined v 0000 Documentation @ github.com/joshuacline
+:: Build, administrate and backup your Windows in a native WinPE recovery environment © Joshua Cline 
 @ECHO OFF&&SETLOCAL ENABLEDELAYEDEXPANSION&&SET "ARGS=%*"
 FOR %%1 in (0 1 2 3 4 5 6 7 8 9) DO (CALL SET "ARG%%1=%%%%1%%")
 GOTO:GET_INIT
@@ -3325,13 +3325,13 @@ IF DEFINED ARBIT_FLAG CALL:DISK_DETECT>NUL 2>&1
 IF NOT DEFINED ARBIT_FLAG SET "QUERY_X=1"&&CALL:DISK_DETECT
 SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&CALL:PART_8000&&SET "DISK_X=%DISK_DETECT%"&&SET "PART_X=2"&&SET "LETT_X=Z"&&CALL:PART_ASSIGN
 IF EXIST "Z:\" IF NOT EXIST "Z:\%HOST_FOLDERX%" MD "Z:\%HOST_FOLDERX%">NUL 2>&1
-IF EXIST "Z:\%HOST_FOLDERX%" IF NOT EXIST "Z:\%HOST_FOLDERX%\winploy.cmd" COPY /Y "%ProgFolder0%\winploy.cmd" "Z:\%HOST_FOLDERX%">NUL 2>&1
-IF EXIST "Z:\%HOST_FOLDERX%\winploy.ini" COPY /Y "Z:\%HOST_FOLDERX%\winploy.ini" "%ProgFolder0%">NUL 2>&1
-IF NOT DEFINED SETS_LOAD IF EXIST "%ProgFolder0%\SETTINGS_INI" COPY /Y "%ProgFolder0%\SETTINGS_INI" "%ProgFolder0%\winploy.ini">NUL 2>&1
 IF NOT EXIST "Z:\%HOST_FOLDERX%" IF NOT DEFINED ARBIT_FLAG SET "ARBIT_FLAG=1"&&GOTO:HOST_AUTO
-SET "ARBIT_FLAG="&&IF EXIST "Z:\%HOST_FOLDERX%" SET "ProgFolder=Z:\%HOST_FOLDERX%"&&SET "HOST_NUMBER=%DISK_DETECT%"
+IF EXIST "Z:\%HOST_FOLDERX%" SET "ProgFolder=Z:\%HOST_FOLDERX%"&&SET "HOST_NUMBER=%DISK_DETECT%"&&IF NOT EXIST "Z:\%HOST_FOLDERX%\winploy.cmd" COPY /Y "%ProgFolder0%\winploy.cmd" "Z:\%HOST_FOLDERX%">NUL 2>&1
+IF NOT DEFINED SETS_FALLBCK IF EXIST "%ProgFolder0%\SETTINGS_INI" SET "SETS_FALLBCK=1"&&COPY /Y "%ProgFolder0%\SETTINGS_INI" "%ProgFolder0%\winploy.ini">NUL 2>&1
+IF NOT DEFINED SETTINGS_INI IF EXIST "%ProgFolder0%\SETTINGS_INI" IF EXIST "Z:\%HOST_FOLDERX%" SET "SETTINGS_INI=1"&&COPY /Y "%ProgFolder0%\SETTINGS_INI" "Z:\%HOST_FOLDERX%\winploy.ini">NUL 2>&1
+IF EXIST "Z:\%HOST_FOLDERX%\winploy.ini" COPY /Y "Z:\%HOST_FOLDERX%\winploy.ini" "%ProgFolder0%">NUL 2>&1
 IF NOT DEFINED DISK_DETECT SET "HOST_ERROR=1"&&SET "DISK_TARGET="
-EXIT /B
+SET "ARBIT_FLAG="&&EXIT /B
 :EFI_MOUNT
 IF NOT DEFINED DISK_TARGET SET "EFI_LETTER="&&EXIT /B
 SET "$GET=EFI_LETTER"&&CALL:LETTER_ANY
